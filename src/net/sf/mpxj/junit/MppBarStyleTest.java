@@ -110,7 +110,7 @@ public class MppBarStyleTest extends MPXJTestCase
    public void testMpp14ExceptionBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14barstyle.mpp");
-      //testExceptionBarStyles(mpp);
+      testExceptionBarStyles(mpp);
    }
 
    /**

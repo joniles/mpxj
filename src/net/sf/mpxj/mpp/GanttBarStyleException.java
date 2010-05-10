@@ -26,47 +26,11 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
-import net.sf.mpxj.MPPTaskField;
-
 /**
  * This class represents the default style for a Gantt chart bar.
  */
 public final class GanttBarStyleException extends GanttBarCommonStyle
 {
-   /**
-    * Constructor.
-    *
-    * @param data data from MS project
-    * @param offset offset into data
-    */
-   public GanttBarStyleException(byte[] data, int offset)
-   {
-      //System.out.println("GanttBarStyleException");
-      //System.out.println(MPPUtility.hexdump(data, offset, 38, false));
-
-      m_taskUniqueID = MPPUtility.getInt(data, offset);
-      m_barStyleIndex = MPPUtility.getShort(data, offset + 4) - 1;
-
-      setStartShape(GanttBarStartEndShape.getInstance(data[offset + 9] % 21));
-      setStartType(GanttBarStartEndType.getInstance(data[offset + 9] / 21));
-      setStartColor(ColorType.getInstance(data[offset + 10]).getColor());
-
-      setMiddleShape(GanttBarMiddleShape.getInstance(data[offset + 6]));
-      setMiddlePattern(GanttBarMiddlePattern.getInstance(data[offset + 7]));
-
-      setMiddleColor(ColorType.getInstance(data[offset + 8]).getColor());
-
-      setEndShape(GanttBarStartEndShape.getInstance(data[offset + 11] % 21));
-      setEndType(GanttBarStartEndType.getInstance(data[offset + 11] / 21));
-      setEndColor(ColorType.getInstance(data[offset + 12]).getColor());
-
-      setLeftText(MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 16)));
-      setRightText(MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 20)));
-      setTopText(MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 24)));
-      setBottomText(MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 28)));
-      setInsideText(MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 32)));
-   }
-
    /**
     * Retrieve the unique task ID for the task to which this style
     * exception applies.
@@ -76,6 +40,16 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    public int getTaskUniqueID()
    {
       return (m_taskUniqueID);
+   }
+
+   /**
+    * Sets the task unique ID.
+    * 
+    * @param id task unique ID
+    */
+   public void setTaskUniqueID(int id)
+   {
+      m_taskUniqueID = id;
    }
 
    /**
@@ -93,6 +67,16 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    public int getBarStyleIndex()
    {
       return (m_barStyleIndex);
+   }
+
+   /**
+    * Sets the bar style index.
+    * 
+    * @param index bar style index
+    */
+   public void setBarStyleIndex(int index)
+   {
+      m_barStyleIndex = index;
    }
 
    /**

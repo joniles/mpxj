@@ -71,7 +71,7 @@ public class MppGraphIndTest extends MPXJTestCase
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp14graphind.mpp");
       testGraphicalIndicators(project);
    }
-   
+
    /**
     * Common graphical indicator tests.
     * 

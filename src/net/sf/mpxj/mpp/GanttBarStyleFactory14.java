@@ -36,7 +36,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
    public GanttBarStyle[] processDefaultStyles(Props props)
    {
       GanttBarStyle[] barStyles = null;
-      byte[] barStyleData = props.getByteArray(PROPERTIES);
+      byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
       if (barStyleData != null)
       {
          barStyles = new GanttBarStyle[MPPUtility.getShort(barStyleData, 2245)];
@@ -84,13 +84,59 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
    }
 
    /**
+    * {@inheritDoc}
+    */
+   public GanttBarStyleException[] processExceptionStyles(Props props)
+   {
+      GanttBarStyleException[] barStyle = null;
+      byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
+      if (barData != null)
+      {
+         //System.out.println(MPPUtility.hexdump(barData, false, 71, ""));
+
+         barStyle = new GanttBarStyleException[barData.length / 71];
+         int offset = 0;
+         for (int loop = 0; loop < barStyle.length; loop++)
+         {
+            GanttBarStyleException style = new GanttBarStyleException();
+            barStyle[loop] = style;
+
+            style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
+            style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
+
+            style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 20] % 25));
+            style.setStartType(GanttBarStartEndType.getInstance(barData[offset + 20] / 25));
+            style.setStartColor(MPPUtility.getColor(barData, offset + 21));
+
+            style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
+            style.setMiddlePattern(GanttBarMiddlePattern.getInstance(barData[offset + 7]));
+            style.setMiddleColor(MPPUtility.getColor(barData, offset + 8));
+
+            style.setEndShape(GanttBarStartEndShape.getInstance(barData[offset + 33] % 25));
+            style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 33] / 25));
+            style.setEndColor(MPPUtility.getColor(barData, offset + 34));
+
+            style.setLeftText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 49)));
+            style.setRightText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 53)));
+            style.setTopText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 57)));
+            style.setBottomText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 61)));
+            style.setInsideText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 65)));
+
+            //System.out.println(style);
+            offset += 71;
+         }
+      }
+      return barStyle;
+   }
+
+   /**
     * Extract the flags indicating which task types this bar style
     * is relevant for. Note that this work for the "normal" task types
     * and the "negated" task types (e.g. Normal Task, Not Normal task). 
     * The set of values used is determined by the baseCriteria argument.
     * 
     * @param style parent bar style
-    * @param baseCriteria determines if the normal or negatated enums are used
+    * @param baseCriteria determines if the normal or negated enums are used
     * @param flagValue flag data
     */
    private void extractFlags(GanttBarStyle style, GanttBarShowForTasks baseCriteria, long flagValue)
@@ -113,5 +159,6 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       }
    }
 
-   private static final Integer PROPERTIES = Integer.valueOf(574619656);
+   private static final Integer DEFAULT_PROPERTIES = Integer.valueOf(574619656);
+   private static final Integer EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
 }

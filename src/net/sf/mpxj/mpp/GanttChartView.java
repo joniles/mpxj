@@ -61,6 +61,13 @@ public abstract class GanttChartView extends GenericView
    protected abstract void processDefaultBarStyles(Props props);
 
    /**
+    * Extract the exception Gantt bar styles.
+    * 
+    * @param props props structure containing the style definitions
+    */
+   protected abstract void processExceptionBarStyles(Props props);
+
+   /**
     * Extract autofilter definitions.
     * 
     * @param data autofilters data block
@@ -194,6 +201,8 @@ public abstract class GanttChartView extends GenericView
 
          processDefaultBarStyles(props);
 
+         processExceptionBarStyles(props);
+
          byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);
          if (topTierData != null)
          {
@@ -205,18 +214,6 @@ public abstract class GanttChartView extends GenericView
             m_timescaleTopTier.setCount(topTierData[32]);
             m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(topTierData[34]));
             m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36] - 20));
-         }
-
-         byte[] barData = props.getByteArray(BAR_STYLE_EXCEPTION_PROPERTIES);
-         if (barData != null)
-         {
-            m_barStyleExceptions = new GanttBarStyleException[barData.length / 38];
-            int offset = 0;
-            for (int loop = 0; loop < m_barStyleExceptions.length; loop++)
-            {
-               m_barStyleExceptions[loop] = new GanttBarStyleException(barData, offset);
-               offset += 38;
-            }
          }
 
          byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
@@ -1564,7 +1561,7 @@ public abstract class GanttChartView extends GenericView
    private LinkStyle m_linkStyle;
 
    protected GanttBarStyle[] m_barStyles;
-   private GanttBarStyleException[] m_barStyleExceptions;
+   protected GanttBarStyleException[] m_barStyleExceptions;
 
    private int m_tableWidth;
    private String m_tableName;
@@ -1627,7 +1624,6 @@ public abstract class GanttChartView extends GenericView
 
    private static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    private static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
-   private static final Integer BAR_STYLE_EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
    private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
    private static final Integer TABLE_NAME = Integer.valueOf(574619658);
    private static final Integer FILTER_NAME = Integer.valueOf(574619659);

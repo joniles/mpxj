@@ -61,6 +61,15 @@ public final class GanttChartView14 extends GanttChartView
    /**
     * {@inheritDoc}
     */
+   @Override protected void processExceptionBarStyles(Props props)
+   {
+      GanttBarStyleFactory f = new GanttBarStyleFactory14();
+      m_barStyleExceptions = f.processExceptionStyles(props);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override protected void processAutoFilters(byte[] data)
    {
       //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
