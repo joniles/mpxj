@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="4.0.0" date="CVS HEAD">
+		<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>	
 	</release>
 
 	<release version="3.2.0" date="20/01/2010">
