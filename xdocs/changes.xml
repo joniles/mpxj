@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="4.0.0" date="CVS HEAD">
+		<action dev="joniles" type="update">Updated to target Java 1.6.</action>
 		<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>	
 	</release>
 
