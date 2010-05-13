@@ -1586,7 +1586,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 110));
-         task.setLateStart(MPPUtility.getTimestamp(data, 106));
+         task.setLateStart(MPPUtility.getTimestamp(data, 12));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay(MPPUtility.getDuration(((double) MPPUtility.getInt(data, 58)) / 3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 62))));
@@ -1659,7 +1659,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setRollup((metaData[10] & 0x08) != 0);
          //       From MS Project 2003
          //         task.setSPI();
-         task.setStart(MPPUtility.getTimestamp(data, 12));
+         task.setStart(MPPUtility.getTimestamp(data, 64));
          //       From MS Project 2003
          task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
          //task.setStartVariance(); // Calculated value

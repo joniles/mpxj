@@ -149,8 +149,10 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
          if ((flagValue & flag) != 0)
          {
             GanttBarShowForTasks enumValue = GanttBarShowForTasks.getInstance(baseCriteria.getValue() + index);
-
-            style.addShowForTasks(enumValue);
+            if (enumValue != null)
+            {
+               style.addShowForTasks(enumValue);
+            }
          }
 
          flag = flag << 1;
