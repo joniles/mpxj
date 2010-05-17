@@ -61,7 +61,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
             style.setStartColor(MPPUtility.getColor(barStyleData, styleOffset + 16));
 
             style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
-            style.setMiddlePattern(GanttBarMiddlePattern.getInstance(barStyleData[styleOffset + 1]));
+            style.setMiddlePattern(ChartPattern.getInstance(barStyleData[styleOffset + 1]));
             style.setMiddleColor(MPPUtility.getColor(barStyleData, styleOffset + 2));
 
             style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 28] % 25));
@@ -109,7 +109,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
             style.setStartColor(MPPUtility.getColor(barData, offset + 21));
 
             style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
-            style.setMiddlePattern(GanttBarMiddlePattern.getInstance(barData[offset + 7]));
+            style.setMiddlePattern(ChartPattern.getInstance(barData[offset + 7]));
             style.setMiddleColor(MPPUtility.getColor(barData, offset + 8));
 
             style.setEndShape(GanttBarStartEndShape.getInstance(barData[offset + 33] % 25));

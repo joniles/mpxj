@@ -26,7 +26,7 @@ package net.sf.mpxj;
 import java.awt.Color;
 
 import net.sf.mpxj.mpp.FontStyle;
-import net.sf.mpxj.mpp.GroupPattern;
+import net.sf.mpxj.mpp.BackgroundPattern;
 
 /**
  * This class represents a clause from a definition of a group.
@@ -160,7 +160,7 @@ public final class GroupClause
     * 
     * @return pattern
     */
-   public GroupPattern getPattern()
+   public BackgroundPattern getPattern()
    {
       return m_pattern;
    }
@@ -170,7 +170,7 @@ public final class GroupClause
     * 
     * @param pattern pattern
     */
-   public void setPattern(GroupPattern pattern)
+   public void setPattern(BackgroundPattern pattern)
    {
       m_pattern = pattern;
    }
@@ -224,7 +224,7 @@ public final class GroupClause
    private boolean m_ascending;
    private FontStyle m_font;
    private Color m_cellBackgroundColor;
-   private GroupPattern m_pattern;
+   private BackgroundPattern m_pattern;
    private int m_groupOn; // TODO can we do this as an enumeration?
    private Object m_startAt;
    private Object m_groupInterval;

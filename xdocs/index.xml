@@ -13,11 +13,11 @@
 
 <p>Welcome to MPXJ! This library provides a set of facilities to
 allow project information to be manipulated in Java and .Net. MPXJ supports
-five file formats, Microsoft Project Exchange (MPX), Microsoft
+seven data formats, Microsoft Project Exchange (MPX), Microsoft
 Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), and Planner (XML).</p>
+Project Database (MPD), Planner (XML), and Primavera (XER and database).</p>
 
-<p>The library is currently based around a set of data structures
+<p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
 manipulation of project data takes place using these data
 structures, which can be read from or written to the various
@@ -41,15 +41,18 @@ MPP template files, with the suffix MPT are also supported.</li>
 <li><b>MSPDI:</b> The MSPDI file format is Microsoft's XML file format for
 storing project data. Microsoft Project 2002, Microsoft Project
 2003 and Microsoft Project 2007 can read and write MSPDI files. 
-MPXJ allows MSPDI files to be created, read, and written. Documentation on the 
+MPXJ allows MSPDI files to be created, read, and written. Documentation for the 
 Project 2003 MSPDI file format can be 
 <a href="http://www.microsoft.com/downloads/details.aspx?familyid=FE118952-3547-420A-A412-00A2662442D9" target="_blank">
 downloaded from the MSDN web site</a> as part of the Office 2003 
-XML Reference Schemas package. The equivalent documentation for Project 2007
-can also be 
-<a href="http://msdn2.microsoft.com/en-us/library/bb428843.aspx" target="_blank">
+XML Reference Schemas package. Documentation for the Project 2007 MSPDI
+file format can be 
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=2672f6f9-7028-4b30-99a2-18cb1eed1abe" target="_blank">
 downloaded from the MSDN web site</a> as part of the 
-Microsoft Office Project 2007 SDK.
+Microsoft Project 2007 SDK.
+Documentation for the Project 2010 MSPDI file format can be 
+<a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=46007f25-b44e-4aa6-80ff-9c0e75835ad9" target="_blank">downloaded from the MSDN web site</a>
+as part of the Microsoft Project 2010 SDK. 
 </li>
 
 <li><b>MPD:</b> The MPD file format is an Access database file format used to
@@ -62,6 +65,11 @@ same approach - but I haven't tried this!</li>
 <li><b>PLANNER:</b> Planner is an Open Source project management too which uses
 an XML file format to store project data. MPXJ read and write the Planner
 file format.</li>
+
+<li><b>PRIMAVERA:</b> Primavera is a high end project planning tool favoured
+by users with complex planning requirements. It can export project data in the 
+form of an XER file which MPXJ can read. It is also possible for MPXJ to connect
+directly to the Primavera database via JDBC to read project data.</li>
 </ul>
 </section>
 
@@ -102,12 +110,6 @@ source package of the distribution.</p>
 In order to use the MPP functionality in MPXJ, the
 POI JAR file must be present on your classpath. A copy of this
 library can be found in the lib directory of the MPXJ distribution.</p>
-
-<p>The MSPDI functionality depends on the 
-<a href="https://jaxb.dev.java.net/" target="_blank">Sun JAXB reference implementation</a>.
-In order to use the MSPDI functionality the JAXB JAR files must be present 
-on your classpath. Copies of the relevant libraries can be found in the lib 
-directory of the MPXJ distribution.</p>
 </section>
 
 <section name="Getting started with MPXJ and .Net">
@@ -183,10 +185,6 @@ that we are made aware of.</p>
 use of the POI library. The license for this library can
 be found in the legal directory of the distribution.</p>
 
-<p>The functionality to read MSPDI and Planner files depends on the
-use of the JAXB library. The license for this library can
-be found in the legal directory of the distribution.</p>
-
 <p>The functionality used to create .NET DLLs and the supporting libraries
 it requires depend on IKVM and GNU Classpath. The licenses for these libraries
 and utilities can be found in the legal directory of the distribution.</p>
@@ -199,7 +197,6 @@ the legal directory of the distribution.</p>
 
 <section name="Acknowledgements"> 
 <p>This product includes software developed by the Apache Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org</a>)</p> 
-<p>This product includes software developed by Sun Microsystems (<a href="https://jaxb.dev.java.net/" target="_blank">https://jaxb.dev.java.net</a>)</p>
 <p>This product includes software developed by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p>
 <p>This product includes software developed by the GNU Classpath Project (<a href="http://www.gnu.org/software/classpath/" target="_blank">http://www.gnu.org/software/classpath</a>)</p>
 <p>This product includes software developed by the JUnit Project (<a href="http://www.junit.org/" target="_blank">http://www.junit.org</a>)</p> 

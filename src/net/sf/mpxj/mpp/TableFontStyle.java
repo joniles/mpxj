@@ -51,7 +51,7 @@ public class TableFontStyle extends FontStyle
     */
    public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
    {
-      super(fontBase, italic, bold, underline, color);
+      super(fontBase, italic, bold, underline, color, null, BackgroundPattern.SOLID);
 
       m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;

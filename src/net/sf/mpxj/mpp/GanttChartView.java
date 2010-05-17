@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -73,6 +74,14 @@ public abstract class GanttChartView extends GenericView
     * @param data autofilters data block
     */
    protected abstract void processAutoFilters(byte[] data);
+
+   /**
+    * Process view properties.
+    * 
+    * @param fontBases font defintions
+    * @param props Gantt chart view props
+    */
+   protected abstract void processViewProperties(Map<Integer, FontBase> fontBases, Props props);
 
    /**
     * Create a GanttChartView from the fixed and var data blocks associated
@@ -127,94 +136,11 @@ public abstract class GanttChartView extends GenericView
             m_groupName = MPPUtility.getUnicodeString(groupName);
          }
 
-         byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
-         if (viewPropertyData != null)
-         {
-            m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26, fontBases);
-            m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 30, fontBases);
-            m_nonCriticalTasksFontStyle = getFontStyle(viewPropertyData, 34, fontBases);
-            m_criticalTasksFontStyle = getFontStyle(viewPropertyData, 38, fontBases);
-            m_summaryTasksFontStyle = getFontStyle(viewPropertyData, 42, fontBases);
-            m_milestoneTasksFontStyle = getFontStyle(viewPropertyData, 46, fontBases);
-            m_middleTimescaleFontStyle = getFontStyle(viewPropertyData, 50, fontBases);
-            m_bottomTimescaleFontStyle = getFontStyle(viewPropertyData, 54, fontBases);
-            m_barTextLeftFontStyle = getFontStyle(viewPropertyData, 58, fontBases);
-            m_barTextRightFontStyle = getFontStyle(viewPropertyData, 62, fontBases);
-            m_barTextTopFontStyle = getFontStyle(viewPropertyData, 66, fontBases);
-            m_barTextBottomFontStyle = getFontStyle(viewPropertyData, 70, fontBases);
-            m_barTextInsideFontStyle = getFontStyle(viewPropertyData, 74, fontBases);
-            m_markedTasksFontStyle = getFontStyle(viewPropertyData, 78, fontBases);
-            m_projectSummaryTasksFontStyle = getFontStyle(viewPropertyData, 82, fontBases);
-            m_externalTasksFontStyle = getFontStyle(viewPropertyData, 86, fontBases);
-            m_topTimescaleFontStyle = getFontStyle(viewPropertyData, 90, fontBases);
-
-            m_sheetRowsGridLines = new GridLines(viewPropertyData, 99);
-            m_sheetColumnsGridLines = new GridLines(viewPropertyData, 109);
-            m_titleVerticalGridLines = new GridLines(viewPropertyData, 119);
-            m_titleHorizontalGridLines = new GridLines(viewPropertyData, 129);
-            m_majorColumnsGridLines = new GridLines(viewPropertyData, 139);
-            m_minorColumnsGridLines = new GridLines(viewPropertyData, 149);
-            m_ganttRowsGridLines = new GridLines(viewPropertyData, 159);
-            m_barRowsGridLines = new GridLines(viewPropertyData, 169);
-            m_currentDateGridLines = new GridLines(viewPropertyData, 179);
-            m_pageBreakGridLines = new GridLines(viewPropertyData, 189);
-            m_projectStartGridLines = new GridLines(viewPropertyData, 199);
-            m_projectFinishGridLines = new GridLines(viewPropertyData, 209);
-            m_statusDateGridLines = new GridLines(viewPropertyData, 219);
-
-            m_nonWorkingDaysCalendarName = MPPUtility.getUnicodeString(viewPropertyData, 352);
-            m_nonWorkingColor = ColorType.getInstance(viewPropertyData[1153]);
-            m_nonWorkingPattern = viewPropertyData[1154];
-            m_nonWorkingStyle = NonWorkingTimeStyle.getInstance(viewPropertyData[1152]);
-
-            m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 1163));
-
-            byte flags = viewPropertyData[228];
-
-            m_timescaleMiddleTier = new TimescaleTier();
-            m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
-            m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
-            m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
-            m_timescaleMiddleTier.setCount(viewPropertyData[246]);
-            m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[250]));
-            m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256] - 32));
-
-            m_timescaleBottomTier = new TimescaleTier();
-            m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
-            m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
-            m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
-            m_timescaleBottomTier.setCount(viewPropertyData[248]);
-            m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[252]));
-            m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254] - 32));
-
-            m_timescaleSeparator = (flags & 0x04) != 0;
-            m_timescaleSize = viewPropertyData[268];
-
-            m_showDrawings = (viewPropertyData[1156] != 0);
-            m_roundBarsToWholeDays = (viewPropertyData[1158] != 0);
-            m_showBarSplits = (viewPropertyData[1160] != 0);
-            m_alwaysRollupGanttBars = (viewPropertyData[1186] != 0);
-            m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
-            m_barDateFormat = viewPropertyData[1182];
-            m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
-         }
+         processViewProperties(fontBases, props);
 
          processDefaultBarStyles(props);
 
          processExceptionBarStyles(props);
-
-         byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);
-         if (topTierData != null)
-         {
-            m_timescaleTopTier = new TimescaleTier();
-
-            m_timescaleTopTier.setTickLines(topTierData[48] != 0);
-            m_timescaleTopTier.setUsesFiscalYear(topTierData[60] != 0);
-            m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(topTierData[30]));
-            m_timescaleTopTier.setCount(topTierData[32]);
-            m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(topTierData[34]));
-            m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36] - 20));
-         }
 
          byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
          if (columnData != null)
@@ -376,9 +302,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return grid lines definition
     */
-   public GridLines getMajorColumnsGridLines()
+   public GridLines getTopTierColumnGridLines()
    {
-      return (m_majorColumnsGridLines);
+      return (m_topTierColumnGridLines);
    }
 
    /**
@@ -386,9 +312,19 @@ public abstract class GanttChartView extends GenericView
     *
     * @return grid lines definition
     */
-   public GridLines getMinorColumnsGridLines()
+   public GridLines getMiddleTierColumnGridLines()
    {
-      return (m_minorColumnsGridLines);
+      return (m_middleTierColumnGridLines);
+   }
+
+   /**
+    * Retrieve a grid lines definition.
+    *
+    * @return grid lines definition
+    */
+   public GridLines getBottomTierColumnGridLines()
+   {
+      return (m_bottomTierColumnGridLines);
    }
 
    /**
@@ -498,7 +434,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return non-working time color
     */
-   public ColorType getNonWorkingColor()
+   public Color getNonWorkingColor()
    {
       return (m_nonWorkingColor);
    }
@@ -510,7 +446,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return non-working time pattern
     */
-   public int getNonWorkingPattern()
+   public ChartPattern getNonWorkingPattern()
    {
       return (m_nonWorkingPattern);
    }
@@ -1181,7 +1117,7 @@ public abstract class GanttChartView extends GenericView
     * @param height encoded height
     * @return height in pixels
     */
-   private int mapGanttBarHeight(int height)
+   protected int mapGanttBarHeight(int height)
    {
       switch (height)
       {
@@ -1239,7 +1175,7 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return FontStyle instance
     */
-   private FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   protected FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset));
       FontBase fontBase = fontBases.get(index);
@@ -1250,7 +1186,9 @@ public abstract class GanttChartView extends GenericView
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
 
-      return (new FontStyle(fontBase, italic, bold, underline, color.getColor()));
+      FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, color.getColor(), null, BackgroundPattern.SOLID);
+      //System.out.println(fontStyle);
+      return fontStyle;
    }
 
    /**
@@ -1284,61 +1222,6 @@ public abstract class GanttChartView extends GenericView
 
       return (new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color.getColor(), italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
    }
-
-   /**
-    * This method extracts auto filter definitions associated with this view.
-    * 
-    * @param data auto filter data
-    */
-   /*   
-      private void processAutoFilters(byte[] data)
-      {
-         System.out.println(MPPUtility.hexdump(data, true, 16, ""));
-
-         //
-         // 16 byte block header containing the filter count
-         //
-         int filterCount = MPPUtility.getShort(data, 8);
-         int offset = 16;
-         CriteriaReader criteria = new FilterCriteriaReader9();
-         List<FieldType> fields = new LinkedList<FieldType>();
-
-         //
-         // Filter data: 24 byte header, plus 80 byte criteria blocks, 
-         // plus var data. Total block size is specified at the start of the
-         // block.
-         //
-         for (int loop = 0; loop < filterCount; loop++)
-         {
-            int blockSize = MPPUtility.getShort(data, offset);
-
-            //
-            // Steelray 12335: the block size may be zero
-            //
-            if (blockSize == 0)
-            {
-               break;
-            }
-
-            //System.out.println(MPPUtility.hexdump(data, offset, blockSize, true, 16, ""));
-
-            int entryOffset = MPPUtility.getShort(data, offset + 12);
-            fields.clear();
-            GenericCriteria c = criteria.process(m_parent, data, offset + 4, entryOffset, null, fields, null);
-            //System.out.println(c);
-
-            Filter filter = new Filter();
-            filter.setCriteria(c);
-            m_autoFilters.add(filter);
-            m_autoFiltersByType.put(fields.get(0), filter);
-
-            //
-            // Move to the next filter
-            //
-            offset += blockSize;
-         }
-      }
-   */
 
    /**
     * Retrieves a list of all auto filters associated with this view.
@@ -1397,8 +1280,9 @@ public abstract class GanttChartView extends GenericView
       pw.println("   SheetColumnsGridLines=" + m_sheetColumnsGridLines);
       pw.println("   TitleVerticalGridLines=" + m_titleVerticalGridLines);
       pw.println("   TitleHorizontalGridLines=" + m_titleHorizontalGridLines);
-      pw.println("   MajorColumnsGridLines=" + m_majorColumnsGridLines);
-      pw.println("   MinorColumnsGridLines=" + m_minorColumnsGridLines);
+      pw.println("   TopTierColumnGridLines=" + m_topTierColumnGridLines);
+      pw.println("   MiddleTierColumnGridLines=" + m_middleTierColumnGridLines);
+      pw.println("   BottomTierColumnGridLines=" + m_bottomTierColumnGridLines);
       pw.println("   GanttRowsGridLines=" + m_ganttRowsGridLines);
       pw.println("   BarRowsGridLines=" + m_barRowsGridLines);
       pw.println("   CurrentDateGridLines=" + m_currentDateGridLines);
@@ -1525,40 +1409,41 @@ public abstract class GanttChartView extends GenericView
    }
 
    protected ProjectFile m_parent;
-   private GridLines m_sheetRowsGridLines;
-   private GridLines m_sheetColumnsGridLines;
-   private GridLines m_titleVerticalGridLines;
-   private GridLines m_titleHorizontalGridLines;
-   private GridLines m_majorColumnsGridLines;
-   private GridLines m_minorColumnsGridLines;
-   private GridLines m_ganttRowsGridLines;
-   private GridLines m_barRowsGridLines;
-   private GridLines m_currentDateGridLines;
-   private GridLines m_pageBreakGridLines;
-   private GridLines m_projectStartGridLines;
-   private GridLines m_projectFinishGridLines;
-   private GridLines m_statusDateGridLines;
+   protected GridLines m_sheetRowsGridLines;
+   protected GridLines m_sheetColumnsGridLines;
+   protected GridLines m_titleVerticalGridLines;
+   protected GridLines m_titleHorizontalGridLines;
+   protected GridLines m_middleTierColumnGridLines;
+   protected GridLines m_bottomTierColumnGridLines;
+   protected GridLines m_ganttRowsGridLines;
+   protected GridLines m_barRowsGridLines;
+   protected GridLines m_currentDateGridLines;
+   protected GridLines m_pageBreakGridLines;
+   protected GridLines m_projectStartGridLines;
+   protected GridLines m_projectFinishGridLines;
+   protected GridLines m_statusDateGridLines;
+   protected GridLines m_topTierColumnGridLines;
 
-   private int m_ganttBarHeight;
+   protected int m_ganttBarHeight;
 
-   private TimescaleTier m_timescaleTopTier;
-   private TimescaleTier m_timescaleMiddleTier;
-   private TimescaleTier m_timescaleBottomTier;
-   private boolean m_timescaleSeparator;
-   private int m_timescaleSize;
+   protected TimescaleTier m_timescaleTopTier;
+   protected TimescaleTier m_timescaleMiddleTier;
+   protected TimescaleTier m_timescaleBottomTier;
+   protected boolean m_timescaleSeparator;
+   protected int m_timescaleSize;
 
-   private String m_nonWorkingDaysCalendarName;
-   private ColorType m_nonWorkingColor;
-   private int m_nonWorkingPattern;
-   private NonWorkingTimeStyle m_nonWorkingStyle;
+   protected String m_nonWorkingDaysCalendarName;
+   protected Color m_nonWorkingColor;
+   protected ChartPattern m_nonWorkingPattern;
+   protected NonWorkingTimeStyle m_nonWorkingStyle;
 
-   private boolean m_showDrawings;
-   private boolean m_roundBarsToWholeDays;
-   private boolean m_showBarSplits;
-   private boolean m_alwaysRollupGanttBars;
-   private boolean m_hideRollupBarsWhenSummaryExpanded;
-   private int m_barDateFormat;
-   private LinkStyle m_linkStyle;
+   protected boolean m_showDrawings;
+   protected boolean m_roundBarsToWholeDays;
+   protected boolean m_showBarSplits;
+   protected boolean m_alwaysRollupGanttBars;
+   protected boolean m_hideRollupBarsWhenSummaryExpanded;
+   protected int m_barDateFormat;
+   protected LinkStyle m_linkStyle;
 
    protected GanttBarStyle[] m_barStyles;
    protected GanttBarStyleException[] m_barStyleExceptions;
@@ -1570,23 +1455,23 @@ public abstract class GanttChartView extends GenericView
    private boolean m_highlightFilter;
    private boolean m_showInMenu;
 
-   private FontStyle m_highlightedTasksFontStyle;
-   private FontStyle m_rowAndColumnFontStyle;
-   private FontStyle m_nonCriticalTasksFontStyle;
-   private FontStyle m_criticalTasksFontStyle;
-   private FontStyle m_summaryTasksFontStyle;
-   private FontStyle m_milestoneTasksFontStyle;
-   private FontStyle m_topTimescaleFontStyle;
-   private FontStyle m_middleTimescaleFontStyle;
-   private FontStyle m_bottomTimescaleFontStyle;
-   private FontStyle m_barTextLeftFontStyle;
-   private FontStyle m_barTextRightFontStyle;
-   private FontStyle m_barTextTopFontStyle;
-   private FontStyle m_barTextBottomFontStyle;
-   private FontStyle m_barTextInsideFontStyle;
-   private FontStyle m_markedTasksFontStyle;
-   private FontStyle m_projectSummaryTasksFontStyle;
-   private FontStyle m_externalTasksFontStyle;
+   protected FontStyle m_highlightedTasksFontStyle;
+   protected FontStyle m_rowAndColumnFontStyle;
+   protected FontStyle m_nonCriticalTasksFontStyle;
+   protected FontStyle m_criticalTasksFontStyle;
+   protected FontStyle m_summaryTasksFontStyle;
+   protected FontStyle m_milestoneTasksFontStyle;
+   protected FontStyle m_topTimescaleFontStyle;
+   protected FontStyle m_middleTimescaleFontStyle;
+   protected FontStyle m_bottomTimescaleFontStyle;
+   protected FontStyle m_barTextLeftFontStyle;
+   protected FontStyle m_barTextRightFontStyle;
+   protected FontStyle m_barTextTopFontStyle;
+   protected FontStyle m_barTextBottomFontStyle;
+   protected FontStyle m_barTextInsideFontStyle;
+   protected FontStyle m_markedTasksFontStyle;
+   protected FontStyle m_projectSummaryTasksFontStyle;
+   protected FontStyle m_externalTasksFontStyle;
 
    private TableFontStyle[] m_tableFontStyles;
 
@@ -1622,8 +1507,8 @@ public abstract class GanttChartView extends GenericView
    protected List<Filter> m_autoFilters = new LinkedList<Filter>();
    protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
 
-   private static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
-   private static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
+   protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
+   protected static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
    private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
    private static final Integer TABLE_NAME = Integer.valueOf(574619658);
    private static final Integer FILTER_NAME = Integer.valueOf(574619659);

@@ -1,8 +1,8 @@
 /*
- * file:       GanttBarMiddlePattern.java
- * author:     Tom Ollar
- * copyright:  (c) Packwood Software 2009
- * date:       04/04/2009
+ * file:       BackgroundPattern.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2010
+ * date:       31/03/2010
  */
 
 /*
@@ -25,12 +25,11 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * Represents the pattern used to fill the middle section of a Gantt bar.
+ * Represents the pattern used to fill a group.
  */
-public enum GanttBarMiddlePattern implements MpxjEnum
+public enum BackgroundPattern implements MpxjEnum
 {
    TRANSPARENT(0, "Transparent"),
    SOLID(1, "Solid"),
@@ -39,11 +38,13 @@ public enum GanttBarMiddlePattern implements MpxjEnum
    HEAVYDOTTED(4, "Heavy Dotted"),
    BACKSLASH(5, "Back Slash"),
    FORWARDSLASH(6, "Forward Slash"),
-   CHECKERED(7, "Checkered"),
-   VERTICALSTRIPE(8, "Vertical Stripe"),
-   HORIZONTALSTRIPE(9, "Horizontal Stripe"),
-   GRID(10, "Grid"),
-   SOLIDHAIRY(11, "Solid Hairy");
+   INVERSEBACKSLASH(7, "Inverse Back Slash"),
+   INVERSEFORWARDSLASH(8, "Inverse Forward Slash"),
+   LIGHTVERTICALSTRIPE(9, "Light Vertical Stripe"),
+   HEAVYVERTICALSTRIPE(10, "Heavy Vertical Stripe"),
+   CHECKERED(11, "Checkered"),
+   DENSEFORWARDSLASH(12, "Dense Forward Slash"),
+   INVERSECHECKERED(13, "Inverse Checkered");
 
    /**
     * Private constructor.
@@ -51,7 +52,7 @@ public enum GanttBarMiddlePattern implements MpxjEnum
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private GanttBarMiddlePattern(int type, String name)
+   private BackgroundPattern(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -63,33 +64,13 @@ public enum GanttBarMiddlePattern implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarMiddlePattern getInstance(int type)
+   public static BackgroundPattern getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = TRANSPARENT.getValue();
       }
       return (TYPE_VALUES[type]);
-   }
-
-   /**
-    * Retrieve an instance of the enum based on its int value.
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static GanttBarMiddlePattern getInstance(Number type)
-   {
-      int value;
-      if (type == null)
-      {
-         value = -1;
-      }
-      else
-      {
-         value = NumberUtility.getInt(type);
-      }
-      return (getInstance(value));
    }
 
    /**
@@ -125,7 +106,7 @@ public enum GanttBarMiddlePattern implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarMiddlePattern[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarMiddlePattern.class);
+   private static final BackgroundPattern[] TYPE_VALUES = EnumUtility.createTypeArray(BackgroundPattern.class);
 
    /**
     * Internal representation of the enum int type.

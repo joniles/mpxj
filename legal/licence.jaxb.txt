@@ -1,6 +1,0 @@
-The Sun JAXB Reference implementation is licensed under the under the 
-Common Development and Distribution License (CDDL) v1.0 / 
-GPLv2 + classpath exception dual license. The full text of the license may be 
-found here:
-
-https://glassfish.dev.java.net/public/CDDL+GPL.html

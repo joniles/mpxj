@@ -1,8 +1,8 @@
 /*
- * file:       GroupPattern.java
- * author:     Jon Iles
- * copyright:  (c) Packwood Software 2010
- * date:       31/03/2010
+ * file:       ChartPattern.java
+ * author:     Tom Ollar
+ * copyright:  (c) Packwood Software 2009
+ * date:       04/04/2009
  */
 
 /*
@@ -25,11 +25,12 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * Represents the pattern used to fill a group.
+ * Represents the pattern used to fill the middle section of a Gantt bar.
  */
-public enum GroupPattern implements MpxjEnum
+public enum ChartPattern implements MpxjEnum
 {
    TRANSPARENT(0, "Transparent"),
    SOLID(1, "Solid"),
@@ -38,13 +39,11 @@ public enum GroupPattern implements MpxjEnum
    HEAVYDOTTED(4, "Heavy Dotted"),
    BACKSLASH(5, "Back Slash"),
    FORWARDSLASH(6, "Forward Slash"),
-   INVERSEBACKSLASH(7, "Inverse Back Slash"),
-   INVERSEFORWARDSLASH(8, "Inverse Forward Slash"),
-   LIGHTVERTICALSTRIPE(9, "Light Vertical Stripe"),
-   HEAVYVERTICALSTRIPE(10, "Heavy Vertical Stripe"),
-   CHECKERED(11, "Checkered"),
-   DENSEFORWARDSLASH(12, "Dense Forward Slash"),
-   INVERSECHECKERED(13, "Inverse Checkered");
+   CHECKERED(7, "Checkered"),
+   VERTICALSTRIPE(8, "Vertical Stripe"),
+   HORIZONTALSTRIPE(9, "Horizontal Stripe"),
+   GRID(10, "Grid"),
+   SOLIDHAIRY(11, "Solid Hairy");
 
    /**
     * Private constructor.
@@ -52,7 +51,7 @@ public enum GroupPattern implements MpxjEnum
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private GroupPattern(int type, String name)
+   private ChartPattern(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -64,13 +63,33 @@ public enum GroupPattern implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GroupPattern getInstance(int type)
+   public static ChartPattern getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = TRANSPARENT.getValue();
       }
       return (TYPE_VALUES[type]);
+   }
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static ChartPattern getInstance(Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
    }
 
    /**
@@ -106,7 +125,7 @@ public enum GroupPattern implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GroupPattern[] TYPE_VALUES = EnumUtility.createTypeArray(GroupPattern.class);
+   private static final ChartPattern[] TYPE_VALUES = EnumUtility.createTypeArray(ChartPattern.class);
 
    /**
     * Internal representation of the enum int type.

@@ -141,13 +141,13 @@ public abstract class GroupReader
             int fontColorIndex = MPPUtility.getByte(groupVarData, offset + 10);
             ColorType fontColor = ColorType.getInstance(fontColorIndex);
 
-            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor.getColor());
+            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor.getColor(), null, BackgroundPattern.SOLID);
             clause.setFont(fontStyle);
 
             int colorIndex = MPPUtility.getByte(groupVarData, offset + 12);
             ColorType color = ColorType.getInstance(colorIndex);
             clause.setCellBackgroundColor(color.getColor());
-            clause.setPattern(GroupPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 13) & 0x0F));
+            clause.setPattern(BackgroundPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 13) & 0x0F));
 
             // offset+14=group on
             int groupOn = MPPUtility.getShort(groupVarData, offset + 14);

@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
+
 /**
  * This class represents the set of properties that define the position
  * and appearance of a set of grid lines.
@@ -31,17 +33,20 @@ public class GridLines
 {
    /**
     * Constructor.
-    *
-    * @param data properties data
-    * @param offset offset into properties data
+    * 
+    * @param normalLineColor normal line color
+    * @param normalLineStyle normal line style
+    * @param intervalNumber interval number
+    * @param intervalLineStyle interval line style
+    * @param intervalLineColor interval line color
     */
-   public GridLines(byte[] data, int offset)
+   public GridLines(Color normalLineColor, LineStyle normalLineStyle, int intervalNumber, LineStyle intervalLineStyle, Color intervalLineColor)
    {
-      m_normalLineColor = ColorType.getInstance(data[offset]);
-      m_normalLineStyle = LineStyle.getInstance(data[offset + 3]);
-      m_intervalNumber = data[offset + 4];
-      m_intervalLineStyle = LineStyle.getInstance(data[offset + 5]);
-      m_intervalLineColor = ColorType.getInstance(data[offset + 6]);
+      m_normalLineColor = normalLineColor;
+      m_normalLineStyle = normalLineStyle;
+      m_intervalNumber = intervalNumber;
+      m_intervalLineStyle = intervalLineStyle;
+      m_intervalLineColor = intervalLineColor;
    }
 
    /**
@@ -49,7 +54,7 @@ public class GridLines
     *
     * @return interval line color
     */
-   public ColorType getIntervalLineColor()
+   public Color getIntervalLineColor()
    {
       return (m_intervalLineColor);
    }
@@ -79,7 +84,7 @@ public class GridLines
     *
     * @return line color
     */
-   public ColorType getNormalLineColor()
+   public Color getNormalLineColor()
    {
       return (m_normalLineColor);
    }
@@ -101,12 +106,12 @@ public class GridLines
     */
    @Override public String toString()
    {
-      return ("[GridLines NormalLineColor=" + m_normalLineColor + " NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor);
+      return ("[GridLines NormalLineColor=" + m_normalLineColor + " NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor + "]");
    }
 
-   private ColorType m_normalLineColor;
+   private Color m_normalLineColor;
    private LineStyle m_normalLineStyle;
    private int m_intervalNumber;
    private LineStyle m_intervalLineStyle;
-   private ColorType m_intervalLineColor;
+   private Color m_intervalLineColor;
 }

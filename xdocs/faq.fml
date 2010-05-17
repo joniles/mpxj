@@ -72,13 +72,29 @@
 
 		<faq id="retroweaver">
 			<question>
-				I use a Java 1.4 JVM, but MPXJ is built with Java 1.5, is there
-				anything I can do which will allow me to use it?
+				I use a Java 1.4 JVM, but MPXJ is built with a later version of 
+				Java, is there anything I can do which will allow me to use it?
 			</question>
 			<answer>
 				Yes there is - try using <a href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
 			</answer>
 		</faq>
+		
+		<faq id="jaxb">
+			<question>
+				I use a Java 1.5 JVM, but MPXJ is built with a later version of 
+				Java, and assumes that JAXB is available as part of the JRE.
+				Can I still use Java 1.5?
+			</question>
+			<answer>
+				Yes, MPXJ doesn't use any Java 1.6 specific features. If you set
+				the target JRE version to 1.5 in the ant build file, you will be
+				able to rebuild MPXJ for Java 1.5. You will also need to provide
+				the JAXB libraries if they are not present in the JRE. The required
+				libraries can be found as part of the MPXJ 3.2.0 distribution. 
+			</answer>
+		</faq>
+		
 	</part>
 
 	<part id="known-issues">
@@ -268,7 +284,7 @@
          </question>
 			<answer>
 				<p>
-					Previous versions of JAXB were known to have issues with the
+					Older versions of JAXB were known to have issues with the
 					JUnit classloader, so running the JUnit test runner with the
 					-noloading command line option, other taking other steps to
 					disable JUnit classloading was recommended. This problem is

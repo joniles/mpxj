@@ -141,7 +141,7 @@ public class GanttBarCommonStyle
     *
     * @return middle pattern
     */
-   public GanttBarMiddlePattern getMiddlePattern()
+   public ChartPattern getMiddlePattern()
    {
       return (m_middlePattern);
    }
@@ -151,7 +151,7 @@ public class GanttBarCommonStyle
     * 
     * @param pattern middle pattern
     */
-   public void setMiddlePattern(GanttBarMiddlePattern pattern)
+   public void setMiddlePattern(ChartPattern pattern)
    {
       m_middlePattern = pattern;
    }
@@ -348,7 +348,7 @@ public class GanttBarCommonStyle
    private Color m_startColor;
 
    private GanttBarMiddleShape m_middleShape;
-   private GanttBarMiddlePattern m_middlePattern;
+   private ChartPattern m_middlePattern;
    private Color m_middleColor;
 
    private GanttBarStartEndShape m_endShape;

@@ -53,7 +53,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             style.setName(styleName);
 
             style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
-            style.setMiddlePattern(GanttBarMiddlePattern.getInstance(barStyleData[styleOffset + 1]));
+            style.setMiddlePattern(ChartPattern.getInstance(barStyleData[styleOffset + 1]));
             style.setMiddleColor(ColorType.getInstance(barStyleData[styleOffset + 2]).getColor());
 
             style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 4] % 21));
@@ -111,7 +111,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             style.setStartColor(ColorType.getInstance(barData[offset + 10]).getColor());
 
             style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
-            style.setMiddlePattern(GanttBarMiddlePattern.getInstance(barData[offset + 7]));
+            style.setMiddlePattern(ChartPattern.getInstance(barData[offset + 7]));
 
             style.setMiddleColor(ColorType.getInstance(barData[offset + 8]).getColor());
 

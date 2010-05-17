@@ -1161,6 +1161,7 @@ final class MPPUtility
     */
    public static final void fileHexDump(String fileName, byte[] data)
    {
+      System.out.println("FILE HEX DUMP");
       try
       {
          FileOutputStream os = new FileOutputStream(fileName);
@@ -1205,6 +1206,7 @@ final class MPPUtility
     */
    public static final void fileDump(String fileName, byte[] data)
    {
+      System.out.println("FILE DUMP");
       try
       {
          FileOutputStream os = new FileOutputStream(fileName);

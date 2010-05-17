@@ -66,6 +66,7 @@ public class MPXJTest extends TestSuite
       addTestSuite(AvailabilityTest.class);
       addTestSuite(MppColumnsTest.class);
       addTestSuite(MppBarStyleTest.class);
+      addTestSuite(MppGanttTest.class);
       addTestSuite(CustomerDataTest.class);
    }
 

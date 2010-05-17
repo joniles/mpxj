@@ -39,14 +39,18 @@ public class FontStyle
     * @param bold bold flag
     * @param underline underline flag
     * @param color color type
+    * @param backgroundColor background color
+    * @param backgroundPattern background pattern
     */
-   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color)
+   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, Color backgroundColor, BackgroundPattern backgroundPattern)
    {
       m_fontBase = fontBase;
       m_italic = italic;
       m_bold = bold;
       m_underline = underline;
       m_color = color;
+      m_backgroundColor = backgroundColor;
+      m_backgroundPattern = backgroundPattern;
    }
 
    /**
@@ -100,11 +104,31 @@ public class FontStyle
    }
 
    /**
+    * Retrieve the background color.
+    * 
+    * @return background color
+    */
+   public Color getBackgroundColor()
+   {
+      return m_backgroundColor;
+   }
+
+   /**
+    * Retrieve the background pattern.
+    * 
+    * @return background pattern
+    */
+   public BackgroundPattern getBackgroundPattern()
+   {
+      return m_backgroundPattern;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
-      return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + "]");
+      return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + " backgroundColor=" + m_backgroundColor + " backgroundPattern=" + m_backgroundPattern + "]");
    }
 
    private FontBase m_fontBase;
@@ -112,4 +136,6 @@ public class FontStyle
    private boolean m_bold;
    private boolean m_underline;
    private Color m_color;
+   private Color m_backgroundColor;
+   private BackgroundPattern m_backgroundPattern;
 }
