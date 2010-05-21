@@ -76,12 +76,20 @@ public abstract class GanttChartView extends GenericView
    protected abstract void processAutoFilters(byte[] data);
 
    /**
-    * Process view properties.
+    * Extract view properties.
     * 
     * @param fontBases font defintions
     * @param props Gantt chart view props
     */
    protected abstract void processViewProperties(Map<Integer, FontBase> fontBases, Props props);
+
+   /**
+    * Extract table font styles.
+    * 
+    * @param fontBases font bases
+    * @param data column data
+    */
+   protected abstract void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] data);
 
    /**
     * Create a GanttChartView from the fixed and var data blocks associated
@@ -145,13 +153,7 @@ public abstract class GanttChartView extends GenericView
          byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
          if (columnData != null)
          {
-            m_tableFontStyles = new TableFontStyle[columnData.length / 16];
-            int offset = 0;
-            for (int loop = 0; loop < m_tableFontStyles.length; loop++)
-            {
-               m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
-               offset += 16;
-            }
+            processTableFontStyles(fontBases, columnData);
          }
 
          byte[] progressLineData = props.getByteArray(PROGRESS_LINE_PROPERTIES);
@@ -384,9 +386,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return boolean flag
     */
-   public boolean getTimescaleSeparator()
+   public boolean getTimescaleScaleSeparator()
    {
-      return (m_timescaleSeparator);
+      return (m_timescaleScaleSeparator);
    }
 
    /**
@@ -427,6 +429,16 @@ public abstract class GanttChartView extends GenericView
    public int getTimescaleSize()
    {
       return (m_timescaleSize);
+   }
+
+   /**
+    * Retrieve the number of timescale tiers to display. 
+    * 
+    * @return number of timescale tiers to show
+    */
+   public int getTimescaleShowTiers()
+   {
+      return m_timescaleShowTiers;
    }
 
    /**
@@ -476,7 +488,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return bar date format
     */
-   public int getBarDateFormat()
+   public GanttBarDateFormat getBarDateFormat()
    {
       return (m_barDateFormat);
    }
@@ -532,7 +544,7 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve an array reprtesenting bar styles which have been defined
+    * Retrieve an array representing bar styles which have been defined
     * by the user for a specific task.
     *
     * @return array of bar style exceptions
@@ -1199,7 +1211,7 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return ColumnFontStyle instance
     */
-   private TableFontStyle getColumnFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   protected TableFontStyle getColumnFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
       FieldType fieldType = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 4));
@@ -1219,8 +1231,10 @@ public abstract class GanttChartView extends GenericView
       boolean italicChanged = ((change & 0x04) != 0);
       boolean colorChanged = ((change & 0x08) != 0);
       boolean fontChanged = ((change & 0x10) != 0);
+      boolean backgroundColorChanged = (uniqueID == -1);
+      boolean backgroundPatternChanged = (uniqueID == -1);
 
-      return (new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color.getColor(), italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
+      return (new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color.getColor(), Color.BLACK, BackgroundPattern.TRANSPARENT, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged, backgroundColorChanged, backgroundPatternChanged));
    }
 
    /**
@@ -1294,7 +1308,7 @@ public abstract class GanttChartView extends GenericView
       pw.println("   TimescaleTopTier=" + m_timescaleTopTier);
       pw.println("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
       pw.println("   TimescaleBottomTier=" + m_timescaleBottomTier);
-      pw.println("   TimescaleSeparator=" + m_timescaleSeparator);
+      pw.println("   TimescaleSeparator=" + m_timescaleScaleSeparator);
       pw.println("   TimescaleSize=" + m_timescaleSize + "%");
       pw.println("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);
       pw.println("   NonWorkingColor=" + m_nonWorkingColor);
@@ -1429,8 +1443,9 @@ public abstract class GanttChartView extends GenericView
    protected TimescaleTier m_timescaleTopTier;
    protected TimescaleTier m_timescaleMiddleTier;
    protected TimescaleTier m_timescaleBottomTier;
-   protected boolean m_timescaleSeparator;
+   protected boolean m_timescaleScaleSeparator;
    protected int m_timescaleSize;
+   protected int m_timescaleShowTiers;
 
    protected String m_nonWorkingDaysCalendarName;
    protected Color m_nonWorkingColor;
@@ -1442,7 +1457,7 @@ public abstract class GanttChartView extends GenericView
    protected boolean m_showBarSplits;
    protected boolean m_alwaysRollupGanttBars;
    protected boolean m_hideRollupBarsWhenSummaryExpanded;
-   protected int m_barDateFormat;
+   protected GanttBarDateFormat m_barDateFormat;
    protected LinkStyle m_linkStyle;
 
    protected GanttBarStyle[] m_barStyles;
@@ -1473,7 +1488,7 @@ public abstract class GanttChartView extends GenericView
    protected FontStyle m_projectSummaryTasksFontStyle;
    protected FontStyle m_externalTasksFontStyle;
 
-   private TableFontStyle[] m_tableFontStyles;
+   protected TableFontStyle[] m_tableFontStyles;
 
    private boolean m_progressLinesEnabled;
    private boolean m_progressLinesAtCurrentDate;
@@ -1508,7 +1523,7 @@ public abstract class GanttChartView extends GenericView
    protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
 
    protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
-   protected static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
+   protected static final Integer TIMESCALE_PROPERTIES = Integer.valueOf(574619678);
    private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
    private static final Integer TABLE_NAME = Integer.valueOf(574619658);
    private static final Integer FILTER_NAME = Integer.valueOf(574619659);

@@ -193,7 +193,46 @@ public final class GanttChartView14 extends GanttChartView
          m_nonWorkingPattern = ChartPattern.getInstance(viewPropertyData[2235]);
          m_nonWorkingStyle = NonWorkingTimeStyle.getInstance(viewPropertyData[2222]);
 
+         m_timescaleShowTiers = viewPropertyData[41255];
+         m_timescaleSize = viewPropertyData[1180];
+
+         int flags = viewPropertyData[1086];
+         m_timescaleScaleSeparator = (flags & 0x04) != 0;
+
+         m_timescaleTopTier = new TimescaleTier();
+
+         m_timescaleTopTier.setTickLines(viewPropertyData[41349] != 0);
+         m_timescaleTopTier.setUsesFiscalYear((viewPropertyData[41361] & 0x01) != 0);
+         m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[41311]));
+         m_timescaleTopTier.setCount(viewPropertyData[41313]);
+         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[41315]));
+         m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[41317]));
+
+         m_timescaleMiddleTier = new TimescaleTier();
+         m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
+         m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
+         m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[1152]));
+         m_timescaleMiddleTier.setCount(viewPropertyData[1156]);
+         m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 1160)));
+         m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1166]));
+
+         m_timescaleBottomTier = new TimescaleTier();
+         m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
+         m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
+         m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[1154]));
+         m_timescaleBottomTier.setCount(viewPropertyData[1158]);
+         m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 1162)));
+         m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1164]));
+
+         m_showDrawings = (viewPropertyData[2237] != 0);
+         m_roundBarsToWholeDays = (viewPropertyData[2239] != 0);
+         m_showBarSplits = (viewPropertyData[2241] != 0);
+         m_alwaysRollupGanttBars = (viewPropertyData[2251] != 0);
+         m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[2253] != 0);
          m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 2244));
+
+         m_barDateFormat = GanttBarDateFormat.getInstance(viewPropertyData[2247] + 1);
+         m_linkStyle = LinkStyle.getInstance(viewPropertyData[2236]);
       }
    }
 
@@ -241,6 +280,52 @@ public final class GanttChartView14 extends GanttChartView
       FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, color, backgroundColor, backgroundPattern);
       //System.out.println(fontStyle);
       return fontStyle;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] columnData)
+   {
+      //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(columnData, false, 44, "").getBytes());
+
+      m_tableFontStyles = new TableFontStyle[columnData.length / 44];
+      int offset = 0;
+      for (int loop = 0; loop < m_tableFontStyles.length; loop++)
+      {
+         m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
+         offset += 44;
+      }
+   }
+
+   @Override protected TableFontStyle getColumnFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   {
+      int uniqueID = MPPUtility.getInt(data, offset);
+      FieldType fieldType = MPPTaskField14.getInstance(MPPUtility.getShort(data, offset + 4));
+      Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
+      int style = MPPUtility.getByte(data, offset + 11);
+      Color color = MPPUtility.getColor(data, offset + 12);
+      int change = MPPUtility.getByte(data, offset + 40);
+      Color backgroundColor = MPPUtility.getColor(data, offset + 24);
+      BackgroundPattern backgroundPattern = BackgroundPattern.getInstance(MPPUtility.getShort(data, offset + 36));
+
+      FontBase fontBase = fontBases.get(index);
+
+      boolean bold = ((style & 0x01) != 0);
+      boolean italic = ((style & 0x02) != 0);
+      boolean underline = ((style & 0x04) != 0);
+
+      boolean boldChanged = ((change & 0x01) != 0);
+      boolean underlineChanged = ((change & 0x02) != 0);
+      boolean italicChanged = ((change & 0x04) != 0);
+      boolean colorChanged = ((change & 0x08) != 0);
+      boolean fontChanged = ((change & 0x10) != 0);
+      boolean backgroundColorChanged = ((change & 0x40) != 0);
+      boolean backgroundPatternChanged = ((change & 0x80) != 0);
+
+      TableFontStyle tfs = new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color, backgroundColor, backgroundPattern, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged, backgroundColorChanged, backgroundPatternChanged);
+      //System.out.println(tfs);
+      return tfs;
    }
 
    /**

@@ -23,14 +23,19 @@
 
 package net.sf.mpxj.junit;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
 import net.sf.mpxj.mpp.ChartPattern;
+import net.sf.mpxj.mpp.GanttBarDateFormat;
 import net.sf.mpxj.mpp.GanttChartView;
+import net.sf.mpxj.mpp.LinkStyle;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpp.NonWorkingTimeStyle;
+import net.sf.mpxj.mpp.TableFontStyle;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -50,6 +55,9 @@ public class MppGanttTest extends MPXJTestCase
       testSummaryData(mpp);
       testFontStyles(mpp);
       testGridlines(mpp);
+      testTimescales(mpp);
+      testLayout(mpp);
+      testTableFontStyles(mpp);
    }
 
    /**
@@ -63,6 +71,9 @@ public class MppGanttTest extends MPXJTestCase
       testSummaryData(mpp);
       testFontStyles(mpp);
       testGridlines(mpp);
+      testTimescales(mpp);
+      testLayout(mpp);
+      testTableFontStyles(mpp);
    }
 
    /**
@@ -76,6 +87,9 @@ public class MppGanttTest extends MPXJTestCase
       testSummaryData(mpp);
       testFontStyles(mpp);
       testGridlines(mpp);
+      testTimescales(mpp);
+      testLayout(mpp);
+      testTableFontStyles(mpp);
    }
 
    /**
@@ -94,7 +108,7 @@ public class MppGanttTest extends MPXJTestCase
       assertEquals("Gantt Chart", view.getName());
 
       assertTrue(view.getShowInMenu());
-      assertEquals(626, view.getTableWidth());
+      assertEquals(778, view.getTableWidth());
       assertFalse(view.getHighlightFilter());
       assertEquals("Entry", view.getTableName());
       assertEquals("&All Tasks", view.getDefaultFilterName());
@@ -105,7 +119,6 @@ public class MppGanttTest extends MPXJTestCase
       assertEquals(ChartPattern.LIGHTDOTTED, view.getNonWorkingPattern());
       assertEquals(NonWorkingTimeStyle.BEHIND, view.getNonWorkingStyle());
 
-      assertEquals(12, view.getGanttBarHeight());
    }
 
    /**
@@ -174,5 +187,99 @@ public class MppGanttTest extends MPXJTestCase
       assertEquals("[GridLines NormalLineColor=null NormalLineStyle=None IntervalNumber=0 IntervalLineStyle=None IntervalLineColor=null]", view.getProjectFinishGridLines().toString());
       assertEquals("[GridLines NormalLineColor=null NormalLineStyle=None IntervalNumber=0 IntervalLineStyle=None IntervalLineColor=null]", view.getStatusDateGridLines().toString());
       assertEquals("[GridLines NormalLineColor=java.awt.Color[r=0,g=0,b=128] NormalLineStyle=None IntervalNumber=0 IntervalLineStyle=None IntervalLineColor=null]", view.getTopTierColumnGridLines().toString());
+   }
+
+   /**
+    * Test the timescale settings.
+    * 
+    * @param file project file
+    */
+   private void testTimescales(ProjectFile file)
+   {
+      List<View> views = file.getViews();
+
+      //
+      // Retrieve the Gantt Chart view
+      //
+      GanttChartView view = (GanttChartView) views.get(0);
+      assertEquals("Gantt Chart", view.getName());
+
+      assertEquals(2, view.getTimescaleShowTiers());
+      assertEquals(100, view.getTimescaleSize());
+      assertTrue(view.getTimescaleScaleSeparator());
+
+      assertEquals("[TimescaleTier UsesFiscalYear=true TickLines=true Units=None Count=1 Format=[None] Alignment=Center]", view.getTimescaleTopTier().toString());
+      assertEquals("[TimescaleTier UsesFiscalYear=true TickLines=true Units=Weeks Count=1 Format=[January 27, '02] Alignment=Left]", view.getTimescaleMiddleTier().toString());
+      assertEquals("[TimescaleTier UsesFiscalYear=true TickLines=true Units=Days Count=1 Format=[S, M, T, ...] Alignment=Center]", view.getTimescaleBottomTier().toString());
+   }
+
+   /**
+    * Test the layout settings.
+    * 
+    * @param file project file
+    */
+   private void testLayout(ProjectFile file)
+   {
+      List<View> views = file.getViews();
+
+      //
+      // Retrieve the Gantt Chart view
+      //
+      GanttChartView view = (GanttChartView) views.get(0);
+      assertEquals("Gantt Chart", view.getName());
+
+      assertTrue(view.getShowDrawings());
+      assertTrue(view.getRoundBarsToWholeDays());
+      assertTrue(view.getShowBarSplits());
+      assertFalse(view.getAlwaysRollupGanttBars());
+      assertFalse(view.getHideRollupBarsWhenSummaryExpanded());
+      assertEquals(12, view.getGanttBarHeight());
+      assertEquals(GanttBarDateFormat.DDMM, view.getBarDateFormat());
+      assertEquals(LinkStyle.END_TOP, view.getLinkStyle());
+   }
+
+   /**
+    * Test the table font style settings.
+    * 
+    * @param file project file
+    */
+   private void testTableFontStyles(ProjectFile file)
+   {
+      List<View> views = file.getViews();
+
+      //
+      // Retrieve the Gantt Chart view
+      //
+      GanttChartView view = (GanttChartView) views.get(0);
+      assertEquals("Gantt Chart", view.getName());
+
+      TableFontStyle[] tfs = view.getTableFontStyles();
+      assertEquals(TABLE_FONT_STYLES.length, tfs.length);
+
+      for (int loop = 0; loop < tfs.length; loop++)
+      {
+         assertTrue(TABLE_FONT_STYLES_SET.contains(tfs[loop].toString()));
+      }
+   }
+
+   private static final String[] TABLE_FONT_STYLES =
+   {
+      "[ColumnFontStyle rowUniqueID=3 fieldType=Text2 color=java.awt.Color[r=0,g=0,b=255]]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Task Name italic=false bold=true underline=false font=[FontBase name=Arial Black size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Duration italic=false bold=true underline=false font=[FontBase name=Arial size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Start italic=true bold=false underline=false font=[FontBase name=Arial size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Finish italic=true bold=true underline=false font=[FontBase name=Arial size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Predecessors italic=false bold=false underline=false font=[FontBase name=Arial size=10] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Text1 italic=false bold=false underline=true font=[FontBase name=Arial size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
+      "[ColumnFontStyle rowUniqueID=-1 fieldType=Text2 italic=false bold=false underline=false font=[FontBase name=Arial size=8] color=java.awt.Color[r=255,g=0,b=0] backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]"
+   };
+
+   private static Set<String> TABLE_FONT_STYLES_SET = new HashSet<String>();
+   static
+   {
+      for (String style : TABLE_FONT_STYLES)
+      {
+         TABLE_FONT_STYLES_SET.add(style);
+      }
    }
 }

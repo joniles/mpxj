@@ -173,7 +173,7 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
          m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
          m_timescaleMiddleTier.setCount(viewPropertyData[246]);
-         m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[250]));
+         m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 250)));
          m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256] - 32));
 
          m_timescaleBottomTier = new TimescaleTier();
@@ -181,10 +181,10 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
          m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
          m_timescaleBottomTier.setCount(viewPropertyData[248]);
-         m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[252]));
+         m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 252)));
          m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254] - 32));
 
-         m_timescaleSeparator = (flags & 0x04) != 0;
+         m_timescaleScaleSeparator = (flags & 0x04) != 0;
          m_timescaleSize = viewPropertyData[268];
 
          m_showDrawings = (viewPropertyData[1156] != 0);
@@ -192,23 +192,25 @@ public final class GanttChartView12 extends GanttChartView
          m_showBarSplits = (viewPropertyData[1160] != 0);
          m_alwaysRollupGanttBars = (viewPropertyData[1186] != 0);
          m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
-         m_barDateFormat = viewPropertyData[1182];
+         m_barDateFormat = GanttBarDateFormat.getInstance(viewPropertyData[1182] + 1);
          m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
       }
 
-      byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);
-      if (topTierData != null)
+      byte[] timescaleData = props.getByteArray(TIMESCALE_PROPERTIES);
+      if (timescaleData != null)
       {
          m_timescaleTopTier = new TimescaleTier();
 
-         m_timescaleTopTier.setTickLines(topTierData[48] != 0);
-         m_timescaleTopTier.setUsesFiscalYear(topTierData[60] != 0);
-         m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(topTierData[30]));
-         m_timescaleTopTier.setCount(topTierData[32]);
-         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(topTierData[34]));
-         m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36] - 20));
+         m_timescaleTopTier.setTickLines(timescaleData[48] != 0);
+         m_timescaleTopTier.setUsesFiscalYear(timescaleData[60] != 0);
+         m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(timescaleData[30]));
+         m_timescaleTopTier.setCount(timescaleData[32]);
+         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(timescaleData, 34)));
+         m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(timescaleData[36] - 20));
 
-         m_topTierColumnGridLines = getGridLines(topTierData, 39);
+         m_topTierColumnGridLines = getGridLines(timescaleData, 39);
+
+         m_timescaleShowTiers = timescaleData[0];
       }
    }
 
@@ -227,6 +229,20 @@ public final class GanttChartView12 extends GanttChartView
       LineStyle intervalLineStyle = LineStyle.getInstance(data[offset + 5]);
       Color intervalLineColor = ColorType.getInstance(data[offset + 6]).getColor();
       return new GridLines(normalLineColor, normalLineStyle, intervalNumber, intervalLineStyle, intervalLineColor);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] columnData)
+   {
+      m_tableFontStyles = new TableFontStyle[columnData.length / 16];
+      int offset = 0;
+      for (int loop = 0; loop < m_tableFontStyles.length; loop++)
+      {
+         m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
+         offset += 16;
+      }
    }
 
    /**

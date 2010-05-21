@@ -156,7 +156,7 @@ public final class TimescaleTier
     */
    @Override public String toString()
    {
-      return ("[TimescaleTier UsesFiscalYear=" + m_usesFiscalYear + " TickLines=" + m_tickLines + " Units=" + m_units + " Count=" + m_count + " Format=" + m_format + " Alignment=" + m_alignment + "]");
+      return ("[TimescaleTier UsesFiscalYear=" + m_usesFiscalYear + " TickLines=" + m_tickLines + " Units=" + m_units + " Count=" + m_count + " Format=[" + m_format + "] Alignment=" + m_alignment + "]");
    }
 
    private boolean m_usesFiscalYear;

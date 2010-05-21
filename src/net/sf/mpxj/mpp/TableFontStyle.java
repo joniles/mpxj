@@ -43,15 +43,19 @@ public class TableFontStyle extends FontStyle
     * @param bold bold flag
     * @param underline underline flag
     * @param color color
+    * @param backgroundColor TODO
+    * @param backgroundPattern TODO
     * @param italicChanged italic changed flag
     * @param boldChanged bold changed flag
     * @param underlineChanged underline changed flag
     * @param colorChanged color changed flag
     * @param fontChanged font changed flag
+    * @param backgroundColorChanged background color changed
+    * @param backgroundPatternChanged background pattern changed
     */
-   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
+   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, Color backgroundColor, BackgroundPattern backgroundPattern, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged, boolean backgroundColorChanged, boolean backgroundPatternChanged)
    {
-      super(fontBase, italic, bold, underline, color, null, BackgroundPattern.SOLID);
+      super(fontBase, italic, bold, underline, color, backgroundColor, backgroundPattern);
 
       m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;
@@ -61,6 +65,8 @@ public class TableFontStyle extends FontStyle
       m_underlineChanged = underlineChanged;
       m_colorChanged = colorChanged;
       m_fontChanged = fontChanged;
+      m_backgroundColorChanged = backgroundColorChanged;
+      m_backgroundPatternChanged = backgroundPatternChanged;
    }
 
    /**
@@ -136,11 +142,31 @@ public class TableFontStyle extends FontStyle
    }
 
    /**
+    * Retrieve the background color changed flag.
+    *
+    * @return boolean flag
+    */
+   public boolean getBackgroundColorChanged()
+   {
+      return (m_backgroundColorChanged);
+   }
+
+   /**
+    * Retrieve the background pattern changed flag.
+    *
+    * @return boolean flag
+    */
+   public boolean getBackgroundPatternChanged()
+   {
+      return (m_backgroundPatternChanged);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
-      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + "]");
+      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + (m_backgroundColorChanged ? " backgroundColor=" + getBackgroundColor() : "") + (m_backgroundPatternChanged ? " backgroundPattern=" + getBackgroundPattern() : "") + "]");
    }
 
    private int m_rowUniqueID;
@@ -150,4 +176,6 @@ public class TableFontStyle extends FontStyle
    private boolean m_underlineChanged;
    private boolean m_colorChanged;
    private boolean m_fontChanged;
+   private boolean m_backgroundColorChanged;
+   private boolean m_backgroundPatternChanged;
 }
