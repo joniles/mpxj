@@ -1085,14 +1085,17 @@ public final class MSPDIReader extends AbstractProjectReader
 
             if (link.getLinkLag() != null)
             {
-               lag = link.getLinkLag().intValue() / (10 * 60);
+               lag = link.getLinkLag().intValue() / 10;
             }
             else
             {
                lag = 0;
             }
 
-            currTask.addPredecessor(prevTask, type, Duration.getInstance(lag, TimeUnit.HOURS));
+            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
+            Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectHeader());            
+            
+            currTask.addPredecessor(prevTask, type, lagDuration);
          }
       }
    }

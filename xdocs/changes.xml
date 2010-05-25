@@ -13,7 +13,8 @@
 		<action dev="joniles" type="add">Added support for reading Primavera P6 XER files.</action>
 		<action dev="joniles" type="add">Added support for reading Primavera P6 databases.</action>
 		<action dev="joniles" type="update">Updated to target Java 1.6.</action>
-		<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>	
+		<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3006364: Relation.getDuration() is always giving result in 'HOUR' fmt.</action>	
 	</release>
 
 	<release version="3.2.0" date="20/01/2010">
