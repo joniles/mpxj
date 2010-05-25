@@ -92,6 +92,14 @@ public abstract class GanttChartView extends GenericView
    protected abstract void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] data);
 
    /**
+    * Extract progress line properties.
+    * 
+    * @param fontBases font bases
+    * @param data column data
+    */
+   protected abstract void processProgressLines(Map<Integer, FontBase> fontBases, byte[] data);
+
+   /**
     * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.
     *
@@ -159,54 +167,7 @@ public abstract class GanttChartView extends GenericView
          byte[] progressLineData = props.getByteArray(PROGRESS_LINE_PROPERTIES);
          if (progressLineData != null)
          {
-            m_progressLinesEnabled = (progressLineData[0] != 0);
-            m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
-            m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);
-            m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
-            m_progressLinesDailyDayNumber = progressLineData[8];
-            m_progressLinesDailyWorkday = (progressLineData[10] != 0);
-            m_progressLinesWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14] != 0);
-            m_progressLinesWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16] != 0);
-            m_progressLinesWeeklyDay[Day.TUESDAY.getValue()] = (progressLineData[18] != 0);
-            m_progressLinesWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20] != 0);
-            m_progressLinesWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22] != 0);
-            m_progressLinesWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24] != 0);
-            m_progressLinesWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);
-            m_progressLinesWeekleyWeekNumber = progressLineData[30];
-            m_progressLinesMonthlyDayOfMonth = (progressLineData[32] != 0);
-            m_progressLinesMonthlyDayNumber = progressLineData[34];
-            m_progressLinesMonthlyDay = ProgressLineDay.getInstance(progressLineData[36]);
-            m_progressLinesMonthlyFirst = (progressLineData[40] == 1);
-            m_progressLinesBeginAtProjectStart = (progressLineData[44] != 0);
-            m_progressLinesBeginAtDate = MPPUtility.getDate(progressLineData, 46);
-            m_progressLinesDisplaySelected = (progressLineData[48] != 0);
-            m_progressLinesActualPlan = (progressLineData[52] != 0);
-            m_progressLinesDisplayType = MPPUtility.getShort(progressLineData, 54);
-            m_progressLinesShowDate = (progressLineData[56] != 0);
-            m_progressLinesDateFormat = MPPUtility.getShort(progressLineData, 58);
-            m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases);
-            m_progressLinesCurrentLineColor = ColorType.getInstance(progressLineData[64]);
-            m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[65]);
-            m_progressLinesCurrentProgressPointColor = ColorType.getInstance(progressLineData[66]);
-            m_progressLinesCurrentProgressPointShape = progressLineData[67];
-            m_progressLinesOtherLineColor = ColorType.getInstance(progressLineData[68]);
-            m_progressLinesOtherLineStyle = LineStyle.getInstance(progressLineData[69]);
-            m_progressLinesOtherProgressPointColor = ColorType.getInstance(progressLineData[70]);
-            m_progressLinesOtherProgressPointShape = progressLineData[71];
-
-            int dateCount = MPPUtility.getShort(progressLineData, 50);
-            if (dateCount != 0)
-            {
-               m_progressLinesDisplaySelectedDates = new Date[dateCount];
-               int offset = 72;
-               int count = 0;
-               while (count < dateCount && offset < progressLineData.length)
-               {
-                  m_progressLinesDisplaySelectedDates[count] = MPPUtility.getDate(progressLineData, offset);
-                  offset += 2;
-                  ++count;
-               }
-            }
+            processProgressLines(fontBases, progressLineData);
          }
 
          byte[] autoFilterData = props.getByteArray(AUTO_FILTER_PROPERTIES);
@@ -882,7 +843,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return current line color
     */
-   public ColorType getProgressLinesCurrentLineColor()
+   public Color getProgressLinesCurrentLineColor()
    {
       return (m_progressLinesCurrentLineColor);
    }
@@ -902,7 +863,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return current progress point color
     */
-   public ColorType getProgressLinesCurrentProgressPointColor()
+   public Color getProgressLinesCurrentProgressPointColor()
    {
       return (m_progressLinesCurrentProgressPointColor);
    }
@@ -922,9 +883,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines daily day number
     */
-   public int getProgressLinesDailyDayNumber()
+   public int getProgressLinesIntervalDailyDayNumber()
    {
-      return (m_progressLinesDailyDayNumber);
+      return (m_progressLinesIntervalDailyDayNumber);
    }
 
    /**
@@ -932,9 +893,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return daily workday flag
     */
-   public boolean getProgressLinesDailyWorkday()
+   public boolean isProgressLinesIntervalDailyWorkday()
    {
-      return (m_progressLinesDailyWorkday);
+      return (m_progressLinesIntervalDailyWorkday);
    }
 
    /**
@@ -1014,9 +975,19 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines monthly day
     */
-   public Day getProgressLinesMonthlyDay()
+   public Day getProgressLinesIntervalMonthlyFirstLastDay()
    {
-      return (m_progressLinesMonthlyDay);
+      return (m_progressLinesIntervalMonthlyFirstLastDay);
+   }
+
+   /**
+    * Retrieves the progress lines month number for the monthly first last type.
+    * 
+    * @return month number
+    */
+   public int getProgressLinesIntervalMonthlyFirstLastMonthNumber()
+   {
+      return m_progressLinesIntervalMonthlyFirstLastMonthNumber;
    }
 
    /**
@@ -1024,9 +995,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines monthly day number
     */
-   public int getProgressLinesMonthlyDayNumber()
+   public int getProgressLinesIntervalMonthlyDayDayNumber()
    {
-      return (m_progressLinesMonthlyDayNumber);
+      return (m_progressLinesIntervalMonthlyDayDayNumber);
    }
 
    /**
@@ -1034,9 +1005,19 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines monthly day of month
     */
-   public boolean getProgressLinesMonthlyDayOfMonth()
+   public boolean getProgressLinesIntervalMonthlyDay()
    {
-      return (m_progressLinesMonthlyDayOfMonth);
+      return (m_progressLinesIntervalMonthlyDay);
+   }
+
+   /**
+    * Retrieves the progress line month number for the monthly day type.
+    * 
+    * @return month number
+    */
+   public int getProgressLinesIntervalMonthlyDayMonthNumber()
+   {
+      return m_progressLinesIntervalMonthlyDayMonthNumber;
    }
 
    /**
@@ -1044,9 +1025,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines monthly first flag
     */
-   public boolean getProgressLinesMonthlyFirst()
+   public boolean getProgressLinesIntervalMonthlyFirstLast()
    {
-      return (m_progressLinesMonthlyFirst);
+      return (m_progressLinesIntervalMonthlyFirstLast);
    }
 
    /**
@@ -1054,7 +1035,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines other line color
     */
-   public ColorType getProgressLinesOtherLineColor()
+   public Color getProgressLinesOtherLineColor()
    {
       return (m_progressLinesOtherLineColor);
    }
@@ -1074,7 +1055,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines other progress point color
     */
-   public ColorType getProgressLinesOtherProgressPointColor()
+   public Color getProgressLinesOtherProgressPointColor()
    {
       return (m_progressLinesOtherProgressPointColor);
    }
@@ -1104,9 +1085,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines weekly week number
     */
-   public int getProgressLinesWeekleyWeekNumber()
+   public int getProgressLinesIntervalWeekleyWeekNumber()
    {
-      return (m_progressLinesWeekleyWeekNumber);
+      return (m_progressLinesIntervalWeekleyWeekNumber);
    }
 
    /**
@@ -1117,9 +1098,9 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines weekly day
     */
-   public boolean[] getProgressLinesWeeklyDay()
+   public boolean[] getProgressLinesIntervalWeeklyDay()
    {
-      return (m_progressLinesWeeklyDay);
+      return (m_progressLinesIntervalWeeklyDay);
    }
 
    /**
@@ -1326,25 +1307,25 @@ public abstract class GanttChartView extends GenericView
       pw.println("   ProgressLinesAtCurrentDate=" + m_progressLinesAtCurrentDate);
       pw.println("   ProgressLinesAtRecurringIntervals=" + m_progressLinesAtRecurringIntervals);
       pw.println("   ProgressLinesInterval=" + m_progressLinesInterval);
-      pw.println("   ProgressLinesDailyDayNumber=" + m_progressLinesDailyDayNumber);
-      pw.println("   ProgressLinesDailyWorkday=" + m_progressLinesDailyWorkday);
+      pw.println("   ProgressLinesDailyDayNumber=" + m_progressLinesIntervalDailyDayNumber);
+      pw.println("   ProgressLinesDailyWorkday=" + m_progressLinesIntervalDailyWorkday);
 
       pw.print("   ProgressLinesWeeklyDay=[");
-      for (int loop = 0; loop < m_progressLinesWeeklyDay.length; loop++)
+      for (int loop = 0; loop < m_progressLinesIntervalWeeklyDay.length; loop++)
       {
          if (loop != 0)
          {
             pw.print(",");
          }
-         pw.print(m_progressLinesWeeklyDay[loop]);
+         pw.print(m_progressLinesIntervalWeeklyDay[loop]);
       }
       pw.println("]");
 
-      pw.println("   ProgressLinesWeeklyWeekNumber=" + m_progressLinesWeekleyWeekNumber);
-      pw.println("   ProgressLinesMonthlyDayOfMonth=" + m_progressLinesMonthlyDayOfMonth);
-      pw.println("   ProgressLinesMonthDayNumber=" + m_progressLinesMonthlyDayNumber);
-      pw.println("   ProgressLinesMonthlyDay=" + m_progressLinesMonthlyDay);
-      pw.println("   ProgressLinesMonthlyFirst=" + m_progressLinesMonthlyFirst);
+      pw.println("   ProgressLinesWeeklyWeekNumber=" + m_progressLinesIntervalWeekleyWeekNumber);
+      pw.println("   ProgressLinesMonthlyDayOfMonth=" + m_progressLinesIntervalMonthlyDay);
+      pw.println("   ProgressLinesMonthDayNumber=" + m_progressLinesIntervalMonthlyDayDayNumber);
+      pw.println("   ProgressLinesMonthlyDay=" + m_progressLinesIntervalMonthlyFirstLastDay);
+      pw.println("   ProgressLinesMonthlyFirst=" + m_progressLinesIntervalMonthlyFirstLast);
       pw.println("   ProgressLinesBeginAtProjectStart=" + m_progressLinesBeginAtProjectStart);
       pw.println("   ProgressLinesBeginAtDate=" + m_progressLinesBeginAtDate);
       pw.println("   ProgressLinesDisplaySelected=" + m_progressLinesDisplaySelected);
@@ -1490,35 +1471,37 @@ public abstract class GanttChartView extends GenericView
 
    protected TableFontStyle[] m_tableFontStyles;
 
-   private boolean m_progressLinesEnabled;
-   private boolean m_progressLinesAtCurrentDate;
-   private boolean m_progressLinesAtRecurringIntervals;
-   private Interval m_progressLinesInterval;
-   private int m_progressLinesDailyDayNumber;
-   private boolean m_progressLinesDailyWorkday;
-   private boolean[] m_progressLinesWeeklyDay = new boolean[8];
-   private int m_progressLinesWeekleyWeekNumber;
-   private boolean m_progressLinesMonthlyDayOfMonth;
-   private int m_progressLinesMonthlyDayNumber;
-   private Day m_progressLinesMonthlyDay;
-   private boolean m_progressLinesMonthlyFirst;
-   private boolean m_progressLinesBeginAtProjectStart;
-   private Date m_progressLinesBeginAtDate;
-   private boolean m_progressLinesDisplaySelected;
-   private Date[] m_progressLinesDisplaySelectedDates;
-   private boolean m_progressLinesActualPlan;
-   private int m_progressLinesDisplayType;
-   private boolean m_progressLinesShowDate;
-   private int m_progressLinesDateFormat;
-   private FontStyle m_progressLinesFontStyle;
-   private ColorType m_progressLinesCurrentLineColor;
-   private LineStyle m_progressLinesCurrentLineStyle;
-   private ColorType m_progressLinesCurrentProgressPointColor;
-   private int m_progressLinesCurrentProgressPointShape;
-   private ColorType m_progressLinesOtherLineColor;
-   private LineStyle m_progressLinesOtherLineStyle;
-   private ColorType m_progressLinesOtherProgressPointColor;
-   private int m_progressLinesOtherProgressPointShape;
+   protected boolean m_progressLinesEnabled;
+   protected boolean m_progressLinesAtCurrentDate;
+   protected boolean m_progressLinesAtRecurringIntervals;
+   protected Interval m_progressLinesInterval;
+   protected int m_progressLinesIntervalDailyDayNumber;
+   protected boolean m_progressLinesIntervalDailyWorkday;
+   protected boolean[] m_progressLinesIntervalWeeklyDay = new boolean[8];
+   protected int m_progressLinesIntervalWeekleyWeekNumber;
+   protected boolean m_progressLinesIntervalMonthlyDay;
+   protected int m_progressLinesIntervalMonthlyDayDayNumber;
+   protected int m_progressLinesIntervalMonthlyDayMonthNumber;
+   protected Day m_progressLinesIntervalMonthlyFirstLastDay;
+   protected boolean m_progressLinesIntervalMonthlyFirstLast;
+   protected int m_progressLinesIntervalMonthlyFirstLastMonthNumber;
+   protected boolean m_progressLinesBeginAtProjectStart;
+   protected Date m_progressLinesBeginAtDate;
+   protected boolean m_progressLinesDisplaySelected;
+   protected Date[] m_progressLinesDisplaySelectedDates;
+   protected boolean m_progressLinesActualPlan;
+   protected int m_progressLinesDisplayType;
+   protected boolean m_progressLinesShowDate;
+   protected int m_progressLinesDateFormat;
+   protected FontStyle m_progressLinesFontStyle;
+   protected Color m_progressLinesCurrentLineColor;
+   protected LineStyle m_progressLinesCurrentLineStyle;
+   protected Color m_progressLinesCurrentProgressPointColor;
+   protected int m_progressLinesCurrentProgressPointShape;
+   protected Color m_progressLinesOtherLineColor;
+   protected LineStyle m_progressLinesOtherLineStyle;
+   protected Color m_progressLinesOtherProgressPointColor;
+   protected int m_progressLinesOtherProgressPointShape;
    protected List<Filter> m_autoFilters = new LinkedList<Filter>();
    protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
 

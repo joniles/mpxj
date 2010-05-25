@@ -23,18 +23,23 @@
 
 package net.sf.mpxj.junit;
 
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
 import net.sf.mpxj.mpp.ChartPattern;
 import net.sf.mpxj.mpp.GanttBarDateFormat;
 import net.sf.mpxj.mpp.GanttChartView;
+import net.sf.mpxj.mpp.Interval;
+import net.sf.mpxj.mpp.LineStyle;
 import net.sf.mpxj.mpp.LinkStyle;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpp.NonWorkingTimeStyle;
+import net.sf.mpxj.mpp.ProgressLineDay;
 import net.sf.mpxj.mpp.TableFontStyle;
 
 /**
@@ -58,6 +63,7 @@ public class MppGanttTest extends MPXJTestCase
       testTimescales(mpp);
       testLayout(mpp);
       testTableFontStyles(mpp);
+      testProgressLines(mpp);
    }
 
    /**
@@ -74,6 +80,7 @@ public class MppGanttTest extends MPXJTestCase
       testTimescales(mpp);
       testLayout(mpp);
       testTableFontStyles(mpp);
+      testProgressLines(mpp);
    }
 
    /**
@@ -90,6 +97,7 @@ public class MppGanttTest extends MPXJTestCase
       testTimescales(mpp);
       testLayout(mpp);
       testTableFontStyles(mpp);
+      testProgressLines(mpp);
    }
 
    /**
@@ -260,6 +268,66 @@ public class MppGanttTest extends MPXJTestCase
       {
          assertTrue(TABLE_FONT_STYLES_SET.contains(tfs[loop].toString()));
       }
+   }
+
+   /**
+    * Test the progress line settings.
+    * 
+    * @param file project file
+    */
+   private void testProgressLines(ProjectFile file)
+   {
+      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+      List<View> views = file.getViews();
+
+      //
+      // Retrieve the Gantt Chart view
+      //
+      GanttChartView view = (GanttChartView) views.get(0);
+      assertEquals("Gantt Chart", view.getName());
+
+      assertTrue(view.getProgressLinesEnabled());
+      assertFalse(view.getProgressLinesAtCurrentDate());
+      assertTrue(view.getProgressLinesAtRecurringIntervals());
+      assertEquals(Interval.WEEKLY, view.getProgressLinesInterval());
+      assertEquals(1, view.getProgressLinesIntervalDailyDayNumber());
+      assertTrue(view.isProgressLinesIntervalDailyWorkday());
+      boolean[] weeklyDay = view.getProgressLinesIntervalWeeklyDay();
+      assertFalse(weeklyDay[Day.SUNDAY.getValue()]);
+      assertTrue(weeklyDay[Day.MONDAY.getValue()]);
+      assertFalse(weeklyDay[Day.TUESDAY.getValue()]);
+      assertFalse(weeklyDay[Day.WEDNESDAY.getValue()]);
+      assertFalse(weeklyDay[Day.THURSDAY.getValue()]);
+      assertFalse(weeklyDay[Day.FRIDAY.getValue()]);
+      assertFalse(weeklyDay[Day.SATURDAY.getValue()]);
+      assertEquals(1, view.getProgressLinesIntervalWeekleyWeekNumber());
+      assertFalse(view.getProgressLinesIntervalMonthlyDay());
+      assertEquals(1, view.getProgressLinesIntervalMonthlyDayMonthNumber());
+      assertEquals(1, view.getProgressLinesIntervalMonthlyDayDayNumber());
+      assertEquals(ProgressLineDay.DAY, view.getProgressLinesIntervalMonthlyFirstLastDay());
+      assertTrue(view.getProgressLinesIntervalMonthlyFirstLast());
+      assertEquals(1, view.getProgressLinesIntervalMonthlyFirstLastMonthNumber());
+
+      assertFalse(view.getProgressLinesBeginAtProjectStart());
+      assertEquals("13/05/2010", df.format(view.getProgressLinesBeginAtDate()));
+      assertTrue(view.getProgressLinesDisplaySelected());
+      assertTrue(view.getProgressLinesActualPlan());
+      assertEquals(0, view.getProgressLinesDisplayType());
+      assertFalse(view.getProgressLinesShowDate());
+      assertEquals(26, view.getProgressLinesDateFormat());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=java.awt.Color[r=0,g=0,b=0] backgroundColor=null backgroundPattern=Solid]", view.getProgressLinesFontStyle().toString());
+      assertEquals("java.awt.Color[r=255,g=0,b=0]", view.getProgressLinesCurrentLineColor().toString());
+      assertEquals(LineStyle.SOLID, view.getProgressLinesCurrentLineStyle());
+      assertEquals("java.awt.Color[r=255,g=0,b=0]", view.getProgressLinesCurrentProgressPointColor().toString());
+      assertEquals(13, view.getProgressLinesCurrentProgressPointShape());
+      assertEquals(null, view.getProgressLinesOtherLineColor());
+      assertEquals(LineStyle.SOLID, view.getProgressLinesOtherLineStyle());
+      assertEquals(null, view.getProgressLinesOtherProgressPointColor());
+      assertEquals(0, view.getProgressLinesOtherProgressPointShape());
+      assertEquals(2, view.getProgressLinesDisplaySelectedDates().length);
+      assertEquals("01/02/2010", df.format(view.getProgressLinesDisplaySelectedDates()[0]));
+      assertEquals("01/01/2010", df.format(view.getProgressLinesDisplaySelectedDates()[1]));
    }
 
    private static final String[] TABLE_FONT_STYLES =

@@ -25,10 +25,12 @@ package net.sf.mpxj.mpp;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;
@@ -245,6 +247,64 @@ public final class GanttChartView9 extends GanttChartView
       {
          m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
          offset += 16;
+      }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected void processProgressLines(Map<Integer, FontBase> fontBases, byte[] progressLineData)
+   {
+      //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(progressLineData, false, 16, "").getBytes());
+      m_progressLinesEnabled = (progressLineData[0] != 0);
+      m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
+      m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);
+      m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
+      m_progressLinesIntervalDailyDayNumber = progressLineData[8];
+      m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.TUESDAY.getValue()] = (progressLineData[18] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24] != 0);
+      m_progressLinesIntervalWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);
+      m_progressLinesIntervalWeekleyWeekNumber = progressLineData[30];
+      m_progressLinesIntervalMonthlyDay = (progressLineData[32] != 0);
+      m_progressLinesIntervalMonthlyDayDayNumber = progressLineData[34];
+      m_progressLinesIntervalMonthlyDayMonthNumber = progressLineData[28];      
+      m_progressLinesIntervalMonthlyFirstLastDay = ProgressLineDay.getInstance(progressLineData[36]);
+      m_progressLinesIntervalMonthlyFirstLast = (progressLineData[40] == 1);
+      m_progressLinesIntervalMonthlyFirstLastMonthNumber = progressLineData[30];
+      m_progressLinesBeginAtProjectStart = (progressLineData[44] != 0);
+      m_progressLinesBeginAtDate = MPPUtility.getDate(progressLineData, 46);
+      m_progressLinesDisplaySelected = (progressLineData[48] != 0);
+      m_progressLinesActualPlan = (progressLineData[52] != 0);
+      m_progressLinesDisplayType = MPPUtility.getShort(progressLineData, 54);
+      m_progressLinesShowDate = (progressLineData[56] != 0);
+      m_progressLinesDateFormat = MPPUtility.getShort(progressLineData, 58);
+      m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases);
+      m_progressLinesCurrentLineColor = ColorType.getInstance(progressLineData[64]).getColor();
+      m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[65]);
+      m_progressLinesCurrentProgressPointColor = ColorType.getInstance(progressLineData[66]).getColor();
+      m_progressLinesCurrentProgressPointShape = progressLineData[67];
+      m_progressLinesOtherLineColor = ColorType.getInstance(progressLineData[68]).getColor();
+      m_progressLinesOtherLineStyle = LineStyle.getInstance(progressLineData[69]);
+      m_progressLinesOtherProgressPointColor = ColorType.getInstance(progressLineData[70]).getColor();
+      m_progressLinesOtherProgressPointShape = progressLineData[71];
+
+      int dateCount = MPPUtility.getShort(progressLineData, 50);
+      if (dateCount != 0)
+      {
+         m_progressLinesDisplaySelectedDates = new Date[dateCount];
+         int offset = 72;
+         int count = 0;
+         while (count < dateCount && offset < progressLineData.length)
+         {
+            m_progressLinesDisplaySelectedDates[count] = MPPUtility.getDate(progressLineData, offset);
+            offset += 2;
+            ++count;
+         }
       }
    }
 
