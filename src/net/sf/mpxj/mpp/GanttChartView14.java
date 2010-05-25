@@ -157,23 +157,23 @@ public final class GanttChartView14 extends GanttChartView
       {
          //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(viewPropertyData, false, 16, "").getBytes());
 
-         m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26, fontBases);
-         m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 58, fontBases);
-         m_nonCriticalTasksFontStyle = getFontStyle(viewPropertyData, 90, fontBases);
-         m_criticalTasksFontStyle = getFontStyle(viewPropertyData, 122, fontBases);
-         m_summaryTasksFontStyle = getFontStyle(viewPropertyData, 154, fontBases);
-         m_milestoneTasksFontStyle = getFontStyle(viewPropertyData, 186, fontBases);
-         m_middleTimescaleFontStyle = getFontStyle(viewPropertyData, 218, fontBases);
-         m_bottomTimescaleFontStyle = getFontStyle(viewPropertyData, 250, fontBases);
-         m_barTextLeftFontStyle = getFontStyle(viewPropertyData, 282, fontBases);
-         m_barTextRightFontStyle = getFontStyle(viewPropertyData, 314, fontBases);
-         m_barTextTopFontStyle = getFontStyle(viewPropertyData, 346, fontBases);
-         m_barTextBottomFontStyle = getFontStyle(viewPropertyData, 378, fontBases);
-         m_barTextInsideFontStyle = getFontStyle(viewPropertyData, 410, fontBases);
-         m_markedTasksFontStyle = getFontStyle(viewPropertyData, 442, fontBases);
-         m_projectSummaryTasksFontStyle = getFontStyle(viewPropertyData, 474, fontBases);
-         m_externalTasksFontStyle = getFontStyle(viewPropertyData, 506, fontBases);
-         m_topTimescaleFontStyle = getFontStyle(viewPropertyData, 538, fontBases);
+         m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26, fontBases, false);
+         m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 58, fontBases, false);
+         m_nonCriticalTasksFontStyle = getFontStyle(viewPropertyData, 90, fontBases, false);
+         m_criticalTasksFontStyle = getFontStyle(viewPropertyData, 122, fontBases, false);
+         m_summaryTasksFontStyle = getFontStyle(viewPropertyData, 154, fontBases, false);
+         m_milestoneTasksFontStyle = getFontStyle(viewPropertyData, 186, fontBases, false);
+         m_middleTimescaleFontStyle = getFontStyle(viewPropertyData, 218, fontBases, false);
+         m_bottomTimescaleFontStyle = getFontStyle(viewPropertyData, 250, fontBases, false);
+         m_barTextLeftFontStyle = getFontStyle(viewPropertyData, 282, fontBases, false);
+         m_barTextRightFontStyle = getFontStyle(viewPropertyData, 314, fontBases, false);
+         m_barTextTopFontStyle = getFontStyle(viewPropertyData, 346, fontBases, false);
+         m_barTextBottomFontStyle = getFontStyle(viewPropertyData, 378, fontBases, false);
+         m_barTextInsideFontStyle = getFontStyle(viewPropertyData, 410, fontBases, false);
+         m_markedTasksFontStyle = getFontStyle(viewPropertyData, 442, fontBases, false);
+         m_projectSummaryTasksFontStyle = getFontStyle(viewPropertyData, 474, fontBases, false);
+         m_externalTasksFontStyle = getFontStyle(viewPropertyData, 506, fontBases, false);
+         m_topTimescaleFontStyle = getFontStyle(viewPropertyData, 538, fontBases, false);
 
          m_sheetRowsGridLines = getGridLines(viewPropertyData, 667);
          m_sheetColumnsGridLines = getGridLines(viewPropertyData, 697);
@@ -262,9 +262,10 @@ public final class GanttChartView14 extends GanttChartView
     * @param data property data
     * @param offset offset into property data
     * @param fontBases map of font bases
+    * @param ignoreBackground set background to default values
     * @return FontStyle instance
     */
-   @Override protected FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   protected FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases, boolean ignoreBackground)
    {
       //System.out.println(MPPUtility.hexdump(data, offset, 32, false));
 
@@ -272,14 +273,26 @@ public final class GanttChartView14 extends GanttChartView
       FontBase fontBase = fontBases.get(index);
       int style = MPPUtility.getByte(data, offset + 3);
       Color color = MPPUtility.getColor(data, offset + 4);
-      Color backgroundColor = MPPUtility.getColor(data, offset + 16);
-      BackgroundPattern backgroundPattern = BackgroundPattern.getInstance(MPPUtility.getShort(data, offset + 28));
+      Color backgroundColor;
+      BackgroundPattern backgroundPattern;
+
+      if (ignoreBackground)
+      {
+         backgroundColor = null;
+         backgroundPattern = BackgroundPattern.SOLID;
+      }
+      else
+      {
+         backgroundColor = MPPUtility.getColor(data, offset + 16);
+         backgroundPattern = BackgroundPattern.getInstance(MPPUtility.getShort(data, offset + 28));
+      }
 
       boolean bold = ((style & 0x01) != 0);
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
+      boolean strikethrough = ((style & 0x08) != 0);
 
-      FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, color, backgroundColor, backgroundPattern);
+      FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern);
       //System.out.println(fontStyle);
       return fontStyle;
    }
@@ -307,7 +320,7 @@ public final class GanttChartView14 extends GanttChartView
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 11);
       Color color = MPPUtility.getColor(data, offset + 12);
-      int change = MPPUtility.getByte(data, offset + 40);
+      int change = MPPUtility.getShort(data, offset + 40);
       Color backgroundColor = MPPUtility.getColor(data, offset + 24);
       BackgroundPattern backgroundPattern = BackgroundPattern.getInstance(MPPUtility.getShort(data, offset + 36));
 
@@ -316,6 +329,7 @@ public final class GanttChartView14 extends GanttChartView
       boolean bold = ((style & 0x01) != 0);
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
+      boolean strikethrough = ((style & 0x08) != 0);
 
       boolean boldChanged = ((change & 0x01) != 0);
       boolean underlineChanged = ((change & 0x02) != 0);
@@ -324,8 +338,9 @@ public final class GanttChartView14 extends GanttChartView
       boolean fontChanged = ((change & 0x10) != 0);
       boolean backgroundColorChanged = ((change & 0x40) != 0);
       boolean backgroundPatternChanged = ((change & 0x80) != 0);
+      boolean strikethroughChanged = ((change & 0x100) != 0);
 
-      TableFontStyle tfs = new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color, backgroundColor, backgroundPattern, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged, backgroundColorChanged, backgroundPatternChanged);
+      TableFontStyle tfs = new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern, italicChanged, boldChanged, underlineChanged, strikethroughChanged, colorChanged, fontChanged, backgroundColorChanged, backgroundPatternChanged);
       //System.out.println(tfs);
       return tfs;
    }
@@ -337,11 +352,11 @@ public final class GanttChartView14 extends GanttChartView
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(progressLineData, false, 16, "").getBytes());
       m_progressLinesEnabled = (progressLineData[0] != 0);
-      m_progressLinesAtCurrentDate = (progressLineData[2] != 0);      
-      m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);       
-      m_progressLinesInterval = Interval.getInstance(progressLineData[6]);      
-      m_progressLinesIntervalDailyDayNumber = progressLineData[8];      
-      m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);      
+      m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
+      m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);
+      m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
+      m_progressLinesIntervalDailyDayNumber = progressLineData[8];
+      m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);
       m_progressLinesIntervalWeekleyWeekNumber = progressLineData[12];
       m_progressLinesIntervalWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14] != 0);
       m_progressLinesIntervalWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16] != 0);
@@ -349,14 +364,13 @@ public final class GanttChartView14 extends GanttChartView
       m_progressLinesIntervalWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20] != 0);
       m_progressLinesIntervalWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22] != 0);
       m_progressLinesIntervalWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);                      
-      m_progressLinesIntervalMonthlyDay = (progressLineData[32] != 0);      
-      m_progressLinesIntervalMonthlyDayDayNumber = progressLineData[34]; 
+      m_progressLinesIntervalWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);
+      m_progressLinesIntervalMonthlyDay = (progressLineData[32] != 0);
+      m_progressLinesIntervalMonthlyDayDayNumber = progressLineData[34];
       m_progressLinesIntervalMonthlyDayMonthNumber = progressLineData[28];
-      m_progressLinesIntervalMonthlyFirstLast = (progressLineData[40] == 1);      
-      m_progressLinesIntervalMonthlyFirstLastDay = ProgressLineDay.getInstance(progressLineData[36]);           
+      m_progressLinesIntervalMonthlyFirstLast = (progressLineData[40] == 1);
+      m_progressLinesIntervalMonthlyFirstLastDay = ProgressLineDay.getInstance(progressLineData[36]);
       m_progressLinesIntervalMonthlyFirstLastMonthNumber = progressLineData[30];
-      
       m_progressLinesBeginAtProjectStart = (progressLineData[44] != 0);
       m_progressLinesBeginAtDate = MPPUtility.getDate(progressLineData, 46);
       m_progressLinesDisplaySelected = (progressLineData[48] != 0);
@@ -364,21 +378,21 @@ public final class GanttChartView14 extends GanttChartView
       m_progressLinesDisplayType = MPPUtility.getShort(progressLineData, 54);
       m_progressLinesShowDate = (progressLineData[56] != 0);
       m_progressLinesDateFormat = MPPUtility.getShort(progressLineData, 58);
-      m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases);
-      m_progressLinesCurrentLineColor = ColorType.getInstance(progressLineData[64]).getColor();
-      m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[65]);
-      m_progressLinesCurrentProgressPointColor = ColorType.getInstance(progressLineData[66]).getColor();
-      m_progressLinesCurrentProgressPointShape = progressLineData[67];
-      m_progressLinesOtherLineColor = ColorType.getInstance(progressLineData[68]).getColor();
-      m_progressLinesOtherLineStyle = LineStyle.getInstance(progressLineData[69]);
-      m_progressLinesOtherProgressPointColor = ColorType.getInstance(progressLineData[70]).getColor();
-      m_progressLinesOtherProgressPointShape = progressLineData[71];
+      m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases, true);
+      m_progressLinesCurrentLineColor = MPPUtility.getColor(progressLineData, 92);
+      m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[104]);
+      m_progressLinesCurrentProgressPointColor = MPPUtility.getColor(progressLineData, 105);
+      m_progressLinesCurrentProgressPointShape = progressLineData[117];
+      m_progressLinesOtherLineColor = MPPUtility.getColor(progressLineData, 118);
+      m_progressLinesOtherLineStyle = LineStyle.getInstance(progressLineData[130]);
+      m_progressLinesOtherProgressPointColor = MPPUtility.getColor(progressLineData, 131);
+      m_progressLinesOtherProgressPointShape = progressLineData[143];
 
       int dateCount = MPPUtility.getShort(progressLineData, 50);
       if (dateCount != 0)
       {
          m_progressLinesDisplaySelectedDates = new Date[dateCount];
-         int offset = 72;
+         int offset = 144;
          int count = 0;
          while (count < dateCount && offset < progressLineData.length)
          {
@@ -388,7 +402,7 @@ public final class GanttChartView14 extends GanttChartView
          }
       }
    }
-   
+
    /**
     * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.

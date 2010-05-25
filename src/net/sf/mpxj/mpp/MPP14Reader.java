@@ -1356,7 +1356,7 @@ final class MPP14Reader implements MPPVariantReader
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(data,false));
-         //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));         
+         //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));
          //MPPUtility.dataDump(m_file, data, false, false, false, true, false, false, false, false);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
@@ -1364,7 +1364,7 @@ final class MPP14Reader implements MPPVariantReader
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));         
-         //System.out.println (MPPUtility.hexdump(data2, false, 16, ""));
+         //System.out.println(MPPUtility.hexdump(data2, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(metaData2,false));
 
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
@@ -1689,8 +1689,8 @@ final class MPP14Reader implements MPPVariantReader
          //       From MS Project 2003
          //         task.setSVPercent();
          //         task.setTCPI();
-         //task.setTeamStatusPending(); // Calculated value
-         task.setTaskMode((metaData[9] & 0x80) == 0 ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+         //task.setTeamStatusPending(); // Calculated value         
+         task.setTaskMode((metaData2[8] & 0x08) == 0 ? TaskMode.AUTO_SCHEDULED : TaskMode.MANUALLY_SCHEDULED);
          task.setText1(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT1));
          task.setText2(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT2));
          task.setText3(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT3));

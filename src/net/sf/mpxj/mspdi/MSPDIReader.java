@@ -1093,8 +1093,8 @@ public final class MSPDIReader extends AbstractProjectReader
             }
 
             TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
-            Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectHeader());            
-            
+            Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectHeader());
+
             currTask.addPredecessor(prevTask, type, lagDuration);
          }
       }

@@ -144,23 +144,23 @@ public class MppGanttTest extends MPXJTestCase
       GanttChartView view = (GanttChartView) views.get(0);
       assertEquals("Gantt Chart", view.getName());
 
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=java.awt.Color[r=0,g=0,b=255] backgroundColor=null backgroundPattern=Solid]", view.getHighlightedTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getRowAndColumnFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Berlin Sans FB size=8] italic=false bold=true underline=true color=null backgroundColor=null backgroundPattern=Solid]", view.getNonCriticalTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getCriticalTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getSummaryTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Baskerville Old Face size=9] italic=true bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getMilestoneTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getMiddleTimescaleFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBottomTimescaleFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextLeftFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextRightFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextTopFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextBottomFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false color=java.awt.Color[r=0,g=0,b=0] backgroundColor=null backgroundPattern=Solid]", view.getBarTextInsideFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=BankGothic Lt BT size=8] italic=false bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getMarkedTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=10] italic=false bold=true underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getProjectSummaryTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=java.awt.Color[r=128,g=128,b=128] backgroundColor=null backgroundPattern=Solid]", view.getExternalTasksFontStyle().toString());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=null backgroundColor=null backgroundPattern=Solid]", view.getTopTimescaleFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=java.awt.Color[r=0,g=0,b=255] backgroundColor=null backgroundPattern=Solid]", view.getHighlightedTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getRowAndColumnFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Berlin Sans FB size=8] italic=false bold=true underline=true strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getNonCriticalTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getCriticalTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getSummaryTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Baskerville Old Face size=9] italic=true bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getMilestoneTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getMiddleTimescaleFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBottomTimescaleFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextLeftFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextRightFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextTopFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getBarTextBottomFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=true underline=false strikethrough=false color=java.awt.Color[r=0,g=0,b=0] backgroundColor=null backgroundPattern=Solid]", view.getBarTextInsideFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=BankGothic Lt BT size=8] italic=false bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getMarkedTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=10] italic=false bold=true underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getProjectSummaryTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=java.awt.Color[r=128,g=128,b=128] backgroundColor=null backgroundPattern=Solid]", view.getExternalTasksFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=null backgroundColor=null backgroundPattern=Solid]", view.getTopTimescaleFontStyle().toString());
    }
 
    /**
@@ -316,7 +316,7 @@ public class MppGanttTest extends MPXJTestCase
       assertEquals(0, view.getProgressLinesDisplayType());
       assertFalse(view.getProgressLinesShowDate());
       assertEquals(26, view.getProgressLinesDateFormat());
-      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false color=java.awt.Color[r=0,g=0,b=0] backgroundColor=null backgroundPattern=Solid]", view.getProgressLinesFontStyle().toString());
+      assertEquals("[FontStyle fontBase=[FontBase name=Arial size=8] italic=false bold=false underline=false strikethrough=false color=java.awt.Color[r=0,g=0,b=0] backgroundColor=null backgroundPattern=Solid]", view.getProgressLinesFontStyle().toString());
       assertEquals("java.awt.Color[r=255,g=0,b=0]", view.getProgressLinesCurrentLineColor().toString());
       assertEquals(LineStyle.SOLID, view.getProgressLinesCurrentLineStyle());
       assertEquals("java.awt.Color[r=255,g=0,b=0]", view.getProgressLinesCurrentProgressPointColor().toString());

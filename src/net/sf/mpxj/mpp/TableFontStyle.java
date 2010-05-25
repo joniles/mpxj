@@ -42,20 +42,22 @@ public class TableFontStyle extends FontStyle
     * @param italic italic flag
     * @param bold bold flag
     * @param underline underline flag
+    * @param strikethrough TODO
     * @param color color
-    * @param backgroundColor TODO
-    * @param backgroundPattern TODO
+    * @param backgroundColor background color
+    * @param backgroundPattern background pattern
     * @param italicChanged italic changed flag
     * @param boldChanged bold changed flag
     * @param underlineChanged underline changed flag
+    * @param strikethroughChanged TODO
     * @param colorChanged color changed flag
     * @param fontChanged font changed flag
     * @param backgroundColorChanged background color changed
     * @param backgroundPatternChanged background pattern changed
     */
-   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, Color backgroundColor, BackgroundPattern backgroundPattern, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged, boolean backgroundColorChanged, boolean backgroundPatternChanged)
+   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, boolean strikethrough, Color color, Color backgroundColor, BackgroundPattern backgroundPattern, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean strikethroughChanged, boolean colorChanged, boolean fontChanged, boolean backgroundColorChanged, boolean backgroundPatternChanged)
    {
-      super(fontBase, italic, bold, underline, color, backgroundColor, backgroundPattern);
+      super(fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern);
 
       m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;
@@ -63,6 +65,7 @@ public class TableFontStyle extends FontStyle
       m_italicChanged = italicChanged;
       m_boldChanged = boldChanged;
       m_underlineChanged = underlineChanged;
+      m_strikethroughChanged = strikethroughChanged;
       m_colorChanged = colorChanged;
       m_fontChanged = fontChanged;
       m_backgroundColorChanged = backgroundColorChanged;
@@ -132,6 +135,16 @@ public class TableFontStyle extends FontStyle
    }
 
    /**
+    * Retrieve the strikethrough changed flag.
+    *
+    * @return boolean flag
+    */
+   public boolean getStrikethroughChanged()
+   {
+      return (m_strikethroughChanged);
+   }
+
+   /**
     * Retrieve the font changed flag.
     *
     * @return boolean flag
@@ -166,7 +179,7 @@ public class TableFontStyle extends FontStyle
     */
    @Override public String toString()
    {
-      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + (m_backgroundColorChanged ? " backgroundColor=" + getBackgroundColor() : "") + (m_backgroundPatternChanged ? " backgroundPattern=" + getBackgroundPattern() : "") + "]");
+      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_strikethroughChanged ? " strikethrough=" + getStrikethrough() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + (m_backgroundColorChanged ? " backgroundColor=" + getBackgroundColor() : "") + (m_backgroundPatternChanged ? " backgroundPattern=" + getBackgroundPattern() : "") + "]");
    }
 
    private int m_rowUniqueID;
@@ -174,6 +187,7 @@ public class TableFontStyle extends FontStyle
    private boolean m_italicChanged;
    private boolean m_boldChanged;
    private boolean m_underlineChanged;
+   private boolean m_strikethroughChanged;
    private boolean m_colorChanged;
    private boolean m_fontChanged;
    private boolean m_backgroundColorChanged;

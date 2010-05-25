@@ -136,7 +136,7 @@ public final class GroupReader14
             boolean underline = ((style & 0x04) != 0);
             Color fontColor = MPPUtility.getColor(groupVarData, offset + 10);
 
-            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor, null, BackgroundPattern.SOLID);
+            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, false, fontColor, null, BackgroundPattern.SOLID);
             clause.setFont(fontStyle);
             clause.setCellBackgroundColor(MPPUtility.getColor(groupVarData, offset + 22));
             clause.setPattern(BackgroundPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 34) & 0x0F));

@@ -141,7 +141,7 @@ public abstract class GroupReader
             int fontColorIndex = MPPUtility.getByte(groupVarData, offset + 10);
             ColorType fontColor = ColorType.getInstance(fontColorIndex);
 
-            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor.getColor(), null, BackgroundPattern.SOLID);
+            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, false, fontColor.getColor(), null, BackgroundPattern.SOLID);
             clause.setFont(fontStyle);
 
             int colorIndex = MPPUtility.getByte(groupVarData, offset + 12);

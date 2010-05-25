@@ -38,16 +38,18 @@ public class FontStyle
     * @param italic italic flag
     * @param bold bold flag
     * @param underline underline flag
+    * @param strikethrough strikethrough flag
     * @param color color type
     * @param backgroundColor background color
     * @param backgroundPattern background pattern
     */
-   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, Color backgroundColor, BackgroundPattern backgroundPattern)
+   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, boolean strikethrough, Color color, Color backgroundColor, BackgroundPattern backgroundPattern)
    {
       m_fontBase = fontBase;
       m_italic = italic;
       m_bold = bold;
       m_underline = underline;
+      m_strikethrough = strikethrough;
       m_color = color;
       m_backgroundColor = backgroundColor;
       m_backgroundPattern = backgroundPattern;
@@ -104,6 +106,16 @@ public class FontStyle
    }
 
    /**
+    * Retrieve the strikethrough flag.
+    *
+    * @return strikethrough flag
+    */
+   public boolean getStrikethrough()
+   {
+      return (m_strikethrough);
+   }
+
+   /**
     * Retrieve the background color.
     * 
     * @return background color
@@ -128,13 +140,14 @@ public class FontStyle
     */
    @Override public String toString()
    {
-      return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + " backgroundColor=" + m_backgroundColor + " backgroundPattern=" + m_backgroundPattern + "]");
+      return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " strikethrough=" + m_strikethrough + " color=" + m_color + " backgroundColor=" + m_backgroundColor + " backgroundPattern=" + m_backgroundPattern + "]");
    }
 
    private FontBase m_fontBase;
    private boolean m_italic;
    private boolean m_bold;
    private boolean m_underline;
+   private boolean m_strikethrough;
    private Color m_color;
    private Color m_backgroundColor;
    private BackgroundPattern m_backgroundPattern;

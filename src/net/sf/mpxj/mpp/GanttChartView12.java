@@ -269,7 +269,7 @@ public final class GanttChartView12 extends GanttChartView
       m_progressLinesIntervalWeekleyWeekNumber = progressLineData[30];
       m_progressLinesIntervalMonthlyDay = (progressLineData[32] != 0);
       m_progressLinesIntervalMonthlyDayDayNumber = progressLineData[34];
-      m_progressLinesIntervalMonthlyDayMonthNumber = progressLineData[28];      
+      m_progressLinesIntervalMonthlyDayMonthNumber = progressLineData[28];
       m_progressLinesIntervalMonthlyFirstLastDay = ProgressLineDay.getInstance(progressLineData[36]);
       m_progressLinesIntervalMonthlyFirstLast = (progressLineData[40] == 1);
       m_progressLinesIntervalMonthlyFirstLastMonthNumber = progressLineData[30];
@@ -304,7 +304,7 @@ public final class GanttChartView12 extends GanttChartView
          }
       }
    }
-   
+
    /**
     * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.
