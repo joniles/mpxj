@@ -934,6 +934,7 @@ final class MPP12Reader implements MPPVariantReader
             }
             else
             {
+               //System.out.println(data.length+ " " +MPPUtility.hexdump(data, false));
                if (data.length == 16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
                {
                   uniqueID = MPPUtility.getInt(data, 0);
@@ -1350,6 +1351,15 @@ final class MPP12Reader implements MPPVariantReader
             continue;
          }
 
+         if (data.length < MINIMUM_WORKING_TASK_SIZE)
+         {
+            byte[] newData = new byte[MINIMUM_WORKING_TASK_SIZE];
+            System.arraycopy(data, 0, newData, 0, data.length);
+            data = newData;
+         }
+         
+         //System.out.println (id+": "+MPPUtility.hexdump(data, false, 16, ""));
+         
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));         
@@ -1625,8 +1635,8 @@ final class MPP12Reader implements MPPVariantReader
          task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST) / 100));
          //task.setOvertimeWork(); // Calculated value?
          //task.getPredecessors(); // Calculated value
-         task.setPercentageComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 122)));
-         task.setPercentageWorkComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 124)));
+         task.setPercentageComplete(MPPUtility.getPercentage(data, 122));
+         task.setPercentageWorkComplete(MPPUtility.getPercentage(data, 124));
          //       From MS Project 2003
          //         task.setPhysicalPercentComplete();
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
@@ -4051,6 +4061,7 @@ final class MPP12Reader implements MPPVariantReader
       false
    };
 
-   private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
+   private static final int MINIMUM_EXPECTED_TASK_SIZE = 206;
+   private static final int MINIMUM_WORKING_TASK_SIZE = 240;
    private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
 }

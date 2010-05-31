@@ -37,6 +37,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class provides common functionality used by each of the classes
@@ -449,7 +450,7 @@ final class MPPUtility
 
       long days = getShort(data, offset + 2);
 
-      if (days == 65535)
+      if (days == 0 || days == 65535)
       {
          result = null;
       }
@@ -986,6 +987,24 @@ final class MPPUtility
       }
 
       return (name);
+   }
+
+   /**
+    * Utility method to read a percentage value.
+    * 
+    * @param data data block
+    * @param offset offset into data block
+    * @return percentage value
+    */
+   public static final Double getPercentage(byte[] data, int offset)
+   {
+      int value = MPPUtility.getShort(data, offset);
+      Double result = null;
+      if (value >= 0 && value <= 100)
+      {
+         result = NumberUtility.getDouble(value);
+      }
+      return result;
    }
 
    /**

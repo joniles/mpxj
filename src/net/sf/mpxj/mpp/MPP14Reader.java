@@ -1632,8 +1632,8 @@ final class MPP14Reader implements MPPVariantReader
          task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST) / 100));
          //task.setOvertimeWork(); // Calculated value?
          //task.getPredecessors(); // Calculated value
-         task.setPercentageComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 90)));
-         task.setPercentageWorkComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 92)));
+         task.setPercentageComplete(MPPUtility.getPercentage(data, 90));
+         task.setPercentageWorkComplete(MPPUtility.getPercentage(data, 92));
          //       From MS Project 2003
          //         task.setPhysicalPercentComplete();
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
