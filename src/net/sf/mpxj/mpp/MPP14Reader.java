@@ -1651,15 +1651,15 @@ final class MPP14Reader implements MPPVariantReader
          //task.setResourceInitials(); // Calculated value from resource
          //task.setResourceNames(); // Calculated value from resource
          //task.setResourcePhonetics(); // Calculated value from resource
-         //       From MS Project 2003
          //         task.setResourceType();
+         //       From MS Project 2003
          //task.setResponsePending(); // Calculated value
          task.setResume(MPPUtility.getTimestamp(data, 20));
          //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
          task.setRollup((metaData[10] & 0x08) != 0);
          //       From MS Project 2003
+         task.setStart(MPPUtility.getTimestamp(data, 106));
          //         task.setSPI();
-         task.setStart(MPPUtility.getTimestamp(data, 64));
          //       From MS Project 2003
          task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
          //task.setStartVariance(); // Calculated value

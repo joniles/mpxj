@@ -8,6 +8,10 @@
 
    <body> 
 
+	<release version="4.1.0" date="25/05/2010">
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3027020: MPXJ API returns the incorrect start date of a manual task.</action>	
+	</release>
+
 	<release version="4.0.0" date="25/05/2010">
 		<action dev="joniles" type="add">Added support for reading Microsoft Project 2010 MPP files.</action>
 		<action dev="joniles" type="add">Added support for reading Primavera P6 XER files.</action>
