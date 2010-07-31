@@ -33,6 +33,10 @@ import net.sf.mpxj.utility.NumberUtility;
 public enum TimescaleFormat implements MpxjEnum
 {
    NONE(35, "None"),
+   
+   //
+   // Years
+   //
    YEAR_YYYY(0, "2002, 2003, ..."),
    YEAR_XYY(1, "'02, '03, ..."),
    YEAR_YY(78, "02, 03, ..."),
@@ -42,6 +46,10 @@ public enum TimescaleFormat implements MpxjEnum
    YEAR_YEAR_END(49, "Year 2, Year 1 ... (From End)"),
    YEAR_Y_END(71, "Y3, Y2, Y1, ... (From End)"),
    YEAR_1_END(72, "4, 3, 2, 1, ... (From End)"),
+   
+   //
+   // Half years
+   //
    HALFYEAR_1_HALF(123, "1st Half, 2nd Half, ..."),
    HALFYEAR_HALF_1_YYYY(124, "Half 1, 2002, Half2, 2002, ..."),
    HALFYEAR_HALF_1(125, "Half 1, Half2, ..."),
@@ -55,6 +63,10 @@ public enum TimescaleFormat implements MpxjEnum
    HALFYEAR_HALF_1_END(133, "Half 3, Half 2, Half 1, ... (From End)"),
    HALFYEAR_H1_END(134, "H3, H2, H1, ... (From End)"),
    HALFYEAR_1_END(135, "3, 2, 1, ... (From End)"),
+   
+   //
+   // Quarters
+   //
    QUARTER_1_QUARTER(2, "1st Quarter"),
    QUARTER_QTR_1_YYYY(3, "Qtr 1, 2002"),
    QUARTER_QTR_1(5, "Qtr 1, Qtr2, ..."),
@@ -68,6 +80,10 @@ public enum TimescaleFormat implements MpxjEnum
    QUARTER_QUARTER_1_END(47, "Quarter 2 Quarter 1, ... (From End)"),
    QUARTER_Q1_END(63, "Q4, Q3, Q2, Q1, ... (From End)"),
    QUARTER_1_END(64, "4, 3, 2, 1, (From End)"),
+   
+   //
+   // Months
+   //
    MONTHS_MMMM_YYYY(7, "January 2002"),
    MONTHS_MMM_XYY(8, "Jan '02"),
    MONTHS_MMMM(9, "January"),
@@ -82,6 +98,10 @@ public enum TimescaleFormat implements MpxjEnum
    MONTHS_MONTH_1_END(45, "Month 2 Month 1, ... (From End)"),
    MONTHS_M1_END(58, "M3, M2, M1, ... (From End)"),
    MONTHS_1_END(59, "4, 3, 2, 1, ... (From End)"),
+   
+   //
+   // Thirds of months
+   //
    TRIMONTHS_1(136, "1, 11, 21, ..."),
    TRIMONTHS_B(137, "B, M, E, ..."),
    TRIMONTHS_BEGINNING(138, "Beginning, Middle, End, ..."),
@@ -97,6 +117,10 @@ public enum TimescaleFormat implements MpxjEnum
    TRIMONTHS_MMM_B_X02(148, "Jan B/02, Jan M/02, Jan E/02, ..."),
    TRIMONTHS_MMMM_1_YYYY(149, "January 1, 2002, January 11, 2002, ..."),
    TRIMONTHS_MMMM_BEGINNING_YYYY(150, "January Beginning, ..."),
+   
+   //
+   // Weeks
+   //
    WEEKS_MMMM_DD_YYYY(12, "January 27, 2007"),
    WEEKS_MMM_DD_XYY(13, "January 27, '02"),
    WEEKS_MMMM_DD(14, "January 27"),
@@ -128,6 +152,10 @@ public enum TimescaleFormat implements MpxjEnum
    WEEKS_WEEK_1_END(43, "W4, W3, W2, W1, ... (From end)"),
    WEEKS_W1_END(67, "4, 3, 2, 1, ... (From end)"),
    WEEKS_1_END(68, "Mon Jan 28, '02"),
+   
+   //
+   // Days
+   //
    DAYS_DDD_MMM_DD_XYY(22, "Mon January 28"),
    DAYS_DDD_MMMM_DD(111, "Mon Jan 28"),
    DAYS_DDD_MMM_DD(23, "Mon J 28"),
@@ -141,6 +169,7 @@ public enum TimescaleFormat implements MpxjEnum
    DAYS_DD_DD(106, "M 28"),
    DAYS_D_DD(107, "M28"),
    DAYS_DXDD(121, "Jan 28, '02"),
+   DAYS_DD_MMM(25, "28 Jan"),
    DAYS_DDD_DD_XYY(24, "Jan 28, Jan 29, ... "),
    DAYS_M_DD(115, "J28, J29, ... "),
    DAYS_DDDD(18, "Sunday, Monday, ..."),
@@ -160,6 +189,10 @@ public enum TimescaleFormat implements MpxjEnum
    DAYS_DAY_1_END(41, "Day 2, Day 1, ...  (From end)"),
    DAYS_D1_END(53, "D3, D2, D1, ...  (From end)"),
    DAYS_1_END(54, "4, 3, 2, 1, ...  (From start)"),
+   
+   //
+   // Hours
+   //
    HOURS_DDD_MMM_DD_HH_AM(28, "Mon Jan 28, 11 AM"),
    HOURS_MMM_DD_HH_AM(29, "Jan 28, 11 AM"),
    HOURS_MSDD_HH_AM(120, "1/28, 11 AM"),
@@ -172,6 +205,10 @@ public enum TimescaleFormat implements MpxjEnum
    HOURS_HOUR_1_END(39, "Hour 2, Hour 1, ...  (From end)"),
    HOURS_H1_END(76, "H3, H2, H1, ...  (From end)"),
    HOURS_1_END(77, "4, 3, 2, 1, ...  (From start)"),
+   
+   //
+   // Minutes
+   //
    MINUTES_HHMM_AM(33, "1:45 PM, 1:46 PM, ... "),
    MINUTES_MM(34, "45, 46, 47, ... "),
    MINUTES_MINUTE_1_START(36, "Minute 1, Minute 2, ...  (From Start)"),
