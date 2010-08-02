@@ -696,6 +696,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
       xml.setDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
+      xml.setDurationText(mpx.getDurationText());
       xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDurationFormat()));
       xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration()));
       xml.setEarlyFinish(DatatypeConverter.printDate(mpx.getEarlyFinish()));
@@ -711,7 +712,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          xml.setFinish(DatatypeConverter.printDate(finishDate));
       }
-
+      xml.setFinishText(mpx.getFinishText());
       xml.setFinishVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getFinishVariance()) * 1000));
       xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
 
@@ -785,6 +786,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setResumeValid(Boolean.valueOf(mpx.getResumeValid()));
       xml.setRollup(Boolean.valueOf(mpx.getRollup()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
+      xml.setStartText(mpx.getStartText());
       xml.setStartVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getStartVariance()) * 1000));
       xml.setStop(DatatypeConverter.printDate(mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());

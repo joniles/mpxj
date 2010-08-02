@@ -2118,6 +2118,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Retrieves the duration text of a manually scheduled task.
+    * 
+    * @return duration text
+    */
+   public String getDurationText()
+   {
+      String result = null;
+      Object value = getCachedValue(TaskField.DURATION);
+      if (value instanceof String)
+      {
+         result = (String) value;
+      }
+      return result;
+   }
+
+   /**
     * The Duration1 through Duration10 fields are custom fields that show any
     * specialized task duration information you want to enter and store separately
     * in your project.
@@ -2216,6 +2232,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (value instanceof Date)
       {
          result = (Date) value;
+      }
+      return result;
+   }
+
+   /**
+    * Retrieves the finish text of a manually scheduled task.
+    * 
+    * @return finish text
+    */
+   public String getFinishText()
+   {
+      String result = null;
+      Object value = getCachedValue(TaskField.FINISH);
+      if (value instanceof String)
+      {
+         result = (String) value;
       }
       return result;
    }
@@ -2808,6 +2840,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (value instanceof Date)
       {
          result = (Date) value;
+      }
+      return result;
+   }
+
+   /**
+    * Retrieve the start text for a manually scheduled task.
+    * 
+    * @return start text
+    */
+   public String getStartText()
+   {
+      String result = null;
+      Object value = getCachedValue(TaskField.START);
+      if (value instanceof String)
+      {
+         result = (String) value;
       }
       return result;
    }
