@@ -1357,9 +1357,9 @@ final class MPP12Reader implements MPPVariantReader
             System.arraycopy(data, 0, newData, 0, data.length);
             data = newData;
          }
-         
+
          //System.out.println (id+": "+MPPUtility.hexdump(data, false, 16, ""));
-         
+
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));         

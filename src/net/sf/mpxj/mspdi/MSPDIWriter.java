@@ -63,6 +63,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
@@ -672,6 +673,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.Tasks.Task xml = m_factory.createProjectTasksTask();
 
+      xml.setActive(Boolean.valueOf(mpx.getActive()));
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
       xml.setActualDuration(DatatypeConverter.printDuration(this, mpx.getActualDuration()));
       xml.setActualFinish(DatatypeConverter.printDate(mpx.getActualFinish()));
@@ -743,6 +745,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat()));
       }
 
+      xml.setManual(Boolean.valueOf(mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED));
       xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());

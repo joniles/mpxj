@@ -207,7 +207,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleTopTier.setUsesFiscalYear((viewPropertyData[41361] & 0x01) != 0);
          m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[41311]));
          m_timescaleTopTier.setCount(viewPropertyData[41313]);
-         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData,41315)));
+         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 41315)));
          m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[41317]));
 
          m_timescaleMiddleTier = new TimescaleTier();

@@ -33,7 +33,7 @@ import net.sf.mpxj.utility.NumberUtility;
 public enum TimescaleFormat implements MpxjEnum
 {
    NONE(35, "None"),
-   
+
    //
    // Years
    //
@@ -46,7 +46,7 @@ public enum TimescaleFormat implements MpxjEnum
    YEAR_YEAR_END(49, "Year 2, Year 1 ... (From End)"),
    YEAR_Y_END(71, "Y3, Y2, Y1, ... (From End)"),
    YEAR_1_END(72, "4, 3, 2, 1, ... (From End)"),
-   
+
    //
    // Half years
    //
@@ -63,7 +63,7 @@ public enum TimescaleFormat implements MpxjEnum
    HALFYEAR_HALF_1_END(133, "Half 3, Half 2, Half 1, ... (From End)"),
    HALFYEAR_H1_END(134, "H3, H2, H1, ... (From End)"),
    HALFYEAR_1_END(135, "3, 2, 1, ... (From End)"),
-   
+
    //
    // Quarters
    //
@@ -80,7 +80,7 @@ public enum TimescaleFormat implements MpxjEnum
    QUARTER_QUARTER_1_END(47, "Quarter 2 Quarter 1, ... (From End)"),
    QUARTER_Q1_END(63, "Q4, Q3, Q2, Q1, ... (From End)"),
    QUARTER_1_END(64, "4, 3, 2, 1, (From End)"),
-   
+
    //
    // Months
    //
@@ -98,7 +98,7 @@ public enum TimescaleFormat implements MpxjEnum
    MONTHS_MONTH_1_END(45, "Month 2 Month 1, ... (From End)"),
    MONTHS_M1_END(58, "M3, M2, M1, ... (From End)"),
    MONTHS_1_END(59, "4, 3, 2, 1, ... (From End)"),
-   
+
    //
    // Thirds of months
    //
@@ -117,7 +117,7 @@ public enum TimescaleFormat implements MpxjEnum
    TRIMONTHS_MMM_B_X02(148, "Jan B/02, Jan M/02, Jan E/02, ..."),
    TRIMONTHS_MMMM_1_YYYY(149, "January 1, 2002, January 11, 2002, ..."),
    TRIMONTHS_MMMM_BEGINNING_YYYY(150, "January Beginning, ..."),
-   
+
    //
    // Weeks
    //
@@ -152,7 +152,7 @@ public enum TimescaleFormat implements MpxjEnum
    WEEKS_WEEK_1_END(43, "W4, W3, W2, W1, ... (From end)"),
    WEEKS_W1_END(67, "4, 3, 2, 1, ... (From end)"),
    WEEKS_1_END(68, "Mon Jan 28, '02"),
-   
+
    //
    // Days
    //
@@ -189,7 +189,7 @@ public enum TimescaleFormat implements MpxjEnum
    DAYS_DAY_1_END(41, "Day 2, Day 1, ...  (From end)"),
    DAYS_D1_END(53, "D3, D2, D1, ...  (From end)"),
    DAYS_1_END(54, "4, 3, 2, 1, ...  (From start)"),
-   
+
    //
    // Hours
    //
@@ -205,7 +205,7 @@ public enum TimescaleFormat implements MpxjEnum
    HOURS_HOUR_1_END(39, "Hour 2, Hour 1, ...  (From end)"),
    HOURS_H1_END(76, "H3, H2, H1, ...  (From end)"),
    HOURS_1_END(77, "4, 3, 2, 1, ...  (From start)"),
-   
+
    //
    // Minutes
    //

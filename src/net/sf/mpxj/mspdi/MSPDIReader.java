@@ -69,6 +69,7 @@ import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
@@ -794,7 +795,12 @@ public final class MSPDIReader extends AbstractProjectReader
 
       if (!mpx.getNull())
       {
+         //
+         // Set the duration format up front as this is required later
+         //
          mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
+
+         mpx.setActive(BooleanUtility.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualDuration()));
          mpx.setActualFinish(DatatypeConverter.parseDate(xml.getActualFinish()));
@@ -939,7 +945,8 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setText7();
          //mpx.setText8();
          //mpx.setText9();
-         //mpx.setText10();      
+         //mpx.setText10();
+         mpx.setTaskMode(BooleanUtility.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
          mpx.setType(xml.getType());
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());

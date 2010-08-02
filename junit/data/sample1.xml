@@ -2705,6 +2705,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>1</UID>
@@ -2853,6 +2855,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>2</UID>
@@ -3001,6 +3005,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>3</UID>
@@ -3149,6 +3155,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>6</UID>
@@ -3296,6 +3304,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>7</UID>
@@ -3444,6 +3454,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>8</UID>
@@ -3592,6 +3604,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>19</UID>
@@ -3739,6 +3753,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>9</UID>
@@ -3886,6 +3902,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>10</UID>
@@ -4037,6 +4055,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>11</UID>
@@ -4184,6 +4204,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>12</UID>
@@ -4337,6 +4359,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>13</UID>
@@ -4484,6 +4508,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>14</UID>
@@ -4637,6 +4663,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>15</UID>
@@ -4784,6 +4812,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>16</UID>
@@ -4935,6 +4965,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>17</UID>
@@ -5082,6 +5114,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>18</UID>
@@ -5233,6 +5267,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>20</UID>
@@ -5381,6 +5417,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>21</UID>
@@ -5533,6 +5571,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>22</UID>
@@ -5680,6 +5720,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>23</UID>
@@ -5827,6 +5869,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>24</UID>
@@ -5974,6 +6018,8 @@
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <Active>0</Active>
+            <Manual>0</Manual>
         </Task>
     </Tasks>
     <Resources>

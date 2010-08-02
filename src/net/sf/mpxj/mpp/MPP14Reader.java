@@ -1303,6 +1303,7 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
       //System.out.println(taskFixed2Meta);
+      //System.out.println(taskFixed2Data);
       //System.out.println(m_outlineCodeVarData.getVarMeta());
       //System.out.println(m_outlineCodeVarData);
       //System.out.println(props);
@@ -1888,6 +1889,7 @@ final class MPP14Reader implements MPPVariantReader
             continue;
          }
 
+         //System.out.println(task + " " + MPPUtility.getShort(data2, 22)); // JPI - looks like this value determines the ID order! Validate and check other versions!
          m_file.fireTaskReadEvent(task);
          //dumpUnknownData(task.getUniqueID().toString(), UNKNOWN_TASK_DATA, data);
          //System.out.println(task);
