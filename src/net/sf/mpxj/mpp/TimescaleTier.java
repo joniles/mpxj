@@ -24,8 +24,8 @@
 package net.sf.mpxj.mpp;
 
 /**
- * This class collects to gether the properties which represent a
- * single tier of the timscale on a Gantt chart.
+ * This class collects together the properties which represent a
+ * single tier of the timescale on a Gantt chart.
  */
 public final class TimescaleTier
 {
