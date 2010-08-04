@@ -1512,6 +1512,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setDeadline(MPPUtility.getTimestamp(data, 122));
          //task.setDelay(); // No longer supported by MS Project?
          task.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 42), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
+         task.setDurationText(taskVarData.getUnicodeString(id, TASK_DURATION_TEXT));
          //task.setDurationVariance(); // Calculated value
          task.setDuration1(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION1, TASK_DURATION1_UNITS));
          task.setDuration2(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION2, TASK_DURATION2_UNITS));
@@ -1540,6 +1541,7 @@ final class MPP14Reader implements MPPVariantReader
             externalTasks.add(task);
          }
          task.setFinish(MPPUtility.getTimestamp(data, 8));
+         task.setFinishText(taskVarData.getUnicodeString(id, TASK_FINISH_TEXT));
          //       From MS Project 2003
          //task.setFinishVariance(); // Calculated value
          task.setFinish1(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH1));
@@ -1660,6 +1662,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setRollup((metaData[10] & 0x08) != 0);
          //       From MS Project 2003
          task.setStart(MPPUtility.getTimestamp(data, 106));
+         task.setStartText(taskVarData.getUnicodeString(id, TASK_START_TEXT));
          //         task.setSPI();
          //       From MS Project 2003
          task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
@@ -1734,27 +1737,6 @@ final class MPP14Reader implements MPPVariantReader
          task.setWork(Duration.getInstance(MPPUtility.getDouble(data, 126) / 60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
-
-         //
-         // Handle manually scheduled text
-         //
-         String manualText = taskVarData.getUnicodeString(id, TASK_START_TEXT);
-         if (manualText != null)
-         {
-            task.setStart(manualText);
-         }
-
-         manualText = taskVarData.getUnicodeString(id, TASK_FINISH_TEXT);
-         if (manualText != null)
-         {
-            task.setFinish(manualText);
-         }
-
-         manualText = taskVarData.getUnicodeString(id, TASK_DURATION_TEXT);
-         if (manualText != null)
-         {
-            task.setDuration(manualText);
-         }
 
          task.setFinishSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
 

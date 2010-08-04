@@ -623,6 +623,10 @@ public enum TaskField implements FieldType
    WARNING(DataType.STRING), // Check data type
    UNAVAILABLE(DataType.STRING), // Dummy entry
 
+   START_TEXT(DataType.STRING),
+   FINISH_TEXT(DataType.STRING),
+   DURATION_TEXT(DataType.STRING),
+   
    FINISH(DataType.DATE); // Must always be last value
 
    /**

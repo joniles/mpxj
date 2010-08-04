@@ -830,9 +830,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param val duration
     */
-   public void setDuration(Object val)
+   public void setDuration(Duration val)
    {
       set(TaskField.DURATION, val);
+   }
+
+   /**
+    * Set the duration text used for a manually scheduled task.
+    * 
+    * @param val text
+    */
+   public void setDurationText(String val)
+   {
+      set(TaskField.DURATION_TEXT, val);
    }
 
    /**
@@ -909,9 +919,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param date Date value
     */
-   public void setFinish(Object date)
+   public void setFinish(Date date)
    {
       set(TaskField.FINISH, date);
+   }
+
+   /**
+    * Set the finish text used for a manually scheduled task.
+    * 
+    * @param val text
+    */
+   public void setFinishText(String val)
+   {
+      set(TaskField.FINISH_TEXT, val);
    }
 
    /**
@@ -1432,9 +1452,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * should begin. Or, you can have Microsoft Project calculate the start date.
     * @param val - Date
     */
-   public void setStart(Object val)
+   public void setStart(Date val)
    {
       set(TaskField.START, val);
+   }
+
+   /**
+    * Set the start text used for a manually scheduled task.
+    * 
+    * @param val text
+    */
+   public void setStartText(String val)
+   {
+      set(TaskField.START_TEXT, val);
    }
 
    /**
@@ -2108,13 +2138,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getDuration()
    {
-      Duration result = null;
-      Object value = getCachedValue(TaskField.DURATION);
-      if (value instanceof Duration)
-      {
-         result = (Duration) value;
-      }
-      return result;
+      return (Duration) getCachedValue(TaskField.DURATION);
    }
 
    /**
@@ -2124,13 +2148,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getDurationText()
    {
-      String result = null;
-      Object value = getCachedValue(TaskField.DURATION);
-      if (value instanceof String)
-      {
-         result = (String) value;
-      }
-      return result;
+      return (String) getCachedValue(TaskField.DURATION_TEXT);
    }
 
    /**
@@ -2227,13 +2245,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getFinish()
    {
-      Date result = null;
-      Object value = getCachedValue(TaskField.FINISH);
-      if (value instanceof Date)
-      {
-         result = (Date) value;
-      }
-      return result;
+      return (Date) getCachedValue(TaskField.FINISH);
    }
 
    /**
@@ -2243,13 +2255,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getFinishText()
    {
-      String result = null;
-      Object value = getCachedValue(TaskField.FINISH);
-      if (value instanceof String)
-      {
-         result = (String) value;
-      }
-      return result;
+      return (String) getCachedValue(TaskField.FINISH_TEXT);
    }
 
    /**
@@ -2835,13 +2841,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getStart()
    {
-      Date result = null;
-      Object value = getCachedValue(TaskField.START);
-      if (value instanceof Date)
-      {
-         result = (Date) value;
-      }
-      return result;
+      return (Date) getCachedValue(TaskField.START);
    }
 
    /**
@@ -2851,13 +2851,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getStartText()
    {
-      String result = null;
-      Object value = getCachedValue(TaskField.START);
-      if (value instanceof String)
-      {
-         result = (String) value;
-      }
-      return result;
+      return (String) getCachedValue(TaskField.START_TEXT);
    }
 
    /**

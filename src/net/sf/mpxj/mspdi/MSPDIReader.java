@@ -799,10 +799,7 @@ public final class MSPDIReader extends AbstractProjectReader
          // Set the duration format up front as this is required later
          //
          mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
-         String startText = xml.getStartText();
-         String finishText = xml.getFinishText();
-         String durationText = xml.getDurationText();
-         
+
          mpx.setActive(BooleanUtility.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualDuration()));
@@ -835,7 +832,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
          mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
          //mpx.setDelay();
-         mpx.setDuration(durationText==null?DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getDuration()):durationText);
+         mpx.setDuration(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getDuration()));
+         mpx.setDurationText(xml.getDurationText());
          //mpx.setDuration1();
          //mpx.setDuration2();
          //mpx.setDuration3();
@@ -847,7 +845,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setEstimated(BooleanUtility.getBoolean(xml.isEstimated()));
          mpx.setExternalTask(BooleanUtility.getBoolean(xml.isExternalTask()));
          mpx.setProject(xml.getExternalTaskProject());
-         mpx.setFinish(finishText==null?DatatypeConverter.parseDate(xml.getFinish()):finishText);
+         mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
+         mpx.setFinishText(xml.getFinishText());
          //mpx.setFinish1();
          //mpx.setFinish2();
          //mpx.setFinish3();
@@ -925,7 +924,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setResumeValid(BooleanUtility.getBoolean(xml.isResumeValid()));
          //mpx.setResumeNoEarlierThan();
          mpx.setRollup(BooleanUtility.getBoolean(xml.isRollup()));
-         mpx.setStart(startText==null?DatatypeConverter.parseDate(xml.getStart()):startText);
+         mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
+         mpx.setStartText(xml.getStartText());
          //mpx.setStart1();
          //mpx.setStart2();
          //mpx.setStart3();
