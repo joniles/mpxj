@@ -706,12 +706,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setEstimated(Boolean.valueOf(mpx.getEstimated()));
       xml.setExternalTask(Boolean.valueOf(mpx.getExternalTask()));
       xml.setExternalTaskProject(mpx.getProject());
-
-      Date finishDate = mpx.getFinish();
-      if (finishDate != null)
-      {
-         xml.setFinish(DatatypeConverter.printDate(finishDate));
-      }
+      xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setFinishText(mpx.getFinishText());
       xml.setFinishVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getFinishVariance()) * 1000));
       xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
@@ -747,9 +742,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       xml.setManual(Boolean.valueOf(mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED));
+
+      if (mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+      {
+         xml.setManualDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
+         xml.setManualFinish(DatatypeConverter.printDate(mpx.getFinish()));
+         xml.setManualStart(DatatypeConverter.printDate(mpx.getStart()));
+      }
+
       xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
       xml.setName(mpx.getName());
-      xml.setNotes(mpx.getNotes());
+      xml.setNotes(mpx.getNotes().length() == 0 ? null : mpx.getNotes());
       xml.setOutlineLevel(NumberUtility.getBigInteger(mpx.getOutlineLevel()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
