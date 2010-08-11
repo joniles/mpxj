@@ -1361,7 +1361,7 @@ final class MPP14Reader implements MPPVariantReader
          //MPPUtility.dataDump(m_file, data, false, false, false, true, false, false, false, false);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
-
+         
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));         
@@ -1394,11 +1394,11 @@ final class MPP14Reader implements MPPVariantReader
 
          task.setActive((metaData2[8] & 0x04) != 0);
          task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 166) / 100));
-         task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+         task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 48), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp(data, 76));
          task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
          task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
-         task.setActualStart(MPPUtility.getTimestamp(data, 64));
+         task.setActualStart(MPPUtility.getTimestamp(data, 72));
          task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 184) / 60000, TimeUnit.HOURS));
          //task.setACWP(); // Calculated value
          //task.setAssignment(); // Calculated value
