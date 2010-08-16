@@ -165,6 +165,42 @@ public final class PrimaveraFileReader extends AbstractProjectReader
    }
 
    /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current file.
+    * 
+    * @param is input stream used to read XER file
+    * @return Map instance containing ID and name pairs
+    * @throws MPXJException
+    */
+   public Map<Integer, String> listProjects(InputStream is) throws MPXJException
+   {
+      try
+      {
+         m_tables = new HashMap<String, List<Row>>();
+         processFile(is);
+
+         Map<Integer, String> result = new HashMap<Integer, String>();
+
+         List<Row> rows = getRows("project", null, null);
+         for (Row row : rows)
+         {
+            Integer id = row.getInteger("proj_id");
+            String name = row.getString("proj_short_name");
+            result.put(id, name);
+         }
+
+         return result;
+      }
+
+      finally
+      {
+         m_tables = null;
+         m_currentTable = null;
+         m_currentFieldNames = null;
+      }
+   }
+
+   /**
     * Process project header. 
     */
    private void processProjectHeader()
