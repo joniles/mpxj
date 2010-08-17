@@ -157,6 +157,8 @@ final class MPP14Reader implements MPPVariantReader
          m_fontBases = new HashMap<Integer, FontBase>();
          m_taskSubProjects = new HashMap<Integer, SubProject>();
          m_parentTasks = new HashMap<Integer, Integer>();
+         m_taskOrder = new TreeMap<Long, Integer>();
+         m_nullTaskOrder = new TreeMap<Integer, Integer>();
 
          m_file.setMppFileType(14);
          m_file.setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
@@ -175,7 +177,7 @@ final class MPP14Reader implements MPPVariantReader
          // being reported incorrectly. The following method
          // attempts to correct this.
          //
-         validateStructure();
+         fixTaskOrder();
 
          processViewPropertyData();
          processTableData();
@@ -198,6 +200,9 @@ final class MPP14Reader implements MPPVariantReader
          m_projectProps = null;
          m_fontBases = null;
          m_taskSubProjects = null;
+         m_parentTasks = null;
+         m_taskOrder = null;
+         m_nullTaskOrder = null;
       }
    }
 
@@ -919,7 +924,7 @@ final class MPP14Reader implements MPPVariantReader
          {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
             int metaDataItemSize = MPPUtility.getInt(metaData, 0);
-            if (metaDataItemSize < 16)
+            if (metaDataItemSize < 16 && data.length != 16)
             {
                // Project stores the deleted tasks unique id's into the fixed data as well
                // and at least in one case the deleted task was listed twice in the list
@@ -1345,6 +1350,7 @@ final class MPP14Reader implements MPPVariantReader
             task.setNull(true);
             task.setUniqueID(id);
             task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+            m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             //System.out.println(task);
             continue;
          }
@@ -1361,7 +1367,7 @@ final class MPP14Reader implements MPPVariantReader
          //MPPUtility.dataDump(m_file, data, false, false, false, true, false, false, false, false);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
-         
+
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));         
@@ -1867,8 +1873,19 @@ final class MPP14Reader implements MPPVariantReader
             task.setNull(true);
             task.setUniqueID(id);
             task.setID(new Integer(MPPUtility.getInt(data, 4)));
+            m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             //System.out.println(task);
             continue;
+         }
+
+         if (data2.length < 24)
+         {
+            m_nullTaskOrder.put(task.getID(), task.getUniqueID());
+         }
+         else
+         {
+            Long key = Long.valueOf(MPPUtility.getLong(data2, 16));
+            m_taskOrder.put(key, task.getUniqueID());
          }
 
          //System.out.println(task + " " + MPPUtility.getShort(data2, 22)); // JPI - looks like this value determines the ID order! Validate and check other versions!
@@ -1894,177 +1911,54 @@ final class MPP14Reader implements MPPVariantReader
    }
 
    /**
-    * This method is called to validate the task hierarchy.
-    * Some MPP14 files contain duplicate task ID values which
-    * causes the task hierarchy to be generated incorrectly.
+    * This method uses ordering data embedded in the file to reconstruct
+    * the correct ID order of the tasks.
     */
-   private void validateStructure()
+   private void fixTaskOrder()
    {
       //
-      // Retrieve the list of all tasks
-      // an sort into ID order
+      // Renumber ID values using a large increment to allow
+      // space for later inserts.
       //
-      List<Task> tasks = m_file.getAllTasks();
-      Collections.sort(tasks);
+      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      int nextIDIncrement = 1000;
+      int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
+      for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
+      {
+         taskMap.put(Integer.valueOf(nextID), entry.getValue());
+         nextID += nextIDIncrement;
+      }
 
       //
-      // Look for duplicate ID values and flip them if found
+      // Insert any null tasks into the correct location
       //
-      boolean containsDuplicates = false;
-      int lastID = -1;
-      int currentID = -2;
-      //Task previous = null;
-      for (int i = 0; i < tasks.size(); i++)
+      int insertionCount = 0;
+      for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
-         Task task = tasks.get(i);
-         Integer taskID = task.getID();
-         if (taskID != null)
+         int targetIDValue = entry.getKey().intValue();
+         targetIDValue = (targetIDValue - insertionCount) * nextIDIncrement;
+         ++insertionCount;
+         while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
          {
-            currentID = taskID.intValue();
-            if (currentID == lastID)
-            {
-               // Duplicate ID found.
-               containsDuplicates = true;
-               Task previous = tasks.get(i - 1);
-               if (task.isPredecessor(previous))
-               {
-                  // Previous task is a predecessor to this task. So we're good.
-                  continue;
-               }
-               if (previous.isPredecessor(task))
-               {
-                  // This task is a predecessor to the previous task so let's swap.
-                  tasks.remove(i);
-                  tasks.add(i - 1, task);
-                  continue;
-               }
-            }
-            lastID = currentID;
-            currentID = -1;
+            --targetIDValue;
          }
+
+         taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
       }
 
       //
-      // If we've found a duplicate, ensure
-      // that the structure is correct
+      // Finally, we can renumber the tasks
       //
-      if (containsDuplicates)
+      nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? 1 : 0);
+      for (Map.Entry<Integer, Integer> entry : taskMap.entrySet())
       {
-         fixStructure();
-      }
-   }
-
-   /**
-    * This method is called to fix the task hierarchy if problems
-    * are detected.
-    */
-   private void fixStructure()
-   {
-      //
-      // Create the hierarchical structure
-      //
-      m_file.updateStructure();
-
-      //
-      // Validate the parent for each task
-      //
-      for (Task task : m_file.getAllTasks())
-      {
-         Task parentTask = task.getParentTask();
-         Integer parentTaskID = m_parentTasks.get(task.getUniqueID());
-
-         if (parentTaskID != null)
+         Task task = m_file.getTaskByUniqueID(entry.getValue());
+         if (task != null)
          {
-            if ((parentTask == null && parentTaskID.intValue() != -1) || (parentTask != null && parentTaskID.intValue() == -1) || (parentTask != null && parentTask.getUniqueID().intValue() != parentTaskID.intValue()))
-            {
-               //               System.out.println("FIXING");
-               //               System.out.println("Task: " + task);
-               //               System.out.println("Parent Task: " + parentTask);
-               //               System.out.println("ParentTask ID: " + parentTaskID);
-
-               Task newParent = null;
-               if (parentTaskID.intValue() != -1)
-               {
-                  newParent = m_file.getTaskByUniqueID(parentTaskID);
-               }
-
-               if (parentTask != null && newParent != null)
-               {
-                  /*
-                     System.out.println("New Parent: " + newParent);                  
-                     for (Task childTask : newParent.getChildTasks())
-                     {
-                     	System.out.println("     Child: " + childTask);                    
-                     }
-                   */
-                  parentTask.removeChildTask(task);
-                  newParent.addChildTask(task);
-                  Collections.sort(newParent.getChildTasks());
-                  /*
-                    System.out.println("FIXED");
-                    System.out.println("New Parent: " + newParent);
-                    
-                    for (Task childTask : newParent.getChildTasks())
-                    {
-                        System.out.println("     Child: " + childTask);                    
-                    }
-                   */
-               }
-            }
+            task.setID(Integer.valueOf(nextID));
          }
+         nextID++;
       }
-
-      renumberTasks();
-   }
-
-   //   private void fixStructureOrder ()
-   //   {
-   //      m_file.updateStructure();
-   //      fixStructureOrder(m_file.getTaskByID(NumberUtility.INTEGER_ZERO));
-   //   }
-   //   
-   //   private void fixStructureOrder (Task parent)
-   //   {     
-   //      List<Task> children = parent.getChildTasks();
-   //      Comparator<Task> comparator = (parent.getCritical()?START_COMPARATOR:FINISH_COMPARATOR);     
-   //      Collections.sort(children, comparator);
-   //     
-   //      for (Task task: children)
-   //      {
-   //         fixStructureOrder(task);
-   //      }
-   //      
-   //      renumberTasks();
-   //   }
-
-   /**
-    * Called to renumber task IDs.
-    */
-   private void renumberTasks()
-   {
-      int nextID = (m_file.getTaskByID(Integer.valueOf(0)) == null ? 1 : 0);
-      for (Task task : m_file.getChildTasks())
-      {
-         task.setID(Integer.valueOf(nextID++));
-         nextID = renumberChildren(nextID, task);
-      }
-   }
-
-   /**
-    * Renumbers child task IDs.
-    * 
-    * @param nextID next ID value
-    * @param parent parent task
-    * @return next ID value
-    */
-   private int renumberChildren(int nextID, Task parent)
-   {
-      for (Task task : parent.getChildTasks())
-      {
-         task.setID(Integer.valueOf(nextID++));
-         nextID = renumberChildren(nextID, task);
-      }
-      return (nextID);
    }
 
    /**
@@ -3276,6 +3170,8 @@ final class MPP14Reader implements MPPVariantReader
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
    private Map<Integer, Integer> m_parentTasks;
+   private Map<Long, Integer> m_taskOrder;
+   private Map<Integer, Integer> m_nullTaskOrder;
 
    //   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
    //   {
