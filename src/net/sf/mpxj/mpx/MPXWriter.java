@@ -27,9 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -352,16 +350,15 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      if (record.getCalendarExceptions().isEmpty() == false)
+      if (!record.getCalendarExceptions().isEmpty())
       {
          //
          // A quirk of MS Project is that these exceptions must be
-         // in date order in the file, otherwise they are ignored
+         // in date order in the file, otherwise they are ignored.
+         // The getCalendarExceptions method now guarantees that
+         // the exceptions list is sorted when retrieved.
          //
-         List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(record.getCalendarExceptions());
-         Collections.sort(exceptions);
-
-         for (ProjectCalendarException ex : exceptions)
+         for (ProjectCalendarException ex : record.getCalendarExceptions())
          {
             writeCalendarException(record, ex);
          }

@@ -86,8 +86,33 @@ public final class DateRange implements Comparable<DateRange>
       int result = net.sf.mpxj.utility.DateUtility.compare(m_start, o.m_start);
       if (result == 0)
       {
-         result = net.sf.mpxj.utility.DateUtility.compare(m_end, o.m_start);
+         result = net.sf.mpxj.utility.DateUtility.compare(m_end, o.m_end);
       }
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public boolean equals(Object o)
+   {
+      boolean result = false;
+      if (o instanceof DateRange)
+      {
+         DateRange rhs = (DateRange) o;
+         result = (compareTo(rhs) == 0);
+      }
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public int hashCode()
+   {
+      long start = m_start.getTime();
+      long end = m_end.getTime();
+      int result = ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
       return result;
    }
 

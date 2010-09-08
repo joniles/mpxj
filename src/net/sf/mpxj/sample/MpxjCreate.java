@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RelationType;
@@ -176,10 +175,7 @@ public class MpxjCreate
       //
       // Add a holiday to the calendar to demonstrate calendar exceptions
       //
-      ProjectCalendarException exception = calendar.addCalendarException();
-      exception.setFromDate(df.parse("13/03/2006"));
-      exception.setToDate(df.parse("13/03/2006"));
-      exception.setWorking(false);
+      calendar.addCalendarException(df.parse("13/03/2006"), df.parse("13/03/2006"));
 
       //
       // Retrieve the project header and set the start date. Note Microsoft

@@ -206,20 +206,14 @@ public class ProjectCalendarTest extends MPXJTestCase
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(9.88, variance.getDuration(), 0.01);
 
-      ProjectCalendarException exception = projectCalendar.addCalendarException();
-      exception.setFromDate(df.parse("14/03/2006 00:00"));
-      exception.setToDate(df.parse("14/03/2006 23:59"));
-      exception.setWorking(false);
+      projectCalendar.addCalendarException(df.parse("14/03/2006 00:00"), df.parse("14/03/2006 23:59"));
 
       startDate = df.parse("13/03/2006 08:00");
       endDate = df.parse("24/03/2006 16:00");
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(8.88, variance.getDuration(), 0.01);
 
-      exception = projectCalendar.addCalendarException();
-      exception.setFromDate(df.parse("18/03/2006 00:00"));
-      exception.setToDate(df.parse("18/03/2006 23:59"));
-      exception.setWorking(true);
+      ProjectCalendarException exception = projectCalendar.addCalendarException(df.parse("18/03/2006 00:00"), df.parse("18/03/2006 23:59"));
       exception.addRange(new DateRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
 
       startDate = df.parse("18/03/2006 08:00");
@@ -652,10 +646,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Make Friday 10th a non-working day
       //
-      ProjectCalendarException ex = cal.addCalendarException();
-      ex.setFromDate(df.parse("10/10/2003 00:00"));
-      ex.setToDate(df.parse("10/10/2003 23:59"));
-      ex.setWorking(false);
+      cal.addCalendarException(df.parse("10/10/2003 00:00"), df.parse("10/10/2003 23:59"));
 
       //
       // Cross weekend with a non-working day exception
@@ -670,10 +661,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Make Saturday 11th a working day
       //
-      ex = cal.addCalendarException();
-      ex.setFromDate(df.parse("11/10/2003 00:00"));
-      ex.setToDate(df.parse("11/10/2003 23:59"));
-      ex.setWorking(true);
+      ProjectCalendarException ex = cal.addCalendarException(df.parse("11/10/2003 00:00"), df.parse("11/10/2003 23:59"));
       ex.addRange(new DateRange(df.parse("11/10/2003 09:00"), df.parse("11/10/2003 13:00")));
 
       //

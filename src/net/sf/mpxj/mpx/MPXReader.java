@@ -256,8 +256,7 @@ public final class MPXReader extends AbstractProjectReader
          {
             if (m_lastBaseCalendar != null)
             {
-               ProjectCalendarException exception = m_lastBaseCalendar.addCalendarException();
-               populateCalendarException(record, exception);
+               populateCalendarException(record, m_lastBaseCalendar);
             }
 
             break;
@@ -336,8 +335,7 @@ public final class MPXReader extends AbstractProjectReader
          {
             if (m_lastResourceCalendar != null)
             {
-               ProjectCalendarException exception = m_lastResourceCalendar.addCalendarException();
-               populateCalendarException(record, exception);
+               populateCalendarException(record, m_lastResourceCalendar);
             }
 
             break;
@@ -636,17 +634,22 @@ public final class MPXReader extends AbstractProjectReader
     * Populates a calendar exception instance.
     *
     * @param record MPX record
-    * @param exception calendar exception instance
+    * @param calendar calendar to which the exception will be added
     * @throws MPXJException
     */
-   private void populateCalendarException(Record record, ProjectCalendarException exception) throws MPXJException
+   private void populateCalendarException(Record record, ProjectCalendar calendar) throws MPXJException
    {
-      exception.setFromDate(record.getDate(0));
-      exception.setToDate(record.getDate(1));
-      exception.setWorking(record.getNumericBoolean(2));
-      exception.addRange(new DateRange(record.getTime(3), record.getTime(4)));
-      exception.addRange(new DateRange(record.getTime(5), record.getTime(6)));
-      exception.addRange(new DateRange(record.getTime(7), record.getTime(8)));
+      Date fromDate = record.getDate(0);
+      Date toDate = record.getDate(1);
+      boolean working = record.getNumericBoolean(2);
+
+      ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
+      if (working)
+      {
+         exception.addRange(new DateRange(record.getTime(3), record.getTime(4)));
+         exception.addRange(new DateRange(record.getTime(5), record.getTime(6)));
+         exception.addRange(new DateRange(record.getTime(7), record.getTime(8)));
+      }
    }
 
    /**

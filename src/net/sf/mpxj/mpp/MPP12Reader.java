@@ -1212,18 +1212,13 @@ final class MPP12Reader implements MPPVariantReader
             //
             for (index = 0; index < exceptionCount; index++)
             {
-               exception = cal.addCalendarException();
-               exception.setFromDate(MPPUtility.getDate(data, offset));
-               exception.setToDate(MPPUtility.getDate(data, offset + 2));
+               Date fromDate = MPPUtility.getDate(data, offset);
+               Date toDate = MPPUtility.getDate(data, offset + 2);
+               exception = cal.addCalendarException(fromDate, toDate);
 
                periodCount = MPPUtility.getShort(data, offset + 14);
-               if (periodCount == 0)
+               if (periodCount != 0)
                {
-                  exception.setWorking(false);
-               }
-               else
-               {
-                  exception.setWorking(true);
                   for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                   {
                      start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));

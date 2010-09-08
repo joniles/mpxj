@@ -427,13 +427,12 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readExceptionDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day)
    {
-      ProjectCalendarException exception = calendar.addCalendarException();
-
       Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod timePeriod = day.getTimePeriod();
-      exception.setFromDate(DatatypeConverter.parseDate(timePeriod.getFromDate()));
-      exception.setToDate(DatatypeConverter.parseDate(timePeriod.getToDate()));
-
+      Date fromDate = DatatypeConverter.parseDate(timePeriod.getFromDate());
+      Date toDate = DatatypeConverter.parseDate(timePeriod.getToDate());
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = day.getWorkingTimes();
+      ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
+
       if (times != null)
       {
          List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> time = times.getWorkingTime();

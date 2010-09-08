@@ -1533,18 +1533,14 @@ final class MPP9Reader implements MPPVariantReader
          for (index = 0; index < exceptionCount; index++)
          {
             offset = 4 + (60 * 7) + (index * 64);
-            exception = cal.addCalendarException();
-            exception.setFromDate(MPPUtility.getDate(data, offset));
-            exception.setToDate(MPPUtility.getDate(data, offset + 2));
+
+            Date fromDate = MPPUtility.getDate(data, offset);
+            Date toDate = MPPUtility.getDate(data, offset + 2);
+            exception = cal.addCalendarException(fromDate, toDate);
 
             periodCount = MPPUtility.getShort(data, offset + 6);
-            if (periodCount == 0)
+            if (periodCount != 0)
             {
-               exception.setWorking(false);
-            }
-            else
-            {
-               exception.setWorking(true);
                for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                {
                   start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));

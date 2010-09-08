@@ -281,15 +281,18 @@ abstract class MPD9AbstractReader
     */
    private void processCalendarException(ProjectCalendar calendar, Row row)
    {
-      ProjectCalendarException exception = calendar.addCalendarException();
-      exception.setWorking(row.getInt("CD_WORKING") != 0);
-      exception.setFromDate(row.getDate("CD_FROM_DATE"));
-      exception.setToDate(row.getDate("CD_TO_DATE"));
-      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
-      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
-      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
-      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
-      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
+      Date fromDate = row.getDate("CD_FROM_DATE");
+      Date toDate = row.getDate("CD_TO_DATE");
+      boolean working = row.getInt("CD_WORKING") != 0;
+      ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
+      if (working)
+      {
+         exception.addRange(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
+         exception.addRange(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
+         exception.addRange(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
+         exception.addRange(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
+         exception.addRange(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
+      }
    }
 
    /**

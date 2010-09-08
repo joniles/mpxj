@@ -35,6 +35,18 @@ import net.sf.mpxj.utility.DateUtility;
 public final class ProjectCalendarException extends ProjectCalendarDateRanges implements Comparable<ProjectCalendarException>
 {
    /**
+    * Package private constructor.
+    * 
+    * @param fromDate exception start date
+    * @param toDate exception end date
+    */
+   ProjectCalendarException(Date fromDate, Date toDate)
+   {
+      m_fromDate = DateUtility.getDayStartDate(fromDate);
+      m_toDate = DateUtility.getDayEndDate(toDate);
+   }
+
+   /**
     * Returns the from date.
     *
     * @return Date
@@ -42,16 +54,6 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    public Date getFromDate()
    {
       return (m_fromDate);
-   }
-
-   /**
-    * Sets from date.
-    *
-    * @param from date
-    */
-   public void setFromDate(Date from)
-   {
-      m_fromDate = DateUtility.getDayStartDate(from);
    }
 
    /**
@@ -65,33 +67,13 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    }
 
    /**
-    * Sets To Date.
-    *
-    * @param to Date
-    */
-   public void setToDate(Date to)
-   {
-      m_toDate = DateUtility.getDayEndDate(to);
-   }
-
-   /**
     * Gets working status.
     *
     * @return boolean value
     */
    public boolean getWorking()
    {
-      return (m_working);
-   }
-
-   /**
-    * Sets working status of this exception.
-    *
-    * @param flag Boolean flag
-    */
-   public void setWorking(boolean flag)
-   {
-      m_working = flag;
+      return (getRangeCount() != 0);
    }
 
    /**
@@ -131,7 +113,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[ProjectCalendarException");
-      sb.append(" working=" + m_working);
+      sb.append(" working=" + getWorking());
       sb.append(" fromDate=" + m_fromDate);
       sb.append(" toDate=" + m_toDate);
 
@@ -146,5 +128,4 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
 
    private Date m_fromDate;
    private Date m_toDate;
-   private boolean m_working;
 }

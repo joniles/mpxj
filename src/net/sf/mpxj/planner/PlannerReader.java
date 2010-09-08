@@ -430,12 +430,8 @@ public final class PlannerReader extends AbstractProjectReader
                if (day.getType().equals("day-type"))
                {
                   Date exceptionDate = getDate(day.getDate());
-                  ProjectCalendarException exception = mpxjCalendar.addCalendarException();
-                  exception.setFromDate(exceptionDate);
-                  exception.setToDate(exceptionDate);
-                  exception.setWorking(getInt(day.getId()) == 0);
-
-                  if (exception.getWorking())
+                  ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
+                  if (getInt(day.getId()) == 0)
                   {
                      for (int hoursIndex = 0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
                      {
