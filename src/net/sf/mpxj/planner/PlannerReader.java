@@ -52,6 +52,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -264,7 +265,7 @@ public final class PlannerReader extends AbstractProjectReader
     */
    private void setWorkingDay(ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
    {
-      int dayType = ProjectCalendar.DEFAULT;
+      DayType dayType = DayType.DEFAULT;
 
       if (plannerDay != null)
       {
@@ -272,13 +273,13 @@ public final class PlannerReader extends AbstractProjectReader
          {
             case 0 :
             {
-               dayType = ProjectCalendar.WORKING;
+               dayType = DayType.WORKING;
                break;
             }
 
             case 1 :
             {
-               dayType = ProjectCalendar.NON_WORKING;
+               dayType = DayType.NON_WORKING;
                break;
             }
          }
@@ -485,13 +486,13 @@ public final class PlannerReader extends AbstractProjectReader
 
       ProjectCalendar calendar = mpxjResource.addResourceCalendar();
 
-      calendar.setWorkingDay(Day.SUNDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.MONDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.TUESDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.WEDNESDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.THURSDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.FRIDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.SATURDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
 
       ProjectCalendar baseCalendar = m_projectFile.getBaseCalendarByUniqueID(getInteger(plannerResource.getCalendar()));
       if (baseCalendar == null)

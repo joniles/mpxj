@@ -40,6 +40,7 @@ import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.FileVersion;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -670,13 +671,13 @@ public final class MPXReader extends AbstractProjectReader
          calendar.setBaseCalendar(m_projectFile.getBaseCalendar(record.getString(0)));
       }
 
-      calendar.setWorkingDay(Day.SUNDAY, record.getInteger(1));
-      calendar.setWorkingDay(Day.MONDAY, record.getInteger(2));
-      calendar.setWorkingDay(Day.TUESDAY, record.getInteger(3));
-      calendar.setWorkingDay(Day.WEDNESDAY, record.getInteger(4));
-      calendar.setWorkingDay(Day.THURSDAY, record.getInteger(5));
-      calendar.setWorkingDay(Day.FRIDAY, record.getInteger(6));
-      calendar.setWorkingDay(Day.SATURDAY, record.getInteger(7));
+      calendar.setWorkingDay(Day.SUNDAY, DayType.getInstance(record.getInteger(1)));
+      calendar.setWorkingDay(Day.MONDAY, DayType.getInstance(record.getInteger(2)));
+      calendar.setWorkingDay(Day.TUESDAY, DayType.getInstance(record.getInteger(3)));
+      calendar.setWorkingDay(Day.WEDNESDAY, DayType.getInstance(record.getInteger(4)));
+      calendar.setWorkingDay(Day.THURSDAY, DayType.getInstance(record.getInteger(5)));
+      calendar.setWorkingDay(Day.FRIDAY, DayType.getInstance(record.getInteger(6)));
+      calendar.setWorkingDay(Day.SATURDAY, DayType.getInstance(record.getInteger(7)));
    }
 
    /**

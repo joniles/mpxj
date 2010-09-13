@@ -610,19 +610,19 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       switch (mpxjCalendar.getWorkingDay(day))
       {
-         case ProjectCalendar.WORKING :
+         case WORKING :
          {
             result = true;
             break;
          }
 
-         case ProjectCalendar.NON_WORKING :
+         case NON_WORKING :
          {
             result = false;
             break;
          }
 
-         case ProjectCalendar.DEFAULT :
+         case DEFAULT :
          {
             result = isWorkingDay(mpxjCalendar.getBaseCalendar(), day);
             break;
@@ -646,19 +646,19 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       switch (mpxjCalendar.getWorkingDay(day))
       {
-         case ProjectCalendar.WORKING :
+         case WORKING :
          {
             result = "0";
             break;
          }
 
-         case ProjectCalendar.NON_WORKING :
+         case NON_WORKING :
          {
             result = "1";
             break;
          }
 
-         case ProjectCalendar.DEFAULT :
+         case DEFAULT :
          {
             result = "2";
             break;

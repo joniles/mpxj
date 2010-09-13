@@ -55,6 +55,7 @@ import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -348,13 +349,13 @@ public final class MSPDIReader extends AbstractProjectReader
       }
       else
       {
-         bc.setWorkingDay(Day.SUNDAY, ProjectCalendar.DEFAULT);
-         bc.setWorkingDay(Day.MONDAY, ProjectCalendar.DEFAULT);
-         bc.setWorkingDay(Day.TUESDAY, ProjectCalendar.DEFAULT);
-         bc.setWorkingDay(Day.WEDNESDAY, ProjectCalendar.DEFAULT);
-         bc.setWorkingDay(Day.THURSDAY, ProjectCalendar.DEFAULT);
-         bc.setWorkingDay(Day.FRIDAY, ProjectCalendar.DEFAULT);
-         bc.setWorkingDay(Day.SATURDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+         bc.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+         bc.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+         bc.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+         bc.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+         bc.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+         bc.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
 
       map.put(calendar.getUID(), bc);

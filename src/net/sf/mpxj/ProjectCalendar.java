@@ -267,10 +267,10 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public boolean isWorkingDay(Day day)
    {
-      int value = m_days[day.getValue() - 1];
+      DayType value = m_days[day.getValue() - 1];
       boolean result;
 
-      if (value == DEFAULT)
+      if (value == DayType.DEFAULT)
       {
          ProjectCalendar cal = getBaseCalendar();
          if (cal != null)
@@ -284,7 +284,7 @@ public final class ProjectCalendar extends ProjectEntity
       }
       else
       {
-         result = (value == WORKING);
+         result = (value == DayType.WORKING);
       }
 
       return (result);
@@ -295,7 +295,7 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @return array of days of the week
     */
-   public int[] getDays()
+   public DayType[] getDays()
    {
       return (m_days);
    }
@@ -313,23 +313,9 @@ public final class ProjectCalendar extends ProjectEntity
     * @param day required day
     * @return value of underlying working day flag
     */
-   public int getWorkingDay(Day day)
+   public DayType getWorkingDay(Day day)
    {
       return (m_days[day.getValue() - 1]);
-   }
-
-   /**
-    * This is a convenience method provided to allow a day to be set
-    * as working or non-working, by using the day number to
-    * identify the required day.
-    *
-    * @param day required day
-    * @param working flag indicating if the day is working/non-working/default
-    */
-   public void setWorkingDay(Day day, int working)
-   {
-      m_days[day.getValue() - 1] = working;
-      clearWorkingDateCache();
    }
 
    /**
@@ -340,7 +326,7 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public void setWorkingDay(Day day, boolean working)
    {
-      setWorkingDay(day, (working == true ? WORKING : NON_WORKING));
+      setWorkingDay(day, (working == true ? DayType.WORKING : DayType.NON_WORKING));
    }
 
    /**
@@ -351,27 +337,27 @@ public final class ProjectCalendar extends ProjectEntity
     * @param day required day
     * @param working flag indicating if the day is a working day
     */
-   public void setWorkingDay(Day day, Integer working)
+   public void setWorkingDay(Day day, DayType working)
    {
-      int value;
+      DayType value;
 
       if (working == null)
       {
          if (isBaseCalendar() == false)
          {
-            value = DEFAULT;
+            value = DayType.DEFAULT;
          }
          else
          {
-            value = WORKING;
+            value = DayType.WORKING;
          }
       }
       else
       {
-         value = working.intValue();
+         value = working;
       }
 
-      setWorkingDay(day, value);
+      m_days[day.getValue() - 1] = value;
    }
 
    /**
@@ -1802,12 +1788,6 @@ public final class ProjectCalendar extends ProjectEntity
       pw.println("   baseCalendarName=" + (m_baseCalendar == null ? "" : m_baseCalendar.getName()));
       pw.println("   resource=" + (m_resource == null ? "" : m_resource.getName()));
 
-      String[] dayType =
-      {
-         "Non-working",
-         "Working",
-         "Default"
-      };
       String[] dayName =
       {
          "Sunday",
@@ -1822,7 +1802,7 @@ public final class ProjectCalendar extends ProjectEntity
       for (int loop = 0; loop < 7; loop++)
       {
          pw.println("   [Day " + dayName[loop]);
-         pw.println("      type=" + dayType[m_days[loop]]);
+         pw.println("      type=" + m_days[loop]);
          pw.println("      hours=" + m_hours[loop]);
          pw.println("   ]");
       }
@@ -1963,7 +1943,7 @@ public final class ProjectCalendar extends ProjectEntity
     * Array holding working/non-working/default flags for each
     * day of the week.
     */
-   private int[] m_days = new int[7];
+   private DayType[] m_days = new DayType[7];
 
    /**
     * List of exceptions to the base calendar.
@@ -1997,23 +1977,6 @@ public final class ProjectCalendar extends ProjectEntity
     * Default base calendar name to use when none is supplied.
     */
    public static final String DEFAULT_BASE_CALENDAR_NAME = "Standard";
-
-   /**
-    * Constant used to represent a non-working day.
-    */
-   public static final int NON_WORKING = 0;
-
-   /**
-    * Constant used to represent a working day.
-    */
-   public static final int WORKING = 1;
-
-   /**
-    * Constant used to represent that a day in a derived calendar used
-    * the value specified in the base calendar to indicate if it is working
-    * or not.
-    */
-   public static final int DEFAULT = 2;
 
    public static final Date DEFAULT_START1 = DateUtility.getTime(8, 0);
    public static final Date DEFAULT_END1 = DateUtility.getTime(12, 0);

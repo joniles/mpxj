@@ -51,6 +51,7 @@ import net.sf.mpxj.ExtendedAttributeTaskFields;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -336,16 +337,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (int loop = 1; loop < 8; loop++)
       {
-         int workingFlag = bc.getWorkingDay(Day.getInstance(loop));
+         DayType workingFlag = bc.getWorkingDay(Day.getInstance(loop));
 
-         if (workingFlag != ProjectCalendar.DEFAULT)
+         if (workingFlag != DayType.DEFAULT)
          {
             Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
             dayList.add(day);
             day.setDayType(BigInteger.valueOf(loop));
-            day.setDayWorking(Boolean.valueOf(workingFlag == ProjectCalendar.WORKING));
+            day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
 
-            if (workingFlag == ProjectCalendar.WORKING)
+            if (workingFlag == DayType.WORKING)
             {
                Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
                day.setWorkingTimes(times);

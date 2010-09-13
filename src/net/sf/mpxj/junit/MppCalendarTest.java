@@ -30,6 +30,7 @@ import java.util.List;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -150,14 +151,14 @@ public class MppCalendarTest extends MPXJTestCase
       assertEquals("Standard", cal.getName());
       assertNull(cal.getBaseCalendar());
       assertTrue(cal.isBaseCalendar());
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.MONDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.TUESDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.THURSDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.FRIDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.MONDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.TUESDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.THURSDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.FRIDAY));
 
-      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SATURDAY));
-      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
+      assertEquals(DayType.NON_WORKING, cal.getWorkingDay(Day.SATURDAY));
+      assertEquals(DayType.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
 
       assertEquals(0, cal.getCalendarExceptions().size());
 
@@ -193,13 +194,13 @@ public class MppCalendarTest extends MPXJTestCase
       assertEquals("Standard", cal.getName());
       assertNull(cal.getBaseCalendar());
       assertTrue(cal.isBaseCalendar());
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.MONDAY));
-      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.TUESDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.THURSDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.FRIDAY));
-      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.SATURDAY));
-      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.MONDAY));
+      assertEquals(DayType.NON_WORKING, cal.getWorkingDay(Day.TUESDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.THURSDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.FRIDAY));
+      assertEquals(DayType.WORKING, cal.getWorkingDay(Day.SATURDAY));
+      assertEquals(DayType.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
 
       List<net.sf.mpxj.ProjectCalendarException> exceptions = cal.getCalendarExceptions();
       assertEquals(3, exceptions.size());

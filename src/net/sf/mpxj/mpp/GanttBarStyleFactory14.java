@@ -39,46 +39,48 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
       if (barStyleData != null)
       {
-         barStyles = new GanttBarStyle[MPPUtility.getShort(barStyleData, 2245)];
-
-         int styleOffset = 2255;
-
-         for (int loop = 0; loop < barStyles.length; loop++)
+         int barStyleCount = MPPUtility.getShort(barStyleData, 2245);
+         if (barStyleCount > 0 && barStyleCount < 65535)
          {
-            GanttBarStyle style = new GanttBarStyle();
-            barStyles[loop] = style;
+            barStyles = new GanttBarStyle[barStyleCount];
+            int styleOffset = 2255;
 
-            style.setName(MPPUtility.getUnicodeString(barStyleData, styleOffset + 91));
+            for (int loop = 0; loop < barStyleCount; loop++)
+            {
+               GanttBarStyle style = new GanttBarStyle();
+               barStyles[loop] = style;
 
-            style.setLeftText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 67)));
-            style.setRightText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 71)));
-            style.setTopText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 75)));
-            style.setBottomText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 79)));
-            style.setInsideText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 83)));
+               style.setName(MPPUtility.getUnicodeString(barStyleData, styleOffset + 91));
 
-            style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 15] % 25));
-            style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 15] / 25));
-            style.setStartColor(MPPUtility.getColor(barStyleData, styleOffset + 16));
+               style.setLeftText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 67)));
+               style.setRightText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 71)));
+               style.setTopText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 75)));
+               style.setBottomText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 79)));
+               style.setInsideText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 83)));
 
-            style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
-            style.setMiddlePattern(ChartPattern.getInstance(barStyleData[styleOffset + 1]));
-            style.setMiddleColor(MPPUtility.getColor(barStyleData, styleOffset + 2));
+               style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 15] % 25));
+               style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 15] / 25));
+               style.setStartColor(MPPUtility.getColor(barStyleData, styleOffset + 16));
 
-            style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 28] % 25));
-            style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 28] / 25));
-            style.setEndColor(MPPUtility.getColor(barStyleData, styleOffset + 29));
+               style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
+               style.setMiddlePattern(ChartPattern.getInstance(barStyleData[styleOffset + 1]));
+               style.setMiddleColor(MPPUtility.getColor(barStyleData, styleOffset + 2));
 
-            style.setFromField(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 41)));
-            style.setToField(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 45)));
+               style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 28] % 25));
+               style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 28] / 25));
+               style.setEndColor(MPPUtility.getColor(barStyleData, styleOffset + 29));
 
-            extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong(barStyleData, styleOffset + 49));
-            extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong(barStyleData, styleOffset + 57));
+               style.setFromField(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 41)));
+               style.setToField(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 45)));
 
-            style.setRow((MPPUtility.getShort(barStyleData, styleOffset + 65) + 1));
+               extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong(barStyleData, styleOffset + 49));
+               extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong(barStyleData, styleOffset + 57));
 
-            styleOffset += 195;
+               style.setRow((MPPUtility.getShort(barStyleData, styleOffset + 65) + 1));
+
+               styleOffset += 195;
+            }
          }
-
       }
       return barStyles;
    }

@@ -40,6 +40,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -331,11 +332,11 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(record.getBaseCalendar().getName());
       }
 
-      int[] days = record.getDays();
+      DayType[] days = record.getDays();
       for (int loop = 0; loop < days.length; loop++)
       {
          m_buffer.append(m_delimiter);
-         m_buffer.append(days[loop]);
+         m_buffer.append(days[loop].getValue());
       }
 
       m_buffer.append(MPXConstants.EOL);

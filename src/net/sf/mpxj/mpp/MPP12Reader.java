@@ -45,6 +45,7 @@ import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -1139,7 +1140,7 @@ final class MPP12Reader implements MPPVariantReader
             }
             else
             {
-               cal.setWorkingDay(day, ProjectCalendar.DEFAULT);
+               cal.setWorkingDay(day, DayType.DEFAULT);
             }
          }
          else

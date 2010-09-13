@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class represents a project plan.
@@ -524,13 +524,13 @@ public final class ProjectFile
    {
       ProjectCalendar calendar = new ProjectCalendar(this);
 
-      calendar.setWorkingDay(Day.SUNDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.MONDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.TUESDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.WEDNESDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.THURSDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.FRIDAY, ProjectCalendar.DEFAULT);
-      calendar.setWorkingDay(Day.SATURDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+      calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
 
       return (calendar);
    }
