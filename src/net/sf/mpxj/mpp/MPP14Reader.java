@@ -1396,7 +1396,7 @@ final class MPP14Reader implements MPPVariantReader
 
          task.setActive((metaData2[8] & 0x04) != 0);
          task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 166) / 100));
-         task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 48), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+         task.setActualDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 48), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp(data, 76));
          task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
          task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
@@ -1409,7 +1409,7 @@ final class MPP14Reader implements MPPVariantReader
 
          task.setBaselineCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_BASELINE_COST) / 100));
 
-         task.setBaselineDuration(MPPUtility.getDuration(taskVarData.getInt(id, TASK_BASELINE_DURATION), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_BASELINE_DURATION_UNITS))));
+         task.setBaselineDuration(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_BASELINE_DURATION), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_BASELINE_DURATION_UNITS))));
          task.setBaselineFinish(taskVarData.getTimestamp(id, TASK_BASELINE_FINISH));
          task.setBaselineStart(taskVarData.getTimestamp(id, TASK_BASELINE_START));
          task.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 176) / 60000, TimeUnit.HOURS));
@@ -1648,7 +1648,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setRecurring(MPPUtility.getShort(data, 40) == 2);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 174) / 100));
-         task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 52), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
+         task.setRemainingDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 52), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
          task.setRemainingOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_COST) / 100));
          task.setRemainingOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
          task.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 142) / 60000, TimeUnit.HOURS));
