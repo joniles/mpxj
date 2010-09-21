@@ -910,6 +910,29 @@ public class MppTaskTest extends MPXJTestCase
       assertEquals(3, relation.getTargetTask().getUniqueID().intValue());
       assertEquals(RelationType.FINISH_FINISH, relation.getType());
 
+      boolean removed = task4.removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+      assertTrue(removed);
+      listPreds = task4.getPredecessors();
+      assertTrue(listPreds.isEmpty());
+
+      task4.addPredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+
+      task4.addPredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
+
+      listPreds = task4.getPredecessors();
+      removed = task4.removePredecessor(task2, RelationType.FINISH_FINISH, Duration.getInstance(0, TimeUnit.DAYS));
+      assertFalse(removed);
+
+      task4.addPredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
+      listPreds = task4.getPredecessors();
+      removed = task4.removePredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
+      assertTrue(removed);
+
+      listPreds = task4.getPredecessors();
+      relation = listPreds.get(0);
+      assertEquals(3, relation.getTargetTask().getUniqueID().intValue());
+      assertEquals(RelationType.FINISH_FINISH, relation.getType());
+
       listPreds = task5.getPredecessors();
       relation = listPreds.get(0);
       assertEquals(4, relation.getTargetTask().getUniqueID().intValue());

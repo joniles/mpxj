@@ -456,7 +456,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       while (iter.hasNext() == true)
       {
          successorRelation = iter.next();
-         if (successorRelation.getTargetTask() == targetTask)
+         if (successorRelation.getTargetTask() == this)
          {
             if (successorRelation.getType() != type || successorRelation.getLag().compareTo(lag) != 0)
             {
@@ -6439,6 +6439,90 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setActive(boolean active)
    {
       set(TaskField.ACTIVE, active);
+   }
+
+   /**
+    * This method allows a predecessor relationship to be removed from this
+    * task instance.  It will only delete relationships that exactly match the 
+    * given targetTask, type and lag time.
+    *
+    * @param targetTask the predecessor task
+    * @param type relation type
+    * @param lag relation lag
+    * @return returns true if the relation is found and removed
+    */
+   public boolean removePredecessor(Task targetTask, RelationType type, Duration lag)
+   {
+      boolean matchFound = false;
+
+      //
+      // Retrieve the list of predecessors
+      //
+      List<Relation> predecessorList = getPredecessors();
+      if (predecessorList != null && !predecessorList.isEmpty())
+      {
+         //
+         // Ensure that we have a valid lag duration
+         //
+         if (lag == null)
+         {
+            lag = Duration.getInstance(0, TimeUnit.DAYS);
+         }
+
+         //
+         // Ensure that there is a predecessor relationship between
+         // these two tasks, and remove it.
+         //
+         matchFound = removeRelation(predecessorList, targetTask, type, lag);
+
+         //
+         // If we have removed a predecessor, then we must remove the
+         // corresponding successor entry from the target task list
+         //
+         if (matchFound)
+         {
+            //
+            // Retrieve the list of successors
+            //
+            List<Relation> successorList = targetTask.getSuccessors();
+            if (successorList != null && !successorList.isEmpty())
+            {
+               //
+               // Ensure that there is a successor relationship between
+               // these two tasks, and remove it.
+               //
+               removeRelation(successorList, this, type, lag);
+            }
+         }
+      }
+
+      return matchFound;
+   }
+
+   /**
+    * Internal method used to locate an remove an item from a list Relations. 
+    * 
+    * @param relationList list of Relation instances
+    * @param targetTask target relationship task
+    * @param type target relationship type
+    * @param lag target relationship lag
+    * @return true if a relationship was removed
+    */
+   private boolean removeRelation(List<Relation> relationList, Task targetTask, RelationType type, Duration lag)
+   {
+      boolean matchFound = false;
+      for (Relation relation : relationList)
+      {
+         if (relation.getTargetTask() == targetTask)
+         {
+            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
+            {
+               matchFound = relationList.remove(relation);
+               break;
+            }
+         }
+      }
+      return matchFound;
    }
 
    /**
