@@ -39,7 +39,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
       if (barStyleData != null)
       {
-         int barStyleCount = MPPUtility.getShort(barStyleData, 2245);
+         int barStyleCount = MPPUtility.getByte(barStyleData, 2243);
          if (barStyleCount > 0 && barStyleCount < 65535)
          {
             barStyles = new GanttBarStyle[barStyleCount];

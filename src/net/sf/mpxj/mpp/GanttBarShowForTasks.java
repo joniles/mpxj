@@ -227,6 +227,16 @@ public enum GanttBarShowForTasks implements MpxjEnum
     * Array mapping int types to enums.
     */
    private static final GanttBarShowForTasks[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarShowForTasks.class, 26);
+   static
+   {
+      //
+      // This values should in theory represent "Not Not Finished", and we
+      // wouldn't expect to see it used. However it has turned up in the
+      // wild and is appears to map to "Not Finished", hence this
+      // additional mapping.
+      //
+      TYPE_VALUES[70] = GanttBarShowForTasks.NOTFINISHED;
+   }
 
    /**
     * Internal representation of the enum int type.
