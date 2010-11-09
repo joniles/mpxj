@@ -99,9 +99,11 @@ public final class PlannerReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
 
-         m_projectFile.setAutoCalendarUniqueID(true);
-         m_projectFile.setAutoResourceID(true);
-         m_projectFile.setAutoTaskID(true);
+         m_projectFile.setAutoTaskUniqueID(false);
+         m_projectFile.setAutoResourceUniqueID(false);
+         m_projectFile.setAutoOutlineLevel(false);
+         m_projectFile.setAutoOutlineNumber(false);
+         m_projectFile.setAutoWBS(false);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);

@@ -57,12 +57,9 @@ final class PrimaveraReader
    {
       m_project = new ProjectFile();
 
-      m_project.setAutoTaskID(true);
-      m_project.setAutoResourceID(true);
-      m_project.setAutoOutlineLevel(true);
-      m_project.setAutoOutlineNumber(true);
-      m_project.setAutoWBS(true);
-      m_project.setAutoCalendarUniqueID(true);
+      m_project.setAutoTaskUniqueID(false);
+      m_project.setAutoResourceUniqueID(false);
+      
       m_project.addDefaultBaseCalendar();
    }
 

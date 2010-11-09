@@ -53,7 +53,16 @@ public final class MPPReader extends AbstractProjectReader
       try
       {
          ProjectFile projectFile = new ProjectFile();
-
+         
+         projectFile.setAutoTaskID(false);
+         projectFile.setAutoTaskUniqueID(false);
+         projectFile.setAutoResourceID(false);
+         projectFile.setAutoResourceUniqueID(false);
+         projectFile.setAutoOutlineLevel(false);
+         projectFile.setAutoOutlineNumber(false);
+         projectFile.setAutoWBS(false);
+         projectFile.setAutoCalendarUniqueID(false);
+         
          //
          // Open the file system and retrieve the root directory
          //

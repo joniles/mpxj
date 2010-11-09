@@ -138,36 +138,6 @@ public class MpxjCreate
       //file.setThousandsSeparator('.');
 
       //
-      // Configure the file to automatically generate identifiers for tasks.
-      //
-      file.setAutoTaskID(true);
-      file.setAutoTaskUniqueID(true);
-
-      //
-      // Configure the file to automatically generate identifiers for resources.
-      //
-      file.setAutoResourceID(true);
-      file.setAutoResourceUniqueID(true);
-
-      //
-      // Configure the file to automatically generate outline levels
-      // and outline numbers.
-      //
-      file.setAutoOutlineLevel(true);
-      file.setAutoOutlineNumber(true);
-
-      //
-      // Configure the file to automatically generate WBS labels
-      //
-      file.setAutoWBS(true);
-
-      //
-      // Configure the file to automatically generate identifiers for calendars
-      // (not strictly necessary here, but required if generating MSPDI files)
-      //
-      file.setAutoCalendarUniqueID(true);
-
-      //
       // Add a default calendar called "Standard"
       //
       ProjectCalendar calendar = file.addDefaultBaseCalendar();

@@ -1932,49 +1932,49 @@ public final class ProjectFile
     * Indicating whether WBS value should be calculated on creation, or will
     * be manually set.
     */
-   private boolean m_autoWBS;
+   private boolean m_autoWBS = true;
 
    /**
     * Indicating whether the Outline Level value should be calculated on
     * creation, or will be manually set.
     */
-   private boolean m_autoOutlineLevel;
+   private boolean m_autoOutlineLevel = true;
 
    /**
     * Indicating whether the Outline Number value should be calculated on
     * creation, or will be manually set.
     */
-   private boolean m_autoOutlineNumber;
+   private boolean m_autoOutlineNumber = true;
 
    /**
     * Indicating whether the unique ID of a task should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoTaskUniqueID;
+   private boolean m_autoTaskUniqueID = true;
 
    /**
     * Indicating whether the unique ID of a calendar should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoCalendarUniqueID;
+   private boolean m_autoCalendarUniqueID = true;
 
    /**
     * Indicating whether the ID of a task should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoTaskID;
+   private boolean m_autoTaskID = true;
 
    /**
     * Indicating whether the unique ID of a resource should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoResourceUniqueID;
+   private boolean m_autoResourceUniqueID = true;
 
    /**
     * Indicating whether the ID of a resource should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoResourceID;
+   private boolean m_autoResourceID = true;
 
    /**
     * Maps from a task field number to a task alias.

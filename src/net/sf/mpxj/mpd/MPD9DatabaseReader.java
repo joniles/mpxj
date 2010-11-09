@@ -87,6 +87,15 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          m_project = new ProjectFile();
 
+         m_project.setAutoTaskID(false);
+         m_project.setAutoTaskUniqueID(false);
+         m_project.setAutoResourceID(false);
+         m_project.setAutoResourceUniqueID(false);
+         m_project.setAutoOutlineLevel(false);
+         m_project.setAutoOutlineNumber(false);
+         m_project.setAutoWBS(false);
+         m_project.setAutoCalendarUniqueID(false);
+         
          processProjectHeader();
          processCalendars();
          processResources();

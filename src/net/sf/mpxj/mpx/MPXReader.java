@@ -97,6 +97,15 @@ public final class MPXReader extends AbstractProjectReader
          }
 
          m_projectFile = new ProjectFile();
+         
+         m_projectFile.setAutoTaskID(false);
+         m_projectFile.setAutoTaskUniqueID(false);
+         m_projectFile.setAutoResourceID(false);
+         m_projectFile.setAutoResourceUniqueID(false);
+         m_projectFile.setAutoOutlineLevel(false);
+         m_projectFile.setAutoOutlineNumber(false);
+         m_projectFile.setAutoWBS(false);
+         
          LocaleUtility.setLocale(m_projectFile, m_locale);
          m_delimiter = (char) data[3];
          m_projectFile.setDelimiter(m_delimiter);
@@ -106,7 +115,6 @@ public final class MPXReader extends AbstractProjectReader
          m_resourceModel.setLocale(m_locale);
          m_baseOutlineLevel = -1;
          m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
-         m_projectFile.setAutoCalendarUniqueID(true);
          m_deferredRelationships = new LinkedList<DeferredRelationship>();
 
          bis.reset();

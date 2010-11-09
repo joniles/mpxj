@@ -79,6 +79,7 @@ public final class ProjectHeaderReader
       ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
       ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
       ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
+      ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
 
       SummaryInformation summary = new SummaryInformation(rootDir);
       ph.setProjectTitle(summary.getProjectTitle());

@@ -220,14 +220,6 @@ public class BasicTest extends MPXJTestCase
    {
       ProjectFile file = new ProjectFile();
 
-      file.setAutoWBS(true);
-      file.setAutoOutlineLevel(true);
-      file.setAutoOutlineNumber(true);
-      file.setAutoTaskID(true);
-      file.setAutoTaskUniqueID(true);
-      file.setAutoResourceID(true);
-      file.setAutoResourceUniqueID(true);
-
       Resource resource1 = file.addResource();
       resource1.setName("R1");
       assertEquals(1, resource1.getUniqueID().intValue());
@@ -317,11 +309,6 @@ public class BasicTest extends MPXJTestCase
    public void testStructure() throws Exception
    {
       ProjectFile file = new ProjectFile();
-
-      file.setAutoWBS(true);
-      file.setAutoOutlineLevel(true);
-      file.setAutoTaskID(true);
-      file.setAutoTaskUniqueID(true);
 
       Task task1 = file.addTask();
       assertNull(task1.getParentTask());
@@ -533,11 +520,6 @@ public class BasicTest extends MPXJTestCase
 
          ProjectFile file1 = new ProjectFile();
 
-         file1.setAutoWBS(true);
-         file1.setAutoOutlineLevel(true);
-         file1.setAutoTaskID(true);
-         file1.setAutoTaskUniqueID(true);
-
          Task task1 = file1.addTask();
          task1.setName("Test Task 1");
          task1.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
@@ -622,11 +604,6 @@ public class BasicTest extends MPXJTestCase
          String notes5 = "Normal unquoted notes. Done.";
 
          ProjectFile file1 = new ProjectFile();
-
-         file1.setAutoWBS(true);
-         file1.setAutoOutlineLevel(true);
-         file1.setAutoResourceID(true);
-         file1.setAutoResourceUniqueID(true);
 
          Resource resource1 = file1.addResource();
          resource1.setName("Test Resource 1");
@@ -1482,14 +1459,6 @@ public class BasicTest extends MPXJTestCase
          //
          SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
          ProjectFile file = new ProjectFile();
-         file.setAutoTaskID(true);
-         file.setAutoTaskUniqueID(true);
-         file.setAutoResourceID(true);
-         file.setAutoResourceUniqueID(true);
-         file.setAutoOutlineLevel(true);
-         file.setAutoOutlineNumber(true);
-         file.setAutoWBS(true);
-         file.setAutoCalendarUniqueID(true);
          file.addDefaultBaseCalendar();
 
          ProjectHeader header = file.getProjectHeader();

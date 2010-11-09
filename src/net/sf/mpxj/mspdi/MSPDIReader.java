@@ -101,7 +101,16 @@ public final class MSPDIReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
-
+         
+         m_projectFile.setAutoTaskID(false);
+         m_projectFile.setAutoTaskUniqueID(false);
+         m_projectFile.setAutoResourceID(false);
+         m_projectFile.setAutoResourceUniqueID(false);
+         m_projectFile.setAutoOutlineLevel(false);
+         m_projectFile.setAutoOutlineNumber(false);
+         m_projectFile.setAutoWBS(false);
+         m_projectFile.setAutoCalendarUniqueID(false);
+         
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
