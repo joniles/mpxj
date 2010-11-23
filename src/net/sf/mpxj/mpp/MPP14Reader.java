@@ -180,12 +180,15 @@ final class MPP14Reader implements MPPVariantReader
          //
          fixTaskOrder();
 
-         processViewPropertyData();
-         processTableData();
-         processViewData();
-         processFilterData();
-         processGroupData();
-         processSavedViewState();
+         if (reader.getReadPresentationData())
+         {
+            processViewPropertyData();
+            processTableData();
+            processViewData();
+            processFilterData();
+            processGroupData();
+            processSavedViewState();
+         }
       }
 
       finally

@@ -53,7 +53,7 @@ public final class MPPReader extends AbstractProjectReader
       try
       {
          ProjectFile projectFile = new ProjectFile();
-         
+
          projectFile.setAutoTaskID(false);
          projectFile.setAutoTaskUniqueID(false);
          projectFile.setAutoResourceID(false);
@@ -62,7 +62,7 @@ public final class MPPReader extends AbstractProjectReader
          projectFile.setAutoOutlineNumber(false);
          projectFile.setAutoWBS(false);
          projectFile.setAutoCalendarUniqueID(false);
-         
+
          //
          // Open the file system and retrieve the root directory
          //
@@ -174,6 +174,28 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
+    * Retrieves a flag which indicates whether presentation data will
+    * be read from the MPP file. Not reading this data saves time and memory. 
+    * 
+    * @return presentation data flag
+    */
+   public boolean getReadPresentationData()
+   {
+      return m_readPresentationData;
+   }
+
+   /**
+    * Flag to allow time and memory to be saved by not reading
+    * presentation data from the MPP file. 
+    * 
+    * @param readPresentationData set to false to prevent presentation data being read
+    */
+   public void setReadPresentationData(boolean readPresentationData)
+   {
+      m_readPresentationData = readPresentationData;
+   }
+
+   /**
     * Set the read password for this Project file. This is needed in order to
     * be allowed to read a read-protected Project file.
     * 
@@ -230,6 +252,12 @@ public final class MPPReader extends AbstractProjectReader
     * Setting this flag to true allows raw timephased data to be retrieved. 
     */
    private boolean m_useRawTimephasedData;
+
+   /**
+    * Flag to allow time and memory to be saved by not reading
+    * presentation data from the MPP file.
+    */
+   private boolean m_readPresentationData = true;
 
    private String m_readPassword;
    private String m_writePassword;

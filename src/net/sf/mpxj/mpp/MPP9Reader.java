@@ -152,15 +152,17 @@ final class MPP9Reader implements MPPVariantReader
          processTaskData();
          processConstraintData();
          processAssignmentData();
-
-         processViewPropertyData();
-         processTableData();
-         processViewData();
-         processFilterData();
-         processGroupData();
-         processSavedViewState();
-
          validateTaskIDs();
+
+         if (reader.getReadPresentationData())
+         {
+            processViewPropertyData();
+            processTableData();
+            processViewData();
+            processFilterData();
+            processGroupData();
+            processSavedViewState();
+         }
       }
 
       finally

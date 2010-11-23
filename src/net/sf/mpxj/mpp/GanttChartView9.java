@@ -107,11 +107,14 @@ public final class GanttChartView9 extends GanttChartView
          GenericCriteria c = criteria.process(m_parent, data, offset + 4, entryOffset, null, fields, null);
          //System.out.println(c);
 
-         Filter filter = new Filter();
-         filter.setCriteria(c);
-         m_autoFilters.add(filter);
-         m_autoFiltersByType.put(fields.get(0), filter);
-
+         if (!fields.isEmpty())
+         {
+            Filter filter = new Filter();
+            filter.setCriteria(c);
+            m_autoFilters.add(filter);
+            m_autoFiltersByType.put(fields.get(0), filter);
+         }
+         
          //
          // Move to the next filter
          //

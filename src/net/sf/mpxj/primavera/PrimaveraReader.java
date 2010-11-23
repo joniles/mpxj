@@ -59,7 +59,7 @@ final class PrimaveraReader
 
       m_project.setAutoTaskUniqueID(false);
       m_project.setAutoResourceUniqueID(false);
-      
+
       m_project.addDefaultBaseCalendar();
    }
 

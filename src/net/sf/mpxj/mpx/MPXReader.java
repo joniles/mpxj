@@ -97,7 +97,7 @@ public final class MPXReader extends AbstractProjectReader
          }
 
          m_projectFile = new ProjectFile();
-         
+
          m_projectFile.setAutoTaskID(false);
          m_projectFile.setAutoTaskUniqueID(false);
          m_projectFile.setAutoResourceID(false);
@@ -105,7 +105,7 @@ public final class MPXReader extends AbstractProjectReader
          m_projectFile.setAutoOutlineLevel(false);
          m_projectFile.setAutoOutlineNumber(false);
          m_projectFile.setAutoWBS(false);
-         
+
          LocaleUtility.setLocale(m_projectFile, m_locale);
          m_delimiter = (char) data[3];
          m_projectFile.setDelimiter(m_delimiter);

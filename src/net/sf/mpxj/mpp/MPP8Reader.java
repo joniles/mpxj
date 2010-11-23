@@ -101,9 +101,13 @@ final class MPP8Reader implements MPPVariantReader
          processTaskData();
          processConstraintData();
          processAssignmentData();
-         processViewPropertyData();
-         processViewData();
-         processTableData();
+
+         if (reader.getReadPresentationData())
+         {
+            processViewPropertyData();
+            processViewData();
+            processTableData();
+         }
       }
 
       finally
