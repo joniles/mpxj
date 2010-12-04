@@ -114,7 +114,7 @@ public final class GanttChartView9 extends GanttChartView
             m_autoFilters.add(filter);
             m_autoFiltersByType.put(fields.get(0), filter);
          }
-         
+
          //
          // Move to the next filter
          //

@@ -1210,7 +1210,6 @@ public final class ProjectCalendar extends ProjectEntity
       DateRange range = new DateRange(startDate, endDate);
       Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
-      boolean invert = false;
 
       if (cachedResult == null)
       {
@@ -1218,7 +1217,8 @@ public final class ProjectCalendar extends ProjectEntity
          // We want the start date to be the earliest date, and the end date 
          // to be the latest date. Set a flag here to indicate if we have swapped
          // the order of the supplied date.
-         //         
+         //        
+         boolean invert = false;
          if (startDate.getTime() > endDate.getTime())
          {
             invert = true;
@@ -1332,16 +1332,16 @@ public final class ProjectCalendar extends ProjectEntity
             }
          }
 
+         if (invert)
+         {
+            totalTime = -totalTime;
+         }
+
          m_workingDateCache.put(range, Long.valueOf(totalTime));
       }
       else
       {
          totalTime = cachedResult.longValue();
-      }
-
-      if (invert)
-      {
-         totalTime = -totalTime;
       }
 
       return convertFormat(totalTime, format);
