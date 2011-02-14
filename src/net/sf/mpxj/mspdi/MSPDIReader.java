@@ -1163,7 +1163,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          if (calendar == null)
          {
-            task.getCalendar();
+            calendar = task.getCalendar();
          }
 
          if (calendar == null)

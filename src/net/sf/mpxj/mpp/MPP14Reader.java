@@ -1812,7 +1812,7 @@ final class MPP14Reader implements MPPVariantReader
          //
          // Set the calendar name
          //
-         int calendarID = MPPUtility.getInt(data, 160);
+         int calendarID = MPPUtility.getInt(data, 118);
          if (calendarID != -1)
          {
             ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(Integer.valueOf(calendarID));
