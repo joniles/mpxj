@@ -106,7 +106,7 @@ public final class Duration implements Comparable<Duration>
     */
    public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
    {
-      return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue()));
+      return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue(), defaults.getDaysPerMonth().doubleValue()));
    }
 
    /**
@@ -120,9 +120,10 @@ public final class Duration implements Comparable<Duration>
     * @param toUnits units to convert to
     * @param minutesPerDay number of minutes per day
     * @param minutesPerWeek number of minutes per week
+    * @param daysPerMonth number of days per month
     * @return new Duration instance
     */
-   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek)
+   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek, double daysPerMonth)
    {
       switch (fromUnits)
       {
@@ -140,7 +141,7 @@ public final class Duration implements Comparable<Duration>
 
          case MONTHS :
          {
-            duration *= (minutesPerWeek * 4);
+            duration *= (minutesPerDay * daysPerMonth);
             break;
          }
 
@@ -238,9 +239,9 @@ public final class Duration implements Comparable<Duration>
 
             case MONTHS :
             {
-               if (minutesPerWeek != 0)
+               if (minutesPerDay != 0 && daysPerMonth != 0)
                {
-                  duration /= (minutesPerWeek * 4);
+                  duration /= (minutesPerDay * daysPerMonth);
                }
                else
                {
@@ -357,7 +358,7 @@ public final class Duration implements Comparable<Duration>
    {
       if (m_units != rhs.m_units)
       {
-         rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8 * 60), (5 * 8 * 60));
+         rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8 * 60), (5 * 8 * 60), 20);
       }
 
       return (m_duration < rhs.m_duration ? -1 : (m_duration == rhs.m_duration ? 0 : 1));

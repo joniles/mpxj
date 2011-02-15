@@ -17,7 +17,11 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3033163: Task id incorrect after importing from MPP14 file.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3040412: MPXJ 4.0 fails to work with Project 2010 format.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3055858: Index was outside the bounds of the array.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3100947: header.getHonorConstraints() is not working in case of MPP.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3100947: header.getHonorConstraints() is not working in case of MPP.</action>		
+		<action dev="joniles" type="fix">Updated to ensure task calendars are read correctly from MPP14 files.</action>
+		<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>		
+		<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>
+		<action dev="joniles" type="fix">Updated to fix incorrect resource assignment actual work attribute for MPP14 files.</action>
 	</release>
 
 	<release version="4.0.0" date="25/05/2010">

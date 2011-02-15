@@ -31,7 +31,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Date; // PWMod-Start
+import java.util.Locale;
+import java.text.DecimalFormatSymbols; // PWMod-End
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
@@ -1649,7 +1651,9 @@ public final class DatatypeConverter
       NumberFormat format = NUMBER_FORMAT.get();
       if (format == null)
       {
-         format = new DecimalFormat("#.##");
+         // XML numbers should use . as decimal separator and no grouping. 
+         format = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
+         format.setGroupingUsed(false);
          NUMBER_FORMAT.set(format);
       }
       return (format);

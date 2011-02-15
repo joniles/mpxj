@@ -587,8 +587,8 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
             calendar = getParentFile().getCalendar();
          }
       }
-            
-      return calendar;      
+
+      return calendar;
    }
 
    /**
