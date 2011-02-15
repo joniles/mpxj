@@ -22,6 +22,7 @@
 		<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>
 		<action dev="joniles" type="fix">Updated to fix incorrect resource assignment actual work attribute for MPP14 files.</action>
+		<action dev="joniles" type="fix">Updated to fix incorrect task leveling delay attribute for MPP9, MPP12, and MPP14 files.</action>
 	</release>
 
 	<release version="4.0.0" date="25/05/2010">
