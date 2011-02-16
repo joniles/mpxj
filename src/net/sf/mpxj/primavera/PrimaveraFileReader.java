@@ -51,7 +51,7 @@ public final class PrimaveraFileReader extends AbstractProjectReader
 {
    /**
     * Set the ID of the project to be read.
-    * 
+    *
     * @param projectID project ID
     */
    public void setProjectID(int projectID)
@@ -73,7 +73,7 @@ public final class PrimaveraFileReader extends AbstractProjectReader
 
          processProjectID();
          processProjectHeader();
-         //processCalendars();
+         processCalendars();
          processResources();
          processTasks();
          processPredecessors();
@@ -96,7 +96,7 @@ public final class PrimaveraFileReader extends AbstractProjectReader
 
    /**
     * Reads the XER file table and row structure ready for processing.
-    * 
+    *
     * @param is input stream
     * @throws MPXJException
     */
@@ -201,12 +201,21 @@ public final class PrimaveraFileReader extends AbstractProjectReader
    }
 
    /**
-    * Process project header. 
+    * Process project header.
     */
    private void processProjectHeader()
    {
       List<Row> rows = getRows("project", "proj_id", m_projectID);
       m_reader.processProjectHeader(rows);
+   }
+
+   /**
+    * Process project calendars.
+    */
+   private void processCalendars()
+   {
+      List<Row> rows = getRows("calendar", null, null);
+      m_reader.processCalendars(rows);
    }
 
    /**
@@ -529,12 +538,26 @@ public final class PrimaveraFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("act_end_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("target_start_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("target_end_date", FieldType.DATE);
+
+      FIELD_TYPE_MAP.put("clndr_id", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("default_flag", FieldType.STRING);
+      FIELD_TYPE_MAP.put("clndr_name", FieldType.STRING);
+      FIELD_TYPE_MAP.put("proj_id", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("base_clndr_id", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("last_chng_date", FieldType.STRING);
+      FIELD_TYPE_MAP.put("clndr_type", FieldType.STRING);
+      FIELD_TYPE_MAP.put("day_hr_cnt", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("week_hr_cnt", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("month_hr_cnt", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("year_hr_cnt", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("clndr_data", FieldType.STRING);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
    static
    {
       REQUIRED_TABLES.add("project");
+      REQUIRED_TABLES.add("calendar");
       REQUIRED_TABLES.add("rsrc");
       REQUIRED_TABLES.add("projwbs");
       REQUIRED_TABLES.add("task");
