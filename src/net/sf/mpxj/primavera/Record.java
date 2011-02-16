@@ -1,6 +1,6 @@
 /*
  * file:       Record.java
- * author:     Jon Iles
+ * author:     Bruno Gasnier
  * copyright:  (c) Packwood Software 2002-2011
  * date:       2011-02-16
  */
