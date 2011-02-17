@@ -738,8 +738,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (mpx.getLevelingDelay() != null)
       {
-         xml.setLevelingDelay(BigInteger.valueOf((long) mpx.getLevelingDelay().getDuration()));
-         xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat()));
+         Duration levelingDelay = mpx.getLevelingDelay();
+         double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
+         xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
+         xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay));
       }
 
       xml.setManual(Boolean.valueOf(mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED));
@@ -960,7 +962,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (lag != null && lag.getDuration() != 0)
       {
-         link.setLinkLag(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(lag) * 10));
+         double tenthMinutes = 10.0 * Duration.convertUnits(lag.getDuration(), lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
+         link.setLinkLag(BigInteger.valueOf((long) tenthMinutes));
          link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits()));
       }
 
