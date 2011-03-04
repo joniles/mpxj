@@ -158,7 +158,7 @@ final class PrimaveraReader
          {
             continue;
          }
-         
+
          for (Record exception : exceptions.getChildren())
          {
             int daysFrom1900 = Integer.parseInt(exception.getValue().split("\\|")[1]);

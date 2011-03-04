@@ -516,7 +516,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setUID(mpx.getUniqueID());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkGroup(mpx.getWorkGroup());
-      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance()) * 1000));
+      xml.setWorkVariance(BigDecimal.valueOf(DatatypeConverter.printDurationInThousandthsOfInMinutes(mpx.getWorkVariance())));
 
       writeResourceExtendedAttributes(xml, mpx);
 
@@ -709,7 +709,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setExternalTaskProject(mpx.getProject());
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setFinishText(mpx.getFinishText());
-      xml.setFinishVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getFinishVariance()) * 1000));
+      xml.setFinishVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInThousandthsOfInMinutes(mpx.getFinishVariance())));
       xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
 
       AccrueType fixedCostAccrual = mpx.getFixedCostAccrual();
@@ -793,17 +793,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRollup(Boolean.valueOf(mpx.getRollup()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setStartText(mpx.getStartText());
-      xml.setStartVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getStartVariance()) * 1000));
+      xml.setStartVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInThousandthsOfInMinutes(mpx.getStartVariance())));
       xml.setStop(DatatypeConverter.printDate(mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
       xml.setSummary(Boolean.valueOf(mpx.getSummary()));
-      xml.setTotalSlack(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack()) * 1000));
+      xml.setTotalSlack(BigInteger.valueOf((long) DatatypeConverter.printDurationInThousandthsOfInMinutes(mpx.getTotalSlack())));
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
       xml.setWBS(mpx.getWBS());
       xml.setWBSLevel(mpx.getWBSLevel());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
-      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance()) * 1000));
+      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInThousandthsOfInMinutes(mpx.getWorkVariance())));
 
       writePredecessors(xml, mpx);
 
@@ -1037,8 +1037,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setActualStart(DatatypeConverter.printDate(mpx.getActualStart()));
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
-      xml.setDelay(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getDelay()) * 1000));
+      xml.setDelay(BigInteger.valueOf((long) DatatypeConverter.printDurationInThousandthsOfInMinutes(mpx.getDelay())));
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
+      xml.setLevelingDelay(DatatypeConverter.printDurationInTenthsOfInMinutes(mpx.getLevelingDelay()));
+      xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelay()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResourceUID(BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));

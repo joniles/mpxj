@@ -27,13 +27,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date; // PWMod-Start
+import java.util.Date;
 import java.util.Locale;
-import java.text.DecimalFormatSymbols; // PWMod-End
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
@@ -1288,30 +1288,91 @@ public final class DatatypeConverter
    }
 
    /**
-    * Parse duration in minutes.
+    * Parse duration represented in thousandths of minutes.
     *
     * @param value duration value
     * @return Duration instance
     */
-   public static final Duration parseDurationInMinutes(Number value)
+   public static final Duration parseDurationInThousanthsOfMinutes(Number value)
+   {
+      return parseDurationInFractionsOfMinutes(null, value, TimeUnit.MINUTES, 1000);
+   }
+
+   /**
+    * Parse duration represented as tenths of minutes.
+    * 
+    * @param header project header
+    * @param value duration value
+    * @param targetTimeUnit required output time units
+    * @return Duration instance
+    */
+   public static final Duration parseDurationInTenthsOfMinutes(ProjectHeader header, Number value, TimeUnit targetTimeUnit)
+   {
+      return parseDurationInFractionsOfMinutes(header, value, targetTimeUnit, 10);
+   }
+
+   /**
+    * Print duration in thousandths of minutes.
+    *
+    * @param duration Duration instance
+    * @return duration in thousandths of minutes
+    */
+   public static final double printDurationInThousandthsOfInMinutes(Duration duration)
+   {
+      return printDurationFractionsOfMinutes(duration, 1000);
+   }
+
+   /**
+    * Print duration in thousandths of minutes.
+    *
+    * @param duration Duration instance
+    * @return duration in thousandths of minutes
+    */
+   public static final BigInteger printDurationInTenthsOfInMinutes(Duration duration)
+   {
+      BigInteger result = null;
+
+      if (duration != null)
+      {
+         result = BigInteger.valueOf((long) printDurationFractionsOfMinutes(duration, 10));
+      }
+
+      return result;
+   }
+
+   /**
+    * Parse duration represented as an arbitrary fraction of minutes.
+    * 
+    * @param header project header
+    * @param value duration value
+    * @param targetTimeUnit required output time units
+    * @param factor required fraction of a minute
+    * @return Duration instance
+    */
+   private static final Duration parseDurationInFractionsOfMinutes(ProjectHeader header, Number value, TimeUnit targetTimeUnit, int factor)
    {
       Duration result = null;
 
       if (value != null)
       {
-         result = Duration.getInstance(value.intValue() / 1000, TimeUnit.MINUTES);
+         result = Duration.getInstance(value.intValue() / factor, TimeUnit.MINUTES);
+         if (targetTimeUnit != result.getUnits())
+         {
+            result = result.convertUnits(targetTimeUnit, header);
+         }
       }
 
       return (result);
    }
 
    /**
-    * Print duration in minutes.
-    *
+    * Print a duration represented by an arbitrary fraction of minutes.
+    * 
     * @param duration Duration instance
-    * @return duration in minutes
+    * @param factor required factor
+    * @return duration represented as an arbitrary fraction of minutes
     */
-   public static final double printDurationInMinutes(Duration duration)
+   private static final double printDurationFractionsOfMinutes(Duration duration, int factor)
    {
       double result = 0;
 
@@ -1382,6 +1443,8 @@ public final class DatatypeConverter
             }
          }
       }
+
+      result *= factor;
 
       return (result);
    }

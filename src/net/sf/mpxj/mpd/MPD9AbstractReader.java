@@ -1077,6 +1077,7 @@ abstract class MPD9AbstractReader
          assignment.setCost(row.getCurrency("ASSN_COST"));
          assignment.setDelay(row.getDuration("ASSN_DELAY"));
          assignment.setFinish(row.getDate("ASSN_FINISH_DATE"));
+         assignment.setLevelingDelay(MPDUtility.getAdjustedDuration(m_project, row.getInt("ASSN_LEVELING_DELAY"), MPDUtility.getDurationTimeUnits(row.getInt("ASSN_DELAY_FMT"))));
          assignment.setOvertimeWork(row.getDuration("ASSN_OVT_WORK"));
          assignment.setRemainingWork(row.getDuration("ASSN_REM_WORK"));
          assignment.setStart(row.getDate("ASSN_START_DATE"));

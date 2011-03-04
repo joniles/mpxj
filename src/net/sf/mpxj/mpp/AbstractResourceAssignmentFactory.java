@@ -145,6 +145,7 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
                assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
                assignment.setFinish(assignmentFinish);
+               assignment.setLevelingDelay(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, 30), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 28))));
                assignment.setRemainingWork(MPPUtility.getDuration(remainingWork, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf(assignmentUnits));

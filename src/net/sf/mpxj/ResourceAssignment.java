@@ -472,6 +472,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    }
 
    /**
+    * Retrieves the leveling delay for this resource assignment.
+    * 
+    * @return leveling delay
+    */
+   public Duration getLevelingDelay()
+   {
+      return ((Duration) getCachedValue(ResourceField.LEVELING_DELAY));
+   }
+
+   /**
+    * Sets the leveling delay for this resource assignment.
+    * 
+    * @param levelingDelay leveling delay
+    */
+   public void setLevelingDelay(Duration levelingDelay)
+   {
+      set(ResourceField.LEVELING_DELAY, levelingDelay);
+   }
+
+   /**
     * Retrieves the timephased breakdown of the completed work for this
     * resource assignment. 
     * 

@@ -617,7 +617,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
       mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getWork()));
       mpx.setWorkGroup(xml.getWorkGroup());
-      mpx.setWorkVariance(DatatypeConverter.parseDurationInMinutes(xml.getWorkVariance()));
+      mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getWorkVariance()));
 
       readResourceExtendedAttributes(xml, mpx);
 
@@ -861,7 +861,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFinish3();
          //mpx.setFinish4();
          //mpx.setFinish5();
-         mpx.setFinishVariance(DatatypeConverter.parseDurationInMinutes(xml.getFinishVariance()));
+         mpx.setFinishVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFinishVariance()));
          //mpx.setFixed();
          mpx.setFixedCost(DatatypeConverter.parseCurrency(xml.getFixedCost()));
          mpx.setFixedCostAccrual(xml.getFixedCostAccrual());
@@ -876,7 +876,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFlag9();
          //mpx.setFlag10();
          // This is not correct?
-         mpx.setFreeSlack(DatatypeConverter.parseDurationInMinutes(xml.getFreeSlack()));
+         mpx.setFreeSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFreeSlack()));
          mpx.setHideBar(BooleanUtility.getBoolean(xml.isHideBar()));
          mpx.setHyperlink(xml.getHyperlink());
          mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
@@ -940,7 +940,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setStart3();
          //mpx.setStart4();
          //mpx.setStart5();
-         mpx.setStartVariance(DatatypeConverter.parseDurationInMinutes(xml.getStartVariance()));
+         mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
          mpx.setStop(DatatypeConverter.parseDate(xml.getStop()));
          mpx.setSubProject(BooleanUtility.getBoolean(xml.isIsSubproject()) ? new SubProject() : null);
          mpx.setSubprojectName(xml.getSubprojectName());
@@ -967,7 +967,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setWorkVariance(Duration.getInstance(NumberUtility.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
 
          // read last to ensure correct caching
-         mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
+         mpx.setTotalSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getTotalSlack()));
          mpx.setCritical(BooleanUtility.getBoolean(xml.isCritical()));
 
          readTaskExtendedAttributes(xml, mpx);
@@ -1207,15 +1207,14 @@ public final class MSPDIReader extends AbstractProjectReader
             //assignment.getCostVariance()
             //assignment.getCreationDate()
             //assignment.getCV()
-            mpx.setDelay(DatatypeConverter.parseDurationInMinutes(assignment.getDelay()));
+            mpx.setDelay(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getDelay()));
             //assignment.getExtendedAttribute()
             mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
             //assignment.getFinishVariance()
             //assignment.getHyperlink()
             //assignment.getHyperlinkAddress()
             //assignment.getHyperlinkSubAddress()
-            //assignment.getLevelingDelay()
-            //assignment.getLevelingDelayFormat()
+            mpx.setLevelingDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectHeader(), assignment.getLevelingDelay(), DatatypeConverter.parseDurationTimeUnits(assignment.getLevelingDelayFormat())));
             //assignment.getNotes()
             //assignment.getOvertimeCost()
             mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getOvertimeWork()));
