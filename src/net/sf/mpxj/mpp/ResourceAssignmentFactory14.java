@@ -131,6 +131,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
 
                ResourceAssignment assignment = task.addResourceAssignment(resource);
                assignment.setTimephasedNormaliser(normaliser);
+               int variableRateUnitsValue = MPPUtility.getByte(data, 44);
 
                assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 94) / 100));
                assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);
@@ -139,6 +140,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 86) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
                assignment.setFinish(assignmentFinish);
+               assignment.setVariableRateUnits(variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue));
                assignment.setLevelingDelay(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, 30), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 28))));
                assignment.setRemainingWork(MPPUtility.getDuration(remainingWork, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
@@ -149,23 +151,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                assignment.setBaselineStart(assnVarData.getTimestamp(varDataId, BASELINE_START));
                assignment.setBaselineWork(Duration.getInstance(assnVarData.getDouble(varDataId, BASELINE_WORK) / 60000, TimeUnit.HOURS));
 
-               if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
-               {
-                  Duration workPerDay = TimephasedResourceAssignmentNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
-                  int units = NumberUtility.getInt(assignment.getUnits());
-                  if (units != 100)
-                  {
-                     workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
-                  }
-
-                  TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
-                  tra.setStart(assignmentStart);
-                  tra.setWorkPerDay(workPerDay);
-                  tra.setModified(false);
-                  tra.setFinish(assignment.getFinish());
-                  tra.setTotalWork(assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectHeader()));
-                  timephasedPlanned.add(tra);
-               }
+               createTimephasedData(file, assignment, timephasedPlanned, timephasedComplete);
 
                assignment.setTimephasedPlanned(timephasedPlanned, !useRawTimephasedData);
                assignment.setTimephasedComplete(timephasedComplete, !useRawTimephasedData);
@@ -191,6 +177,59 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                }
             }
          }
+      }
+   }
+
+   /**
+    * Method used to create missing timephased data.
+    * 
+    * @param file project file
+    * @param assignment resource assignment
+    * @param timephasedPlanned planned timephased data
+    * @param timephasedComplete complete timephased data
+    */
+   private void createTimephasedData(ProjectFile file, ResourceAssignment assignment, List<TimephasedResourceAssignment> timephasedPlanned, List<TimephasedResourceAssignment> timephasedComplete)
+   {
+      if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
+      {
+         Duration workPerDay;
+
+         if (assignment.getResource().getType() == net.sf.mpxj.ResourceType.WORK)
+         {
+            workPerDay = TimephasedResourceAssignmentNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
+            int units = NumberUtility.getInt(assignment.getUnits());
+            if (units != 100)
+            {
+               workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
+            }
+         }
+         else
+         {
+            if (assignment.getVariableRateUnits() == null)
+            {
+               Duration workingDays = assignment.getCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
+               double units = NumberUtility.getDouble(assignment.getUnits());
+               double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
+               workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
+            }
+            else
+            {
+               double unitsPerHour = NumberUtility.getDouble(assignment.getUnits());
+               workPerDay = TimephasedResourceAssignmentNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
+               Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectHeader());
+               double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
+               double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
+               workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
+            }
+         }
+
+         TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
+         tra.setStart(assignment.getStart());
+         tra.setWorkPerDay(workPerDay);
+         tra.setModified(false);
+         tra.setFinish(assignment.getFinish());
+         tra.setTotalWork(assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectHeader()));
+         timephasedPlanned.add(tra);
       }
    }
 

@@ -27,6 +27,7 @@
 		<action dev="joniles" type="fix">Updated to fix incorrect task leveling delay attribute for MPP9, MPP12, and MPP14 files.</action>		
 		<action dev="joniles" type="fix">Updated to fix leveling delay and link lag when writing an MSPDI file (contributed by Frank Illenberger).</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect assignment actual start date when writing an MSPDI file.</action>		
+		<action dev="joniles" type="update">Updated to improve support for material resources in MSPDI files.</action>
 		<action dev="joniles" type="update">Updated to use IKVM 0.44.0.5.</action>
 	</release>
 

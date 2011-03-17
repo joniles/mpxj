@@ -6348,7 +6348,10 @@ formatting.
             <Cost>201500</Cost>
             <Delay>0</Delay>
             <Finish>2003-03-17T17:00:00</Finish>
+            <HasFixedRateUnits>0</HasFixedRateUnits>
+            <FixedMaterial>1</FixedMaterial>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RateScale>3</RateScale>
             <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
             <Units>0.5</Units>
@@ -6368,7 +6371,10 @@ formatting.
             <Cost>151125</Cost>
             <Delay>0</Delay>
             <Finish>2003-03-18T08:00:00</Finish>
+            <HasFixedRateUnits>0</HasFixedRateUnits>
+            <FixedMaterial>1</FixedMaterial>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RateScale>3</RateScale>
             <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
             <Units>0.75</Units>
@@ -6388,7 +6394,10 @@ formatting.
             <Cost>43000</Cost>
             <Delay>0</Delay>
             <Finish>2003-01-13T17:00:00</Finish>
+            <HasFixedRateUnits>0</HasFixedRateUnits>
+            <FixedMaterial>1</FixedMaterial>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RateScale>3</RateScale>
             <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
             <Units>1</Units>
@@ -6408,7 +6417,10 @@ formatting.
             <Cost>21500</Cost>
             <Delay>0</Delay>
             <Finish>2003-01-14T08:00:00</Finish>
+            <HasFixedRateUnits>0</HasFixedRateUnits>
+            <FixedMaterial>1</FixedMaterial>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RateScale>3</RateScale>
             <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
             <Units>1</Units>

@@ -1210,6 +1210,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setDelay(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getDelay()));
             //assignment.getExtendedAttribute()
             mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
+            mpx.setVariableRateUnits(BooleanUtility.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
             //assignment.getFinishVariance()
             //assignment.getHyperlink()
             //assignment.getHyperlinkAddress()

@@ -612,6 +612,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    }
 
    /**
+    * Retrieve the variable rate time untis, null if fixed rate.
+    * 
+    * @return variable rate time units
+    */
+   public TimeUnit getVariableRateUnits()
+   {
+      return m_variableRateUnits;
+   }
+
+   /**
+    * Set the variable rate time units, null if fixed rate.
+    * 
+    * @param variableRateUnits variable rate units
+    */
+   public void setVariableRateUnits(TimeUnit variableRateUnits)
+   {
+      m_variableRateUnits = variableRateUnits;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
@@ -715,6 +735,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    private boolean m_timephasedPlannedRaw;
    private TimephasedResourceAssignmentNormaliser m_timephasedNormaliser;
    private List<FieldListener> m_listeners;
+   private TimeUnit m_variableRateUnits;
 
    /**
     * Reference to the parent task of this assignment.
