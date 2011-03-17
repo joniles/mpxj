@@ -35,7 +35,7 @@ for a definition of the file format.</li>
 <li><b>MPP:</b> The MPP file format is Microsoft's proprietary way of storing
 project data. MPXJ supports read only access to MPP files produced
 by Microsoft Project 98, Microsoft Project 2000, Microsoft 
-Project 2002, Microsoft Project 2003, and Microsoft Project 2007.
+Project 2002, Microsoft Project 2003, Microsoft Project 2007, and Microsoft Project 2010.
 MPP template files, with the suffix MPT are also supported.</li>
 
 <li><b>MSPDI:</b> The MSPDI file format is Microsoft's XML file format for
