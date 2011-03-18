@@ -43,6 +43,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -494,7 +495,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setMaterialLabel(mpx.getMaterialLabel());
       xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
       xml.setName(mpx.getName());
-      xml.setNotes(mpx.getNotes());
+
+      if (!mpx.getNotes().isEmpty())
+      {
+         xml.setNotes(mpx.getNotes());
+      }
+
       xml.setNTAccount(mpx.getNtAccount());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
@@ -539,20 +545,52 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeResourceBaselines(Project.Resources.Resource xmlResource, Resource mpxjResource)
    {
       Project.Resources.Resource.Baseline baseline = m_factory.createProjectResourcesResourceBaseline();
-      xmlResource.getBaseline().add(baseline);
+      boolean populated = false;
 
-      baseline.setNumber(BigInteger.ZERO);
-      baseline.setCost(DatatypeConverter.printCurrency(mpxjResource.getBaselineCost()));
-      baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork()));
+      Number cost = mpxjResource.getBaselineCost();
+      if (cost != null && cost.intValue() != 0)
+      {
+         populated = true;
+         baseline.setCost(DatatypeConverter.printCurrency(cost));
+      }
+
+      Duration work = mpxjResource.getBaselineWork();
+      if (work != null && work.getDuration() != 0)
+      {
+         populated = true;
+         baseline.setWork(DatatypeConverter.printDuration(this, work));
+      }
+
+      if (populated)
+      {
+         xmlResource.getBaseline().add(baseline);
+         baseline.setNumber(BigInteger.ZERO);
+      }
 
       for (int loop = 1; loop <= 10; loop++)
       {
          baseline = m_factory.createProjectResourcesResourceBaseline();
-         xmlResource.getBaseline().add(baseline);
+         populated = false;
 
-         baseline.setNumber(BigInteger.valueOf(loop));
-         baseline.setCost(DatatypeConverter.printCurrency(mpxjResource.getBaselineCost(loop)));
-         baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork(loop)));
+         cost = mpxjResource.getBaselineCost(loop);
+         if (cost != null && cost.intValue() != 0)
+         {
+            populated = true;
+            baseline.setCost(DatatypeConverter.printCurrency(cost));
+         }
+
+         work = mpxjResource.getBaselineWork(loop);
+         if (work != null && work.getDuration() != 0)
+         {
+            populated = true;
+            baseline.setWork(DatatypeConverter.printDuration(this, work));
+         }
+
+         if (populated)
+         {
+            xmlResource.getBaseline().add(baseline);
+            baseline.setNumber(BigInteger.valueOf(loop));
+         }
       }
    }
 
@@ -566,24 +604,53 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.Resources.Resource.ExtendedAttribute attrib;
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
-      Object value;
-      ResourceField mpxFieldID;
-      Integer xmlFieldID;
 
       for (int loop = 0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
-         mpxFieldID = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
-         value = mpx.getCachedValue(mpxFieldID);
+         ResourceField mpxFieldID = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
+         Object value = mpx.getCachedValue(mpxFieldID);
 
          if (value != null)
          {
-            xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
+            boolean ignore = false;
+            DataType dataType = mpxFieldID.getDataType();
+            switch (dataType)
+            {
+               case BOOLEAN :
+               {
+                  ignore = !((Boolean) value).booleanValue();
+                  break;
+               }
 
-            attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+               case CURRENCY :
+               case NUMERIC :
+               {
+                  ignore = (((Number) value).intValue() == 0);
+                  break;
+               }
+
+               case DURATION :
+               {
+                  ignore = (((Duration) value).getDuration() == 0);
+                  break;
+               }
+
+               default :
+               {
+                  break;
+               }
+            }
+
+            if (!ignore)
+            {
+               Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
+
+               attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
+               extendedAttributes.add(attrib);
+               attrib.setFieldID(xmlFieldID.toString());
+               attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+               attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+            }
          }
       }
    }
@@ -756,7 +823,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
       xml.setName(mpx.getName());
-      xml.setNotes(mpx.getNotes().length() == 0 ? null : mpx.getNotes());
+
+      if (!mpx.getNotes().isEmpty())
+      {
+         xml.setNotes(mpx.getNotes());
+      }
+
       xml.setOutlineLevel(NumberUtility.getBigInteger(mpx.getOutlineLevel()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
@@ -824,28 +896,96 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeTaskBaselines(Project.Tasks.Task xmlTask, Task mpxjTask)
    {
       Project.Tasks.Task.Baseline baseline = m_factory.createProjectTasksTaskBaseline();
-      xmlTask.getBaseline().add(baseline);
+      boolean populated = false;
 
-      baseline.setNumber(BigInteger.ZERO);
-      baseline.setCost(DatatypeConverter.printCurrency(mpxjTask.getBaselineCost()));
-      baseline.setDuration(DatatypeConverter.printDuration(this, mpxjTask.getBaselineDuration()));
-      baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpxjTask.getBaselineDuration()));
-      baseline.setFinish(DatatypeConverter.printDate(mpxjTask.getBaselineFinish()));
-      baseline.setStart(DatatypeConverter.printDate(mpxjTask.getBaselineStart()));
-      baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork()));
+      Number cost = mpxjTask.getBaselineCost();
+      if (cost != null && cost.intValue() != 0)
+      {
+         populated = true;
+         baseline.setCost(DatatypeConverter.printCurrency(cost));
+      }
+
+      Duration duration = mpxjTask.getBaselineDuration();
+      if (duration != null && duration.getDuration() != 0)
+      {
+         populated = true;
+         baseline.setDuration(DatatypeConverter.printDuration(this, duration));
+         baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration));
+      }
+
+      Date date = mpxjTask.getBaselineFinish();
+      if (date != null)
+      {
+         populated = true;
+         baseline.setFinish(DatatypeConverter.printDate(date));
+      }
+
+      date = mpxjTask.getBaselineStart();
+      if (date != null)
+      {
+         populated = true;
+         baseline.setStart(DatatypeConverter.printDate(date));
+      }
+
+      duration = mpxjTask.getBaselineWork();
+      if (duration != null && duration.getDuration() != 0)
+      {
+         populated = true;
+         baseline.setWork(DatatypeConverter.printDuration(this, duration));
+      }
+
+      if (populated)
+      {
+         baseline.setNumber(BigInteger.ZERO);
+         xmlTask.getBaseline().add(baseline);
+      }
 
       for (int loop = 1; loop <= 10; loop++)
       {
          baseline = m_factory.createProjectTasksTaskBaseline();
-         xmlTask.getBaseline().add(baseline);
+         populated = false;
 
-         baseline.setNumber(BigInteger.valueOf(loop));
-         baseline.setCost(DatatypeConverter.printCurrency(mpxjTask.getBaselineCost(loop)));
-         baseline.setDuration(DatatypeConverter.printDuration(this, mpxjTask.getBaselineDuration(loop)));
-         baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpxjTask.getBaselineDuration(loop)));
-         baseline.setFinish(DatatypeConverter.printDate(mpxjTask.getBaselineFinish(loop)));
-         baseline.setStart(DatatypeConverter.printDate(mpxjTask.getBaselineStart(loop)));
-         baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork(loop)));
+         cost = mpxjTask.getBaselineCost(loop);
+         if (cost != null && cost.intValue() != 0)
+         {
+            populated = true;
+            baseline.setCost(DatatypeConverter.printCurrency(cost));
+         }
+
+         duration = mpxjTask.getBaselineDuration(loop);
+         if (duration != null && duration.getDuration() != 0)
+         {
+            populated = true;
+            baseline.setDuration(DatatypeConverter.printDuration(this, duration));
+            baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration));
+         }
+
+         date = mpxjTask.getBaselineFinish(loop);
+         if (date != null)
+         {
+            populated = true;
+            baseline.setFinish(DatatypeConverter.printDate(date));
+         }
+
+         date = mpxjTask.getBaselineStart(loop);
+         if (date != null)
+         {
+            populated = true;
+            baseline.setStart(DatatypeConverter.printDate(date));
+         }
+
+         duration = mpxjTask.getBaselineWork(loop);
+         if (duration != null && duration.getDuration() != 0)
+         {
+            populated = true;
+            baseline.setWork(DatatypeConverter.printDuration(this, duration));
+         }
+
+         if (populated)
+         {
+            baseline.setNumber(BigInteger.valueOf(loop));
+            xmlTask.getBaseline().add(baseline);
+         }
       }
    }
 
@@ -859,24 +999,53 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.Tasks.Task.ExtendedAttribute attrib;
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
-      Object value;
-      TaskField mpxFieldID;
-      Integer xmlFieldID;
 
       for (int loop = 0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
-         mpxFieldID = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
-         value = mpx.getCachedValue(mpxFieldID);
+         TaskField mpxFieldID = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
+         Object value = mpx.getCachedValue(mpxFieldID);
 
          if (value != null)
          {
-            xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
+            boolean ignore = false;
+            DataType dataType = mpxFieldID.getDataType();
+            switch (dataType)
+            {
+               case BOOLEAN :
+               {
+                  ignore = !((Boolean) value).booleanValue();
+                  break;
+               }
 
-            attrib = m_factory.createProjectTasksTaskExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+               case CURRENCY :
+               case NUMERIC :
+               {
+                  ignore = (((Number) value).intValue() == 0);
+                  break;
+               }
+
+               case DURATION :
+               {
+                  ignore = (((Duration) value).getDuration() == 0);
+                  break;
+               }
+
+               default :
+               {
+                  break;
+               }
+            }
+
+            if (!ignore)
+            {
+               Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
+
+               attrib = m_factory.createProjectTasksTaskExtendedAttribute();
+               extendedAttributes.add(attrib);
+               attrib.setFieldID(xmlFieldID.toString());
+               attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, dataType));
+               attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+            }
          }
       }
    }
