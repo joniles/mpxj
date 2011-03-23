@@ -992,11 +992,7 @@ public final class DatatypeConverter
    {
       String result = null;
 
-      if (duration == null)
-      {
-         result = DatatypeConverter.ZERO_DURATION;
-      }
-      else
+      if (duration != null && duration.getDuration() != 0)
       {
          TimeUnit durationType = duration.getUnits();
 
@@ -1051,7 +1047,7 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printCurrency(Number value)
    {
-      return (value == null ? BIGDECIMAL_ZERO : new BigDecimal(value.doubleValue() * 100));
+      return (value == null || value.doubleValue() == 0 ? null : new BigDecimal(value.doubleValue() * 100));
    }
 
    /**
@@ -1317,9 +1313,30 @@ public final class DatatypeConverter
     * @param duration Duration instance
     * @return duration in thousandths of minutes
     */
-   public static final double printDurationInThousandthsOfInMinutes(Duration duration)
+   public static final BigInteger printDurationInIntegerThousandthsOfMinutes(Duration duration)
    {
-      return printDurationFractionsOfMinutes(duration, 1000);
+      BigInteger result = null;
+      if (duration != null && duration.getDuration() != 0)
+      {
+         result = BigInteger.valueOf((long) printDurationFractionsOfMinutes(duration, 1000));
+      }
+      return result;
+   }
+
+   /**
+    * Print duration in thousandths of minutes.
+    *
+    * @param duration Duration instance
+    * @return duration in thousandths of minutes
+    */
+   public static final BigDecimal printDurationInDecimalThousandthsOfMinutes(Duration duration)
+   {
+      BigDecimal result = null;
+      if (duration != null && duration.getDuration() != 0)
+      {
+         result = BigDecimal.valueOf(printDurationFractionsOfMinutes(duration, 1000));
+      }
+      return result;
    }
 
    /**
@@ -1332,7 +1349,7 @@ public final class DatatypeConverter
    {
       BigInteger result = null;
 
-      if (duration != null)
+      if (duration != null && duration.getDuration() != 0)
       {
          result = BigInteger.valueOf((long) printDurationFractionsOfMinutes(duration, 10));
       }
@@ -1457,7 +1474,12 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printRate(Rate rate)
    {
-      return (rate == null ? null : new BigDecimal(rate.getAmount()));
+      BigDecimal result = null;
+      if (rate != null && rate.getAmount() != 0)
+      {
+         result = new BigDecimal(rate.getAmount());
+      }
+      return result;
    }
 
    /**
@@ -1759,8 +1781,6 @@ public final class DatatypeConverter
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
    private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
    private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = new ThreadLocal<NumberFormat>();
-   private static final String ZERO_DURATION = "PT0H0M0S";
-   private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<ProjectFile>();
 }

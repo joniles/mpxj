@@ -18,8 +18,6 @@
     <DaysPerMonth>20</DaysPerMonth>
     <DefaultTaskType>0</DefaultTaskType>
     <DefaultFixedCostAccrual>2</DefaultFixedCostAccrual>
-    <DefaultStandardRate>0</DefaultStandardRate>
-    <DefaultOvertimeRate>0</DefaultOvertimeRate>
     <DurationFormat>5</DurationFormat>
     <WorkFormat>2</WorkFormat>
     <EditableActualCosts>0</EditableActualCosts>
@@ -50,2248 +48,7 @@
     <ActualsInSync>0</ActualsInSync>
     <RemoveFileProperties>0</RemoveFileProperties>
     <AdminProject>0</AdminProject>
-    <ExtendedAttributes>
-        <ExtendedAttribute>
-            <FieldID>188743731</FieldID>
-            <FieldName>Text1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743734</FieldID>
-            <FieldName>Text2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743737</FieldID>
-            <FieldName>Text3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743740</FieldID>
-            <FieldName>Text4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743743</FieldID>
-            <FieldName>Text5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743746</FieldID>
-            <FieldName>Text6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743747</FieldID>
-            <FieldName>Text7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743748</FieldID>
-            <FieldName>Text8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743749</FieldID>
-            <FieldName>Text9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743750</FieldID>
-            <FieldName>Text10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743997</FieldID>
-            <FieldName>Text11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743998</FieldID>
-            <FieldName>Text12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743999</FieldID>
-            <FieldName>Text13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744000</FieldID>
-            <FieldName>Text14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744001</FieldID>
-            <FieldName>Text15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744002</FieldID>
-            <FieldName>Text16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744003</FieldID>
-            <FieldName>Text17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744004</FieldID>
-            <FieldName>Text18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744005</FieldID>
-            <FieldName>Text19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744006</FieldID>
-            <FieldName>Text20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744007</FieldID>
-            <FieldName>Text21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744008</FieldID>
-            <FieldName>Text22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744009</FieldID>
-            <FieldName>Text23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744010</FieldID>
-            <FieldName>Text24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744011</FieldID>
-            <FieldName>Text25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744012</FieldID>
-            <FieldName>Text26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744013</FieldID>
-            <FieldName>Text27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744014</FieldID>
-            <FieldName>Text28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744015</FieldID>
-            <FieldName>Text29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744016</FieldID>
-            <FieldName>Text30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743732</FieldID>
-            <FieldName>Start1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743735</FieldID>
-            <FieldName>Start2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743738</FieldID>
-            <FieldName>Start3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743741</FieldID>
-            <FieldName>Start4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743744</FieldID>
-            <FieldName>Start5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743962</FieldID>
-            <FieldName>Start6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743964</FieldID>
-            <FieldName>Start7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743966</FieldID>
-            <FieldName>Start8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743968</FieldID>
-            <FieldName>Start9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743970</FieldID>
-            <FieldName>Start10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743733</FieldID>
-            <FieldName>Finish1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743736</FieldID>
-            <FieldName>Finish2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743739</FieldID>
-            <FieldName>Finish3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743742</FieldID>
-            <FieldName>Finish4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743745</FieldID>
-            <FieldName>Finish5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743963</FieldID>
-            <FieldName>Finish6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743965</FieldID>
-            <FieldName>Finish7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743967</FieldID>
-            <FieldName>Finish8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743969</FieldID>
-            <FieldName>Finish9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743971</FieldID>
-            <FieldName>Finish10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743786</FieldID>
-            <FieldName>Cost1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743787</FieldID>
-            <FieldName>Cost2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743788</FieldID>
-            <FieldName>Cost3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743938</FieldID>
-            <FieldName>Cost4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743939</FieldID>
-            <FieldName>Cost5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743940</FieldID>
-            <FieldName>Cost6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743941</FieldID>
-            <FieldName>Cost7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743942</FieldID>
-            <FieldName>Cost8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743943</FieldID>
-            <FieldName>Cost9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743944</FieldID>
-            <FieldName>Cost10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743945</FieldID>
-            <FieldName>Date1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743946</FieldID>
-            <FieldName>Date2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743947</FieldID>
-            <FieldName>Date3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743948</FieldID>
-            <FieldName>Date4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743949</FieldID>
-            <FieldName>Date5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743950</FieldID>
-            <FieldName>Date6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743951</FieldID>
-            <FieldName>Date7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743952</FieldID>
-            <FieldName>Date8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743953</FieldID>
-            <FieldName>Date9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743954</FieldID>
-            <FieldName>Date10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743752</FieldID>
-            <FieldName>Flag1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743753</FieldID>
-            <FieldName>Flag2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743754</FieldID>
-            <FieldName>Flag3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743755</FieldID>
-            <FieldName>Flag4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743756</FieldID>
-            <FieldName>Flag5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743757</FieldID>
-            <FieldName>Flag6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743758</FieldID>
-            <FieldName>Flag7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743759</FieldID>
-            <FieldName>Flag8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743760</FieldID>
-            <FieldName>Flag9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743761</FieldID>
-            <FieldName>Flag10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743972</FieldID>
-            <FieldName>Flag11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743973</FieldID>
-            <FieldName>Flag12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743974</FieldID>
-            <FieldName>Flag13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743975</FieldID>
-            <FieldName>Flag14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743976</FieldID>
-            <FieldName>Flag15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743977</FieldID>
-            <FieldName>Flag16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743978</FieldID>
-            <FieldName>Flag17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743979</FieldID>
-            <FieldName>Flag18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743980</FieldID>
-            <FieldName>Flag19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743981</FieldID>
-            <FieldName>Flag20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743767</FieldID>
-            <FieldName>Number1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743768</FieldID>
-            <FieldName>Number2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743769</FieldID>
-            <FieldName>Number3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743770</FieldID>
-            <FieldName>Number4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743771</FieldID>
-            <FieldName>Number5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743982</FieldID>
-            <FieldName>Number6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743983</FieldID>
-            <FieldName>Number7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743984</FieldID>
-            <FieldName>Number8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743985</FieldID>
-            <FieldName>Number9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743986</FieldID>
-            <FieldName>Number10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743987</FieldID>
-            <FieldName>Number11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743988</FieldID>
-            <FieldName>Number12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743989</FieldID>
-            <FieldName>Number13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743990</FieldID>
-            <FieldName>Number14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743991</FieldID>
-            <FieldName>Number15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743992</FieldID>
-            <FieldName>Number16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743993</FieldID>
-            <FieldName>Number17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743994</FieldID>
-            <FieldName>Number18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743995</FieldID>
-            <FieldName>Number19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743996</FieldID>
-            <FieldName>Number20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743783</FieldID>
-            <FieldName>Duration1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743784</FieldID>
-            <FieldName>Duration2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743785</FieldID>
-            <FieldName>Duration3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743955</FieldID>
-            <FieldName>Duration4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743956</FieldID>
-            <FieldName>Duration5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743957</FieldID>
-            <FieldName>Duration6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743958</FieldID>
-            <FieldName>Duration7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743959</FieldID>
-            <FieldName>Duration8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743960</FieldID>
-            <FieldName>Duration9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188743961</FieldID>
-            <FieldName>Duration10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744096</FieldID>
-            <FieldName>Outline Code1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744098</FieldID>
-            <FieldName>Outline Code2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744100</FieldID>
-            <FieldName>Outline Code3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744102</FieldID>
-            <FieldName>Outline Code4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744104</FieldID>
-            <FieldName>Outline Code5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744106</FieldID>
-            <FieldName>Outline Code6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744108</FieldID>
-            <FieldName>Outline Code7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744110</FieldID>
-            <FieldName>Outline Code8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744112</FieldID>
-            <FieldName>Outline Code9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744114</FieldID>
-            <FieldName>Outline Code10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744279</FieldID>
-            <FieldName>Enterprise Cost1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744280</FieldID>
-            <FieldName>Enterprise Cost2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744281</FieldID>
-            <FieldName>Enterprise Cost3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744282</FieldID>
-            <FieldName>Enterprise Cost4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744283</FieldID>
-            <FieldName>Enterprise Cost5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744284</FieldID>
-            <FieldName>Enterprise Cost6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744285</FieldID>
-            <FieldName>Enterprise Cost7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744286</FieldID>
-            <FieldName>Enterprise Cost8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744287</FieldID>
-            <FieldName>Enterprise Cost9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744288</FieldID>
-            <FieldName>Enterprise Cost10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744289</FieldID>
-            <FieldName>Enterprise Date1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744290</FieldID>
-            <FieldName>Enterprise Date2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744291</FieldID>
-            <FieldName>Enterprise Date3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744292</FieldID>
-            <FieldName>Enterprise Date4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744293</FieldID>
-            <FieldName>Enterprise Date5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744294</FieldID>
-            <FieldName>Enterprise Date6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744295</FieldID>
-            <FieldName>Enterprise Date7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744296</FieldID>
-            <FieldName>Enterprise Date8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744297</FieldID>
-            <FieldName>Enterprise Date9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744298</FieldID>
-            <FieldName>Enterprise Date10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744299</FieldID>
-            <FieldName>Enterprise Date11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744300</FieldID>
-            <FieldName>Enterprise Date12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744301</FieldID>
-            <FieldName>Enterprise Date13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744302</FieldID>
-            <FieldName>Enterprise Date14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744303</FieldID>
-            <FieldName>Enterprise Date15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744304</FieldID>
-            <FieldName>Enterprise Date16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744305</FieldID>
-            <FieldName>Enterprise Date17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744306</FieldID>
-            <FieldName>Enterprise Date18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744307</FieldID>
-            <FieldName>Enterprise Date19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744308</FieldID>
-            <FieldName>Enterprise Date20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744309</FieldID>
-            <FieldName>Enterprise Date21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744310</FieldID>
-            <FieldName>Enterprise Date22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744311</FieldID>
-            <FieldName>Enterprise Date23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744312</FieldID>
-            <FieldName>Enterprise Date24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744313</FieldID>
-            <FieldName>Enterprise Date25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744314</FieldID>
-            <FieldName>Enterprise Date26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744315</FieldID>
-            <FieldName>Enterprise Date27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744316</FieldID>
-            <FieldName>Enterprise Date28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744317</FieldID>
-            <FieldName>Enterprise Date29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744318</FieldID>
-            <FieldName>Enterprise Date30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744319</FieldID>
-            <FieldName>Enterprise Duration1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744320</FieldID>
-            <FieldName>Enterprise Duration2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744321</FieldID>
-            <FieldName>Enterprise Duration3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744322</FieldID>
-            <FieldName>Enterprise Duration4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744323</FieldID>
-            <FieldName>Enterprise Duration5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744324</FieldID>
-            <FieldName>Enterprise Duration6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744325</FieldID>
-            <FieldName>Enterprise Duration7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744326</FieldID>
-            <FieldName>Enterprise Duration8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744327</FieldID>
-            <FieldName>Enterprise Duration9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744328</FieldID>
-            <FieldName>Enterprise Duration10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744339</FieldID>
-            <FieldName>Enterprise Flag1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744340</FieldID>
-            <FieldName>Enterprise Flag2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744341</FieldID>
-            <FieldName>Enterprise Flag3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744342</FieldID>
-            <FieldName>Enterprise Flag4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744343</FieldID>
-            <FieldName>Enterprise Flag5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744344</FieldID>
-            <FieldName>Enterprise Flag6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744345</FieldID>
-            <FieldName>Enterprise Flag7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744346</FieldID>
-            <FieldName>Enterprise Flag8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744347</FieldID>
-            <FieldName>Enterprise Flag9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744348</FieldID>
-            <FieldName>Enterprise Flag10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744349</FieldID>
-            <FieldName>Enterprise Flag11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744350</FieldID>
-            <FieldName>Enterprise Flag12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744351</FieldID>
-            <FieldName>Enterprise Flag13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744352</FieldID>
-            <FieldName>Enterprise Flag14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744353</FieldID>
-            <FieldName>Enterprise Flag15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744354</FieldID>
-            <FieldName>Enterprise Flag16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744355</FieldID>
-            <FieldName>Enterprise Flag17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744356</FieldID>
-            <FieldName>Enterprise Flag18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744357</FieldID>
-            <FieldName>Enterprise Flag19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744358</FieldID>
-            <FieldName>Enterprise Flag20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744379</FieldID>
-            <FieldName>Enterprise Number1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744380</FieldID>
-            <FieldName>Enterprise Number2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744381</FieldID>
-            <FieldName>Enterprise Number3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744382</FieldID>
-            <FieldName>Enterprise Number4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744383</FieldID>
-            <FieldName>Enterprise Number5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744384</FieldID>
-            <FieldName>Enterprise Number6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744385</FieldID>
-            <FieldName>Enterprise Number7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744386</FieldID>
-            <FieldName>Enterprise Number8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744387</FieldID>
-            <FieldName>Enterprise Number9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744388</FieldID>
-            <FieldName>Enterprise Number10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744389</FieldID>
-            <FieldName>Enterprise Number11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744390</FieldID>
-            <FieldName>Enterprise Number12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744391</FieldID>
-            <FieldName>Enterprise Number13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744392</FieldID>
-            <FieldName>Enterprise Number14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744393</FieldID>
-            <FieldName>Enterprise Number15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744394</FieldID>
-            <FieldName>Enterprise Number16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744395</FieldID>
-            <FieldName>Enterprise Number17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744396</FieldID>
-            <FieldName>Enterprise Number18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744397</FieldID>
-            <FieldName>Enterprise Number19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744398</FieldID>
-            <FieldName>Enterprise Number20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744399</FieldID>
-            <FieldName>Enterprise Number21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744400</FieldID>
-            <FieldName>Enterprise Number22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744401</FieldID>
-            <FieldName>Enterprise Number23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744402</FieldID>
-            <FieldName>Enterprise Number24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744403</FieldID>
-            <FieldName>Enterprise Number25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744404</FieldID>
-            <FieldName>Enterprise Number26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744405</FieldID>
-            <FieldName>Enterprise Number27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744406</FieldID>
-            <FieldName>Enterprise Number28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744407</FieldID>
-            <FieldName>Enterprise Number29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744408</FieldID>
-            <FieldName>Enterprise Number30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744409</FieldID>
-            <FieldName>Enterprise Number31</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744410</FieldID>
-            <FieldName>Enterprise Number32</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744411</FieldID>
-            <FieldName>Enterprise Number33</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744412</FieldID>
-            <FieldName>Enterprise Number34</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744413</FieldID>
-            <FieldName>Enterprise Number35</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744414</FieldID>
-            <FieldName>Enterprise Number36</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744415</FieldID>
-            <FieldName>Enterprise Number37</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744416</FieldID>
-            <FieldName>Enterprise Number38</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744417</FieldID>
-            <FieldName>Enterprise Number39</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744418</FieldID>
-            <FieldName>Enterprise Number40</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744479</FieldID>
-            <FieldName>Enterprise Text1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744480</FieldID>
-            <FieldName>Enterprise Text2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744481</FieldID>
-            <FieldName>Enterprise Text3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744482</FieldID>
-            <FieldName>Enterprise Text4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744483</FieldID>
-            <FieldName>Enterprise Text5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744484</FieldID>
-            <FieldName>Enterprise Text6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744485</FieldID>
-            <FieldName>Enterprise Text7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744486</FieldID>
-            <FieldName>Enterprise Text8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744487</FieldID>
-            <FieldName>Enterprise Text9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744488</FieldID>
-            <FieldName>Enterprise Text10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744489</FieldID>
-            <FieldName>Enterprise Text11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744490</FieldID>
-            <FieldName>Enterprise Text12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744491</FieldID>
-            <FieldName>Enterprise Text13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744492</FieldID>
-            <FieldName>Enterprise Text14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744493</FieldID>
-            <FieldName>Enterprise Text15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744494</FieldID>
-            <FieldName>Enterprise Text16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744495</FieldID>
-            <FieldName>Enterprise Text17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744496</FieldID>
-            <FieldName>Enterprise Text18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744497</FieldID>
-            <FieldName>Enterprise Text19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744498</FieldID>
-            <FieldName>Enterprise Text20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744499</FieldID>
-            <FieldName>Enterprise Text21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744500</FieldID>
-            <FieldName>Enterprise Text22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744501</FieldID>
-            <FieldName>Enterprise Text23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744502</FieldID>
-            <FieldName>Enterprise Text24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744503</FieldID>
-            <FieldName>Enterprise Text25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744504</FieldID>
-            <FieldName>Enterprise Text26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744505</FieldID>
-            <FieldName>Enterprise Text27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744506</FieldID>
-            <FieldName>Enterprise Text28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744507</FieldID>
-            <FieldName>Enterprise Text29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744508</FieldID>
-            <FieldName>Enterprise Text30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744509</FieldID>
-            <FieldName>Enterprise Text31</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744510</FieldID>
-            <FieldName>Enterprise Text32</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744511</FieldID>
-            <FieldName>Enterprise Text33</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744512</FieldID>
-            <FieldName>Enterprise Text34</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744513</FieldID>
-            <FieldName>Enterprise Text35</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744514</FieldID>
-            <FieldName>Enterprise Text36</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744515</FieldID>
-            <FieldName>Enterprise Text37</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744516</FieldID>
-            <FieldName>Enterprise Text38</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744517</FieldID>
-            <FieldName>Enterprise Text39</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>188744518</FieldID>
-            <FieldName>Enterprise Text40</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520904</FieldID>
-            <FieldName>Text1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520905</FieldID>
-            <FieldName>Text2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520926</FieldID>
-            <FieldName>Text3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520927</FieldID>
-            <FieldName>Text4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520928</FieldID>
-            <FieldName>Text5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520993</FieldID>
-            <FieldName>Text6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520994</FieldID>
-            <FieldName>Text7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520995</FieldID>
-            <FieldName>Text8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520996</FieldID>
-            <FieldName>Text9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520997</FieldID>
-            <FieldName>Text10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521121</FieldID>
-            <FieldName>Text11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521122</FieldID>
-            <FieldName>Text12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521123</FieldID>
-            <FieldName>Text13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521124</FieldID>
-            <FieldName>Text14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521125</FieldID>
-            <FieldName>Text15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521126</FieldID>
-            <FieldName>Text16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521127</FieldID>
-            <FieldName>Text17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521128</FieldID>
-            <FieldName>Text18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521129</FieldID>
-            <FieldName>Text19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521130</FieldID>
-            <FieldName>Text20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521131</FieldID>
-            <FieldName>Text21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521132</FieldID>
-            <FieldName>Text22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521133</FieldID>
-            <FieldName>Text23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521134</FieldID>
-            <FieldName>Text24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521135</FieldID>
-            <FieldName>Text25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521136</FieldID>
-            <FieldName>Text26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521137</FieldID>
-            <FieldName>Text27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521138</FieldID>
-            <FieldName>Text28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521139</FieldID>
-            <FieldName>Text29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521140</FieldID>
-            <FieldName>Text30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520998</FieldID>
-            <FieldName>Start1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205520999</FieldID>
-            <FieldName>Start2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521000</FieldID>
-            <FieldName>Start3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521001</FieldID>
-            <FieldName>Start4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521002</FieldID>
-            <FieldName>Start5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521116</FieldID>
-            <FieldName>Start6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521117</FieldID>
-            <FieldName>Start7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521118</FieldID>
-            <FieldName>Start8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521119</FieldID>
-            <FieldName>Start9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521120</FieldID>
-            <FieldName>Start10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521003</FieldID>
-            <FieldName>Finish1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521004</FieldID>
-            <FieldName>Finish2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521005</FieldID>
-            <FieldName>Finish3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521006</FieldID>
-            <FieldName>Finish4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521007</FieldID>
-            <FieldName>Finish5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521086</FieldID>
-            <FieldName>Finish6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521087</FieldID>
-            <FieldName>Finish7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521088</FieldID>
-            <FieldName>Finish8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521089</FieldID>
-            <FieldName>Finish9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521090</FieldID>
-            <FieldName>Finish10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521019</FieldID>
-            <FieldName>Cost1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521020</FieldID>
-            <FieldName>Cost2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521021</FieldID>
-            <FieldName>Cost3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521062</FieldID>
-            <FieldName>Cost4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521063</FieldID>
-            <FieldName>Cost5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521064</FieldID>
-            <FieldName>Cost6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521065</FieldID>
-            <FieldName>Cost7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521066</FieldID>
-            <FieldName>Cost8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521067</FieldID>
-            <FieldName>Cost9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521068</FieldID>
-            <FieldName>Cost10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521069</FieldID>
-            <FieldName>Date1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521070</FieldID>
-            <FieldName>Date2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521071</FieldID>
-            <FieldName>Date3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521072</FieldID>
-            <FieldName>Date4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521073</FieldID>
-            <FieldName>Date5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521074</FieldID>
-            <FieldName>Date6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521075</FieldID>
-            <FieldName>Date7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521076</FieldID>
-            <FieldName>Date8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521077</FieldID>
-            <FieldName>Date9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521078</FieldID>
-            <FieldName>Date10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521023</FieldID>
-            <FieldName>Flag1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521024</FieldID>
-            <FieldName>Flag2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521025</FieldID>
-            <FieldName>Flag3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521026</FieldID>
-            <FieldName>Flag4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521027</FieldID>
-            <FieldName>Flag5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521028</FieldID>
-            <FieldName>Flag6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521029</FieldID>
-            <FieldName>Flag7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521030</FieldID>
-            <FieldName>Flag8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521031</FieldID>
-            <FieldName>Flag9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521022</FieldID>
-            <FieldName>Flag10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521091</FieldID>
-            <FieldName>Flag11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521092</FieldID>
-            <FieldName>Flag12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521093</FieldID>
-            <FieldName>Flag13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521094</FieldID>
-            <FieldName>Flag14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521095</FieldID>
-            <FieldName>Flag15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521096</FieldID>
-            <FieldName>Flag16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521097</FieldID>
-            <FieldName>Flag17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521098</FieldID>
-            <FieldName>Flag18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521099</FieldID>
-            <FieldName>Flag19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521100</FieldID>
-            <FieldName>Flag20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521008</FieldID>
-            <FieldName>Number1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521009</FieldID>
-            <FieldName>Number2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521010</FieldID>
-            <FieldName>Number3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521011</FieldID>
-            <FieldName>Number4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521012</FieldID>
-            <FieldName>Number5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521101</FieldID>
-            <FieldName>Number6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521102</FieldID>
-            <FieldName>Number7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521103</FieldID>
-            <FieldName>Number8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521104</FieldID>
-            <FieldName>Number9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521105</FieldID>
-            <FieldName>Number10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521106</FieldID>
-            <FieldName>Number11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521107</FieldID>
-            <FieldName>Number12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521108</FieldID>
-            <FieldName>Number13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521109</FieldID>
-            <FieldName>Number14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521110</FieldID>
-            <FieldName>Number15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521111</FieldID>
-            <FieldName>Number16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521112</FieldID>
-            <FieldName>Number17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521113</FieldID>
-            <FieldName>Number18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521114</FieldID>
-            <FieldName>Number19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521115</FieldID>
-            <FieldName>Number20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521013</FieldID>
-            <FieldName>Duration1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521014</FieldID>
-            <FieldName>Duration2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521015</FieldID>
-            <FieldName>Duration3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521079</FieldID>
-            <FieldName>Duration4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521080</FieldID>
-            <FieldName>Duration5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521081</FieldID>
-            <FieldName>Duration6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521082</FieldID>
-            <FieldName>Duration7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521083</FieldID>
-            <FieldName>Duration8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521084</FieldID>
-            <FieldName>Duration9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521085</FieldID>
-            <FieldName>Duration10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521174</FieldID>
-            <FieldName>Outline Code1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521176</FieldID>
-            <FieldName>Outline Code2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521178</FieldID>
-            <FieldName>Outline Code3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521180</FieldID>
-            <FieldName>Outline Code4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521182</FieldID>
-            <FieldName>Outline Code5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521184</FieldID>
-            <FieldName>Outline Code6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521186</FieldID>
-            <FieldName>Outline Code7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521188</FieldID>
-            <FieldName>Outline Code8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521190</FieldID>
-            <FieldName>Outline Code9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521192</FieldID>
-            <FieldName>Outline Code10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521342</FieldID>
-            <FieldName>Enterprise Cost1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521343</FieldID>
-            <FieldName>Enterprise Cost2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521344</FieldID>
-            <FieldName>Enterprise Cost3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521345</FieldID>
-            <FieldName>Enterprise Cost4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521346</FieldID>
-            <FieldName>Enterprise Cost5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521347</FieldID>
-            <FieldName>Enterprise Cost6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521348</FieldID>
-            <FieldName>Enterprise Cost7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521349</FieldID>
-            <FieldName>Enterprise Cost8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521350</FieldID>
-            <FieldName>Enterprise Cost9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521351</FieldID>
-            <FieldName>Enterprise Cost10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521352</FieldID>
-            <FieldName>Enterprise Date1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521353</FieldID>
-            <FieldName>Enterprise Date2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521354</FieldID>
-            <FieldName>Enterprise Date3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521355</FieldID>
-            <FieldName>Enterprise Date4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521356</FieldID>
-            <FieldName>Enterprise Date5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521357</FieldID>
-            <FieldName>Enterprise Date6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521358</FieldID>
-            <FieldName>Enterprise Date7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521359</FieldID>
-            <FieldName>Enterprise Date8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521360</FieldID>
-            <FieldName>Enterprise Date9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521361</FieldID>
-            <FieldName>Enterprise Date10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521362</FieldID>
-            <FieldName>Enterprise Date11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521363</FieldID>
-            <FieldName>Enterprise Date12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521364</FieldID>
-            <FieldName>Enterprise Date13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521365</FieldID>
-            <FieldName>Enterprise Date14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521366</FieldID>
-            <FieldName>Enterprise Date15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521367</FieldID>
-            <FieldName>Enterprise Date16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521368</FieldID>
-            <FieldName>Enterprise Date17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521369</FieldID>
-            <FieldName>Enterprise Date18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521370</FieldID>
-            <FieldName>Enterprise Date19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521371</FieldID>
-            <FieldName>Enterprise Date20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521372</FieldID>
-            <FieldName>Enterprise Date21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521373</FieldID>
-            <FieldName>Enterprise Date22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521374</FieldID>
-            <FieldName>Enterprise Date23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521375</FieldID>
-            <FieldName>Enterprise Date24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521376</FieldID>
-            <FieldName>Enterprise Date25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521377</FieldID>
-            <FieldName>Enterprise Date26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521378</FieldID>
-            <FieldName>Enterprise Date27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521379</FieldID>
-            <FieldName>Enterprise Date28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521380</FieldID>
-            <FieldName>Enterprise Date29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521381</FieldID>
-            <FieldName>Enterprise Date30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521382</FieldID>
-            <FieldName>Enterprise Duration1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521383</FieldID>
-            <FieldName>Enterprise Duration2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521384</FieldID>
-            <FieldName>Enterprise Duration3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521385</FieldID>
-            <FieldName>Enterprise Duration4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521386</FieldID>
-            <FieldName>Enterprise Duration5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521387</FieldID>
-            <FieldName>Enterprise Duration6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521388</FieldID>
-            <FieldName>Enterprise Duration7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521389</FieldID>
-            <FieldName>Enterprise Duration8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521390</FieldID>
-            <FieldName>Enterprise Duration9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521391</FieldID>
-            <FieldName>Enterprise Duration10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521402</FieldID>
-            <FieldName>Enterprise Flag1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521403</FieldID>
-            <FieldName>Enterprise Flag2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521404</FieldID>
-            <FieldName>Enterprise Flag3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521405</FieldID>
-            <FieldName>Enterprise Flag4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521406</FieldID>
-            <FieldName>Enterprise Flag5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521407</FieldID>
-            <FieldName>Enterprise Flag6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521408</FieldID>
-            <FieldName>Enterprise Flag7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521409</FieldID>
-            <FieldName>Enterprise Flag8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521410</FieldID>
-            <FieldName>Enterprise Flag9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521411</FieldID>
-            <FieldName>Enterprise Flag10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521412</FieldID>
-            <FieldName>Enterprise Flag11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521413</FieldID>
-            <FieldName>Enterprise Flag12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521414</FieldID>
-            <FieldName>Enterprise Flag13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521415</FieldID>
-            <FieldName>Enterprise Flag14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521416</FieldID>
-            <FieldName>Enterprise Flag15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521417</FieldID>
-            <FieldName>Enterprise Flag16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521418</FieldID>
-            <FieldName>Enterprise Flag17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521419</FieldID>
-            <FieldName>Enterprise Flag18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521420</FieldID>
-            <FieldName>Enterprise Flag19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521421</FieldID>
-            <FieldName>Enterprise Flag20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521442</FieldID>
-            <FieldName>Enterprise Number1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521443</FieldID>
-            <FieldName>Enterprise Number2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521444</FieldID>
-            <FieldName>Enterprise Number3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521445</FieldID>
-            <FieldName>Enterprise Number4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521446</FieldID>
-            <FieldName>Enterprise Number5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521447</FieldID>
-            <FieldName>Enterprise Number6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521448</FieldID>
-            <FieldName>Enterprise Number7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521449</FieldID>
-            <FieldName>Enterprise Number8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521450</FieldID>
-            <FieldName>Enterprise Number9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521451</FieldID>
-            <FieldName>Enterprise Number10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521452</FieldID>
-            <FieldName>Enterprise Number11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521453</FieldID>
-            <FieldName>Enterprise Number12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521454</FieldID>
-            <FieldName>Enterprise Number13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521455</FieldID>
-            <FieldName>Enterprise Number14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521456</FieldID>
-            <FieldName>Enterprise Number15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521457</FieldID>
-            <FieldName>Enterprise Number16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521458</FieldID>
-            <FieldName>Enterprise Number17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521459</FieldID>
-            <FieldName>Enterprise Number18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521460</FieldID>
-            <FieldName>Enterprise Number19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521461</FieldID>
-            <FieldName>Enterprise Number20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521462</FieldID>
-            <FieldName>Enterprise Number21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521463</FieldID>
-            <FieldName>Enterprise Number22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521464</FieldID>
-            <FieldName>Enterprise Number23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521465</FieldID>
-            <FieldName>Enterprise Number24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521466</FieldID>
-            <FieldName>Enterprise Number25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521467</FieldID>
-            <FieldName>Enterprise Number26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521468</FieldID>
-            <FieldName>Enterprise Number27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521469</FieldID>
-            <FieldName>Enterprise Number28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521470</FieldID>
-            <FieldName>Enterprise Number29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521471</FieldID>
-            <FieldName>Enterprise Number30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521472</FieldID>
-            <FieldName>Enterprise Number31</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521473</FieldID>
-            <FieldName>Enterprise Number32</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521474</FieldID>
-            <FieldName>Enterprise Number33</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521475</FieldID>
-            <FieldName>Enterprise Number34</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521476</FieldID>
-            <FieldName>Enterprise Number35</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521477</FieldID>
-            <FieldName>Enterprise Number36</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521478</FieldID>
-            <FieldName>Enterprise Number37</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521479</FieldID>
-            <FieldName>Enterprise Number38</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521480</FieldID>
-            <FieldName>Enterprise Number39</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521481</FieldID>
-            <FieldName>Enterprise Number40</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521542</FieldID>
-            <FieldName>Enterprise Text1</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521543</FieldID>
-            <FieldName>Enterprise Text2</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521544</FieldID>
-            <FieldName>Enterprise Text3</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521545</FieldID>
-            <FieldName>Enterprise Text4</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521546</FieldID>
-            <FieldName>Enterprise Text5</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521547</FieldID>
-            <FieldName>Enterprise Text6</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521548</FieldID>
-            <FieldName>Enterprise Text7</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521549</FieldID>
-            <FieldName>Enterprise Text8</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521550</FieldID>
-            <FieldName>Enterprise Text9</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521551</FieldID>
-            <FieldName>Enterprise Text10</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521552</FieldID>
-            <FieldName>Enterprise Text11</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521553</FieldID>
-            <FieldName>Enterprise Text12</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521554</FieldID>
-            <FieldName>Enterprise Text13</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521555</FieldID>
-            <FieldName>Enterprise Text14</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521556</FieldID>
-            <FieldName>Enterprise Text15</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521557</FieldID>
-            <FieldName>Enterprise Text16</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521558</FieldID>
-            <FieldName>Enterprise Text17</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521559</FieldID>
-            <FieldName>Enterprise Text18</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521560</FieldID>
-            <FieldName>Enterprise Text19</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521561</FieldID>
-            <FieldName>Enterprise Text20</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521562</FieldID>
-            <FieldName>Enterprise Text21</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521563</FieldID>
-            <FieldName>Enterprise Text22</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521564</FieldID>
-            <FieldName>Enterprise Text23</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521565</FieldID>
-            <FieldName>Enterprise Text24</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521566</FieldID>
-            <FieldName>Enterprise Text25</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521567</FieldID>
-            <FieldName>Enterprise Text26</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521568</FieldID>
-            <FieldName>Enterprise Text27</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521569</FieldID>
-            <FieldName>Enterprise Text28</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521570</FieldID>
-            <FieldName>Enterprise Text29</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521571</FieldID>
-            <FieldName>Enterprise Text30</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521572</FieldID>
-            <FieldName>Enterprise Text31</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521573</FieldID>
-            <FieldName>Enterprise Text32</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521574</FieldID>
-            <FieldName>Enterprise Text33</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521575</FieldID>
-            <FieldName>Enterprise Text34</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521576</FieldID>
-            <FieldName>Enterprise Text35</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521577</FieldID>
-            <FieldName>Enterprise Text36</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521578</FieldID>
-            <FieldName>Enterprise Text37</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521579</FieldID>
-            <FieldName>Enterprise Text38</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521580</FieldID>
-            <FieldName>Enterprise Text39</FieldName>
-        </ExtendedAttribute>
-        <ExtendedAttribute>
-            <FieldID>205521581</FieldID>
-            <FieldName>Enterprise Text40</FieldName>
-        </ExtendedAttribute>
-    </ExtendedAttributes>
+    <ExtendedAttributes/>
     <Calendars>
         <Calendar>
             <UID>1</UID>
@@ -2586,31 +343,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
             <WorkVariance>34800000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>417125</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT580H0M0S</RegularWork>
             <RemainingDuration>PT400H0M0S</RemainingDuration>
             <RemainingCost>417125</RemainingCost>
             <RemainingWork>PT580H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -2621,12 +362,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -2657,31 +394,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
             <WorkVariance>30000000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>352625</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT500H0M0S</RegularWork>
             <RemainingDuration>PT400H0M0S</RemainingDuration>
             <RemainingCost>352625</RemainingCost>
             <RemainingWork>PT500H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -2694,12 +415,8 @@
 </Notes>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -2730,31 +447,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
             <WorkVariance>30000000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>352625</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT500H0M0S</RegularWork>
             <RemainingDuration>PT800H0M0S</RemainingDuration>
             <RemainingCost>352625</RemainingCost>
             <RemainingWork>PT500H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -2767,12 +468,8 @@
 </Notes>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -2789,9 +486,6 @@
             <Priority>600</Priority>
             <Start>2003-01-07T08:00:00</Start>
             <Finish>2003-01-07T08:00:00</Finish>
-            <Duration>PT0H0M0S</Duration>
-            <DurationFormat>7</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -2803,31 +497,9 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
-            <RemainingDuration>PT0H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -2840,12 +512,8 @@
 </Notes>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -2864,7 +532,6 @@
             <Finish>2003-03-03T17:00:00</Finish>
             <Duration>PT168H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -2876,31 +543,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT168H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2911,12 +557,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>1</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -2935,7 +577,6 @@
             <Finish>2003-02-03T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -2947,31 +588,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-02-01T08:00:00</ConstraintDate>
@@ -2983,12 +603,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3007,7 +623,6 @@
             <Finish>2003-03-03T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3019,31 +634,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-03-01T08:00:00</ConstraintDate>
@@ -3055,12 +649,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3091,31 +681,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>4800000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
+            <WorkVariance>4800000.0</WorkVariance>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>64500</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT80H0M0S</RegularWork>
             <RemainingDuration>PT40H0M0S</RemainingDuration>
             <RemainingCost>64500</RemainingCost>
             <RemainingWork>PT80H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -3126,12 +700,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3150,7 +720,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3162,31 +731,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-14T17:00:00</Deadline>
@@ -3197,12 +745,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3221,7 +765,6 @@
             <Finish>2003-01-08T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3233,31 +776,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3268,16 +790,12 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
                 <PredecessorUID>9</PredecessorUID>
                 <Type>1</Type>
             </PredecessorLink>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3296,7 +814,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3308,31 +825,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-13T17:00:00</Deadline>
@@ -3343,12 +839,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3367,7 +859,6 @@
             <Finish>2003-01-09T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3379,31 +870,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3414,8 +884,6 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -3424,8 +892,6 @@
                 <LinkLag>4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3444,7 +910,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3456,31 +921,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3491,12 +935,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3515,7 +955,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3527,31 +966,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3562,8 +980,6 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -3572,8 +988,6 @@
                 <LinkLag>-4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3592,7 +1006,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3604,31 +1017,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3639,12 +1031,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3663,7 +1051,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3675,31 +1062,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3710,16 +1076,12 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
                 <PredecessorUID>15</PredecessorUID>
                 <Type>3</Type>
             </PredecessorLink>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3738,7 +1100,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3750,31 +1111,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3785,12 +1125,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3809,7 +1145,6 @@
             <Finish>2003-01-07T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3821,31 +1156,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -3856,16 +1170,12 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
                 <PredecessorUID>17</PredecessorUID>
                 <Type>0</Type>
             </PredecessorLink>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3884,7 +1194,6 @@
             <Finish>2003-01-08T17:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3896,31 +1205,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-01-08T08:00:00</ConstraintDate>
@@ -3932,12 +1220,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -3956,7 +1240,6 @@
             <Finish>2003-01-08T08:00:00</Finish>
             <Duration>PT8H0M0S</Duration>
             <DurationFormat>5</DurationFormat>
-            <Work>PT0H0M0S</Work>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -3968,31 +1251,10 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>0</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
-            <Cost>0</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RegularWork>PT0H0M0S</RegularWork>
             <RemainingDuration>PT8H0M0S</RemainingDuration>
-            <RemainingCost>0</RemainingCost>
-            <RemainingWork>PT0H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-01-06T08:00:00</ConstraintDate>
@@ -4004,16 +1266,12 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
                 <PredecessorUID>20</PredecessorUID>
                 <Type>2</Type>
             </PredecessorLink>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -4044,31 +1302,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>4800000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
+            <WorkVariance>4800000.0</WorkVariance>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>64500</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT80H0M0S</RegularWork>
             <RemainingDuration>PT40H0M0S</RemainingDuration>
             <RemainingCost>64500</RemainingCost>
             <RemainingWork>PT80H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -4079,12 +1321,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -4115,31 +1353,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>2400000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
+            <WorkVariance>2400000.0</WorkVariance>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>43000</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT40H0M0S</RegularWork>
             <RemainingDuration>PT40H0M0S</RemainingDuration>
             <RemainingCost>43000</RemainingCost>
             <RemainingWork>PT40H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -4150,12 +1372,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -4186,31 +1404,15 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <StartVariance>0</StartVariance>
-            <FinishVariance>0</FinishVariance>
-            <WorkVariance>2400000</WorkVariance>
-            <FreeSlack>0</FreeSlack>
-            <TotalSlack>0</TotalSlack>
-            <FixedCost>0</FixedCost>
+            <WorkVariance>2400000.0</WorkVariance>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>21500</Cost>
-            <OvertimeCost>0</OvertimeCost>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualDuration>PT0H0M0S</ActualDuration>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <ActualWork>PT0H0M0S</ActualWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
             <RegularWork>PT40H0M0S</RegularWork>
             <RemainingDuration>PT40H0M0S</RemainingDuration>
             <RemainingCost>21500</RemainingCost>
             <RemainingWork>PT40H0M0S</RemainingWork>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0</ACWP>
-            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -4221,12 +1423,8 @@
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <Active>0</Active>
             <Manual>0</Manual>
         </Task>
@@ -4249,28 +1447,16 @@
             <AccrueAt>3</AccrueAt>
             <Work>PT240H0M0S</Work>
             <RegularWork>PT240H0M0S</RegularWork>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualWork>PT0H0M0S</ActualWork>
             <RemainingWork>PT240H0M0S</RemainingWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
             <PercentWorkComplete>0</PercentWorkComplete>
             <StandardRate>10</StandardRate>
             <StandardRateFormat>3</StandardRateFormat>
             <Cost>201500</Cost>
             <OvertimeRate>20</OvertimeRate>
             <OvertimeRateFormat>3</OvertimeRateFormat>
-            <OvertimeCost>0</OvertimeCost>
             <CostPerUse>3000</CostPerUse>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <RemainingCost>0</RemainingCost>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <WorkVariance>14400000</WorkVariance>
             <CostVariance>201500</CostVariance>
-            <SV>0</SV>
-            <CV>0</CV>
-            <ACWP>0</ACWP>
             <CalendarUID>3</CalendarUID>
             <Notes>First resource notes 
 
@@ -4288,68 +1474,12 @@ formatting.
 
 
 </Notes>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <IsGeneric>0</IsGeneric>
             <IsInactive>0</IsInactive>
             <IsEnterprise>0</IsEnterprise>
             <BookingType>0</BookingType>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <IsBudget>0</IsBudget>
             <AvailabilityPeriods/>
-            <Rates>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>0</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>1</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>2</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>3</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>4</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-            </Rates>
         </Resource>
         <Resource>
             <UID>2</UID>
@@ -4368,93 +1498,25 @@ formatting.
             <AccrueAt>3</AccrueAt>
             <Work>PT340H0M0S</Work>
             <RegularWork>PT340H0M0S</RegularWork>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
-            <ActualWork>PT0H0M0S</ActualWork>
             <RemainingWork>PT340H0M0S</RemainingWork>
-            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
-            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
             <PercentWorkComplete>0</PercentWorkComplete>
             <StandardRate>5</StandardRate>
             <StandardRateFormat>3</StandardRateFormat>
             <Cost>151125</Cost>
             <OvertimeRate>10</OvertimeRate>
             <OvertimeRateFormat>3</OvertimeRateFormat>
-            <OvertimeCost>0</OvertimeCost>
             <CostPerUse>1500</CostPerUse>
-            <ActualCost>0</ActualCost>
-            <ActualOvertimeCost>0</ActualOvertimeCost>
-            <RemainingCost>0</RemainingCost>
-            <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <WorkVariance>20400000</WorkVariance>
             <CostVariance>151125</CostVariance>
-            <SV>0</SV>
-            <CV>0</CV>
-            <ACWP>0</ACWP>
             <CalendarUID>4</CalendarUID>
             <Notes>Test Resource Notes
 </Notes>
-            <BCWS>0</BCWS>
-            <BCWP>0</BCWP>
             <IsGeneric>0</IsGeneric>
             <IsInactive>0</IsInactive>
             <IsEnterprise>0</IsEnterprise>
             <BookingType>0</BookingType>
-            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
-            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
             <IsBudget>0</IsBudget>
             <AvailabilityPeriods/>
-            <Rates>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>0</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>1</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>2</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>3</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-                <Rate>
-                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
-                    <RatesTo>2049-12-31T23:59:00</RatesTo>
-                    <RateTable>4</RateTable>
-                    <StandardRate>0</StandardRate>
-                    <StandardRateFormat>2</StandardRateFormat>
-                    <OvertimeRate>0</OvertimeRate>
-                    <OvertimeRateFormat>2</OvertimeRateFormat>
-                    <CostPerUse>0</CostPerUse>
-                </Rate>
-            </Rates>
         </Resource>
     </Resources>
     <Assignments>
@@ -4462,93 +1524,57 @@ formatting.
             <UID>0</UID>
             <TaskUID>2</TaskUID>
             <ResourceUID>1</ResourceUID>
-            <ActualCost>0</ActualCost>
-            <ActualWork>PT0H0M0S</ActualWork>
             <Cost>201500</Cost>
-            <Delay>0</Delay>
             <Finish>2003-03-17T17:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>1</FixedMaterial>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
             <RateScale>3</RateScale>
-            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
             <Units>0.5</Units>
             <Work>PT200H0M0S</Work>
             <WorkContour>0</WorkContour>
-            <Baseline>
-                <Number>0</Number>
-                <Work>PT0H0M0S</Work>
-            </Baseline>
         </Assignment>
         <Assignment>
             <UID>1</UID>
             <TaskUID>2</TaskUID>
             <ResourceUID>2</ResourceUID>
-            <ActualCost>0</ActualCost>
-            <ActualWork>PT0H0M0S</ActualWork>
             <Cost>151125</Cost>
-            <Delay>0</Delay>
             <Finish>2003-03-18T08:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>1</FixedMaterial>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
             <RateScale>3</RateScale>
-            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
             <Units>0.75</Units>
             <Work>PT300H0M0S</Work>
             <WorkContour>0</WorkContour>
-            <Baseline>
-                <Number>0</Number>
-                <Work>PT0H0M0S</Work>
-            </Baseline>
         </Assignment>
         <Assignment>
             <UID>2</UID>
             <TaskUID>23</TaskUID>
             <ResourceUID>1</ResourceUID>
-            <ActualCost>0</ActualCost>
-            <ActualWork>PT0H0M0S</ActualWork>
             <Cost>43000</Cost>
-            <Delay>0</Delay>
             <Finish>2003-01-13T17:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>1</FixedMaterial>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
             <RateScale>3</RateScale>
-            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
             <Units>1</Units>
             <Work>PT40H0M0S</Work>
             <WorkContour>0</WorkContour>
-            <Baseline>
-                <Number>0</Number>
-                <Work>PT0H0M0S</Work>
-            </Baseline>
         </Assignment>
         <Assignment>
             <UID>3</UID>
             <TaskUID>24</TaskUID>
             <ResourceUID>2</ResourceUID>
-            <ActualCost>0</ActualCost>
-            <ActualWork>PT0H0M0S</ActualWork>
             <Cost>21500</Cost>
-            <Delay>0</Delay>
             <Finish>2003-01-14T08:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>1</FixedMaterial>
-            <OvertimeWork>PT0H0M0S</OvertimeWork>
             <RateScale>3</RateScale>
-            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
             <Units>1</Units>
             <Work>PT40H0M0S</Work>
             <WorkContour>0</WorkContour>
-            <Baseline>
-                <Number>0</Number>
-                <Work>PT0H0M0S</Work>
-            </Baseline>
         </Assignment>
     </Assignments>
 </Project>
