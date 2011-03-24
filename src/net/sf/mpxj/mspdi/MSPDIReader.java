@@ -50,12 +50,12 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -65,6 +65,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.SubProject;
@@ -618,6 +619,11 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getWork()));
       mpx.setWorkGroup(xml.getWorkGroup());
       mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getWorkVariance()));
+
+      if (mpx.getType() == ResourceType.MATERIAL && BooleanUtility.getBoolean(xml.isIsCostResource()))
+      {
+         mpx.setType(ResourceType.COST);
+      }
 
       readResourceExtendedAttributes(xml, mpx);
 

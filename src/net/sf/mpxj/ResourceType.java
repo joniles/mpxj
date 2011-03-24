@@ -33,7 +33,8 @@ import net.sf.mpxj.utility.NumberUtility;
 public enum ResourceType implements MpxjEnum
 {
    MATERIAL(0, "Material"),
-   WORK(1, "Work");
+   WORK(1, "Work"),
+   COST(2, "Cost");
 
    /**
     * Private constructor.

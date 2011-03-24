@@ -532,11 +532,20 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setStandardRateFormat(DatatypeConverter.printTimeUnit(mpx.getStandardRateFormat()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
-      xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkGroup(mpx.getWorkGroup());
       xml.setWorkVariance(DatatypeConverter.printDurationInDecimalThousandthsOfMinutes(mpx.getWorkVariance()));
+
+      if (mpx.getType() == ResourceType.COST)
+      {
+         xml.setType(ResourceType.MATERIAL);
+         xml.setIsCostResource(Boolean.TRUE);
+      }
+      else
+      {
+         xml.setType(mpx.getType());
+      }
 
       writeResourceExtendedAttributes(xml, mpx);
 
