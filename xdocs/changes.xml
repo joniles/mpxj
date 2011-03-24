@@ -10,7 +10,8 @@
 
 	<release version="4.1.0" date="CVS HEAD">
 		<action dev="joniles" type="add">Updated ProjectFile class to change default value for "auto" flags to simplify programmatic creation of project files.</action>	
-		<action dev="joniles" type="add">Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.</action>
+		<action dev="joniles" type="add">Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.</action>		
+		<action dev="joniles" type="add">Added support cost resource type for MPP14 and MSPDI files.</action>		
 		<action dev="joniles" type="add">Added Task.removePredecessor method (contributed by Leslie Damon).</action>		
 		<action dev="joniles" type="add">Added "read presentation data" flag to MPPReader - allows clients to save time and memory when MPP presentation data not required.</action>		
 		<action dev="joniles" type="add">Added support for reading Primavera calendars (contributed by Bruno Gasnier).</action>				
@@ -31,7 +32,7 @@
 		<action dev="joniles" type="fix">Updated to fix incorrect assignment actual start date when writing an MSPDI file.</action>		
 		<action dev="joniles" type="update">Updated to improve support for material resources in MSPDI files.</action>		
 		<action dev="joniles" type="update">Updated to reduce overall size of MSPDI files by not writing default values.</action>		
-		<action dev="joniles" type="update">Updated to use IKVM 0.44.0.5.</action>
+		<action dev="joniles" type="update">Updated to use IKVM 0.46.0.1.</action>
 	</release>
 
 	<release version="4.0.0" date="25/05/2010">
