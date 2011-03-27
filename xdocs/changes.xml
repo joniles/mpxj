@@ -22,7 +22,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3055858: Index was outside the bounds of the array.</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3100947: header.getHonorConstraints() is not working in case of MPP.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3151871: Empty notes appear for all tasks when saving in XML format.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3028641: All Extended Attributes always added when using MSPDIWriter.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3028641: All Extended Attributes always added when using MSPDIWriter.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3231597: Baseline/Actual Work in 2010 MPP missing.</action>				 		
 		<action dev="joniles" type="fix">Updated to fix task calendars read incorrectly from MPP14 files.</action>
 		<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>

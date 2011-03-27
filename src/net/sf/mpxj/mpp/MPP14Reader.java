@@ -1404,7 +1404,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
          task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
          task.setActualStart(MPPUtility.getTimestamp(data, 72));
-         task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 184) / 60000, TimeUnit.HOURS));
+         task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 134) / 60000, TimeUnit.HOURS));
          //task.setACWP(); // Calculated value
          //task.setAssignment(); // Calculated value
          //task.setAssignmentDelay(); // Calculated value
@@ -1415,8 +1415,8 @@ final class MPP14Reader implements MPPVariantReader
          task.setBaselineDuration(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_BASELINE_DURATION), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_BASELINE_DURATION_UNITS))));
          task.setBaselineFinish(taskVarData.getTimestamp(id, TASK_BASELINE_FINISH));
          task.setBaselineStart(taskVarData.getTimestamp(id, TASK_BASELINE_START));
-         task.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 176) / 60000, TimeUnit.HOURS));
-
+         task.setBaselineWork(Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE_WORK) / 60000, TimeUnit.HOURS));
+         
          task.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE1_COST) / 100));
          task.setBaselineDuration(1, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE1_DURATION, TASK_BASELINE1_DURATION_UNITS));
          task.setBaselineFinish(1, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE1_FINISH));
@@ -3221,7 +3221,8 @@ final class MPP14Reader implements MPPVariantReader
    /**
     * Task data types.
     */
-
+   private static final Integer TASK_BASELINE_WORK = Integer.valueOf(1);
+   
    private static final Integer TASK_NAME = Integer.valueOf(14);
    private static final Integer TASK_WBS = Integer.valueOf(16);
 
