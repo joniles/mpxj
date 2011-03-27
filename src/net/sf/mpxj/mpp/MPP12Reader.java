@@ -2725,7 +2725,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setText29(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT29));
          resource.setText30(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT30));
 
-         resource.setType((MPPUtility.getShort(data, 14) == 0 ? ResourceType.WORK : ResourceType.MATERIAL));
+         resource.setType((MPPUtility.getShort(data, 14) == 0 ? ResourceType.WORK : ((metaData2[8] & 0x10) == 0) ? ResourceType.MATERIAL : ResourceType.COST));
          resource.setUniqueID(id);
          resource.setWork(Duration.getInstance(MPPUtility.getDouble(data, 52) / 60000, TimeUnit.HOURS));
 
