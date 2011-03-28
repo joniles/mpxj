@@ -1371,7 +1371,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatResource(Resource resource)
    {
-      return (resource == null ? null : format(resource.getID()));
+      return (resource == null ? "-65535" : format(resource.getID()));
    }
 
    /**

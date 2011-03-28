@@ -32,6 +32,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -121,60 +122,67 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
 
-            if (resource != null)
+            ResourceAssignment assignment;
+
+            if (resource == null)
             {
-               //System.out.println("Task: " + task.getName());
-               //System.out.println("Resource: " + resource.getName());
-               //System.out.println(MPPUtility.hexdump(data, false, 16, ""));
-               //System.out.println(MPPUtility.hexdump(incompleteWork, false, 16, ""));
-               //System.out.println(MPPUtility.hexdump(meta, false, 16, ""));               
+               assignment = task.addResourceAssignment();
+            }
+            else
+            {
+               assignment = task.addResourceAssignment(resource);
+            }
+            //System.out.println("Task: " + task.getName());
+            //System.out.println("Resource: " + resource.getName());
+            //System.out.println(MPPUtility.hexdump(data, false, 16, ""));
+            //System.out.println(MPPUtility.hexdump(incompleteWork, false, 16, ""));
+            //System.out.println(MPPUtility.hexdump(meta, false, 16, ""));               
 
-               ResourceAssignment assignment = task.addResourceAssignment(resource);
-               assignment.setTimephasedNormaliser(normaliser);
-               int variableRateUnitsValue = MPPUtility.getByte(data, 44);
+            assignment.setTimephasedNormaliser(normaliser);
+            int variableRateUnitsValue = MPPUtility.getByte(data, 44);
 
-               assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 94) / 100));
-               assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);
-               assignment.setActualStart(timephasedComplete.isEmpty() ? null : assignmentStart);
-               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
-               assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 86) / 100));
-               assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
-               assignment.setFinish(assignmentFinish);
-               assignment.setVariableRateUnits(variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue));
-               assignment.setLevelingDelay(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, 30), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 28))));
-               assignment.setRemainingWork(MPPUtility.getDuration(remainingWork, TimeUnit.HOURS));
-               assignment.setStart(assignmentStart);
-               assignment.setUnits(Double.valueOf(assignmentUnits));
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70) / 100), TimeUnit.HOURS));
-               assignment.setBaselineCost(NumberUtility.getDouble(assnVarData.getDouble(varDataId, BASELINE_COST) / 100));
-               assignment.setBaselineFinish(assnVarData.getTimestamp(varDataId, BASELINE_FINISH));
-               assignment.setBaselineStart(assnVarData.getTimestamp(varDataId, BASELINE_START));
-               assignment.setBaselineWork(Duration.getInstance(assnVarData.getDouble(varDataId, BASELINE_WORK) / 60000, TimeUnit.HOURS));
+            assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 94) / 100));
+            assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);
+            assignment.setActualStart(timephasedComplete.isEmpty() ? null : assignmentStart);
+            assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
+            assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 86) / 100));
+            assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
+            assignment.setFinish(assignmentFinish);
+            assignment.setVariableRateUnits(variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue));
+            assignment.setLevelingDelay(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, 30), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 28))));
+            assignment.setRemainingWork(MPPUtility.getDuration(remainingWork, TimeUnit.HOURS));
+            assignment.setStart(assignmentStart);
+            assignment.setUnits(Double.valueOf(assignmentUnits));
+            assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70) / 100), TimeUnit.HOURS));
+            assignment.setBaselineCost(NumberUtility.getDouble(assnVarData.getDouble(varDataId, BASELINE_COST) / 100));
+            assignment.setBaselineFinish(assnVarData.getTimestamp(varDataId, BASELINE_FINISH));
+            assignment.setBaselineStart(assnVarData.getTimestamp(varDataId, BASELINE_START));
+            assignment.setBaselineWork(Duration.getInstance(assnVarData.getDouble(varDataId, BASELINE_WORK) / 60000, TimeUnit.HOURS));
 
-               createTimephasedData(file, assignment, timephasedPlanned, timephasedComplete);
+            createTimephasedData(file, assignment, timephasedPlanned, timephasedComplete);
 
-               assignment.setTimephasedPlanned(timephasedPlanned, !useRawTimephasedData);
-               assignment.setTimephasedComplete(timephasedComplete, !useRawTimephasedData);
+            assignment.setTimephasedPlanned(timephasedPlanned, !useRawTimephasedData);
+            assignment.setTimephasedComplete(timephasedComplete, !useRawTimephasedData);
 
-               if (plannedWork != null)
+            if (plannedWork != null)
+            {
+               if (timephasedFactory.getWorkModified(timephasedPlanned))
                {
-                  if (timephasedFactory.getWorkModified(timephasedPlanned))
+                  assignment.setWorkContour(WorkContour.CONTOURED);
+               }
+               else
+               {
+                  if (plannedWork.length >= 30)
                   {
-                     assignment.setWorkContour(WorkContour.CONTOURED);
+                     assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
                   }
                   else
                   {
-                     if (plannedWork.length >= 30)
-                     {
-                        assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
-                     }
-                     else
-                     {
-                        assignment.setWorkContour(WorkContour.FLAT);
-                     }
+                     assignment.setWorkContour(WorkContour.FLAT);
                   }
-                  //System.out.println(assignment.getWorkContour());
                }
+               //System.out.println(assignment.getWorkContour());
+               //System.out.println(assignment);
             }
          }
       }
@@ -194,7 +202,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
       {
          Duration workPerDay;
 
-         if (assignment.getResource().getType() == net.sf.mpxj.ResourceType.WORK)
+         if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
          {
             workPerDay = TimephasedResourceAssignmentNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
             int units = NumberUtility.getInt(assignment.getUnits());

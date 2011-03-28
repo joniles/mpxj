@@ -636,7 +636,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    @Override public String toString()
    {
-      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + getResource().getName() + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
+      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
    /**

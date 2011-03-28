@@ -353,6 +353,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
       m_assignments.add(assignment);
+      assignment.setWork(getDuration());
+      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
       getParentFile().getAllResourceAssignments().add(assignment);
       return (assignment);
    }

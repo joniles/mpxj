@@ -1416,7 +1416,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setBaselineFinish(taskVarData.getTimestamp(id, TASK_BASELINE_FINISH));
          task.setBaselineStart(taskVarData.getTimestamp(id, TASK_BASELINE_START));
          task.setBaselineWork(Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE_WORK) / 60000, TimeUnit.HOURS));
-         
+
          task.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE1_COST) / 100));
          task.setBaselineDuration(1, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE1_DURATION, TASK_BASELINE1_DURATION_UNITS));
          task.setBaselineFinish(1, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE1_FINISH));
@@ -3222,7 +3222,7 @@ final class MPP14Reader implements MPPVariantReader
     * Task data types.
     */
    private static final Integer TASK_BASELINE_WORK = Integer.valueOf(1);
-   
+
    private static final Integer TASK_NAME = Integer.valueOf(14);
    private static final Integer TASK_WBS = Integer.valueOf(16);
 

@@ -1259,7 +1259,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setRateScale(mpx.getVariableRateUnits() == null ? null : DatatypeConverter.printTimeUnit(mpx.getVariableRateUnits()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
-      xml.setResourceUID(BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));
+      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setTaskUID(NumberUtility.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(BigInteger.valueOf(uid));

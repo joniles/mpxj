@@ -1899,7 +1899,7 @@ public class BasicTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/remove.mpp");
       assertEquals(10, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
-      assertEquals(6, mpp.getAllResourceAssignments().size());
+      assertEquals(8, mpp.getAllResourceAssignments().size());
 
       //
       // Remove a task with no assignments
@@ -1909,7 +1909,7 @@ public class BasicTest extends MPXJTestCase
       task.remove();
       assertEquals(9, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
-      assertEquals(6, mpp.getAllResourceAssignments().size());
+      assertEquals(7, mpp.getAllResourceAssignments().size());
 
       //
       // Remove a resource with no assignments
@@ -1919,7 +1919,7 @@ public class BasicTest extends MPXJTestCase
       resource.remove();
       assertEquals(9, mpp.getAllTasks().size());
       assertEquals(7, mpp.getAllResources().size());
-      assertEquals(6, mpp.getAllResourceAssignments().size());
+      assertEquals(7, mpp.getAllResourceAssignments().size());
 
       //
       // Remove a task with a single assignment
@@ -1929,7 +1929,7 @@ public class BasicTest extends MPXJTestCase
       task.remove();
       assertEquals(8, mpp.getAllTasks().size());
       assertEquals(7, mpp.getAllResources().size());
-      assertEquals(5, mpp.getAllResourceAssignments().size());
+      assertEquals(6, mpp.getAllResourceAssignments().size());
 
       //
       // Remove a resource with a single assignment
@@ -1939,7 +1939,7 @@ public class BasicTest extends MPXJTestCase
       resource.remove();
       assertEquals(8, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
-      assertEquals(4, mpp.getAllResourceAssignments().size());
+      assertEquals(5, mpp.getAllResourceAssignments().size());
 
       //
       // Remove an assignment
@@ -1960,7 +1960,7 @@ public class BasicTest extends MPXJTestCase
       assertEquals(0, assignments.size());
       assertEquals(8, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
-      assertEquals(3, mpp.getAllResourceAssignments().size());
+      assertEquals(4, mpp.getAllResourceAssignments().size());
 
       //
       // Remove a task with child tasks - the child tasks will also be removed

@@ -118,7 +118,11 @@ public final class ProjectFile
          ResourceAssignment assignment = iter.next();
          if (assignment.getTask() == task)
          {
-            assignment.getResource().removeResourceAssignment(assignment);
+            Resource resource = assignment.getResource();
+            if (resource != null)
+            {
+               resource.removeResourceAssignment(assignment);
+            }
             iter.remove();
          }
       }
@@ -652,7 +656,11 @@ public final class ProjectFile
    {
       m_allResourceAssignments.remove(assignment);
       assignment.getTask().removeResourceAssignment(assignment);
-      assignment.getResource().removeResourceAssignment(assignment);
+      Resource resource = assignment.getResource();
+      if (resource != null)
+      {
+         resource.removeResourceAssignment(assignment);
+      }
    }
 
    /**
