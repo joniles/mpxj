@@ -122,16 +122,8 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
 
-            ResourceAssignment assignment;
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
 
-            if (resource == null)
-            {
-               assignment = task.addResourceAssignment();
-            }
-            else
-            {
-               assignment = task.addResourceAssignment(resource);
-            }
             //System.out.println("Task: " + task.getName());
             //System.out.println("Resource: " + resource.getName());
             //System.out.println(MPPUtility.hexdump(data, false, 16, ""));

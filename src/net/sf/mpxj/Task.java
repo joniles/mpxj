@@ -310,20 +310,24 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      Iterator<ResourceAssignment> iter = m_assignments.iterator();
       ResourceAssignment assignment = null;
-      Integer resourceUniqueID = resource.getUniqueID();
-      Integer uniqueID;
+      Integer resourceUniqueID = null;
 
-      while (iter.hasNext() == true)
+      if (resource != null)
       {
-         assignment = iter.next();
-         uniqueID = assignment.getResourceUniqueID();
-         if (uniqueID.equals(resourceUniqueID) == true)
+         Iterator<ResourceAssignment> iter = m_assignments.iterator();
+         resourceUniqueID = resource.getUniqueID();
+
+         while (iter.hasNext() == true)
          {
-            break;
+            assignment = iter.next();
+            Integer uniqueID = assignment.getResourceUniqueID();
+            if (uniqueID.equals(resourceUniqueID) == true)
+            {
+               break;
+            }
+            assignment = null;
          }
-         assignment = null;
       }
 
       if (assignment == null)
@@ -336,26 +340,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          assignment.setWork(getDuration());
          assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
 
-         resource.addResourceAssignment(assignment);
+         if (resource != null)
+         {
+            resource.addResourceAssignment(assignment);
+         }
       }
 
-      return (assignment);
-   }
-
-   /**
-    * This method allows a resource assignment to be added to the
-    * current task. The data for the resource assignment is derived from
-    * an MPX file record.
-    *
-    * @return ResourceAssignment object
-    */
-   public ResourceAssignment addResourceAssignment()
-   {
-      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
-      m_assignments.add(assignment);
-      assignment.setWork(getDuration());
-      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-      getParentFile().getAllResourceAssignments().add(assignment);
       return (assignment);
    }
 

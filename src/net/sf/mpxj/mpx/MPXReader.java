@@ -424,7 +424,7 @@ public final class MPXReader extends AbstractProjectReader
          {
             if (m_lastTask != null)
             {
-               m_lastResourceAssignment = m_lastTask.addResourceAssignment();
+               m_lastResourceAssignment = m_lastTask.addResourceAssignment(null);
                populateResourceAssignment(record, m_lastResourceAssignment);
             }
 

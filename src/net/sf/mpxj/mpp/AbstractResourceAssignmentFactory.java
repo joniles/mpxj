@@ -134,17 +134,7 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
 
-            ResourceAssignment assignment;
-
-            if (resource == null)
-            {
-               assignment = task.addResourceAssignment();
-            }
-            else
-            {
-               assignment = task.addResourceAssignment(resource);
-            }
-
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
             assignment.setTimephasedNormaliser(normaliser);
             int variableRateUnitsValue = MPPUtility.getByte(data, 52);
 

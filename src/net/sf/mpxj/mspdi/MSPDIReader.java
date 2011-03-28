@@ -1192,17 +1192,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          if (task != null)
          {
-            ResourceAssignment mpx;
-
-            if (resource == null)
-            {
-               mpx = task.addResourceAssignment();
-            }
-            else
-            {
-               mpx = task.addResourceAssignment(resource);
-            }
-
+            ResourceAssignment mpx = task.addResourceAssignment(resource);
             mpx.setTimephasedNormaliser(normaliser);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
