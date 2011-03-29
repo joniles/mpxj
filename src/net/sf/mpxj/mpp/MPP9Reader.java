@@ -2376,6 +2376,14 @@ final class MPP9Reader implements MPPVariantReader
          if (sp == null)
          {
             currentTask.setSubProject(currentSubProject);
+
+            //we need to set the external task project path now that we have
+            //the subproject for this task (was skipped while processing the task earlier)
+            if (currentSubProject != null)
+            {
+               currentTask.setExternalTaskProject(currentSubProject.getFullPath());
+            }
+
          }
          else
          {

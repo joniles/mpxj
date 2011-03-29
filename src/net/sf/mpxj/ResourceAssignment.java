@@ -591,28 +591,29 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public ProjectCalendar getCalendar()
    {
+      ProjectCalendar calendar = null;
+      Resource resource = getResource();
+      if (resource != null)
+      {
+         calendar = resource.getResourceCalendar();
+      }
+
       Task task = getTask();
-      ProjectCalendar calendar = task.getCalendar();
+      if (calendar == null || task.getIgnoreResourceCalendar())
+      {
+         calendar = task.getCalendar();
+      }
 
       if (calendar == null)
       {
-         Resource resource = getResource();
-         if (resource != null)
-         {
-            calendar = resource.getResourceCalendar();
-         }
-
-         if (calendar == null)
-         {
-            calendar = getParentFile().getCalendar();
-         }
+         calendar = getParentFile().getCalendar();
       }
 
       return calendar;
    }
 
    /**
-    * Retrieve the variable rate time untis, null if fixed rate.
+    * Retrieve the variable rate time units, null if fixed rate.
     * 
     * @return variable rate time units
     */
