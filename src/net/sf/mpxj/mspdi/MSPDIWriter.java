@@ -839,7 +839,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
       xml.setDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
       xml.setDurationText(mpx.getDurationText());
-      xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDurationFormat()));
       xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration()));
       xml.setEarlyFinish(DatatypeConverter.printDate(mpx.getEarlyFinish()));
       xml.setEarlyStart(DatatypeConverter.printDate(mpx.getEarlyStart()));

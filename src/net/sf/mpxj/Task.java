@@ -3394,26 +3394,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * Retrieve the duration format.
-    *
-    * @return duration format
-    */
-   public TimeUnit getDurationFormat()
-   {
-      return (m_durationFormat);
-   }
-
-   /**
-    * Set the duration format.
-    *
-    * @param durationFormat duration format
-    */
-   public void setDurationFormat(TimeUnit durationFormat)
-   {
-      m_durationFormat = durationFormat;
-   }
-
-   /**
     * Retrieve the resume valid flag.
     *
     * @return resume valie flag
@@ -7117,7 +7097,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
    private boolean m_null;
    private String m_wbsLevel;
-   private TimeUnit m_durationFormat;
    private boolean m_resumeValid;
    private Integer m_subprojectTaskUniqueID;
    private Integer m_subprojectTaskID;

@@ -802,7 +802,6 @@ abstract class MPD9AbstractReader
          //task.setDate10();
          task.setDeadline(row.getDate("TASK_DEADLINE"));
          //task.setDelay();
-         task.setDurationFormat(durationFormat);
          task.setDuration(MPDUtility.getAdjustedDuration(m_project, row.getInt("TASK_DUR"), durationFormat));
 
          //task.setDuration1();
@@ -860,7 +859,7 @@ abstract class MPD9AbstractReader
          //task.setFlag18();
          //task.setFlag19();
          //task.setFlag20();
-         task.setFreeSlack(row.getDuration("TASK_FREE_SLACK").convertUnits(task.getDurationFormat(), m_project.getProjectHeader()));
+         task.setFreeSlack(row.getDuration("TASK_FREE_SLACK").convertUnits(durationFormat, m_project.getProjectHeader()));
          task.setHideBar(row.getBoolean("TASK_BAR_IS_HIDDEN"));
          //task.setHyperlink();
          //task.setHyperlinkAddress();

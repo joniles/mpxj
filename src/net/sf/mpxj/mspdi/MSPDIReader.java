@@ -813,18 +813,18 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          // Set the duration format up front as this is required later
          //
-         mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
+         TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
          mpx.setActive(BooleanUtility.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
-         mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualDuration()));
+         mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
          mpx.setActualFinish(DatatypeConverter.parseDate(xml.getActualFinish()));
          mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
-         mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualOvertimeWork()));
-         mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualOvertimeWorkProtected()));
+         mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualOvertimeWork()));
+         mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualOvertimeWorkProtected()));
          mpx.setActualStart(DatatypeConverter.parseDate(xml.getActualStart()));
-         mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualWork()));
-         mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getActualWorkProtected()));
+         mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualWork()));
+         mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualWorkProtected()));
          mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
          //mpx.setBaselineCost();
          //mpx.setBaselineDuration();
@@ -847,7 +847,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
          mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
          //mpx.setDelay();
-         mpx.setDuration(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getDuration()));
+         mpx.setDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getDuration()));
          mpx.setDurationText(xml.getDurationText());
          //mpx.setDuration1();
          //mpx.setDuration2();
@@ -917,7 +917,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setOutlineNumber(xml.getOutlineNumber());
          mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
          mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
-         mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getOvertimeWork()));
+         mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getOvertimeWork()));
          mpx.setPercentageComplete(xml.getPercentComplete());
          mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
          mpx.setPhysicalPercentComplete(NumberUtility.getInteger(xml.getPhysicalPercentComplete()));
@@ -926,12 +926,12 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
          //mpx.setProject();
          mpx.setRecurring(BooleanUtility.getBoolean(xml.isRecurring()));
-         mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getRegularWork()));
+         mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getRegularWork()));
          mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
-         mpx.setRemainingDuration(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getRemainingDuration()));
+         mpx.setRemainingDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getRemainingDuration()));
          mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
-         mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getRemainingOvertimeWork()));
-         mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getRemainingWork()));
+         mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getRemainingOvertimeWork()));
+         mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getRemainingWork()));
          //mpx.setResourceGroup();
          //mpx.setResourceInitials();
          //mpx.setResourceNames();
@@ -969,7 +969,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
          mpx.setWBSLevel(xml.getWBSLevel());
-         mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, mpx.getDurationFormat(), xml.getWork()));
+         mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
          mpx.setWorkVariance(Duration.getInstance(NumberUtility.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
 
          // read last to ensure correct caching
@@ -978,7 +978,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          readTaskExtendedAttributes(xml, mpx);
 
-         readTaskBaselines(xml, mpx);
+         readTaskBaselines(xml, mpx, durationFormat);
       }
 
       m_projectFile.fireTaskReadEvent(mpx);
@@ -989,15 +989,16 @@ public final class MSPDIReader extends AbstractProjectReader
     * 
     * @param xmlTask MSPDI task instance
     * @param mpxjTask MPXJ task instance
+    * @param durationFormat duration format to use
     */
-   private void readTaskBaselines(Project.Tasks.Task xmlTask, Task mpxjTask)
+   private void readTaskBaselines(Project.Tasks.Task xmlTask, Task mpxjTask, TimeUnit durationFormat)
    {
       for (Project.Tasks.Task.Baseline baseline : xmlTask.getBaseline())
       {
          int number = NumberUtility.getInt(baseline.getNumber());
 
          Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
-         Duration duration = DatatypeConverter.parseDuration(m_projectFile, mpxjTask.getDurationFormat(), baseline.getDuration());
+         Duration duration = DatatypeConverter.parseDuration(m_projectFile, durationFormat, baseline.getDuration());
          Date finish = DatatypeConverter.parseDate(baseline.getFinish());
          Date start = DatatypeConverter.parseDate(baseline.getStart());
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
