@@ -61,7 +61,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       {
          Map<Integer, String> result = new HashMap<Integer, String>();
 
-         List<ResultSetRow> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project");
+         List<ResultSetRow> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project where delete_date is null");
          for (ResultSetRow row : rows)
          {
             Integer id = row.getInteger("proj_id");
@@ -146,7 +146,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void processResources() throws SQLException
    {
-      List<Row> rows = getRows("select * from " + m_schema + "rsrc where rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=?) order by rsrc_seq_num", m_projectID);
+      List<Row> rows = getRows("select * from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_seq_num", m_projectID);
       m_reader.processResources(rows);
    }
 
@@ -157,8 +157,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? order by seq_num", m_projectID);
-      List<Row> tasks = getRows("select * from " + m_schema + "task where proj_id=?", m_projectID);
+      List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? and delete_date is null order by seq_num", m_projectID);
+      List<Row> tasks = getRows("select * from " + m_schema + "task where proj_id=? and delete_date is null", m_projectID);
       m_reader.processTasks(wbs, tasks);
    }
 
@@ -169,7 +169,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void processPredecessors() throws SQLException
    {
-      List<Row> rows = getRows("select * from " + m_schema + "taskpred where proj_id=?", m_projectID);
+      List<Row> rows = getRows("select * from " + m_schema + "taskpred where proj_id=? and delete_date is null", m_projectID);
       m_reader.processPredecessors(rows);
    }
 
@@ -180,7 +180,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=?", m_projectID);
+      List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=? and delete_date is null", m_projectID);
       m_reader.processAssignments(rows);
    }
 
