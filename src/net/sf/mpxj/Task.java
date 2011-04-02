@@ -838,6 +838,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Set the manual duration attribute.
+    * 
+    * @param dur manual duration
+    */
+   public void setManualDuration(Duration dur)
+   {
+      set(TaskField.MANUAL_DURATION, dur);
+   }
+
+   /**
+    * Read the manual duration attribute.
+    * 
+    * @return manual duration
+    */
+   public Duration getManualDuration()
+   {
+      return (Duration) getCachedValue(TaskField.MANUAL_DURATION);
+   }
+
+   /**
     * User defined duration field.
     *
     * @param duration Duration value

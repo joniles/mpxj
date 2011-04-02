@@ -1857,6 +1857,14 @@ final class MPP14Reader implements MPPVariantReader
          }
 
          //
+         // If this is a manually scheduled task, read the manual duration
+         //
+         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         {
+            task.setManualDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data2, 58), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data2, 62))));
+         }
+
+         //
          // Process any enterprise columns
          //
          processTaskEnterpriseColumns(id, task, taskVarData, metaData2);

@@ -626,6 +626,7 @@ public enum TaskField implements FieldType
    START_TEXT(DataType.STRING),
    FINISH_TEXT(DataType.STRING),
    DURATION_TEXT(DataType.STRING),
+   MANUAL_DURATION(DataType.DURATION),
 
    FINISH(DataType.DATE); // Must always be last value
 

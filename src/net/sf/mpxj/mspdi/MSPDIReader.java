@@ -979,6 +979,11 @@ public final class MSPDIReader extends AbstractProjectReader
          readTaskExtendedAttributes(xml, mpx);
 
          readTaskBaselines(xml, mpx, durationFormat);
+
+         if (mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         {
+            mpx.setManualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getManualDuration()));
+         }
       }
 
       m_projectFile.fireTaskReadEvent(mpx);

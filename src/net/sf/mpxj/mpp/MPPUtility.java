@@ -829,73 +829,77 @@ final class MPPUtility
     */
    public static Duration getAdjustedDuration(ProjectFile file, int duration, TimeUnit timeUnit)
    {
-      Duration result;
-      switch (timeUnit)
+      Duration result = null;
+
+      if (duration != -1)
       {
-         case DAYS :
+         switch (timeUnit)
          {
-            double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
-            double totalDays = 0;
-            if (unitsPerDay != 0)
+            case DAYS :
             {
-               totalDays = duration / unitsPerDay;
+               double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
+               double totalDays = 0;
+               if (unitsPerDay != 0)
+               {
+                  totalDays = duration / unitsPerDay;
+               }
+               result = Duration.getInstance(totalDays, timeUnit);
+               break;
             }
-            result = Duration.getInstance(totalDays, timeUnit);
-            break;
-         }
 
-         case ELAPSED_DAYS :
-         {
-            double unitsPerDay = 24d * 600d;
-            double totalDays = duration / unitsPerDay;
-            result = Duration.getInstance(totalDays, timeUnit);
-            break;
-         }
-
-         case WEEKS :
-         {
-            double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
-            double totalWeeks = 0;
-            if (unitsPerWeek != 0)
+            case ELAPSED_DAYS :
             {
-               totalWeeks = duration / unitsPerWeek;
+               double unitsPerDay = 24d * 600d;
+               double totalDays = duration / unitsPerDay;
+               result = Duration.getInstance(totalDays, timeUnit);
+               break;
             }
-            result = Duration.getInstance(totalWeeks, timeUnit);
-            break;
-         }
 
-         case ELAPSED_WEEKS :
-         {
-            double unitsPerWeek = (60 * 24 * 7 * 10);
-            double totalWeeks = duration / unitsPerWeek;
-            result = Duration.getInstance(totalWeeks, timeUnit);
-            break;
-         }
-
-         case MONTHS :
-         {
-            double unitsPerMonth = file.getProjectHeader().getMinutesPerDay().doubleValue() * file.getProjectHeader().getDaysPerMonth().doubleValue() * 10d;
-            double totalMonths = 0;
-            if (unitsPerMonth != 0)
+            case WEEKS :
             {
-               totalMonths = duration / unitsPerMonth;
+               double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
+               double totalWeeks = 0;
+               if (unitsPerWeek != 0)
+               {
+                  totalWeeks = duration / unitsPerWeek;
+               }
+               result = Duration.getInstance(totalWeeks, timeUnit);
+               break;
             }
-            result = Duration.getInstance(totalMonths, timeUnit);
-            break;
-         }
 
-         case ELAPSED_MONTHS :
-         {
-            double unitsPerMonth = (60 * 24 * 30 * 10);
-            double totalMonths = duration / unitsPerMonth;
-            result = Duration.getInstance(totalMonths, timeUnit);
-            break;
-         }
+            case ELAPSED_WEEKS :
+            {
+               double unitsPerWeek = (60 * 24 * 7 * 10);
+               double totalWeeks = duration / unitsPerWeek;
+               result = Duration.getInstance(totalWeeks, timeUnit);
+               break;
+            }
 
-         default :
-         {
-            result = getDuration(duration, timeUnit);
-            break;
+            case MONTHS :
+            {
+               double unitsPerMonth = file.getProjectHeader().getMinutesPerDay().doubleValue() * file.getProjectHeader().getDaysPerMonth().doubleValue() * 10d;
+               double totalMonths = 0;
+               if (unitsPerMonth != 0)
+               {
+                  totalMonths = duration / unitsPerMonth;
+               }
+               result = Duration.getInstance(totalMonths, timeUnit);
+               break;
+            }
+
+            case ELAPSED_MONTHS :
+            {
+               double unitsPerMonth = (60 * 24 * 30 * 10);
+               double totalMonths = duration / unitsPerMonth;
+               result = Duration.getInstance(totalMonths, timeUnit);
+               break;
+            }
+
+            default :
+            {
+               result = getDuration(duration, timeUnit);
+               break;
+            }
          }
       }
       return (result);

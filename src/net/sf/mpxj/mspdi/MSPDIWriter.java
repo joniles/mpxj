@@ -950,6 +950,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkVariance(DatatypeConverter.printDurationInDecimalThousandthsOfMinutes(mpx.getWorkVariance()));
 
+      if (mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+      {
+         xml.setManualDuration(DatatypeConverter.printDuration(this, mpx.getManualDuration()));
+      }
+
       writePredecessors(xml, mpx);
 
       writeTaskExtendedAttributes(xml, mpx);
