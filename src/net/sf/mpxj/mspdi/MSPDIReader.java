@@ -815,7 +815,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
-         mpx.setActive(BooleanUtility.getBoolean(xml.isActive()));
+         mpx.setActive(xml.isActive() == null ? true : BooleanUtility.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
          mpx.setActualFinish(DatatypeConverter.parseDate(xml.getActualFinish()));
