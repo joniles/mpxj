@@ -226,7 +226,7 @@ public class MpxjCreate
       // special processing to generate the MSPDI file correctly.
       //
       Task task4 = file.addTask();
-      task4.setName("Last Task");
+      task4.setName("Next Task");
       task4.setDuration(Duration.getInstance(8, TimeUnit.DAYS));
       task4.setStart(df.parse("01/01/2003"));
       task4.setPercentageComplete(NumberUtility.getDouble(70.0));
@@ -258,6 +258,16 @@ public class MpxjCreate
       assignment2.setRemainingWork(Duration.getInstance(80, TimeUnit.HOURS));
       assignment1.setStart(df.parse("01/01/2003"));
       assignment2.setStart(df.parse("11/01/2003"));
+
+      //
+      // Write a 100% complete task
+      //
+      Task task5 = file.addTask();
+      task5.setName("Last Task");
+      task5.setDuration(Duration.getInstance(3, TimeUnit.DAYS));
+      task5.setStart(df.parse("01/01/2003"));
+      task5.setPercentageComplete(NumberUtility.getDouble(100.0));
+      task5.setActualStart(df.parse("01/01/2003"));
 
       //
       // Write the file
