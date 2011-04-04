@@ -150,7 +150,7 @@ public final class ProjectFile
     * project, if the ID values have gaps in the sequence, there will
     * be blank task rows shown.
     */
-   public void synchronizeTaskIDs()
+   public void renumberTaskIDs()
    {
       if (m_allTasks.isEmpty() == false)
       {
@@ -177,7 +177,7 @@ public final class ProjectFile
     * project, if the ID values have gaps in the sequence, there will
     * be blank resource rows shown.
     */
-   public void synchronizeResourceIDs()
+   public void renumberResourceIDs()
    {
       if (m_allResources.isEmpty() == false)
       {
@@ -191,6 +191,41 @@ public final class ProjectFile
       }
    }
 
+   /**
+    * Microsoft Project bases the order of tasks displayed on their ID
+    * value. This method takes the hierarchical structure of tasks
+    * represented in MPXJ and renumbers the ID values to ensure that
+    * this structure is displayed as expected in Microsoft Project. This
+    * is typically used to deal with the case where a hierarchical task
+    * structure has been created programatically in MPXJ.  
+    */
+   public void synchronizeTaskIDToHierarchy()
+   {
+      int currentID = (getTaskByID(Integer.valueOf(0)) == null ? 1 : 0);
+      for (Task task : m_childTasks)
+      {
+         task.setID(Integer.valueOf(currentID++));
+         currentID=synchroizeTaskIDToHierarchy(task, currentID);
+      }
+   }
+
+   /**
+    * Called recursively to renumber child task IDs.
+    * 
+    * @param parentTask parent task instance
+    * @param currentID current task ID
+    * @return updated current task ID
+    */
+   private int synchroizeTaskIDToHierarchy(Task parentTask, int currentID)
+   {
+      for(Task task: parentTask.getChildTasks())
+      {
+         task.setID(Integer.valueOf(currentID++));
+         currentID=synchroizeTaskIDToHierarchy(task, currentID);
+      }
+      return currentID;
+   }
+   
    /**
     * This method is used to retrieve a list of all of the top level tasks
     * that are defined in this MPX file.

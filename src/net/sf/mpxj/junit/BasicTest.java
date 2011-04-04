@@ -1977,8 +1977,8 @@ public class BasicTest extends MPXJTestCase
       // to generate ID sequences without gaps. This will allow MS Project
       // to display the tasks and resources without blank rows.
       //
-      mpp.synchronizeTaskIDs();
-      mpp.synchronizeResourceIDs();
+      mpp.renumberTaskIDs();
+      mpp.renumberResourceIDs();
 
       //
       // Write the file and re-read it to ensure we get consistent results.
