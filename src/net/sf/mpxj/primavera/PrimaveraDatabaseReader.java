@@ -91,7 +91,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          m_reader = new PrimaveraReader();
 
          processProjectHeader();
-         //processCalendars();
+         processCalendars();
          processResources();
          processTasks();
          processPredecessors();
@@ -171,6 +171,17 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       List<Row> rows = getRows("select * from " + m_schema + "taskpred where proj_id=? and delete_date is null", m_projectID);
       m_reader.processPredecessors(rows);
+   }
+
+   /**
+    * Process calendars.
+    * 
+    * @throws SQLException
+    */
+   private void processCalendars() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "calendar where (proj_id is null or proj_id=?) and delete_date is null", m_projectID);
+      m_reader.processCalendars(rows);
    }
 
    /**
