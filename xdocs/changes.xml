@@ -18,6 +18,8 @@
 		<action dev="joniles" type="add">Added support for resource assignment leveling delay for MPP, MPD, and MSPDI files.</action>		
 		<action dev="joniles" type="add">Added support for "unassigned" resource assignments.</action>								
 		<action dev="joniles" type="add">Added support for task manual duration attribute for manually scheduled tasks in MPP14 and MSPDI files.</action>		
+		<action dev="joniles" type="add">Added support for resource NT account attribute for MPP9, MPP12, and MPP14 files.</action>				
+		<action dev="joniles" type="add">Added support for physical % complete for MPP9, MPP12, and MPP14 files.</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3027020: MPXJ API returns the incorrect start date of a manual task.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3033163: Task id incorrect after importing from MPP14 file.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3040412: MPXJ 4.0 fails to work with Project 2010 format.</action>		

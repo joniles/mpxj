@@ -2233,6 +2233,12 @@ final class MPP9Reader implements MPPVariantReader
                      break;
                   }
 
+                  case PERCENTAGE :
+                  {
+                     value = Integer.valueOf(props.getShort(key));
+                     break;
+                  }
+
                   default :
                   {
                      break;

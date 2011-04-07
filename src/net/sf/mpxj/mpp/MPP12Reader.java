@@ -1642,8 +1642,7 @@ final class MPP12Reader implements MPPVariantReader
          //task.getPredecessors(); // Calculated value
          task.setPercentageComplete(MPPUtility.getPercentage(data, 122));
          task.setPercentageWorkComplete(MPPUtility.getPercentage(data, 124));
-         //       From MS Project 2003
-         //         task.setPhysicalPercentComplete();
+         task.setPhysicalPercentComplete(Integer.valueOf(taskVarData.getShort(id, TASK_PHYSICAL_PERCENT_COMPLETE)));
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 120)));
@@ -2643,6 +2642,8 @@ final class MPP12Reader implements MPPVariantReader
          resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44) / 100));
          resource.setName(rscVarData.getUnicodeString(id, RESOURCE_NAME));
 
+         resource.setNtAccount(rscVarData.getUnicodeString(id, RESOURCE_NT_ACCOUNT));
+
          resource.setNumber1(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER1)));
          resource.setNumber2(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER2)));
          resource.setNumber3(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER3)));
@@ -3602,6 +3603,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);
    private static final Integer TASK_SUBPROJECTUNIQUETASKID = Integer.valueOf(242);
    private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);
+   private static final Integer TASK_PHYSICAL_PERCENT_COMPLETE = Integer.valueOf(1119);
 
    /**
     * Resource data types.
@@ -3748,6 +3750,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_TEXT28 = Integer.valueOf(242);
    private static final Integer RESOURCE_TEXT29 = Integer.valueOf(243);
    private static final Integer RESOURCE_TEXT30 = Integer.valueOf(244);
+
+   private static final Integer RESOURCE_NT_ACCOUNT = Integer.valueOf(311);
 
    private static final Integer RESOURCE_ENTERPRISE_COST1 = Integer.valueOf(446);
    private static final Integer RESOURCE_ENTERPRISE_COST2 = Integer.valueOf(447);
