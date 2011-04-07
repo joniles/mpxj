@@ -78,7 +78,7 @@ public final class MpxjConvert
       ProjectFile projectFile = reader.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading input file completed in " + elapsed + "ms.");
-      
+
       System.out.println("Writing output file started.");
       start = System.currentTimeMillis();
       ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);

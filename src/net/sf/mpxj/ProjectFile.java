@@ -205,7 +205,7 @@ public final class ProjectFile
       for (Task task : m_childTasks)
       {
          task.setID(Integer.valueOf(currentID++));
-         currentID=synchroizeTaskIDToHierarchy(task, currentID);
+         currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
    }
 
@@ -218,14 +218,14 @@ public final class ProjectFile
     */
    private int synchroizeTaskIDToHierarchy(Task parentTask, int currentID)
    {
-      for(Task task: parentTask.getChildTasks())
+      for (Task task : parentTask.getChildTasks())
       {
          task.setID(Integer.valueOf(currentID++));
-         currentID=synchroizeTaskIDToHierarchy(task, currentID);
+         currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
       return currentID;
    }
-   
+
    /**
     * This method is used to retrieve a list of all of the top level tasks
     * that are defined in this MPX file.
