@@ -185,6 +185,8 @@ public class CustomerDataTest extends MPXJTestCase
                File file = files[loop];
                String name = file.getName().toUpperCase();
 
+               //System.out.println(name);
+
                try
                {
                   if (name.endsWith(".MPP") == true)

@@ -143,6 +143,14 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    }
 
    /**
+    * {@inheritDoc}
+    */
+   public boolean containsKey(Integer key)
+   {
+      return m_table.containsKey(key);
+   }
+
+   /**
     * This method dumps the contents of this VarMeta block as a String.
     * Note that this facility is provided as a debugging aid.
     *

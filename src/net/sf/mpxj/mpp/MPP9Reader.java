@@ -1651,6 +1651,11 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
+         if (id.intValue() != 0 && !taskVarMeta.containsKey(id))
+         {
+            continue;
+         }
+
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));

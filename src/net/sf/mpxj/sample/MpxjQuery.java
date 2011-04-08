@@ -82,6 +82,8 @@ public class MpxjQuery
       ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
       ProjectFile mpx = reader.read(filename);
 
+      System.out.println("MPP file type: " + mpx.getMppFileType());
+
       listProjectHeader(mpx);
 
       listResources(mpx);

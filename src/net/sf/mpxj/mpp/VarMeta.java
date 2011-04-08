@@ -88,4 +88,12 @@ interface VarMeta
     * @return set of types
     */
    public Set<Integer> getTypes(Integer id);
+
+   /**
+    * This method is used to check if a given key is present.
+    * 
+    * @param key key to test
+    * @return Boolean flag
+    */
+   public boolean containsKey(Integer key);
 }

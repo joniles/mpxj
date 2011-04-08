@@ -32,7 +32,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3256657: ExternalTaskProject value missing.</action>	
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3148492: Deleted Primavera tasks handling problem.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3198864: Latest CVS version gives wrong values for inactive field.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3043660: Task ID order when creating a project file is not correct.</action>				 									
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3043660: Task ID order when creating a project file is not correct.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2935476: Invalid tasks that should not be there.</action>												 									
 		<action dev="joniles" type="fix">Updated to fix task calendars read incorrectly from MPP14 files.</action>
 		<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>
