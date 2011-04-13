@@ -4355,7 +4355,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Integer getSubprojectResourceUniqueID()
    {
-      return (m_subprojectResourceUniqueID);
+      return ((Integer) getCachedValue(ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID));
    }
 
    /**
@@ -4365,7 +4365,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setSubprojectResourceUniqueID(Integer subprojectUniqueResourceID)
    {
-      m_subprojectResourceUniqueID = subprojectUniqueResourceID;
+      set(ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID, subprojectUniqueResourceID);
    }
 
    /**
@@ -4708,7 +4708,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       if (field != null)
       {
          int index = field.getValue();
-         fireFieldChangeEvent((ResourceField) field, m_array[index], value);
+         if (m_eventsEnabled)
+         {
+            fireFieldChangeEvent((ResourceField) field, m_array[index], value);
+         }
          m_array[index] = value;
       }
    }
@@ -4814,6 +4817,22 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private void set(FieldType field, boolean value)
    {
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   /**
+    * Disable events firing when fields are updated.
+    */
+   public void disableEvents()
+   {
+      m_eventsEnabled = false;
+   }
+
+   /**
+    * Enable events firing when fields are updated. This is the default state.
+    */
+   public void enableEvents()
+   {
+      m_eventsEnabled = true;
    }
 
    /**
@@ -5080,6 +5099,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
 
+   private boolean m_eventsEnabled = true;
    private boolean m_null;
    private String m_ntAccount;
    private TimeUnit m_standardRateFormat;
@@ -5091,7 +5111,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private Duration m_actualWorkProtected;
    private BookingType m_bookingType;
    private boolean m_enterprise;
-   private Integer m_subprojectResourceUniqueID;
    private CostRateTable[] m_costRateTables = new CostRateTable[5];
    private AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;

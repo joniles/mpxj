@@ -91,7 +91,7 @@ final class TaskModel
     * This method populates the task model from data read from an MPX file.
     *
     * @param record data read from an MPX file
-    * @param isText flag indicating whether the tetxual or numeric data is being supplied
+    * @param isText flag indicating whether the textual or numeric data is being supplied
     */
    public void update(Record record, boolean isText) throws MPXJException
    {
@@ -243,7 +243,7 @@ final class TaskModel
    private ProjectFile m_parentFile;
 
    /**
-    * Array of flags indicting whether each field has already been
+    * Array of flags indicating whether each field has already been
     * added to the model.
     */
    private boolean[] m_flags = new boolean[MPXTaskField.MAX_FIELDS];

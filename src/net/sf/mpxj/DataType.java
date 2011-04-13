@@ -46,7 +46,13 @@ public enum DataType implements MpxjEnum
    PRIORITY(12),
    RELATION_LIST(13),
    TASK_TYPE(14),
-   RESOURCE_TYPE(15);
+   RESOURCE_TYPE(15),
+   TIME_UNITS(15),
+   WORK(16),
+   INTEGER(17),
+   ASCII_STRING(18),
+   SHORT(19),
+   BINARY(20);
 
    /**
     * Private constructor.

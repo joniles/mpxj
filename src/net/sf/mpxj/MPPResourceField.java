@@ -511,6 +511,38 @@ public final class MPPResourceField
 
       FIELD_ARRAY[800] = ResourceField.TEAM_ASSIGNMENT_POOL;
       FIELD_ARRAY[340] = ResourceField.WBS;
+
+      FIELD_ARRAY[120] = ResourceField.DURATION1_UNITS;
+      FIELD_ARRAY[121] = ResourceField.DURATION2_UNITS;
+      FIELD_ARRAY[122] = ResourceField.DURATION3_UNITS;
+      FIELD_ARRAY[245] = ResourceField.DURATION4_UNITS;
+      FIELD_ARRAY[246] = ResourceField.DURATION5_UNITS;
+      FIELD_ARRAY[247] = ResourceField.DURATION6_UNITS;
+      FIELD_ARRAY[248] = ResourceField.DURATION7_UNITS;
+      FIELD_ARRAY[249] = ResourceField.DURATION8_UNITS;
+      FIELD_ARRAY[250] = ResourceField.DURATION9_UNITS;
+      FIELD_ARRAY[251] = ResourceField.DURATION10_UNITS;
+      FIELD_ARRAY[152] = ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID;
+      FIELD_ARRAY[20] = ResourceField.NOTES;
+      FIELD_ARRAY[136] = ResourceField.HYPERLINK_DATA;
+      FIELD_ARRAY[279] = ResourceField.OUTLINECODE1_INDEX;
+      FIELD_ARRAY[281] = ResourceField.OUTLINECODE2_INDEX;
+      FIELD_ARRAY[283] = ResourceField.OUTLINECODE3_INDEX;
+      FIELD_ARRAY[285] = ResourceField.OUTLINECODE4_INDEX;
+      FIELD_ARRAY[287] = ResourceField.OUTLINECODE5_INDEX;
+      FIELD_ARRAY[289] = ResourceField.OUTLINECODE6_INDEX;
+      FIELD_ARRAY[291] = ResourceField.OUTLINECODE7_INDEX;
+      FIELD_ARRAY[293] = ResourceField.OUTLINECODE8_INDEX;
+      FIELD_ARRAY[295] = ResourceField.OUTLINECODE9_INDEX;
+      FIELD_ARRAY[297] = ResourceField.OUTLINECODE10_INDEX;
+      FIELD_ARRAY[61] = ResourceField.COST_RATE_A;
+      FIELD_ARRAY[62] = ResourceField.COST_RATE_B;
+      FIELD_ARRAY[63] = ResourceField.COST_RATE_C;
+      FIELD_ARRAY[64] = ResourceField.COST_RATE_D;
+      FIELD_ARRAY[65] = ResourceField.COST_RATE_E;
+      FIELD_ARRAY[276] = ResourceField.AVAILABILITY_DATA;
+      FIELD_ARRAY[341] = ResourceField.ENTERPRISE_DATA;
+
    }
 
    private static final int[] ID_ARRAY = new int[ResourceField.MAX_VALUE];

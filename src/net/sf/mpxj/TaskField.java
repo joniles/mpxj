@@ -32,11 +32,27 @@ import java.util.Locale;
 public enum TaskField implements FieldType
 {
    START(DataType.DATE), // Must always be first value
-   WORK(DataType.DURATION),
-   BASELINE_WORK(DataType.DURATION),
-   ACTUAL_WORK(DataType.DURATION),
+
+   DURATION_UNITS(DataType.TIME_UNITS),
+   BASELINE_DURATION_UNITS(DataType.TIME_UNITS),
+   ACTUAL_DURATION_UNITS(DataType.TIME_UNITS),
+   LEVELING_DELAY_UNITS(DataType.TIME_UNITS),
+   DURATION1_UNITS(DataType.TIME_UNITS),
+   DURATION2_UNITS(DataType.TIME_UNITS),
+   DURATION3_UNITS(DataType.TIME_UNITS),
+   DURATION4_UNITS(DataType.TIME_UNITS),
+   DURATION5_UNITS(DataType.TIME_UNITS),
+   DURATION6_UNITS(DataType.TIME_UNITS),
+   DURATION7_UNITS(DataType.TIME_UNITS),
+   DURATION8_UNITS(DataType.TIME_UNITS),
+   DURATION9_UNITS(DataType.TIME_UNITS),
+   DURATION10_UNITS(DataType.TIME_UNITS),
+
+   WORK(DataType.WORK),
+   BASELINE_WORK(DataType.WORK),
+   ACTUAL_WORK(DataType.WORK),
    WORK_VARIANCE(DataType.DURATION),
-   REMAINING_WORK(DataType.DURATION),
+   REMAINING_WORK(DataType.WORK),
    COST(DataType.CURRENCY),
    BASELINE_COST(DataType.CURRENCY),
    ACTUAL_COST(DataType.CURRENCY),
@@ -51,18 +67,18 @@ public enum TaskField implements FieldType
    CONSTRAINT_TYPE(DataType.CONSTRAINT),
    CONSTRAINT_DATE(DataType.DATE),
    CRITICAL(DataType.BOOLEAN),
-   LEVELING_DELAY(DataType.DURATION),
-   FREE_SLACK(DataType.DURATION),
+   LEVELING_DELAY(DataType.DURATION, TaskField.LEVELING_DELAY_UNITS),
+   FREE_SLACK(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
    TOTAL_SLACK(DataType.DURATION),
-   ID(DataType.BOOLEAN),
+   ID(DataType.INTEGER),
    MILESTONE(DataType.BOOLEAN),
    PRIORITY(DataType.PRIORITY),
    SUBPROJECT_FILE(DataType.STRING),
-   BASELINE_DURATION(DataType.DURATION),
-   ACTUAL_DURATION(DataType.DURATION),
-   DURATION(DataType.DURATION),
+   BASELINE_DURATION(DataType.DURATION, TaskField.BASELINE_DURATION_UNITS),
+   ACTUAL_DURATION(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
+   DURATION(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
    DURATION_VARIANCE(DataType.DURATION),
-   REMAINING_DURATION(DataType.DURATION),
+   REMAINING_DURATION(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
    PERCENT_COMPLETE(DataType.PERCENTAGE),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    EARLY_START(DataType.DATE),
@@ -113,8 +129,8 @@ public enum TaskField implements FieldType
    ROLLUP(DataType.BOOLEAN),
    CV(DataType.NUMERIC),
    PROJECT(DataType.STRING),
-   OUTLINE_LEVEL(DataType.NUMERIC),
-   UNIQUE_ID(DataType.NUMERIC),
+   OUTLINE_LEVEL(DataType.SHORT),
+   UNIQUE_ID(DataType.INTEGER),
    NUMBER1(DataType.NUMERIC),
    NUMBER2(DataType.NUMERIC),
    NUMBER3(DataType.NUMERIC),
@@ -122,7 +138,7 @@ public enum TaskField implements FieldType
    NUMBER5(DataType.NUMERIC),
    SUMMARY(DataType.BOOLEAN),
    CREATED(DataType.DATE),
-   NOTES(DataType.STRING),
+   NOTES(DataType.ASCII_STRING),
    UNIQUE_ID_PREDECESSORS(DataType.RELATION_LIST),
    UNIQUE_ID_SUCCESSORS(DataType.RELATION_LIST),
    OBJECTS(DataType.NUMERIC),
@@ -130,9 +146,9 @@ public enum TaskField implements FieldType
    RESUME(DataType.DATE),
    STOP(DataType.DATE),
    OUTLINE_NUMBER(DataType.STRING),
-   DURATION1(DataType.DURATION),
-   DURATION2(DataType.DURATION),
-   DURATION3(DataType.DURATION),
+   DURATION1(DataType.DURATION, TaskField.DURATION1_UNITS),
+   DURATION2(DataType.DURATION, TaskField.DURATION2_UNITS),
+   DURATION3(DataType.DURATION, TaskField.DURATION3_UNITS),
    COST1(DataType.CURRENCY),
    COST2(DataType.CURRENCY),
    COST3(DataType.CURRENCY),
@@ -146,8 +162,8 @@ public enum TaskField implements FieldType
    RECURRING(DataType.BOOLEAN),
    EFFORT_DRIVEN(DataType.BOOLEAN),
    OVERTIME_WORK(DataType.DURATION),
-   ACTUAL_OVERTIME_WORK(DataType.DURATION),
-   REMAINING_OVERTIME_WORK(DataType.DURATION),
+   ACTUAL_OVERTIME_WORK(DataType.WORK),
+   REMAINING_OVERTIME_WORK(DataType.WORK),
    REGULAR_WORK(DataType.DURATION),
    OVERTIME_COST(DataType.CURRENCY),
    ACTUAL_OVERTIME_COST(DataType.CURRENCY),
@@ -184,13 +200,13 @@ public enum TaskField implements FieldType
    DATE8(DataType.DATE),
    DATE9(DataType.DATE),
    DATE10(DataType.DATE),
-   DURATION4(DataType.DURATION),
-   DURATION5(DataType.DURATION),
-   DURATION6(DataType.DURATION),
-   DURATION7(DataType.DURATION),
-   DURATION8(DataType.DURATION),
-   DURATION9(DataType.DURATION),
-   DURATION10(DataType.DURATION),
+   DURATION4(DataType.DURATION, TaskField.DURATION4_UNITS),
+   DURATION5(DataType.DURATION, TaskField.DURATION5_UNITS),
+   DURATION6(DataType.DURATION, TaskField.DURATION6_UNITS),
+   DURATION7(DataType.DURATION, TaskField.DURATION7_UNITS),
+   DURATION8(DataType.DURATION, TaskField.DURATION8_UNITS),
+   DURATION9(DataType.DURATION, TaskField.DURATION9_UNITS),
+   DURATION10(DataType.DURATION, TaskField.DURATION10_UNITS),
    START6(DataType.DATE),
    FINISH6(DataType.DATE),
    START7(DataType.DATE),
@@ -266,8 +282,8 @@ public enum TaskField implements FieldType
    OUTLINE_CODE9(DataType.STRING),
    OUTLINE_CODE10(DataType.STRING),
    DEADLINE(DataType.DATE),
-   START_SLACK(DataType.DURATION),
-   FINISH_SLACK(DataType.DURATION),
+   START_SLACK(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
+   FINISH_SLACK(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
    VAC(DataType.NUMERIC),
    GROUP_BY_SUMMARY(DataType.STRING),
    WBS_PREDECESSORS(DataType.RELATION_LIST),
@@ -627,8 +643,36 @@ public enum TaskField implements FieldType
    FINISH_TEXT(DataType.STRING),
    DURATION_TEXT(DataType.STRING),
    MANUAL_DURATION(DataType.DURATION),
+   SUBPROJECT_TASKS_UNIQUEID_OFFSET(DataType.INTEGER),
+   SUBPROJECT_UNIQUE_TASK_ID(DataType.INTEGER),
+   SUBPROJECT_TASK_ID(DataType.INTEGER),
+   HYPERLINK_DATA(DataType.BINARY),
+   RECURRING_DATA(DataType.BINARY),
+   OUTLINECODE1_INDEX(DataType.INTEGER),
+   OUTLINECODE2_INDEX(DataType.INTEGER),
+   OUTLINECODE3_INDEX(DataType.INTEGER),
+   OUTLINECODE4_INDEX(DataType.INTEGER),
+   OUTLINECODE5_INDEX(DataType.INTEGER),
+   OUTLINECODE6_INDEX(DataType.INTEGER),
+   OUTLINECODE7_INDEX(DataType.INTEGER),
+   OUTLINECODE8_INDEX(DataType.INTEGER),
+   OUTLINECODE9_INDEX(DataType.INTEGER),
+   OUTLINECODE10_INDEX(DataType.INTEGER),
+   ENTERPRISE_DATA(DataType.BINARY),
 
    FINISH(DataType.DATE); // Must always be last value
+
+   /**
+    * Constructor.
+    * 
+    * @param dataType field data type
+    * @param unitsType field units type
+    */
+   private TaskField(DataType dataType, FieldType unitsType)
+   {
+      m_dataType = dataType;
+      m_unitsType = unitsType;
+   }
 
    /**
     * Constructor.
@@ -637,7 +681,7 @@ public enum TaskField implements FieldType
     */
    private TaskField(DataType dataType)
    {
-      m_dataType = dataType;
+      this(dataType, null);
    }
 
    /**
@@ -678,6 +722,14 @@ public enum TaskField implements FieldType
    public DataType getDataType()
    {
       return (m_dataType);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public FieldType getUnitsType()
+   {
+      return m_unitsType;
    }
 
    /**
@@ -723,4 +775,5 @@ public enum TaskField implements FieldType
 
    private int m_value;
    private DataType m_dataType;
+   private FieldType m_unitsType;
 }

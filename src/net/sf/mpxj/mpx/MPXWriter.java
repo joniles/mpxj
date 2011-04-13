@@ -1323,6 +1323,7 @@ public final class MPXWriter extends AbstractProjectWriter
             break;
          }
 
+         case WORK :
          case DURATION :
          {
             value = formatDuration(value);

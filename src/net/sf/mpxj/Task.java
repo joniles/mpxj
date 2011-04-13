@@ -3485,7 +3485,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Integer getSubprojectTaskUniqueID()
    {
-      return (m_subprojectTaskUniqueID);
+      return (Integer) getCachedValue(TaskField.SUBPROJECT_UNIQUE_TASK_ID);
    }
 
    /**
@@ -3495,7 +3495,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setSubprojectTaskUniqueID(Integer subprojectUniqueTaskID)
    {
-      m_subprojectTaskUniqueID = subprojectUniqueTaskID;
+      set(TaskField.SUBPROJECT_UNIQUE_TASK_ID, subprojectUniqueTaskID);
    }
 
    /**
@@ -3507,7 +3507,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Integer getSubprojectTaskID()
    {
-      return (m_subprojectTaskID);
+      return (Integer) getCachedValue(TaskField.SUBPROJECT_TASK_ID);
    }
 
    /**
@@ -3517,7 +3517,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setSubprojectTaskID(Integer subprojectTaskID)
    {
-      m_subprojectTaskID = subprojectTaskID;
+      set(TaskField.SUBPROJECT_TASK_ID, subprojectTaskID);
    }
 
    /**
@@ -3528,7 +3528,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setSubprojectTasksUniqueIDOffset(Integer offset)
    {
-      m_subprojectTasksUniqueIDOffset = offset;
+      set(TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET, offset);
    }
 
    /**
@@ -3539,7 +3539,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Integer getSubprojectTasksUniqueIDOffset()
    {
-      return (m_subprojectTasksUniqueIDOffset);
+      return (Integer) getCachedValue(TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET);
    }
 
    /**
@@ -3669,7 +3669,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Integer getPhysicalPercentComplete()
    {
-      return (m_physicalPercentComplete);
+      return (Integer) getCachedValue(TaskField.PHYSICAL_PERCENT_COMPLETE);
    }
 
    /**
@@ -3679,7 +3679,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setPhysicalPercentComplete(Integer physicalPercentComplete)
    {
-      m_physicalPercentComplete = physicalPercentComplete;
+      set(TaskField.PHYSICAL_PERCENT_COMPLETE, physicalPercentComplete);
    }
 
    /**
@@ -6045,28 +6045,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * If this is an external task, this method will return  the ID
-    * (note: not the unique ID) of the task in the external file.
-    * 
-    * @return external task ID
-    */
-   public Integer getExternalTaskID()
-   {
-      return (m_externalTaskID);
-   }
-
-   /**
-    * If this is an external task, this method is used to set the ID
-    * (note: not the unique ID) of the task in the external file.
-    * 
-    * @param externalTaskID external task ID
-    */
-   public void setExternalTaskID(Integer externalTaskID)
-   {
-      m_externalTaskID = externalTaskID;
-   }
-
-   /**
     * Retrieve an enterprise field value.
     * 
     * @param index field index
@@ -6625,7 +6603,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (field != null)
       {
          int index = field.getValue();
-         fireFieldChangeEvent((TaskField) field, m_array[index], value);
+         if (m_eventsEnabled)
+         {
+            fireFieldChangeEvent((TaskField) field, m_array[index], value);
+         }
          m_array[index] = value;
       }
    }
@@ -6792,7 +6773,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    @Override public String toString()
    {
       SubProject externalTask = getSubProject();
-      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL " + externalTask.getFullPath() + " " + getExternalTaskID() + "]" : "") + "]");
+      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL " + externalTask.getFullPath() + " " + getSubprojectTaskID() + "]" : "") + "]");
    }
 
    /**
@@ -6842,6 +6823,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
       }
       return result;
+   }
+
+   /**
+    * Disable events firing when fields are updated.
+    */
+   public void disableEvents()
+   {
+      m_eventsEnabled = false;
+   }
+
+   /**
+    * Enable events firing when fields are updated. This is the default state.
+    */
+   public void enableEvents()
+   {
+      m_eventsEnabled = true;
    }
 
    /**
@@ -7115,20 +7112,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.BASELINE10_WORK
    };
 
+   private boolean m_eventsEnabled = true;
    private boolean m_null;
    private String m_wbsLevel;
    private boolean m_resumeValid;
-   private Integer m_subprojectTaskUniqueID;
-   private Integer m_subprojectTaskID;
-   private Integer m_subprojectTasksUniqueIDOffset;
    private String m_externalTaskProject;
    private TimeUnit m_levelingDelayFormat;
-   private Integer m_physicalPercentComplete;
    private EarnedValueMethod m_earnedValueMethod;
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;
-   private Integer m_externalTaskID;
 
    private List<DateRange> m_splits;
    private Date m_splitsComplete;

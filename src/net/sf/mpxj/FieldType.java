@@ -54,4 +54,11 @@ public interface FieldType extends MpxjEnum
     * @return data type
     */
    public DataType getDataType();
+
+   /**
+    * Retrieve the associated units field, if any.
+    * 
+    * @return units field
+    */
+   public FieldType getUnitsType();
 }

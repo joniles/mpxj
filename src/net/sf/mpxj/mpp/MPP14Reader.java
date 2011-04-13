@@ -1541,7 +1541,7 @@ final class MPP14Reader implements MPPVariantReader
          int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
          if (externalTaskID != 0)
          {
-            task.setExternalTaskID(Integer.valueOf(externalTaskID));
+            task.setSubprojectTaskID(Integer.valueOf(externalTaskID));
             task.setExternalTask(true);
             externalTasks.add(task);
          }

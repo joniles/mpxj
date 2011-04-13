@@ -325,5 +325,11 @@ class Props extends MPPComponent
 
    public static final Integer SHOW_PROJECT_SUMMARY_TASK = Integer.valueOf(54525961);
 
+   public static final Integer TASK_FIELD_MAP = Integer.valueOf(131092);
+   public static final Integer TASK_FIELD_MAP2 = Integer.valueOf(50331668);
+
+   public static final Integer RESOURCE_FIELD_MAP = Integer.valueOf(131093);
+   public static final Integer RESOURCE_FIELD_MAP2 = Integer.valueOf(50331669);
+
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
 }

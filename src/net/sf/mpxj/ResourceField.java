@@ -33,7 +33,18 @@ public enum ResourceField implements FieldType
 {
    START(DataType.DATE), // Must always be first value
 
-   ID(DataType.NUMERIC),
+   DURATION1_UNITS(DataType.TIME_UNITS),
+   DURATION2_UNITS(DataType.TIME_UNITS),
+   DURATION3_UNITS(DataType.TIME_UNITS),
+   DURATION4_UNITS(DataType.TIME_UNITS),
+   DURATION5_UNITS(DataType.TIME_UNITS),
+   DURATION6_UNITS(DataType.TIME_UNITS),
+   DURATION7_UNITS(DataType.TIME_UNITS),
+   DURATION8_UNITS(DataType.TIME_UNITS),
+   DURATION9_UNITS(DataType.TIME_UNITS),
+   DURATION10_UNITS(DataType.TIME_UNITS),
+
+   ID(DataType.INTEGER),
    NAME(DataType.STRING),
    INITIALS(DataType.STRING),
    GROUP(DataType.STRING),
@@ -46,21 +57,21 @@ public enum ResourceField implements FieldType
    CODE(DataType.STRING),
    ACTUAL_COST(DataType.CURRENCY),
    COST(DataType.CURRENCY),
-   WORK(DataType.DURATION),
-   ACTUAL_WORK(DataType.DURATION),
-   BASELINE_WORK(DataType.DURATION),
-   OVERTIME_WORK(DataType.DURATION),
+   WORK(DataType.WORK),
+   ACTUAL_WORK(DataType.WORK),
+   BASELINE_WORK(DataType.WORK),
+   OVERTIME_WORK(DataType.WORK),
    BASELINE_COST(DataType.CURRENCY),
    COST_PER_USE(DataType.CURRENCY),
    ACCRUE_AT(DataType.ACCRUE),
    REMAINING_COST(DataType.CURRENCY),
-   REMAINING_WORK(DataType.DURATION),
+   REMAINING_WORK(DataType.WORK),
    WORK_VARIANCE(DataType.DURATION),
    COST_VARIANCE(DataType.CURRENCY),
    OVERALLOCATED(DataType.BOOLEAN),
-   PEAK(DataType.NUMERIC),
-   UNIQUE_ID(DataType.NUMERIC),
-   NOTES(DataType.STRING),
+   PEAK(DataType.UNITS),
+   UNIQUE_ID(DataType.INTEGER),
+   NOTES(DataType.ASCII_STRING),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    TEXT3(DataType.STRING),
    TEXT4(DataType.STRING),
@@ -68,8 +79,8 @@ public enum ResourceField implements FieldType
    OBJECTS(DataType.NUMERIC),
    LINKED_FIELDS(DataType.STRING),
    EMAIL_ADDRESS(DataType.STRING),
-   REGULAR_WORK(DataType.DURATION),
-   ACTUAL_OVERTIME_WORK(DataType.DURATION),
+   REGULAR_WORK(DataType.WORK),
+   ACTUAL_OVERTIME_WORK(DataType.WORK),
    REMAINING_OVERTIME_WORK(DataType.DURATION),
    OVERTIME_COST(DataType.CURRENCY),
    ACTUAL_OVERTIME_COST(DataType.CURRENCY),
@@ -101,9 +112,9 @@ public enum ResourceField implements FieldType
    NUMBER3(DataType.NUMERIC),
    NUMBER4(DataType.NUMERIC),
    NUMBER5(DataType.NUMERIC),
-   DURATION1(DataType.DURATION),
-   DURATION2(DataType.DURATION),
-   DURATION3(DataType.DURATION),
+   DURATION1(DataType.DURATION, ResourceField.DURATION1_UNITS),
+   DURATION2(DataType.DURATION, ResourceField.DURATION2_UNITS),
+   DURATION3(DataType.DURATION, ResourceField.DURATION3_UNITS),
    COST1(DataType.CURRENCY),
    COST2(DataType.CURRENCY),
    COST3(DataType.CURRENCY),
@@ -142,13 +153,13 @@ public enum ResourceField implements FieldType
    DATE8(DataType.DATE),
    DATE9(DataType.DATE),
    DATE10(DataType.DATE),
-   DURATION4(DataType.DURATION),
-   DURATION5(DataType.DURATION),
-   DURATION6(DataType.DURATION),
-   DURATION7(DataType.DURATION),
-   DURATION8(DataType.DURATION),
-   DURATION9(DataType.DURATION),
-   DURATION10(DataType.DURATION),
+   DURATION4(DataType.DURATION, ResourceField.DURATION4_UNITS),
+   DURATION5(DataType.DURATION, ResourceField.DURATION5_UNITS),
+   DURATION6(DataType.DURATION, ResourceField.DURATION6_UNITS),
+   DURATION7(DataType.DURATION, ResourceField.DURATION7_UNITS),
+   DURATION8(DataType.DURATION, ResourceField.DURATION8_UNITS),
+   DURATION9(DataType.DURATION, ResourceField.DURATION9_UNITS),
+   DURATION10(DataType.DURATION, ResourceField.DURATION10_UNITS),
    FINISH6(DataType.DATE),
    FINISH7(DataType.DATE),
    FINISH8(DataType.DATE),
@@ -237,25 +248,25 @@ public enum ResourceField implements FieldType
    VAC(DataType.CURRENCY),
    GROUP_BY_SUMMARY(DataType.STRING),
    WINDOWS_USER_ACCOUNT(DataType.STRING),
-   BASELINE1_WORK(DataType.DURATION),
+   BASELINE1_WORK(DataType.WORK),
    BASELINE1_COST(DataType.CURRENCY),
-   BASELINE2_WORK(DataType.DURATION),
+   BASELINE2_WORK(DataType.WORK),
    BASELINE2_COST(DataType.CURRENCY),
-   BASELINE3_WORK(DataType.DURATION),
+   BASELINE3_WORK(DataType.WORK),
    BASELINE3_COST(DataType.CURRENCY),
-   BASELINE4_WORK(DataType.DURATION),
+   BASELINE4_WORK(DataType.WORK),
    BASELINE4_COST(DataType.CURRENCY),
-   BASELINE5_WORK(DataType.DURATION),
+   BASELINE5_WORK(DataType.WORK),
    BASELINE5_COST(DataType.CURRENCY),
-   BASELINE6_WORK(DataType.DURATION),
+   BASELINE6_WORK(DataType.WORK),
    BASELINE6_COST(DataType.CURRENCY),
-   BASELINE7_WORK(DataType.DURATION),
+   BASELINE7_WORK(DataType.WORK),
    BASELINE7_COST(DataType.CURRENCY),
-   BASELINE8_WORK(DataType.DURATION),
+   BASELINE8_WORK(DataType.WORK),
    BASELINE8_COST(DataType.CURRENCY),
-   BASELINE9_WORK(DataType.DURATION),
+   BASELINE9_WORK(DataType.WORK),
    BASELINE9_COST(DataType.CURRENCY),
-   BASELINE10_WORK(DataType.DURATION),
+   BASELINE10_WORK(DataType.WORK),
    BASELINE10_COST(DataType.CURRENCY),
    ENTERPRISE_COST1(DataType.CURRENCY),
    ENTERPRISE_COST2(DataType.CURRENCY),
@@ -488,8 +499,39 @@ public enum ResourceField implements FieldType
    TEAM_ASSIGNMENT_POOL(DataType.STRING),
    WBS(DataType.STRING),
    UNAVAILABLE(DataType.STRING), // Dummy entry
+   SUBPROJECT_RESOURCE_UNIQUE_ID(DataType.INTEGER),
+   HYPERLINK_DATA(DataType.BINARY),
+   OUTLINECODE1_INDEX(DataType.INTEGER),
+   OUTLINECODE2_INDEX(DataType.INTEGER),
+   OUTLINECODE3_INDEX(DataType.INTEGER),
+   OUTLINECODE4_INDEX(DataType.INTEGER),
+   OUTLINECODE5_INDEX(DataType.INTEGER),
+   OUTLINECODE6_INDEX(DataType.INTEGER),
+   OUTLINECODE7_INDEX(DataType.INTEGER),
+   OUTLINECODE8_INDEX(DataType.INTEGER),
+   OUTLINECODE9_INDEX(DataType.INTEGER),
+   OUTLINECODE10_INDEX(DataType.INTEGER),
+   COST_RATE_A(DataType.BINARY),
+   COST_RATE_B(DataType.BINARY),
+   COST_RATE_C(DataType.BINARY),
+   COST_RATE_D(DataType.BINARY),
+   COST_RATE_E(DataType.BINARY),
+   AVAILABILITY_DATA(DataType.BINARY),
+   ENTERPRISE_DATA(DataType.BINARY),
 
    FINISH(DataType.DATE); // Must always be last value
+
+   /**
+    * Constructor.
+    * 
+    * @param dataType field data type
+    * @param unitsType units type
+    */
+   private ResourceField(DataType dataType, FieldType unitsType)
+   {
+      m_dataType = dataType;
+      m_unitsType = unitsType;
+   }
 
    /**
     * Constructor.
@@ -498,7 +540,7 @@ public enum ResourceField implements FieldType
     */
    private ResourceField(DataType dataType)
    {
-      m_dataType = dataType;
+      this(dataType, null);
    }
 
    /**
@@ -539,6 +581,14 @@ public enum ResourceField implements FieldType
    public DataType getDataType()
    {
       return (m_dataType);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public FieldType getUnitsType()
+   {
+      return m_unitsType;
    }
 
    /**
@@ -584,5 +634,5 @@ public enum ResourceField implements FieldType
 
    private int m_value;
    private DataType m_dataType;
-
+   private FieldType m_unitsType;
 }
