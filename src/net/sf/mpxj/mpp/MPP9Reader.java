@@ -1596,13 +1596,9 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      byte[] fieldMapData = m_projectProps.getByteArray(Props.TASK_FIELD_MAP);
-      if (fieldMapData == null)
-      {
-         fieldMapData = m_projectProps.getByteArray(Props.TASK_FIELD_MAP2);
-      }
-      FieldMap fieldMap = new FieldMap(m_file, fieldMapData);
-
+      FieldMap fieldMap = new FieldMap9(m_file);
+      fieldMap.createTaskFieldMap(m_projectProps);
+      
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
@@ -2341,12 +2337,8 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      byte[] fieldMapData = m_projectProps.getByteArray(Props.RESOURCE_FIELD_MAP);
-      if (fieldMapData == null)
-      {
-         fieldMapData = m_projectProps.getByteArray(Props.RESOURCE_FIELD_MAP2);
-      }
-      FieldMap fieldMap = new FieldMap(m_file, fieldMapData);
+      FieldMap fieldMap = new FieldMap9(m_file);
+      fieldMap.createResourceFieldMap(m_projectProps);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));

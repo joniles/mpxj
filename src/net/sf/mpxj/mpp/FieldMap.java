@@ -44,18 +44,25 @@ import net.sf.mpxj.utility.NumberUtility;
  * This class is used to represent the mapping present in the MPP file
  * between fields and their locations in various data blocks.
  */
-class FieldMap
+abstract class FieldMap
 {
    /**
     * Constructor.
     * 
-    * @param file parent project file
-    * @param data raw data
+    * @param file parent project file 
     */
-   public FieldMap(ProjectFile file, byte[] data)
+   public FieldMap(ProjectFile file)
    {
       m_file = file;
+   }
 
+   /**
+    * Generic method used to create a field map from a block of data. 
+    * 
+    * @param data field map data
+    */
+   private void createFieldMap(byte[] data)
+   {
       int index = 0;
       while (index < data.length)
       {
@@ -97,10 +104,96 @@ class FieldMap
 
          if (type != null)
          {
+            //            if (location != FieldLocation.META_DATA)
+            //            {
+            //               System.out.println("{ResourceField."+type+", FieldLocation."+location+", Integer.valueOf("+dataBlockOffset+"), Integer.valueOf("+varDataKey+")},");
+            //            }
             m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
          }
 
          index += 28;
+      }
+   }
+
+   /**
+    * Abstract method used by child classes to supply default data.
+    * 
+    * @return default data
+    */
+   protected abstract Object[][] getDefaultTaskData();
+
+   /**
+    * Abstract method used by child classes to supply default data.
+    * 
+    * @return default data
+    */
+   protected abstract Object[][] getDefaultResourceData();
+
+   /**
+    * Creates a field map for tasks.
+    * 
+    * @param props props data
+    */
+   public void createTaskFieldMap(Props props)
+   {
+      byte[] fieldMapData = null;
+      for (Integer key : TASK_KEYS)
+      {
+         fieldMapData = props.getByteArray(key);
+         if (fieldMapData != null)
+         {
+            break;
+         }
+      }
+
+      if (fieldMapData == null)
+      {
+         populateDefaultData(getDefaultTaskData());
+      }
+      else
+      {
+         createFieldMap(fieldMapData);
+      }
+   }
+
+   /**
+    * Creates a field map for resources.
+    * 
+    * @param props props data
+    */
+   public void createResourceFieldMap(Props props)
+   {
+      byte[] fieldMapData = null;
+      for (Integer key : RESOURCE_KEYS)
+      {
+         fieldMapData = props.getByteArray(key);
+         if (fieldMapData != null)
+         {
+            break;
+         }
+      }
+
+      if (fieldMapData == null)
+      {
+         populateDefaultData(getDefaultResourceData());
+      }
+      else
+      {
+         createFieldMap(fieldMapData);
+      }
+   }
+
+   /**
+    * This method takes an array of data and uses this to populate the
+    * field map.
+    * 
+    * @param defaultData field map default data
+    */
+   private void populateDefaultData(Object[][] defaultData)
+   {
+      for (Object[] item : defaultData)
+      {
+         m_map.put((FieldType) item[0], new FieldItem((FieldType) item[0], (FieldLocation) item[1], ((Integer) item[2]).intValue(), ((Integer) item[3]).intValue()));
       }
    }
 
@@ -566,4 +659,14 @@ class FieldMap
    private ProjectFile m_file;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int m_maxFixedDataOffset;
+   private static final Integer[] TASK_KEYS =
+   {
+      Props.TASK_FIELD_MAP,
+      Props.TASK_FIELD_MAP2
+   };
+   private static final Integer[] RESOURCE_KEYS =
+   {
+      Props.RESOURCE_FIELD_MAP,
+      Props.RESOURCE_FIELD_MAP2
+   };
 }
