@@ -36,7 +36,17 @@ import net.sf.mpxj.listener.FieldListener;
 public final class ResourceAssignment extends ProjectEntity implements FieldContainer
 {
    /**
-    * Default constructor.
+    * Constructor.
+    *
+    * @param file The parent file to which this record belongs.
+    */
+   public ResourceAssignment(ProjectFile file)
+   {
+      super(file);
+   }
+
+   /**
+    * Constructor.
     *
     * @param file The parent file to which this record belongs.
     * @param task The task to which this assignment is being made
@@ -75,7 +85,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getUnits()
    {
-      return ((Number) getCachedValue(ResourceField.ASSIGNMENT_UNITS));
+      return ((Number) getCachedValue(AssignmentField.ASSIGNMENT_UNITS));
    }
 
    /**
@@ -85,7 +95,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setUnits(Number val)
    {
-      set(ResourceField.ASSIGNMENT_UNITS, val);
+      set(AssignmentField.ASSIGNMENT_UNITS, val);
    }
 
    /**
@@ -95,7 +105,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getWork()
    {
-      return ((Duration) getCachedValue(ResourceField.WORK));
+      return ((Duration) getCachedValue(AssignmentField.WORK));
    }
 
    /**
@@ -105,7 +115,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setWork(Duration dur)
    {
-      set(ResourceField.WORK, dur);
+      set(AssignmentField.WORK, dur);
    }
 
    /**
@@ -115,7 +125,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getBaselineStart()
    {
-      return ((Date) getCachedValue(ResourceField.BASELINE_START));
+      return ((Date) getCachedValue(AssignmentField.BASELINE_START));
    }
 
    /**
@@ -125,7 +135,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineStart(Date start)
    {
-      set(ResourceField.BASELINE_START, start);
+      set(AssignmentField.BASELINE_START, start);
    }
 
    /**
@@ -135,7 +145,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getActualStart()
    {
-      return ((Date) getCachedValue(ResourceField.ACTUAL_START));
+      return ((Date) getCachedValue(AssignmentField.ACTUAL_START));
    }
 
    /**
@@ -145,7 +155,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setActualStart(Date start)
    {
-      set(ResourceField.ACTUAL_START, start);
+      set(AssignmentField.ACTUAL_START, start);
    }
 
    /**
@@ -155,7 +165,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getBaselineFinish()
    {
-      return ((Date) getCachedValue(ResourceField.BASELINE_FINISH));
+      return ((Date) getCachedValue(AssignmentField.BASELINE_FINISH));
    }
 
    /**
@@ -165,7 +175,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineFinish(Date finish)
    {
-      set(ResourceField.BASELINE_FINISH, finish);
+      set(AssignmentField.BASELINE_FINISH, finish);
    }
 
    /**
@@ -175,7 +185,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getActualFinish()
    {
-      return ((Date) getCachedValue(ResourceField.ACTUAL_FINISH));
+      return ((Date) getCachedValue(AssignmentField.ACTUAL_FINISH));
    }
 
    /**
@@ -185,7 +195,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setActualFinish(Date finish)
    {
-      set(ResourceField.ACTUAL_FINISH, finish);
+      set(AssignmentField.ACTUAL_FINISH, finish);
    }
 
    /**
@@ -195,7 +205,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getBaselineWork()
    {
-      return ((Duration) getCachedValue(ResourceField.BASELINE_WORK));
+      return ((Duration) getCachedValue(AssignmentField.BASELINE_WORK));
    }
 
    /**
@@ -205,7 +215,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineWork(Duration val)
    {
-      set(ResourceField.BASELINE_WORK, val);
+      set(AssignmentField.BASELINE_WORK, val);
    }
 
    /**
@@ -215,7 +225,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getActualWork()
    {
-      return ((Duration) getCachedValue(ResourceField.ACTUAL_WORK));
+      return ((Duration) getCachedValue(AssignmentField.ACTUAL_WORK));
    }
 
    /**
@@ -225,7 +235,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setActualWork(Duration val)
    {
-      set(ResourceField.ACTUAL_WORK, val);
+      set(AssignmentField.ACTUAL_WORK, val);
    }
 
    /**
@@ -235,7 +245,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getOvertimeWork()
    {
-      return ((Duration) getCachedValue(ResourceField.OVERTIME_WORK));
+      return ((Duration) getCachedValue(AssignmentField.OVERTIME_WORK));
    }
 
    /**
@@ -245,7 +255,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setOvertimeWork(Duration overtimeWork)
    {
-      set(ResourceField.OVERTIME_WORK, overtimeWork);
+      set(AssignmentField.OVERTIME_WORK, overtimeWork);
    }
 
    /**
@@ -255,7 +265,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getCost()
    {
-      return ((Number) getCachedValue(ResourceField.COST));
+      return ((Number) getCachedValue(AssignmentField.COST));
    }
 
    /**
@@ -265,7 +275,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setCost(Number cost)
    {
-      set(ResourceField.COST, cost);
+      set(AssignmentField.COST, cost);
    }
 
    /**
@@ -275,7 +285,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getBaselineCost()
    {
-      return ((Number) getCachedValue(ResourceField.BASELINE_COST));
+      return ((Number) getCachedValue(AssignmentField.BASELINE_COST));
    }
 
    /**
@@ -285,7 +295,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineCost(Number val)
    {
-      set(ResourceField.BASELINE_COST, val);
+      set(AssignmentField.BASELINE_COST, val);
    }
 
    /**
@@ -295,7 +305,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getActualCost()
    {
-      return ((Number) getCachedValue(ResourceField.ACTUAL_COST));
+      return ((Number) getCachedValue(AssignmentField.ACTUAL_COST));
    }
 
    /**
@@ -305,7 +315,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setActualCost(Number actualCost)
    {
-      set(ResourceField.ACTUAL_COST, actualCost);
+      set(AssignmentField.ACTUAL_COST, actualCost);
    }
 
    /**
@@ -315,7 +325,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getStart()
    {
-      return ((Date) getCachedValue(ResourceField.START));
+      return ((Date) getCachedValue(AssignmentField.START));
    }
 
    /**
@@ -325,7 +335,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setStart(Date val)
    {
-      set(ResourceField.START, val);
+      set(AssignmentField.START, val);
    }
 
    /**
@@ -335,7 +345,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getFinish()
    {
-      return ((Date) getCachedValue(ResourceField.FINISH));
+      return ((Date) getCachedValue(AssignmentField.FINISH));
    }
 
    /**
@@ -345,7 +355,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setFinish(Date val)
    {
-      set(ResourceField.FINISH, val);
+      set(AssignmentField.FINISH, val);
    }
 
    /**
@@ -355,7 +365,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getDelay()
    {
-      return ((Duration) getCachedValue(ResourceField.ASSIGNMENT_DELAY));
+      return ((Duration) getCachedValue(AssignmentField.ASSIGNMENT_DELAY));
    }
 
    /**
@@ -365,7 +375,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setDelay(Duration dur)
    {
-      set(ResourceField.ASSIGNMENT_DELAY, dur);
+      set(AssignmentField.ASSIGNMENT_DELAY, dur);
    }
 
    /**
@@ -375,7 +385,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Integer getResourceUniqueID()
    {
-      return (m_resourceUniqueID);
+      return (Integer) getCachedValue(AssignmentField.RESOURCE_UNIQUE_ID);
    }
 
    /**
@@ -385,10 +395,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setResourceUniqueID(Integer val)
    {
-      if (val != null)
-      {
-         m_resourceUniqueID = val;
-      }
+      set(AssignmentField.RESOURCE_UNIQUE_ID, val);
    }
 
    /**
@@ -409,6 +416,10 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Task getTask()
    {
+      if (m_task == null)
+      {
+         m_task = getParentFile().getTaskByUniqueID(getTaskUniqueID());
+      }
       return (m_task);
    }
 
@@ -430,7 +441,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public WorkContour getWorkContour()
    {
-      return ((WorkContour) getCachedValue(ResourceField.WORK_CONTOUR));
+      return ((WorkContour) getCachedValue(AssignmentField.WORK_CONTOUR));
    }
 
    /**
@@ -440,7 +451,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setWorkContour(WorkContour workContour)
    {
-      set(ResourceField.WORK_CONTOUR, workContour);
+      set(AssignmentField.WORK_CONTOUR, workContour);
    }
 
    /**
@@ -458,7 +469,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getRemainingWork()
    {
-      return ((Duration) getCachedValue(ResourceField.REMAINING_WORK));
+      return ((Duration) getCachedValue(AssignmentField.REMAINING_WORK));
    }
 
    /**
@@ -468,7 +479,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setRemainingWork(Duration remainingWork)
    {
-      set(ResourceField.REMAINING_WORK, remainingWork);
+      set(AssignmentField.REMAINING_WORK, remainingWork);
    }
 
    /**
@@ -478,7 +489,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getLevelingDelay()
    {
-      return ((Duration) getCachedValue(ResourceField.LEVELING_DELAY));
+      return ((Duration) getCachedValue(AssignmentField.LEVELING_DELAY));
    }
 
    /**
@@ -488,7 +499,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setLevelingDelay(Duration levelingDelay)
    {
-      set(ResourceField.LEVELING_DELAY, levelingDelay);
+      set(AssignmentField.LEVELING_DELAY, levelingDelay);
    }
 
    /**
@@ -619,7 +630,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public TimeUnit getVariableRateUnits()
    {
-      return m_variableRateUnits;
+      return (TimeUnit) getCachedValue(AssignmentField.VARIABLE_RATE_UNITS);
    }
 
    /**
@@ -629,7 +640,27 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setVariableRateUnits(TimeUnit variableRateUnits)
    {
-      m_variableRateUnits = variableRateUnits;
+      set(AssignmentField.VARIABLE_RATE_UNITS, variableRateUnits);
+   }
+
+   /**
+    * Set the patrent task unique ID.
+    * 
+    * @param id task unique ID
+    */
+   public void setTaskUniqueID(Integer id)
+   {
+      set(AssignmentField.TASK_UNIQUE_ID, id);
+   }
+
+   /**
+    * Retrieve the parent task unique ID.
+    * 
+    * @return task unique ID
+    */
+   public Integer getTaskUniqueID()
+   {
+      return (Integer) getCachedValue(AssignmentField.TASK_UNIQUE_ID);
    }
 
    /**
@@ -637,7 +668,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    @Override public String toString()
    {
-      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
+      return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
    /**
@@ -648,7 +679,10 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       if (field != null)
       {
          int index = field.getValue();
-         fireFieldChangeEvent(field, m_array[index], value);
+         if (m_eventsEnabled)
+         {
+            fireFieldChangeEvent(field, m_array[index], value);
+         }
          m_array[index] = value;
       }
    }
@@ -725,18 +759,33 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    }
 
    /**
+    * Disable events firing when fields are updated.
+    */
+   public void disableEvents()
+   {
+      m_eventsEnabled = false;
+   }
+
+   /**
+    * Enable events firing when fields are updated. This is the default state.
+    */
+   public void enableEvents()
+   {
+      m_eventsEnabled = true;
+   }
+
+   /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[ResourceField.MAX_VALUE];
+   private Object[] m_array = new Object[AssignmentField.MAX_VALUE];
 
-   private Integer m_resourceUniqueID;
+   private boolean m_eventsEnabled = true;
    private LinkedList<TimephasedResourceAssignment> m_timephasedComplete;
    private LinkedList<TimephasedResourceAssignment> m_timephasedPlanned;
    private boolean m_timephasedCompleteRaw;
    private boolean m_timephasedPlannedRaw;
    private TimephasedResourceAssignmentNormaliser m_timephasedNormaliser;
    private List<FieldListener> m_listeners;
-   private TimeUnit m_variableRateUnits;
 
    /**
     * Reference to the parent task of this assignment.

@@ -239,6 +239,33 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required integer data
     */
+   public int getByte(Integer id, Integer type)
+   {
+      int result = 0;
+
+      Integer offset = m_meta.getOffset(id, type);
+
+      if (offset != null)
+      {
+         byte[] value = m_map.get(offset);
+
+         if (value != null)
+         {
+            result = MPPUtility.getByte(value);
+         }
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method retrieves an integer of the specified type,
+    * belonging to the item with the specified unique ID.
+    *
+    * @param id unique ID of entity to which this data belongs
+    * @param type data type identifier
+    * @return required integer data
+    */
    public int getInt(Integer id, Integer type)
    {
       int result = 0;

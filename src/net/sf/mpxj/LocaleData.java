@@ -55,9 +55,11 @@ public class LocaleData extends ListResourceBundle
 
    public static final String TASK_COLUMNS = "TASK_COLUMNS";
    public static final String RESOURCE_COLUMNS = "RESOURCE_COLUMNS";
+   public static final String ASSIGNMENT_COLUMNS = "ASSIGNMENT_COLUMNS";
 
    private static final String[] RESOURCE_COLUMNS_ARRAY = new String[ResourceField.MAX_VALUE];
    private static final String[] TASK_COLUMNS_ARRAY = new String[TaskField.MAX_VALUE];
+   private static final String[] ASSIGNMENT_COLUMNS_ARRAY = new String[AssignmentField.MAX_VALUE];
 
    static
    {
@@ -1144,6 +1146,32 @@ public class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.COST_RATE_E.getValue()] = "Cost Rate E";
       RESOURCE_COLUMNS_ARRAY[ResourceField.AVAILABILITY_DATA.getValue()] = "Availability Data";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_DATA.getValue()] = "Enterprise Data";
+
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.WORK.getValue()] = "Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE_START.getValue()] = "Baseline Start";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_START.getValue()] = "Actual Start";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE_FINISH.getValue()] = "Baseline Finish";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_FINISH.getValue()] = "Actual Finish";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE_WORK.getValue()] = "Baseline Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_WORK.getValue()] = "Actual Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.OVERTIME_WORK.getValue()] = "Overtime Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.COST.getValue()] = "Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE_COST.getValue()] = "Baseline Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_COST.getValue()] = "Actual Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_DELAY.getValue()] = "Assignment Delay";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.WORK_CONTOUR.getValue()] = "Work Contour";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_WORK.getValue()] = "Remaining Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LEVELING_DELAY.getValue()] = "Leveling Delay";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.FINISH.getValue()] = "Finish";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.UNIQUE_ID.getValue()] = "Unique ID";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_UNIQUE_ID.getValue()] = "Task Unique ID";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_UNIQUE_ID.getValue()] = "Resource Unique ID";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_WORK_DATA.getValue()] = "Planned Work Data";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.COMPLETE_WORK_DATA.getValue()] = "Complete Work Data";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.VARIABLE_RATE_UNITS.getValue()] = "Variable Rate Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LEVELING_DELAY_UNITS.getValue()] = "Leveling Delay Units";
    }
 
    private static final Object[][] RESOURCES =
@@ -1155,6 +1183,10 @@ public class LocaleData extends ListResourceBundle
       {
          "RESOURCE_COLUMNS",
          RESOURCE_COLUMNS_ARRAY
+      },
+      {
+         "ASSIGNMENT_COLUMNS",
+         ASSIGNMENT_COLUMNS_ARRAY
       }
    };
 }

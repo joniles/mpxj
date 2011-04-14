@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -47,7 +48,6 @@ import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -412,10 +412,10 @@ final class PrimaveraReader
             assignment.setBaselineStart(row.getDate("target_start_date"));
             assignment.setBaselineFinish(row.getDate("target_end_date"));
 
-            populateField(assignment, ResourceField.WORK, ResourceField.BASELINE_WORK, ResourceField.ACTUAL_WORK);
-            populateField(assignment, ResourceField.COST, ResourceField.BASELINE_COST, ResourceField.ACTUAL_COST);
-            populateField(assignment, ResourceField.START, ResourceField.BASELINE_START, ResourceField.ACTUAL_START);
-            populateField(assignment, ResourceField.FINISH, ResourceField.BASELINE_FINISH, ResourceField.ACTUAL_FINISH);
+            populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
+            populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
+            populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
          }
       }
    }

@@ -2825,7 +2825,7 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(110, getEncryptableInputStream(assnDir, "FixedData"));
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory14();
-      factory.process(m_file, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
+      factory.process(m_file, null, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }
 
    /**

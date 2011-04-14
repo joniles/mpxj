@@ -23,10 +23,10 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -64,13 +64,16 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
    /**
     * {@inheritDoc}
     */
-   public void process(ProjectFile file, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData)
+   public void process(ProjectFile file, FieldMap fieldMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
       TimephasedResourceAssignmentNormaliser normaliser = new MPPTimephasedResourceAssignmentNormaliser();
+
+      //System.out.println(assnFixedMeta);
+      //System.out.println(assnFixedData);
 
       for (int loop = 0; loop < count; loop++)
       {
@@ -82,25 +85,33 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
 
          int offset = MPPUtility.getInt(meta, 4);
          byte[] data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
-         if (data == null)
+         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset())
          {
             continue;
          }
 
-         int id = MPPUtility.getInt(data, 0);
+         int id = MPPUtility.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
          final Integer varDataId = Integer.valueOf(id);
          if (set.contains(varDataId) == false)
          {
             continue;
          }
 
-         Integer taskID = Integer.valueOf(MPPUtility.getInt(data, 4));
-         Task task = file.getTaskByUniqueID(taskID);
+         ResourceAssignment assignment = new ResourceAssignment(file);
+         assignment.setTimephasedNormaliser(normaliser);
+         assignment.disableEvents();
+         fieldMap.populateContainer(assignment, varDataId, data, assnVarData);
+         assignment.enableEvents();
 
+         //
+         // Post processing
+         //
+         Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
          if (task != null)
          {
-            Integer resourceID = Integer.valueOf(MPPUtility.getInt(data, 8));
-            Resource resource = file.getResourceByUniqueID(resourceID);
+            task.addResourceAssignment(assignment);
+
+            Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
 
             ProjectCalendar calendar = null;
             if (resource != null)
@@ -118,43 +129,19 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
                calendar = file.getCalendar();
             }
 
-            Date assignmentStart = MPPUtility.getTimestamp(data, 12);
-            Date assignmentFinish = MPPUtility.getTimestamp(data, 16);
-            double assignmentUnits = (MPPUtility.getDouble(data, 54)) / 100;
             byte[] completeWork = assnVarData.getByteArray(varDataId, getCompleteWorkKey());
             byte[] plannedWork = assnVarData.getByteArray(varDataId, getPlannedWorkKey());
-            double remainingWork = (MPPUtility.getDouble(data, 86)) / 100;
-            List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignmentStart, completeWork);
-            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, assignmentUnits, plannedWork, timephasedComplete);
+            List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), completeWork);
+            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
             //System.out.println(timephasedPlanned);
+            assignment.setActualStart(timephasedComplete.isEmpty() ? null : assignment.getStart());
+            assignment.setActualFinish((assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
 
             if (task.getSplits() != null && task.getSplits().isEmpty())
             {
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
-
-            ResourceAssignment assignment = task.addResourceAssignment(resource);
-            assignment.setTimephasedNormaliser(normaliser);
-            int variableRateUnitsValue = MPPUtility.getByte(data, 52);
-
-            assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
-            assignment.setActualFinish((remainingWork == 0 && resource != null) ? assignmentFinish : null);
-            assignment.setActualStart(timephasedComplete.isEmpty() ? null : assignmentStart);
-            assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
-            assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
-            assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
-            assignment.setFinish(assignmentFinish);
-            assignment.setVariableRateUnits(variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue));
-            assignment.setLevelingDelay(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, 30), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 28))));
-            assignment.setRemainingWork(MPPUtility.getDuration(remainingWork, TimeUnit.HOURS));
-            assignment.setStart(assignmentStart);
-            assignment.setUnits(Double.valueOf(assignmentUnits));
-            assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
-            assignment.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 126) / 100));
-            assignment.setBaselineFinish(MPPUtility.getTimestamp(data, 40));
-            assignment.setBaselineStart(MPPUtility.getTimestamp(data, 36));
-            assignment.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 94) / 60000, TimeUnit.HOURS));
 
             createTimephasedData(file, assignment, timephasedPlanned, timephasedComplete);
 

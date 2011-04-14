@@ -62,7 +62,7 @@ final class FixedData extends MPPComponent
    }
 
    /**
-    * This version of the above constructor allows us to limited the
+    * This version of the above constructor allows us to limit the
     * size of blocks we copy where we have an idea of the maximum expected
     * block size. This prevents us from reading ridiculously large amounts
     * of unnecessary data, causing OutOfMemory exceptions.
@@ -79,7 +79,7 @@ final class FixedData extends MPPComponent
    }
 
    /**
-    * This version of the above constructor allows us to limited the
+    * This version of the above constructor allows us to limit the
     * size of blocks we copy where we have an idea of the maximum expected
     * block size. This prevents us from reading ridiculously large amounts
     * of unnecessary data, causing OutOfMemory exceptions.

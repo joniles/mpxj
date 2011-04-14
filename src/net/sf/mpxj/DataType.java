@@ -52,7 +52,9 @@ public enum DataType implements MpxjEnum
    INTEGER(17),
    ASCII_STRING(18),
    SHORT(19),
-   BINARY(20);
+   BINARY(20),
+   DELAY(21),
+   WORK_UNITS(22);
 
    /**
     * Private constructor.

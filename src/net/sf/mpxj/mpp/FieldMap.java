@@ -31,6 +31,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.Priority;
@@ -100,14 +101,17 @@ abstract class FieldMap
             }
          }
 
-         //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
+         //         if (location != FieldLocation.META_DATA)
+         //         {
+         //System.out.println(MPPUtility.hexdump(data, index, 28, false)+ " "+MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
+         //         }
 
          if (type != null)
          {
-            //            if (location != FieldLocation.META_DATA)
-            //            {
-            //               System.out.println("{ResourceField."+type+", FieldLocation."+location+", Integer.valueOf("+dataBlockOffset+"), Integer.valueOf("+varDataKey+")},");
-            //            }
+            //                        if (location != FieldLocation.META_DATA)
+            //                        {
+            //                           System.out.println("{AssignmentField."+type+", FieldLocation."+location+", Integer.valueOf("+dataBlockOffset+"), Integer.valueOf("+varDataKey+")},");
+            //                        }
             m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
          }
 
@@ -128,6 +132,13 @@ abstract class FieldMap
     * @return default data
     */
    protected abstract Object[][] getDefaultResourceData();
+
+   /**
+    * Abstract method used by child classes to supply default data.
+    * 
+    * @return default data
+    */
+   protected abstract Object[][] getDefaultAssignmentData();
 
    /**
     * Creates a field map for tasks.
@@ -176,6 +187,34 @@ abstract class FieldMap
       if (fieldMapData == null)
       {
          populateDefaultData(getDefaultResourceData());
+      }
+      else
+      {
+         createFieldMap(fieldMapData);
+      }
+   }
+
+   /**
+    * Creates a field map for assignments.
+    * 
+    * @param props props data
+    */
+   public void createAssignmentFieldMap(Props props)
+   {
+      //System.out.println("ASSIGN");
+      byte[] fieldMapData = null;
+      for (Integer key : ASSIGNMENT_KEYS)
+      {
+         fieldMapData = props.getByteArray(key);
+         if (fieldMapData != null)
+         {
+            break;
+         }
+      }
+
+      if (fieldMapData == null)
+      {
+         populateDefaultData(getDefaultAssignmentData());
       }
       else
       {
@@ -277,14 +316,33 @@ abstract class FieldMap
       int prefix = fieldID & 0xFFFF0000;
       int index = fieldID & 0x0000FFFF;
 
-      if (prefix == MPPTaskField.TASK_FIELD_BASE)
+      switch (prefix)
       {
-         result = MPPTaskField.getInstance(index);
+         case MPPTaskField.TASK_FIELD_BASE :
+         {
+            result = MPPTaskField.getInstance(index);
+            break;
+         }
+
+         case MPPResourceField.RESOURCE_FIELD_BASE :
+         {
+            result = MPPResourceField.getInstance(index);
+            break;
+         }
+
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         {
+            result = MPPAssignmentField.getInstance(index);
+            break;
+         }
+
+         default :
+         {
+            result = null;
+            break;
+         }
       }
-      else
-      {
-         result = MPPResourceField.getInstance(index);
-      }
+
       return result;
    }
 
@@ -520,6 +578,19 @@ abstract class FieldMap
                break;
             }
 
+            case DELAY :
+            {
+               result = MPPUtility.getDuration(MPPUtility.getShort(fixedData, m_fixedDataOffset), TimeUnit.HOURS);
+               break;
+            }
+
+            case WORK_UNITS :
+            {
+               int variableRateUnitsValue = MPPUtility.getByte(fixedData, m_fixedDataOffset);
+               result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
+               break;
+            }
+
             default :
             {
                //System.out.println("**** UNSUPPORTED FIXED DATA TYPE");
@@ -604,6 +675,19 @@ abstract class FieldMap
                break;
             }
 
+            case DELAY :
+            {
+               result = MPPUtility.getDuration(varData.getShort(id, m_varDataKey), TimeUnit.HOURS);
+               break;
+            }
+
+            case WORK_UNITS :
+            {
+               int variableRateUnitsValue = varData.getByte(id, m_varDataKey);
+               result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
+               break;
+            }
+
             case BINARY :
             {
                // Do nothing for binary data
@@ -659,14 +743,22 @@ abstract class FieldMap
    private ProjectFile m_file;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int m_maxFixedDataOffset;
+
    private static final Integer[] TASK_KEYS =
    {
       Props.TASK_FIELD_MAP,
       Props.TASK_FIELD_MAP2
    };
+
    private static final Integer[] RESOURCE_KEYS =
    {
       Props.RESOURCE_FIELD_MAP,
       Props.RESOURCE_FIELD_MAP2
    };
+
+   private static final Integer[] ASSIGNMENT_KEYS =
+   {
+      Props.ASSIGNMENT_FIELD_MAP
+   };
+
 }

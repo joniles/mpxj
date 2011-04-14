@@ -35,12 +35,13 @@ public interface ResourceAssignmentFactory
     * Reads resource assignments from an MPP file.
     * 
     * @param file parent MPP file
+    * @param fieldMap field map
     * @param useRawTimephasedData flag indicating if raw timephased data is preserved
     * @param assnVarMeta assignment var meta
     * @param assnVarData assignment var data
     * @param assnFixedMeta assignment fixed meta
     * @param assnFixedData assignment fixed data
     */
-   public void process(ProjectFile file, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData);
+   public void process(ProjectFile file, FieldMap fieldMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData);
 
 }

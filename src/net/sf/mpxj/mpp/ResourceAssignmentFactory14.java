@@ -49,7 +49,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
    /**
     * {@inheritDoc}
     */
-   public void process(ProjectFile file, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData)
+   public void process(ProjectFile file, FieldMap fieldMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();

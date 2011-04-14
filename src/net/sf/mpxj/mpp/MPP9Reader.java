@@ -1598,7 +1598,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createTaskFieldMap(m_projectProps);
-      
+
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
@@ -2467,13 +2467,22 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
+      FieldMap fieldMap = new FieldMap9(m_file);
+      fieldMap.createAssignmentFieldMap(m_projectProps);
+
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
+
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
+      if (assnFixedData.getItemCount() != assnFixedMeta.getItemCount())
+      {
+         assnFixedData = new FixedData(assnFixedMeta, getEncryptableInputStream(assnDir, "FixedData"));
+      }
+
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory9();
-      factory.process(m_file, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
+      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }
 
    /**

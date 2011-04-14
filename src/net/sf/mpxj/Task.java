@@ -350,6 +350,23 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Add a resource assignment which has been populated elsewhere.
+    * 
+    * @param assignment resource assignment
+    */
+   public void addResourceAssignment(ResourceAssignment assignment)
+   {
+      m_assignments.add(assignment);
+      getParentFile().addResourceAssignment(assignment);
+
+      Resource resource = assignment.getResource();
+      if (resource != null)
+      {
+         resource.addResourceAssignment(assignment);
+      }
+   }
+
+   /**
     * This method allows the list of resource assignments for this
     * task to be retrieved.
     *
