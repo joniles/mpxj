@@ -139,7 +139,7 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
             int variableRateUnitsValue = MPPUtility.getByte(data, 52);
 
             assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
-            assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);
+            assignment.setActualFinish((remainingWork == 0 && resource != null) ? assignmentFinish : null);
             assignment.setActualStart(timephasedComplete.isEmpty() ? null : assignmentStart);
             assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
             assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));

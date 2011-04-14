@@ -134,7 +134,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
             int variableRateUnitsValue = MPPUtility.getByte(data, 44);
 
             assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 94) / 100));
-            assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);
+            assignment.setActualFinish((remainingWork == 0 && resource != null) ? assignmentFinish : null);
             assignment.setActualStart(timephasedComplete.isEmpty() ? null : assignmentStart);
             assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
             assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 86) / 100));
