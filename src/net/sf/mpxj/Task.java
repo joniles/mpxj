@@ -310,6 +310,56 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
+      ResourceAssignment assignment = getExistingResourceAssignment(resource);
+
+      if (assignment == null)
+      {
+         assignment = new ResourceAssignment(getParentFile(), this);
+         m_assignments.add(assignment);
+         getParentFile().addResourceAssignment(assignment);
+
+         assignment.setWork(getDuration());
+         assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
+
+         if (resource != null)
+         {
+            assignment.setResourceUniqueID(resource.getUniqueID());
+            resource.addResourceAssignment(assignment);
+         }
+      }
+
+      return (assignment);
+   }
+
+   /**
+    * Add a resource assignment which has been populated elsewhere.
+    * 
+    * @param assignment resource assignment
+    */
+   public void addResourceAssignment(ResourceAssignment assignment)
+   {
+      if (getExistingResourceAssignment(assignment.getResource()) == null)
+      {
+         m_assignments.add(assignment);
+         getParentFile().addResourceAssignment(assignment);
+
+         Resource resource = assignment.getResource();
+         if (resource != null)
+         {
+            resource.addResourceAssignment(assignment);
+         }
+      }
+   }
+
+   /**
+    * Retrieves an existing resource assignment if one is present,
+    * to prevent duplicate resource assignments being added.
+    * 
+    * @param resource resource to test for
+    * @return existing resource assignment
+    */
+   private ResourceAssignment getExistingResourceAssignment(Resource resource)
+   {
       ResourceAssignment assignment = null;
       Integer resourceUniqueID = null;
 
@@ -330,40 +380,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
       }
 
-      if (assignment == null)
-      {
-         assignment = new ResourceAssignment(getParentFile(), this);
-         m_assignments.add(assignment);
-         getParentFile().addResourceAssignment(assignment);
-
-         assignment.setResourceUniqueID(resourceUniqueID);
-         assignment.setWork(getDuration());
-         assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-
-         if (resource != null)
-         {
-            resource.addResourceAssignment(assignment);
-         }
-      }
-
-      return (assignment);
-   }
-
-   /**
-    * Add a resource assignment which has been populated elsewhere.
-    * 
-    * @param assignment resource assignment
-    */
-   public void addResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.add(assignment);
-      getParentFile().addResourceAssignment(assignment);
-
-      Resource resource = assignment.getResource();
-      if (resource != null)
-      {
-         resource.addResourceAssignment(assignment);
-      }
+      return assignment;
    }
 
    /**
