@@ -1,5 +1,5 @@
 /*
- * file:       AbstractResourceAssignmentFactory.java
+ * file:       ResourceAssignmentFactoryCommon.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2010
  * date:       21/03/2010
@@ -28,6 +28,7 @@ import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
@@ -45,22 +46,8 @@ import net.sf.mpxj.utility.NumberUtility;
  * Common implementation detail to extract resource assignment data from 
  * MPP9 and MPP12 files.
  */
-public abstract class AbstractResourceAssignmentFactory implements ResourceAssignmentFactory
+public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactory
 {
-   /**
-    * Retrieve the key for complete work data.
-    * 
-    * @return complete work key
-    */
-   protected abstract Integer getCompleteWorkKey();
-
-   /**
-    * Retrieve the key for planned work data.
-    * 
-    * @return planned work key
-    */
-   protected abstract Integer getPlannedWorkKey();
-
    /**
     * {@inheritDoc}
     */
@@ -129,8 +116,19 @@ public abstract class AbstractResourceAssignmentFactory implements ResourceAssig
                calendar = file.getCalendar();
             }
 
-            byte[] completeWork = assnVarData.getByteArray(varDataId, getCompleteWorkKey());
-            byte[] plannedWork = assnVarData.getByteArray(varDataId, getPlannedWorkKey());
+            byte[] completeWork = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.COMPLETE_WORK_DATA));
+            byte[] plannedWork = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.PLANNED_WORK_DATA));
+
+            if (completeWork == null)
+            {
+               completeWork = assnVarData.getByteArray(varDataId, Integer.valueOf(MPPAssignmentField.getID(AssignmentField.COMPLETE_WORK_DATA)));
+            }
+
+            if (plannedWork == null)
+            {
+               plannedWork = assnVarData.getByteArray(varDataId, Integer.valueOf(MPPAssignmentField.getID(AssignmentField.PLANNED_WORK_DATA)));
+            }
+
             List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), completeWork);
             List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);

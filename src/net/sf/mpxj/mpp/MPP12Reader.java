@@ -2816,7 +2816,7 @@ final class MPP12Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
-      ResourceAssignmentFactory factory = new ResourceAssignmentFactory12();
+      ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
       factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }
 
