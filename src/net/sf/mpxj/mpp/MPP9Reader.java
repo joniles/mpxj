@@ -1734,16 +1734,17 @@ final class MPP9Reader implements MPPVariantReader
          task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
 
-         task.setOutlineCode1(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE1_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode2(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE2_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode3(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE3_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode4(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE4_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode5(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE5_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode6(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE6_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode7(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE7_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode8(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE8_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode9(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE9_INDEX), OUTLINECODE_DATA));
-         task.setOutlineCode10(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINECODE10_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode1(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE1_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode2(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE2_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode3(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE3_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode4(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE4_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode5(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE5_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode6(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE6_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode7(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE7_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode8(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE8_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode9(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE9_INDEX), OUTLINECODE_DATA));
+         task.setOutlineCode10(m_outlineCodeVarData.getUnicodeString((Integer) task.getCachedValue(TaskField.OUTLINE_CODE10_INDEX), OUTLINECODE_DATA));
+
          task.setRollup((metaData[10] & 0x08) != 0);
          task.setUniqueID(id);
 
@@ -1945,37 +1946,20 @@ final class MPP9Reader implements MPPVariantReader
                      break;
                   }
 
+                  case WORK :
+                  {
+                     double durationValueInHours = MPPUtility.getDouble(props.getByteArray(key)) / 60000;
+                     value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                     break;
+                  }
+
                   case DURATION :
                   {
                      byte[] durationData = props.getByteArray(key);
-
-                     switch (field)
-                     {
-                        case BASELINE1_WORK :
-                        case BASELINE2_WORK :
-                        case BASELINE3_WORK :
-                        case BASELINE4_WORK :
-                        case BASELINE5_WORK :
-                        case BASELINE6_WORK :
-                        case BASELINE7_WORK :
-                        case BASELINE8_WORK :
-                        case BASELINE9_WORK :
-                        case BASELINE10_WORK :
-                        {
-                           double durationValueInHours = MPPUtility.getDouble(durationData) / 60000;
-                           value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                           break;
-                        }
-
-                        default :
-                        {
-                           double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
-                           TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
-                           Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                           value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
-                           break;
-                        }
-                     }
+                     double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
+                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
                      break;
                   }
 

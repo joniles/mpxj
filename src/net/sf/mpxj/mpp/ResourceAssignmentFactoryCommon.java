@@ -28,7 +28,6 @@ import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
@@ -118,16 +117,6 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
 
             byte[] completeWork = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.COMPLETE_WORK_DATA));
             byte[] plannedWork = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.PLANNED_WORK_DATA));
-
-            if (completeWork == null)
-            {
-               completeWork = assnVarData.getByteArray(varDataId, Integer.valueOf(MPPAssignmentField.getID(AssignmentField.COMPLETE_WORK_DATA)));
-            }
-
-            if (plannedWork == null)
-            {
-               plannedWork = assnVarData.getByteArray(varDataId, Integer.valueOf(MPPAssignmentField.getID(AssignmentField.PLANNED_WORK_DATA)));
-            }
 
             List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), completeWork);
             List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), plannedWork, timephasedComplete);

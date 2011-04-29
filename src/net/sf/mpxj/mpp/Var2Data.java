@@ -158,7 +158,7 @@ final class Var2Data extends MPPComponent
       if (offset != null)
       {
          byte[] value = m_map.get(offset);
-         if (value != null && value.length >= 2)
+         if (value != null && value.length >= 4)
          {
             result = MPPUtility.getTimestamp(value);
          }

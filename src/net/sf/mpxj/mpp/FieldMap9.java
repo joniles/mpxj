@@ -46,6 +46,14 @@ class FieldMap9 extends FieldMap
    /**
     * {@inheritDoc}
     */
+   @Override protected boolean useTypeAsVarDataKey()
+   {
+      return false;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override protected Object[][] getDefaultTaskData()
    {
       return DEFAULT_TASK_MAP;
@@ -1045,61 +1053,61 @@ class FieldMap9 extends FieldMap
          Integer.valueOf(119)
       },
       {
-         TaskField.OUTLINECODE1_INDEX,
+         TaskField.OUTLINE_CODE1_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(123)
       },
       {
-         TaskField.OUTLINECODE2_INDEX,
+         TaskField.OUTLINE_CODE2_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(124)
       },
       {
-         TaskField.OUTLINECODE3_INDEX,
+         TaskField.OUTLINE_CODE3_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(125)
       },
       {
-         TaskField.OUTLINECODE4_INDEX,
+         TaskField.OUTLINE_CODE4_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(126)
       },
       {
-         TaskField.OUTLINECODE5_INDEX,
+         TaskField.OUTLINE_CODE5_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(127)
       },
       {
-         TaskField.OUTLINECODE6_INDEX,
+         TaskField.OUTLINE_CODE6_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(128)
       },
       {
-         TaskField.OUTLINECODE7_INDEX,
+         TaskField.OUTLINE_CODE7_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(129)
       },
       {
-         TaskField.OUTLINECODE8_INDEX,
+         TaskField.OUTLINE_CODE8_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(130)
       },
       {
-         TaskField.OUTLINECODE9_INDEX,
+         TaskField.OUTLINE_CODE9_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(131)
       },
       {
-         TaskField.OUTLINECODE10_INDEX,
+         TaskField.OUTLINE_CODE10_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(132)

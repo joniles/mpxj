@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,8 +70,17 @@ abstract class FieldMap
       {
          FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
          int dataBlockOffset = MPPUtility.getShort(data, index + 4);
-         int varDataKey = MPPUtility.getByte(data, index + 6);
          int mask = MPPUtility.getInt(data, index + 0);
+
+         int varDataKey;
+         if (useTypeAsVarDataKey())
+         {
+            varDataKey = (MPPUtility.getInt(data, index + 12) & 0x0000FFFF);
+         }
+         else
+         {
+            varDataKey = MPPUtility.getByte(data, index + 6);
+         }
 
          FieldLocation location;
 
@@ -84,15 +94,15 @@ abstract class FieldMap
          }
          else
          {
-            if (varDataKey != 0)
+            if (mask != 0)
             {
-               location = FieldLocation.VAR_DATA;
+               location = FieldLocation.META_DATA;
             }
             else
             {
-               if (mask != 0)
+               if (varDataKey != 0)
                {
-                  location = FieldLocation.META_DATA;
+                  location = FieldLocation.VAR_DATA;
                }
                else
                {
@@ -101,23 +111,30 @@ abstract class FieldMap
             }
          }
 
-         //         if (location != FieldLocation.META_DATA)
+         //         if (location == FieldLocation.FIXED_DATA)
          //         {
-         //System.out.println(MPPUtility.hexdump(data, index, 28, false)+ " "+MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
+         //            System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
          //         }
 
          if (type != null)
          {
-            //                        if (location != FieldLocation.META_DATA)
-            //                        {
-            //                           System.out.println("{AssignmentField."+type+", FieldLocation."+location+", Integer.valueOf("+dataBlockOffset+"), Integer.valueOf("+varDataKey+")},");
-            //                        }
+            //            if (location != FieldLocation.META_DATA)
+            //            {
+            //               System.out.println("{TaskField." + type + ", FieldLocation." + location + ", Integer.valueOf(" + dataBlockOffset + "), Integer.valueOf(" + varDataKey + ")},");
+            //            }
             m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
          }
 
          index += 28;
       }
    }
+
+   /**
+    * Used to determine what value is used as the var data key.
+    * 
+    * @return true if the field type value is used as the var data key
+    */
+   protected abstract boolean useTypeAsVarDataKey();
 
    /**
     * Abstract method used by child classes to supply default data.
@@ -250,6 +267,7 @@ abstract class FieldMap
       //System.out.println("Object: " + id);
       for (FieldItem item : m_map.values())
       {
+         //System.out.println(item.m_type);
          Object value = item.read(id, fixedData, varData);
          //System.out.println(item.m_type + ": " + value);
          container.set(item.getType(), value);
@@ -623,7 +641,7 @@ abstract class FieldMap
                {
                   units = TimeUnit.HOURS;
                }
-               result = MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, m_varDataKey), units);
+               result = getCustomFieldDurationValue(varData, id, m_varDataKey, units);
                break;
             }
 
@@ -641,19 +659,19 @@ abstract class FieldMap
 
             case STRING :
             {
-               result = varData.getUnicodeString(id, m_varDataKey);
+               result = getCustomFieldUnicodeStringValue(varData, id, m_varDataKey);
                break;
             }
 
             case DATE :
             {
-               result = varData.getTimestamp(id, m_varDataKey);
+               result = getCustomFieldTimestampValue(varData, id, m_varDataKey);
                break;
             }
 
             case NUMERIC :
             {
-               result = NumberUtility.getDouble(varData.getDouble(id, m_varDataKey));
+               result = getCustomFieldDoubleValue(varData, id, m_varDataKey);
                break;
             }
 
@@ -688,6 +706,12 @@ abstract class FieldMap
                break;
             }
 
+            case ACCRUE :
+            {
+               result = AccrueType.getInstance(varData.getShort(id, m_varDataKey));
+               break;
+            }
+
             case BINARY :
             {
                // Do nothing for binary data
@@ -701,6 +725,123 @@ abstract class FieldMap
             }
          }
 
+         return result;
+      }
+
+      /**
+       * Retrieve custom field value.
+       * 
+       * @param varData var data block
+       * @param id item ID
+       * @param type item type
+       * @return item value
+       */
+      private Date getCustomFieldTimestampValue(Var2Data varData, Integer id, Integer type)
+      {
+         Date result = null;
+
+         int mask = varData.getShort(id, type);
+         if ((mask & 0xFF00) != VALUE_LIST_MASK)
+         {
+            result = varData.getTimestamp(id, type);
+         }
+         else
+         {
+            int uniqueId = varData.getInt(id, 2, type);
+            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            if (item != null && item.getValue() != null)
+            {
+               result = MPPUtility.getTimestamp(item.getValue());
+            }
+         }
+         return result;
+      }
+
+      /**
+       * Retrieve custom field value.
+       * 
+       * @param varData var data block
+       * @param id item ID
+       * @param type item type
+       * @param units duration units
+       * @return item value
+       */
+      private Duration getCustomFieldDurationValue(Var2Data varData, Integer id, Integer type, TimeUnit units)
+      {
+         Duration result = null;
+
+         int mask = varData.getShort(id, type);
+         if ((mask & 0xFF00) != VALUE_LIST_MASK)
+         {
+            result = MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, type), units);
+         }
+         else
+         {
+            int uniqueId = varData.getInt(id, 2, type);
+            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            if (item != null && item.getValue() != null)
+            {
+               result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
+            }
+         }
+         return result;
+      }
+
+      /**
+       * Retrieve custom field value.
+       * 
+       * @param varData var data block
+       * @param id item ID
+       * @param type item type
+       * @return item value
+       */
+      private Double getCustomFieldDoubleValue(Var2Data varData, Integer id, Integer type)
+      {
+         double result = 0;
+
+         int mask = varData.getShort(id, type);
+         if ((mask & 0xFF00) != VALUE_LIST_MASK)
+         {
+            result = varData.getDouble(id, type);
+         }
+         else
+         {
+            int uniqueId = varData.getInt(id, 2, type);
+            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            if (item != null && item.getValue() != null)
+            {
+               result = MPPUtility.getDouble(item.getValue());
+            }
+         }
+         return NumberUtility.getDouble(result);
+      }
+
+      /**
+       * Retrieve custom field value.
+       * 
+       * @param varData var data block
+       * @param id item ID
+       * @param type item type
+       * @return item value
+       */
+      private String getCustomFieldUnicodeStringValue(Var2Data varData, Integer id, Integer type)
+      {
+         String result = null;
+
+         int mask = varData.getShort(id, type);
+         if ((mask & 0xFF00) != VALUE_LIST_MASK)
+         {
+            result = varData.getUnicodeString(id, type);
+         }
+         else
+         {
+            int uniqueId = varData.getInt(id, 2, type);
+            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            if (item != null && item.getValue() != null)
+            {
+               result = MPPUtility.getUnicodeString(item.getValue());
+            }
+         }
          return result;
       }
 
@@ -761,4 +902,5 @@ abstract class FieldMap
       Props.ASSIGNMENT_FIELD_MAP
    };
 
+   private static final int VALUE_LIST_MASK = 0x0700;
 }
