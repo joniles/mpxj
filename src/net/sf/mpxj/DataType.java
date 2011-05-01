@@ -54,7 +54,9 @@ public enum DataType implements MpxjEnum
    SHORT(19),
    BINARY(20),
    DELAY(21),
-   WORK_UNITS(22);
+   WORK_UNITS(22),
+   WORKGROUP(23),
+   RATE_UNITS(24);
 
    /**
     * Private constructor.

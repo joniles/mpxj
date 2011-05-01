@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -48,7 +47,6 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
@@ -59,8 +57,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
+import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
 import net.sf.mpxj.utility.RTFUtility;
 
@@ -960,11 +958,12 @@ final class MPP12Reader implements MPPVariantReader
     * This method maps the resource unique identifiers to their index number
     * within the FixedData block.
     *
+    * @param fieldMap field map
     * @param rscFixedMeta resource fixed meta data
     * @param rscFixedData resource fixed data
     * @return map of resource IDs to resource data
     */
-   private TreeMap<Integer, Integer> createResourceMap(FixedMeta rscFixedMeta, FixedData rscFixedData)
+   private TreeMap<Integer, Integer> createResourceMap(FieldMap fieldMap, FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
       int itemCount = rscFixedMeta.getItemCount();
@@ -972,7 +971,7 @@ final class MPP12Reader implements MPPVariantReader
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] data = rscFixedData.getByteArrayValue(loop);
-         if (data == null || data.length < MINIMUM_EXPECTED_RESOURCE_SIZE)
+         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset())
          {
             continue;
          }
@@ -1838,149 +1837,12 @@ final class MPP12Reader implements MPPVariantReader
 
    /**
     * Extracts resource enterprise column data.
-    * 
-    * @param id resource unique ID 
+    *  
     * @param resource resource instance
-    * @param resourceVarData resource var data
     * @param metaData2 resource meta data 
     */
-   private void processResourceEnterpriseColumns(Integer id, Resource resource, Var2Data resourceVarData, byte[] metaData2)
+   private void processResourceEnterpriseColumns(Resource resource, byte[] metaData2)
    {
-      resource.setEnterpriseCost(1, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST1) / 100));
-      resource.setEnterpriseCost(2, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST2) / 100));
-      resource.setEnterpriseCost(3, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST3) / 100));
-      resource.setEnterpriseCost(4, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST4) / 100));
-      resource.setEnterpriseCost(5, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST5) / 100));
-      resource.setEnterpriseCost(6, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST6) / 100));
-      resource.setEnterpriseCost(7, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST7) / 100));
-      resource.setEnterpriseCost(8, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST8) / 100));
-      resource.setEnterpriseCost(9, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST9) / 100));
-      resource.setEnterpriseCost(10, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST10) / 100));
-
-      resource.setEnterpriseDate(1, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE1));
-      resource.setEnterpriseDate(2, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE2));
-      resource.setEnterpriseDate(3, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE3));
-      resource.setEnterpriseDate(4, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE4));
-      resource.setEnterpriseDate(5, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE5));
-      resource.setEnterpriseDate(6, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE6));
-      resource.setEnterpriseDate(7, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE7));
-      resource.setEnterpriseDate(8, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE8));
-      resource.setEnterpriseDate(9, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE9));
-      resource.setEnterpriseDate(10, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE10));
-      resource.setEnterpriseDate(11, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE11));
-      resource.setEnterpriseDate(12, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE12));
-      resource.setEnterpriseDate(13, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE13));
-      resource.setEnterpriseDate(14, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE14));
-      resource.setEnterpriseDate(15, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE15));
-      resource.setEnterpriseDate(16, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE16));
-      resource.setEnterpriseDate(17, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE17));
-      resource.setEnterpriseDate(18, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE18));
-      resource.setEnterpriseDate(19, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE19));
-      resource.setEnterpriseDate(20, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE20));
-      resource.setEnterpriseDate(21, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE21));
-      resource.setEnterpriseDate(22, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE22));
-      resource.setEnterpriseDate(23, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE23));
-      resource.setEnterpriseDate(24, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE24));
-      resource.setEnterpriseDate(25, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE25));
-      resource.setEnterpriseDate(26, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE26));
-      resource.setEnterpriseDate(27, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE27));
-      resource.setEnterpriseDate(28, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE28));
-      resource.setEnterpriseDate(29, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE29));
-      resource.setEnterpriseDate(30, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE30));
-
-      resource.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION1_UNITS))));
-      resource.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION2_UNITS))));
-      resource.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION3_UNITS))));
-      resource.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION4_UNITS))));
-      resource.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION5_UNITS))));
-      resource.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION6_UNITS))));
-      resource.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION7_UNITS))));
-      resource.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION8_UNITS))));
-      resource.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION9_UNITS))));
-      resource.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION10_UNITS))));
-
-      resource.setEnterpriseNumber(1, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER1)));
-      resource.setEnterpriseNumber(2, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER2)));
-      resource.setEnterpriseNumber(3, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER3)));
-      resource.setEnterpriseNumber(4, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER4)));
-      resource.setEnterpriseNumber(5, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER5)));
-      resource.setEnterpriseNumber(6, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER6)));
-      resource.setEnterpriseNumber(7, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER7)));
-      resource.setEnterpriseNumber(8, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER8)));
-      resource.setEnterpriseNumber(9, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER9)));
-      resource.setEnterpriseNumber(10, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER10)));
-      resource.setEnterpriseNumber(11, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER11)));
-      resource.setEnterpriseNumber(12, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER12)));
-      resource.setEnterpriseNumber(13, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER13)));
-      resource.setEnterpriseNumber(14, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER14)));
-      resource.setEnterpriseNumber(15, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER15)));
-      resource.setEnterpriseNumber(16, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER16)));
-      resource.setEnterpriseNumber(17, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER17)));
-      resource.setEnterpriseNumber(18, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER18)));
-      resource.setEnterpriseNumber(19, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER19)));
-      resource.setEnterpriseNumber(20, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER20)));
-      resource.setEnterpriseNumber(21, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER21)));
-      resource.setEnterpriseNumber(22, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER22)));
-      resource.setEnterpriseNumber(23, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER23)));
-      resource.setEnterpriseNumber(24, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER24)));
-      resource.setEnterpriseNumber(25, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER25)));
-      resource.setEnterpriseNumber(26, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER26)));
-      resource.setEnterpriseNumber(27, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER27)));
-      resource.setEnterpriseNumber(28, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER28)));
-      resource.setEnterpriseNumber(29, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER29)));
-      resource.setEnterpriseNumber(30, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER30)));
-      resource.setEnterpriseNumber(31, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER31)));
-      resource.setEnterpriseNumber(32, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER32)));
-      resource.setEnterpriseNumber(33, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER33)));
-      resource.setEnterpriseNumber(34, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER34)));
-      resource.setEnterpriseNumber(35, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER35)));
-      resource.setEnterpriseNumber(36, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER36)));
-      resource.setEnterpriseNumber(37, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER37)));
-      resource.setEnterpriseNumber(38, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER38)));
-      resource.setEnterpriseNumber(39, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER39)));
-      resource.setEnterpriseNumber(40, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER40)));
-
-      resource.setEnterpriseText(1, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT1));
-      resource.setEnterpriseText(2, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT2));
-      resource.setEnterpriseText(3, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT3));
-      resource.setEnterpriseText(4, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT4));
-      resource.setEnterpriseText(5, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT5));
-      resource.setEnterpriseText(6, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT6));
-      resource.setEnterpriseText(7, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT7));
-      resource.setEnterpriseText(8, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT8));
-      resource.setEnterpriseText(9, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT9));
-      resource.setEnterpriseText(10, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT10));
-      resource.setEnterpriseText(11, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT11));
-      resource.setEnterpriseText(12, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT12));
-      resource.setEnterpriseText(13, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT13));
-      resource.setEnterpriseText(14, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT14));
-      resource.setEnterpriseText(15, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT15));
-      resource.setEnterpriseText(16, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT16));
-      resource.setEnterpriseText(17, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT17));
-      resource.setEnterpriseText(18, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT18));
-      resource.setEnterpriseText(19, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT19));
-      resource.setEnterpriseText(20, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT20));
-      resource.setEnterpriseText(21, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT21));
-      resource.setEnterpriseText(22, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT22));
-      resource.setEnterpriseText(23, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT23));
-      resource.setEnterpriseText(24, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT24));
-      resource.setEnterpriseText(25, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT25));
-      resource.setEnterpriseText(26, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT26));
-      resource.setEnterpriseText(27, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT27));
-      resource.setEnterpriseText(28, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT28));
-      resource.setEnterpriseText(29, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT29));
-      resource.setEnterpriseText(30, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT30));
-      resource.setEnterpriseText(31, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT31));
-      resource.setEnterpriseText(32, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT32));
-      resource.setEnterpriseText(33, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT33));
-      resource.setEnterpriseText(34, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT34));
-      resource.setEnterpriseText(35, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT35));
-      resource.setEnterpriseText(36, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT36));
-      resource.setEnterpriseText(37, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT37));
-      resource.setEnterpriseText(38, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT38));
-      resource.setEnterpriseText(39, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT39));
-      resource.setEnterpriseText(40, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT40));
-
       if (metaData2 != null)
       {
          int bits = MPPUtility.getInt(metaData2, 16);
@@ -2200,6 +2062,9 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
+      FieldMap fieldMap = new FieldMap12(m_file);
+      fieldMap.createResourceFieldMap(m_projectProps);
+
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
@@ -2219,7 +2084,7 @@ final class MPP12Reader implements MPPVariantReader
       // Process aliases      
       processResourceFieldNameAliases(props.getByteArray(RESOURCE_FIELD_NAME_ALIASES));
 
-      TreeMap<Integer, Integer> resourceMap = createResourceMap(rscFixedMeta, rscFixedData);
+      TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer offset;
@@ -2249,204 +2114,31 @@ final class MPP12Reader implements MPPVariantReader
 
          resource = m_file.addResource();
 
-         resource.setAccrueAt(AccrueType.getInstance(MPPUtility.getShort(data, 12)));
-         resource.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 132) / 100));
-         resource.setActualOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 172) / 100));
-         resource.setActualOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 108) / 60000, TimeUnit.HOURS));
-         resource.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 60) / 60000, TimeUnit.HOURS));
-         resource.setAvailableFrom(MPPUtility.getTimestamp(data, 20));
-         resource.setAvailableTo(MPPUtility.getTimestamp(data, 24));
-         //resource.setBaseCalendar();
-
-         resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148) / 100));
-         resource.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 68) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE1_COST) / 100));
-         resource.setBaselineWork(1, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE1_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE2_COST) / 100));
-         resource.setBaselineWork(2, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE2_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE3_COST) / 100));
-         resource.setBaselineWork(3, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE3_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE4_COST) / 100));
-         resource.setBaselineWork(4, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE4_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE5_COST) / 100));
-         resource.setBaselineWork(5, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE5_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE6_COST) / 100));
-         resource.setBaselineWork(6, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE6_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE7_COST) / 100));
-         resource.setBaselineWork(7, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE7_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE8_COST) / 100));
-         resource.setBaselineWork(8, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE8_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE9_COST) / 100));
-         resource.setBaselineWork(9, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE9_WORK) / 60000, TimeUnit.HOURS));
-
-         resource.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE10_COST) / 100));
-         resource.setBaselineWork(10, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE10_WORK) / 60000, TimeUnit.HOURS));
+         resource.disableEvents();
+         fieldMap.populateContainer(resource, id, data, rscVarData);
+         resource.enableEvents();
 
          resource.setBudget((metaData2[8] & 0x20) != 0);
-         resource.setCode(rscVarData.getUnicodeString(id, RESOURCE_CODE));
-         resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140) / 100));
 
-         resource.setCost1(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST1) / 100));
-         resource.setCost2(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST2) / 100));
-         resource.setCost3(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST3) / 100));
-         resource.setCost4(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST4) / 100));
-         resource.setCost5(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST5) / 100));
-         resource.setCost6(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST6) / 100));
-         resource.setCost7(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST7) / 100));
-         resource.setCost8(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST8) / 100));
-         resource.setCost9(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST9) / 100));
-         resource.setCost10(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST10) / 100));
-
-         resource.setCostPerUse(NumberUtility.getDouble(MPPUtility.getDouble(data, 84) / 100));
-         resource.setDate1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE1));
-         resource.setDate2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE2));
-         resource.setDate3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE3));
-         resource.setDate4(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE4));
-         resource.setDate5(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE5));
-         resource.setDate6(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE6));
-         resource.setDate7(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE7));
-         resource.setDate8(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE8));
-         resource.setDate9(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE9));
-         resource.setDate10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE10));
-
-         resource.setDuration1(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION1, RESOURCE_DURATION1_UNITS));
-         resource.setDuration2(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION2, RESOURCE_DURATION2_UNITS));
-         resource.setDuration3(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION3, RESOURCE_DURATION3_UNITS));
-         resource.setDuration4(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION4, RESOURCE_DURATION4_UNITS));
-         resource.setDuration5(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION5, RESOURCE_DURATION5_UNITS));
-         resource.setDuration6(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION6, RESOURCE_DURATION6_UNITS));
-         resource.setDuration7(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION7, RESOURCE_DURATION7_UNITS));
-         resource.setDuration8(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION8, RESOURCE_DURATION8_UNITS));
-         resource.setDuration9(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION9, RESOURCE_DURATION9_UNITS));
-         resource.setDuration10(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION10, RESOURCE_DURATION10_UNITS));
-
-         resource.setEmailAddress(rscVarData.getUnicodeString(id, RESOURCE_EMAIL));
-
-         resource.setFinish1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH1));
-         resource.setFinish2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH2));
-         resource.setFinish3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH3));
-         resource.setFinish4(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH4));
-         resource.setFinish5(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH5));
-         resource.setFinish6(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH6));
-         resource.setFinish7(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH7));
-         resource.setFinish8(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH8));
-         resource.setFinish9(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH9));
-         resource.setFinish10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH10));
-
-         resource.setGroup(rscVarData.getUnicodeString(id, RESOURCE_GROUP));
          resource.setGUID(MPPUtility.getGUID(data2, 0));
-         processHyperlinkData(resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
+
+         processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
+
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
-         resource.setInitials(rscVarData.getUnicodeString(id, RESOURCE_INITIALS));
-         //resource.setLinkedFields(); // Calculated value        
-         resource.setMaterialLabel(rscVarData.getUnicodeString(id, RESOURCE_MATERIAL_LABEL));
-         resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44) / 100));
-         resource.setName(rscVarData.getUnicodeString(id, RESOURCE_NAME));
 
-         resource.setNtAccount(rscVarData.getUnicodeString(id, RESOURCE_NT_ACCOUNT));
+         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE1_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE2_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE3_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE4_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE5_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE6_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE7_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE8_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE9_INDEX))), OUTLINECODE_DATA));
+         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE10_INDEX))), OUTLINECODE_DATA));
 
-         resource.setNumber1(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER1)));
-         resource.setNumber2(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER2)));
-         resource.setNumber3(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER3)));
-         resource.setNumber4(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER4)));
-         resource.setNumber5(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER5)));
-         resource.setNumber6(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER6)));
-         resource.setNumber7(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER7)));
-         resource.setNumber8(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER8)));
-         resource.setNumber9(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER9)));
-         resource.setNumber10(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER10)));
-         resource.setNumber11(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER11)));
-         resource.setNumber12(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER12)));
-         resource.setNumber13(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER13)));
-         resource.setNumber14(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER14)));
-         resource.setNumber15(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER15)));
-         resource.setNumber16(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER16)));
-         resource.setNumber17(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER17)));
-         resource.setNumber18(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER18)));
-         resource.setNumber19(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER19)));
-         resource.setNumber20(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER20)));
-
-         //resource.setObjects(); // Calculated value
-         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
-         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
-         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
-         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
-         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
-         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
-         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
-         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
-         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
-         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
-         //resource.setOverallocated(); // Calculated value
-         resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164) / 100));
-         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
-         resource.setOvertimeRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data, 10) - 1));
-         resource.setOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 76) / 60000, TimeUnit.HOURS));
-         resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124) / 100));
-         //resource.setPercentageWorkComplete(); // Calculated value
-         resource.setRegularWork(Duration.getInstance(MPPUtility.getDouble(data, 100) / 60000, TimeUnit.HOURS));
-         resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156) / 100));
-         resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180) / 100));
-         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));
-         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
-         resource.setStandardRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data, 8) - 1));
-
-         resource.setStart1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START1));
-         resource.setStart2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START2));
-         resource.setStart3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START3));
-         resource.setStart4(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START4));
-         resource.setStart5(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START5));
-         resource.setStart6(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START6));
-         resource.setStart7(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START7));
-         resource.setStart8(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START8));
-         resource.setStart9(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START9));
-         resource.setStart10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START10));
-
-         resource.setSubprojectResourceUniqueID(Integer.valueOf(rscVarData.getInt(id, RESOURCE_SUBPROJECTRESOURCEID)));
-
-         resource.setText1(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT1));
-         resource.setText2(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT2));
-         resource.setText3(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT3));
-         resource.setText4(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT4));
-         resource.setText5(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT5));
-         resource.setText6(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT6));
-         resource.setText7(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT7));
-         resource.setText8(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT8));
-         resource.setText9(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT9));
-         resource.setText10(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT10));
-         resource.setText11(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT11));
-         resource.setText12(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT12));
-         resource.setText13(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT13));
-         resource.setText14(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT14));
-         resource.setText15(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT15));
-         resource.setText16(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT16));
-         resource.setText17(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT17));
-         resource.setText18(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT18));
-         resource.setText19(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT19));
-         resource.setText20(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT20));
-         resource.setText21(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT21));
-         resource.setText22(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT22));
-         resource.setText23(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT23));
-         resource.setText24(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT24));
-         resource.setText25(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT25));
-         resource.setText26(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT26));
-         resource.setText27(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT27));
-         resource.setText28(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT28));
-         resource.setText29(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT29));
-         resource.setText30(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT30));
-
-         resource.setType((MPPUtility.getShort(data, 14) == 0 ? ResourceType.WORK : ((metaData2[8] & 0x10) == 0) ? ResourceType.MATERIAL : ResourceType.COST));
+         resource.setType((resource.getWorkGroup() == WorkGroup.DEFAULT ? ResourceType.WORK : ((metaData2[8] & 0x10) == 0) ? ResourceType.MATERIAL : ResourceType.COST));
          resource.setUniqueID(id);
-         resource.setWork(Duration.getInstance(MPPUtility.getDouble(data, 52) / 60000, TimeUnit.HOURS));
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
          resource.setFlag1((metaData[28] & 0x40) != 0);
@@ -2470,7 +2162,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setFlag19((metaData[30] & 0x80) != 0);
          resource.setFlag20((metaData[31] & 0x01) != 0);
 
-         notes = rscVarData.getString(id, RESOURCE_NOTES);
+         notes = resource.getNotes();
          if (notes != null)
          {
             if (m_reader.getPreserveNoteFormatting() == false)
@@ -2489,23 +2181,23 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Process any enterprise columns
          //         
-         processResourceEnterpriseColumns(id, resource, rscVarData, metaData2);
+         processResourceEnterpriseColumns(resource, metaData2);
 
          //
          // Process cost rate tables
          //
          CostRateTableFactory crt = new CostRateTableFactory();
-         resource.setCostRateTable(0, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_A)));
-         resource.setCostRateTable(1, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_B)));
-         resource.setCostRateTable(2, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_C)));
-         resource.setCostRateTable(3, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_D)));
-         resource.setCostRateTable(4, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_E)));
+         resource.setCostRateTable(0, crt.process(rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_A))));
+         resource.setCostRateTable(1, crt.process(rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_B))));
+         resource.setCostRateTable(2, crt.process(rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_C))));
+         resource.setCostRateTable(3, crt.process(rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_D))));
+         resource.setCostRateTable(4, crt.process(rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_E))));
 
          //
          // Process availability table
          //
          AvailabilityFactory af = new AvailabilityFactory();
-         af.process(resource.getAvailability(), rscVarData.getByteArray(id, RESOURCE_AVAILABILITY));
+         af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
 
          m_file.fireResourceReadEvent(resource);
       }
@@ -2702,123 +2394,6 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * Retrieve custom field value.
-    * 
-    * @param varData var data block
-    * @param id item ID
-    * @param type item type
-    * @return item value
-    */
-   private Date getCustomFieldTimestampValue(Var2Data varData, Integer id, Integer type)
-   {
-      Date result = null;
-
-      int mask = varData.getShort(id, type);
-      if ((mask & 0xFF00) != VALUE_LIST_MASK)
-      {
-         result = varData.getTimestamp(id, type);
-      }
-      else
-      {
-         int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null && item.getValue() != null)
-         {
-            result = MPPUtility.getTimestamp(item.getValue());
-         }
-      }
-      return result;
-   }
-
-   /**
-    * Retrieve custom field value.
-    * 
-    * @param varData var data block
-    * @param id item ID
-    * @param type item type
-    * @param unitsType duration units type
-    * @return item value
-    */
-   private Duration getCustomFieldDurationValue(Var2Data varData, Integer id, Integer type, Integer unitsType)
-   {
-      Duration result = null;
-
-      int mask = varData.getShort(id, type);
-      if ((mask & 0xFF00) != VALUE_LIST_MASK)
-      {
-         result = MPPUtility.getAdjustedDuration(m_file, varData.getInt(id, type), MPPUtility.getDurationTimeUnits(varData.getShort(id, unitsType)));
-      }
-      else
-      {
-         int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null && item.getValue() != null)
-         {
-            result = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
-         }
-      }
-      return result;
-   }
-
-   /**
-    * Retrieve custom field value.
-    * 
-    * @param varData var data block
-    * @param id item ID
-    * @param type item type
-    * @return item value
-    */
-   private double getCustomFieldDoubleValue(Var2Data varData, Integer id, Integer type)
-   {
-      double result = 0;
-
-      int mask = varData.getShort(id, type);
-      if ((mask & 0xFF00) != VALUE_LIST_MASK)
-      {
-         result = varData.getDouble(id, type);
-      }
-      else
-      {
-         int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null && item.getValue() != null)
-         {
-            result = MPPUtility.getDouble(item.getValue());
-         }
-      }
-      return result;
-   }
-
-   /**
-    * Retrieve custom field value.
-    * 
-    * @param varData var data block
-    * @param id item ID
-    * @param type item type
-    * @return item value
-    */
-   private String getCustomFieldUnicodeStringValue(Var2Data varData, Integer id, Integer type)
-   {
-      String result = null;
-
-      int mask = varData.getShort(id, type);
-      if ((mask & 0xFF00) != VALUE_LIST_MASK)
-      {
-         result = varData.getUnicodeString(id, type);
-      }
-      else
-      {
-         int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null && item.getValue() != null)
-         {
-            result = MPPUtility.getUnicodeString(item.getValue());
-         }
-      }
-      return result;
-   }
-
-   /**
     * Method used to instantiate the appropriate input stream reader,
     * a standard one, or one which can deal with "encrypted" data.
     * 
@@ -2843,39 +2418,6 @@ final class MPP12Reader implements MPPVariantReader
       return (stream);
    }
 
-   //   private static void dumpUnknownData (String label, int[][] spec, byte[] data)
-   //   {
-   //      System.out.print (label);
-   //      for (int loop=0; loop < spec.length; loop++)
-   //      {
-   //         int startByte = spec[loop][0];
-   //         int length = spec[loop][1];
-   //         if (length == -1)
-   //         {
-   //            length = data.length - startByte;
-   //         }
-   //         System.out.print ("["+spec[loop][0] + "]["+ MPPUtility.hexdump(data, startByte, length, false) + " ]");
-   //      }
-   //      System.out.println ();
-   //   }
-
-   //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
-   //   {
-   //      {42, 18},
-   //      {116, 4},
-   //      {134, 2},
-   //      {144, 4},
-   //      {144, 16},
-   //      {248, 8},
-   //      {256, -1}
-   //   };
-
-   //   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
-   //   {
-   //      {14, 6},
-   //      {108, 16},
-   //   };
-
    private MPPReader m_reader;
    private ProjectFile m_file;
    private DirectoryEntry m_root;
@@ -2889,33 +2431,6 @@ final class MPP12Reader implements MPPVariantReader
    private DirectoryEntry m_viewDir;
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
-
-   //   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
-   //   {
-   //      public int compare(Task o1, Task o2)
-   //      {
-   //         int result = DateUtility.compare(o1.getStart(), o2.getStart());
-   //         if (result == 0)
-   //         {
-   //            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
-   //            //result = o1.getID().intValue() - o2.getID().intValue();
-   //         }         
-   //         return (result);
-   //      }
-   //   };
-
-   //   private static final Comparator<Task> FINISH_COMPARATOR = new Comparator<Task>()
-   //   {
-   //      public int compare(Task o1, Task o2)
-   //      {
-   //         int result = DateUtility.compare(o1.getFinish(), o2.getFinish()); 
-   //         if (result == 0)
-   //         {
-   //            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
-   //         }         
-   //         return (result);
-   //      }
-   //   };
 
    // Signals the end of the list of subproject task unique ids
    //private static final int SUBPROJECT_LISTEND = 0x00000303;
@@ -2938,342 +2453,21 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Resource data types.
     */
-
-   //
-   // MPP12 verified
-   //
-   private static final Integer RESOURCE_NAME = Integer.valueOf(1);
-   private static final Integer RESOURCE_INITIALS = Integer.valueOf(2);
-   private static final Integer RESOURCE_GROUP = Integer.valueOf(3);
-   private static final Integer RESOURCE_CODE = Integer.valueOf(10);
-   private static final Integer RESOURCE_MATERIAL_LABEL = Integer.valueOf(299);
-
-   private static final Integer RESOURCE_HYPERLINK = Integer.valueOf(136);
-
-   private static final Integer RESOURCE_COST1 = Integer.valueOf(123);
-   private static final Integer RESOURCE_COST2 = Integer.valueOf(124);
-   private static final Integer RESOURCE_COST3 = Integer.valueOf(125);
-   private static final Integer RESOURCE_COST4 = Integer.valueOf(166);
-   private static final Integer RESOURCE_COST5 = Integer.valueOf(167);
-   private static final Integer RESOURCE_COST6 = Integer.valueOf(168);
-   private static final Integer RESOURCE_COST7 = Integer.valueOf(169);
-   private static final Integer RESOURCE_COST8 = Integer.valueOf(170);
-   private static final Integer RESOURCE_COST9 = Integer.valueOf(171);
-   private static final Integer RESOURCE_COST10 = Integer.valueOf(172);
-
-   private static final Integer RESOURCE_EMAIL = Integer.valueOf(35);
-
-   private static final Integer RESOURCE_DATE1 = Integer.valueOf(173);
-   private static final Integer RESOURCE_DATE2 = Integer.valueOf(174);
-   private static final Integer RESOURCE_DATE3 = Integer.valueOf(175);
-   private static final Integer RESOURCE_DATE4 = Integer.valueOf(176);
-   private static final Integer RESOURCE_DATE5 = Integer.valueOf(177);
-   private static final Integer RESOURCE_DATE6 = Integer.valueOf(178);
-   private static final Integer RESOURCE_DATE7 = Integer.valueOf(179);
-   private static final Integer RESOURCE_DATE8 = Integer.valueOf(180);
-   private static final Integer RESOURCE_DATE9 = Integer.valueOf(181);
-   private static final Integer RESOURCE_DATE10 = Integer.valueOf(182);
-
-   private static final Integer RESOURCE_START1 = Integer.valueOf(102);
-   private static final Integer RESOURCE_START2 = Integer.valueOf(103);
-   private static final Integer RESOURCE_START3 = Integer.valueOf(104);
-   private static final Integer RESOURCE_START4 = Integer.valueOf(105);
-   private static final Integer RESOURCE_START5 = Integer.valueOf(106);
-   private static final Integer RESOURCE_START6 = Integer.valueOf(220);
-   private static final Integer RESOURCE_START7 = Integer.valueOf(221);
-   private static final Integer RESOURCE_START8 = Integer.valueOf(222);
-   private static final Integer RESOURCE_START9 = Integer.valueOf(223);
-   private static final Integer RESOURCE_START10 = Integer.valueOf(224);
-
-   private static final Integer RESOURCE_FINISH1 = Integer.valueOf(107);
-   private static final Integer RESOURCE_FINISH2 = Integer.valueOf(108);
-   private static final Integer RESOURCE_FINISH3 = Integer.valueOf(109);
-   private static final Integer RESOURCE_FINISH4 = Integer.valueOf(110);
-   private static final Integer RESOURCE_FINISH5 = Integer.valueOf(111);
-   private static final Integer RESOURCE_FINISH6 = Integer.valueOf(190);
-   private static final Integer RESOURCE_FINISH7 = Integer.valueOf(191);
-   private static final Integer RESOURCE_FINISH8 = Integer.valueOf(192);
-   private static final Integer RESOURCE_FINISH9 = Integer.valueOf(193);
-   private static final Integer RESOURCE_FINISH10 = Integer.valueOf(194);
-
-   private static final Integer RESOURCE_OUTLINECODE1 = Integer.valueOf(279);
-   private static final Integer RESOURCE_OUTLINECODE2 = Integer.valueOf(281);
-   private static final Integer RESOURCE_OUTLINECODE3 = Integer.valueOf(283);
-   private static final Integer RESOURCE_OUTLINECODE4 = Integer.valueOf(285);
-   private static final Integer RESOURCE_OUTLINECODE5 = Integer.valueOf(287);
-   private static final Integer RESOURCE_OUTLINECODE6 = Integer.valueOf(289);
-   private static final Integer RESOURCE_OUTLINECODE7 = Integer.valueOf(291);
-   private static final Integer RESOURCE_OUTLINECODE8 = Integer.valueOf(293);
-   private static final Integer RESOURCE_OUTLINECODE9 = Integer.valueOf(295);
-   private static final Integer RESOURCE_OUTLINECODE10 = Integer.valueOf(297);
-
-   private static final Integer RESOURCE_DURATION1 = Integer.valueOf(117);
-   private static final Integer RESOURCE_DURATION2 = Integer.valueOf(118);
-   private static final Integer RESOURCE_DURATION3 = Integer.valueOf(119);
-   private static final Integer RESOURCE_DURATION4 = Integer.valueOf(183);
-   private static final Integer RESOURCE_DURATION5 = Integer.valueOf(184);
-   private static final Integer RESOURCE_DURATION6 = Integer.valueOf(185);
-   private static final Integer RESOURCE_DURATION7 = Integer.valueOf(186);
-   private static final Integer RESOURCE_DURATION8 = Integer.valueOf(187);
-   private static final Integer RESOURCE_DURATION9 = Integer.valueOf(188);
-   private static final Integer RESOURCE_DURATION10 = Integer.valueOf(189);
-
-   private static final Integer RESOURCE_DURATION1_UNITS = Integer.valueOf(120);
-   private static final Integer RESOURCE_DURATION2_UNITS = Integer.valueOf(121);
-   private static final Integer RESOURCE_DURATION3_UNITS = Integer.valueOf(122);
-   private static final Integer RESOURCE_DURATION4_UNITS = Integer.valueOf(245);
-   private static final Integer RESOURCE_DURATION5_UNITS = Integer.valueOf(246);
-   private static final Integer RESOURCE_DURATION6_UNITS = Integer.valueOf(247);
-   private static final Integer RESOURCE_DURATION7_UNITS = Integer.valueOf(248);
-   private static final Integer RESOURCE_DURATION8_UNITS = Integer.valueOf(249);
-   private static final Integer RESOURCE_DURATION9_UNITS = Integer.valueOf(250);
-   private static final Integer RESOURCE_DURATION10_UNITS = Integer.valueOf(251);
-
-   private static final Integer RESOURCE_NUMBER1 = Integer.valueOf(112);
-   private static final Integer RESOURCE_NUMBER2 = Integer.valueOf(113);
-   private static final Integer RESOURCE_NUMBER3 = Integer.valueOf(114);
-   private static final Integer RESOURCE_NUMBER4 = Integer.valueOf(115);
-   private static final Integer RESOURCE_NUMBER5 = Integer.valueOf(116);
-   private static final Integer RESOURCE_NUMBER6 = Integer.valueOf(205);
-   private static final Integer RESOURCE_NUMBER7 = Integer.valueOf(206);
-   private static final Integer RESOURCE_NUMBER8 = Integer.valueOf(207);
-   private static final Integer RESOURCE_NUMBER9 = Integer.valueOf(208);
-   private static final Integer RESOURCE_NUMBER10 = Integer.valueOf(209);
-   private static final Integer RESOURCE_NUMBER11 = Integer.valueOf(210);
-   private static final Integer RESOURCE_NUMBER12 = Integer.valueOf(211);
-   private static final Integer RESOURCE_NUMBER13 = Integer.valueOf(212);
-   private static final Integer RESOURCE_NUMBER14 = Integer.valueOf(213);
-   private static final Integer RESOURCE_NUMBER15 = Integer.valueOf(214);
-   private static final Integer RESOURCE_NUMBER16 = Integer.valueOf(215);
-   private static final Integer RESOURCE_NUMBER17 = Integer.valueOf(216);
-   private static final Integer RESOURCE_NUMBER18 = Integer.valueOf(217);
-   private static final Integer RESOURCE_NUMBER19 = Integer.valueOf(218);
-   private static final Integer RESOURCE_NUMBER20 = Integer.valueOf(219);
-
-   private static final Integer RESOURCE_TEXT1 = Integer.valueOf(8);
-   private static final Integer RESOURCE_TEXT2 = Integer.valueOf(9);
-   private static final Integer RESOURCE_TEXT3 = Integer.valueOf(30);
-   private static final Integer RESOURCE_TEXT4 = Integer.valueOf(31);
-   private static final Integer RESOURCE_TEXT5 = Integer.valueOf(32);
-   private static final Integer RESOURCE_TEXT6 = Integer.valueOf(97);
-   private static final Integer RESOURCE_TEXT7 = Integer.valueOf(98);
-   private static final Integer RESOURCE_TEXT8 = Integer.valueOf(99);
-   private static final Integer RESOURCE_TEXT9 = Integer.valueOf(100);
-   private static final Integer RESOURCE_TEXT10 = Integer.valueOf(101);
-   private static final Integer RESOURCE_TEXT11 = Integer.valueOf(225);
-   private static final Integer RESOURCE_TEXT12 = Integer.valueOf(226);
-   private static final Integer RESOURCE_TEXT13 = Integer.valueOf(227);
-   private static final Integer RESOURCE_TEXT14 = Integer.valueOf(228);
-   private static final Integer RESOURCE_TEXT15 = Integer.valueOf(229);
-   private static final Integer RESOURCE_TEXT16 = Integer.valueOf(230);
-   private static final Integer RESOURCE_TEXT17 = Integer.valueOf(231);
-   private static final Integer RESOURCE_TEXT18 = Integer.valueOf(232);
-   private static final Integer RESOURCE_TEXT19 = Integer.valueOf(233);
-   private static final Integer RESOURCE_TEXT20 = Integer.valueOf(234);
-   private static final Integer RESOURCE_TEXT21 = Integer.valueOf(235);
-   private static final Integer RESOURCE_TEXT22 = Integer.valueOf(236);
-   private static final Integer RESOURCE_TEXT23 = Integer.valueOf(237);
-   private static final Integer RESOURCE_TEXT24 = Integer.valueOf(238);
-   private static final Integer RESOURCE_TEXT25 = Integer.valueOf(239);
-   private static final Integer RESOURCE_TEXT26 = Integer.valueOf(240);
-   private static final Integer RESOURCE_TEXT27 = Integer.valueOf(241);
-   private static final Integer RESOURCE_TEXT28 = Integer.valueOf(242);
-   private static final Integer RESOURCE_TEXT29 = Integer.valueOf(243);
-   private static final Integer RESOURCE_TEXT30 = Integer.valueOf(244);
-
-   private static final Integer RESOURCE_NT_ACCOUNT = Integer.valueOf(311);
-
-   private static final Integer RESOURCE_ENTERPRISE_COST1 = Integer.valueOf(446);
-   private static final Integer RESOURCE_ENTERPRISE_COST2 = Integer.valueOf(447);
-   private static final Integer RESOURCE_ENTERPRISE_COST3 = Integer.valueOf(448);
-   private static final Integer RESOURCE_ENTERPRISE_COST4 = Integer.valueOf(449);
-   private static final Integer RESOURCE_ENTERPRISE_COST5 = Integer.valueOf(450);
-   private static final Integer RESOURCE_ENTERPRISE_COST6 = Integer.valueOf(451);
-   private static final Integer RESOURCE_ENTERPRISE_COST7 = Integer.valueOf(452);
-   private static final Integer RESOURCE_ENTERPRISE_COST8 = Integer.valueOf(453);
-   private static final Integer RESOURCE_ENTERPRISE_COST9 = Integer.valueOf(454);
-   private static final Integer RESOURCE_ENTERPRISE_COST10 = Integer.valueOf(455);
-
-   private static final Integer RESOURCE_ENTERPRISE_DATE1 = Integer.valueOf(456);
-   private static final Integer RESOURCE_ENTERPRISE_DATE2 = Integer.valueOf(457);
-   private static final Integer RESOURCE_ENTERPRISE_DATE3 = Integer.valueOf(458);
-   private static final Integer RESOURCE_ENTERPRISE_DATE4 = Integer.valueOf(459);
-   private static final Integer RESOURCE_ENTERPRISE_DATE5 = Integer.valueOf(460);
-   private static final Integer RESOURCE_ENTERPRISE_DATE6 = Integer.valueOf(461);
-   private static final Integer RESOURCE_ENTERPRISE_DATE7 = Integer.valueOf(462);
-   private static final Integer RESOURCE_ENTERPRISE_DATE8 = Integer.valueOf(463);
-   private static final Integer RESOURCE_ENTERPRISE_DATE9 = Integer.valueOf(464);
-   private static final Integer RESOURCE_ENTERPRISE_DATE10 = Integer.valueOf(465);
-   private static final Integer RESOURCE_ENTERPRISE_DATE11 = Integer.valueOf(466);
-   private static final Integer RESOURCE_ENTERPRISE_DATE12 = Integer.valueOf(467);
-   private static final Integer RESOURCE_ENTERPRISE_DATE13 = Integer.valueOf(468);
-   private static final Integer RESOURCE_ENTERPRISE_DATE14 = Integer.valueOf(469);
-   private static final Integer RESOURCE_ENTERPRISE_DATE15 = Integer.valueOf(470);
-   private static final Integer RESOURCE_ENTERPRISE_DATE16 = Integer.valueOf(471);
-   private static final Integer RESOURCE_ENTERPRISE_DATE17 = Integer.valueOf(472);
-   private static final Integer RESOURCE_ENTERPRISE_DATE18 = Integer.valueOf(473);
-   private static final Integer RESOURCE_ENTERPRISE_DATE19 = Integer.valueOf(474);
-   private static final Integer RESOURCE_ENTERPRISE_DATE20 = Integer.valueOf(475);
-   private static final Integer RESOURCE_ENTERPRISE_DATE21 = Integer.valueOf(476);
-   private static final Integer RESOURCE_ENTERPRISE_DATE22 = Integer.valueOf(477);
-   private static final Integer RESOURCE_ENTERPRISE_DATE23 = Integer.valueOf(478);
-   private static final Integer RESOURCE_ENTERPRISE_DATE24 = Integer.valueOf(479);
-   private static final Integer RESOURCE_ENTERPRISE_DATE25 = Integer.valueOf(480);
-   private static final Integer RESOURCE_ENTERPRISE_DATE26 = Integer.valueOf(481);
-   private static final Integer RESOURCE_ENTERPRISE_DATE27 = Integer.valueOf(482);
-   private static final Integer RESOURCE_ENTERPRISE_DATE28 = Integer.valueOf(483);
-   private static final Integer RESOURCE_ENTERPRISE_DATE29 = Integer.valueOf(484);
-   private static final Integer RESOURCE_ENTERPRISE_DATE30 = Integer.valueOf(485);
-
-   private static final Integer RESOURCE_ENTERPRISE_DURATION1 = Integer.valueOf(486);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION2 = Integer.valueOf(487);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION3 = Integer.valueOf(488);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION4 = Integer.valueOf(489);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION5 = Integer.valueOf(490);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION6 = Integer.valueOf(491);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION7 = Integer.valueOf(492);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION8 = Integer.valueOf(493);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION9 = Integer.valueOf(494);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION10 = Integer.valueOf(495);
-
-   private static final Integer RESOURCE_ENTERPRISE_DURATION1_UNITS = Integer.valueOf(496);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION2_UNITS = Integer.valueOf(497);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION3_UNITS = Integer.valueOf(498);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION4_UNITS = Integer.valueOf(499);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION5_UNITS = Integer.valueOf(500);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION6_UNITS = Integer.valueOf(501);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION7_UNITS = Integer.valueOf(502);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION8_UNITS = Integer.valueOf(503);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION9_UNITS = Integer.valueOf(504);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION10_UNITS = Integer.valueOf(505);
-
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER1 = Integer.valueOf(546);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER2 = Integer.valueOf(547);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER3 = Integer.valueOf(548);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER4 = Integer.valueOf(549);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER5 = Integer.valueOf(550);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER6 = Integer.valueOf(551);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER7 = Integer.valueOf(552);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER8 = Integer.valueOf(553);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER9 = Integer.valueOf(554);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER10 = Integer.valueOf(555);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER11 = Integer.valueOf(556);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER12 = Integer.valueOf(557);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER13 = Integer.valueOf(558);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER14 = Integer.valueOf(559);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER15 = Integer.valueOf(560);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER16 = Integer.valueOf(561);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER17 = Integer.valueOf(562);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER18 = Integer.valueOf(563);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER19 = Integer.valueOf(564);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER20 = Integer.valueOf(565);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER21 = Integer.valueOf(566);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER22 = Integer.valueOf(567);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER23 = Integer.valueOf(568);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER24 = Integer.valueOf(569);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER25 = Integer.valueOf(570);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER26 = Integer.valueOf(571);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER27 = Integer.valueOf(572);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER28 = Integer.valueOf(573);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER29 = Integer.valueOf(574);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER30 = Integer.valueOf(575);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER31 = Integer.valueOf(576);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER32 = Integer.valueOf(577);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER33 = Integer.valueOf(578);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER34 = Integer.valueOf(579);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER35 = Integer.valueOf(580);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER36 = Integer.valueOf(581);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER37 = Integer.valueOf(582);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER38 = Integer.valueOf(583);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER39 = Integer.valueOf(584);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER40 = Integer.valueOf(585);
-
-   private static final Integer RESOURCE_ENTERPRISE_TEXT1 = Integer.valueOf(646);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT2 = Integer.valueOf(647);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT3 = Integer.valueOf(648);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT4 = Integer.valueOf(649);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT5 = Integer.valueOf(650);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT6 = Integer.valueOf(651);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT7 = Integer.valueOf(652);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT8 = Integer.valueOf(653);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT9 = Integer.valueOf(654);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT10 = Integer.valueOf(655);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT11 = Integer.valueOf(656);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT12 = Integer.valueOf(657);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT13 = Integer.valueOf(658);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT14 = Integer.valueOf(659);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT15 = Integer.valueOf(660);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT16 = Integer.valueOf(661);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT17 = Integer.valueOf(662);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT18 = Integer.valueOf(663);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT19 = Integer.valueOf(664);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT20 = Integer.valueOf(665);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT21 = Integer.valueOf(666);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT22 = Integer.valueOf(667);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT23 = Integer.valueOf(668);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT24 = Integer.valueOf(669);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT25 = Integer.valueOf(670);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT26 = Integer.valueOf(671);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT27 = Integer.valueOf(672);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT28 = Integer.valueOf(673);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT29 = Integer.valueOf(674);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT30 = Integer.valueOf(675);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT31 = Integer.valueOf(676);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT32 = Integer.valueOf(677);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT33 = Integer.valueOf(678);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT34 = Integer.valueOf(679);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT35 = Integer.valueOf(680);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT36 = Integer.valueOf(681);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT37 = Integer.valueOf(682);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT38 = Integer.valueOf(683);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT39 = Integer.valueOf(684);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT40 = Integer.valueOf(685);
-
-   public static final Integer RESOURCE_BASELINE1_WORK = Integer.valueOf(342);
-   public static final Integer RESOURCE_BASELINE1_COST = Integer.valueOf(343);
-   public static final Integer RESOURCE_BASELINE2_WORK = Integer.valueOf(352);
-   public static final Integer RESOURCE_BASELINE2_COST = Integer.valueOf(353);
-   public static final Integer RESOURCE_BASELINE3_WORK = Integer.valueOf(362);
-   public static final Integer RESOURCE_BASELINE3_COST = Integer.valueOf(363);
-   public static final Integer RESOURCE_BASELINE4_WORK = Integer.valueOf(372);
-   public static final Integer RESOURCE_BASELINE4_COST = Integer.valueOf(373);
-   public static final Integer RESOURCE_BASELINE5_WORK = Integer.valueOf(382);
-   public static final Integer RESOURCE_BASELINE5_COST = Integer.valueOf(383);
-   public static final Integer RESOURCE_BASELINE6_WORK = Integer.valueOf(392);
-   public static final Integer RESOURCE_BASELINE6_COST = Integer.valueOf(393);
-   public static final Integer RESOURCE_BASELINE7_WORK = Integer.valueOf(402);
-   public static final Integer RESOURCE_BASELINE7_COST = Integer.valueOf(403);
-   public static final Integer RESOURCE_BASELINE8_WORK = Integer.valueOf(412);
-   public static final Integer RESOURCE_BASELINE8_COST = Integer.valueOf(413);
-   public static final Integer RESOURCE_BASELINE9_WORK = Integer.valueOf(422);
-   public static final Integer RESOURCE_BASELINE9_COST = Integer.valueOf(423);
-   public static final Integer RESOURCE_BASELINE10_WORK = Integer.valueOf(432);
-   public static final Integer RESOURCE_BASELINE10_COST = Integer.valueOf(433);
-
-   //
-   // Unverified
-   //
-   private static final Integer RESOURCE_SUBPROJECTRESOURCEID = Integer.valueOf(102);
-   private static final Integer RESOURCE_NOTES = Integer.valueOf(20);
-
    private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(6);
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(7);
    private static final Integer TABLE_COLUMN_DATA_BASELINE = Integer.valueOf(8);
+
+   /**
+    * Outline code data types.
+    */
    private static final Integer OUTLINECODE_DATA = Integer.valueOf(22);
 
-   // Custom value list types
+   /**
+    * Custom value list data types.
+    */
    private static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    private static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
    private static final Integer VALUE_LIST_UNKNOWN = Integer.valueOf(23);
-
-   private static final Integer RESOURCE_COST_RATE_A = Integer.valueOf(61);
-   private static final Integer RESOURCE_COST_RATE_B = Integer.valueOf(62);
-   private static final Integer RESOURCE_COST_RATE_C = Integer.valueOf(63);
-   private static final Integer RESOURCE_COST_RATE_D = Integer.valueOf(64);
-   private static final Integer RESOURCE_COST_RATE_E = Integer.valueOf(65);
-
-   private static final Integer RESOURCE_AVAILABILITY = Integer.valueOf(276);
-
    private static final int VALUE_LIST_MASK = 0x0700;
 
    /**
@@ -3281,6 +2475,9 @@ final class MPP12Reader implements MPPVariantReader
     */
    private static final int DURATION_CONFIRMED_MASK = 0x20;
 
+   /**
+    * Alias data types.
+    */
    private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
    private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 
@@ -3297,6 +2494,4 @@ final class MPP12Reader implements MPPVariantReader
       true,
       false
    };
-
-   private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
 }

@@ -107,6 +107,14 @@ public final class Rate
    }
 
    /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      return (m_amount + m_units.toString());
+   }
+
+   /**
     * Rate amount.
     */
    private double m_amount;

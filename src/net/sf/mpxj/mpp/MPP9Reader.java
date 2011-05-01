@@ -2367,16 +2367,16 @@ final class MPP9Reader implements MPPVariantReader
          processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
 
-         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE1_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE2_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE3_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE4_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE5_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE6_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE7_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE8_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE9_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINECODE10_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE1_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE2_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE3_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE4_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE5_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE6_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE7_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE8_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE9_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE10_INDEX), OUTLINECODE_DATA));
 
          resource.setType((MPPUtility.getShort(data, fieldMap.getFixedDataOffset(ResourceField.WORKGROUP)) == 0 ? ResourceType.WORK : ResourceType.MATERIAL));
          resource.setUniqueID(id);

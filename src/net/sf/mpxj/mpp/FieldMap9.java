@@ -2012,61 +2012,61 @@ class FieldMap9 extends FieldMap
          Integer.valueOf(112)
       },
       {
-         ResourceField.OUTLINECODE1_INDEX,
+         ResourceField.OUTLINE_CODE1_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(113)
       },
       {
-         ResourceField.OUTLINECODE2_INDEX,
+         ResourceField.OUTLINE_CODE2_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(114)
       },
       {
-         ResourceField.OUTLINECODE3_INDEX,
+         ResourceField.OUTLINE_CODE3_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(115)
       },
       {
-         ResourceField.OUTLINECODE4_INDEX,
+         ResourceField.OUTLINE_CODE4_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(116)
       },
       {
-         ResourceField.OUTLINECODE5_INDEX,
+         ResourceField.OUTLINE_CODE5_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(117)
       },
       {
-         ResourceField.OUTLINECODE6_INDEX,
+         ResourceField.OUTLINE_CODE6_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(118)
       },
       {
-         ResourceField.OUTLINECODE7_INDEX,
+         ResourceField.OUTLINE_CODE7_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(119)
       },
       {
-         ResourceField.OUTLINECODE8_INDEX,
+         ResourceField.OUTLINE_CODE8_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(120)
       },
       {
-         ResourceField.OUTLINECODE9_INDEX,
+         ResourceField.OUTLINE_CODE9_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(121)
       },
       {
-         ResourceField.OUTLINECODE10_INDEX,
+         ResourceField.OUTLINE_CODE10_INDEX,
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(122)

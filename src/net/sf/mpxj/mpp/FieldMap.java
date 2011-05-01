@@ -40,6 +40,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
@@ -118,10 +119,10 @@ abstract class FieldMap
 
          if (type != null)
          {
-            //            if (location != FieldLocation.META_DATA)
-            //            {
-            //               System.out.println("{TaskField." + type + ", FieldLocation." + location + ", Integer.valueOf(" + dataBlockOffset + "), Integer.valueOf(" + varDataKey + ")},");
-            //            }
+            //                                    if (location != FieldLocation.META_DATA)
+            //                                    {
+            //                                       System.out.println("{ResourceField." + type + ", FieldLocation." + location + ", Integer.valueOf(" + dataBlockOffset + "), Integer.valueOf(" + varDataKey + ")},");
+            //                                    }
             m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
          }
 
@@ -572,12 +573,6 @@ abstract class FieldMap
                break;
             }
 
-            case STRING :
-            {
-               // Resource Workgroup not sure of format in fixed data block?
-               break;
-            }
-
             case WORK :
             {
                result = Duration.getInstance(MPPUtility.getDouble(fixedData, m_fixedDataOffset) / 60000, TimeUnit.HOURS);
@@ -606,6 +601,18 @@ abstract class FieldMap
             {
                int variableRateUnitsValue = MPPUtility.getByte(fixedData, m_fixedDataOffset);
                result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
+               break;
+            }
+
+            case WORKGROUP :
+            {
+               result = WorkGroup.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset));
+               break;
+            }
+
+            case RATE_UNITS :
+            {
+               result = TimeUnit.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset) - 1);
                break;
             }
 
@@ -706,9 +713,33 @@ abstract class FieldMap
                break;
             }
 
+            case RATE_UNITS :
+            {
+               result = TimeUnit.getInstance(varData.getShort(id, m_varDataKey) - 1);
+               break;
+            }
+
             case ACCRUE :
             {
                result = AccrueType.getInstance(varData.getShort(id, m_varDataKey));
+               break;
+            }
+
+            case SHORT :
+            {
+               result = Integer.valueOf(varData.getShort(id, m_varDataKey));
+               break;
+            }
+
+            case BOOLEAN :
+            {
+               result = Boolean.valueOf(varData.getShort(id, m_varDataKey) != 0);
+               break;
+            }
+
+            case WORKGROUP :
+            {
+               result = WorkGroup.getInstance(varData.getShort(id, m_varDataKey));
                break;
             }
 

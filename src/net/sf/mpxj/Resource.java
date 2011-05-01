@@ -166,7 +166,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setNtAccount(String ntAccount)
    {
-      m_ntAccount = ntAccount;
+      set(ResourceField.WINDOWS_USER_ACCOUNT, ntAccount);
    }
 
    /**
@@ -176,7 +176,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getNtAccount()
    {
-      return (m_ntAccount);
+      return (String) getCachedValue(ResourceField.WINDOWS_USER_ACCOUNT);
    }
 
    /**
@@ -716,11 +716,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Sets the format of the standard rate.
     * 
-    * @param format standard rate format
+    * @param units standard rate format
     */
-   public void setStandardRateFormat(TimeUnit format)
+   public void setStandardRateUnits(TimeUnit units)
    {
-      m_standardRateFormat = format;
+      set(ResourceField.STANDARD_RATE_UNITS, units);
    }
 
    /**
@@ -728,9 +728,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @return standard rate format
     */
-   public TimeUnit getStandardRateFormat()
+   public TimeUnit getStandardRateUnits()
    {
-      return (m_standardRateFormat);
+      return (TimeUnit) getCachedValue(ResourceField.STANDARD_RATE_UNITS);
    }
 
    /**
@@ -776,11 +776,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Sets the format of the overtime rate.
     * 
-    * @param format overtime rate format
+    * @param units overtime rate format
     */
-   public void setOvertimeRateFormat(TimeUnit format)
+   public void setOvertimeRateUnits(TimeUnit units)
    {
-      m_overtimeRateFormat = format;
+      set(ResourceField.OVERTIME_RATE_UNITS, units);
    }
 
    /**
@@ -788,9 +788,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @return overtime rate format
     */
-   public TimeUnit getOvertimeRateFormat()
+   public TimeUnit getOvertimeRateUnits()
    {
-      return (m_overtimeRateFormat);
+      return (TimeUnit) getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
    }
 
    /**
@@ -5101,9 +5101,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;
-   private String m_ntAccount;
-   private TimeUnit m_standardRateFormat;
-   private TimeUnit m_overtimeRateFormat;
    private boolean m_generic;
    private boolean m_inactive;
    private String m_activeDirectoryGUID;
@@ -5111,7 +5108,42 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private Duration m_actualWorkProtected;
    private BookingType m_bookingType;
    private boolean m_enterprise;
+
    private CostRateTable[] m_costRateTables = new CostRateTable[5];
    private AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
 }
+
+/*
+NEW FIELDS - to be implemented in 5.0
+{ResourceField.Baseline Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(757)},
+{ResourceField.Baseline Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(756)},
+{ResourceField.Baseline1 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(761)},
+{ResourceField.Baseline1 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(760)},
+{ResourceField.Baseline10 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(797)},
+{ResourceField.Baseline10 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(796)},
+{ResourceField.Baseline2 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(765)},
+{ResourceField.Baseline2 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(764)},
+{ResourceField.Baseline3 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(769)},
+{ResourceField.Baseline3 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(768)},
+{ResourceField.Baseline4 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(773)},
+{ResourceField.Baseline4 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(772)},
+{ResourceField.Baseline5 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(777)},
+{ResourceField.Baseline5 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(776)},
+{ResourceField.Baseline6 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(781)},
+{ResourceField.Baseline6 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(780)},
+{ResourceField.Baseline7 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(785)},
+{ResourceField.Baseline7 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(784)},
+{ResourceField.Baseline8 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(789)},
+{ResourceField.Baseline8 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(788)},
+{ResourceField.Baseline9 Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(793)},
+{ResourceField.Baseline9 Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(792)},
+{ResourceField.Booking Type, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(699)},
+{ResourceField.Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(754)},
+{ResourceField.Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(753)},
+{ResourceField.Calendar GUID, FieldLocation.FIXED_DATA, Integer.valueOf(24), Integer.valueOf(729)},
+{ResourceField.Cost Center, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(801)},
+{ResourceField.Enterprise Unique ID, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(443)},
+{ResourceField.Phonetics, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(252)},
+{ResourceField.Workgroup, FieldLocation.FIXED_DATA, Integer.valueOf(14), Integer.valueOf(272)},
+*/

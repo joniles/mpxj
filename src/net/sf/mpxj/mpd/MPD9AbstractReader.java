@@ -515,7 +515,7 @@ abstract class MPD9AbstractReader
          resource.setOverAllocated(row.getBoolean("RES_IS_OVERALLOCATED"));
          resource.setOvertimeCost(row.getCurrency("RES_OVT_COST"));
          resource.setOvertimeRate(new Rate(row.getDouble("RES_OVT_RATE"), TimeUnit.HOURS));
-         resource.setOvertimeRateFormat(TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
+         resource.setOvertimeRateUnits(TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
          resource.setOvertimeWork(row.getDuration("RES_OVT_WORK"));
          resource.setPeakUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_PEAK")) * 100));
          //resource.setPercentWorkComplete();
@@ -527,7 +527,7 @@ abstract class MPD9AbstractReader
          resource.setRemainingWork(row.getDuration("RES_REM_WORK"));
          //resource.setResourceCalendar();RES_CAL_UID = null ( ) // CHECK THIS
          resource.setStandardRate(new Rate(row.getDouble("RES_STD_RATE"), TimeUnit.HOURS));
-         resource.setStandardRateFormat(TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
+         resource.setStandardRateUnits(TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
          //resource.setStart();
          //resource.setStart1();
          //resource.setStart2();
