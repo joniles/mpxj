@@ -639,6 +639,7 @@ public class MPPTaskField14
       FIELD_ARRAY[256] = TaskField.WORK_CONTOUR;
       FIELD_ARRAY[0] = TaskField.WORK;
       FIELD_ARRAY[3] = TaskField.WORK_VARIANCE;
+      FIELD_ARRAY[179] = TaskField.BASELINE_DURATION_UNITS;
    }
 
    private static final int[] ID_ARRAY = new int[TaskField.MAX_VALUE];

@@ -2,7 +2,7 @@
  * file:       FieldMap.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
- * date:       13/04/2010
+ * date:       13/04/2011
  */
 
 /*
@@ -32,9 +32,6 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.MPPAssignmentField;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
@@ -117,12 +114,14 @@ abstract class FieldMap
          //            System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
          //         }
 
+//         if (location == FieldLocation.FIXED_DATA)
+//         {
+//            //System.out.println("{TaskField." + type + ", FieldLocation." + location + ", Integer.valueOf(" + dataBlockOffset + "), Integer.valueOf(" + varDataKey + ")},");
+//            //System.out.println(type+" "+ dataBlockOffset+ " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
+//         }
+         
          if (type != null)
          {
-            //                                    if (location != FieldLocation.META_DATA)
-            //                                    {
-            //                                       System.out.println("{ResourceField." + type + ", FieldLocation." + location + ", Integer.valueOf(" + dataBlockOffset + "), Integer.valueOf(" + varDataKey + ")},");
-            //                                    }
             m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
          }
 
@@ -158,6 +157,15 @@ abstract class FieldMap
     */
    protected abstract Object[][] getDefaultAssignmentData();
 
+   /**
+    * Given a field ID, derive the field type.
+    * 
+    * @param fieldID field ID
+    * @return field type
+    */
+   protected abstract FieldType getFieldType(int fieldID);
+   
+   
    /**
     * Creates a field map for tasks.
     * 
@@ -323,47 +331,6 @@ abstract class FieldMap
       return result;
    }
 
-   /**
-    * Given a field ID, derive the field type.
-    * 
-    * @param fieldID field ID
-    * @return field type
-    */
-   private FieldType getFieldType(int fieldID)
-   {
-      FieldType result;
-      int prefix = fieldID & 0xFFFF0000;
-      int index = fieldID & 0x0000FFFF;
-
-      switch (prefix)
-      {
-         case MPPTaskField.TASK_FIELD_BASE :
-         {
-            result = MPPTaskField.getInstance(index);
-            break;
-         }
-
-         case MPPResourceField.RESOURCE_FIELD_BASE :
-         {
-            result = MPPResourceField.getInstance(index);
-            break;
-         }
-
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
-         {
-            result = MPPAssignmentField.getInstance(index);
-            break;
-         }
-
-         default :
-         {
-            result = null;
-            break;
-         }
-      }
-
-      return result;
-   }
 
    /**
     * Retrieve a single field value.

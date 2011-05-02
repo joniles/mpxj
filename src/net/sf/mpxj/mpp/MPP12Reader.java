@@ -2217,7 +2217,9 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
+      // MSP 20007 seems to write 142 byte blocks, MSP 2010 writes 110 byte blocks
+      // We need to identify any cases where the meta data count does not correctly identify the block size
+      FixedData assnFixedData = new FixedData(assnFixedMeta, getEncryptableInputStream(assnDir, "FixedData"));
       ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
       factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }

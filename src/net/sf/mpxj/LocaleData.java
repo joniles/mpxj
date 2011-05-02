@@ -686,7 +686,18 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_DURATION8_UNITS.getValue()] = "Enterprise Duration8 Units";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_DURATION9_UNITS.getValue()] = "Enterprise Duration9 Units";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_DURATION10_UNITS.getValue()] = "Enterprise Duration10 Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE1_DURATION_UNITS.getValue()] = "Baseline1 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE2_DURATION_UNITS.getValue()] = "Baseline2 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE3_DURATION_UNITS.getValue()] = "Baseline3 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE4_DURATION_UNITS.getValue()] = "Baseline4 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE5_DURATION_UNITS.getValue()] = "Baseline5 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE6_DURATION_UNITS.getValue()] = "Baseline6 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE7_DURATION_UNITS.getValue()] = "Baseline7 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE8_DURATION_UNITS.getValue()] = "Baseline8 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE9_DURATION_UNITS.getValue()] = "Baseline9 Duration Units";
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE10_DURATION_UNITS.getValue()] = "Baseline10 Duration Units";
 
+      
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
       RESOURCE_COLUMNS_ARRAY[ResourceField.INITIALS.getValue()] = "Initials";
