@@ -1367,7 +1367,7 @@ final class MPP9Reader implements MPPVariantReader
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
-         if (fixedData.length >= 8)
+         if (fixedData != null && fixedData.length >= 8)
          {
             int offset = 0;
 
@@ -1957,7 +1957,15 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      byte[] durationData = props.getByteArray(key);
                      double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
-                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                     TimeUnit durationUnits;
+                     if (durationData.length < 6)
+                     {
+                        durationUnits = TimeUnit.DAYS;
+                     }
+                     else
+                     {
+                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                     }
                      Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
                      value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
                      break;
@@ -2524,6 +2532,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processTableData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
+      //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
       FixedData fixedData = new FixedData(110, getEncryptableInputStream(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));

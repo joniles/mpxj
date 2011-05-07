@@ -51,6 +51,28 @@ public class MppBaselineTest extends MPXJTestCase
    }
 
    /**
+    * Test baseline data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9BaselineFieldsFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baselines-from12.mpp");
+      testBaselineFields(mpp);
+   }
+
+   /**
+    * Test baseline data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9BaselineFieldsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baselines-from14.mpp");
+      testBaselineFields(mpp);
+   }
+
+   /**
     * Test baseline data read from an MSPDI file.
     * 
     * @throws Exception
@@ -69,6 +91,17 @@ public class MppBaselineTest extends MPXJTestCase
    public void testMpp12BaselineFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baselines.mpp");
+      testBaselineFields(mpp);
+   }
+
+   /**
+    * Test baseline data read from an MPP1 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12BaselineFieldsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baselines-from14.mpp");
       testBaselineFields(mpp);
    }
 

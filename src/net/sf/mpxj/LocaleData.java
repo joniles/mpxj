@@ -697,7 +697,6 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.BASELINE9_DURATION_UNITS.getValue()] = "Baseline9 Duration Units";
       TASK_COLUMNS_ARRAY[TaskField.BASELINE10_DURATION_UNITS.getValue()] = "Baseline10 Duration Units";
 
-      
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
       RESOURCE_COLUMNS_ARRAY[ResourceField.INITIALS.getValue()] = "Initials";

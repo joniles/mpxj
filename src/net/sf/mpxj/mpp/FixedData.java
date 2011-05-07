@@ -158,8 +158,11 @@ final class FixedData extends MPPComponent
             itemSize = maxExpectedSize;
          }
 
-         m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
-         m_offset[loop] = itemOffset;
+         if (itemSize > 0)
+         {
+            m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
+            m_offset[loop] = itemOffset;
+         }
       }
    }
 

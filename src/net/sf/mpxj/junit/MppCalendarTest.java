@@ -55,6 +55,28 @@ public class MppCalendarTest extends MPXJTestCase
    }
 
    /**
+    * Test calendar data read from an MPP9 file saved by Project 2007.
+    *
+    * @throws Exception
+    */
+   public void testMpp9CalendarFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9calendar-from12.mpp");
+      testCalendars(mpp);
+   }
+
+   /**
+    * Test calendar data read from an MPP9 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp9CalendarFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9calendar-from14.mpp");
+      testCalendars(mpp);
+   }
+
+   /**
     * Test calendar data read from an MPP12 file.
     *
     * @throws Exception
@@ -62,6 +84,17 @@ public class MppCalendarTest extends MPXJTestCase
    public void testMpp12Calendar() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12calendar.mpp");
+      testCalendars(mpp);
+   }
+
+   /**
+    * Test calendar data read from an MPP12 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp12CalendarFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14calendar.mpp");
       testCalendars(mpp);
    }
 

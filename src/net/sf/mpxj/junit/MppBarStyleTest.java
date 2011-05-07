@@ -29,9 +29,9 @@ import java.util.List;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
+import net.sf.mpxj.mpp.ChartPattern;
 import net.sf.mpxj.mpp.ColorType;
 import net.sf.mpxj.mpp.GanttBarCommonStyle;
-import net.sf.mpxj.mpp.ChartPattern;
 import net.sf.mpxj.mpp.GanttBarMiddleShape;
 import net.sf.mpxj.mpp.GanttBarStartEndShape;
 import net.sf.mpxj.mpp.GanttBarStartEndType;
@@ -59,6 +59,28 @@ public class MppBarStyleTest extends MPXJTestCase
    }
 
    /**
+    * Test bar styles read from an MPP9 file saved by Project 2007.
+    *
+    * @throws Exception
+    */
+   public void testMpp9DefaultBarStylesFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from12.mpp");
+      testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
+   }
+
+   /**
+    * Test bar styles read from an MPP9 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp9DefaultBarStylesFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from14.mpp");
+      testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES_FROM14);
+   }
+
+   /**
     * Test bar styles read from an MPP12 file.
     *
     * @throws Exception
@@ -67,6 +89,17 @@ public class MppBarStyleTest extends MPXJTestCase
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
+   }
+
+   /**
+    * Test bar styles read from an MPP12 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp12DefaultBarStylesFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle-from14.mpp");
+      testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES_FROM14);
    }
 
    /**
@@ -92,6 +125,28 @@ public class MppBarStyleTest extends MPXJTestCase
    }
 
    /**
+    * Test bar styles read from an MPP9 file saved by Project 2007.
+    *
+    * @throws Exception
+    */
+   public void testMpp9ExceptionBarStylesFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from12.mpp");
+      testExceptionBarStyles(mpp);
+   }
+
+   /**
+    * Test bar styles read from an MPP9 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp9ExceptionBarStylesFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from14.mpp");
+      testExceptionBarStyles(mpp);
+   }
+
+   /**
     * Test bar styles read from an MPP12 file.
     *
     * @throws Exception
@@ -99,6 +154,17 @@ public class MppBarStyleTest extends MPXJTestCase
    public void testMpp12ExceptionBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle.mpp");
+      testExceptionBarStyles(mpp);
+   }
+
+   /**
+    * Test bar styles read from an MPP12 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp12ExceptionBarStylesFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle-from14.mpp");
       testExceptionBarStyles(mpp);
    }
 
@@ -127,7 +193,7 @@ public class MppBarStyleTest extends MPXJTestCase
       //
       List<View> views = mpp.getViews();
       assertNotNull(views);
-      assertEquals(2, views.size());
+      assertTrue(views.size() > 0);
 
       //
       // Retrieve the Gantt Chart view
@@ -158,7 +224,7 @@ public class MppBarStyleTest extends MPXJTestCase
       //
       List<View> views = mpp.getViews();
       assertNotNull(views);
-      assertEquals(2, views.size());
+      assertTrue(views.size() > 0);
 
       //
       // Retrieve the Gantt Chart view
@@ -2350,6 +2416,757 @@ public class MppBarStyleTest extends MPXJTestCase
       "[Normal, Active, Not Manually Scheduled]"
    },       
    */
+   };
+
+   private static final Object[][] DEFAULT_BAR_STYLES_FROM14 =
+   {
+      {
+         null,
+         TaskField.RESOURCE_NAMES,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.SOLID,
+         ColorType.BLUE,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Task",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.BOTTOMLINE,
+         ChartPattern.VERTICALSTRIPE,
+         ColorType.BLUE,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Split",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Normal, Split]"
+      },
+
+      {
+         null,
+         TaskField.FINISH,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.DIAMOND,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Milestone",
+         Integer.valueOf(1),
+         TaskField.FINISH,
+         TaskField.FINISH,
+         "[Milestone, Not Group By Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.TOPTHINROUNDED,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Summary",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.GRAY,
+         GanttBarMiddleShape.TOPTHINROUNDED,
+         ChartPattern.SOLID,
+         ColorType.GRAY,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.GRAY,
+         "Project Summary",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Project Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.TOPTHINROUNDED,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Group By Summary",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Group By Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.SOLID,
+         ColorType.BLUE,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Rolled Up Task",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Normal, Rolled Up, Not Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.BOTTOMLINE,
+         ChartPattern.VERTICALSTRIPE,
+         ColorType.BLUE,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Rolled Up Split",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Normal, Rolled Up, Split, Not Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.MIDDLETHINROUNDED,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Rolled Up Progress",
+         Integer.valueOf(1),
+         TaskField.ACTUAL_START,
+         TaskField.COMPLETE_THROUGH,
+         "[Normal, Rolled Up, Not Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.DIAMOND,
+         GanttBarStartEndType.FRAMED,
+         ColorType.BLACK,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Rolled Up Milestone",
+         Integer.valueOf(1),
+         TaskField.FINISH,
+         TaskField.FINISH,
+         "[Milestone, Rolled Up, Not Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.SOLID,
+         ColorType.GRAY,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "External Tasks",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[External Tasks, Not Milestone]"
+      },
+
+      {
+         null,
+         TaskField.FINISH,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.DIAMOND,
+         GanttBarStartEndType.SOLID,
+         ColorType.GRAY,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "External Milestone",
+         Integer.valueOf(1),
+         TaskField.FINISH,
+         TaskField.FINISH,
+         "[Milestone, External Tasks]"
+      },
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NORTHMINIHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.RED,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Deliverable Start",
+         Integer.valueOf(1),
+         TaskField.DELIVERABLE_START, // Displayed as Name by Project 2003
+         TaskField.DELIVERABLE_START, // Displayed as Name by Project 2003
+         "[Deliverable]" // Displayed empty by Project 2003
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NORTHMINIHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.RED,
+         "*Deliverable Finish",
+         Integer.valueOf(1),
+         TaskField.DELIVERABLE_FINISH, // Displayed as Name by Project 2003
+         TaskField.DELIVERABLE_FINISH, // Displayed as Name by Project 2003
+         "[Deliverable]" // Displayed empty by Project 2003
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.RED,
+         GanttBarMiddleShape.BOTTOMLINE,
+         ChartPattern.SOLID,
+         ColorType.RED,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.RED,
+         "*Deliverable Duration",
+         Integer.valueOf(1),
+         TaskField.DELIVERABLE_START, // Displayed as Name by Project 2003
+         TaskField.DELIVERABLE_FINISH, // Displayed as Name by Project 2003
+         "[Deliverable]" // Displayed empty by Project 2003
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.SOUTHMINIHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.YELLOW,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "*Dependency Start",
+         Integer.valueOf(1),
+         TaskField.DELIVERABLE_START, // Displayed as Name by Project 2003
+         TaskField.DELIVERABLE_START, // Displayed as Name by Project 2003
+         "[Dependency]" // Displayed empty by Project 2003
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.SOUTHMINIHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.YELLOW,
+         "*Dependency Finish",
+         Integer.valueOf(1),
+         TaskField.DELIVERABLE_FINISH, // Displayed as Name by Project 2003
+         TaskField.DELIVERABLE_FINISH, // Displayed as Name by Project 2003
+         "[Dependency]" // Displayed empty by Project 2003
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.RED,
+         GanttBarMiddleShape.TOPLINE,
+         ChartPattern.SOLID,
+         ColorType.YELLOW,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.RED,
+         "*Dependency Duration",
+         Integer.valueOf(1),
+         TaskField.DELIVERABLE_START, // Displayed as Name by Project 2003
+         TaskField.DELIVERABLE_FINISH, // Displayed as Name by Project 2003
+         "[Dependency]" // Displayed empty by Project 2003
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.HORIZONTALSTRIPE,
+         ColorType.AUTOMATIC,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test1",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Finished On Time, Flag1, Flag2, Flag3, Flag4, Flag5, Flag6, Flag7, Flag8, Flag9, Flag10, Rolled Up, Project Summary, Split, Flag11, Flag12]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.GRID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test2",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Normal, Milestone, Summary, Critical, Noncritical, Marked, Finished, In Progress, Not Finished, Not Started, Started Late, Finished Late, Started Early, Finished Early, Started On Time]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.DOTTED,
+         ColorType.RED,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test3",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[External Tasks, Flag13, Flag14, Flag15, Flag16, Flag17, Flag18, Flag19, Flag20, Group By Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NORTHHOMEPLATE,
+         GanttBarStartEndType.FRAMED,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.TRANSPARENT,
+         ColorType.BLACK,
+         GanttBarStartEndShape.SOUTHHOMEPLATE,
+         GanttBarStartEndType.DASHED,
+         ColorType.BLACK,
+         "Test4",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Finished On Time, Not Flag1, Not Flag2, Not Flag3, Not Flag4, Not Flag5, Not Flag6, Not Flag7, Not Flag8, Not Flag9, Not Flag10, Not Rolled Up, Not Project Summary, Not Split, Not Flag11, Not Flag12]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.DIAMOND,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.SOLID,
+         ColorType.YELLOW,
+         GanttBarStartEndShape.DIAMONDCIRCLED,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test5",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Critical, Noncritical, Not Finished, Not Started, Not Milestone, Not Summary, Not Marked, Not In Progress, Not Started Late, Not Finished Late, Not Started Early, Not Finished Early, Not Started On Time]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.UPARROW,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.LIGHTDOTTED,
+         ColorType.LIME,
+         GanttBarStartEndShape.DOWNARROW,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test6",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal, Not External Tasks, Not Flag13, Not Flag14, Not Flag15, Not Flag16, Not Flag17, Not Flag18, Not Flag19, Not Flag20, Not Group By Summary]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.RIGHTARROW,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.TOPTHINROUNDED,
+         ChartPattern.LIGHTDOTTED,
+         ColorType.AQUA,
+         GanttBarStartEndShape.LEFTARROW,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test7",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.UPARROWCIRCLED,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.MIDDLETHINROUNDED,
+         ChartPattern.DOTTED,
+         ColorType.BLUE,
+         GanttBarStartEndShape.DOWNARROWCIRCLED,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test8",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.UPPOINTER,
+         GanttBarStartEndType.SOLID,
+         ColorType.FUSCHIA,
+         GanttBarMiddleShape.BOTTOMTHINROUNDED,
+         ChartPattern.HEAVYDOTTED,
+         ColorType.WHITE,
+         GanttBarStartEndShape.DOWNPOINTER,
+         GanttBarStartEndType.SOLID,
+         ColorType.MAROON,
+         "Test9",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.UPPOINTERCIRCLED,
+         GanttBarStartEndType.SOLID,
+         ColorType.GREEN,
+         GanttBarMiddleShape.TOPLINE,
+         ChartPattern.BACKSLASH,
+         ColorType.OLIVE,
+         GanttBarStartEndShape.DOWNPOINTERCIRCLED,
+         GanttBarStartEndType.SOLID,
+         ColorType.NAVY,
+         "Test10",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.SOUTHMINIHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.PURPLE,
+         GanttBarMiddleShape.MIDDLELINE,
+         ChartPattern.FORWARDSLASH,
+         ColorType.TEAL,
+         GanttBarStartEndShape.NORTHMINIHOMEPLATE,
+         GanttBarStartEndType.SOLID,
+         ColorType.GRAY,
+         "Test11",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.VERTICALBAR,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.BOTTOMLINE,
+         ChartPattern.CHECKERED,
+         ColorType.SILVER,
+         GanttBarStartEndShape.SQUARE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test12",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.CIRCLE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.CHECKERED,
+         ColorType.BLACK,
+         GanttBarStartEndShape.STAR,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test13",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         TaskField.NAME,
+         TaskField.START,
+         TaskField.FINISH,
+         TaskField.DURATION,
+         TaskField.WORK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.ROUNDED,
+         ChartPattern.DOTTED,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Test14",
+         Integer.valueOf(1),
+         TaskField.START,
+         TaskField.FINISH,
+         "[Not Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         GanttBarMiddleShape.MIDDLETHINROUNDED,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Progress",
+         Integer.valueOf(1),
+         TaskField.ACTUAL_START,
+         TaskField.COMPLETE_THROUGH,
+         "[Normal]"
+      },
+
+      {
+         null,
+         null,
+         null,
+         null,
+         null,
+         GanttBarStartEndShape.DOWNPOINTER,
+         GanttBarStartEndType.FRAMED,
+         ColorType.GREEN,
+         GanttBarMiddleShape.NONE,
+         ChartPattern.SOLID,
+         ColorType.BLACK,
+         GanttBarStartEndShape.NONE,
+         GanttBarStartEndType.SOLID,
+         ColorType.BLACK,
+         "Deadline",
+         Integer.valueOf(1),
+         TaskField.DEADLINE,
+         TaskField.DEADLINE,
+         "[]"
+      }
 
    };
+
 }

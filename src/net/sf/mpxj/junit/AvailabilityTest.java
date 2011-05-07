@@ -51,6 +51,28 @@ public class AvailabilityTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP9 file cost resource availability saved from Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability-from12.mpp");
+      testAvailability(file);
+   }
+
+   /**
+    * Test MPP9 file cost resource availability saved from Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability-from14.mpp");
+      testAvailability(file);
+   }
+
+   /**
     * Test MPP12 file resource availability.
     * 
     * @throws Exception
@@ -58,6 +80,17 @@ public class AvailabilityTest extends MPXJTestCase
    public void testMpp12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12availability.mpp");
+      testAvailability(file);
+   }
+
+   /**
+    * Test MPP12 file resource availability saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12availability-from14.mpp");
       testAvailability(file);
    }
 

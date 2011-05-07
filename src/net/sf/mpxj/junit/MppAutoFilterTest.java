@@ -48,6 +48,28 @@ public class MppAutoFilterTest extends MPXJTestCase
    }
 
    /**
+    * Test auto filter data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FiltersFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9autofilter-from12.mpp");
+      testFilters(mpp);
+   }
+
+   /**
+    * Test auto filter data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FiltersFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9autofilter-from14.mpp");
+      testFilters(mpp);
+   }
+
+   /**
     * Test filter data read from an MPP12 file.
     * 
     * @throws Exception
@@ -55,6 +77,17 @@ public class MppAutoFilterTest extends MPXJTestCase
    public void testMpp12Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12autofilter.mpp");
+      testFilters(mpp);
+   }
+
+   /**
+    * Test filter data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12FiltersFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12autofilter-from14.mpp");
       testFilters(mpp);
    }
 

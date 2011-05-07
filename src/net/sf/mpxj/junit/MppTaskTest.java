@@ -121,6 +121,28 @@ public class MppTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test task data read from an MPP9 file saved from Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9BaselineFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline-from12.mpp");
+      testBaselineTasks(mpp);
+   }
+
+   /**
+    * Test task data read from an MPP9 file saved from Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9BaselineFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline-from14.mpp");
+      testBaselineTasks(mpp);
+   }
+
+   /**
     * Test task data read from an MPP12 file.
     * 
     * @throws Exception
@@ -128,6 +150,17 @@ public class MppTaskTest extends MPXJTestCase
    public void testMpp12Baseline() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baseline.mpp");
+      testBaselineTasks(mpp);
+   }
+
+   /**
+    * Test task data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12BaselineFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baseline-from14.mpp");
       testBaselineTasks(mpp);
    }
 

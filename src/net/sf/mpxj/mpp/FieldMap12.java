@@ -49,7 +49,7 @@ class FieldMap12 extends FieldMap
 
    /**
     * {@inheritDoc}
-    */   
+    */
    @Override protected FieldType getFieldType(int fieldID)
    {
       FieldType result;
