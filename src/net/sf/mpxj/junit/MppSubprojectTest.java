@@ -35,7 +35,6 @@ import net.sf.mpxj.mpp.MPPReader;
  */
 public class MppSubprojectTest extends MPXJTestCase
 {
-
    /**
     * Test subproject data read from an MPP9 file.
     * 
@@ -48,6 +47,28 @@ public class MppSubprojectTest extends MPXJTestCase
    }
 
    /**
+    * Test subproject data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9SubprojectFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9subproject-from12.mpp");
+      testSubprojects(mpp, true);
+   }
+
+   /**
+    * Test subproject data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9SubprojectFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9subproject-from14.mpp");
+      testSubprojects(mpp, true);
+   }
+
+   /**
     * Test subproject data read from an MPP12 file.
     * 
     * @throws Exception
@@ -55,6 +76,17 @@ public class MppSubprojectTest extends MPXJTestCase
    public void testMpp12Subproject() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12subproject.mpp");
+      testSubprojects(mpp, true);
+   }
+
+   /**
+    * Test subproject data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12SubprojectFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12subproject-from14.mpp");
       testSubprojects(mpp, true);
    }
 

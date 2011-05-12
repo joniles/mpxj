@@ -40,7 +40,6 @@ import net.sf.mpxj.mpp.MPPReader;
  */
 public class MppFilterTest extends MPXJTestCase
 {
-
    /**
     * Test filter data read from an MPP9 file.
     * 
@@ -53,6 +52,28 @@ public class MppFilterTest extends MPXJTestCase
    }
 
    /**
+    * Test filter data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FiltersFrom12() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filter-from12.mpp");
+      //executeTests(mpp);
+   }
+
+   /**
+    * Test filter data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FiltersFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filter-from14.mpp");
+      //executeTests(mpp);
+   }
+
+   /**
     * Test filter data read from an MPP12 file.
     * 
     * @throws Exception
@@ -60,6 +81,17 @@ public class MppFilterTest extends MPXJTestCase
    public void testMpp12Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filter.mpp");
+      executeTests(mpp);
+   }
+
+   /**
+    * Test filter data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12FiltersFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filter-from14.mpp");
       executeTests(mpp);
    }
 

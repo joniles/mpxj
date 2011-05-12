@@ -48,6 +48,61 @@ public class MppNullTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test null task data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9NullTasksFrom12() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks-from12.mpp");
+      testNullTasks(project);
+   }
+
+   /**
+    * Test null task data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9NullTasksFrom14() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks-from14.mpp");
+      testNullTasks(project);
+   }
+
+   /**
+    * Test null task data read from an MPP12 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12NullTasks() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks.mpp");
+      testNullTasks(project);
+   }
+
+   /**
+    * Test null task data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12NullTasksFrom14() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks-from14.mpp");
+      testNullTasks(project);
+   }
+
+   /**
+    * Test null task data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14NullTasks() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp14nulltasks.mpp");
+      testNullTasks(project);
+   }
+
+   /**
     * Test null task data read from an MPD9 file.
     * 
     * @throws Exception
@@ -80,28 +135,6 @@ public class MppNullTaskTest extends MPXJTestCase
    public void testMspdiNullTasks() throws Exception
    {
       ProjectFile project = new MSPDIReader().read(m_basedir + "/mspdinulltasks.xml");
-      testNullTasks(project);
-   }
-
-   /**
-    * Test null task data read from an MPP12 file.
-    * 
-    * @throws Exception
-    */
-   public void testMpp12NullTasks() throws Exception
-   {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks.mpp");
-      testNullTasks(project);
-   }
-
-   /**
-    * Test null task data read from an MPP14 file.
-    * 
-    * @throws Exception
-    */
-   public void testMpp14NullTasks() throws Exception
-   {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp14nulltasks.mpp");
       testNullTasks(project);
    }
 

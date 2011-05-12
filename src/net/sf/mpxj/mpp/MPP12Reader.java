@@ -596,6 +596,7 @@ final class MPP12Reader implements MPPVariantReader
                case SUBPROJECT_TASKUNIQUEID3 :
                case SUBPROJECT_TASKUNIQUEID4 :
                case SUBPROJECT_TASKUNIQUEID5 :
+               case SUBPROJECT_TASKUNIQUEID6 :
                {
                   sp.setTaskUniqueID(Integer.valueOf(value));
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -1498,6 +1499,7 @@ final class MPP12Reader implements MPPVariantReader
                recurringTaskReader = new RecurringTaskReader(m_file);
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
+            task.setRecurring(true);
          }
 
          //
@@ -2345,6 +2347,7 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Read group definitions.
     * 
+    * @todo Doesn't work correctly with MPP12 files saved by Propject 2007 and 2010 
     * @throws IOException
     */
    private void processGroupData() throws IOException
@@ -2445,6 +2448,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
    private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;
+   private static final int SUBPROJECT_TASKUNIQUEID6 = 0x07010000;
 
    /**
     * Calendar data types.

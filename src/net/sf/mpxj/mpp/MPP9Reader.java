@@ -563,6 +563,7 @@ final class MPP9Reader implements MPPVariantReader
                   case SUBPROJECT_TASKUNIQUEID2 :
                   case SUBPROJECT_TASKUNIQUEID3 :
                   case SUBPROJECT_TASKUNIQUEID4 :
+                  case SUBPROJECT_TASKUNIQUEID5 :
                      // The previous value was for the subproject unique task id
                      sp.setTaskUniqueID(Integer.valueOf(prev));
                      m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -1793,6 +1794,7 @@ final class MPP9Reader implements MPPVariantReader
                recurringTaskReader = new RecurringTaskReader(m_file);
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
+            task.setRecurring(true);
          }
 
          //
@@ -1813,10 +1815,10 @@ final class MPP9Reader implements MPPVariantReader
          //
          // Set the calendar name
          //
-         int calendarID = MPPUtility.getInt(data, 160);
-         if (calendarID != -1)
+         Integer calendarID = (Integer) task.getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
+         if (calendarID != null && calendarID.intValue() != -1)
          {
-            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(Integer.valueOf(calendarID));
+            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
                task.setCalendar(calendar);
@@ -1964,7 +1966,7 @@ final class MPP9Reader implements MPPVariantReader
                      }
                      else
                      {
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
                      }
                      Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
                      value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
@@ -2079,10 +2081,19 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      byte[] durationData = props.getByteArray(key);
                      double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
-                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                     TimeUnit durationUnits;
+                     if (durationData.length < 6)
+                     {
+                        durationUnits = TimeUnit.DAYS;
+                     }
+                     else
+                     {
+                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
+                     }
                      Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
                      value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
                      break;
+
                   }
 
                   case BOOLEAN :
@@ -2526,7 +2537,10 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts table data from the MPP file.
-    *
+    * 
+    * @todo This implementation does not deal with MPP9 files saved by later 
+    * versions of MS Project
+    * 
     * @throws IOException
     */
    private void processTableData() throws IOException
@@ -2551,11 +2565,14 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read filter definitions.
     * 
+    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
     * @throws IOException
     */
    private void processFilterData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
+      //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
+      //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
       FixedData fixedData = new FixedData(110, getEncryptableInputStream(dir, "FixedData"), true);
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
@@ -2572,11 +2589,13 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read group definitions.
     * 
+    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010 
     * @throws IOException
     */
    private void processGroupData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
+      //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);      
       FixedData fixedData = new FixedData(110, getEncryptableInputStream(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
@@ -2727,7 +2746,7 @@ final class MPP9Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x02F70000;
-
+   private static final int SUBPROJECT_TASKUNIQUEID5 = 0x07010000;
    /**
     * Calendar data types.
     */

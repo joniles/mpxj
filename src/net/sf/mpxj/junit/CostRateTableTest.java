@@ -51,6 +51,28 @@ public class CostRateTableTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP9 file cost rate tables saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9costratetable-from12.mpp");
+      testCostRateTable(file);
+   }
+
+   /**
+    * Test MPP9 file cost rate tables saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9costratetable-from14.mpp");
+      testCostRateTable(file);
+   }
+
+   /**
     * Test MPP12 file cost rate tables.
     * 
     * @throws Exception
@@ -58,6 +80,17 @@ public class CostRateTableTest extends MPXJTestCase
    public void testMpp12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12costratetable.mpp");
+      testCostRateTable(file);
+   }
+
+   /**
+    * Test MPP12 file cost rate tables saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12costratetable-from14.mpp");
       testCostRateTable(file);
    }
 

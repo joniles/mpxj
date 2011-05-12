@@ -63,6 +63,28 @@ public class MppTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test task data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9TaskFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task-from12.mpp");
+      testBasicTask(mpp);
+   }
+
+   /**
+    * Test task data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9TaskFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task-from14.mpp");
+      testBasicTask(mpp);
+   }
+
+   /**
     * Test task data read from an MPP12 file.
     * 
     * @throws Exception
@@ -70,6 +92,17 @@ public class MppTaskTest extends MPXJTestCase
    public void testMpp12Task() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12task.mpp");
+      testBasicTask(mpp);
+   }
+
+   /**
+    * Test task data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12TaskFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12task-from14.mpp");
       testBasicTask(mpp);
    }
 
@@ -212,6 +245,28 @@ public class MppTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test Split Tasks in an MPP9 file saved by Project 2007.
+    *
+    * @throws Exception
+    */
+   public void testMpp9SplitsFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask-from12.mpp");
+      testSplitTasks(mpp);
+   }
+
+   /**
+    * Test Split Tasks in an MPP9 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp9SplitsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask-from14.mpp");
+      testSplitTasks(mpp);
+   }
+
+   /**
     * Test Split Tasks in an MPP12 file.
     *
     * @throws Exception
@@ -219,6 +274,17 @@ public class MppTaskTest extends MPXJTestCase
    public void testMpp12Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12splittask.mpp");
+      testSplitTasks(mpp);
+   }
+
+   /**
+    * Test Split Tasks in an MPP12 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp12SplitsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12splittask-from14.mpp");
       testSplitTasks(mpp);
    }
 
@@ -269,6 +335,28 @@ public class MppTaskTest extends MPXJTestCase
    }
 
    /**
+    * Tests Relations in an MPP9 file saved by Project 2007.
+    *
+    * @throws Exception
+    */
+   public void testMpp9RelationsFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations-from12.mpp");
+      testRelations(mpp);
+   }
+
+   /**
+    * Tests Relations in an MPP9 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp9RelationsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations-from14.mpp");
+      testRelations(mpp);
+   }
+
+   /**
     * Tests Relations in an MPD9 file.
     *
     * @throws Exception
@@ -301,6 +389,17 @@ public class MppTaskTest extends MPXJTestCase
    public void testMpp12Relations() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations.mpp");
+      testRelations(mpp);
+   }
+
+   /**
+    * Tests Relations in an MPP12 file saved by Project 2010.
+    *
+    * @throws Exception
+    */
+   public void testMpp12RelationsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations-from14.mpp");
       testRelations(mpp);
    }
 

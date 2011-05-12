@@ -47,6 +47,28 @@ public class MppFilterLogicTest extends MPXJTestCase
    }
 
    /**
+    * Exercise an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FilterLogicFrom12() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filterlogic-from12.mpp");
+      //testFilterLogic(mpp);
+   }
+
+   /**
+    * Exercise an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FilterLogicFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filterlogic-from14.mpp");
+      //testFilterLogic(mpp);
+   }
+
+   /**
     * Exercise an MPP12 file.
     * 
     * @throws Exception
@@ -54,6 +76,17 @@ public class MppFilterLogicTest extends MPXJTestCase
    public void testMpp12FilterLogic() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filterlogic.mpp");
+      testFilterLogic(mpp);
+   }
+
+   /**
+    * Exercise an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12FilterLogicFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filterlogic-from14.mpp");
       testFilterLogic(mpp);
    }
 

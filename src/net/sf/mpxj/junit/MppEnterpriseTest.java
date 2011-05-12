@@ -38,7 +38,6 @@ import net.sf.mpxj.mspdi.MSPDIReader;
  */
 public class MppEnterpriseTest extends MPXJTestCase
 {
-
    /**
     * Test enterprise data read from an MPP9 file.
     * 
@@ -51,6 +50,28 @@ public class MppEnterpriseTest extends MPXJTestCase
    }
 
    /**
+    * Test enterprise data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9EnterpriseFieldsFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise-from12.mpp");
+      testEnterpriseFields(mpp);
+   }
+
+   /**
+    * Test enterprise data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9EnterpriseFieldsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise-from14.mpp");
+      testEnterpriseFields(mpp);
+   }
+
+   /**
     * Test enterprise data read from an MPP12 file.
     * 
     * @throws Exception
@@ -58,6 +79,17 @@ public class MppEnterpriseTest extends MPXJTestCase
    public void testMpp12EnterpriseFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12enterprise.mpp");
+      testEnterpriseFields(mpp);
+   }
+
+   /**
+    * Test enterprise data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12EnterpriseFieldsFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12enterprise-from14.mpp");
       testEnterpriseFields(mpp);
    }
 

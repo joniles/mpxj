@@ -49,6 +49,32 @@ public class MppEmbeddedTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12Embedded() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(true);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9embedded-from12.mpp");
+      testEmbeddedObjects(mpp);
+   }
+
+   /**
+    * Test MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14Embedded() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(true);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9embedded-from14.mpp");
+      testEmbeddedObjects(mpp);
+   }
+
+   /**
     * Test MPP12 file.
     * 
     * @throws Exception
@@ -58,6 +84,19 @@ public class MppEmbeddedTest extends MPXJTestCase
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(m_basedir + "/mpp12embedded.mpp");
+      testEmbeddedObjects(mpp);
+   }
+
+   /**
+    * Test MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14Embedded() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(true);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp12embedded-from14.mpp");
       testEmbeddedObjects(mpp);
    }
 

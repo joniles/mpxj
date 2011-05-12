@@ -51,6 +51,28 @@ public class MppGraphIndTest extends MPXJTestCase
    }
 
    /**
+    * Test the graphical indicator evaluation code for an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9GraphIndFrom12() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9graphind-from12.mpp");
+      testGraphicalIndicators(project);
+   }
+
+   /**
+    * Test the graphical indicator evaluation code for an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9GraphIndFrom14() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9graphind-from14.mpp");
+      testGraphicalIndicators(project);
+   }
+
+   /**
     * Test the graphical indicator evaluation code for an MPP12 file.
     * 
     * @throws Exception
@@ -58,6 +80,17 @@ public class MppGraphIndTest extends MPXJTestCase
    public void testMpp12GraphInd() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp12graphind.mpp");
+      testGraphicalIndicators(project);
+   }
+
+   /**
+    * Test the graphical indicator evaluation code for an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12GraphIndFrom14() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12graphind-from14.mpp");
       testGraphicalIndicators(project);
    }
 

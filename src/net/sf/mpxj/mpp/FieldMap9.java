@@ -1238,6 +1238,12 @@ class FieldMap9 extends FieldMap
          FieldLocation.VAR_DATA,
          Integer.valueOf(65535),
          Integer.valueOf(163)
+      },
+      {
+         TaskField.CALENDAR_UNIQUE_ID,
+         FieldLocation.FIXED_DATA,
+         Integer.valueOf(160),
+         Integer.valueOf(0)
       }
    };
 

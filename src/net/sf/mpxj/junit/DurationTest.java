@@ -37,16 +37,6 @@ import net.sf.mpxj.mspdi.MSPDIReader;
 public class DurationTest extends MPXJTestCase
 {
    /**
-    * Test duration data read from an MPP8 file.
-    * 
-    * @throws Exception
-    */
-   //   public void testMpp8() throws Exception
-   //   {
-   //      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp8duration.mpp");
-   //      testDurations(mpp);
-   //   }
-   /**
     * Test duration data read from an MPP9 file.
     * 
     * @throws Exception
@@ -58,6 +48,28 @@ public class DurationTest extends MPXJTestCase
    }
 
    /**
+    * Test duration data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9duration-from12.mpp");
+      testDurations(mpp);
+   }
+
+   /**
+    * Test duration data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9duration-from14.mpp");
+      testDurations(mpp);
+   }
+
+   /**
     * Test duration data read from an MPP12 file.
     * 
     * @throws Exception
@@ -65,6 +77,17 @@ public class DurationTest extends MPXJTestCase
    public void testMpp12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12duration.mpp");
+      testDurations(mpp);
+   }
+
+   /**
+    * Test duration data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12duration-from14.mpp");
       testDurations(mpp);
    }
 

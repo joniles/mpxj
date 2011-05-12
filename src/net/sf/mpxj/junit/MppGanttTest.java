@@ -48,7 +48,6 @@ import net.sf.mpxj.mpp.TableFontStyle;
  */
 public class MppGanttTest extends MPXJTestCase
 {
-
    /**
     * Test Gantt chart data read from an MPP9 file.
     * 
@@ -57,13 +56,29 @@ public class MppGanttTest extends MPXJTestCase
    public void testMpp9Gantt() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9gantt.mpp");
-      testSummaryData(mpp);
-      testFontStyles(mpp);
-      testGridlines(mpp);
-      testTimescales(mpp);
-      testLayout(mpp);
-      testTableFontStyles(mpp);
-      testProgressLines(mpp);
+      testAll(mpp);
+   }
+
+   /**
+    * Test Gantt chart data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9GanttFrom12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9gantt-from12.mpp");
+      testAll(mpp);
+   }
+
+   /**
+    * Test Gantt chart data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9GanttFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9gantt-from14.mpp");
+      //testAll(mpp);
    }
 
    /**
@@ -74,13 +89,18 @@ public class MppGanttTest extends MPXJTestCase
    public void testMpp12Gantt() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12gantt.mpp");
-      testSummaryData(mpp);
-      testFontStyles(mpp);
-      testGridlines(mpp);
-      testTimescales(mpp);
-      testLayout(mpp);
-      testTableFontStyles(mpp);
-      testProgressLines(mpp);
+      testAll(mpp);
+   }
+
+   /**
+    * Test Gantt chart data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12GanttFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12gantt-from14.mpp");
+      //testAll(mpp);
    }
 
    /**
@@ -91,6 +111,16 @@ public class MppGanttTest extends MPXJTestCase
    public void testMpp14Gantt() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14gantt.mpp");
+      testAll(mpp);
+   }
+
+   /**
+    * Main entry point for common tests.
+    * 
+    * @param mpp project file to be tested
+    */
+   private void testAll(ProjectFile mpp)
+   {
       testSummaryData(mpp);
       testFontStyles(mpp);
       testGridlines(mpp);

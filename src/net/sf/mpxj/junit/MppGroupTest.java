@@ -43,7 +43,6 @@ import net.sf.mpxj.mpp.MPPReader;
  */
 public class MppGroupTest extends MPXJTestCase
 {
-
    /**
     * Test group data read from an MPP9 file.
     * 
@@ -56,6 +55,28 @@ public class MppGroupTest extends MPXJTestCase
    }
 
    /**
+    * Test group data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9GroupsFrom12() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group-from12.mpp");
+      //testGroups(mpp);
+   }
+
+   /**
+    * Test group data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9GroupsFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group-from14.mpp");
+      //testGroups(mpp);
+   }
+
+   /**
     * Test group data read from an MPP12 file.
     * 
     * @throws Exception
@@ -64,6 +85,17 @@ public class MppGroupTest extends MPXJTestCase
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12group.mpp");
       testGroups(mpp);
+   }
+
+   /**
+    * Test group data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12GroupsFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12group-from14.mpp");
+      //testGroups(mpp);
    }
 
    /**

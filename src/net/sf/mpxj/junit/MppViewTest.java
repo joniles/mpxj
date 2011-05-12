@@ -53,6 +53,28 @@ public class MppViewTest extends MPXJTestCase
    }
 
    /**
+    * Test view data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9ViewFrom12() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource-from12.mpp");
+      //testViews(mpp);
+   }
+
+   /**
+    * Test view data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9ViewFrom14() throws Exception
+   {
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource-from14.mpp");
+      //testViews(mpp);
+   }
+
+   /**
     * Test view data read from an MPP12 file.
     * 
     * @throws Exception
@@ -60,6 +82,17 @@ public class MppViewTest extends MPXJTestCase
    public void testMpp12View() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource.mpp");
+      testViews(mpp);
+   }
+
+   /**
+    * Test view data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12ViewFrom14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource-from14.mpp");
       testViews(mpp);
    }
 

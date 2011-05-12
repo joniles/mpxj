@@ -65,6 +65,38 @@ public class MppResourceTest extends MPXJTestCase
    }
 
    /**
+    * Test resource data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9ResourceFrom12() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(false);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource-from12.mpp");
+      testResources(mpp);
+      testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
+   }
+
+   /**
+    * Test resource data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9ResourceFrom14() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(false);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource-from14.mpp");
+      testResources(mpp);
+      testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
+   }
+
+   /**
     * Test resource data read from an MPP12 file.
     * 
     * @throws Exception
@@ -74,6 +106,22 @@ public class MppResourceTest extends MPXJTestCase
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(m_basedir + "/mpp12resource.mpp");
+      testResources(mpp);
+      testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
+   }
+
+   /**
+    * Test resource data read from an MPP1 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12ResourceFrom14() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(false);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp12resource-from14.mpp");
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);

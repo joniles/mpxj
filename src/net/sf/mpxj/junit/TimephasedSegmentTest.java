@@ -58,6 +58,28 @@ public class TimephasedSegmentTest extends MPXJTestCase
    }
 
    /**
+    * Timephased segment test for MPP9 files saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments-from12.mpp");
+      testSegments(file);
+   }
+
+   /**
+    * Timephased segment test for MPP9 files saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments-from14.mpp");
+      testSegments(file);
+   }
+
+   /**
     * Timephased segment test for MPP12 files.
     * 
     * @throws Exception
@@ -65,6 +87,17 @@ public class TimephasedSegmentTest extends MPXJTestCase
    public void testMpp12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephasedsegments.mpp");
+      testSegments(file);
+   }
+
+   /**
+    * Timephased segment test for MPP12 files saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephasedsegments-from14.mpp");
       testSegments(file);
    }
 

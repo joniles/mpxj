@@ -51,6 +51,28 @@ public class MppProjectHeaderTest extends MPXJTestCase
    }
 
    /**
+    * Test project header data read from an MPP9 file saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header-from12.mpp");
+      testHeader(mpp, true);
+   }
+
+   /**
+    * Test project header data read from an MPP9 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header-from14.mpp");
+      testHeader(mpp, true);
+   }
+
+   /**
     * Test project header data read from an MPP12 file.
     * 
     * @throws Exception
@@ -58,6 +80,17 @@ public class MppProjectHeaderTest extends MPXJTestCase
    public void testMpp12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header.mpp");
+      testHeader(mpp, true);
+   }
+
+   /**
+    * Test project header data read from an MPP12 file saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header-from14.mpp");
       testHeader(mpp, true);
    }
 

@@ -53,6 +53,28 @@ public class TimephasedTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP9 file timephased resource assignments saved by Project 2007.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased-from12.mpp");
+      testTimephased(file);
+   }
+
+   /**
+    * Test MPP9 file timephased resource assignments saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased-from14.mpp");
+      testTimephased(file);
+   }
+
+   /**
     * Test MPP12 file timephased resource assignments.
     * 
     * @throws Exception
@@ -60,6 +82,17 @@ public class TimephasedTest extends MPXJTestCase
    public void testMpp12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephased.mpp");
+      testTimephased(file);
+   }
+
+   /**
+    * Test MPP12 file timephased resource assignments saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephased-from14.mpp");
       testTimephased(file);
    }
 
