@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.Arrays;
+
 /**
  * Utility class used to map between the integer values held in MS Project
  * to represent a resource field, and the enumerated type used to represent
@@ -556,11 +558,62 @@ public final class MPPResourceField
 
       FIELD_ARRAY[70] = ResourceField.STANDARD_RATE_UNITS;
       FIELD_ARRAY[71] = ResourceField.OVERTIME_RATE_UNITS;
+
+      FIELD_ARRAY[253] = ResourceField.INDEX;
+      FIELD_ARRAY[312] = ResourceField.HYPERLINK_SCREEN_TIP;
+      FIELD_ARRAY[586] = ResourceField.ENTERPRISE_OUTLINE_CODE1;
+      FIELD_ARRAY[588] = ResourceField.ENTERPRISE_OUTLINE_CODE2;
+      FIELD_ARRAY[590] = ResourceField.ENTERPRISE_OUTLINE_CODE3;
+      FIELD_ARRAY[592] = ResourceField.ENTERPRISE_OUTLINE_CODE4;
+      FIELD_ARRAY[594] = ResourceField.ENTERPRISE_OUTLINE_CODE5;
+      FIELD_ARRAY[596] = ResourceField.ENTERPRISE_OUTLINE_CODE6;
+      FIELD_ARRAY[598] = ResourceField.ENTERPRISE_OUTLINE_CODE7;
+      FIELD_ARRAY[600] = ResourceField.ENTERPRISE_OUTLINE_CODE8;
+      FIELD_ARRAY[602] = ResourceField.ENTERPRISE_OUTLINE_CODE9;
+      FIELD_ARRAY[604] = ResourceField.ENTERPRISE_OUTLINE_CODE10;
+      FIELD_ARRAY[606] = ResourceField.ENTERPRISE_OUTLINE_CODE11;
+      FIELD_ARRAY[608] = ResourceField.ENTERPRISE_OUTLINE_CODE12;
+      FIELD_ARRAY[610] = ResourceField.ENTERPRISE_OUTLINE_CODE13;
+      FIELD_ARRAY[612] = ResourceField.ENTERPRISE_OUTLINE_CODE14;
+      FIELD_ARRAY[614] = ResourceField.ENTERPRISE_OUTLINE_CODE15;
+      FIELD_ARRAY[616] = ResourceField.ENTERPRISE_OUTLINE_CODE16;
+      FIELD_ARRAY[618] = ResourceField.ENTERPRISE_OUTLINE_CODE17;
+      FIELD_ARRAY[620] = ResourceField.ENTERPRISE_OUTLINE_CODE18;
+      FIELD_ARRAY[622] = ResourceField.ENTERPRISE_OUTLINE_CODE19;
+      FIELD_ARRAY[624] = ResourceField.ENTERPRISE_OUTLINE_CODE20;
+      FIELD_ARRAY[626] = ResourceField.ENTERPRISE_OUTLINE_CODE21;
+      FIELD_ARRAY[628] = ResourceField.ENTERPRISE_OUTLINE_CODE22;
+      FIELD_ARRAY[630] = ResourceField.ENTERPRISE_OUTLINE_CODE23;
+      FIELD_ARRAY[632] = ResourceField.ENTERPRISE_OUTLINE_CODE24;
+      FIELD_ARRAY[634] = ResourceField.ENTERPRISE_OUTLINE_CODE25;
+      FIELD_ARRAY[636] = ResourceField.ENTERPRISE_OUTLINE_CODE26;
+      FIELD_ARRAY[638] = ResourceField.ENTERPRISE_OUTLINE_CODE27;
+      FIELD_ARRAY[640] = ResourceField.ENTERPRISE_OUTLINE_CODE28;
+      FIELD_ARRAY[642] = ResourceField.ENTERPRISE_OUTLINE_CODE29;
+      FIELD_ARRAY[644] = ResourceField.ENTERPRISE_RBS;
+      FIELD_ARRAY[689] = ResourceField.ENTERPRISE_NAME_USED;
+      FIELD_ARRAY[692] = ResourceField.ENTERPRISE_IS_CHECKED_OUT;
+      FIELD_ARRAY[693] = ResourceField.ENTERPRISE_CHECKED_OUT_BY;
+      FIELD_ARRAY[694] = ResourceField.ENTERPRISE_LAST_MODIFIED_DATE;
+      FIELD_ARRAY[700] = ResourceField.ENTERPRISE_MULTI_VALUE20;
+      FIELD_ARRAY[702] = ResourceField.ENTERPRISE_MULTI_VALUE21;
+      FIELD_ARRAY[704] = ResourceField.ENTERPRISE_MULTI_VALUE22;
+      FIELD_ARRAY[706] = ResourceField.ENTERPRISE_MULTI_VALUE23;
+      FIELD_ARRAY[708] = ResourceField.ENTERPRISE_MULTI_VALUE24;
+      FIELD_ARRAY[710] = ResourceField.ENTERPRISE_MULTI_VALUE25;
+      FIELD_ARRAY[712] = ResourceField.ENTERPRISE_MULTI_VALUE26;
+      FIELD_ARRAY[714] = ResourceField.ENTERPRISE_MULTI_VALUE27;
+      FIELD_ARRAY[716] = ResourceField.ENTERPRISE_MULTI_VALUE28;
+      FIELD_ARRAY[718] = ResourceField.ENTERPRISE_MULTI_VALUE29;
+      FIELD_ARRAY[720] = ResourceField.ACTUAL_WORK_PROTECTED;
+      FIELD_ARRAY[721] = ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED;
    }
 
    private static final int[] ID_ARRAY = new int[ResourceField.MAX_VALUE];
    static
    {
+      Arrays.fill(ID_ARRAY, -1);
+
       for (int loop = 0; loop < FIELD_ARRAY.length; loop++)
       {
          ResourceField resourceField = FIELD_ARRAY[loop];

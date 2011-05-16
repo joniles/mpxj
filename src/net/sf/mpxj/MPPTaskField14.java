@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.Arrays;
+
 /**
  * Utility class used to map between the integer values held in MS Project
  * to represent a task field, and the enumerated type used to represent
@@ -640,11 +642,35 @@ public class MPPTaskField14
       FIELD_ARRAY[0] = TaskField.WORK;
       FIELD_ARRAY[3] = TaskField.WORK_VARIANCE;
       FIELD_ARRAY[179] = TaskField.BASELINE_DURATION_UNITS;
+      FIELD_ARRAY[178] = TaskField.LEVELING_DELAY_UNITS;
+      FIELD_ARRAY[183] = TaskField.DURATION1_UNITS;
+      FIELD_ARRAY[184] = TaskField.DURATION2_UNITS;
+      FIELD_ARRAY[185] = TaskField.DURATION3_UNITS;
+      FIELD_ARRAY[186] = TaskField.DURATION4_UNITS;
+      FIELD_ARRAY[187] = TaskField.DURATION5_UNITS;
+      FIELD_ARRAY[188] = TaskField.DURATION6_UNITS;
+      FIELD_ARRAY[189] = TaskField.DURATION7_UNITS;
+      FIELD_ARRAY[190] = TaskField.DURATION8_UNITS;
+      FIELD_ARRAY[191] = TaskField.DURATION9_UNITS;
+      FIELD_ARRAY[192] = TaskField.DURATION10_UNITS;
+      FIELD_ARRAY[401] = TaskField.CALENDAR;
+      FIELD_ARRAY[488] = TaskField.BASELINE1_DURATION_UNITS;
+      FIELD_ARRAY[499] = TaskField.BASELINE2_DURATION_UNITS;
+      FIELD_ARRAY[510] = TaskField.BASELINE3_DURATION_UNITS;
+      FIELD_ARRAY[521] = TaskField.BASELINE4_DURATION_UNITS;
+      FIELD_ARRAY[532] = TaskField.BASELINE5_DURATION_UNITS;
+      FIELD_ARRAY[550] = TaskField.BASELINE6_DURATION_UNITS;
+      FIELD_ARRAY[561] = TaskField.BASELINE7_DURATION_UNITS;
+      FIELD_ARRAY[572] = TaskField.BASELINE8_DURATION_UNITS;
+      FIELD_ARRAY[583] = TaskField.BASELINE9_DURATION_UNITS;
+      FIELD_ARRAY[594] = TaskField.BASELINE10_DURATION_UNITS;
    }
 
    private static final int[] ID_ARRAY = new int[TaskField.MAX_VALUE];
    static
    {
+      Arrays.fill(ID_ARRAY, -1);
+
       for (int loop = 0; loop < FIELD_ARRAY.length; loop++)
       {
          TaskField taskField = FIELD_ARRAY[loop];

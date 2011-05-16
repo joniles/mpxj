@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.Arrays;
+
 /**
  * Utility class used to map between the integer values held in MS Project
  * to represent a resource field, and the enumerated type used to represent
@@ -510,6 +512,8 @@ public class MPPResourceField14
    private static final int[] ID_ARRAY = new int[ResourceField.MAX_VALUE];
    static
    {
+      Arrays.fill(ID_ARRAY, -1);
+
       for (int loop = 0; loop < FIELD_ARRAY.length; loop++)
       {
          ResourceField resourceField = FIELD_ARRAY[loop];

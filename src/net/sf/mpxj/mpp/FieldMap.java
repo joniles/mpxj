@@ -114,12 +114,17 @@ abstract class FieldMap
          //            System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
          //         }
 
+         //         if (location != FieldLocation.META_DATA)
+         //         {
+         //            System.out.println((type==null?"?":type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
+         //         }
+
          if (type != null)
          {
-            //            if (location != FieldLocation.META_DATA)
-            //            {
-            //               System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
-            //            }
+            //                        if (location != FieldLocation.META_DATA)
+            //                        {
+            //                           System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
+            //                        }
 
             m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
          }

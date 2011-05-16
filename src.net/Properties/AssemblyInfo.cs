@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MpxjSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Davis Langdon")]
+[assembly: AssemblyCompany("Packwood Software")]
 [assembly: AssemblyProduct("MpxjSample")]
-[assembly: AssemblyCopyright("Copyright © Davis Langdon 2008")]
+[assembly: AssemblyCopyright("Copyright © Packwood Software 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
