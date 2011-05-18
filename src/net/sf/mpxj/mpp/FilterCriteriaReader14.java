@@ -23,10 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.MPPResourceField14;
-import net.sf.mpxj.MPPTaskField14;
-import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.TaskField;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.utility.FieldTypeUtility;
 
 /**
  * This class allows filter criteria definitions to be read from an MPP file.
@@ -70,9 +68,10 @@ public final class FilterCriteriaReader14 extends CriteriaReader
    /**
     * {@inheritDoc}
     */
-   @Override protected int getFieldIndex(byte[] block)
+   @Override protected FieldType getFieldType(byte[] block)
    {
-      return MPPUtility.getInt(block, 8);
+      int fieldIndex = MPPUtility.getInt(block, 8);
+      return FieldTypeUtility.getInstance14(fieldIndex);
    }
 
    /**
@@ -105,22 +104,6 @@ public final class FilterCriteriaReader14 extends CriteriaReader
    @Override protected int getTimeUnitsOffset()
    {
       return 24;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected TaskField getTaskField(int index)
-   {
-      return MPPTaskField14.getInstance(index);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected ResourceField getResourceField(int index)
-   {
-      return MPPResourceField14.getInstance(index);
    }
 
    /**

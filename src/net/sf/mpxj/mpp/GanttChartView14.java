@@ -32,11 +32,9 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPResourceField14;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.utility.FieldTypeUtility;
 
 /**
  * This class represents the set of properties used to define the appearance
@@ -128,23 +126,8 @@ public final class GanttChartView14 extends GanttChartView
     */
    private FieldType getFieldType(byte[] data, int offset)
    {
-      FieldType result = null;
       int fieldIndex = MPPUtility.getInt(data, offset);
-      switch (fieldIndex & 0xFFFF0000)
-      {
-         case MPPTaskField.TASK_FIELD_BASE :
-         {
-            result = MPPTaskField14.getInstance(fieldIndex & 0xFFFF);
-            break;
-         }
-
-         case MPPResourceField.RESOURCE_FIELD_BASE :
-         {
-            result = MPPResourceField14.getInstance(fieldIndex & 0xFFFF);
-            break;
-         }
-      }
-      return result;
+      return FieldTypeUtility.getInstance14(fieldIndex);
    }
 
    /**

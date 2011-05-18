@@ -37,6 +37,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.Priority;
@@ -706,36 +707,48 @@ abstract class MPD9AbstractReader
       int prefix = fieldID & 0xFFFF0000;
       int index = fieldID & 0x0000FFFF;
 
-      if (prefix == MPPTaskField.TASK_FIELD_BASE)
+      switch (prefix)
       {
-         TaskField field = MPPTaskField.getInstance(index);
-         if (field != null && field != TaskField.NOTES)
+         case MPPTaskField.TASK_FIELD_BASE :
          {
-            Task task = m_project.getTaskByUniqueID(entityID);
-            if (task != null)
+            TaskField field = MPPTaskField.getInstance(index);
+            if (field != null && field != TaskField.NOTES)
             {
-               if (COST_FIELDS.contains(field))
+               Task task = m_project.getTaskByUniqueID(entityID);
+               if (task != null)
                {
-                  value = Double.valueOf(((Double) value).doubleValue() / 100);
+                  if (COST_FIELDS.contains(field))
+                  {
+                     value = Double.valueOf(((Double) value).doubleValue() / 100);
+                  }
+                  task.set(field, value);
                }
-               task.set(field, value);
             }
+            break;
          }
-      }
-      else
-      {
-         ResourceField field = MPPResourceField.getInstance(index);
-         if (field != null && field != ResourceField.NOTES)
+
+         case MPPResourceField.RESOURCE_FIELD_BASE :
          {
-            Resource resource = m_project.getResourceByUniqueID(entityID);
-            if (resource != null)
+            ResourceField field = MPPResourceField.getInstance(index);
+            if (field != null && field != ResourceField.NOTES)
             {
-               if (COST_FIELDS.contains(field))
+               Resource resource = m_project.getResourceByUniqueID(entityID);
+               if (resource != null)
                {
-                  value = Double.valueOf(((Double) value).doubleValue() / 100);
+                  if (COST_FIELDS.contains(field))
+                  {
+                     value = Double.valueOf(((Double) value).doubleValue() / 100);
+                  }
+                  resource.set(field, value);
                }
-               resource.set(field, value);
             }
+            break;
+         }
+
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         {
+            // Not supported yet
+            break;
          }
       }
    }

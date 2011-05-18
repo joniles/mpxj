@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.MPPTaskField14;
+import net.sf.mpxj.TaskField;
 
 /**
  * Reads Gantt bar styles from an MPP14 file.
@@ -52,11 +53,11 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
 
                style.setName(MPPUtility.getUnicodeString(barStyleData, styleOffset + 91));
 
-               style.setLeftText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 67)));
-               style.setRightText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 71)));
-               style.setTopText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 75)));
-               style.setBottomText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 79)));
-               style.setInsideText(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 83)));
+               style.setLeftText(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 67)));
+               style.setRightText(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 71)));
+               style.setTopText(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 75)));
+               style.setBottomText(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 79)));
+               style.setInsideText(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 83)));
 
                style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 15] % 25));
                style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 15] / 25));
@@ -70,8 +71,8 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
                style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 28] / 25));
                style.setEndColor(MPPUtility.getColor(barStyleData, styleOffset + 29));
 
-               style.setFromField(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 41)));
-               style.setToField(MPPTaskField14.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 45)));
+               style.setFromField(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 41)));
+               style.setToField(getTaskField(MPPUtility.getShort(barStyleData, styleOffset + 45)));
 
                extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong(barStyleData, styleOffset + 49));
                extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong(barStyleData, styleOffset + 57));
@@ -118,11 +119,11 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
             style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 33] / 25));
             style.setEndColor(MPPUtility.getColor(barData, offset + 34));
 
-            style.setLeftText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 49)));
-            style.setRightText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 53)));
-            style.setTopText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 57)));
-            style.setBottomText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 61)));
-            style.setInsideText(MPPTaskField14.getInstance(MPPUtility.getShort(barData, offset + 65)));
+            style.setLeftText(getTaskField(MPPUtility.getShort(barData, offset + 49)));
+            style.setRightText(getTaskField(MPPUtility.getShort(barData, offset + 53)));
+            style.setTopText(getTaskField(MPPUtility.getShort(barData, offset + 57)));
+            style.setBottomText(getTaskField(MPPUtility.getShort(barData, offset + 61)));
+            style.setInsideText(getTaskField(MPPUtility.getShort(barData, offset + 65)));
 
             //System.out.println(style);
             offset += 71;
@@ -161,6 +162,48 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
 
          index++;
       }
+   }
+
+   /**
+    * Maps an integer field ID to a field type.
+    * 
+    * @param field field ID
+    * @return field type
+    */
+   private TaskField getTaskField(int field)
+   {
+      TaskField result = MPPTaskField14.getInstance(field);
+
+      if (result != null)
+      {
+         switch (result)
+         {
+            case START_TEXT :
+            {
+               result = TaskField.START;
+               break;
+            }
+
+            case FINISH_TEXT :
+            {
+               result = TaskField.FINISH;
+               break;
+            }
+
+            case DURATION_TEXT :
+            {
+               result = TaskField.DURATION;
+               break;
+            }
+
+            default :
+            {
+               break;
+            }
+         }
+      }
+
+      return result;
    }
 
    private static final Integer DEFAULT_PROPERTIES = Integer.valueOf(574619656);

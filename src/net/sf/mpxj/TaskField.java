@@ -964,6 +964,11 @@ public enum TaskField implements FieldType
    BUDGET_COST(DataType.CURRENCY),
    RECALC_OUTLINE_CODES(DataType.BOOLEAN),
 
+   RECALC_FLAGS(DataType.BOOLEAN),
+   IS_START_VALID(DataType.BOOLEAN),
+   IS_FINISH_VALID(DataType.BOOLEAN),
+   IS_DURATION_VALID(DataType.BOOLEAN),
+
    FINISH(DataType.DATE); // Must always be last value
 
    /**

@@ -237,47 +237,50 @@ public final class DatatypeConverter
     */
    public static final void parseExtendedAttribute(ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID)
    {
-      switch (mpxFieldID.getDataType())
+      if (mpxFieldID != null)
       {
-         case STRING :
+         switch (mpxFieldID.getDataType())
          {
-            mpx.set(mpxFieldID, value);
-            break;
-         }
+            case STRING :
+            {
+               mpx.set(mpxFieldID, value);
+               break;
+            }
 
-         case DATE :
-         {
-            mpx.set(mpxFieldID, parseExtendedAttributeDate(value));
-            break;
-         }
+            case DATE :
+            {
+               mpx.set(mpxFieldID, parseExtendedAttributeDate(value));
+               break;
+            }
 
-         case CURRENCY :
-         {
-            mpx.set(mpxFieldID, parseExtendedAttributeCurrency(value));
-            break;
-         }
+            case CURRENCY :
+            {
+               mpx.set(mpxFieldID, parseExtendedAttributeCurrency(value));
+               break;
+            }
 
-         case BOOLEAN :
-         {
-            mpx.set(mpxFieldID, parseExtendedAttributeBoolean(value));
-            break;
-         }
+            case BOOLEAN :
+            {
+               mpx.set(mpxFieldID, parseExtendedAttributeBoolean(value));
+               break;
+            }
 
-         case NUMERIC :
-         {
-            mpx.set(mpxFieldID, parseExtendedAttributeNumber(value));
-            break;
-         }
+            case NUMERIC :
+            {
+               mpx.set(mpxFieldID, parseExtendedAttributeNumber(value));
+               break;
+            }
 
-         case DURATION :
-         {
-            mpx.set(mpxFieldID, parseDuration(file, null, value));
-            break;
-         }
+            case DURATION :
+            {
+               mpx.set(mpxFieldID, parseDuration(file, null, value));
+               break;
+            }
 
-         default :
-         {
-            break;
+            default :
+            {
+               break;
+            }
          }
       }
    }

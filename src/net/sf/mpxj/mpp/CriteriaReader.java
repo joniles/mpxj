@@ -31,10 +31,7 @@ import java.util.TreeMap;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GenericCriteriaPrompt;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 
@@ -74,14 +71,6 @@ public abstract class CriteriaReader
    protected abstract byte[] getListNextBlock(byte[] block);
 
    /**
-    * Retrieves the ID of the field type. 
-    * 
-    * @param block current block
-    * @return field type ID
-    */
-   protected abstract int getFieldIndex(byte[] block);
-
-   /**
     * Retrieves the offset of the start of the text block. 
     * 
     * @param block current block
@@ -112,27 +101,19 @@ public abstract class CriteriaReader
    protected abstract int getTimeUnitsOffset();
 
    /**
-    * Retrieves a TaskField instance based on its ID.
-    * 
-    * @param index task field index
-    * @return TaskField instance
-    */
-   protected abstract TaskField getTaskField(int index);
-
-   /**
-    * Retrieves a ResourceField instance based on its ID.
-    * 
-    * @param index resource field index
-    * @return ResourceField index
-    */
-   protected abstract ResourceField getResourceField(int index);
-
-   /**
     * Retrieves offset of value which determines the start of the text block.
     * 
     * @return criteria text start offset
     */
    protected abstract int getCriteriaTextStartOffset();
+
+   /**
+    * Retrieves a field type value.
+    * 
+    * @param block criteria block
+    * @return field type value
+    */
+   protected abstract FieldType getFieldType(byte[] block);
 
    /**
     * Main entry point to read criteria data.
@@ -340,33 +321,6 @@ public abstract class CriteriaReader
          }
       }
 
-      return result;
-   }
-
-   /**
-    * Retrieves a field type value.
-    * 
-    * @param block criteria block
-    * @return field type value
-    */
-   private FieldType getFieldType(byte[] block)
-   {
-      FieldType result = null;
-      int fieldIndex = getFieldIndex(block);
-      switch (fieldIndex & 0xFFFF0000)
-      {
-         case MPPTaskField.TASK_FIELD_BASE :
-         {
-            result = getTaskField(fieldIndex & 0xFFFF);
-            break;
-         }
-
-         case MPPResourceField.RESOURCE_FIELD_BASE :
-         {
-            result = getResourceField(fieldIndex & 0xFFFF);
-            break;
-         }
-      }
       return result;
    }
 
