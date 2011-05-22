@@ -978,13 +978,15 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.BUDGET_COST.getValue()] = "Budget Cost";
       TASK_COLUMNS_ARRAY[TaskField.RECALC_OUTLINE_CODES.getValue()] = "Recalc Outline Codes";
 
-      TASK_COLUMNS_ARRAY[TaskField.RECALC_FLAGS.getValue()] = "Recalc Flags";
       TASK_COLUMNS_ARRAY[TaskField.IS_START_VALID.getValue()] = "Is Start Valid";
       TASK_COLUMNS_ARRAY[TaskField.IS_FINISH_VALID.getValue()] = "Is Finish Valid";
       TASK_COLUMNS_ARRAY[TaskField.IS_DURATION_VALID.getValue()] = "Is Duration Valid";
       TASK_COLUMNS_ARRAY[TaskField.START_TEXT.getValue()] = "Start";
       TASK_COLUMNS_ARRAY[TaskField.FINISH_TEXT.getValue()] = "Finish";
       TASK_COLUMNS_ARRAY[TaskField.DURATION_TEXT.getValue()] = "Duration";
+
+      TASK_COLUMNS_ARRAY[TaskField.MANUAL_DURATION.getValue()] = "Manual Duration";
+      TASK_COLUMNS_ARRAY[TaskField.MANUAL_DURATION_UNITS.getValue()] = "Manual Duration Units";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";

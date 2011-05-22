@@ -36,16 +36,14 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -60,7 +58,6 @@ import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.utility.DateUtility;
@@ -908,11 +905,12 @@ final class MPP14Reader implements MPPVariantReader
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.
     *
+    * @param fieldMap field map
     * @param taskFixedMeta Fixed meta data for this task
     * @param taskFixedData Fixed data for this task
     * @return Mapping between task identifiers and block position
     */
-   private TreeMap<Integer, Integer> createTaskMap(FixedMeta taskFixedMeta, FixedData taskFixedData)
+   private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
       int itemCount = taskFixedMeta.getItemCount();
@@ -946,7 +944,7 @@ final class MPP14Reader implements MPPVariantReader
             }
             else
             {
-               if (data.length == 16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
+               if (data.length == 16 || data.length >= fieldMap.getMaxFixedDataOffset(0))
                {
                   uniqueID = MPPUtility.getInt(data, 0);
                   key = Integer.valueOf(uniqueID);
@@ -1293,11 +1291,14 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
+      FieldMap fieldMap = new FieldMap14(m_file);
+      fieldMap.createTaskFieldMap(m_projectProps);
+
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), 768, MINIMUM_EXPECTED_TASK_SIZE);
+      FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), fieldMap.getMaxFixedDataOffset(0));
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 92);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
@@ -1315,7 +1316,7 @@ final class MPP14Reader implements MPPVariantReader
       // Process aliases      
       processTaskFieldNameAliases(props.getByteArray(TASK_FIELD_NAME_ALIASES));
 
-      TreeMap<Integer, Integer> taskMap = createTaskMap(taskFixedMeta, taskFixedData);
+      TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
@@ -1354,7 +1355,7 @@ final class MPP14Reader implements MPPVariantReader
             continue;
          }
 
-         if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
+         if (data.length < fieldMap.getMaxFixedDataOffset(0))
          {
             continue;
          }
@@ -1373,7 +1374,7 @@ final class MPP14Reader implements MPPVariantReader
          //System.out.println(MPPUtility.hexdump(data2, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(metaData2,false));
 
-         byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
+         byte[] recurringData = taskVarData.getByteArray(id, fieldMap.getVarDataKey(TaskField.RECURRING_DATA));
 
          Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          if (temp != null)
@@ -1397,171 +1398,26 @@ final class MPP14Reader implements MPPVariantReader
          }
          task = m_file.addTask();
 
-         task.setActive((metaData2[8] & 0x04) != 0);
-         task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 166) / 100));
-         task.setActualDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 48), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
-         task.setActualFinish(MPPUtility.getTimestamp(data, 76));
-         task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
-         task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
-         task.setActualStart(MPPUtility.getTimestamp(data, 72));
-         task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 134) / 60000, TimeUnit.HOURS));
-         //task.setACWP(); // Calculated value
-         //task.setAssignment(); // Calculated value
-         //task.setAssignmentDelay(); // Calculated value
-         //task.setAssignmentUnits(); // Calculated value
-
-         task.setBaselineCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_BASELINE_COST) / 100));
-
-         task.setBaselineDuration(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_BASELINE_DURATION), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_BASELINE_DURATION_UNITS))));
-         task.setBaselineFinish(taskVarData.getTimestamp(id, TASK_BASELINE_FINISH));
-         task.setBaselineStart(taskVarData.getTimestamp(id, TASK_BASELINE_START));
-         task.setBaselineWork(Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE1_COST) / 100));
-         task.setBaselineDuration(1, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE1_DURATION, TASK_BASELINE1_DURATION_UNITS));
-         task.setBaselineFinish(1, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE1_FINISH));
-         task.setBaselineStart(1, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE1_START));
-         task.setBaselineWork(1, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE1_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE2_COST) / 100));
-         task.setBaselineDuration(2, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE2_DURATION, TASK_BASELINE2_DURATION_UNITS));
-         task.setBaselineFinish(2, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE2_FINISH));
-         task.setBaselineStart(2, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE2_START));
-         task.setBaselineWork(2, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE2_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE3_COST) / 100));
-         task.setBaselineDuration(3, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE3_DURATION, TASK_BASELINE3_DURATION_UNITS));
-         task.setBaselineFinish(3, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE3_FINISH));
-         task.setBaselineStart(3, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE3_START));
-         task.setBaselineWork(3, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE3_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE4_COST) / 100));
-         task.setBaselineDuration(4, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE4_DURATION, TASK_BASELINE4_DURATION_UNITS));
-         task.setBaselineFinish(4, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE4_FINISH));
-         task.setBaselineStart(4, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE4_START));
-         task.setBaselineWork(4, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE4_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE5_COST) / 100));
-         task.setBaselineDuration(5, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE5_DURATION, TASK_BASELINE5_DURATION_UNITS));
-         task.setBaselineFinish(5, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE5_FINISH));
-         task.setBaselineStart(5, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE5_START));
-         task.setBaselineWork(5, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE5_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE6_COST) / 100));
-         task.setBaselineDuration(6, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE6_DURATION, TASK_BASELINE6_DURATION_UNITS));
-         task.setBaselineFinish(6, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE6_FINISH));
-         task.setBaselineStart(6, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE6_START));
-         task.setBaselineWork(6, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE6_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE7_COST) / 100));
-         task.setBaselineDuration(7, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE7_DURATION, TASK_BASELINE7_DURATION_UNITS));
-         task.setBaselineFinish(7, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE7_FINISH));
-         task.setBaselineStart(7, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE7_START));
-         task.setBaselineWork(7, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE7_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE8_COST) / 100));
-         task.setBaselineDuration(8, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE8_DURATION, TASK_BASELINE8_DURATION_UNITS));
-         task.setBaselineFinish(8, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE8_FINISH));
-         task.setBaselineStart(8, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE8_START));
-         task.setBaselineWork(8, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE8_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE9_COST) / 100));
-         task.setBaselineDuration(9, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE9_DURATION, TASK_BASELINE9_DURATION_UNITS));
-         task.setBaselineFinish(9, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE9_FINISH));
-         task.setBaselineStart(9, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE9_START));
-         task.setBaselineWork(9, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE9_WORK) / 60000, TimeUnit.HOURS));
-
-         task.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE10_COST) / 100));
-         task.setBaselineDuration(10, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE10_DURATION, TASK_BASELINE10_DURATION_UNITS));
-         task.setBaselineFinish(10, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE10_FINISH));
-         task.setBaselineStart(10, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE10_START));
-         task.setBaselineWork(10, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE10_WORK) / 60000, TimeUnit.HOURS));
-
-         //task.setBCWP(); // Calculated value
-         //task.setBCWS(); // Calculated value
-         //task.setConfirmed(); // Calculated value
-         task.setConstraintDate(MPPUtility.getTimestamp(data, 80));
-         task.setConstraintType(ConstraintType.getInstance(MPPUtility.getShort(data, 56)));
-         task.setContact(taskVarData.getUnicodeString(id, TASK_CONTACT));
-         task.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 150) / 100));
-         //task.setCostRateTable(); // Calculated value
-         //task.setCostVariance(); // Populated below
-         task.setCost1(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST1) / 100));
-         task.setCost2(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST2) / 100));
-         task.setCost3(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST3) / 100));
-         task.setCost4(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST4) / 100));
-         task.setCost5(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST5) / 100));
-         task.setCost6(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST6) / 100));
-         task.setCost7(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST7) / 100));
-         task.setCost8(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST8) / 100));
-         task.setCost9(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST9) / 100));
-         task.setCost10(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST10) / 100));
-
-         // From MS Project 2003
-         //         task.setCPI();
-
-         task.setCreateDate(MPPUtility.getTimestamp(data, 98));
-         //task.setCritical(); // Calculated value
-         //task.setCV(); // Calculated value
-         //task.setCVPercent(); // Calculate value
-         task.setDate1(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE1));
-         task.setDate2(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE2));
-         task.setDate3(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE3));
-         task.setDate4(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE4));
-         task.setDate5(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE5));
-         task.setDate6(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE6));
-         task.setDate7(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE7));
-         task.setDate8(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE8));
-         task.setDate9(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE9));
-         task.setDate10(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE10));
-         task.setDeadline(MPPUtility.getTimestamp(data, 122));
-         //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 42), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
-         task.setDurationText(taskVarData.getUnicodeString(id, TASK_DURATION_TEXT));
-         //task.setDurationVariance(); // Calculated value
-         task.setDuration1(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION1, TASK_DURATION1_UNITS));
-         task.setDuration2(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION2, TASK_DURATION2_UNITS));
-         task.setDuration3(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION3, TASK_DURATION3_UNITS));
-         task.setDuration4(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION4, TASK_DURATION4_UNITS));
-         task.setDuration5(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION5, TASK_DURATION5_UNITS));
-         task.setDuration6(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION6, TASK_DURATION6_UNITS));
-         task.setDuration7(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION7, TASK_DURATION7_UNITS));
-         task.setDuration8(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION8, TASK_DURATION8_UNITS));
-         task.setDuration9(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION9, TASK_DURATION9_UNITS));
-         task.setDuration10(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION10, TASK_DURATION10_UNITS));
-         //       From MS Project 2003
-         //         task.setEAC();
-         task.setEarlyFinish(MPPUtility.getTimestamp(data, 68));
-         task.setEarlyStart(MPPUtility.getTimestamp(data, 114));
-         //       From MS Project 2003
-         //         task.setEarnedValueMethod();
-         task.setEffortDriven((metaData[11] & 0x10) != 0);
-         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, 46)));
-         task.setExpanded(((metaData[12] & 0x02) == 0));
-         int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
-         if (externalTaskID != 0)
+         task.disableEvents();
+         fieldMap.populateContainer(task, id, new byte[][]
          {
-            task.setSubprojectTaskID(Integer.valueOf(externalTaskID));
+            data,
+            data2
+         }, taskVarData);
+         task.enableEvents();
+
+         task.setActive((metaData2[8] & 0x04) != 0);
+
+         task.setEffortDriven((metaData[11] & 0x10) != 0);
+         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
+         task.setExpanded(((metaData[12] & 0x02) == 0));
+
+         Integer externalTaskID = task.getSubprojectTaskID();
+         if (externalTaskID != null && externalTaskID.intValue() != 0)
+         {
             task.setExternalTask(true);
             externalTasks.add(task);
          }
-         task.setFinish(MPPUtility.getTimestamp(data, 8));
-         task.setFinishText(taskVarData.getUnicodeString(id, TASK_FINISH_TEXT));
-         //       From MS Project 2003
-         //task.setFinishVariance(); // Calculated value
-         task.setFinish1(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH1));
-         task.setFinish2(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH2));
-         task.setFinish3(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH3));
-         task.setFinish4(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH4));
-         task.setFinish5(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH5));
-         task.setFinish6(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH6));
-         task.setFinish7(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH7));
-         task.setFinish8(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH8));
-         task.setFinish9(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH9));
-         task.setFinish10(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH10));
-
-         task.setFixedCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 158) / 100));
-         task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 96)));
 
          task.setFlag1((metaData[35] & 0x40) != 0);
          task.setFlag2((metaData[35] & 0x80) != 0);
@@ -1583,168 +1439,50 @@ final class MPP14Reader implements MPPVariantReader
          task.setFlag18((metaData[37] & 0x80) != 0);
          task.setFlag19((metaData[38] & 0x01) != 0);
          task.setFlag20((metaData[38] & 0x02) != 0);
-         task.setFreeSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
-         //       From MS Project 2003
-         //         task.setGroupBySummary();
-         task.setGUID(MPPUtility.getGUID(data2, 0));
+
          task.setHideBar((metaData[10] & 0x80) != 0);
-         processHyperlinkData(task, taskVarData.getByteArray(id, TASK_HYPERLINK));
+
+         processHyperlinkData(task, taskVarData.getByteArray(id, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
+
          task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
-         //       From MS Project 2003
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
-         //task.setIndicators(); // Calculated value
-         task.setLateFinish(MPPUtility.getTimestamp(data, 110));
-         task.setLateStart(MPPUtility.getTimestamp(data, 12));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
-         task.setLevelingDelay(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 58), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 62))));
-         //task.setLinkedFields();  // Calculated value
          task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
-         task.setName(taskVarData.getUnicodeString(id, TASK_NAME));
 
-         task.setNumber1(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER1)));
-         task.setNumber2(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER2)));
-         task.setNumber3(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER3)));
-         task.setNumber4(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER4)));
-         task.setNumber5(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER5)));
-         task.setNumber6(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER6)));
-         task.setNumber7(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER7)));
-         task.setNumber8(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER8)));
-         task.setNumber9(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER9)));
-         task.setNumber10(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER10)));
-         task.setNumber11(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER11)));
-         task.setNumber12(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER12)));
-         task.setNumber13(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER13)));
-         task.setNumber14(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER14)));
-         task.setNumber15(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER15)));
-         task.setNumber16(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER16)));
-         task.setNumber17(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER17)));
-         task.setNumber18(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER18)));
-         task.setNumber19(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER19)));
-         task.setNumber20(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER20)));
-         //task.setObjects(); // Calculated value
-         task.setOutlineCode1(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE1));
-         task.setOutlineCode2(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE2));
-         task.setOutlineCode3(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE3));
-         task.setOutlineCode4(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE4));
-         task.setOutlineCode5(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE5));
-         task.setOutlineCode6(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE6));
-         task.setOutlineCode7(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE7));
-         task.setOutlineCode8(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE8));
-         task.setOutlineCode9(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE9));
-         task.setOutlineCode10(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE10));
-         task.setOutlineLevel(Integer.valueOf(MPPUtility.getShort(data, 40)));
-         //task.setOutlineNumber(); // Calculated value
-         //task.setOverallocated(); // Calculated value
-         task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST) / 100));
-         //task.setOvertimeWork(); // Calculated value?
-         //task.getPredecessors(); // Calculated value
-         task.setPercentageComplete(MPPUtility.getPercentage(data, 90));
-         task.setPercentageWorkComplete(MPPUtility.getPercentage(data, 92));
-         task.setPhysicalPercentComplete(Integer.valueOf(taskVarData.getShort(id, TASK_PHYSICAL_PERCENT_COMPLETE)));
-         task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
-         task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
-         task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 88)));
-         //task.setProject(); // Calculated value
+         task.setOutlineCode1(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE1_INDEX)));
+         task.setOutlineCode2(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE2_INDEX)));
+         task.setOutlineCode3(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE3_INDEX)));
+         task.setOutlineCode4(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE4_INDEX)));
+         task.setOutlineCode5(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE5_INDEX)));
+         task.setOutlineCode6(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE6_INDEX)));
+         task.setOutlineCode7(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE7_INDEX)));
+         task.setOutlineCode8(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE8_INDEX)));
+         task.setOutlineCode9(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE9_INDEX)));
+         task.setOutlineCode10(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE10_INDEX)));
+
          task.setRecurring(MPPUtility.getShort(data, 40) == 2);
-         //task.setRegularWork(); // Calculated value
-         task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 174) / 100));
-         task.setRemainingDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 52), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
-         task.setRemainingOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_COST) / 100));
-         task.setRemainingOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
-         task.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 142) / 60000, TimeUnit.HOURS));
-         //task.setResourceGroup(); // Calculated value from resource
-         //task.setResourceInitials(); // Calculated value from resource
-         //task.setResourceNames(); // Calculated value from resource
-         //task.setResourcePhonetics(); // Calculated value from resource
-         //         task.setResourceType();
-         //       From MS Project 2003
-         //task.setResponsePending(); // Calculated value
-         task.setResume(MPPUtility.getTimestamp(data, 20));
-         //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
          task.setRollup((metaData[10] & 0x08) != 0);
-         //       From MS Project 2003
-         task.setStart(MPPUtility.getTimestamp(data, 106));
-         task.setStartText(taskVarData.getUnicodeString(id, TASK_START_TEXT));
-         //         task.setSPI();
-         //       From MS Project 2003
-         task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
-         //task.setStartVariance(); // Calculated value
-         task.setStart1(getCustomFieldTimestampValue(taskVarData, id, TASK_START1));
-         task.setStart2(getCustomFieldTimestampValue(taskVarData, id, TASK_START2));
-         task.setStart3(getCustomFieldTimestampValue(taskVarData, id, TASK_START3));
-         task.setStart4(getCustomFieldTimestampValue(taskVarData, id, TASK_START4));
-         task.setStart5(getCustomFieldTimestampValue(taskVarData, id, TASK_START5));
-         task.setStart6(getCustomFieldTimestampValue(taskVarData, id, TASK_START6));
-         task.setStart7(getCustomFieldTimestampValue(taskVarData, id, TASK_START7));
-         task.setStart8(getCustomFieldTimestampValue(taskVarData, id, TASK_START8));
-         task.setStart9(getCustomFieldTimestampValue(taskVarData, id, TASK_START9));
-         task.setStart10(getCustomFieldTimestampValue(taskVarData, id, TASK_START10));
-         //       From MS Project 2003
-         //         task.setStatus();
-         //         task.setStatusIndicator();
-         task.setStop(MPPUtility.getTimestamp(data, 16));
-         //task.setSubprojectFile();
-         //task.setSubprojectReadOnly();
-         task.setSubprojectTasksUniqueIDOffset(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET)));
-         task.setSubprojectTaskUniqueID(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECTUNIQUETASKID)));
-         task.setSubprojectTaskID(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECTTASKID)));
-         //task.setSuccessors(); // Calculated value
-         //task.setSummary(); // Automatically generated by MPXJ
-         task.setSummaryProgress(MPPUtility.getTimestamp(data, 156));
-         //task.setSV(); // Calculated value
-         //       From MS Project 2003
-         //         task.setSVPercent();
-         //         task.setTCPI();
-         //task.setTeamStatusPending(); // Calculated value         
          task.setTaskMode((metaData2[8] & 0x08) == 0 ? TaskMode.AUTO_SCHEDULED : TaskMode.MANUALLY_SCHEDULED);
-         task.setText1(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT1));
-         task.setText2(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT2));
-         task.setText3(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT3));
-         task.setText4(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT4));
-         task.setText5(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT5));
-         task.setText6(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT6));
-         task.setText7(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT7));
-         task.setText8(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT8));
-         task.setText9(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT9));
-         task.setText10(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT10));
-         task.setText11(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT11));
-         task.setText12(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT12));
-         task.setText13(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT13));
-         task.setText14(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT14));
-         task.setText15(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT15));
-         task.setText16(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT16));
-         task.setText17(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT17));
-         task.setText18(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT18));
-         task.setText19(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT19));
-         task.setText20(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT20));
-         task.setText21(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT21));
-         task.setText22(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT22));
-         task.setText23(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT23));
-         task.setText24(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT24));
-         task.setText25(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT25));
-         task.setText26(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT26));
-         task.setText27(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT27));
-         task.setText28(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT28));
-         task.setText29(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT29));
-         task.setText30(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT30));
-         //task.setTotalSlack(); // Calculated value
-         task.setType(TaskType.getInstance(MPPUtility.getShort(data, 94)));
-         task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
-         //task.setUniqueIDPredecessors(); // Calculated value
-         //task.setUniqueIDSuccessors(); // Calculated value
-         //task.setUpdateNeeded(); // Calculated value
-         task.setWBS(taskVarData.getUnicodeString(id, TASK_WBS));
-         //task.setWBSPredecessors(); // Calculated value
-         //task.setWBSSuccessors(); // Calculated value
-         task.setWork(Duration.getInstance(MPPUtility.getDouble(data, 126) / 60000, TimeUnit.HOURS));
-         //task.setWorkContour(); // Calculated from resource
-         //task.setWorkVariance(); // Calculated value
+         task.setUniqueID(id);
 
-         task.setFinishSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
+         m_parentTasks.put(task.getUniqueID(), (Integer) task.getCachedValue(TaskField.PARENT_TASK_UNIQUE_ID));
 
-         m_parentTasks.put(task.getUniqueID(), Integer.valueOf(MPPUtility.getInt(data, 36)));
+         if (task.getStart() == null)
+         {
+            task.setStart((Date) task.getCachedValue(TaskField.SCHEDULED_START));
+         }
+
+         if (task.getFinish() == null)
+         {
+            task.setFinish((Date) task.getCachedValue(TaskField.SCHEDULED_FINISH));
+         }
+
+         if (task.getDuration() == null)
+         {
+            task.setDuration((Duration) task.getCachedValue(TaskField.SCHEDULED_DURATION));
+         }
 
          switch (task.getConstraintType())
          {
@@ -1797,7 +1535,7 @@ final class MPP14Reader implements MPPVariantReader
          //
          // Retrieve the task notes.
          //
-         notes = taskVarData.getString(id, TASK_NOTES);
+         notes = task.getNotes();
          if (notes != null)
          {
             if (m_reader.getPreserveNoteFormatting() == false)
@@ -1811,10 +1549,10 @@ final class MPP14Reader implements MPPVariantReader
          //
          // Set the calendar name
          //
-         int calendarID = MPPUtility.getInt(data, 118);
-         if (calendarID != -1)
+         Integer calendarID = (Integer) task.getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
+         if (calendarID != null && calendarID.intValue() != -1)
          {
-            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(Integer.valueOf(calendarID));
+            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
                task.setCalendar(calendar);
@@ -1858,9 +1596,9 @@ final class MPP14Reader implements MPPVariantReader
          //
          // If this is a manually scheduled task, read the manual duration
          //
-         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         if (task.getTaskMode() != TaskMode.MANUALLY_SCHEDULED)
          {
-            task.setManualDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data2, 58), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data2, 62))));
+            task.setManualDuration(null);
          }
 
          //
@@ -1977,141 +1715,6 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processTaskEnterpriseColumns(Integer id, Task task, Var2Data taskVarData, byte[] metaData2)
    {
-      task.setEnterpriseCost(1, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST1) / 100));
-      task.setEnterpriseCost(2, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST2) / 100));
-      task.setEnterpriseCost(3, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST3) / 100));
-      task.setEnterpriseCost(4, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST4) / 100));
-      task.setEnterpriseCost(5, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST5) / 100));
-      task.setEnterpriseCost(6, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST6) / 100));
-      task.setEnterpriseCost(7, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST7) / 100));
-      task.setEnterpriseCost(8, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST8) / 100));
-      task.setEnterpriseCost(9, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST9) / 100));
-      task.setEnterpriseCost(10, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST10) / 100));
-
-      task.setEnterpriseDate(1, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE1));
-      task.setEnterpriseDate(2, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE2));
-      task.setEnterpriseDate(3, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE3));
-      task.setEnterpriseDate(4, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE4));
-      task.setEnterpriseDate(5, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE5));
-      task.setEnterpriseDate(6, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE6));
-      task.setEnterpriseDate(7, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE7));
-      task.setEnterpriseDate(8, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE8));
-      task.setEnterpriseDate(9, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE9));
-      task.setEnterpriseDate(10, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE10));
-      task.setEnterpriseDate(11, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE11));
-      task.setEnterpriseDate(12, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE12));
-      task.setEnterpriseDate(13, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE13));
-      task.setEnterpriseDate(14, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE14));
-      task.setEnterpriseDate(15, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE15));
-      task.setEnterpriseDate(16, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE16));
-      task.setEnterpriseDate(17, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE17));
-      task.setEnterpriseDate(18, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE18));
-      task.setEnterpriseDate(19, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE19));
-      task.setEnterpriseDate(20, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE20));
-      task.setEnterpriseDate(21, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE21));
-      task.setEnterpriseDate(22, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE22));
-      task.setEnterpriseDate(23, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE23));
-      task.setEnterpriseDate(24, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE24));
-      task.setEnterpriseDate(25, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE25));
-      task.setEnterpriseDate(26, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE26));
-      task.setEnterpriseDate(27, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE27));
-      task.setEnterpriseDate(28, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE28));
-      task.setEnterpriseDate(29, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE29));
-      task.setEnterpriseDate(30, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE30));
-
-      task.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION1_UNITS))));
-      task.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION2_UNITS))));
-      task.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION3_UNITS))));
-      task.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION4_UNITS))));
-      task.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION5_UNITS))));
-      task.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION6_UNITS))));
-      task.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION7_UNITS))));
-      task.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION8_UNITS))));
-      task.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION9_UNITS))));
-      task.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION10_UNITS))));
-
-      task.setEnterpriseNumber(1, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER1)));
-      task.setEnterpriseNumber(2, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER2)));
-      task.setEnterpriseNumber(3, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER3)));
-      task.setEnterpriseNumber(4, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER4)));
-      task.setEnterpriseNumber(5, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER5)));
-      task.setEnterpriseNumber(6, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER6)));
-      task.setEnterpriseNumber(7, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER7)));
-      task.setEnterpriseNumber(8, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER8)));
-      task.setEnterpriseNumber(9, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER9)));
-      task.setEnterpriseNumber(10, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER10)));
-      task.setEnterpriseNumber(11, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER11)));
-      task.setEnterpriseNumber(12, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER12)));
-      task.setEnterpriseNumber(13, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER13)));
-      task.setEnterpriseNumber(14, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER14)));
-      task.setEnterpriseNumber(15, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER15)));
-      task.setEnterpriseNumber(16, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER16)));
-      task.setEnterpriseNumber(17, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER17)));
-      task.setEnterpriseNumber(18, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER18)));
-      task.setEnterpriseNumber(19, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER19)));
-      task.setEnterpriseNumber(20, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER20)));
-      task.setEnterpriseNumber(21, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER21)));
-      task.setEnterpriseNumber(22, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER22)));
-      task.setEnterpriseNumber(23, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER23)));
-      task.setEnterpriseNumber(24, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER24)));
-      task.setEnterpriseNumber(25, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER25)));
-      task.setEnterpriseNumber(26, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER26)));
-      task.setEnterpriseNumber(27, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER27)));
-      task.setEnterpriseNumber(28, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER28)));
-      task.setEnterpriseNumber(29, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER29)));
-      task.setEnterpriseNumber(30, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER30)));
-      task.setEnterpriseNumber(31, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER31)));
-      task.setEnterpriseNumber(32, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER32)));
-      task.setEnterpriseNumber(33, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER33)));
-      task.setEnterpriseNumber(34, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER34)));
-      task.setEnterpriseNumber(35, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER35)));
-      task.setEnterpriseNumber(36, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER36)));
-      task.setEnterpriseNumber(37, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER37)));
-      task.setEnterpriseNumber(38, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER38)));
-      task.setEnterpriseNumber(39, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER39)));
-      task.setEnterpriseNumber(40, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER40)));
-
-      task.setEnterpriseText(1, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT1));
-      task.setEnterpriseText(2, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT2));
-      task.setEnterpriseText(3, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT3));
-      task.setEnterpriseText(4, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT4));
-      task.setEnterpriseText(5, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT5));
-      task.setEnterpriseText(6, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT6));
-      task.setEnterpriseText(7, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT7));
-      task.setEnterpriseText(8, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT8));
-      task.setEnterpriseText(9, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT9));
-      task.setEnterpriseText(10, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT10));
-      task.setEnterpriseText(11, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT11));
-      task.setEnterpriseText(12, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT12));
-      task.setEnterpriseText(13, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT13));
-      task.setEnterpriseText(14, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT14));
-      task.setEnterpriseText(15, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT15));
-      task.setEnterpriseText(16, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT16));
-      task.setEnterpriseText(17, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT17));
-      task.setEnterpriseText(18, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT18));
-      task.setEnterpriseText(19, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT19));
-      task.setEnterpriseText(20, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT20));
-      task.setEnterpriseText(21, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT21));
-      task.setEnterpriseText(22, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT22));
-      task.setEnterpriseText(23, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT23));
-      task.setEnterpriseText(24, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT24));
-      task.setEnterpriseText(25, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT25));
-      task.setEnterpriseText(26, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT26));
-      task.setEnterpriseText(27, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT27));
-      task.setEnterpriseText(28, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT28));
-      task.setEnterpriseText(29, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT29));
-      task.setEnterpriseText(30, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT30));
-      task.setEnterpriseText(31, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT31));
-      task.setEnterpriseText(32, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT32));
-      task.setEnterpriseText(33, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT33));
-      task.setEnterpriseText(34, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT34));
-      task.setEnterpriseText(35, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT35));
-      task.setEnterpriseText(36, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT36));
-      task.setEnterpriseText(37, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT37));
-      task.setEnterpriseText(38, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT38));
-      task.setEnterpriseText(39, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT39));
-      task.setEnterpriseText(40, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT40));
-
       if (metaData2 != null)
       {
          int bits = MPPUtility.getInt(metaData2, 29);
@@ -3236,395 +2839,6 @@ final class MPP14Reader implements MPPVariantReader
    private static final Integer CALENDAR_DATA = Integer.valueOf(8);
 
    /**
-    * Task data types.
-    */
-   private static final Integer TASK_BASELINE_WORK = Integer.valueOf(1);
-
-   private static final Integer TASK_NAME = Integer.valueOf(14);
-   private static final Integer TASK_WBS = Integer.valueOf(16);
-
-   private static final Integer TASK_NUMBER1 = Integer.valueOf(87);
-   private static final Integer TASK_NUMBER2 = Integer.valueOf(88);
-   private static final Integer TASK_NUMBER3 = Integer.valueOf(89);
-   private static final Integer TASK_NUMBER4 = Integer.valueOf(90);
-   private static final Integer TASK_NUMBER5 = Integer.valueOf(91);
-
-   private static final Integer TASK_COST1 = Integer.valueOf(106);
-   private static final Integer TASK_COST2 = Integer.valueOf(107);
-   private static final Integer TASK_COST3 = Integer.valueOf(108);
-
-   private static final Integer TASK_CONTACT = Integer.valueOf(112);
-
-   private static final Integer TASK_RECURRING_DATA = Integer.valueOf(203);
-
-   private static final Integer TASK_COST4 = Integer.valueOf(258);
-   private static final Integer TASK_COST5 = Integer.valueOf(259);
-   private static final Integer TASK_COST6 = Integer.valueOf(260);
-   private static final Integer TASK_COST7 = Integer.valueOf(261);
-   private static final Integer TASK_COST8 = Integer.valueOf(262);
-   private static final Integer TASK_COST9 = Integer.valueOf(263);
-   private static final Integer TASK_COST10 = Integer.valueOf(264);
-
-   private static final Integer TASK_DATE1 = Integer.valueOf(265);
-   private static final Integer TASK_DATE2 = Integer.valueOf(266);
-   private static final Integer TASK_DATE3 = Integer.valueOf(267);
-   private static final Integer TASK_DATE4 = Integer.valueOf(268);
-   private static final Integer TASK_DATE5 = Integer.valueOf(269);
-   private static final Integer TASK_DATE6 = Integer.valueOf(270);
-   private static final Integer TASK_DATE7 = Integer.valueOf(271);
-   private static final Integer TASK_DATE8 = Integer.valueOf(272);
-   private static final Integer TASK_DATE9 = Integer.valueOf(273);
-   private static final Integer TASK_DATE10 = Integer.valueOf(274);
-
-   private static final Integer TASK_NUMBER6 = Integer.valueOf(302);
-   private static final Integer TASK_NUMBER7 = Integer.valueOf(303);
-   private static final Integer TASK_NUMBER8 = Integer.valueOf(304);
-   private static final Integer TASK_NUMBER9 = Integer.valueOf(305);
-   private static final Integer TASK_NUMBER10 = Integer.valueOf(306);
-
-   private static final Integer TASK_DURATION1 = Integer.valueOf(103);
-   private static final Integer TASK_DURATION1_UNITS = Integer.valueOf(183);
-   private static final Integer TASK_DURATION2 = Integer.valueOf(104);
-   private static final Integer TASK_DURATION2_UNITS = Integer.valueOf(184);
-   private static final Integer TASK_DURATION3 = Integer.valueOf(105);
-   private static final Integer TASK_DURATION3_UNITS = Integer.valueOf(185);
-   private static final Integer TASK_DURATION4 = Integer.valueOf(275);
-   private static final Integer TASK_DURATION4_UNITS = Integer.valueOf(337);
-   private static final Integer TASK_DURATION5 = Integer.valueOf(276);
-   private static final Integer TASK_DURATION5_UNITS = Integer.valueOf(187);
-   private static final Integer TASK_DURATION6 = Integer.valueOf(277);
-   private static final Integer TASK_DURATION6_UNITS = Integer.valueOf(188);
-   private static final Integer TASK_DURATION7 = Integer.valueOf(278);
-   private static final Integer TASK_DURATION7_UNITS = Integer.valueOf(189);
-   private static final Integer TASK_DURATION8 = Integer.valueOf(279);
-   private static final Integer TASK_DURATION8_UNITS = Integer.valueOf(190);
-   private static final Integer TASK_DURATION9 = Integer.valueOf(280);
-   private static final Integer TASK_DURATION9_UNITS = Integer.valueOf(191);
-   private static final Integer TASK_DURATION10 = Integer.valueOf(281);
-   private static final Integer TASK_DURATION10_UNITS = Integer.valueOf(192);
-
-   private static final Integer TASK_START1 = Integer.valueOf(52);
-   private static final Integer TASK_FINISH1 = Integer.valueOf(53);
-   private static final Integer TASK_START2 = Integer.valueOf(55);
-   private static final Integer TASK_FINISH2 = Integer.valueOf(56);
-   private static final Integer TASK_START3 = Integer.valueOf(58);
-   private static final Integer TASK_FINISH3 = Integer.valueOf(59);
-   private static final Integer TASK_START4 = Integer.valueOf(61);
-   private static final Integer TASK_FINISH4 = Integer.valueOf(62);
-   private static final Integer TASK_START5 = Integer.valueOf(64);
-   private static final Integer TASK_FINISH5 = Integer.valueOf(65);
-   private static final Integer TASK_START6 = Integer.valueOf(282);
-   private static final Integer TASK_FINISH6 = Integer.valueOf(283);
-   private static final Integer TASK_START7 = Integer.valueOf(284);
-   private static final Integer TASK_FINISH7 = Integer.valueOf(285);
-   private static final Integer TASK_START8 = Integer.valueOf(286);
-   private static final Integer TASK_FINISH8 = Integer.valueOf(287);
-   private static final Integer TASK_START9 = Integer.valueOf(288);
-   private static final Integer TASK_FINISH9 = Integer.valueOf(289);
-   private static final Integer TASK_START10 = Integer.valueOf(290);
-   private static final Integer TASK_FINISH10 = Integer.valueOf(291);
-
-   private static final Integer TASK_HYPERLINK = Integer.valueOf(215);
-
-   private static final Integer TASK_NOTES = Integer.valueOf(15);
-
-   private static final Integer TASK_NUMBER11 = Integer.valueOf(307);
-   private static final Integer TASK_NUMBER12 = Integer.valueOf(308);
-   private static final Integer TASK_NUMBER13 = Integer.valueOf(309);
-   private static final Integer TASK_NUMBER14 = Integer.valueOf(310);
-   private static final Integer TASK_NUMBER15 = Integer.valueOf(311);
-   private static final Integer TASK_NUMBER16 = Integer.valueOf(312);
-   private static final Integer TASK_NUMBER17 = Integer.valueOf(313);
-   private static final Integer TASK_NUMBER18 = Integer.valueOf(314);
-   private static final Integer TASK_NUMBER19 = Integer.valueOf(315);
-   private static final Integer TASK_NUMBER20 = Integer.valueOf(316);
-
-   private static final Integer TASK_TEXT1 = Integer.valueOf(51);
-   private static final Integer TASK_TEXT2 = Integer.valueOf(54);
-   private static final Integer TASK_TEXT3 = Integer.valueOf(57);
-   private static final Integer TASK_TEXT4 = Integer.valueOf(60);
-   private static final Integer TASK_TEXT5 = Integer.valueOf(63);
-   private static final Integer TASK_TEXT6 = Integer.valueOf(66);
-   private static final Integer TASK_TEXT7 = Integer.valueOf(67);
-   private static final Integer TASK_TEXT8 = Integer.valueOf(68);
-   private static final Integer TASK_TEXT9 = Integer.valueOf(69);
-   private static final Integer TASK_TEXT10 = Integer.valueOf(70);
-
-   private static final Integer TASK_TEXT11 = Integer.valueOf(317);
-   private static final Integer TASK_TEXT12 = Integer.valueOf(318);
-   private static final Integer TASK_TEXT13 = Integer.valueOf(319);
-   private static final Integer TASK_TEXT14 = Integer.valueOf(320);
-   private static final Integer TASK_TEXT15 = Integer.valueOf(321);
-   private static final Integer TASK_TEXT16 = Integer.valueOf(322);
-   private static final Integer TASK_TEXT17 = Integer.valueOf(323);
-   private static final Integer TASK_TEXT18 = Integer.valueOf(324);
-   private static final Integer TASK_TEXT19 = Integer.valueOf(325);
-   private static final Integer TASK_TEXT20 = Integer.valueOf(326);
-   private static final Integer TASK_TEXT21 = Integer.valueOf(327);
-   private static final Integer TASK_TEXT22 = Integer.valueOf(328);
-   private static final Integer TASK_TEXT23 = Integer.valueOf(329);
-   private static final Integer TASK_TEXT24 = Integer.valueOf(330);
-   private static final Integer TASK_TEXT25 = Integer.valueOf(331);
-   private static final Integer TASK_TEXT26 = Integer.valueOf(332);
-   private static final Integer TASK_TEXT27 = Integer.valueOf(333);
-   private static final Integer TASK_TEXT28 = Integer.valueOf(334);
-   private static final Integer TASK_TEXT29 = Integer.valueOf(335);
-   private static final Integer TASK_TEXT30 = Integer.valueOf(336);
-
-   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = Integer.valueOf(458);
-
-   private static final Integer TASK_OUTLINECODE1 = Integer.valueOf(417);
-   private static final Integer TASK_OUTLINECODE2 = Integer.valueOf(419);
-   private static final Integer TASK_OUTLINECODE3 = Integer.valueOf(421);
-   private static final Integer TASK_OUTLINECODE4 = Integer.valueOf(423);
-   private static final Integer TASK_OUTLINECODE5 = Integer.valueOf(425);
-   private static final Integer TASK_OUTLINECODE6 = Integer.valueOf(427);
-   private static final Integer TASK_OUTLINECODE7 = Integer.valueOf(429);
-   private static final Integer TASK_OUTLINECODE8 = Integer.valueOf(431);
-   private static final Integer TASK_OUTLINECODE9 = Integer.valueOf(433);
-   private static final Integer TASK_OUTLINECODE10 = Integer.valueOf(435);
-
-   private static final Integer TASK_ENTERPRISE_COST1 = Integer.valueOf(599);
-   private static final Integer TASK_ENTERPRISE_COST2 = Integer.valueOf(600);
-   private static final Integer TASK_ENTERPRISE_COST3 = Integer.valueOf(601);
-   private static final Integer TASK_ENTERPRISE_COST4 = Integer.valueOf(602);
-   private static final Integer TASK_ENTERPRISE_COST5 = Integer.valueOf(603);
-   private static final Integer TASK_ENTERPRISE_COST6 = Integer.valueOf(604);
-   private static final Integer TASK_ENTERPRISE_COST7 = Integer.valueOf(605);
-   private static final Integer TASK_ENTERPRISE_COST8 = Integer.valueOf(606);
-   private static final Integer TASK_ENTERPRISE_COST9 = Integer.valueOf(607);
-   private static final Integer TASK_ENTERPRISE_COST10 = Integer.valueOf(608);
-
-   private static final Integer TASK_ENTERPRISE_DATE1 = Integer.valueOf(609);
-   private static final Integer TASK_ENTERPRISE_DATE2 = Integer.valueOf(610);
-   private static final Integer TASK_ENTERPRISE_DATE3 = Integer.valueOf(611);
-   private static final Integer TASK_ENTERPRISE_DATE4 = Integer.valueOf(612);
-   private static final Integer TASK_ENTERPRISE_DATE5 = Integer.valueOf(613);
-   private static final Integer TASK_ENTERPRISE_DATE6 = Integer.valueOf(614);
-   private static final Integer TASK_ENTERPRISE_DATE7 = Integer.valueOf(615);
-   private static final Integer TASK_ENTERPRISE_DATE8 = Integer.valueOf(616);
-   private static final Integer TASK_ENTERPRISE_DATE9 = Integer.valueOf(617);
-   private static final Integer TASK_ENTERPRISE_DATE10 = Integer.valueOf(618);
-   private static final Integer TASK_ENTERPRISE_DATE11 = Integer.valueOf(619);
-   private static final Integer TASK_ENTERPRISE_DATE12 = Integer.valueOf(620);
-   private static final Integer TASK_ENTERPRISE_DATE13 = Integer.valueOf(621);
-   private static final Integer TASK_ENTERPRISE_DATE14 = Integer.valueOf(622);
-   private static final Integer TASK_ENTERPRISE_DATE15 = Integer.valueOf(623);
-   private static final Integer TASK_ENTERPRISE_DATE16 = Integer.valueOf(624);
-   private static final Integer TASK_ENTERPRISE_DATE17 = Integer.valueOf(625);
-   private static final Integer TASK_ENTERPRISE_DATE18 = Integer.valueOf(626);
-   private static final Integer TASK_ENTERPRISE_DATE19 = Integer.valueOf(627);
-   private static final Integer TASK_ENTERPRISE_DATE20 = Integer.valueOf(628);
-   private static final Integer TASK_ENTERPRISE_DATE21 = Integer.valueOf(629);
-   private static final Integer TASK_ENTERPRISE_DATE22 = Integer.valueOf(630);
-   private static final Integer TASK_ENTERPRISE_DATE23 = Integer.valueOf(631);
-   private static final Integer TASK_ENTERPRISE_DATE24 = Integer.valueOf(632);
-   private static final Integer TASK_ENTERPRISE_DATE25 = Integer.valueOf(633);
-   private static final Integer TASK_ENTERPRISE_DATE26 = Integer.valueOf(634);
-   private static final Integer TASK_ENTERPRISE_DATE27 = Integer.valueOf(635);
-   private static final Integer TASK_ENTERPRISE_DATE28 = Integer.valueOf(636);
-   private static final Integer TASK_ENTERPRISE_DATE29 = Integer.valueOf(637);
-   private static final Integer TASK_ENTERPRISE_DATE30 = Integer.valueOf(638);
-
-   private static final Integer TASK_ENTERPRISE_DURATION1 = Integer.valueOf(639);
-   private static final Integer TASK_ENTERPRISE_DURATION2 = Integer.valueOf(640);
-   private static final Integer TASK_ENTERPRISE_DURATION3 = Integer.valueOf(641);
-   private static final Integer TASK_ENTERPRISE_DURATION4 = Integer.valueOf(642);
-   private static final Integer TASK_ENTERPRISE_DURATION5 = Integer.valueOf(643);
-   private static final Integer TASK_ENTERPRISE_DURATION6 = Integer.valueOf(644);
-   private static final Integer TASK_ENTERPRISE_DURATION7 = Integer.valueOf(645);
-   private static final Integer TASK_ENTERPRISE_DURATION8 = Integer.valueOf(646);
-   private static final Integer TASK_ENTERPRISE_DURATION9 = Integer.valueOf(647);
-   private static final Integer TASK_ENTERPRISE_DURATION10 = Integer.valueOf(648);
-
-   private static final Integer TASK_ENTERPRISE_DURATION1_UNITS = Integer.valueOf(649);
-   private static final Integer TASK_ENTERPRISE_DURATION2_UNITS = Integer.valueOf(650);
-   private static final Integer TASK_ENTERPRISE_DURATION3_UNITS = Integer.valueOf(651);
-   private static final Integer TASK_ENTERPRISE_DURATION4_UNITS = Integer.valueOf(652);
-   private static final Integer TASK_ENTERPRISE_DURATION5_UNITS = Integer.valueOf(653);
-   private static final Integer TASK_ENTERPRISE_DURATION6_UNITS = Integer.valueOf(654);
-   private static final Integer TASK_ENTERPRISE_DURATION7_UNITS = Integer.valueOf(655);
-   private static final Integer TASK_ENTERPRISE_DURATION8_UNITS = Integer.valueOf(656);
-   private static final Integer TASK_ENTERPRISE_DURATION9_UNITS = Integer.valueOf(657);
-   private static final Integer TASK_ENTERPRISE_DURATION10_UNITS = Integer.valueOf(658);
-
-   private static final Integer TASK_ENTERPRISE_NUMBER1 = Integer.valueOf(699);
-   private static final Integer TASK_ENTERPRISE_NUMBER2 = Integer.valueOf(700);
-   private static final Integer TASK_ENTERPRISE_NUMBER3 = Integer.valueOf(701);
-   private static final Integer TASK_ENTERPRISE_NUMBER4 = Integer.valueOf(702);
-   private static final Integer TASK_ENTERPRISE_NUMBER5 = Integer.valueOf(703);
-   private static final Integer TASK_ENTERPRISE_NUMBER6 = Integer.valueOf(704);
-   private static final Integer TASK_ENTERPRISE_NUMBER7 = Integer.valueOf(705);
-   private static final Integer TASK_ENTERPRISE_NUMBER8 = Integer.valueOf(706);
-   private static final Integer TASK_ENTERPRISE_NUMBER9 = Integer.valueOf(707);
-   private static final Integer TASK_ENTERPRISE_NUMBER10 = Integer.valueOf(708);
-   private static final Integer TASK_ENTERPRISE_NUMBER11 = Integer.valueOf(709);
-   private static final Integer TASK_ENTERPRISE_NUMBER12 = Integer.valueOf(710);
-   private static final Integer TASK_ENTERPRISE_NUMBER13 = Integer.valueOf(711);
-   private static final Integer TASK_ENTERPRISE_NUMBER14 = Integer.valueOf(712);
-   private static final Integer TASK_ENTERPRISE_NUMBER15 = Integer.valueOf(713);
-   private static final Integer TASK_ENTERPRISE_NUMBER16 = Integer.valueOf(714);
-   private static final Integer TASK_ENTERPRISE_NUMBER17 = Integer.valueOf(715);
-   private static final Integer TASK_ENTERPRISE_NUMBER18 = Integer.valueOf(716);
-   private static final Integer TASK_ENTERPRISE_NUMBER19 = Integer.valueOf(717);
-   private static final Integer TASK_ENTERPRISE_NUMBER20 = Integer.valueOf(718);
-   private static final Integer TASK_ENTERPRISE_NUMBER21 = Integer.valueOf(719);
-   private static final Integer TASK_ENTERPRISE_NUMBER22 = Integer.valueOf(720);
-   private static final Integer TASK_ENTERPRISE_NUMBER23 = Integer.valueOf(721);
-   private static final Integer TASK_ENTERPRISE_NUMBER24 = Integer.valueOf(722);
-   private static final Integer TASK_ENTERPRISE_NUMBER25 = Integer.valueOf(723);
-   private static final Integer TASK_ENTERPRISE_NUMBER26 = Integer.valueOf(724);
-   private static final Integer TASK_ENTERPRISE_NUMBER27 = Integer.valueOf(725);
-   private static final Integer TASK_ENTERPRISE_NUMBER28 = Integer.valueOf(726);
-   private static final Integer TASK_ENTERPRISE_NUMBER29 = Integer.valueOf(727);
-   private static final Integer TASK_ENTERPRISE_NUMBER30 = Integer.valueOf(728);
-   private static final Integer TASK_ENTERPRISE_NUMBER31 = Integer.valueOf(729);
-   private static final Integer TASK_ENTERPRISE_NUMBER32 = Integer.valueOf(730);
-   private static final Integer TASK_ENTERPRISE_NUMBER33 = Integer.valueOf(731);
-   private static final Integer TASK_ENTERPRISE_NUMBER34 = Integer.valueOf(732);
-   private static final Integer TASK_ENTERPRISE_NUMBER35 = Integer.valueOf(733);
-   private static final Integer TASK_ENTERPRISE_NUMBER36 = Integer.valueOf(734);
-   private static final Integer TASK_ENTERPRISE_NUMBER37 = Integer.valueOf(735);
-   private static final Integer TASK_ENTERPRISE_NUMBER38 = Integer.valueOf(736);
-   private static final Integer TASK_ENTERPRISE_NUMBER39 = Integer.valueOf(737);
-   private static final Integer TASK_ENTERPRISE_NUMBER40 = Integer.valueOf(738);
-
-   private static final Integer TASK_ENTERPRISE_TEXT1 = Integer.valueOf(799);
-   private static final Integer TASK_ENTERPRISE_TEXT2 = Integer.valueOf(800);
-   private static final Integer TASK_ENTERPRISE_TEXT3 = Integer.valueOf(801);
-   private static final Integer TASK_ENTERPRISE_TEXT4 = Integer.valueOf(802);
-   private static final Integer TASK_ENTERPRISE_TEXT5 = Integer.valueOf(803);
-   private static final Integer TASK_ENTERPRISE_TEXT6 = Integer.valueOf(804);
-   private static final Integer TASK_ENTERPRISE_TEXT7 = Integer.valueOf(805);
-   private static final Integer TASK_ENTERPRISE_TEXT8 = Integer.valueOf(806);
-   private static final Integer TASK_ENTERPRISE_TEXT9 = Integer.valueOf(807);
-   private static final Integer TASK_ENTERPRISE_TEXT10 = Integer.valueOf(808);
-   private static final Integer TASK_ENTERPRISE_TEXT11 = Integer.valueOf(809);
-   private static final Integer TASK_ENTERPRISE_TEXT12 = Integer.valueOf(810);
-   private static final Integer TASK_ENTERPRISE_TEXT13 = Integer.valueOf(811);
-   private static final Integer TASK_ENTERPRISE_TEXT14 = Integer.valueOf(812);
-   private static final Integer TASK_ENTERPRISE_TEXT15 = Integer.valueOf(813);
-   private static final Integer TASK_ENTERPRISE_TEXT16 = Integer.valueOf(814);
-   private static final Integer TASK_ENTERPRISE_TEXT17 = Integer.valueOf(815);
-   private static final Integer TASK_ENTERPRISE_TEXT18 = Integer.valueOf(816);
-   private static final Integer TASK_ENTERPRISE_TEXT19 = Integer.valueOf(817);
-   private static final Integer TASK_ENTERPRISE_TEXT20 = Integer.valueOf(818);
-   private static final Integer TASK_ENTERPRISE_TEXT21 = Integer.valueOf(819);
-   private static final Integer TASK_ENTERPRISE_TEXT22 = Integer.valueOf(820);
-   private static final Integer TASK_ENTERPRISE_TEXT23 = Integer.valueOf(821);
-   private static final Integer TASK_ENTERPRISE_TEXT24 = Integer.valueOf(822);
-   private static final Integer TASK_ENTERPRISE_TEXT25 = Integer.valueOf(823);
-   private static final Integer TASK_ENTERPRISE_TEXT26 = Integer.valueOf(824);
-   private static final Integer TASK_ENTERPRISE_TEXT27 = Integer.valueOf(825);
-   private static final Integer TASK_ENTERPRISE_TEXT28 = Integer.valueOf(826);
-   private static final Integer TASK_ENTERPRISE_TEXT29 = Integer.valueOf(827);
-   private static final Integer TASK_ENTERPRISE_TEXT30 = Integer.valueOf(828);
-   private static final Integer TASK_ENTERPRISE_TEXT31 = Integer.valueOf(829);
-   private static final Integer TASK_ENTERPRISE_TEXT32 = Integer.valueOf(830);
-   private static final Integer TASK_ENTERPRISE_TEXT33 = Integer.valueOf(831);
-   private static final Integer TASK_ENTERPRISE_TEXT34 = Integer.valueOf(832);
-   private static final Integer TASK_ENTERPRISE_TEXT35 = Integer.valueOf(833);
-   private static final Integer TASK_ENTERPRISE_TEXT36 = Integer.valueOf(834);
-   private static final Integer TASK_ENTERPRISE_TEXT37 = Integer.valueOf(835);
-   private static final Integer TASK_ENTERPRISE_TEXT38 = Integer.valueOf(836);
-   private static final Integer TASK_ENTERPRISE_TEXT39 = Integer.valueOf(837);
-   private static final Integer TASK_ENTERPRISE_TEXT40 = Integer.valueOf(838);
-
-   private static final Integer TASK_EXTERNAL_TASK_ID = Integer.valueOf(255);
-
-   private static final Integer TASK_BASELINE1_START = Integer.valueOf(482);
-   private static final Integer TASK_BASELINE1_FINISH = Integer.valueOf(483);
-   private static final Integer TASK_BASELINE1_COST = Integer.valueOf(484);
-   private static final Integer TASK_BASELINE1_WORK = Integer.valueOf(485);
-   private static final Integer TASK_BASELINE1_DURATION = Integer.valueOf(487);
-   private static final Integer TASK_BASELINE1_DURATION_UNITS = Integer.valueOf(488);
-
-   private static final Integer TASK_BASELINE2_START = Integer.valueOf(493);
-   private static final Integer TASK_BASELINE2_FINISH = Integer.valueOf(494);
-   private static final Integer TASK_BASELINE2_COST = Integer.valueOf(495);
-   private static final Integer TASK_BASELINE2_WORK = Integer.valueOf(496);
-   private static final Integer TASK_BASELINE2_DURATION = Integer.valueOf(498);
-   private static final Integer TASK_BASELINE2_DURATION_UNITS = Integer.valueOf(499);
-
-   private static final Integer TASK_BASELINE3_START = Integer.valueOf(504);
-   private static final Integer TASK_BASELINE3_FINISH = Integer.valueOf(505);
-   private static final Integer TASK_BASELINE3_COST = Integer.valueOf(506);
-   private static final Integer TASK_BASELINE3_WORK = Integer.valueOf(507);
-   private static final Integer TASK_BASELINE3_DURATION = Integer.valueOf(509);
-   private static final Integer TASK_BASELINE3_DURATION_UNITS = Integer.valueOf(510);
-
-   private static final Integer TASK_BASELINE4_START = Integer.valueOf(515);
-   private static final Integer TASK_BASELINE4_FINISH = Integer.valueOf(516);
-   private static final Integer TASK_BASELINE4_COST = Integer.valueOf(517);
-   private static final Integer TASK_BASELINE4_WORK = Integer.valueOf(518);
-   private static final Integer TASK_BASELINE4_DURATION = Integer.valueOf(520);
-   private static final Integer TASK_BASELINE4_DURATION_UNITS = Integer.valueOf(521);
-
-   private static final Integer TASK_BASELINE5_START = Integer.valueOf(526);
-   private static final Integer TASK_BASELINE5_FINISH = Integer.valueOf(527);
-   private static final Integer TASK_BASELINE5_COST = Integer.valueOf(528);
-   private static final Integer TASK_BASELINE5_WORK = Integer.valueOf(529);
-   private static final Integer TASK_BASELINE5_DURATION = Integer.valueOf(531);
-   private static final Integer TASK_BASELINE5_DURATION_UNITS = Integer.valueOf(532);
-
-   private static final Integer TASK_BASELINE6_START = Integer.valueOf(544);
-   private static final Integer TASK_BASELINE6_FINISH = Integer.valueOf(545);
-   private static final Integer TASK_BASELINE6_COST = Integer.valueOf(546);
-   private static final Integer TASK_BASELINE6_WORK = Integer.valueOf(547);
-   private static final Integer TASK_BASELINE6_DURATION = Integer.valueOf(549);
-   private static final Integer TASK_BASELINE6_DURATION_UNITS = Integer.valueOf(550);
-
-   private static final Integer TASK_BASELINE7_START = Integer.valueOf(555);
-   private static final Integer TASK_BASELINE7_FINISH = Integer.valueOf(556);
-   private static final Integer TASK_BASELINE7_COST = Integer.valueOf(557);
-   private static final Integer TASK_BASELINE7_WORK = Integer.valueOf(558);
-   private static final Integer TASK_BASELINE7_DURATION = Integer.valueOf(560);
-   private static final Integer TASK_BASELINE7_DURATION_UNITS = Integer.valueOf(561);
-
-   private static final Integer TASK_BASELINE8_START = Integer.valueOf(566);
-   private static final Integer TASK_BASELINE8_FINISH = Integer.valueOf(567);
-   private static final Integer TASK_BASELINE8_COST = Integer.valueOf(568);
-   private static final Integer TASK_BASELINE8_WORK = Integer.valueOf(569);
-   private static final Integer TASK_BASELINE8_DURATION = Integer.valueOf(571);
-   private static final Integer TASK_BASELINE8_DURATION_UNITS = Integer.valueOf(572);
-
-   private static final Integer TASK_BASELINE9_START = Integer.valueOf(577);
-   private static final Integer TASK_BASELINE9_FINISH = Integer.valueOf(578);
-   private static final Integer TASK_BASELINE9_COST = Integer.valueOf(579);
-   private static final Integer TASK_BASELINE9_WORK = Integer.valueOf(580);
-   private static final Integer TASK_BASELINE9_DURATION = Integer.valueOf(582);
-   private static final Integer TASK_BASELINE9_DURATION_UNITS = Integer.valueOf(583);
-
-   private static final Integer TASK_BASELINE10_START = Integer.valueOf(588);
-   private static final Integer TASK_BASELINE10_FINISH = Integer.valueOf(589);
-   private static final Integer TASK_BASELINE10_COST = Integer.valueOf(590);
-   private static final Integer TASK_BASELINE10_WORK = Integer.valueOf(591);
-   private static final Integer TASK_BASELINE10_DURATION = Integer.valueOf(593);
-   private static final Integer TASK_BASELINE10_DURATION_UNITS = Integer.valueOf(594);
-
-   private static final Integer TASK_OVERTIME_COST = Integer.valueOf(168);
-   private static final Integer TASK_ACTUAL_OVERTIME_COST = Integer.valueOf(169);
-
-   //
-   // Unverified
-   //
-   private static final Integer TASK_ACTUAL_OVERTIME_WORK = Integer.valueOf(3);
-   private static final Integer TASK_REMAINING_OVERTIME_WORK = Integer.valueOf(4);
-   private static final Integer TASK_BASELINE_COST = Integer.valueOf(6);
-   private static final Integer TASK_BASELINE_DURATION = Integer.valueOf(27);
-   private static final Integer TASK_BASELINE_START = Integer.valueOf(43);
-   private static final Integer TASK_BASELINE_FINISH = Integer.valueOf(44);
-   private static final Integer TASK_BASELINE_DURATION_UNITS = Integer.valueOf(179);
-   private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);
-   private static final Integer TASK_SUBPROJECTUNIQUETASKID = Integer.valueOf(242);
-   private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);
-
-   private static final Integer TASK_PHYSICAL_PERCENT_COMPLETE = Integer.valueOf(1119);
-   private static final Integer TASK_START_TEXT = Integer.valueOf(1285);
-   private static final Integer TASK_FINISH_TEXT = Integer.valueOf(1286);
-   private static final Integer TASK_DURATION_TEXT = Integer.valueOf(1287);
-
-   /**
     * Resource data types.
     */
 
@@ -3984,6 +3198,5 @@ final class MPP14Reader implements MPPVariantReader
       false
    };
 
-   private static final int MINIMUM_EXPECTED_TASK_SIZE = 206;
    private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
 }

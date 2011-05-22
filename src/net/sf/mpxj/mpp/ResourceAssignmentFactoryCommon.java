@@ -71,7 +71,7 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
 
          int offset = MPPUtility.getInt(meta, 4);
          byte[] data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
-         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset())
+         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset(0))
          {
             continue;
          }
@@ -86,7 +86,10 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
          ResourceAssignment assignment = new ResourceAssignment(file);
          assignment.setTimephasedNormaliser(normaliser);
          assignment.disableEvents();
-         fieldMap.populateContainer(assignment, varDataId, data, assnVarData);
+         fieldMap.populateContainer(assignment, varDataId, new byte[][]
+         {
+            data
+         }, assnVarData);
          assignment.enableEvents();
 
          //

@@ -1300,7 +1300,7 @@ final class MPP9Reader implements MPPVariantReader
                }
                else
                {
-                  if (data.length == 8 || data.length > fieldMap.getMaxFixedDataOffset())
+                  if (data.length == 8 || data.length > fieldMap.getMaxFixedDataOffset(0))
                   {
                      uniqueID = MPPUtility.getInt(data, 0);
                      key = Integer.valueOf(uniqueID);
@@ -1333,7 +1333,7 @@ final class MPP9Reader implements MPPVariantReader
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] data = rscFixedData.getByteArrayValue(loop);
-         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset())
+         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset(0))
          {
             continue;
          }
@@ -1604,7 +1604,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataOffset());
+      FixedData taskFixedData = new FixedData(taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataOffset(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
@@ -1647,7 +1647,7 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
-         if (data.length < fieldMap.getMaxFixedDataOffset())
+         if (data.length < fieldMap.getMaxFixedDataOffset(0))
          {
             continue;
          }
@@ -1689,7 +1689,10 @@ final class MPP9Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
-         fieldMap.populateContainer(task, id, data, taskVarData);
+         fieldMap.populateContainer(task, id, new byte[][]
+         {
+            data
+         }, taskVarData);
          task.enableEvents();
 
          task.setEffortDriven((metaData[11] & 0x10) != 0);
@@ -2380,7 +2383,10 @@ final class MPP9Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(resource, id, data, rscVarData);
+         fieldMap.populateContainer(resource, id, new byte[][]
+         {
+            data
+         }, rscVarData);
          resource.enableEvents();
 
          processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));

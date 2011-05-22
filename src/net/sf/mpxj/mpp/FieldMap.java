@@ -64,6 +64,8 @@ abstract class FieldMap
    private void createFieldMap(byte[] data)
    {
       int index = 0;
+      int lastDataBlockOffset = 0;
+      int dataBlockIndex = 0;
       while (index < data.length)
       {
          FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
@@ -85,10 +87,6 @@ abstract class FieldMap
          if (dataBlockOffset != 65535)
          {
             location = FieldLocation.FIXED_DATA;
-            if (dataBlockOffset > m_maxFixedDataOffset)
-            {
-               m_maxFixedDataOffset = dataBlockOffset;
-            }
          }
          else
          {
@@ -109,24 +107,35 @@ abstract class FieldMap
             }
          }
 
-         //         if (location == FieldLocation.FIXED_DATA)
-         //         {
-         //            System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockOffset + " " + varDataKey);
-         //         }
+         if (location == FieldLocation.FIXED_DATA)
+         {
+            if (dataBlockOffset < lastDataBlockOffset)
+            {
+               ++dataBlockIndex;
+            }
+            lastDataBlockOffset = dataBlockOffset;
 
-         //         if (location != FieldLocation.META_DATA)
+            if (dataBlockOffset > m_maxFixedDataOffset[dataBlockIndex])
+            {
+               m_maxFixedDataOffset[dataBlockIndex] = dataBlockOffset;
+            }
+
+            //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockIndex + " " + dataBlockOffset + " " + varDataKey);
+         }
+
+         //         if (location == FieldLocation.VAR_DATA)
          //         {
-         //            System.out.println((type==null?"?":type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
+         //            System.out.println((type == null ? "?" : type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
          //         }
 
          if (type != null)
          {
-            //                        if (location != FieldLocation.META_DATA)
-            //                        {
-            //                           System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
-            //                        }
+            //            if (location != FieldLocation.META_DATA)
+            //            {
+            //               System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
+            //            }
 
-            m_map.put(type, new FieldItem(type, location, dataBlockOffset, varDataKey));
+            m_map.put(type, new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey));
          }
 
          index += 28;
@@ -261,7 +270,7 @@ abstract class FieldMap
    {
       for (Object[] item : defaultData)
       {
-         m_map.put((FieldType) item[0], new FieldItem((FieldType) item[0], (FieldLocation) item[1], ((Integer) item[2]).intValue(), ((Integer) item[3]).intValue()));
+         m_map.put((FieldType) item[0], new FieldItem((FieldType) item[0], (FieldLocation) item[1], 0, ((Integer) item[2]).intValue(), ((Integer) item[3]).intValue()));
       }
    }
 
@@ -274,7 +283,7 @@ abstract class FieldMap
     * @param fixedData fixed data block
     * @param varData var data block
     */
-   public void populateContainer(FieldContainer container, Integer id, byte[] fixedData, Var2Data varData)
+   public void populateContainer(FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       //System.out.println("Object: " + id);
       for (FieldItem item : m_map.values())
@@ -289,11 +298,12 @@ abstract class FieldMap
    /**
     * Retrieve the maximum offset in the fixed data block.
     * 
+    * @param blockIndex required block index
     * @return maximum offset
     */
-   public int getMaxFixedDataOffset()
+   public int getMaxFixedDataOffset(int blockIndex)
    {
-      return m_maxFixedDataOffset;
+      return m_maxFixedDataOffset[blockIndex];
    }
 
    /**
@@ -343,7 +353,7 @@ abstract class FieldMap
     * @param varData var data block
     * @return field value
     */
-   protected Object getFieldData(Integer id, FieldType type, byte[] fixedData, Var2Data varData)
+   protected Object getFieldData(Integer id, FieldType type, byte[][] fixedData, Var2Data varData)
    {
       Object result = null;
 
@@ -389,13 +399,15 @@ abstract class FieldMap
        * 
        * @param type field type
        * @param location identifies which block the field is present in
+       * @param fixedDataBlockIndex identifies which block the data comes from
        * @param fixedDataOffset fixed data block offset
        * @param varDataKey var data block key
        */
-      FieldItem(FieldType type, FieldLocation location, int fixedDataOffset, int varDataKey)
+      FieldItem(FieldType type, FieldLocation location, int fixedDataBlockIndex, int fixedDataOffset, int varDataKey)
       {
          m_type = type;
          m_location = location;
+         m_fixedDataBlockIndex = fixedDataBlockIndex;
          m_fixedDataOffset = fixedDataOffset;
          m_varDataKey = Integer.valueOf(varDataKey);
       }
@@ -408,7 +420,7 @@ abstract class FieldMap
        * @param varData var data block
        * @return field value
        */
-      public Object read(Integer id, byte[] fixedData, Var2Data varData)
+      public Object read(Integer id, byte[][] fixedData, Var2Data varData)
       {
          Object result = null;
 
@@ -457,141 +469,152 @@ abstract class FieldMap
        * @param varData var data block
        * @return field value
        */
-      private Object readFixedData(Integer id, byte[] fixedData, Var2Data varData)
+      private Object readFixedData(Integer id, byte[][] fixedData, Var2Data varData)
       {
          Object result = null;
-
-         switch (m_type.getDataType())
+         if (m_fixedDataBlockIndex < fixedData.length)
          {
-            case DATE :
+            byte[] data = fixedData[m_fixedDataBlockIndex];
+            if (m_fixedDataOffset < data.length)
             {
-               result = MPPUtility.getTimestamp(fixedData, m_fixedDataOffset);
-               break;
-            }
-
-            case INTEGER :
-            {
-               result = Integer.valueOf(MPPUtility.getInt(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case DURATION :
-            {
-               FieldType unitsType = m_type.getUnitsType();
-               TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
-               if (units == null)
+               switch (m_type.getDataType())
                {
-                  units = TimeUnit.HOURS;
+                  case DATE :
+                  {
+                     result = MPPUtility.getTimestamp(data, m_fixedDataOffset);
+                     break;
+                  }
+
+                  case INTEGER :
+                  {
+                     result = Integer.valueOf(MPPUtility.getInt(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case DURATION :
+                  {
+                     FieldType unitsType = m_type.getUnitsType();
+                     TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
+                     if (units == null)
+                     {
+                        units = TimeUnit.HOURS;
+                     }
+
+                     result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(data, m_fixedDataOffset), units);
+                     break;
+                  }
+
+                  case TIME_UNITS :
+                  {
+                     result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case CONSTRAINT :
+                  {
+                     result = ConstraintType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case PRIORITY :
+                  {
+                     result = Priority.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case PERCENTAGE :
+                  {
+                     result = MPPUtility.getPercentage(data, m_fixedDataOffset);
+                     break;
+                  }
+
+                  case TASK_TYPE :
+                  {
+                     result = TaskType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case ACCRUE :
+                  {
+                     result = AccrueType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case CURRENCY :
+                  {
+                     result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
+                     break;
+                  }
+
+                  case UNITS :
+                  {
+                     result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
+                     break;
+                  }
+
+                  case RATE :
+                  {
+                     result = new Rate(MPPUtility.getDouble(data, m_fixedDataOffset), TimeUnit.HOURS);
+                     break;
+                  }
+
+                  case WORK :
+                  {
+                     result = Duration.getInstance(MPPUtility.getDouble(data, m_fixedDataOffset) / 60000, TimeUnit.HOURS);
+                     break;
+                  }
+
+                  case SHORT :
+                  {
+                     result = Integer.valueOf(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case BOOLEAN :
+                  {
+                     result = Boolean.valueOf(MPPUtility.getShort(data, m_fixedDataOffset) != 0);
+                     break;
+                  }
+
+                  case DELAY :
+                  {
+                     result = MPPUtility.getDuration(MPPUtility.getShort(data, m_fixedDataOffset), TimeUnit.HOURS);
+                     break;
+                  }
+
+                  case WORK_UNITS :
+                  {
+                     int variableRateUnitsValue = MPPUtility.getByte(data, m_fixedDataOffset);
+                     result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
+                     break;
+                  }
+
+                  case WORKGROUP :
+                  {
+                     result = WorkGroup.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
+                  case RATE_UNITS :
+                  {
+                     result = TimeUnit.getInstance(MPPUtility.getShort(data, m_fixedDataOffset) - 1);
+                     break;
+                  }
+
+                  case GUID :
+                  {
+                     result = MPPUtility.getGUID(data, m_fixedDataOffset);
+                     break;
+                  }
+
+                  default :
+                  {
+                     //System.out.println("**** UNSUPPORTED FIXED DATA TYPE");
+                     break;
+                  }
                }
-
-               result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(fixedData, m_fixedDataOffset), units);
-               break;
-            }
-
-            case TIME_UNITS :
-            {
-               result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case CONSTRAINT :
-            {
-               result = ConstraintType.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case PRIORITY :
-            {
-               result = Priority.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case PERCENTAGE :
-            {
-               result = MPPUtility.getPercentage(fixedData, m_fixedDataOffset);
-               break;
-            }
-
-            case TASK_TYPE :
-            {
-               result = TaskType.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case ACCRUE :
-            {
-               result = AccrueType.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case CURRENCY :
-            {
-               result = NumberUtility.getDouble(MPPUtility.getDouble(fixedData, m_fixedDataOffset) / 100);
-               break;
-            }
-
-            case UNITS :
-            {
-               result = NumberUtility.getDouble(MPPUtility.getDouble(fixedData, m_fixedDataOffset) / 100);
-               break;
-            }
-
-            case RATE :
-            {
-               result = new Rate(MPPUtility.getDouble(fixedData, m_fixedDataOffset), TimeUnit.HOURS);
-               break;
-            }
-
-            case WORK :
-            {
-               result = Duration.getInstance(MPPUtility.getDouble(fixedData, m_fixedDataOffset) / 60000, TimeUnit.HOURS);
-               break;
-            }
-
-            case SHORT :
-            {
-               result = Integer.valueOf(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case BOOLEAN :
-            {
-               result = Boolean.valueOf(MPPUtility.getShort(fixedData, m_fixedDataOffset) != 0);
-               break;
-            }
-
-            case DELAY :
-            {
-               result = MPPUtility.getDuration(MPPUtility.getShort(fixedData, m_fixedDataOffset), TimeUnit.HOURS);
-               break;
-            }
-
-            case WORK_UNITS :
-            {
-               int variableRateUnitsValue = MPPUtility.getByte(fixedData, m_fixedDataOffset);
-               result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
-               break;
-            }
-
-            case WORKGROUP :
-            {
-               result = WorkGroup.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset));
-               break;
-            }
-
-            case RATE_UNITS :
-            {
-               result = TimeUnit.getInstance(MPPUtility.getShort(fixedData, m_fixedDataOffset) - 1);
-               break;
-            }
-
-            default :
-            {
-               //System.out.println("**** UNSUPPORTED FIXED DATA TYPE");
-               break;
             }
          }
-
          return result;
       }
 
@@ -603,7 +626,7 @@ abstract class FieldMap
        * @param varData var data block
        * @return field value
        */
-      private Object readVarData(Integer id, byte[] fixedData, Var2Data varData)
+      private Object readVarData(Integer id, byte[][] fixedData, Var2Data varData)
       {
          Object result = null;
 
@@ -709,6 +732,12 @@ abstract class FieldMap
             case WORKGROUP :
             {
                result = WorkGroup.getInstance(varData.getShort(id, m_varDataKey));
+               break;
+            }
+
+            case GUID :
+            {
+               result = MPPUtility.getGUID(varData.getByteArray(id, m_varDataKey), 0);
                break;
             }
 
@@ -856,6 +885,16 @@ abstract class FieldMap
       }
 
       /**
+       * Retrieve the index of the fixed data block containing this item.
+       * 
+       * @return fixed data block index
+       */
+      public int getFixedDataBlockIndex()
+      {
+         return m_fixedDataBlockIndex;
+      }
+
+      /**
        * Retrieve the fixed data offset for this field.
        * 
        * @return fixed data offset
@@ -877,13 +916,14 @@ abstract class FieldMap
 
       private FieldType m_type;
       private FieldLocation m_location;
+      private int m_fixedDataBlockIndex;
       private int m_fixedDataOffset;
       private Integer m_varDataKey;
    }
 
    private ProjectFile m_file;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
-   private int m_maxFixedDataOffset;
+   private int[] m_maxFixedDataOffset = new int[MAX_FIXED_DATA_BLOCKS];
 
    private static final Integer[] TASK_KEYS =
    {
@@ -903,4 +943,6 @@ abstract class FieldMap
    };
 
    private static final int VALUE_LIST_MASK = 0x0700;
+
+   private static final int MAX_FIXED_DATA_BLOCKS = 2;
 }

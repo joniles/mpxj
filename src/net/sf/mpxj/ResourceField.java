@@ -434,7 +434,7 @@ public enum ResourceField implements FieldType
    CREATED(DataType.DATE),
    BUDGET(DataType.BOOLEAN),
    TASK_OUTLINE_NUMBER(DataType.STRING),
-   GUID(DataType.STRING),
+   GUID(DataType.GUID),
 
    ACTIVE(DataType.STRING),
    ASSIGNMENT_OWNER(DataType.STRING),
@@ -494,7 +494,7 @@ public enum ResourceField implements FieldType
    BOOKING_TYPE(DataType.STRING),
    BUDGET_COST(DataType.CURRENCY),
    BUDGET_WORK(DataType.DURATION),
-   CALENDAR_GUID(DataType.STRING),
+   CALENDAR_GUID(DataType.GUID),
    COST_CENTER(DataType.STRING),
    DEFAULT_ASSIGNMENT_OWNER(DataType.STRING),
    ENTERPRISE_BASE_CALENDAR(DataType.STRING),

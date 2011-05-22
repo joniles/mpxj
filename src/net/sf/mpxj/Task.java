@@ -1929,7 +1929,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineDuration()
    {
-      return ((Duration) getCachedValue(TaskField.BASELINE_DURATION));
+      Object result = getCachedValue(TaskField.BASELINE_DURATION);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
+      }
+      return (Duration) result;
    }
 
    /**
@@ -1941,7 +1946,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineFinish()
    {
-      return ((Date) getCachedValue(TaskField.BASELINE_FINISH));
+      Object result = getCachedValue(TaskField.BASELINE_FINISH);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
+      }
+      return (Date) result;
    }
 
    /**
@@ -1953,7 +1963,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineStart()
    {
-      return ((Date) getCachedValue(TaskField.BASELINE_START));
+      Object result = getCachedValue(TaskField.BASELINE_START);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
+      }
+      return (Date) result;
    }
 
    /**
@@ -6283,7 +6298,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineDuration(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectTaskField(BASELINE_DURATIONS, baselineNumber)));
+      Duration result = (Duration) getCachedValue(selectTaskField(BASELINE_DURATIONS, baselineNumber));
+      if (result == null || result.getDuration() == 0)
+      {
+         result = (Duration) getCachedValue(selectTaskField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+      }
+      return result;
    }
 
    /**
@@ -6294,7 +6314,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineFinish(int baselineNumber)
    {
-      return ((Date) getCachedValue(selectTaskField(BASELINE_FINISHES, baselineNumber)));
+      Object result = getCachedValue(selectTaskField(BASELINE_FINISHES, baselineNumber));
+      if (result == null)
+      {
+         result = getCachedValue(selectTaskField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
+      }
+      return (Date) result;
    }
 
    /**
@@ -6305,7 +6330,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineStart(int baselineNumber)
    {
-      return ((Date) getCachedValue(selectTaskField(BASELINE_STARTS, baselineNumber)));
+      Object result = getCachedValue(selectTaskField(BASELINE_STARTS, baselineNumber));
+      if (result == null)
+      {
+         result = getCachedValue(selectTaskField(BASELINE_ESTIMATED_STARTS, baselineNumber));
+      }
+      return (Date) result;
    }
 
    /**
@@ -7103,6 +7133,20 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.BASELINE10_DURATION
    };
 
+   private static final TaskField[] BASELINE_ESTIMATED_DURATIONS =
+   {
+      TaskField.BASELINE1_ESTIMATED_DURATION,
+      TaskField.BASELINE2_ESTIMATED_DURATION,
+      TaskField.BASELINE3_ESTIMATED_DURATION,
+      TaskField.BASELINE4_ESTIMATED_DURATION,
+      TaskField.BASELINE5_ESTIMATED_DURATION,
+      TaskField.BASELINE6_ESTIMATED_DURATION,
+      TaskField.BASELINE7_ESTIMATED_DURATION,
+      TaskField.BASELINE8_ESTIMATED_DURATION,
+      TaskField.BASELINE9_ESTIMATED_DURATION,
+      TaskField.BASELINE10_ESTIMATED_DURATION
+   };
+
    private static final TaskField[] BASELINE_STARTS =
    {
       TaskField.BASELINE1_START,
@@ -7117,6 +7161,20 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.BASELINE10_START
    };
 
+   private static final TaskField[] BASELINE_ESTIMATED_STARTS =
+   {
+      TaskField.BASELINE1_ESTIMATED_START,
+      TaskField.BASELINE2_ESTIMATED_START,
+      TaskField.BASELINE3_ESTIMATED_START,
+      TaskField.BASELINE4_ESTIMATED_START,
+      TaskField.BASELINE5_ESTIMATED_START,
+      TaskField.BASELINE6_ESTIMATED_START,
+      TaskField.BASELINE7_ESTIMATED_START,
+      TaskField.BASELINE8_ESTIMATED_START,
+      TaskField.BASELINE9_ESTIMATED_START,
+      TaskField.BASELINE10_ESTIMATED_START
+   };
+
    private static final TaskField[] BASELINE_FINISHES =
    {
       TaskField.BASELINE1_FINISH,
@@ -7129,6 +7187,20 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.BASELINE8_FINISH,
       TaskField.BASELINE9_FINISH,
       TaskField.BASELINE10_FINISH
+   };
+
+   private static final TaskField[] BASELINE_ESTIMATED_FINISHES =
+   {
+      TaskField.BASELINE1_ESTIMATED_FINISH,
+      TaskField.BASELINE2_ESTIMATED_FINISH,
+      TaskField.BASELINE3_ESTIMATED_FINISH,
+      TaskField.BASELINE4_ESTIMATED_FINISH,
+      TaskField.BASELINE5_ESTIMATED_FINISH,
+      TaskField.BASELINE6_ESTIMATED_FINISH,
+      TaskField.BASELINE7_ESTIMATED_FINISH,
+      TaskField.BASELINE8_ESTIMATED_FINISH,
+      TaskField.BASELINE9_ESTIMATED_FINISH,
+      TaskField.BASELINE10_ESTIMATED_FINISH
    };
 
    private static final TaskField[] BASELINE_WORKS =
