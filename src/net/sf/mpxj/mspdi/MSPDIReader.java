@@ -61,6 +61,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -75,6 +76,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
@@ -97,12 +99,25 @@ public final class MSPDIReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
       {
          m_projectFile = new ProjectFile();
 
+         m_projectFile.addProjectListeners(m_projectListeners);
          m_projectFile.setAutoTaskID(false);
          m_projectFile.setAutoTaskUniqueID(false);
          m_projectFile.setAutoResourceID(false);
@@ -369,6 +384,8 @@ public final class MSPDIReader extends AbstractProjectReader
       }
 
       map.put(calendar.getUID(), bc);
+
+      m_projectFile.fireCalendarReadEvent(bc);
    }
 
    /**
@@ -1123,7 +1140,8 @@ public final class MSPDIReader extends AbstractProjectReader
             TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
             Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectHeader());
 
-            currTask.addPredecessor(prevTask, type, lagDuration);
+            Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
+            m_projectFile.fireRelationReadEvent(relation);
          }
       }
    }
@@ -1250,6 +1268,8 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setTimephasedPlanned(timephasedPlanned, raw);
 
             readAssignmentBaselines(assignment, mpx);
+
+            m_projectFile.fireAssignmentReadEvent(mpx);
          }
       }
    }
@@ -1413,4 +1433,5 @@ public final class MSPDIReader extends AbstractProjectReader
    private boolean m_compatibleInput = true;
 
    private ProjectFile m_projectFile;
+   private List<ProjectListener> m_projectListeners;
 }

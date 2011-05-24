@@ -268,6 +268,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       List<net.sf.mpxj.planner.schema.Day> dayList = plannerDays.getDay();
       processExceptionDays(mpxjCalendar, dayList);
 
+      m_projectFile.fireCalendarWrittenEvent(mpxjCalendar);
+
       //
       // Process any derived calendars
       //
@@ -519,6 +521,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             plannerPredecessor.setLag(getDurationString(rel.getLag()));
             plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
             predecessorList.add(plannerPredecessor);
+            m_projectFile.fireRelationWrittenEvent(rel);
          }
       }
    }
@@ -541,6 +544,8 @@ public final class PlannerWriter extends AbstractProjectWriter
          plannerAllocation.setTaskId(getIntegerString(mpxjAssignment.getTask().getUniqueID()));
          plannerAllocation.setResourceId(getIntegerString(mpxjAssignment.getResourceUniqueID()));
          plannerAllocation.setUnits(getIntegerString(mpxjAssignment.getUnits()));
+
+         m_projectFile.fireAssignmentWrittenEvent(mpxjAssignment);
       }
    }
 

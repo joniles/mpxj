@@ -40,6 +40,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
@@ -47,6 +48,20 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public final class MPD9DatabaseReader extends MPD9AbstractReader
 {
+   /**
+    * Add a listener to receive events as a project is being read.
+    * 
+    * @param listener ProjectListener instance
+    */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -87,6 +102,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          m_project = new ProjectFile();
 
+         m_project.addProjectListeners(m_projectListeners);
          m_project.setAutoTaskID(false);
          m_project.setAutoTaskUniqueID(false);
          m_project.setAutoResourceID(false);
@@ -588,4 +604,5 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private List<ProjectListener> m_projectListeners;
 }

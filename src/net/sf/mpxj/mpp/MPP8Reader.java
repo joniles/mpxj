@@ -48,6 +48,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -331,6 +332,7 @@ final class MPP8Reader implements MPPVariantReader
          }
 
          m_calendarMap.put(Integer.valueOf(calendarID), cal);
+         m_file.fireCalendarReadEvent(cal);
       }
 
       updateBaseCalendarNames(baseCalendars);
@@ -797,7 +799,8 @@ final class MPP8Reader implements MPPVariantReader
                      RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 20));
                      TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
                      Duration lag = MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits);
-                     task2.addPredecessor(task1, type, lag);
+                     Relation relation = task2.addPredecessor(task1, type, lag);
+                     m_file.fireRelationReadEvent(relation);
                   }
                }
             }
@@ -1072,6 +1075,8 @@ final class MPP8Reader implements MPPVariantReader
             assignment.setStart(MPPUtility.getTimestamp(data, 24));
             assignment.setUnits(Double.valueOf(((double) MPPUtility.getShort(data, 80)) / 100));
             assignment.setWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 84)) / 100, TimeUnit.HOURS));
+
+            m_file.fireAssignmentReadEvent(assignment);
 
             //
             // Uncommenting the call to this method is useful when trying

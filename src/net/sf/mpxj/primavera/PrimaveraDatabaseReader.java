@@ -39,6 +39,7 @@ import javax.sql.DataSource;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -48,6 +49,18 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public final class PrimaveraDatabaseReader implements ProjectReader
 {
+   /**
+    * {@inheritDoc}
+    */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -89,6 +102,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       try
       {
          m_reader = new PrimaveraReader();
+         ProjectFile project = m_reader.getProject();
+         project.addProjectListeners(m_projectListeners);
 
          processProjectHeader();
          processCalendars();
@@ -97,7 +112,6 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          processPredecessors();
          processAssignments();
 
-         ProjectFile project = m_reader.getProject();
          m_reader = null;
          project.updateStructure();
 
@@ -421,4 +435,5 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private List<ProjectListener> m_projectListeners;
 }

@@ -47,6 +47,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
@@ -1079,6 +1080,7 @@ final class MPP12Reader implements MPPVariantReader
                   }
 
                   calendarMap.put(calendarID, cal);
+                  m_file.fireCalendarReadEvent(cal);
                }
 
                offset += 12;
@@ -2051,7 +2053,8 @@ final class MPP12Reader implements MPPVariantReader
                            RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
                            TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
                            Duration lag = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits);
-                           task2.addPredecessor(task1, type, lag);
+                           Relation relation = task2.addPredecessor(task1, type, lag);
+                           m_file.fireRelationReadEvent(relation);
                         }
                      }
                   }

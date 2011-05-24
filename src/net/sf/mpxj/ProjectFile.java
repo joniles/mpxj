@@ -1171,6 +1171,108 @@ public final class ProjectFile
    }
 
    /**
+    * This method is called to alert project listeners to the fact that
+    * a calendar has been read from a project file.
+    *
+    * @param calendar calendar instance
+    */
+   public void fireCalendarReadEvent(ProjectCalendar calendar)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            listener.calendarRead(calendar);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a resource assignment has been read from a project file.
+    *
+    * @param resourceAssignment resourceAssignment instance
+    */
+   public void fireAssignmentReadEvent(ResourceAssignment resourceAssignment)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            listener.assignmentRead(resourceAssignment);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a resource assignment has been written to a project file.
+    *
+    * @param resourceAssignment resourceAssignment instance
+    */
+   public void fireAssignmentWrittenEvent(ResourceAssignment resourceAssignment)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            listener.assignmentWritten(resourceAssignment);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a relation has been read from a project file.
+    *
+    * @param relation relation instance
+    */
+   public void fireRelationReadEvent(Relation relation)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            listener.relationRead(relation);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a relation has been written to a project file.
+    *
+    * @param relation relation instance
+    */
+   public void fireRelationWrittenEvent(Relation relation)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            listener.relationWritten(relation);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a calendar has been written to a project file.
+    *
+    * @param calendar calendar instance
+    */
+   public void fireCalendarWrittenEvent(ProjectCalendar calendar)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            listener.calendarWritten(calendar);
+         }
+      }
+   }
+
+   /**
     * Adds a listener to this project file.
     *
     * @param listener listener instance
@@ -1182,6 +1284,22 @@ public final class ProjectFile
          m_projectListeners = new LinkedList<ProjectListener>();
       }
       m_projectListeners.add(listener);
+   }
+
+   /**
+    * Adds a collection of listeners to the current project.
+    * 
+    * @param listeners collection of listeners
+    */
+   public void addProjectListeners(List<ProjectListener> listeners)
+   {
+      if (listeners != null)
+      {
+         for (ProjectListener listener : listeners)
+         {
+            addProjectListener(listener);
+         }
+      }
    }
 
    /**

@@ -48,15 +48,16 @@ import javax.xml.transform.sax.SAXSource;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -64,6 +65,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -93,12 +95,25 @@ public final class PlannerReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
       {
          m_projectFile = new ProjectFile();
 
+         m_projectFile.addProjectListeners(m_projectListeners);
          m_projectFile.setAutoTaskUniqueID(false);
          m_projectFile.setAutoResourceUniqueID(false);
          m_projectFile.setAutoOutlineLevel(false);
@@ -244,6 +259,8 @@ public final class PlannerReader extends AbstractProjectReader
       // Process exception days
       //
       processExceptionDays(mpxjCalendar, plannerCalendar);
+
+      m_projectFile.fireCalendarReadEvent(mpxjCalendar);
 
       //
       // Process any derived calendars
@@ -674,7 +691,8 @@ public final class PlannerReader extends AbstractProjectReader
                   {
                      lag = Duration.getInstance(0, TimeUnit.HOURS);
                   }
-                  mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
+                  Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
+                  m_projectFile.fireRelationReadEvent(relation);
                }
             }
          }
@@ -739,6 +757,8 @@ public final class PlannerReader extends AbstractProjectReader
                assignment.setFinish(task.getFinish());
 
                tasksWithAssignments.add(task);
+
+               m_projectFile.fireAssignmentReadEvent(assignment);
             }
          }
 
@@ -976,6 +996,7 @@ public final class PlannerReader extends AbstractProjectReader
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private List<DateRange> m_defaultWorkingHours = new LinkedList<DateRange>();
+   private List<ProjectListener> m_projectListeners;
 
    private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<String, RelationType>();
    static

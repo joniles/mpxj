@@ -39,6 +39,7 @@ import java.util.Set;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.InputStreamTokenizer;
 import net.sf.mpxj.utility.NumberUtility;
@@ -49,6 +50,18 @@ import net.sf.mpxj.utility.Tokenizer;
  */
 public final class PrimaveraFileReader extends AbstractProjectReader
 {
+   /**
+    * {@inheritDoc}
+    */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
    /**
     * Set the ID of the project to be read.
     *
@@ -67,9 +80,12 @@ public final class PrimaveraFileReader extends AbstractProjectReader
       try
       {
          m_tables = new HashMap<String, List<Row>>();
+
          processFile(is);
 
          m_reader = new PrimaveraReader();
+         ProjectFile project = m_reader.getProject();
+         project.addProjectListeners(m_projectListeners);
 
          processProjectID();
          processProjectHeader();
@@ -79,7 +95,6 @@ public final class PrimaveraFileReader extends AbstractProjectReader
          processPredecessors();
          processAssignments();
 
-         ProjectFile project = m_reader.getProject();
          m_reader = null;
          project.updateStructure();
 
@@ -452,6 +467,7 @@ public final class PrimaveraFileReader extends AbstractProjectReader
    private String[] m_currentFieldNames;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
+   private List<ProjectListener> m_projectListeners;
 
    /**
     * Represents expected record types.

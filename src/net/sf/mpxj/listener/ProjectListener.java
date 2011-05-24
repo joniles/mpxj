@@ -23,7 +23,10 @@
 
 package net.sf.mpxj.listener;
 
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 
 /**
@@ -59,4 +62,46 @@ public interface ProjectListener
     * @param resource resource instance
     */
    public void resourceWritten(Resource resource);
+
+   /**
+    * This method is called when a calendar is read from a file.
+    *
+    * @param calendar calendar instance
+    */
+   public void calendarRead(ProjectCalendar calendar);
+
+   /**
+    * This method is called when a calendar is written to a file.
+    * 
+    * @param calendar calendar instance
+    */
+   public void calendarWritten(ProjectCalendar calendar);
+
+   /**
+    * This method is called when an assignment is read from a file.
+    *
+    * @param assignment resource assignment
+    */
+   public void assignmentRead(ResourceAssignment assignment);
+
+   /**
+    * This method is called when an assignment is written to a file.
+    * 
+    * @param assignment assignment instance
+    */
+   public void assignmentWritten(ResourceAssignment assignment);
+
+   /**
+    * This method is called when a relation is read from a file.
+    *
+    * @param relation relation instance
+    */
+   public void relationRead(Relation relation);
+
+   /**
+    * This method is called when a relation is written to a file.
+    * 
+    * @param relation relation instance
+    */
+   public void relationWritten(Relation relation);
 }

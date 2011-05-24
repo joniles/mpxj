@@ -45,6 +45,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -178,6 +179,8 @@ final class PrimaveraReader
                calendar.addCalendarException(startEx, startEx);
             }
          }
+
+         m_project.fireCalendarReadEvent(calendar);
       }
    }
 
@@ -198,6 +201,8 @@ final class PrimaveraReader
          resource.setNotes(row.getString("rsrc_notes"));
          resource.setCreationDate(row.getDate("create_date"));
          resource.setType(RESOURCE_TYPE_MAP.get(row.getString("rsrc_type")));
+
+         m_project.fireResourceReadEvent(resource);
       }
    }
 
@@ -310,6 +315,8 @@ final class PrimaveraReader
          populateField(task, TaskField.START, TaskField.BASELINE_START, TaskField.ACTUAL_START);
          populateField(task, TaskField.FINISH, TaskField.BASELINE_FINISH, TaskField.ACTUAL_FINISH);
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
+
+         m_project.fireTaskReadEvent(task);
       }
 
       updateStructure();
@@ -383,7 +390,8 @@ final class PrimaveraReader
          {
             RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
             Duration lag = row.getDuration("lag_hr_cnt");
-            currentTask.addPredecessor(predecessorTask, type, lag);
+            Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
+            m_project.fireRelationReadEvent(relation);
          }
       }
    }
@@ -416,6 +424,8 @@ final class PrimaveraReader
             populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
+
+            m_project.fireAssignmentReadEvent(assignment);
          }
       }
    }

@@ -155,9 +155,12 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
                      assignment.setWorkContour(WorkContour.FLAT);
                   }
                }
+
                //System.out.println(assignment.getWorkContour());
                //System.out.println(assignment);
             }
+
+            file.fireAssignmentReadEvent(assignment);
          }
       }
    }

@@ -436,6 +436,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          calendar.setWeekDays(days);
       }
 
+      m_projectFile.fireCalendarWrittenEvent(bc);
+
       return (calendar);
    }
 
@@ -1158,6 +1160,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             Integer taskUniqueID = rel.getTargetTask().getUniqueID();
             list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
+            m_projectFile.fireRelationWrittenEvent(rel);
          }
       }
    }
@@ -1274,6 +1277,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       writeAssignmentBaselines(xml, mpx);
 
       writeAssignmentTimephasedData(mpx, xml);
+
+      m_projectFile.fireAssignmentWrittenEvent(mpx);
 
       return (xml);
    }

@@ -35,17 +35,18 @@ import java.util.Locale;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.FileVersion;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RecurringTask;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -55,6 +56,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.InputStreamTokenizer;
 import net.sf.mpxj.utility.MPXJFormats;
@@ -67,6 +69,18 @@ import net.sf.mpxj.utility.Tokenizer;
  */
 public final class MPXReader extends AbstractProjectReader
 {
+   /**
+    * {@inheritDoc}
+    */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -98,6 +112,7 @@ public final class MPXReader extends AbstractProjectReader
 
          m_projectFile = new ProjectFile();
 
+         m_projectFile.addProjectListeners(m_projectListeners);
          m_projectFile.setAutoTaskID(false);
          m_projectFile.setAutoTaskUniqueID(false);
          m_projectFile.setAutoResourceID(false);
@@ -686,6 +701,8 @@ public final class MPXReader extends AbstractProjectReader
       calendar.setWorkingDay(Day.THURSDAY, DayType.getInstance(record.getInteger(5)));
       calendar.setWorkingDay(Day.FRIDAY, DayType.getInstance(record.getInteger(6)));
       calendar.setWorkingDay(Day.SATURDAY, DayType.getInstance(record.getInteger(7)));
+
+      m_projectFile.fireCalendarReadEvent(calendar);
    }
 
    /**
@@ -971,7 +988,8 @@ public final class MPXReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
       }
 
-      sourceTask.addPredecessor(targetTask, type, lag);
+      Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
+      m_projectFile.fireRelationReadEvent(relation);
    }
 
    /**
@@ -1333,6 +1351,8 @@ public final class MPXReader extends AbstractProjectReader
          assignment.setResourceUniqueID(resource.getUniqueID());
          resource.addResourceAssignment(assignment);
       }
+
+      m_projectFile.fireAssignmentReadEvent(assignment);
    }
 
    /**
@@ -1512,6 +1532,7 @@ public final class MPXReader extends AbstractProjectReader
    private char m_delimiter;
    private MPXJFormats m_formats;
    private List<DeferredRelationship> m_deferredRelationships;
+   private List<ProjectListener> m_projectListeners;
 
    /**
     * This member data is used to hold the outline level number of the

@@ -364,6 +364,8 @@ public final class MPXWriter extends AbstractProjectWriter
             writeCalendarException(record, ex);
          }
       }
+
+      m_projectFile.fireCalendarWrittenEvent(record);
    }
 
    /**
@@ -768,6 +770,8 @@ public final class MPXWriter extends AbstractProjectWriter
          workgroup = ResourceAssignmentWorkgroupFields.EMPTY;
       }
       writeResourceAssignmentWorkgroupFields(workgroup);
+
+      m_projectFile.fireAssignmentWrittenEvent(record);
    }
 
    /**
@@ -1238,6 +1242,7 @@ public final class MPXWriter extends AbstractProjectWriter
          result = sb.toString();
       }
 
+      m_projectFile.fireRelationWrittenEvent(relation);
       return (result);
    }
 

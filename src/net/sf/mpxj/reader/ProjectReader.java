@@ -28,6 +28,7 @@ import java.io.InputStream;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * This interface is implemented by all classes which can read project
@@ -36,6 +37,13 @@ import net.sf.mpxj.ProjectFile;
  */
 public interface ProjectReader
 {
+   /**
+    * Add a listener to receive events as a project is being read.
+    * 
+    * @param listener ProjectListener instance
+    */
+   public void addProjectListener(ProjectListener listener);
+
    /**
     * Read a file where the file name is supplied.
     *

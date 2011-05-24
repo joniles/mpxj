@@ -47,6 +47,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -251,6 +252,7 @@ abstract class MPD9AbstractReader
          {
             cal.setUniqueID(uniqueID);
             m_calendarMap.put(uniqueID, cal);
+            m_project.fireCalendarReadEvent(cal);
          }
       }
    }
@@ -1048,6 +1050,8 @@ abstract class MPD9AbstractReader
          {
             task.setNull(true);
          }
+
+         m_project.fireTaskReadEvent(task);
       }
    }
 
@@ -1065,7 +1069,8 @@ abstract class MPD9AbstractReader
          RelationType type = RelationType.getInstance(row.getInt("LINK_TYPE"));
          TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
          Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
-         successorTask.addPredecessor(predecessorTask, type, duration);
+         Relation relation = successorTask.addPredecessor(predecessorTask, type, duration);
+         m_project.fireRelationReadEvent(relation);
       }
    }
 
@@ -1100,6 +1105,7 @@ abstract class MPD9AbstractReader
          assignment.setBaselineFinish(row.getDate("ASSN_BASE_FINISH"));
          assignment.setBaselineStart(row.getDate("ASSN_BASE_START"));
          assignment.setBaselineWork(row.getDuration("ASSN_BASE_WORK"));
+         m_project.fireAssignmentReadEvent(assignment);
       }
    }
 

@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -48,12 +50,25 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    public ProjectFile read(InputStream is) throws MPXJException
    {
       try
       {
          ProjectFile projectFile = new ProjectFile();
 
+         projectFile.addProjectListeners(m_projectListeners);
          projectFile.setAutoTaskID(false);
          projectFile.setAutoTaskUniqueID(false);
          projectFile.setAutoResourceID(false);
@@ -261,6 +276,7 @@ public final class MPPReader extends AbstractProjectReader
 
    private String m_readPassword;
    private String m_writePassword;
+   private List<ProjectListener> m_projectListeners;
 
    /**
     * Populate a map of file types and file processing classes.

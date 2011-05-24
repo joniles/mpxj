@@ -176,6 +176,8 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                //System.out.println(assignment.getWorkContour());
                //System.out.println(assignment);
             }
+
+            file.fireAssignmentReadEvent(assignment);
          }
       }
    }

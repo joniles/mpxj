@@ -23,7 +23,10 @@
 
 package net.sf.mpxj.listener;
 
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 
 /**
@@ -62,6 +65,54 @@ public class DefaultProjectListener implements ProjectListener
     * {@inheritDoc}
     */
    public void resourceWritten(Resource resource)
+   {
+      // default implementation
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void calendarRead(ProjectCalendar calendar)
+   {
+      // default implementation
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void calendarWritten(ProjectCalendar calendar)
+   {
+      // default implementation
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void assignmentRead(ResourceAssignment assignment)
+   {
+      // default implementation
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void assignmentWritten(ResourceAssignment assignment)
+   {
+      // default implementation
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void relationRead(Relation relation)
+   {
+      // default implementation
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void relationWritten(Relation relation)
    {
       // default implementation
    }
