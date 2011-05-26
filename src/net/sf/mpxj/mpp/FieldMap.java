@@ -130,10 +130,10 @@ abstract class FieldMap
 
          if (type != null)
          {
-            //            if (location != FieldLocation.META_DATA)
-            //            {
-            //               System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
-            //            }
+            //                        if (location != FieldLocation.META_DATA)
+            //                        {
+            //                           System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
+            //                        }
 
             m_map.put(type, new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey));
          }

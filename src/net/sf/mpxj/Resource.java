@@ -5196,4 +5196,40 @@ NEW FIELDS - to be implemented in 5.0
    ACTUAL_WORK_PROTECTED(DataType.WORK),
    ACTUAL_OVERTIME_WORK_PROTECTED(DataType.WORK),
 
+Actual Overtime Work Protected 65535 721
+Actual Work Protected 65535 720
+Availability Data 65535 276
+Baseline Budget Cost 65535 757
+Baseline Budget Work 65535 756
+Baseline1 Budget Cost 65535 761
+Baseline1 Budget Work 65535 760
+Baseline10 Budget Cost 65535 797
+Baseline10 Budget Work 65535 796
+Baseline2 Budget Cost 65535 765
+Baseline2 Budget Work 65535 764
+Baseline3 Budget Cost 65535 769
+Baseline3 Budget Work 65535 768
+Baseline4 Budget Cost 65535 773
+Baseline4 Budget Work 65535 772
+Baseline5 Budget Cost 65535 777
+Baseline5 Budget Work 65535 776
+Baseline6 Budget Cost 65535 781
+Baseline6 Budget Work 65535 780
+Baseline7 Budget Cost 65535 785
+Baseline7 Budget Work 65535 784
+Baseline8 Budget Cost 65535 789
+Baseline8 Budget Work 65535 788
+Baseline9 Budget Cost 65535 793
+Baseline9 Budget Work 65535 792
+Booking Type 65535 699
+Budget Cost 65535 754
+Budget Work 65535 753
+Calendar GUID 24 729
+Cost Center 65535 801
+Created 65535 726
+Enterprise Unique ID 65535 443
+Phonetics 65535 252
+Remaining Overtime Work 116 40
+Work 52 13
+Workgroup 14 272
 */
