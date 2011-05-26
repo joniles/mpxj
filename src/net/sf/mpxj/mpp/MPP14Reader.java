@@ -2121,13 +2121,16 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
+      FieldMap fieldMap = new FieldMap14(m_file);
+      fieldMap.createAssignmentFieldMap(m_projectProps);
+
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(110, getEncryptableInputStream(assnDir, "FixedData"));
-      ResourceAssignmentFactory factory = new ResourceAssignmentFactory14();
-      factory.process(m_file, null, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
+      ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
+      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }
 
    /**

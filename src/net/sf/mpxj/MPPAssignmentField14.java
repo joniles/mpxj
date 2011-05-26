@@ -516,6 +516,10 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[8] = AssignmentField.WORK;
       FIELD_ARRAY[39] = AssignmentField.WORK_CONTOUR;
       FIELD_ARRAY[248] = AssignmentField.WORK_VARIANCE;
+      FIELD_ARRAY[49] = AssignmentField.PLANNED_WORK_DATA;
+      FIELD_ARRAY[50] = AssignmentField.COMPLETE_WORK_DATA;
+      FIELD_ARRAY[270] = AssignmentField.VARIABLE_RATE_UNITS;
+      FIELD_ARRAY[55] = AssignmentField.LEVELING_DELAY_UNITS;
    }
 
    private static final int[] ID_ARRAY = new int[AssignmentField.MAX_VALUE];
