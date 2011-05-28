@@ -64,2398 +64,580 @@ class FieldMap9 extends FieldMap
    /**
     * {@inheritDoc}
     */
-   @Override protected Object[][] getDefaultTaskData()
+   @Override protected FieldItem[] getDefaultTaskData()
    {
-      return DEFAULT_TASK_MAP;
+      FieldItem[] result = new FieldItem[]
+      {
+         new FieldItem(TaskField.UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 0, 0),
+         new FieldItem(TaskField.ID, FieldLocation.FIXED_DATA, 0, 4, 0),
+         new FieldItem(TaskField.EARLY_FINISH, FieldLocation.FIXED_DATA, 0, 8, 0),
+         new FieldItem(TaskField.LATE_START, FieldLocation.FIXED_DATA, 0, 12, 0),
+         new FieldItem(TaskField.STOP, FieldLocation.FIXED_DATA, 0, 16, 0),
+         new FieldItem(TaskField.RESUME, FieldLocation.FIXED_DATA, 0, 20, 0),
+         new FieldItem(TaskField.FREE_SLACK, FieldLocation.FIXED_DATA, 0, 24, 0),
+         new FieldItem(TaskField.START_SLACK, FieldLocation.FIXED_DATA, 0, 28, 0),
+         new FieldItem(TaskField.FINISH_SLACK, FieldLocation.FIXED_DATA, 0, 32, 0),
+         new FieldItem(TaskField.PARENT_TASK_UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 36, 0),
+         new FieldItem(TaskField.OUTLINE_LEVEL, FieldLocation.FIXED_DATA, 0, 40, 0),
+         new FieldItem(TaskField.DURATION_UNITS, FieldLocation.FIXED_DATA, 0, 58, 0),
+         new FieldItem(TaskField.DURATION, FieldLocation.FIXED_DATA, 0, 60, 0),
+         new FieldItem(TaskField.ACTUAL_DURATION_UNITS, FieldLocation.FIXED_DATA, 0, 64, 0),
+         new FieldItem(TaskField.ACTUAL_DURATION, FieldLocation.FIXED_DATA, 0, 66, 0),
+         new FieldItem(TaskField.REMAINING_DURATION, FieldLocation.FIXED_DATA, 0, 70, 0),
+         new FieldItem(TaskField.BASELINE_DURATION, FieldLocation.FIXED_DATA, 0, 74, 0),
+         new FieldItem(TaskField.BASELINE_DURATION_UNITS, FieldLocation.FIXED_DATA, 0, 78, 0),
+         new FieldItem(TaskField.CONSTRAINT_TYPE, FieldLocation.FIXED_DATA, 0, 80, 0),
+         new FieldItem(TaskField.LEVELING_DELAY, FieldLocation.FIXED_DATA, 0, 82, 0),
+         new FieldItem(TaskField.LEVELING_DELAY_UNITS, FieldLocation.FIXED_DATA, 0, 86, 0),
+         new FieldItem(TaskField.START, FieldLocation.FIXED_DATA, 0, 88, 0),
+         new FieldItem(TaskField.FINISH, FieldLocation.FIXED_DATA, 0, 92, 0),
+         new FieldItem(TaskField.ACTUAL_START, FieldLocation.FIXED_DATA, 0, 96, 0),
+         new FieldItem(TaskField.ACTUAL_FINISH, FieldLocation.FIXED_DATA, 0, 100, 0),
+         new FieldItem(TaskField.BASELINE_START, FieldLocation.FIXED_DATA, 0, 104, 0),
+         new FieldItem(TaskField.BASELINE_FINISH, FieldLocation.FIXED_DATA, 0, 108, 0),
+         new FieldItem(TaskField.CONSTRAINT_DATE, FieldLocation.FIXED_DATA, 0, 112, 0),
+         new FieldItem(TaskField.RESUME_NO_EARLIER_THAN, FieldLocation.FIXED_DATA, 0, 116, 0),
+         new FieldItem(TaskField.PRIORITY, FieldLocation.FIXED_DATA, 0, 120, 0),
+         new FieldItem(TaskField.PERCENT_COMPLETE, FieldLocation.FIXED_DATA, 0, 122, 0),
+         new FieldItem(TaskField.PERCENT_WORK_COMPLETE, FieldLocation.FIXED_DATA, 0, 124, 0),
+         new FieldItem(TaskField.TYPE, FieldLocation.FIXED_DATA, 0, 126, 0),
+         new FieldItem(TaskField.FIXED_COST_ACCRUAL, FieldLocation.FIXED_DATA, 0, 128, 0),
+         new FieldItem(TaskField.CREATED, FieldLocation.FIXED_DATA, 0, 130, 0),
+         new FieldItem(TaskField.RECURRING, FieldLocation.FIXED_DATA, 0, 134, 0),
+         new FieldItem(TaskField.PRELEVELED_START, FieldLocation.FIXED_DATA, 0, 136, 0),
+         new FieldItem(TaskField.PRELEVELED_FINISH, FieldLocation.FIXED_DATA, 0, 140, 0),
+         new FieldItem(TaskField.EARLY_START, FieldLocation.FIXED_DATA, 0, 148, 0),
+         new FieldItem(TaskField.LATE_FINISH, FieldLocation.FIXED_DATA, 0, 152, 0),
+         new FieldItem(TaskField.SUMMARY_PROGRESS, FieldLocation.FIXED_DATA, 0, 156, 0),
+         new FieldItem(TaskField.CALENDAR_UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 160, 0),
+         new FieldItem(TaskField.DEADLINE, FieldLocation.FIXED_DATA, 0, 164, 0),
+         new FieldItem(TaskField.WORK, FieldLocation.FIXED_DATA, 0, 168, 0),
+         new FieldItem(TaskField.BASELINE_WORK, FieldLocation.FIXED_DATA, 0, 176, 0),
+         new FieldItem(TaskField.ACTUAL_WORK, FieldLocation.FIXED_DATA, 0, 184, 0),
+         new FieldItem(TaskField.REMAINING_WORK, FieldLocation.FIXED_DATA, 0, 192, 0),
+         new FieldItem(TaskField.COST, FieldLocation.FIXED_DATA, 0, 200, 0),
+         new FieldItem(TaskField.FIXED_COST, FieldLocation.FIXED_DATA, 0, 208, 0),
+         new FieldItem(TaskField.ACTUAL_COST, FieldLocation.FIXED_DATA, 0, 216, 0),
+         new FieldItem(TaskField.REMAINING_COST, FieldLocation.FIXED_DATA, 0, 224, 0),
+         new FieldItem(TaskField.BASELINE_COST, FieldLocation.FIXED_DATA, 0, 232, 0),
+         new FieldItem(TaskField.BASELINE_FIXED_COST, FieldLocation.FIXED_DATA, 0, 256, 0),
+         new FieldItem(TaskField.ACTUAL_OVERTIME_WORK, FieldLocation.VAR_DATA, 0, 65535, 3),
+         new FieldItem(TaskField.REMAINING_OVERTIME_WORK, FieldLocation.VAR_DATA, 0, 65535, 4),
+         new FieldItem(TaskField.OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 5),
+         new FieldItem(TaskField.ACTUAL_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 6),
+         new FieldItem(TaskField.REMAINING_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 7),
+         new FieldItem(TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET, FieldLocation.VAR_DATA, 0, 65535, 8),
+         new FieldItem(TaskField.SUBPROJECT_UNIQUE_TASK_ID, FieldLocation.VAR_DATA, 0, 65535, 9),
+         new FieldItem(TaskField.WBS, FieldLocation.VAR_DATA, 0, 65535, 10),
+         new FieldItem(TaskField.NAME, FieldLocation.VAR_DATA, 0, 65535, 11),
+         new FieldItem(TaskField.CONTACT, FieldLocation.VAR_DATA, 0, 65535, 12),
+         new FieldItem(TaskField.TEXT1, FieldLocation.VAR_DATA, 0, 65535, 14),
+         new FieldItem(TaskField.TEXT2, FieldLocation.VAR_DATA, 0, 65535, 15),
+         new FieldItem(TaskField.TEXT3, FieldLocation.VAR_DATA, 0, 65535, 16),
+         new FieldItem(TaskField.TEXT4, FieldLocation.VAR_DATA, 0, 65535, 17),
+         new FieldItem(TaskField.TEXT5, FieldLocation.VAR_DATA, 0, 65535, 18),
+         new FieldItem(TaskField.TEXT6, FieldLocation.VAR_DATA, 0, 65535, 19),
+         new FieldItem(TaskField.TEXT7, FieldLocation.VAR_DATA, 0, 65535, 20),
+         new FieldItem(TaskField.TEXT8, FieldLocation.VAR_DATA, 0, 65535, 21),
+         new FieldItem(TaskField.TEXT9, FieldLocation.VAR_DATA, 0, 65535, 22),
+         new FieldItem(TaskField.TEXT10, FieldLocation.VAR_DATA, 0, 65535, 23),
+         new FieldItem(TaskField.START1, FieldLocation.VAR_DATA, 0, 65535, 24),
+         new FieldItem(TaskField.FINISH1, FieldLocation.VAR_DATA, 0, 65535, 25),
+         new FieldItem(TaskField.START2, FieldLocation.VAR_DATA, 0, 65535, 26),
+         new FieldItem(TaskField.FINISH2, FieldLocation.VAR_DATA, 0, 65535, 27),
+         new FieldItem(TaskField.START3, FieldLocation.VAR_DATA, 0, 65535, 28),
+         new FieldItem(TaskField.FINISH3, FieldLocation.VAR_DATA, 0, 65535, 29),
+         new FieldItem(TaskField.START4, FieldLocation.VAR_DATA, 0, 65535, 30),
+         new FieldItem(TaskField.FINISH4, FieldLocation.VAR_DATA, 0, 65535, 31),
+         new FieldItem(TaskField.START5, FieldLocation.VAR_DATA, 0, 65535, 32),
+         new FieldItem(TaskField.FINISH5, FieldLocation.VAR_DATA, 0, 65535, 33),
+         new FieldItem(TaskField.START6, FieldLocation.VAR_DATA, 0, 65535, 34),
+         new FieldItem(TaskField.FINISH6, FieldLocation.VAR_DATA, 0, 65535, 35),
+         new FieldItem(TaskField.START7, FieldLocation.VAR_DATA, 0, 65535, 36),
+         new FieldItem(TaskField.FINISH7, FieldLocation.VAR_DATA, 0, 65535, 37),
+         new FieldItem(TaskField.START8, FieldLocation.VAR_DATA, 0, 65535, 38),
+         new FieldItem(TaskField.FINISH8, FieldLocation.VAR_DATA, 0, 65535, 39),
+         new FieldItem(TaskField.START9, FieldLocation.VAR_DATA, 0, 65535, 40),
+         new FieldItem(TaskField.FINISH9, FieldLocation.VAR_DATA, 0, 65535, 41),
+         new FieldItem(TaskField.START10, FieldLocation.VAR_DATA, 0, 65535, 42),
+         new FieldItem(TaskField.FINISH10, FieldLocation.VAR_DATA, 0, 65535, 43),
+         new FieldItem(TaskField.NUMBER1, FieldLocation.VAR_DATA, 0, 65535, 45),
+         new FieldItem(TaskField.NUMBER2, FieldLocation.VAR_DATA, 0, 65535, 46),
+         new FieldItem(TaskField.NUMBER3, FieldLocation.VAR_DATA, 0, 65535, 47),
+         new FieldItem(TaskField.NUMBER4, FieldLocation.VAR_DATA, 0, 65535, 48),
+         new FieldItem(TaskField.NUMBER5, FieldLocation.VAR_DATA, 0, 65535, 49),
+         new FieldItem(TaskField.NUMBER6, FieldLocation.VAR_DATA, 0, 65535, 50),
+         new FieldItem(TaskField.NUMBER7, FieldLocation.VAR_DATA, 0, 65535, 51),
+         new FieldItem(TaskField.NUMBER8, FieldLocation.VAR_DATA, 0, 65535, 52),
+         new FieldItem(TaskField.NUMBER9, FieldLocation.VAR_DATA, 0, 65535, 53),
+         new FieldItem(TaskField.NUMBER10, FieldLocation.VAR_DATA, 0, 65535, 54),
+         new FieldItem(TaskField.DURATION1, FieldLocation.VAR_DATA, 0, 65535, 55),
+         new FieldItem(TaskField.DURATION1_UNITS, FieldLocation.VAR_DATA, 0, 65535, 56),
+         new FieldItem(TaskField.DURATION2, FieldLocation.VAR_DATA, 0, 65535, 57),
+         new FieldItem(TaskField.DURATION2_UNITS, FieldLocation.VAR_DATA, 0, 65535, 58),
+         new FieldItem(TaskField.DURATION3, FieldLocation.VAR_DATA, 0, 65535, 59),
+         new FieldItem(TaskField.DURATION3_UNITS, FieldLocation.VAR_DATA, 0, 65535, 60),
+         new FieldItem(TaskField.DURATION4, FieldLocation.VAR_DATA, 0, 65535, 61),
+         new FieldItem(TaskField.DURATION4_UNITS, FieldLocation.VAR_DATA, 0, 65535, 62),
+         new FieldItem(TaskField.DURATION5, FieldLocation.VAR_DATA, 0, 65535, 63),
+         new FieldItem(TaskField.DURATION5_UNITS, FieldLocation.VAR_DATA, 0, 65535, 64),
+         new FieldItem(TaskField.DURATION6, FieldLocation.VAR_DATA, 0, 65535, 65),
+         new FieldItem(TaskField.DURATION6_UNITS, FieldLocation.VAR_DATA, 0, 65535, 66),
+         new FieldItem(TaskField.DURATION7, FieldLocation.VAR_DATA, 0, 65535, 67),
+         new FieldItem(TaskField.DURATION7_UNITS, FieldLocation.VAR_DATA, 0, 65535, 68),
+         new FieldItem(TaskField.DURATION8, FieldLocation.VAR_DATA, 0, 65535, 69),
+         new FieldItem(TaskField.DURATION8_UNITS, FieldLocation.VAR_DATA, 0, 65535, 70),
+         new FieldItem(TaskField.DURATION9, FieldLocation.VAR_DATA, 0, 65535, 71),
+         new FieldItem(TaskField.DURATION9_UNITS, FieldLocation.VAR_DATA, 0, 65535, 72),
+         new FieldItem(TaskField.DURATION10, FieldLocation.VAR_DATA, 0, 65535, 73),
+         new FieldItem(TaskField.DURATION10_UNITS, FieldLocation.VAR_DATA, 0, 65535, 74),
+         new FieldItem(TaskField.RECURRING_DATA, FieldLocation.VAR_DATA, 0, 65535, 76),
+         new FieldItem(TaskField.SUBPROJECT_TASK_ID, FieldLocation.VAR_DATA, 0, 65535, 79),
+         new FieldItem(TaskField.DATE1, FieldLocation.VAR_DATA, 0, 65535, 80),
+         new FieldItem(TaskField.DATE2, FieldLocation.VAR_DATA, 0, 65535, 81),
+         new FieldItem(TaskField.DATE3, FieldLocation.VAR_DATA, 0, 65535, 82),
+         new FieldItem(TaskField.DATE4, FieldLocation.VAR_DATA, 0, 65535, 83),
+         new FieldItem(TaskField.DATE5, FieldLocation.VAR_DATA, 0, 65535, 84),
+         new FieldItem(TaskField.DATE6, FieldLocation.VAR_DATA, 0, 65535, 85),
+         new FieldItem(TaskField.DATE7, FieldLocation.VAR_DATA, 0, 65535, 86),
+         new FieldItem(TaskField.DATE8, FieldLocation.VAR_DATA, 0, 65535, 87),
+         new FieldItem(TaskField.DATE9, FieldLocation.VAR_DATA, 0, 65535, 88),
+         new FieldItem(TaskField.DATE10, FieldLocation.VAR_DATA, 0, 65535, 89),
+         new FieldItem(TaskField.TEXT11, FieldLocation.VAR_DATA, 0, 65535, 90),
+         new FieldItem(TaskField.TEXT12, FieldLocation.VAR_DATA, 0, 65535, 91),
+         new FieldItem(TaskField.TEXT13, FieldLocation.VAR_DATA, 0, 65535, 92),
+         new FieldItem(TaskField.TEXT14, FieldLocation.VAR_DATA, 0, 65535, 93),
+         new FieldItem(TaskField.TEXT15, FieldLocation.VAR_DATA, 0, 65535, 94),
+         new FieldItem(TaskField.TEXT16, FieldLocation.VAR_DATA, 0, 65535, 95),
+         new FieldItem(TaskField.TEXT17, FieldLocation.VAR_DATA, 0, 65535, 96),
+         new FieldItem(TaskField.TEXT18, FieldLocation.VAR_DATA, 0, 65535, 97),
+         new FieldItem(TaskField.TEXT19, FieldLocation.VAR_DATA, 0, 65535, 98),
+         new FieldItem(TaskField.TEXT20, FieldLocation.VAR_DATA, 0, 65535, 99),
+         new FieldItem(TaskField.TEXT21, FieldLocation.VAR_DATA, 0, 65535, 100),
+         new FieldItem(TaskField.TEXT22, FieldLocation.VAR_DATA, 0, 65535, 101),
+         new FieldItem(TaskField.TEXT23, FieldLocation.VAR_DATA, 0, 65535, 102),
+         new FieldItem(TaskField.TEXT24, FieldLocation.VAR_DATA, 0, 65535, 103),
+         new FieldItem(TaskField.TEXT25, FieldLocation.VAR_DATA, 0, 65535, 104),
+         new FieldItem(TaskField.TEXT26, FieldLocation.VAR_DATA, 0, 65535, 105),
+         new FieldItem(TaskField.TEXT27, FieldLocation.VAR_DATA, 0, 65535, 106),
+         new FieldItem(TaskField.TEXT28, FieldLocation.VAR_DATA, 0, 65535, 107),
+         new FieldItem(TaskField.TEXT29, FieldLocation.VAR_DATA, 0, 65535, 108),
+         new FieldItem(TaskField.TEXT30, FieldLocation.VAR_DATA, 0, 65535, 109),
+         new FieldItem(TaskField.NUMBER11, FieldLocation.VAR_DATA, 0, 65535, 110),
+         new FieldItem(TaskField.NUMBER12, FieldLocation.VAR_DATA, 0, 65535, 111),
+         new FieldItem(TaskField.NUMBER13, FieldLocation.VAR_DATA, 0, 65535, 112),
+         new FieldItem(TaskField.NUMBER14, FieldLocation.VAR_DATA, 0, 65535, 113),
+         new FieldItem(TaskField.NUMBER15, FieldLocation.VAR_DATA, 0, 65535, 114),
+         new FieldItem(TaskField.NUMBER16, FieldLocation.VAR_DATA, 0, 65535, 115),
+         new FieldItem(TaskField.NUMBER17, FieldLocation.VAR_DATA, 0, 65535, 116),
+         new FieldItem(TaskField.NUMBER18, FieldLocation.VAR_DATA, 0, 65535, 117),
+         new FieldItem(TaskField.NUMBER19, FieldLocation.VAR_DATA, 0, 65535, 118),
+         new FieldItem(TaskField.NUMBER20, FieldLocation.VAR_DATA, 0, 65535, 119),
+         new FieldItem(TaskField.OUTLINE_CODE1_INDEX, FieldLocation.VAR_DATA, 0, 65535, 123),
+         new FieldItem(TaskField.OUTLINE_CODE2_INDEX, FieldLocation.VAR_DATA, 0, 65535, 124),
+         new FieldItem(TaskField.OUTLINE_CODE3_INDEX, FieldLocation.VAR_DATA, 0, 65535, 125),
+         new FieldItem(TaskField.OUTLINE_CODE4_INDEX, FieldLocation.VAR_DATA, 0, 65535, 126),
+         new FieldItem(TaskField.OUTLINE_CODE5_INDEX, FieldLocation.VAR_DATA, 0, 65535, 127),
+         new FieldItem(TaskField.OUTLINE_CODE6_INDEX, FieldLocation.VAR_DATA, 0, 65535, 128),
+         new FieldItem(TaskField.OUTLINE_CODE7_INDEX, FieldLocation.VAR_DATA, 0, 65535, 129),
+         new FieldItem(TaskField.OUTLINE_CODE8_INDEX, FieldLocation.VAR_DATA, 0, 65535, 130),
+         new FieldItem(TaskField.OUTLINE_CODE9_INDEX, FieldLocation.VAR_DATA, 0, 65535, 131),
+         new FieldItem(TaskField.OUTLINE_CODE10_INDEX, FieldLocation.VAR_DATA, 0, 65535, 132),
+         new FieldItem(TaskField.HYPERLINK_DATA, FieldLocation.VAR_DATA, 0, 65535, 133),
+         new FieldItem(TaskField.COST1, FieldLocation.VAR_DATA, 0, 65535, 134),
+         new FieldItem(TaskField.COST2, FieldLocation.VAR_DATA, 0, 65535, 135),
+         new FieldItem(TaskField.COST3, FieldLocation.VAR_DATA, 0, 65535, 136),
+         new FieldItem(TaskField.COST4, FieldLocation.VAR_DATA, 0, 65535, 137),
+         new FieldItem(TaskField.COST5, FieldLocation.VAR_DATA, 0, 65535, 138),
+         new FieldItem(TaskField.COST6, FieldLocation.VAR_DATA, 0, 65535, 139),
+         new FieldItem(TaskField.COST7, FieldLocation.VAR_DATA, 0, 65535, 140),
+         new FieldItem(TaskField.COST8, FieldLocation.VAR_DATA, 0, 65535, 141),
+         new FieldItem(TaskField.COST9, FieldLocation.VAR_DATA, 0, 65535, 142),
+         new FieldItem(TaskField.COST10, FieldLocation.VAR_DATA, 0, 65535, 143),
+         new FieldItem(TaskField.NOTES, FieldLocation.VAR_DATA, 0, 65535, 144),
+         new FieldItem(TaskField.SUBPROJECT_FILE, FieldLocation.VAR_DATA, 0, 65535, 160),
+         new FieldItem(TaskField.ENTERPRISE_DATA, FieldLocation.VAR_DATA, 0, 65535, 163)
+      };
+      return result;
    }
 
    /**
     * {@inheritDoc}
     */
-   @Override protected Object[][] getDefaultResourceData()
+   @Override protected FieldItem[] getDefaultResourceData()
    {
-      return DEFAULT_RESOURCE_MAP;
+      FieldItem[] result = new FieldItem[]
+      {
+         new FieldItem(ResourceField.UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 0, 0),
+         new FieldItem(ResourceField.ID, FieldLocation.FIXED_DATA, 0, 4, 0),
+         new FieldItem(ResourceField.STANDARD_RATE_UNITS, FieldLocation.FIXED_DATA, 0, 8, 0),
+         new FieldItem(ResourceField.OVERTIME_RATE_UNITS, FieldLocation.FIXED_DATA, 0, 10, 0),
+         new FieldItem(ResourceField.ACCRUE_AT, FieldLocation.FIXED_DATA, 0, 12, 0),
+         new FieldItem(ResourceField.WORKGROUP, FieldLocation.FIXED_DATA, 0, 14, 0),
+         new FieldItem(ResourceField.AVAILABLE_FROM, FieldLocation.FIXED_DATA, 0, 20, 0),
+         new FieldItem(ResourceField.AVAILABLE_TO, FieldLocation.FIXED_DATA, 0, 24, 0),
+         new FieldItem(ResourceField.STANDARD_RATE, FieldLocation.FIXED_DATA, 0, 28, 0),
+         new FieldItem(ResourceField.OVERTIME_RATE, FieldLocation.FIXED_DATA, 0, 36, 0),
+         new FieldItem(ResourceField.MAX_UNITS, FieldLocation.FIXED_DATA, 0, 44, 0),
+         new FieldItem(ResourceField.WORK, FieldLocation.FIXED_DATA, 0, 52, 0),
+         new FieldItem(ResourceField.ACTUAL_WORK, FieldLocation.FIXED_DATA, 0, 60, 0),
+         new FieldItem(ResourceField.BASELINE_WORK, FieldLocation.FIXED_DATA, 0, 68, 0),
+         new FieldItem(ResourceField.OVERTIME_WORK, FieldLocation.FIXED_DATA, 0, 76, 0),
+         new FieldItem(ResourceField.COST_PER_USE, FieldLocation.FIXED_DATA, 0, 84, 0),
+         new FieldItem(ResourceField.REMAINING_WORK, FieldLocation.FIXED_DATA, 0, 92, 0),
+         new FieldItem(ResourceField.REGULAR_WORK, FieldLocation.FIXED_DATA, 0, 100, 0),
+         new FieldItem(ResourceField.ACTUAL_OVERTIME_WORK, FieldLocation.FIXED_DATA, 0, 108, 0),
+         new FieldItem(ResourceField.REMAINING_OVERTIME_WORK, FieldLocation.FIXED_DATA, 0, 116, 0),
+         new FieldItem(ResourceField.PEAK, FieldLocation.FIXED_DATA, 0, 124, 0),
+         new FieldItem(ResourceField.ACTUAL_COST, FieldLocation.FIXED_DATA, 0, 132, 0),
+         new FieldItem(ResourceField.COST, FieldLocation.FIXED_DATA, 0, 140, 0),
+         new FieldItem(ResourceField.BASELINE_COST, FieldLocation.FIXED_DATA, 0, 148, 0),
+         new FieldItem(ResourceField.REMAINING_COST, FieldLocation.FIXED_DATA, 0, 156, 0),
+         new FieldItem(ResourceField.OVERTIME_COST, FieldLocation.FIXED_DATA, 0, 164, 0),
+         new FieldItem(ResourceField.ACTUAL_OVERTIME_COST, FieldLocation.FIXED_DATA, 0, 172, 0),
+         new FieldItem(ResourceField.REMAINING_OVERTIME_COST, FieldLocation.FIXED_DATA, 0, 180, 0),
+         new FieldItem(ResourceField.NAME, FieldLocation.VAR_DATA, 0, 65535, 1),
+         new FieldItem(ResourceField.INITIALS, FieldLocation.VAR_DATA, 0, 65535, 3),
+         new FieldItem(ResourceField.GROUP, FieldLocation.VAR_DATA, 0, 65535, 4),
+         new FieldItem(ResourceField.CODE, FieldLocation.VAR_DATA, 0, 65535, 5),
+         new FieldItem(ResourceField.EMAIL_ADDRESS, FieldLocation.VAR_DATA, 0, 65535, 6),
+         new FieldItem(ResourceField.PHONETICS, FieldLocation.VAR_DATA, 0, 65535, 7),
+         new FieldItem(ResourceField.MATERIAL_LABEL, FieldLocation.VAR_DATA, 0, 65535, 8),
+         new FieldItem(ResourceField.WINDOWS_USER_ACCOUNT, FieldLocation.VAR_DATA, 0, 65535, 9),
+         new FieldItem(ResourceField.TEXT1, FieldLocation.VAR_DATA, 0, 65535, 10),
+         new FieldItem(ResourceField.TEXT2, FieldLocation.VAR_DATA, 0, 65535, 11),
+         new FieldItem(ResourceField.TEXT3, FieldLocation.VAR_DATA, 0, 65535, 12),
+         new FieldItem(ResourceField.TEXT4, FieldLocation.VAR_DATA, 0, 65535, 13),
+         new FieldItem(ResourceField.TEXT5, FieldLocation.VAR_DATA, 0, 65535, 14),
+         new FieldItem(ResourceField.TEXT6, FieldLocation.VAR_DATA, 0, 65535, 15),
+         new FieldItem(ResourceField.TEXT7, FieldLocation.VAR_DATA, 0, 65535, 16),
+         new FieldItem(ResourceField.TEXT8, FieldLocation.VAR_DATA, 0, 65535, 17),
+         new FieldItem(ResourceField.TEXT9, FieldLocation.VAR_DATA, 0, 65535, 18),
+         new FieldItem(ResourceField.TEXT10, FieldLocation.VAR_DATA, 0, 65535, 19),
+         new FieldItem(ResourceField.TEXT11, FieldLocation.VAR_DATA, 0, 65535, 20),
+         new FieldItem(ResourceField.TEXT12, FieldLocation.VAR_DATA, 0, 65535, 21),
+         new FieldItem(ResourceField.TEXT13, FieldLocation.VAR_DATA, 0, 65535, 22),
+         new FieldItem(ResourceField.TEXT14, FieldLocation.VAR_DATA, 0, 65535, 23),
+         new FieldItem(ResourceField.TEXT15, FieldLocation.VAR_DATA, 0, 65535, 24),
+         new FieldItem(ResourceField.TEXT16, FieldLocation.VAR_DATA, 0, 65535, 25),
+         new FieldItem(ResourceField.TEXT17, FieldLocation.VAR_DATA, 0, 65535, 26),
+         new FieldItem(ResourceField.TEXT18, FieldLocation.VAR_DATA, 0, 65535, 27),
+         new FieldItem(ResourceField.TEXT19, FieldLocation.VAR_DATA, 0, 65535, 28),
+         new FieldItem(ResourceField.TEXT20, FieldLocation.VAR_DATA, 0, 65535, 29),
+         new FieldItem(ResourceField.TEXT21, FieldLocation.VAR_DATA, 0, 65535, 30),
+         new FieldItem(ResourceField.TEXT22, FieldLocation.VAR_DATA, 0, 65535, 31),
+         new FieldItem(ResourceField.TEXT23, FieldLocation.VAR_DATA, 0, 65535, 32),
+         new FieldItem(ResourceField.TEXT24, FieldLocation.VAR_DATA, 0, 65535, 33),
+         new FieldItem(ResourceField.TEXT25, FieldLocation.VAR_DATA, 0, 65535, 34),
+         new FieldItem(ResourceField.TEXT26, FieldLocation.VAR_DATA, 0, 65535, 35),
+         new FieldItem(ResourceField.TEXT27, FieldLocation.VAR_DATA, 0, 65535, 36),
+         new FieldItem(ResourceField.TEXT28, FieldLocation.VAR_DATA, 0, 65535, 37),
+         new FieldItem(ResourceField.TEXT29, FieldLocation.VAR_DATA, 0, 65535, 38),
+         new FieldItem(ResourceField.TEXT30, FieldLocation.VAR_DATA, 0, 65535, 39),
+         new FieldItem(ResourceField.START1, FieldLocation.VAR_DATA, 0, 65535, 40),
+         new FieldItem(ResourceField.START2, FieldLocation.VAR_DATA, 0, 65535, 41),
+         new FieldItem(ResourceField.START3, FieldLocation.VAR_DATA, 0, 65535, 42),
+         new FieldItem(ResourceField.START4, FieldLocation.VAR_DATA, 0, 65535, 43),
+         new FieldItem(ResourceField.START5, FieldLocation.VAR_DATA, 0, 65535, 44),
+         new FieldItem(ResourceField.START6, FieldLocation.VAR_DATA, 0, 65535, 45),
+         new FieldItem(ResourceField.START7, FieldLocation.VAR_DATA, 0, 65535, 46),
+         new FieldItem(ResourceField.START8, FieldLocation.VAR_DATA, 0, 65535, 47),
+         new FieldItem(ResourceField.START9, FieldLocation.VAR_DATA, 0, 65535, 48),
+         new FieldItem(ResourceField.START10, FieldLocation.VAR_DATA, 0, 65535, 49),
+         new FieldItem(ResourceField.FINISH1, FieldLocation.VAR_DATA, 0, 65535, 50),
+         new FieldItem(ResourceField.FINISH2, FieldLocation.VAR_DATA, 0, 65535, 51),
+         new FieldItem(ResourceField.FINISH3, FieldLocation.VAR_DATA, 0, 65535, 52),
+         new FieldItem(ResourceField.FINISH4, FieldLocation.VAR_DATA, 0, 65535, 53),
+         new FieldItem(ResourceField.FINISH5, FieldLocation.VAR_DATA, 0, 65535, 54),
+         new FieldItem(ResourceField.FINISH6, FieldLocation.VAR_DATA, 0, 65535, 55),
+         new FieldItem(ResourceField.FINISH7, FieldLocation.VAR_DATA, 0, 65535, 56),
+         new FieldItem(ResourceField.FINISH8, FieldLocation.VAR_DATA, 0, 65535, 57),
+         new FieldItem(ResourceField.FINISH9, FieldLocation.VAR_DATA, 0, 65535, 58),
+         new FieldItem(ResourceField.FINISH10, FieldLocation.VAR_DATA, 0, 65535, 59),
+         new FieldItem(ResourceField.NUMBER1, FieldLocation.VAR_DATA, 0, 65535, 60),
+         new FieldItem(ResourceField.NUMBER2, FieldLocation.VAR_DATA, 0, 65535, 61),
+         new FieldItem(ResourceField.NUMBER3, FieldLocation.VAR_DATA, 0, 65535, 62),
+         new FieldItem(ResourceField.NUMBER4, FieldLocation.VAR_DATA, 0, 65535, 63),
+         new FieldItem(ResourceField.NUMBER5, FieldLocation.VAR_DATA, 0, 65535, 64),
+         new FieldItem(ResourceField.NUMBER6, FieldLocation.VAR_DATA, 0, 65535, 65),
+         new FieldItem(ResourceField.NUMBER7, FieldLocation.VAR_DATA, 0, 65535, 66),
+         new FieldItem(ResourceField.NUMBER8, FieldLocation.VAR_DATA, 0, 65535, 67),
+         new FieldItem(ResourceField.NUMBER9, FieldLocation.VAR_DATA, 0, 65535, 68),
+         new FieldItem(ResourceField.NUMBER10, FieldLocation.VAR_DATA, 0, 65535, 69),
+         new FieldItem(ResourceField.NUMBER11, FieldLocation.VAR_DATA, 0, 65535, 70),
+         new FieldItem(ResourceField.NUMBER12, FieldLocation.VAR_DATA, 0, 65535, 71),
+         new FieldItem(ResourceField.NUMBER13, FieldLocation.VAR_DATA, 0, 65535, 72),
+         new FieldItem(ResourceField.NUMBER14, FieldLocation.VAR_DATA, 0, 65535, 73),
+         new FieldItem(ResourceField.NUMBER15, FieldLocation.VAR_DATA, 0, 65535, 74),
+         new FieldItem(ResourceField.NUMBER16, FieldLocation.VAR_DATA, 0, 65535, 75),
+         new FieldItem(ResourceField.NUMBER17, FieldLocation.VAR_DATA, 0, 65535, 76),
+         new FieldItem(ResourceField.NUMBER18, FieldLocation.VAR_DATA, 0, 65535, 77),
+         new FieldItem(ResourceField.NUMBER19, FieldLocation.VAR_DATA, 0, 65535, 78),
+         new FieldItem(ResourceField.NUMBER20, FieldLocation.VAR_DATA, 0, 65535, 79),
+         new FieldItem(ResourceField.DURATION1, FieldLocation.VAR_DATA, 0, 65535, 80),
+         new FieldItem(ResourceField.DURATION2, FieldLocation.VAR_DATA, 0, 65535, 81),
+         new FieldItem(ResourceField.DURATION3, FieldLocation.VAR_DATA, 0, 65535, 82),
+         new FieldItem(ResourceField.DURATION4, FieldLocation.VAR_DATA, 0, 65535, 83),
+         new FieldItem(ResourceField.DURATION5, FieldLocation.VAR_DATA, 0, 65535, 84),
+         new FieldItem(ResourceField.DURATION6, FieldLocation.VAR_DATA, 0, 65535, 85),
+         new FieldItem(ResourceField.DURATION7, FieldLocation.VAR_DATA, 0, 65535, 86),
+         new FieldItem(ResourceField.DURATION8, FieldLocation.VAR_DATA, 0, 65535, 87),
+         new FieldItem(ResourceField.DURATION9, FieldLocation.VAR_DATA, 0, 65535, 88),
+         new FieldItem(ResourceField.DURATION10, FieldLocation.VAR_DATA, 0, 65535, 89),
+         new FieldItem(ResourceField.DURATION1_UNITS, FieldLocation.VAR_DATA, 0, 65535, 90),
+         new FieldItem(ResourceField.DURATION2_UNITS, FieldLocation.VAR_DATA, 0, 65535, 91),
+         new FieldItem(ResourceField.DURATION3_UNITS, FieldLocation.VAR_DATA, 0, 65535, 92),
+         new FieldItem(ResourceField.DURATION4_UNITS, FieldLocation.VAR_DATA, 0, 65535, 93),
+         new FieldItem(ResourceField.DURATION5_UNITS, FieldLocation.VAR_DATA, 0, 65535, 94),
+         new FieldItem(ResourceField.DURATION6_UNITS, FieldLocation.VAR_DATA, 0, 65535, 95),
+         new FieldItem(ResourceField.DURATION7_UNITS, FieldLocation.VAR_DATA, 0, 65535, 96),
+         new FieldItem(ResourceField.DURATION8_UNITS, FieldLocation.VAR_DATA, 0, 65535, 97),
+         new FieldItem(ResourceField.DURATION9_UNITS, FieldLocation.VAR_DATA, 0, 65535, 98),
+         new FieldItem(ResourceField.DURATION10_UNITS, FieldLocation.VAR_DATA, 0, 65535, 99),
+         new FieldItem(ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID, FieldLocation.VAR_DATA, 0, 65535, 102),
+         new FieldItem(ResourceField.DATE1, FieldLocation.VAR_DATA, 0, 65535, 103),
+         new FieldItem(ResourceField.DATE2, FieldLocation.VAR_DATA, 0, 65535, 104),
+         new FieldItem(ResourceField.DATE3, FieldLocation.VAR_DATA, 0, 65535, 105),
+         new FieldItem(ResourceField.DATE4, FieldLocation.VAR_DATA, 0, 65535, 106),
+         new FieldItem(ResourceField.DATE5, FieldLocation.VAR_DATA, 0, 65535, 107),
+         new FieldItem(ResourceField.DATE6, FieldLocation.VAR_DATA, 0, 65535, 108),
+         new FieldItem(ResourceField.DATE7, FieldLocation.VAR_DATA, 0, 65535, 109),
+         new FieldItem(ResourceField.DATE8, FieldLocation.VAR_DATA, 0, 65535, 110),
+         new FieldItem(ResourceField.DATE9, FieldLocation.VAR_DATA, 0, 65535, 111),
+         new FieldItem(ResourceField.DATE10, FieldLocation.VAR_DATA, 0, 65535, 112),
+         new FieldItem(ResourceField.OUTLINE_CODE1_INDEX, FieldLocation.VAR_DATA, 0, 65535, 113),
+         new FieldItem(ResourceField.OUTLINE_CODE2_INDEX, FieldLocation.VAR_DATA, 0, 65535, 114),
+         new FieldItem(ResourceField.OUTLINE_CODE3_INDEX, FieldLocation.VAR_DATA, 0, 65535, 115),
+         new FieldItem(ResourceField.OUTLINE_CODE4_INDEX, FieldLocation.VAR_DATA, 0, 65535, 116),
+         new FieldItem(ResourceField.OUTLINE_CODE5_INDEX, FieldLocation.VAR_DATA, 0, 65535, 117),
+         new FieldItem(ResourceField.OUTLINE_CODE6_INDEX, FieldLocation.VAR_DATA, 0, 65535, 118),
+         new FieldItem(ResourceField.OUTLINE_CODE7_INDEX, FieldLocation.VAR_DATA, 0, 65535, 119),
+         new FieldItem(ResourceField.OUTLINE_CODE8_INDEX, FieldLocation.VAR_DATA, 0, 65535, 120),
+         new FieldItem(ResourceField.OUTLINE_CODE9_INDEX, FieldLocation.VAR_DATA, 0, 65535, 121),
+         new FieldItem(ResourceField.OUTLINE_CODE10_INDEX, FieldLocation.VAR_DATA, 0, 65535, 122),
+         new FieldItem(ResourceField.HYPERLINK_DATA, FieldLocation.VAR_DATA, 0, 65535, 123),
+         new FieldItem(ResourceField.NOTES, FieldLocation.VAR_DATA, 0, 65535, 124),
+         new FieldItem(ResourceField.COST1, FieldLocation.VAR_DATA, 0, 65535, 125),
+         new FieldItem(ResourceField.COST2, FieldLocation.VAR_DATA, 0, 65535, 126),
+         new FieldItem(ResourceField.COST3, FieldLocation.VAR_DATA, 0, 65535, 127),
+         new FieldItem(ResourceField.COST4, FieldLocation.VAR_DATA, 0, 65535, 128),
+         new FieldItem(ResourceField.COST5, FieldLocation.VAR_DATA, 0, 65535, 129),
+         new FieldItem(ResourceField.COST6, FieldLocation.VAR_DATA, 0, 65535, 130),
+         new FieldItem(ResourceField.COST7, FieldLocation.VAR_DATA, 0, 65535, 131),
+         new FieldItem(ResourceField.COST8, FieldLocation.VAR_DATA, 0, 65535, 132),
+         new FieldItem(ResourceField.COST9, FieldLocation.VAR_DATA, 0, 65535, 133),
+         new FieldItem(ResourceField.COST10, FieldLocation.VAR_DATA, 0, 65535, 134),
+         new FieldItem(ResourceField.COST_RATE_A, FieldLocation.VAR_DATA, 0, 65535, 135),
+         new FieldItem(ResourceField.COST_RATE_B, FieldLocation.VAR_DATA, 0, 65535, 136),
+         new FieldItem(ResourceField.COST_RATE_C, FieldLocation.VAR_DATA, 0, 65535, 137),
+         new FieldItem(ResourceField.COST_RATE_D, FieldLocation.VAR_DATA, 0, 65535, 138),
+         new FieldItem(ResourceField.COST_RATE_E, FieldLocation.VAR_DATA, 0, 65535, 139),
+         new FieldItem(ResourceField.AVAILABILITY_DATA, FieldLocation.VAR_DATA, 0, 65535, 142),
+         new FieldItem(ResourceField.ENTERPRISE_DATA, FieldLocation.VAR_DATA, 0, 65535, 143),
+         new FieldItem(ResourceField.BASELINE1_WORK, FieldLocation.VAR_DATA, 0, 65535, 144),
+         new FieldItem(ResourceField.BASELINE1_COST, FieldLocation.VAR_DATA, 0, 65535, 145),
+         new FieldItem(ResourceField.BASELINE2_WORK, FieldLocation.VAR_DATA, 0, 65535, 148),
+         new FieldItem(ResourceField.BASELINE2_COST, FieldLocation.VAR_DATA, 0, 65535, 149),
+         new FieldItem(ResourceField.BASELINE3_WORK, FieldLocation.VAR_DATA, 0, 65535, 152),
+         new FieldItem(ResourceField.BASELINE3_COST, FieldLocation.VAR_DATA, 0, 65535, 153),
+         new FieldItem(ResourceField.BASELINE4_WORK, FieldLocation.VAR_DATA, 0, 65535, 156),
+         new FieldItem(ResourceField.BASELINE4_COST, FieldLocation.VAR_DATA, 0, 65535, 157),
+         new FieldItem(ResourceField.BASELINE5_WORK, FieldLocation.VAR_DATA, 0, 65535, 160),
+         new FieldItem(ResourceField.BASELINE5_COST, FieldLocation.VAR_DATA, 0, 65535, 161),
+         new FieldItem(ResourceField.BASELINE6_WORK, FieldLocation.VAR_DATA, 0, 65535, 164),
+         new FieldItem(ResourceField.BASELINE6_COST, FieldLocation.VAR_DATA, 0, 65535, 165),
+         new FieldItem(ResourceField.BASELINE7_WORK, FieldLocation.VAR_DATA, 0, 65535, 168),
+         new FieldItem(ResourceField.BASELINE7_COST, FieldLocation.VAR_DATA, 0, 65535, 169),
+         new FieldItem(ResourceField.BASELINE8_WORK, FieldLocation.VAR_DATA, 0, 65535, 172),
+         new FieldItem(ResourceField.BASELINE8_COST, FieldLocation.VAR_DATA, 0, 65535, 173),
+         new FieldItem(ResourceField.BASELINE9_WORK, FieldLocation.VAR_DATA, 0, 65535, 176),
+         new FieldItem(ResourceField.BASELINE9_COST, FieldLocation.VAR_DATA, 0, 65535, 177),
+         new FieldItem(ResourceField.BASELINE10_WORK, FieldLocation.VAR_DATA, 0, 65535, 180),
+         new FieldItem(ResourceField.BASELINE10_COST, FieldLocation.VAR_DATA, 0, 65535, 181),
+         new FieldItem(ResourceField.ENTERPRISE_UNIQUE_ID, FieldLocation.VAR_DATA, 0, 65535, 185)
+      };
+
+      return result;
    }
 
    /**
     * {@inheritDoc}
     */
-   @Override protected Object[][] getDefaultAssignmentData()
+   @Override protected FieldItem[] getDefaultAssignmentData()
    {
-      return DEFAULT_ASSIGNMENT_MAP;
+      FieldItem[] result = new FieldItem[]
+      {
+         new FieldItem(AssignmentField.UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 0, 0),
+         new FieldItem(AssignmentField.TASK_UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 4, 0),
+         new FieldItem(AssignmentField.RESOURCE_UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 8, 0),
+         new FieldItem(AssignmentField.START, FieldLocation.FIXED_DATA, 0, 12, 0),
+         new FieldItem(AssignmentField.FINISH, FieldLocation.FIXED_DATA, 0, 16, 0),
+         new FieldItem(AssignmentField.ASSIGNMENT_DELAY, FieldLocation.FIXED_DATA, 0, 24, 0),
+         new FieldItem(AssignmentField.LEVELING_DELAY_UNITS, FieldLocation.FIXED_DATA, 0, 28, 0),
+         new FieldItem(AssignmentField.LEVELING_DELAY, FieldLocation.FIXED_DATA, 0, 30, 0),
+         new FieldItem(AssignmentField.COST_RATE_TABLE, FieldLocation.FIXED_DATA, 0, 34, 0),
+         new FieldItem(AssignmentField.BASELINE_START, FieldLocation.FIXED_DATA, 0, 36, 0),
+         new FieldItem(AssignmentField.BASELINE_FINISH, FieldLocation.FIXED_DATA, 0, 40, 0),
+         new FieldItem(AssignmentField.VARIABLE_RATE_UNITS, FieldLocation.FIXED_DATA, 0, 52, 0),
+         new FieldItem(AssignmentField.ASSIGNMENT_UNITS, FieldLocation.FIXED_DATA, 0, 54, 0),
+         new FieldItem(AssignmentField.WORK, FieldLocation.FIXED_DATA, 0, 62, 0),
+         new FieldItem(AssignmentField.ACTUAL_WORK, FieldLocation.FIXED_DATA, 0, 70, 0),
+         new FieldItem(AssignmentField.REGULAR_WORK, FieldLocation.FIXED_DATA, 0, 78, 0),
+         new FieldItem(AssignmentField.REMAINING_WORK, FieldLocation.FIXED_DATA, 0, 86, 0),
+         new FieldItem(AssignmentField.BASELINE_WORK, FieldLocation.FIXED_DATA, 0, 94, 0),
+         new FieldItem(AssignmentField.COST, FieldLocation.FIXED_DATA, 0, 102, 0),
+         new FieldItem(AssignmentField.ACTUAL_COST, FieldLocation.FIXED_DATA, 0, 110, 0),
+         new FieldItem(AssignmentField.REMAINING_COST, FieldLocation.FIXED_DATA, 0, 118, 0),
+         new FieldItem(AssignmentField.BASELINE_COST, FieldLocation.FIXED_DATA, 0, 126, 0),
+         new FieldItem(AssignmentField.OVERTIME_WORK, FieldLocation.VAR_DATA, 0, 65535, 1),
+         new FieldItem(AssignmentField.ACTUAL_OVERTIME_WORK, FieldLocation.VAR_DATA, 0, 65535, 2),
+         new FieldItem(AssignmentField.REMAINING_OVERTIME_WORK, FieldLocation.VAR_DATA, 0, 65535, 3),
+         new FieldItem(AssignmentField.ACTUAL_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 4),
+         new FieldItem(AssignmentField.REMAINING_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 5),
+         new FieldItem(AssignmentField.NOTES, FieldLocation.VAR_DATA, 0, 65535, 6),
+         new FieldItem(AssignmentField.PLANNED_WORK_DATA, FieldLocation.VAR_DATA, 0, 65535, 7),
+         new FieldItem(AssignmentField.COMPLETE_WORK_DATA, FieldLocation.VAR_DATA, 0, 65535, 9),
+         new FieldItem(AssignmentField.TEXT1, FieldLocation.VAR_DATA, 0, 65535, 15),
+         new FieldItem(AssignmentField.TEXT2, FieldLocation.VAR_DATA, 0, 65535, 16),
+         new FieldItem(AssignmentField.TEXT3, FieldLocation.VAR_DATA, 0, 65535, 17),
+         new FieldItem(AssignmentField.TEXT4, FieldLocation.VAR_DATA, 0, 65535, 18),
+         new FieldItem(AssignmentField.TEXT5, FieldLocation.VAR_DATA, 0, 65535, 19),
+         new FieldItem(AssignmentField.TEXT6, FieldLocation.VAR_DATA, 0, 65535, 20),
+         new FieldItem(AssignmentField.TEXT7, FieldLocation.VAR_DATA, 0, 65535, 21),
+         new FieldItem(AssignmentField.TEXT8, FieldLocation.VAR_DATA, 0, 65535, 22),
+         new FieldItem(AssignmentField.TEXT9, FieldLocation.VAR_DATA, 0, 65535, 23),
+         new FieldItem(AssignmentField.TEXT10, FieldLocation.VAR_DATA, 0, 65535, 24),
+         new FieldItem(AssignmentField.TEXT11, FieldLocation.VAR_DATA, 0, 65535, 25),
+         new FieldItem(AssignmentField.TEXT12, FieldLocation.VAR_DATA, 0, 65535, 26),
+         new FieldItem(AssignmentField.TEXT13, FieldLocation.VAR_DATA, 0, 65535, 27),
+         new FieldItem(AssignmentField.TEXT14, FieldLocation.VAR_DATA, 0, 65535, 28),
+         new FieldItem(AssignmentField.TEXT15, FieldLocation.VAR_DATA, 0, 65535, 29),
+         new FieldItem(AssignmentField.TEXT16, FieldLocation.VAR_DATA, 0, 65535, 30),
+         new FieldItem(AssignmentField.TEXT17, FieldLocation.VAR_DATA, 0, 65535, 31),
+         new FieldItem(AssignmentField.TEXT18, FieldLocation.VAR_DATA, 0, 65535, 32),
+         new FieldItem(AssignmentField.TEXT19, FieldLocation.VAR_DATA, 0, 65535, 33),
+         new FieldItem(AssignmentField.TEXT20, FieldLocation.VAR_DATA, 0, 65535, 34),
+         new FieldItem(AssignmentField.TEXT21, FieldLocation.VAR_DATA, 0, 65535, 35),
+         new FieldItem(AssignmentField.TEXT22, FieldLocation.VAR_DATA, 0, 65535, 36),
+         new FieldItem(AssignmentField.TEXT23, FieldLocation.VAR_DATA, 0, 65535, 37),
+         new FieldItem(AssignmentField.TEXT24, FieldLocation.VAR_DATA, 0, 65535, 38),
+         new FieldItem(AssignmentField.TEXT25, FieldLocation.VAR_DATA, 0, 65535, 39),
+         new FieldItem(AssignmentField.TEXT26, FieldLocation.VAR_DATA, 0, 65535, 40),
+         new FieldItem(AssignmentField.TEXT27, FieldLocation.VAR_DATA, 0, 65535, 41),
+         new FieldItem(AssignmentField.TEXT28, FieldLocation.VAR_DATA, 0, 65535, 42),
+         new FieldItem(AssignmentField.TEXT29, FieldLocation.VAR_DATA, 0, 65535, 43),
+         new FieldItem(AssignmentField.TEXT30, FieldLocation.VAR_DATA, 0, 65535, 44),
+         new FieldItem(AssignmentField.START1, FieldLocation.VAR_DATA, 0, 65535, 45),
+         new FieldItem(AssignmentField.START2, FieldLocation.VAR_DATA, 0, 65535, 46),
+         new FieldItem(AssignmentField.START3, FieldLocation.VAR_DATA, 0, 65535, 47),
+         new FieldItem(AssignmentField.START4, FieldLocation.VAR_DATA, 0, 65535, 48),
+         new FieldItem(AssignmentField.START5, FieldLocation.VAR_DATA, 0, 65535, 49),
+         new FieldItem(AssignmentField.START6, FieldLocation.VAR_DATA, 0, 65535, 50),
+         new FieldItem(AssignmentField.START7, FieldLocation.VAR_DATA, 0, 65535, 51),
+         new FieldItem(AssignmentField.START8, FieldLocation.VAR_DATA, 0, 65535, 52),
+         new FieldItem(AssignmentField.START9, FieldLocation.VAR_DATA, 0, 65535, 53),
+         new FieldItem(AssignmentField.START10, FieldLocation.VAR_DATA, 0, 65535, 54),
+         new FieldItem(AssignmentField.FINISH1, FieldLocation.VAR_DATA, 0, 65535, 55),
+         new FieldItem(AssignmentField.FINISH2, FieldLocation.VAR_DATA, 0, 65535, 56),
+         new FieldItem(AssignmentField.FINISH3, FieldLocation.VAR_DATA, 0, 65535, 57),
+         new FieldItem(AssignmentField.FINISH4, FieldLocation.VAR_DATA, 0, 65535, 58),
+         new FieldItem(AssignmentField.FINISH5, FieldLocation.VAR_DATA, 0, 65535, 59),
+         new FieldItem(AssignmentField.FINISH6, FieldLocation.VAR_DATA, 0, 65535, 60),
+         new FieldItem(AssignmentField.FINISH7, FieldLocation.VAR_DATA, 0, 65535, 61),
+         new FieldItem(AssignmentField.FINISH8, FieldLocation.VAR_DATA, 0, 65535, 62),
+         new FieldItem(AssignmentField.FINISH9, FieldLocation.VAR_DATA, 0, 65535, 63),
+         new FieldItem(AssignmentField.FINISH10, FieldLocation.VAR_DATA, 0, 65535, 64),
+         new FieldItem(AssignmentField.NUMBER1, FieldLocation.VAR_DATA, 0, 65535, 65),
+         new FieldItem(AssignmentField.NUMBER2, FieldLocation.VAR_DATA, 0, 65535, 66),
+         new FieldItem(AssignmentField.NUMBER3, FieldLocation.VAR_DATA, 0, 65535, 67),
+         new FieldItem(AssignmentField.NUMBER4, FieldLocation.VAR_DATA, 0, 65535, 68),
+         new FieldItem(AssignmentField.NUMBER5, FieldLocation.VAR_DATA, 0, 65535, 69),
+         new FieldItem(AssignmentField.NUMBER6, FieldLocation.VAR_DATA, 0, 65535, 70),
+         new FieldItem(AssignmentField.NUMBER7, FieldLocation.VAR_DATA, 0, 65535, 71),
+         new FieldItem(AssignmentField.NUMBER8, FieldLocation.VAR_DATA, 0, 65535, 72),
+         new FieldItem(AssignmentField.NUMBER9, FieldLocation.VAR_DATA, 0, 65535, 73),
+         new FieldItem(AssignmentField.NUMBER10, FieldLocation.VAR_DATA, 0, 65535, 74),
+         new FieldItem(AssignmentField.NUMBER11, FieldLocation.VAR_DATA, 0, 65535, 75),
+         new FieldItem(AssignmentField.NUMBER12, FieldLocation.VAR_DATA, 0, 65535, 76),
+         new FieldItem(AssignmentField.NUMBER13, FieldLocation.VAR_DATA, 0, 65535, 77),
+         new FieldItem(AssignmentField.NUMBER14, FieldLocation.VAR_DATA, 0, 65535, 78),
+         new FieldItem(AssignmentField.NUMBER15, FieldLocation.VAR_DATA, 0, 65535, 79),
+         new FieldItem(AssignmentField.NUMBER16, FieldLocation.VAR_DATA, 0, 65535, 80),
+         new FieldItem(AssignmentField.NUMBER17, FieldLocation.VAR_DATA, 0, 65535, 81),
+         new FieldItem(AssignmentField.NUMBER18, FieldLocation.VAR_DATA, 0, 65535, 82),
+         new FieldItem(AssignmentField.NUMBER19, FieldLocation.VAR_DATA, 0, 65535, 83),
+         new FieldItem(AssignmentField.NUMBER20, FieldLocation.VAR_DATA, 0, 65535, 84),
+         new FieldItem(AssignmentField.DURATION1, FieldLocation.VAR_DATA, 0, 65535, 85),
+         new FieldItem(AssignmentField.DURATION2, FieldLocation.VAR_DATA, 0, 65535, 86),
+         new FieldItem(AssignmentField.DURATION3, FieldLocation.VAR_DATA, 0, 65535, 87),
+         new FieldItem(AssignmentField.DURATION4, FieldLocation.VAR_DATA, 0, 65535, 88),
+         new FieldItem(AssignmentField.DURATION5, FieldLocation.VAR_DATA, 0, 65535, 89),
+         new FieldItem(AssignmentField.DURATION6, FieldLocation.VAR_DATA, 0, 65535, 90),
+         new FieldItem(AssignmentField.DURATION7, FieldLocation.VAR_DATA, 0, 65535, 91),
+         new FieldItem(AssignmentField.DURATION8, FieldLocation.VAR_DATA, 0, 65535, 92),
+         new FieldItem(AssignmentField.DURATION9, FieldLocation.VAR_DATA, 0, 65535, 93),
+         new FieldItem(AssignmentField.DURATION10, FieldLocation.VAR_DATA, 0, 65535, 94),
+         new FieldItem(AssignmentField.DATE1, FieldLocation.VAR_DATA, 0, 65535, 108),
+         new FieldItem(AssignmentField.DATE2, FieldLocation.VAR_DATA, 0, 65535, 109),
+         new FieldItem(AssignmentField.DATE3, FieldLocation.VAR_DATA, 0, 65535, 110),
+         new FieldItem(AssignmentField.DATE4, FieldLocation.VAR_DATA, 0, 65535, 111),
+         new FieldItem(AssignmentField.DATE5, FieldLocation.VAR_DATA, 0, 65535, 112),
+         new FieldItem(AssignmentField.DATE6, FieldLocation.VAR_DATA, 0, 65535, 113),
+         new FieldItem(AssignmentField.DATE7, FieldLocation.VAR_DATA, 0, 65535, 114),
+         new FieldItem(AssignmentField.DATE8, FieldLocation.VAR_DATA, 0, 65535, 115),
+         new FieldItem(AssignmentField.DATE9, FieldLocation.VAR_DATA, 0, 65535, 116),
+         new FieldItem(AssignmentField.DATE10, FieldLocation.VAR_DATA, 0, 65535, 117),
+         new FieldItem(AssignmentField.COST1, FieldLocation.VAR_DATA, 0, 65535, 128),
+         new FieldItem(AssignmentField.COST2, FieldLocation.VAR_DATA, 0, 65535, 129),
+         new FieldItem(AssignmentField.COST3, FieldLocation.VAR_DATA, 0, 65535, 130),
+         new FieldItem(AssignmentField.COST4, FieldLocation.VAR_DATA, 0, 65535, 131),
+         new FieldItem(AssignmentField.COST5, FieldLocation.VAR_DATA, 0, 65535, 132),
+         new FieldItem(AssignmentField.COST6, FieldLocation.VAR_DATA, 0, 65535, 133),
+         new FieldItem(AssignmentField.COST7, FieldLocation.VAR_DATA, 0, 65535, 134),
+         new FieldItem(AssignmentField.COST8, FieldLocation.VAR_DATA, 0, 65535, 135),
+         new FieldItem(AssignmentField.COST9, FieldLocation.VAR_DATA, 0, 65535, 136),
+         new FieldItem(AssignmentField.COST10, FieldLocation.VAR_DATA, 0, 65535, 137),
+         new FieldItem(AssignmentField.BASELINE1_START, FieldLocation.VAR_DATA, 0, 65535, 140),
+         new FieldItem(AssignmentField.BASELINE1_FINISH, FieldLocation.VAR_DATA, 0, 65535, 141),
+         new FieldItem(AssignmentField.BASELINE1_WORK, FieldLocation.VAR_DATA, 0, 65535, 142),
+         new FieldItem(AssignmentField.BASELINE1_COST, FieldLocation.VAR_DATA, 0, 65535, 143),
+         new FieldItem(AssignmentField.BASELINE2_START, FieldLocation.VAR_DATA, 0, 65535, 148),
+         new FieldItem(AssignmentField.BASELINE2_FINISH, FieldLocation.VAR_DATA, 0, 65535, 149),
+         new FieldItem(AssignmentField.BASELINE2_WORK, FieldLocation.VAR_DATA, 0, 65535, 150),
+         new FieldItem(AssignmentField.BASELINE2_COST, FieldLocation.VAR_DATA, 0, 65535, 151),
+         new FieldItem(AssignmentField.BASELINE3_START, FieldLocation.VAR_DATA, 0, 65535, 156),
+         new FieldItem(AssignmentField.BASELINE3_FINISH, FieldLocation.VAR_DATA, 0, 65535, 157),
+         new FieldItem(AssignmentField.BASELINE3_WORK, FieldLocation.VAR_DATA, 0, 65535, 158),
+         new FieldItem(AssignmentField.BASELINE3_COST, FieldLocation.VAR_DATA, 0, 65535, 159),
+         new FieldItem(AssignmentField.BASELINE4_START, FieldLocation.VAR_DATA, 0, 65535, 164),
+         new FieldItem(AssignmentField.BASELINE4_FINISH, FieldLocation.VAR_DATA, 0, 65535, 165),
+         new FieldItem(AssignmentField.BASELINE4_WORK, FieldLocation.VAR_DATA, 0, 65535, 166),
+         new FieldItem(AssignmentField.BASELINE4_COST, FieldLocation.VAR_DATA, 0, 65535, 167),
+         new FieldItem(AssignmentField.BASELINE5_START, FieldLocation.VAR_DATA, 0, 65535, 172),
+         new FieldItem(AssignmentField.BASELINE5_FINISH, FieldLocation.VAR_DATA, 0, 65535, 173),
+         new FieldItem(AssignmentField.BASELINE5_WORK, FieldLocation.VAR_DATA, 0, 65535, 174),
+         new FieldItem(AssignmentField.BASELINE5_COST, FieldLocation.VAR_DATA, 0, 65535, 175),
+         new FieldItem(AssignmentField.BASELINE6_START, FieldLocation.VAR_DATA, 0, 65535, 180),
+         new FieldItem(AssignmentField.BASELINE6_FINISH, FieldLocation.VAR_DATA, 0, 65535, 181),
+         new FieldItem(AssignmentField.BASELINE6_WORK, FieldLocation.VAR_DATA, 0, 65535, 182),
+         new FieldItem(AssignmentField.BASELINE6_COST, FieldLocation.VAR_DATA, 0, 65535, 183),
+         new FieldItem(AssignmentField.BASELINE7_START, FieldLocation.VAR_DATA, 0, 65535, 188),
+         new FieldItem(AssignmentField.BASELINE7_FINISH, FieldLocation.VAR_DATA, 0, 65535, 189),
+         new FieldItem(AssignmentField.BASELINE7_WORK, FieldLocation.VAR_DATA, 0, 65535, 190),
+         new FieldItem(AssignmentField.BASELINE7_COST, FieldLocation.VAR_DATA, 0, 65535, 191),
+         new FieldItem(AssignmentField.BASELINE8_START, FieldLocation.VAR_DATA, 0, 65535, 196),
+         new FieldItem(AssignmentField.BASELINE8_FINISH, FieldLocation.VAR_DATA, 0, 65535, 197),
+         new FieldItem(AssignmentField.BASELINE8_WORK, FieldLocation.VAR_DATA, 0, 65535, 198),
+         new FieldItem(AssignmentField.BASELINE8_COST, FieldLocation.VAR_DATA, 0, 65535, 199),
+         new FieldItem(AssignmentField.BASELINE9_START, FieldLocation.VAR_DATA, 0, 65535, 204),
+         new FieldItem(AssignmentField.BASELINE9_FINISH, FieldLocation.VAR_DATA, 0, 65535, 205),
+         new FieldItem(AssignmentField.BASELINE9_WORK, FieldLocation.VAR_DATA, 0, 65535, 206),
+         new FieldItem(AssignmentField.BASELINE9_COST, FieldLocation.VAR_DATA, 0, 65535, 207),
+         new FieldItem(AssignmentField.BASELINE10_START, FieldLocation.VAR_DATA, 0, 65535, 212),
+         new FieldItem(AssignmentField.BASELINE10_FINISH, FieldLocation.VAR_DATA, 0, 65535, 213),
+         new FieldItem(AssignmentField.BASELINE10_WORK, FieldLocation.VAR_DATA, 0, 65535, 214),
+         new FieldItem(AssignmentField.BASELINE10_COST, FieldLocation.VAR_DATA, 0, 65535, 215)
+      };
+      return result;
    }
-
-   /**
-    * Default task data.
-    */
-   private static final Object[][] DEFAULT_TASK_MAP =
-   {
-      {
-         TaskField.UNIQUE_ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(0),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(4),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.EARLY_FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(8),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.LATE_START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(12),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.STOP,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(16),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.RESUME,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(20),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.FREE_SLACK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(24),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.START_SLACK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(28),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.FINISH_SLACK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(32),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.OUTLINE_LEVEL,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(40),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.DURATION_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(58),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.DURATION,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(60),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_DURATION_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(64),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_DURATION,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(66),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.REMAINING_DURATION,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(70),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_DURATION,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(74),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_DURATION_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(78),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.CONSTRAINT_TYPE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(80),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.LEVELING_DELAY,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(82),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.LEVELING_DELAY_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(86),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(88),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(92),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(96),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(100),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(104),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(108),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.CONSTRAINT_DATE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(112),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.PRIORITY,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(120),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.PERCENT_COMPLETE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(122),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.PERCENT_WORK_COMPLETE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(124),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.TYPE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(126),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.FIXED_COST_ACCRUAL,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(128),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.CREATED,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(130),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.RECURRING,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(134),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.PRELEVELED_START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(136),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.PRELEVELED_FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(140),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.EARLY_START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(148),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.LATE_FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(152),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.SUMMARY_PROGRESS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(156),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.DEADLINE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(164),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(168),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(176),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(184),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.REMAINING_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(192),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(200),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.FIXED_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(208),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(216),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.REMAINING_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(224),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(232),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.BASELINE_FIXED_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(256),
-         Integer.valueOf(0)
-      },
-      {
-         TaskField.ACTUAL_OVERTIME_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(3)
-      },
-      {
-         TaskField.REMAINING_OVERTIME_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(4)
-      },
-      {
-         TaskField.OVERTIME_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(5)
-      },
-      {
-         TaskField.ACTUAL_OVERTIME_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(6)
-      },
-      {
-         TaskField.REMAINING_OVERTIME_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(7)
-      },
-      {
-         TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(8)
-      },
-      {
-         TaskField.SUBPROJECT_UNIQUE_TASK_ID,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(9)
-      },
-      {
-         TaskField.WBS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(10)
-      },
-      {
-         TaskField.NAME,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(11)
-      },
-      {
-         TaskField.CONTACT,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(12)
-      },
-      {
-         TaskField.TEXT1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(14)
-      },
-      {
-         TaskField.TEXT2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(15)
-      },
-      {
-         TaskField.TEXT3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(16)
-      },
-      {
-         TaskField.TEXT4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(17)
-      },
-      {
-         TaskField.TEXT5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(18)
-      },
-      {
-         TaskField.TEXT6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(19)
-      },
-      {
-         TaskField.TEXT7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(20)
-      },
-      {
-         TaskField.TEXT8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(21)
-      },
-      {
-         TaskField.TEXT9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(22)
-      },
-      {
-         TaskField.TEXT10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(23)
-      },
-      {
-         TaskField.START1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(24)
-      },
-      {
-         TaskField.FINISH1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(25)
-      },
-      {
-         TaskField.START2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(26)
-      },
-      {
-         TaskField.FINISH2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(27)
-      },
-      {
-         TaskField.START3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(28)
-      },
-      {
-         TaskField.FINISH3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(29)
-      },
-      {
-         TaskField.START4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(30)
-      },
-      {
-         TaskField.FINISH4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(31)
-      },
-      {
-         TaskField.START5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(32)
-      },
-      {
-         TaskField.FINISH5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(33)
-      },
-      {
-         TaskField.START6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(34)
-      },
-      {
-         TaskField.FINISH6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(35)
-      },
-      {
-         TaskField.START7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(36)
-      },
-      {
-         TaskField.FINISH7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(37)
-      },
-      {
-         TaskField.START8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(38)
-      },
-      {
-         TaskField.FINISH8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(39)
-      },
-      {
-         TaskField.START9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(40)
-      },
-      {
-         TaskField.FINISH9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(41)
-      },
-      {
-         TaskField.START10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(42)
-      },
-      {
-         TaskField.FINISH10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(43)
-      },
-      {
-         TaskField.NUMBER1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(45)
-      },
-      {
-         TaskField.NUMBER2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(46)
-      },
-      {
-         TaskField.NUMBER3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(47)
-      },
-      {
-         TaskField.NUMBER4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(48)
-      },
-      {
-         TaskField.NUMBER5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(49)
-      },
-      {
-         TaskField.NUMBER6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(50)
-      },
-      {
-         TaskField.NUMBER7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(51)
-      },
-      {
-         TaskField.NUMBER8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(52)
-      },
-      {
-         TaskField.NUMBER9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(53)
-      },
-      {
-         TaskField.NUMBER10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(54)
-      },
-      {
-         TaskField.DURATION1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(55)
-      },
-      {
-         TaskField.DURATION1_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(56)
-      },
-      {
-         TaskField.DURATION2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(57)
-      },
-      {
-         TaskField.DURATION2_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(58)
-      },
-      {
-         TaskField.DURATION3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(59)
-      },
-      {
-         TaskField.DURATION3_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(60)
-      },
-      {
-         TaskField.DURATION4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(61)
-      },
-      {
-         TaskField.DURATION4_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(62)
-      },
-      {
-         TaskField.DURATION5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(63)
-      },
-      {
-         TaskField.DURATION5_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(64)
-      },
-      {
-         TaskField.DURATION6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(65)
-      },
-      {
-         TaskField.DURATION6_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(66)
-      },
-      {
-         TaskField.DURATION7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(67)
-      },
-      {
-         TaskField.DURATION7_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(68)
-      },
-      {
-         TaskField.DURATION8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(69)
-      },
-      {
-         TaskField.DURATION8_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(70)
-      },
-      {
-         TaskField.DURATION9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(71)
-      },
-      {
-         TaskField.DURATION9_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(72)
-      },
-      {
-         TaskField.DURATION10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(73)
-      },
-      {
-         TaskField.DURATION10_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(74)
-      },
-      {
-         TaskField.RECURRING_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(76)
-      },
-      {
-         TaskField.SUBPROJECT_TASK_ID,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(79)
-      },
-      {
-         TaskField.DATE1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(80)
-      },
-      {
-         TaskField.DATE2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(81)
-      },
-      {
-         TaskField.DATE3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(82)
-      },
-      {
-         TaskField.DATE4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(83)
-      },
-      {
-         TaskField.DATE5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(84)
-      },
-      {
-         TaskField.DATE6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(85)
-      },
-      {
-         TaskField.DATE7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(86)
-      },
-      {
-         TaskField.DATE8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(87)
-      },
-      {
-         TaskField.DATE9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(88)
-      },
-      {
-         TaskField.DATE10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(89)
-      },
-      {
-         TaskField.TEXT11,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(90)
-      },
-      {
-         TaskField.TEXT12,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(91)
-      },
-      {
-         TaskField.TEXT13,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(92)
-      },
-      {
-         TaskField.TEXT14,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(93)
-      },
-      {
-         TaskField.TEXT15,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(94)
-      },
-      {
-         TaskField.TEXT16,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(95)
-      },
-      {
-         TaskField.TEXT17,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(96)
-      },
-      {
-         TaskField.TEXT18,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(97)
-      },
-      {
-         TaskField.TEXT19,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(98)
-      },
-      {
-         TaskField.TEXT20,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(99)
-      },
-      {
-         TaskField.TEXT21,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(100)
-      },
-      {
-         TaskField.TEXT22,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(101)
-      },
-      {
-         TaskField.TEXT23,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(102)
-      },
-      {
-         TaskField.TEXT24,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(103)
-      },
-      {
-         TaskField.TEXT25,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(104)
-      },
-      {
-         TaskField.TEXT26,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(105)
-      },
-      {
-         TaskField.TEXT27,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(106)
-      },
-      {
-         TaskField.TEXT28,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(107)
-      },
-      {
-         TaskField.TEXT29,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(108)
-      },
-      {
-         TaskField.TEXT30,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(109)
-      },
-      {
-         TaskField.NUMBER11,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(110)
-      },
-      {
-         TaskField.NUMBER12,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(111)
-      },
-      {
-         TaskField.NUMBER13,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(112)
-      },
-      {
-         TaskField.NUMBER14,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(113)
-      },
-      {
-         TaskField.NUMBER15,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(114)
-      },
-      {
-         TaskField.NUMBER16,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(115)
-      },
-      {
-         TaskField.NUMBER17,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(116)
-      },
-      {
-         TaskField.NUMBER18,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(117)
-      },
-      {
-         TaskField.NUMBER19,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(118)
-      },
-      {
-         TaskField.NUMBER20,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(119)
-      },
-      {
-         TaskField.OUTLINE_CODE1_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(123)
-      },
-      {
-         TaskField.OUTLINE_CODE2_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(124)
-      },
-      {
-         TaskField.OUTLINE_CODE3_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(125)
-      },
-      {
-         TaskField.OUTLINE_CODE4_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(126)
-      },
-      {
-         TaskField.OUTLINE_CODE5_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(127)
-      },
-      {
-         TaskField.OUTLINE_CODE6_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(128)
-      },
-      {
-         TaskField.OUTLINE_CODE7_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(129)
-      },
-      {
-         TaskField.OUTLINE_CODE8_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(130)
-      },
-      {
-         TaskField.OUTLINE_CODE9_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(131)
-      },
-      {
-         TaskField.OUTLINE_CODE10_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(132)
-      },
-      {
-         TaskField.HYPERLINK_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(133)
-      },
-      {
-         TaskField.COST1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(134)
-      },
-      {
-         TaskField.COST2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(135)
-      },
-      {
-         TaskField.COST3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(136)
-      },
-      {
-         TaskField.COST4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(137)
-      },
-      {
-         TaskField.COST5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(138)
-      },
-      {
-         TaskField.COST6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(139)
-      },
-      {
-         TaskField.COST7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(140)
-      },
-      {
-         TaskField.COST8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(141)
-      },
-      {
-         TaskField.COST9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(142)
-      },
-      {
-         TaskField.COST10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(143)
-      },
-      {
-         TaskField.NOTES,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(144)
-      },
-      {
-         TaskField.SUBPROJECT_FILE,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(160)
-      },
-      {
-         TaskField.ENTERPRISE_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(163)
-      },
-      {
-         TaskField.CALENDAR_UNIQUE_ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(160),
-         Integer.valueOf(0)
-      }
-   };
-
-   private static final Object[][] DEFAULT_RESOURCE_MAP =
-   {
-
-      {
-         ResourceField.UNIQUE_ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(0),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(4),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.ACCRUE_AT,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(12),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.WORKGROUP,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(14),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.AVAILABLE_FROM,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(20),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.AVAILABLE_TO,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(24),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.STANDARD_RATE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(28),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.OVERTIME_RATE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(36),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.MAX_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(44),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(52),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.ACTUAL_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(60),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.BASELINE_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(68),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.OVERTIME_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(76),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.COST_PER_USE,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(84),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.REMAINING_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(92),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.REGULAR_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(100),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.ACTUAL_OVERTIME_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(108),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.REMAINING_OVERTIME_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(116),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.PEAK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(124),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.ACTUAL_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(132),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(140),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.BASELINE_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(148),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.REMAINING_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(156),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.OVERTIME_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(164),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.ACTUAL_OVERTIME_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(172),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.REMAINING_OVERTIME_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(180),
-         Integer.valueOf(0)
-      },
-      {
-         ResourceField.NAME,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(1)
-      },
-      {
-         ResourceField.INITIALS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(3)
-      },
-      {
-         ResourceField.GROUP,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(4)
-      },
-      {
-         ResourceField.CODE,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(5)
-      },
-      {
-         ResourceField.EMAIL_ADDRESS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(6)
-      },
-      {
-         ResourceField.PHONETICS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(7)
-      },
-      {
-         ResourceField.MATERIAL_LABEL,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(8)
-      },
-      {
-         ResourceField.WINDOWS_USER_ACCOUNT,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(9)
-      },
-      {
-         ResourceField.TEXT1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(10)
-      },
-      {
-         ResourceField.TEXT2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(11)
-      },
-      {
-         ResourceField.TEXT3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(12)
-      },
-      {
-         ResourceField.TEXT4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(13)
-      },
-      {
-         ResourceField.TEXT5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(14)
-      },
-      {
-         ResourceField.TEXT6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(15)
-      },
-      {
-         ResourceField.TEXT7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(16)
-      },
-      {
-         ResourceField.TEXT8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(17)
-      },
-      {
-         ResourceField.TEXT9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(18)
-      },
-      {
-         ResourceField.TEXT10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(19)
-      },
-      {
-         ResourceField.TEXT11,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(20)
-      },
-      {
-         ResourceField.TEXT12,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(21)
-      },
-      {
-         ResourceField.TEXT13,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(22)
-      },
-      {
-         ResourceField.TEXT14,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(23)
-      },
-      {
-         ResourceField.TEXT15,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(24)
-      },
-      {
-         ResourceField.TEXT16,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(25)
-      },
-      {
-         ResourceField.TEXT17,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(26)
-      },
-      {
-         ResourceField.TEXT18,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(27)
-      },
-      {
-         ResourceField.TEXT19,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(28)
-      },
-      {
-         ResourceField.TEXT20,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(29)
-      },
-      {
-         ResourceField.TEXT21,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(30)
-      },
-      {
-         ResourceField.TEXT22,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(31)
-      },
-      {
-         ResourceField.TEXT23,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(32)
-      },
-      {
-         ResourceField.TEXT24,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(33)
-      },
-      {
-         ResourceField.TEXT25,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(34)
-      },
-      {
-         ResourceField.TEXT26,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(35)
-      },
-      {
-         ResourceField.TEXT27,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(36)
-      },
-      {
-         ResourceField.TEXT28,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(37)
-      },
-      {
-         ResourceField.TEXT29,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(38)
-      },
-      {
-         ResourceField.TEXT30,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(39)
-      },
-      {
-         ResourceField.START1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(40)
-      },
-      {
-         ResourceField.START2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(41)
-      },
-      {
-         ResourceField.START3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(42)
-      },
-      {
-         ResourceField.START4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(43)
-      },
-      {
-         ResourceField.START5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(44)
-      },
-      {
-         ResourceField.START6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(45)
-      },
-      {
-         ResourceField.START7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(46)
-      },
-      {
-         ResourceField.START8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(47)
-      },
-      {
-         ResourceField.START9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(48)
-      },
-      {
-         ResourceField.START10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(49)
-      },
-      {
-         ResourceField.FINISH1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(50)
-      },
-      {
-         ResourceField.FINISH2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(51)
-      },
-      {
-         ResourceField.FINISH3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(52)
-      },
-      {
-         ResourceField.FINISH4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(53)
-      },
-      {
-         ResourceField.FINISH5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(54)
-      },
-      {
-         ResourceField.FINISH6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(55)
-      },
-      {
-         ResourceField.FINISH7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(56)
-      },
-      {
-         ResourceField.FINISH8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(57)
-      },
-      {
-         ResourceField.FINISH9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(58)
-      },
-      {
-         ResourceField.FINISH10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(59)
-      },
-      {
-         ResourceField.NUMBER1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(60)
-      },
-      {
-         ResourceField.NUMBER2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(61)
-      },
-      {
-         ResourceField.NUMBER3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(62)
-      },
-      {
-         ResourceField.NUMBER4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(63)
-      },
-      {
-         ResourceField.NUMBER5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(64)
-      },
-      {
-         ResourceField.NUMBER6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(65)
-      },
-      {
-         ResourceField.NUMBER7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(66)
-      },
-      {
-         ResourceField.NUMBER8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(67)
-      },
-      {
-         ResourceField.NUMBER9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(68)
-      },
-      {
-         ResourceField.NUMBER10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(69)
-      },
-      {
-         ResourceField.NUMBER11,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(70)
-      },
-      {
-         ResourceField.NUMBER12,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(71)
-      },
-      {
-         ResourceField.NUMBER13,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(72)
-      },
-      {
-         ResourceField.NUMBER14,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(73)
-      },
-      {
-         ResourceField.NUMBER15,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(74)
-      },
-      {
-         ResourceField.NUMBER16,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(75)
-      },
-      {
-         ResourceField.NUMBER17,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(76)
-      },
-      {
-         ResourceField.NUMBER18,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(77)
-      },
-      {
-         ResourceField.NUMBER19,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(78)
-      },
-      {
-         ResourceField.NUMBER20,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(79)
-      },
-      {
-         ResourceField.DURATION1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(80)
-      },
-      {
-         ResourceField.DURATION2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(81)
-      },
-      {
-         ResourceField.DURATION3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(82)
-      },
-      {
-         ResourceField.DURATION4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(83)
-      },
-      {
-         ResourceField.DURATION5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(84)
-      },
-      {
-         ResourceField.DURATION6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(85)
-      },
-      {
-         ResourceField.DURATION7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(86)
-      },
-      {
-         ResourceField.DURATION8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(87)
-      },
-      {
-         ResourceField.DURATION9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(88)
-      },
-      {
-         ResourceField.DURATION10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(89)
-      },
-      {
-         ResourceField.DURATION1_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(90)
-      },
-      {
-         ResourceField.DURATION2_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(91)
-      },
-      {
-         ResourceField.DURATION3_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(92)
-      },
-      {
-         ResourceField.DURATION4_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(93)
-      },
-      {
-         ResourceField.DURATION5_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(94)
-      },
-      {
-         ResourceField.DURATION6_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(95)
-      },
-      {
-         ResourceField.DURATION7_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(96)
-      },
-      {
-         ResourceField.DURATION8_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(97)
-      },
-      {
-         ResourceField.DURATION9_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(98)
-      },
-      {
-         ResourceField.DURATION10_UNITS,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(99)
-      },
-      {
-         ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(102)
-      },
-      {
-         ResourceField.DATE1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(103)
-      },
-      {
-         ResourceField.DATE2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(104)
-      },
-      {
-         ResourceField.DATE3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(105)
-      },
-      {
-         ResourceField.DATE4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(106)
-      },
-      {
-         ResourceField.DATE5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(107)
-      },
-      {
-         ResourceField.DATE6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(108)
-      },
-      {
-         ResourceField.DATE7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(109)
-      },
-      {
-         ResourceField.DATE8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(110)
-      },
-      {
-         ResourceField.DATE9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(111)
-      },
-      {
-         ResourceField.DATE10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(112)
-      },
-      {
-         ResourceField.OUTLINE_CODE1_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(113)
-      },
-      {
-         ResourceField.OUTLINE_CODE2_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(114)
-      },
-      {
-         ResourceField.OUTLINE_CODE3_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(115)
-      },
-      {
-         ResourceField.OUTLINE_CODE4_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(116)
-      },
-      {
-         ResourceField.OUTLINE_CODE5_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(117)
-      },
-      {
-         ResourceField.OUTLINE_CODE6_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(118)
-      },
-      {
-         ResourceField.OUTLINE_CODE7_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(119)
-      },
-      {
-         ResourceField.OUTLINE_CODE8_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(120)
-      },
-      {
-         ResourceField.OUTLINE_CODE9_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(121)
-      },
-      {
-         ResourceField.OUTLINE_CODE10_INDEX,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(122)
-      },
-      {
-         ResourceField.HYPERLINK_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(123)
-      },
-      {
-         ResourceField.NOTES,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(124)
-      },
-      {
-         ResourceField.COST1,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(125)
-      },
-      {
-         ResourceField.COST2,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(126)
-      },
-      {
-         ResourceField.COST3,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(127)
-      },
-      {
-         ResourceField.COST4,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(128)
-      },
-      {
-         ResourceField.COST5,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(129)
-      },
-      {
-         ResourceField.COST6,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(130)
-      },
-      {
-         ResourceField.COST7,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(131)
-      },
-      {
-         ResourceField.COST8,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(132)
-      },
-      {
-         ResourceField.COST9,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(133)
-      },
-      {
-         ResourceField.COST10,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(134)
-      },
-      {
-         ResourceField.COST_RATE_A,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(135)
-      },
-      {
-         ResourceField.COST_RATE_B,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(136)
-      },
-      {
-         ResourceField.COST_RATE_C,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(137)
-      },
-      {
-         ResourceField.COST_RATE_D,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(138)
-      },
-      {
-         ResourceField.COST_RATE_E,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(139)
-      },
-      {
-         ResourceField.AVAILABILITY_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(142)
-      },
-      {
-         ResourceField.ENTERPRISE_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(143)
-      },
-      {
-         ResourceField.BASELINE1_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(144)
-      },
-      {
-         ResourceField.BASELINE1_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(145)
-      },
-      {
-         ResourceField.BASELINE2_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(148)
-      },
-      {
-         ResourceField.BASELINE2_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(149)
-      },
-      {
-         ResourceField.BASELINE3_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(152)
-      },
-      {
-         ResourceField.BASELINE3_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(153)
-      },
-      {
-         ResourceField.BASELINE4_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(156)
-      },
-      {
-         ResourceField.BASELINE4_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(157)
-      },
-      {
-         ResourceField.BASELINE5_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(160)
-      },
-      {
-         ResourceField.BASELINE5_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(161)
-      },
-      {
-         ResourceField.BASELINE6_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(164)
-      },
-      {
-         ResourceField.BASELINE6_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(165)
-      },
-      {
-         ResourceField.BASELINE7_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(168)
-      },
-      {
-         ResourceField.BASELINE7_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(169)
-      },
-      {
-         ResourceField.BASELINE8_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(172)
-      },
-      {
-         ResourceField.BASELINE8_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(173)
-      },
-      {
-         ResourceField.BASELINE9_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(176)
-      },
-      {
-         ResourceField.BASELINE9_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(177)
-      },
-      {
-         ResourceField.BASELINE10_WORK,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(180)
-      },
-      {
-         ResourceField.BASELINE10_COST,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(181)
-      },
-      {
-         ResourceField.ENTERPRISE_UNIQUE_ID,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(185)
-      }
-   };
-
-   private static final Object[][] DEFAULT_ASSIGNMENT_MAP =
-   {
-      {
-         AssignmentField.UNIQUE_ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(0),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.TASK_UNIQUE_ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(4),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.RESOURCE_UNIQUE_ID,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(8),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(12),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(16),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.ASSIGNMENT_DELAY,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(24),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.LEVELING_DELAY_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(28),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.LEVELING_DELAY,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(30),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.BASELINE_START,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(36),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.BASELINE_FINISH,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(40),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.VARIABLE_RATE_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(52),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.ASSIGNMENT_UNITS,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(54),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(62),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.ACTUAL_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(70),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.REMAINING_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(86),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.BASELINE_WORK,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(94),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(102),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.ACTUAL_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(110),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.BASELINE_COST,
-         FieldLocation.FIXED_DATA,
-         Integer.valueOf(126),
-         Integer.valueOf(0)
-      },
-      {
-         AssignmentField.PLANNED_WORK_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(7)
-      },
-      {
-         AssignmentField.COMPLETE_WORK_DATA,
-         FieldLocation.VAR_DATA,
-         Integer.valueOf(65535),
-         Integer.valueOf(9)
-      }
-   };
 }

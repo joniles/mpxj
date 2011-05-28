@@ -130,10 +130,10 @@ abstract class FieldMap
 
          if (type != null)
          {
-            //                        if (location != FieldLocation.META_DATA)
-            //                        {
-            //                           System.out.println(type + " " + dataBlockOffset + " " + varDataKey);
-            //                        }
+            //            if (location != FieldLocation.META_DATA)
+            //            {               
+            //               System.out.println("new FieldItem("+type.getClass().getSimpleName()+"."+type + ", FieldLocation." + location +", " +dataBlockIndex+", "+dataBlockOffset + ", " + varDataKey+"),");
+            //            }
 
             m_map.put(type, new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey));
          }
@@ -154,21 +154,21 @@ abstract class FieldMap
     * 
     * @return default data
     */
-   protected abstract Object[][] getDefaultTaskData();
+   protected abstract FieldItem[] getDefaultTaskData();
 
    /**
     * Abstract method used by child classes to supply default data.
     * 
     * @return default data
     */
-   protected abstract Object[][] getDefaultResourceData();
+   protected abstract FieldItem[] getDefaultResourceData();
 
    /**
     * Abstract method used by child classes to supply default data.
     * 
     * @return default data
     */
-   protected abstract Object[][] getDefaultAssignmentData();
+   protected abstract FieldItem[] getDefaultAssignmentData();
 
    /**
     * Given a field ID, derive the field type.
@@ -266,11 +266,11 @@ abstract class FieldMap
     * 
     * @param defaultData field map default data
     */
-   private void populateDefaultData(Object[][] defaultData)
+   private void populateDefaultData(FieldItem[] defaultData)
    {
-      for (Object[] item : defaultData)
+      for (FieldItem item : defaultData)
       {
-         m_map.put((FieldType) item[0], new FieldItem((FieldType) item[0], (FieldLocation) item[1], 0, ((Integer) item[2]).intValue(), ((Integer) item[3]).intValue()));
+         m_map.put(item.getType(), item);
       }
    }
 
