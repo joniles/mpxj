@@ -116,6 +116,7 @@ final class ResultSetRow extends MapRow
 
             case Types.VARBINARY :
             case Types.LONGVARBINARY :
+            case Types.BLOB :
             {
                value = rs.getBytes(name);
                break;

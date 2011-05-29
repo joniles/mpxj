@@ -396,7 +396,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       int columnCount = meta.getColumnCount() + 1;
       for (int loop = 1; loop < columnCount; loop++)
       {
-         String name = meta.getColumnName(loop);
+         String name = meta.getColumnName(loop).toLowerCase();
          Integer type = Integer.valueOf(meta.getColumnType(loop));
          m_meta.put(name, type);
       }
