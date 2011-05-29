@@ -29,9 +29,8 @@ import java.util.Map;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.GroupClause;
-import net.sf.mpxj.MPPResourceField14;
-import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.utility.FieldTypeUtility;
 
 /**
  * This class allows filter definitions to be read from an MPP file.
@@ -95,26 +94,8 @@ public final class GroupReader14
             GroupClause clause = new GroupClause();
             group.addGroupClause(clause);
 
-            int fieldType = MPPUtility.getShort(groupVarData, offset);
-            int entityType = MPPUtility.getByte(groupVarData, offset + 3);
-
-            FieldType type = null;
-            switch (entityType)
-            {
-               case 0x0C :
-               {
-                  type = MPPResourceField14.getInstance(fieldType);
-                  break;
-               }
-
-               default :
-               case 0x0B :
-               {
-                  type = MPPTaskField14.getInstance(fieldType);
-                  break;
-               }
-            }
-
+            int fieldID = MPPUtility.getInt(groupVarData, offset);
+            FieldType type = FieldTypeUtility.getInstance14(fieldID);
             clause.setField(type);
 
             // from byte 0 2 byte short int - field type
@@ -149,41 +130,43 @@ public final class GroupReader14
 
             Object startAt = null;
             Object groupInterval = null;
-
-            switch (type.getDataType())
+            if (type != null)
             {
-               case DURATION :
-               case NUMERIC :
-               case CURRENCY :
+               switch (type.getDataType())
                {
-                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 47));
-                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 63));
-                  break;
-               }
+                  case DURATION :
+                  case NUMERIC :
+                  case CURRENCY :
+                  {
+                     startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 47));
+                     groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 63));
+                     break;
+                  }
 
-               case PERCENTAGE :
-               {
-                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 47));
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
-                  break;
-               }
+                  case PERCENTAGE :
+                  {
+                     startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 47));
+                     groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
+                     break;
+                  }
 
-               case BOOLEAN :
-               {
-                  startAt = (MPPUtility.getShort(groupVarData, offset + 47) == 1 ? Boolean.TRUE : Boolean.FALSE);
-                  break;
-               }
+                  case BOOLEAN :
+                  {
+                     startAt = (MPPUtility.getShort(groupVarData, offset + 47) == 1 ? Boolean.TRUE : Boolean.FALSE);
+                     break;
+                  }
 
-               case DATE :
-               {
-                  startAt = MPPUtility.getTimestamp(groupVarData, offset + 47);
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
-                  break;
-               }
+                  case DATE :
+                  {
+                     startAt = MPPUtility.getTimestamp(groupVarData, offset + 47);
+                     groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
+                     break;
+                  }
 
-               default :
-               {
-                  break;
+                  default :
+                  {
+                     break;
+                  }
                }
             }
 

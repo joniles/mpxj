@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.utility;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPAssignmentField14;
@@ -30,6 +31,8 @@ import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPPTaskField14;
+import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.TaskField;
 
 /**
  * Utility class containing methods relating to the FieldType class. 
@@ -43,7 +46,7 @@ public final class FieldTypeUtility
     * @param fieldID field ID 
     * @return FieldType instance
     */
-   public static final FieldType getInstance(int fieldID)
+   public static final FieldType getInstanceUnmapped(int fieldID)
    {
       FieldType result;
       int prefix = fieldID & 0xFFFF0000;
@@ -66,6 +69,61 @@ public final class FieldTypeUtility
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
          {
             result = MPPAssignmentField.getInstance(index);
+            break;
+         }
+
+         default :
+         {
+            result = null;
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieve a FieldType instance based on an ID value from 
+    * an MPP9 or MPP12 file.
+    * 
+    * @param fieldID field ID 
+    * @return FieldType instance
+    */
+   public static final FieldType getInstance(int fieldID)
+   {
+      FieldType result;
+      int prefix = fieldID & 0xFFFF0000;
+      int index = fieldID & 0x0000FFFF;
+
+      switch (prefix)
+      {
+         case MPPTaskField.TASK_FIELD_BASE :
+         {
+            result = MPPTaskField.getInstance(index);
+            if (result == null)
+            {
+               result = TaskField.UNAVAILABLE;
+            }
+            break;
+         }
+
+         case MPPResourceField.RESOURCE_FIELD_BASE :
+         {
+            result = MPPResourceField.getInstance(index);
+            if (result == null)
+            {
+               result = ResourceField.UNAVAILABLE;
+            }
+            break;
+         }
+
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         {
+            result = MPPAssignmentField.getInstance(index);
+            if (result == null)
+            {
+               result = AssignmentField.UNAVAILABLE;
+            }
             break;
          }
 
@@ -141,18 +199,30 @@ public final class FieldTypeUtility
          case MPPTaskField.TASK_FIELD_BASE :
          {
             result = MPPTaskField14.getInstance(index);
+            if (result == null)
+            {
+               result = TaskField.UNAVAILABLE;
+            }
             break;
          }
 
          case MPPResourceField.RESOURCE_FIELD_BASE :
          {
             result = MPPResourceField14.getInstance(index);
+            if (result == null)
+            {
+               result = ResourceField.UNAVAILABLE;
+            }
             break;
          }
 
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
          {
             result = MPPAssignmentField14.getInstance(index);
+            if (result == null)
+            {
+               result = AssignmentField.UNAVAILABLE;
+            }
             break;
          }
 

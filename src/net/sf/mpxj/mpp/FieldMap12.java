@@ -50,7 +50,7 @@ class FieldMap12 extends FieldMap
     */
    @Override protected FieldType getFieldType(int fieldID)
    {
-      return FieldTypeUtility.getInstance(fieldID);
+      return FieldTypeUtility.getInstanceUnmapped(fieldID);
    }
 
    /**

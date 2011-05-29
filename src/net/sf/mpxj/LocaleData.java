@@ -1973,7 +1973,7 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE9_BUDGET_COST.getValue()] = "Baseline9 Budget Cost";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE10_BUDGET_WORK.getValue()] = "Baseline10 Budget Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE10_BUDGET_COST.getValue()] = "Baseline10 Budget Cost";
-
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.UNAVAILABLE.getValue()] = "<Unavailable>";
    }
 
    private static final Object[][] RESOURCES =

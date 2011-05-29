@@ -485,6 +485,7 @@ public enum AssignmentField implements FieldType
    BASELINE9_BUDGET_COST(DataType.CURRENCY),
    BASELINE10_BUDGET_WORK(DataType.WORK),
    BASELINE10_BUDGET_COST(DataType.CURRENCY),
+   UNAVAILABLE(DataType.STRING), // Dummy entry
 
    FINISH(DataType.DATE); // Must always be last value
 
