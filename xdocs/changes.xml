@@ -8,7 +8,10 @@
 
    <body> 
 
-	<release version="4.1.0" date="CVS HEAD">
+	<release version="5.0.0" date="CVS HEAD">
+	</release>
+
+	<release version="4.1.0" date="30/05/2011">
 		<action dev="joniles" type="add">Updated ProjectFile class to change default value for "auto" flags to simplify programmatic creation of project files.</action>	
 		<action dev="joniles" type="add">Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.</action>		
 		<action dev="joniles" type="add">Added support cost resource type for MPP12, MPP14 and MSPDI files.</action>		
@@ -44,6 +47,7 @@
 		<action dev="joniles" type="update">Updated to improve support for material resources in MSPDI files.</action>		
 		<action dev="joniles" type="update">Updated to reduce overall size of MSPDI files by not writing default values.</action>		
 		<action dev="joniles" type="update">Updated to use IKVM 0.46.0.1.</action>
+		<action dev="joniles" type="update">Updated to make task, resource, and assignment fields read from MPP files data-driven, rather than hard coded.</action>
 	</release>
 
 	<release version="4.0.0" date="25/05/2010">
