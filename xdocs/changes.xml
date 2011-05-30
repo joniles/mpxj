@@ -47,6 +47,7 @@
 		<action dev="joniles" type="update">Updated to improve support for material resources in MSPDI files.</action>		
 		<action dev="joniles" type="update">Updated to reduce overall size of MSPDI files by not writing default values.</action>		
 		<action dev="joniles" type="update">Updated to use IKVM 0.46.0.1.</action>
+		<action dev="joniles" type="update">Updated to use POI 3.7.</action>
 		<action dev="joniles" type="update">Updated to make task, resource, and assignment fields read from MPP files data-driven, rather than hard coded.</action>
 	</release>
 
