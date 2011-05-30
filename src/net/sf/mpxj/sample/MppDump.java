@@ -103,7 +103,7 @@ public class MppDump
     * @param indent indent used if displaying structure only
     * @throws Exception Thrown on file read errors
     */
-   @SuppressWarnings("unchecked") private static void dumpTree(PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent) throws Exception
+   private static void dumpTree(PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent) throws Exception
    {
       long byteCount;
 
