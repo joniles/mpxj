@@ -143,7 +143,7 @@ public abstract class CriteriaReader
       m_criteriaBlockMap.clear();
 
       m_criteriaData = data;
-      m_criteriaTextStart = MPPUtility.getInt(m_criteriaData, m_dataOffset + getCriteriaTextStartOffset());
+      m_criteriaTextStart = MPPUtility.getShort(m_criteriaData, m_dataOffset + getCriteriaTextStartOffset());
 
       //
       // Populate the map
@@ -154,7 +154,12 @@ public abstract class CriteriaReader
       //System.out.println();
       //System.out.println(MPPUtility.hexdump(data, dataOffset, criteriaStartOffset, false));
 
-      while (criteriaStartOffset < m_criteriaTextStart)
+      if (m_criteriaData.length <= m_criteriaTextStart)
+      {
+         return null; // bad data
+      }
+
+      while (criteriaStartOffset + criteriaBlockSize <= m_criteriaTextStart)
       {
          byte[] block = new byte[criteriaBlockSize];
          System.arraycopy(m_criteriaData, m_dataOffset + criteriaStartOffset, block, 0, criteriaBlockSize);

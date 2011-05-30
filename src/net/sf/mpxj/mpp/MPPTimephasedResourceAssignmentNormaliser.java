@@ -135,6 +135,12 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
             {
                result.add(split[0]);
             }
+
+            if (assignment.equals(split[1]))
+            {
+               break;
+            }
+
             assignment = split[1];
          }
       }

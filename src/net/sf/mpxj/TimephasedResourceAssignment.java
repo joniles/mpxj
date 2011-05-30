@@ -141,6 +141,30 @@ public final class TimephasedResourceAssignment
       return "[TimephasedResourceAssignment startWork=" + m_start + " totalWork=" + m_totalWork + " finishWork=" + m_finish + " workPerDay=" + m_workPerDay + " modified=" + m_modified + "]";
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public boolean equals(Object o)
+   {
+      boolean result = false;
+
+      if (o instanceof TimephasedResourceAssignment)
+      {
+         TimephasedResourceAssignment t = (TimephasedResourceAssignment) o;
+         result = m_start.equals(t.m_start) && m_finish.equals(t.m_finish) && m_totalWork.equals(t.m_totalWork) && m_workPerDay.equals(t.m_workPerDay);
+      }
+
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public int hashCode()
+   {
+      return ((int) (m_start.getTime() + m_finish.getTime() + m_totalWork.getDuration() + m_workPerDay.getDuration()));
+   }
+
    private Date m_start;
    private Duration m_totalWork;
    private Date m_finish;
