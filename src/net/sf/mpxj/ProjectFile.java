@@ -1461,8 +1461,8 @@ public final class ProjectFile
    }
 
    /**
-    * Allows derived classes to gain access to the mapping between
-    * MPX resource field numbers and aliases.
+    * Allows callers to gain access to the mapping between
+    * resource field numbers and aliases.
     *
     * @return resource field to alias map
     */

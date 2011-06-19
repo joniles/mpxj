@@ -77,7 +77,7 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[10] = AssignmentField.ACTUAL_WORK;
       FIELD_ARRAY[630] = AssignmentField.ACTUAL_WORK_PROTECTED;
       FIELD_ARRAY[36] = AssignmentField.ACWP;
-      FIELD_ARRAY[636] = AssignmentField.ASSIGNMENT_GUID;
+      FIELD_ARRAY[636] = AssignmentField.GUID;
       FIELD_ARRAY[638] = AssignmentField.ASSIGNMENT_RESOURCE_GUID;
       FIELD_ARRAY[637] = AssignmentField.ASSIGNMENT_TASK_GUID;
       FIELD_ARRAY[7] = AssignmentField.ASSIGNMENT_UNITS;
@@ -154,7 +154,6 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[72] = AssignmentField.CONFIRMED;
       FIELD_ARRAY[26] = AssignmentField.COST;
       FIELD_ARRAY[119] = AssignmentField.COST1;
-      FIELD_ARRAY[165] = AssignmentField.COST10;
       FIELD_ARRAY[120] = AssignmentField.COST2;
       FIELD_ARRAY[121] = AssignmentField.COST3;
       FIELD_ARRAY[159] = AssignmentField.COST4;
@@ -163,6 +162,7 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[162] = AssignmentField.COST7;
       FIELD_ARRAY[163] = AssignmentField.COST8;
       FIELD_ARRAY[164] = AssignmentField.COST9;
+      FIELD_ARRAY[165] = AssignmentField.COST10;
       FIELD_ARRAY[80] = AssignmentField.COST_RATE_TABLE;
       FIELD_ARRAY[38] = AssignmentField.COST_VARIANCE;
       FIELD_ARRAY[634] = AssignmentField.CREATED;
@@ -520,6 +520,16 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[50] = AssignmentField.COMPLETE_WORK_DATA;
       FIELD_ARRAY[270] = AssignmentField.VARIABLE_RATE_UNITS;
       FIELD_ARRAY[55] = AssignmentField.LEVELING_DELAY_UNITS;
+      FIELD_ARRAY[116] = AssignmentField.DURATION1_UNITS;
+      FIELD_ARRAY[117] = AssignmentField.DURATION2_UNITS;
+      FIELD_ARRAY[118] = AssignmentField.DURATION3_UNITS;
+      FIELD_ARRAY[238] = AssignmentField.DURATION4_UNITS;
+      FIELD_ARRAY[239] = AssignmentField.DURATION5_UNITS;
+      FIELD_ARRAY[240] = AssignmentField.DURATION6_UNITS;
+      FIELD_ARRAY[241] = AssignmentField.DURATION7_UNITS;
+      FIELD_ARRAY[242] = AssignmentField.DURATION8_UNITS;
+      FIELD_ARRAY[243] = AssignmentField.DURATION9_UNITS;
+      FIELD_ARRAY[244] = AssignmentField.DURATION10_UNITS;
    }
 
    private static final int[] ID_ARRAY = new int[AssignmentField.MAX_VALUE];

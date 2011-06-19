@@ -148,7 +148,7 @@ final class MPP14Reader implements MPPVariantReader
          m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
          m_projectProps = new Props14(getEncryptableInputStream(m_projectDir, "Props"));
-         //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+         //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
          m_fontBases = new HashMap<Integer, FontBase>();
          m_taskSubProjects = new HashMap<Integer, SubProject>();
@@ -2129,6 +2129,9 @@ final class MPP14Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(110, getEncryptableInputStream(assnDir, "FixedData"));
+      //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
+      //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
+
       ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
       factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }

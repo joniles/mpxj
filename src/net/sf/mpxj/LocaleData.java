@@ -1944,7 +1944,7 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_WORK_PROTECTED.getValue()] = "Actual Work Protected";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_OVERTIME_WORK_PROTECTED.getValue()] = "Actual Overtime Work Protected";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.CREATED.getValue()] = "Created";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_GUID.getValue()] = "Assignment GUID";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.GUID.getValue()] = "Assignment GUID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_TASK_GUID.getValue()] = "Assignment Task GUID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_RESOURCE_GUID.getValue()] = "Assignment Resource GUID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.SUMMARY.getValue()] = "Summary";
@@ -1974,6 +1974,16 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE10_BUDGET_WORK.getValue()] = "Baseline10 Budget Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE10_BUDGET_COST.getValue()] = "Baseline10 Budget Cost";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.UNAVAILABLE.getValue()] = "<Unavailable>";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION1_UNITS.getValue()] = "Duration1 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION2_UNITS.getValue()] = "Duration2 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION3_UNITS.getValue()] = "Duration3 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION4_UNITS.getValue()] = "Duration4 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION5_UNITS.getValue()] = "Duration5 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION6_UNITS.getValue()] = "Duration6 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION7_UNITS.getValue()] = "Duration7 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION8_UNITS.getValue()] = "Duration8 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION9_UNITS.getValue()] = "Duration9 Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION10_UNITS.getValue()] = "Duration10 Units";
    }
 
    private static final Object[][] RESOURCES =

@@ -60,6 +60,8 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
 
       //System.out.println(assnFixedMeta);
       //System.out.println(assnFixedData);
+      //System.out.println(assnVarMeta);
+      //System.out.println(assnVarData);
 
       for (int loop = 0; loop < count; loop++)
       {
@@ -85,12 +87,40 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
 
          ResourceAssignment assignment = new ResourceAssignment(file);
          assignment.setTimephasedNormaliser(normaliser);
+
          assignment.disableEvents();
          fieldMap.populateContainer(assignment, varDataId, new byte[][]
          {
             data
          }, assnVarData);
          assignment.enableEvents();
+
+         if (fieldMap.getFieldLocation(AssignmentField.FLAG1) != FieldMap.FieldLocation.VAR_DATA)
+         {
+            assignment.setFlag(1, (meta[28] & 0x80) != 0);
+
+            assignment.setFlag(2, (meta[29] & 0x01) != 0);
+            assignment.setFlag(3, (meta[29] & 0x02) != 0);
+            assignment.setFlag(4, (meta[29] & 0x04) != 0);
+            assignment.setFlag(5, (meta[29] & 0x08) != 0);
+            assignment.setFlag(6, (meta[29] & 0x10) != 0);
+            assignment.setFlag(7, (meta[29] & 0x20) != 0);
+            assignment.setFlag(8, (meta[29] & 0x40) != 0);
+            assignment.setFlag(9, (meta[29] & 0x80) != 0);
+
+            assignment.setFlag(10, (meta[30] & 0x01) != 0);
+            assignment.setFlag(11, (meta[30] & 0x02) != 0);
+            assignment.setFlag(12, (meta[30] & 0x04) != 0);
+            assignment.setFlag(13, (meta[30] & 0x08) != 0);
+            assignment.setFlag(14, (meta[30] & 0x10) != 0);
+            assignment.setFlag(15, (meta[30] & 0x20) != 0);
+            assignment.setFlag(16, (meta[30] & 0x40) != 0);
+            assignment.setFlag(17, (meta[30] & 0x80) != 0);
+
+            assignment.setFlag(18, (meta[31] & 0x01) != 0);
+            assignment.setFlag(19, (meta[31] & 0x02) != 0);
+            assignment.setFlag(20, (meta[31] & 0x04) != 0);
+         }
 
          //
          // Post processing

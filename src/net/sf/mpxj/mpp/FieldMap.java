@@ -75,7 +75,16 @@ abstract class FieldMap
          int varDataKey;
          if (useTypeAsVarDataKey())
          {
-            varDataKey = (MPPUtility.getInt(data, index + 12) & 0x0000FFFF);
+            Integer substitute = substituteVarDataKey(type);
+            if (substitute == null)
+            {
+               varDataKey = (MPPUtility.getInt(data, index + 12) & 0x0000FFFF);
+            }
+            else
+            {
+               varDataKey = substitute.intValue();
+               mask = 0; // If we've made a substitution, force this to be a var data block
+            }
          }
          else
          {
@@ -123,7 +132,7 @@ abstract class FieldMap
             //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockIndex + " " + dataBlockOffset + " " + varDataKey);
          }
 
-         //         if (location == FieldLocation.VAR_DATA)
+         //         if (location != FieldLocation.META_DATA)
          //         {
          //            System.out.println((type == null ? "?" : type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
          //         }
@@ -134,6 +143,8 @@ abstract class FieldMap
             //            {               
             //               System.out.println("new FieldItem("+type.getClass().getSimpleName()+"."+type + ", FieldLocation." + location +", " +dataBlockIndex+", "+dataBlockOffset + ", " + varDataKey+"),");
             //            }
+
+            //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + (type instanceof net.sf.mpxj.TaskField ? "TaskField" : type instanceof net.sf.mpxj.ResourceField ? "ResourceField" : "AssignmentField") + " " + type);
 
             m_map.put(type, new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey));
          }
@@ -177,6 +188,17 @@ abstract class FieldMap
     * @return field type
     */
    protected abstract FieldType getFieldType(int fieldID);
+
+   /**
+    * In some circumstances the var data key used in the file
+    * does not match the var data key derived from the type.
+    * This method is used to perform a substitution so that
+    * the correct value is used.
+    * 
+    * @param type field type to be tested
+    * @return substituted value, or null
+    */
+   protected abstract Integer substituteVarDataKey(FieldType type);
 
    /**
     * Creates a field map for tasks.
@@ -342,6 +364,25 @@ abstract class FieldMap
          result = item.getVarDataKey();
       }
       return result;
+   }
+
+   /**
+    * Retrieve the field location for a specific field.
+    * 
+    * @param type field type
+    * @return field location
+    */
+   public FieldLocation getFieldLocation(FieldType type)
+   {
+      FieldLocation result = null;
+
+      FieldItem item = m_map.get(type);
+      if (item != null)
+      {
+         result = item.getFieldLocation();
+      }
+      return result;
+
    }
 
    /**
@@ -797,23 +838,29 @@ abstract class FieldMap
        */
       private Duration getCustomFieldDurationValue(Var2Data varData, Integer id, Integer type, TimeUnit units)
       {
-         Duration result = null;
+         /*
+                  // This functionality has been disabled for the moment as I have not
+                  // been able to reproduce a situation where it is used, and leaving
+                  // it in place interferes with reading AssignmentField.DURATION3.
+                  Duration result = null;
 
-         int mask = varData.getShort(id, type);
-         if ((mask & 0xFF00) != VALUE_LIST_MASK)
-         {
-            result = MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, type), units);
-         }
-         else
-         {
-            int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
-            if (item != null && item.getValue() != null)
-            {
-               result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
-            }
-         }
-         return result;
+                  int mask = varData.getShort(id, type);
+                  if ((mask & 0xFF00) != VALUE_LIST_MASK)
+                  {
+                     result = MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, type), units);
+                  }
+                  else
+                  {
+                     int uniqueId = varData.getInt(id, 2, type);
+                     CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+                     if (item != null && item.getValue() != null)
+                     {
+                        result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
+                     }
+                  }
+                  return result;
+         */
+         return MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, type), units);
       }
 
       /**
@@ -914,6 +961,16 @@ abstract class FieldMap
          return m_varDataKey;
       }
 
+      /**
+       * Retrieve the field location for this field.
+       * 
+       * @return field location
+       */
+      public FieldLocation getFieldLocation()
+      {
+         return m_location;
+      }
+
       private FieldType m_type;
       private FieldLocation m_location;
       private int m_fixedDataBlockIndex;
@@ -939,7 +996,8 @@ abstract class FieldMap
 
    private static final Integer[] ASSIGNMENT_KEYS =
    {
-      Props.ASSIGNMENT_FIELD_MAP
+      Props.ASSIGNMENT_FIELD_MAP,
+      Props.ASSIGNMENT_FIELD_MAP2
    };
 
    private static final int VALUE_LIST_MASK = 0x0700;

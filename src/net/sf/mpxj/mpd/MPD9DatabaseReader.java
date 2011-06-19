@@ -24,14 +24,17 @@
 package net.sf.mpxj.mpd;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -115,9 +118,12 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          processProjectHeader();
          processCalendars();
          processResources();
+         processResourceBaselines();
          processTasks();
+         processTaskBaselines();
          processLinks();
          processAssignments();
+         processAssignmentBaselines();
          processExtendedAttributes();
          processSubProjects();
          postProcessing();
@@ -132,6 +138,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       finally
       {
+         reset();
+
          if (m_allocatedConnection && m_connection != null)
          {
             try
@@ -146,7 +154,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
             m_connection = null;
          }
-
       }
    }
 
@@ -223,6 +230,22 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
+    * Process resource baseline values.
+    * 
+    * @throws SQLException
+    */
+   private void processResourceBaselines() throws SQLException
+   {
+      if (m_hasResourceBaselines)
+      {
+         for (ResultSetRow row : getRows("SELECT * FROM MSP_RESOURCE_BASELINES WHERE PROJ_ID=?", m_projectID))
+         {
+            processResourceBaseline(row);
+         }
+      }
+   }
+
+   /**
     * Process tasks.
     * 
     * @throws SQLException
@@ -232,6 +255,22 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       for (ResultSetRow row : getRows("SELECT * FROM MSP_TASKS WHERE PROJ_ID=?", m_projectID))
       {
          processTask(row);
+      }
+   }
+
+   /**
+    * Process task baseline values.
+    * 
+    * @throws SQLException
+    */
+   private void processTaskBaselines() throws SQLException
+   {
+      if (m_hasTaskBaselines)
+      {
+         for (ResultSetRow row : getRows("SELECT * FROM MSP_TASK_BASELINES WHERE PROJ_ID=?", m_projectID))
+         {
+            processTaskBaseline(row);
+         }
       }
    }
 
@@ -258,6 +297,22 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       for (ResultSetRow row : getRows("SELECT * FROM MSP_ASSIGNMENTS WHERE PROJ_ID=?", m_projectID))
       {
          processAssignment(row);
+      }
+   }
+
+   /**
+    * Process resource assignment baseline values.
+    * 
+    * @throws SQLException
+    */
+   private void processAssignmentBaselines() throws SQLException
+   {
+      if (m_hasAssignmentBaselines)
+      {
+         for (ResultSetRow row : getRows("SELECT * FROM MSP_ASSIGNMENT_BASELINES WHERE PROJ_ID=?", m_projectID))
+         {
+            processAssignmentBaseline(row);
+         }
       }
    }
 
@@ -519,6 +574,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          m_connection = m_dataSource.getConnection();
          m_allocatedConnection = true;
+         queryDatabaseMetaData();
       }
    }
 
@@ -596,6 +652,53 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    public void setConnection(Connection connection)
    {
       m_connection = connection;
+      queryDatabaseMetaData();
+   }
+
+   /**
+    * Queries database meta data to check for the existence of 
+    * specific tables.
+    */
+   private void queryDatabaseMetaData()
+   {
+      ResultSet rs = null;
+
+      try
+      {
+         Set<String> tables = new HashSet<String>();
+         DatabaseMetaData dmd = m_connection.getMetaData();
+         rs = dmd.getTables(null, null, null, null);
+         while (rs.next())
+         {
+            tables.add(rs.getString("TABLE_NAME"));
+         }
+
+         m_hasResourceBaselines = tables.contains("MSP_RESOURCE_BASELINES");
+         m_hasTaskBaselines = tables.contains("MSP_TASK_BASELINES");
+         m_hasAssignmentBaselines = tables.contains("MSP_ASSIGNMENT_BASELINES");
+      }
+
+      catch (Exception ex)
+      {
+         // Ignore errors when reading meta data
+      }
+
+      finally
+      {
+         if (rs != null)
+         {
+            try
+            {
+               rs.close();
+            }
+
+            catch (SQLException ex)
+            {
+               // Ignore errors when closing result set
+            }
+            rs = null;
+         }
+      }
    }
 
    private DataSource m_dataSource;
@@ -605,4 +708,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
+   private boolean m_hasResourceBaselines;
+   private boolean m_hasTaskBaselines;
+   private boolean m_hasAssignmentBaselines;
 }

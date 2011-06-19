@@ -41,6 +41,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -49,9 +50,11 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ExtendedAttributeAssignmentFields;
 import net.sf.mpxj.ExtendedAttributeResourceFields;
 import net.sf.mpxj.ExtendedAttributeTaskFields;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectCalendar;
@@ -105,6 +108,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_taskExtendedAttributes = new HashSet<TaskField>();
          m_resourceExtendedAttributes = new HashSet<ResourceField>();
+         m_assignmentExtendedAttributes = new HashSet<AssignmentField>();
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -131,6 +135,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_factory = null;
          m_taskExtendedAttributes = null;
          m_resourceExtendedAttributes = null;
+         m_assignmentExtendedAttributes = null;
       }
    }
 
@@ -1256,6 +1261,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setActualFinish(DatatypeConverter.printDate(mpx.getActualFinish()));
       xml.setActualStart(DatatypeConverter.printDate(mpx.getActualStart()));
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
+      xml.setBudgetCost(DatatypeConverter.printCurrency(mpx.getBudgetCost()));
+      xml.setBudgetWork(DatatypeConverter.printDuration(this, mpx.getBudgetWork()));
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
       xml.setDelay(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getDelay()));
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
@@ -1276,6 +1283,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeAssignmentBaselines(xml, mpx);
 
+      writeAssignmentExtendedAttributes(xml, mpx);
+
       writeAssignmentTimephasedData(mpx, xml);
 
       m_projectFile.fireAssignmentWrittenEvent(mpx);
@@ -1295,7 +1304,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       boolean populated = false;
 
       Number cost = mpxj.getBaselineCost();
-      if (cost != null && cost.doubleValue() != 0)
+      if (cost != null && cost.intValue() != 0)
       {
          populated = true;
          baseline.setCost(DatatypeConverter.printExtendedAttributeCurrency(cost));
@@ -1315,17 +1324,88 @@ public final class MSPDIWriter extends AbstractProjectWriter
          baseline.setStart(DatatypeConverter.printExtendedAttributeDate(date));
       }
 
-      Duration work = mpxj.getBaselineWork();
-      if (work != null && work.getDuration() != 0)
+      Duration duration = mpxj.getBaselineWork();
+      if (duration != null && duration.getDuration() != 0)
       {
          populated = true;
-         baseline.setWork(DatatypeConverter.printDuration(this, work));
+         baseline.setWork(DatatypeConverter.printDuration(this, duration));
       }
 
       if (populated)
       {
          baseline.setNumber("0");
          xml.getBaseline().add(baseline);
+      }
+
+      for (int loop = 1; loop <= 10; loop++)
+      {
+         baseline = m_factory.createProjectAssignmentsAssignmentBaseline();
+         populated = false;
+
+         cost = mpxj.getBaselineCost(loop);
+         if (cost != null && cost.intValue() != 0)
+         {
+            populated = true;
+            baseline.setCost(DatatypeConverter.printExtendedAttributeCurrency(cost));
+         }
+
+         date = mpxj.getBaselineFinish(loop);
+         if (date != null)
+         {
+            populated = true;
+            baseline.setFinish(DatatypeConverter.printExtendedAttributeDate(date));
+         }
+
+         date = mpxj.getBaselineStart(loop);
+         if (date != null)
+         {
+            populated = true;
+            baseline.setStart(DatatypeConverter.printExtendedAttributeDate(date));
+         }
+
+         duration = mpxj.getBaselineWork(loop);
+         if (duration != null && duration.getDuration() != 0)
+         {
+            populated = true;
+            baseline.setWork(DatatypeConverter.printDuration(this, duration));
+         }
+
+         if (populated)
+         {
+            baseline.setNumber(Integer.toString(loop));
+            xml.getBaseline().add(baseline);
+         }
+      }
+   }
+
+   /**
+    * This method writes extended attribute data for an assignment.
+    *
+    * @param xml MSPDI assignment
+    * @param mpx MPXJ assignment
+    */
+   private void writeAssignmentExtendedAttributes(Project.Assignments.Assignment xml, ResourceAssignment mpx)
+   {
+      Project.Assignments.Assignment.ExtendedAttribute attrib;
+      List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+
+      for (int loop = 0; loop < ExtendedAttributeAssignmentFields.FIELD_ARRAY.length; loop++)
+      {
+         AssignmentField mpxFieldID = ExtendedAttributeAssignmentFields.FIELD_ARRAY[loop];
+         Object value = mpx.getCachedValue(mpxFieldID);
+
+         if (writeExtendedAttribute(value, mpxFieldID))
+         {
+            m_assignmentExtendedAttributes.add(mpxFieldID);
+
+            Integer xmlFieldID = Integer.valueOf(MPPAssignmentField.getID(mpxFieldID) | MPPAssignmentField.ASSIGNMENT_FIELD_BASE);
+
+            attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
+            extendedAttributes.add(attrib);
+            attrib.setFieldID(xmlFieldID.toString());
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         }
       }
    }
 
@@ -1566,6 +1646,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Set<TaskField> m_taskExtendedAttributes;
 
    private Set<ResourceField> m_resourceExtendedAttributes;
+
+   private Set<AssignmentField> m_assignmentExtendedAttributes;
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 

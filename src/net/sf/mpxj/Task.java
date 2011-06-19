@@ -791,7 +791,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * The Cost Variance field shows the difference between the
     * baseline cost and total cost for a task. The total cost is the
     * current estimate of costs based on actual costs and remaining costs.
-    * This is also referred to as variance at completion (VAC).
     *
     * @param val amount
     */
@@ -2105,8 +2104,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * The Cost Variance field shows the difference between the baseline cost
     * and total cost for a task. The total cost is the current estimate of costs
-    * based on actual costs and remaining costs. This is also referred to as
-    * variance at completion (VAC).
+    * based on actual costs and remaining costs.
     *
     * @return amount
     */
@@ -6100,7 +6098,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getEnterpriseCost(int index)
    {
-      return ((Number) getCachedValue(selectTaskField(ENTERPRISE_COST_FIELDS, index)));
+      return ((Number) getCachedValue(selectField(ENTERPRISE_COST_FIELDS, index)));
    }
 
    /**
@@ -6111,7 +6109,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectTaskField(ENTERPRISE_COST_FIELDS, index), value);
+      set(selectField(ENTERPRISE_COST_FIELDS, index), value);
    }
 
    /**
@@ -6122,7 +6120,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getEnterpriseDate(int index)
    {
-      return ((Date) getCachedValue(selectTaskField(ENTERPRISE_DATE_FIELDS, index)));
+      return ((Date) getCachedValue(selectField(ENTERPRISE_DATE_FIELDS, index)));
    }
 
    /**
@@ -6133,7 +6131,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectTaskField(ENTERPRISE_DATE_FIELDS, index), value);
+      set(selectField(ENTERPRISE_DATE_FIELDS, index), value);
    }
 
    /**
@@ -6144,7 +6142,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return ((Duration) getCachedValue(selectTaskField(ENTERPRISE_DURATION_FIELDS, index)));
+      return ((Duration) getCachedValue(selectField(ENTERPRISE_DURATION_FIELDS, index)));
    }
 
    /**
@@ -6155,7 +6153,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectTaskField(ENTERPRISE_DURATION_FIELDS, index), value);
+      set(selectField(ENTERPRISE_DURATION_FIELDS, index), value);
    }
 
    /**
@@ -6166,7 +6164,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectTaskField(ENTERPRISE_FLAG_FIELDS, index))));
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG_FIELDS, index))));
    }
 
    /**
@@ -6177,7 +6175,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectTaskField(ENTERPRISE_FLAG_FIELDS, index), value);
+      set(selectField(ENTERPRISE_FLAG_FIELDS, index), value);
    }
 
    /**
@@ -6188,7 +6186,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getEnterpriseNumber(int index)
    {
-      return ((Number) getCachedValue(selectTaskField(ENTERPRISE_NUMBER_FIELDS, index)));
+      return ((Number) getCachedValue(selectField(ENTERPRISE_NUMBER_FIELDS, index)));
    }
 
    /**
@@ -6199,7 +6197,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectTaskField(ENTERPRISE_NUMBER_FIELDS, index), value);
+      set(selectField(ENTERPRISE_NUMBER_FIELDS, index), value);
    }
 
    /**
@@ -6210,7 +6208,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getEnterpriseText(int index)
    {
-      return ((String) getCachedValue(selectTaskField(ENTERPRISE_TEXT_FIELDS, index)));
+      return ((String) getCachedValue(selectField(ENTERPRISE_TEXT_FIELDS, index)));
    }
 
    /**
@@ -6221,7 +6219,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectTaskField(ENTERPRISE_TEXT_FIELDS, index), value);
+      set(selectField(ENTERPRISE_TEXT_FIELDS, index), value);
    }
 
    /**
@@ -6232,7 +6230,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineCost(int baselineNumber, Number value)
    {
-      set(selectTaskField(BASELINE_COSTS, baselineNumber), value);
+      set(selectField(BASELINE_COSTS, baselineNumber), value);
    }
 
    /**
@@ -6243,7 +6241,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineDuration(int baselineNumber, Duration value)
    {
-      set(selectTaskField(BASELINE_DURATIONS, baselineNumber), value);
+      set(selectField(BASELINE_DURATIONS, baselineNumber), value);
    }
 
    /**
@@ -6254,7 +6252,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineFinish(int baselineNumber, Date value)
    {
-      set(selectTaskField(BASELINE_FINISHES, baselineNumber), value);
+      set(selectField(BASELINE_FINISHES, baselineNumber), value);
    }
 
    /**
@@ -6265,7 +6263,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineStart(int baselineNumber, Date value)
    {
-      set(selectTaskField(BASELINE_STARTS, baselineNumber), value);
+      set(selectField(BASELINE_STARTS, baselineNumber), value);
    }
 
    /**
@@ -6276,7 +6274,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineWork(int baselineNumber, Duration value)
    {
-      set(selectTaskField(BASELINE_WORKS, baselineNumber), value);
+      set(selectField(BASELINE_WORKS, baselineNumber), value);
    }
 
    /**
@@ -6287,7 +6285,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getBaselineCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectTaskField(BASELINE_COSTS, baselineNumber)));
+      return ((Number) getCachedValue(selectField(BASELINE_COSTS, baselineNumber)));
    }
 
    /**
@@ -6298,10 +6296,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineDuration(int baselineNumber)
    {
-      Duration result = (Duration) getCachedValue(selectTaskField(BASELINE_DURATIONS, baselineNumber));
+      Duration result = (Duration) getCachedValue(selectField(BASELINE_DURATIONS, baselineNumber));
       if (result == null || result.getDuration() == 0)
       {
-         result = (Duration) getCachedValue(selectTaskField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+         result = (Duration) getCachedValue(selectField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
       }
       return result;
    }
@@ -6314,10 +6312,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineFinish(int baselineNumber)
    {
-      Object result = getCachedValue(selectTaskField(BASELINE_FINISHES, baselineNumber));
+      Object result = getCachedValue(selectField(BASELINE_FINISHES, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectTaskField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
+         result = getCachedValue(selectField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
       }
       return (Date) result;
    }
@@ -6330,10 +6328,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineStart(int baselineNumber)
    {
-      Object result = getCachedValue(selectTaskField(BASELINE_STARTS, baselineNumber));
+      Object result = getCachedValue(selectField(BASELINE_STARTS, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectTaskField(BASELINE_ESTIMATED_STARTS, baselineNumber));
+         result = getCachedValue(selectField(BASELINE_ESTIMATED_STARTS, baselineNumber));
       }
       return (Date) result;
    }
@@ -6346,7 +6344,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectTaskField(BASELINE_WORKS, baselineNumber)));
+      return ((Duration) getCachedValue(selectField(BASELINE_WORKS, baselineNumber)));
    }
 
    /**
@@ -6565,7 +6563,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param index required field index
     * @return TaskField instance
     */
-   private TaskField selectTaskField(TaskField[] fields, int index)
+   private TaskField selectField(TaskField[] fields, int index)
    {
       if (index < 1 || index > fields.length)
       {
@@ -7236,6 +7234,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
 /*
 // NEW FIELDS - to be added in MPXJ 5.0
+ * VAC
+
 {TaskField.Baseline Budget Cost, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(104)},
 {TaskField.Baseline Budget Work, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(103)},
 {TaskField.Baseline Deliverable Finish, FieldLocation.VAR_DATA, Integer.valueOf(65535), Integer.valueOf(102)},

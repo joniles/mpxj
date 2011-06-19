@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
@@ -59,6 +62,14 @@ class FieldMap14 extends FieldMap
    @Override protected boolean useTypeAsVarDataKey()
    {
       return true;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected Integer substituteVarDataKey(FieldType type)
+   {
+      return VAR_DATA_MAP.get(type);
    }
 
    /**
@@ -1213,7 +1224,7 @@ class FieldMap14 extends FieldMap
          new FieldItem(AssignmentField.COST8, FieldLocation.VAR_DATA, 0, 65535, 163),
          new FieldItem(AssignmentField.COST9, FieldLocation.VAR_DATA, 0, 65535, 164),
          new FieldItem(AssignmentField.COST10, FieldLocation.VAR_DATA, 0, 65535, 165),
-         new FieldItem(AssignmentField.ASSIGNMENT_GUID, FieldLocation.FIXED_DATA, 1, 0, 636),
+         new FieldItem(AssignmentField.GUID, FieldLocation.FIXED_DATA, 1, 0, 636),
          new FieldItem(AssignmentField.ASSIGNMENT_TASK_GUID, FieldLocation.FIXED_DATA, 1, 16, 637),
          new FieldItem(AssignmentField.ASSIGNMENT_RESOURCE_GUID, FieldLocation.FIXED_DATA, 1, 32, 638),
          new FieldItem(AssignmentField.ENTERPRISE_COST1, FieldLocation.VAR_DATA, 1, 65535, 381),
@@ -1418,4 +1429,145 @@ class FieldMap14 extends FieldMap
       };
       return result;
    }
+
+   /**
+    * The values for these field types as read from the file, don't
+    * correspond to the values actually used in the var data blocks.
+    * It's not clear why, or whether these values are actually 
+    * present somewhere in the file.
+    */
+   private static final Object[][] VAR_DATA_MAP_CONTENT =
+   {
+      {
+         AssignmentField.COST1,
+         Integer.valueOf(16414)
+      },
+      {
+         AssignmentField.COST2,
+         Integer.valueOf(16415)
+      },
+      {
+         AssignmentField.COST3,
+         Integer.valueOf(16416)
+      },
+      {
+         AssignmentField.COST4,
+         Integer.valueOf(16417)
+      },
+      {
+         AssignmentField.COST5,
+         Integer.valueOf(16418)
+      },
+      {
+         AssignmentField.COST6,
+         Integer.valueOf(16419)
+      },
+      {
+         AssignmentField.COST7,
+         Integer.valueOf(16420)
+      },
+      {
+         AssignmentField.COST8,
+         Integer.valueOf(16421)
+      },
+      {
+         AssignmentField.COST9,
+         Integer.valueOf(16422)
+      },
+      {
+         AssignmentField.COST10,
+         Integer.valueOf(16423)
+      },
+
+      {
+         AssignmentField.FLAG1,
+         Integer.valueOf(16394)
+      },
+      {
+         AssignmentField.FLAG2,
+         Integer.valueOf(16395)
+      },
+      {
+         AssignmentField.FLAG3,
+         Integer.valueOf(16396)
+      },
+      {
+         AssignmentField.FLAG4,
+         Integer.valueOf(16397)
+      },
+      {
+         AssignmentField.FLAG5,
+         Integer.valueOf(16398)
+      },
+      {
+         AssignmentField.FLAG6,
+         Integer.valueOf(16399)
+      },
+      {
+         AssignmentField.FLAG7,
+         Integer.valueOf(16400)
+      },
+      {
+         AssignmentField.FLAG8,
+         Integer.valueOf(16401)
+      },
+      {
+         AssignmentField.FLAG9,
+         Integer.valueOf(16402)
+      },
+      {
+         AssignmentField.FLAG10,
+         Integer.valueOf(16403)
+      },
+      {
+         AssignmentField.FLAG11,
+         Integer.valueOf(16404)
+      },
+      {
+         AssignmentField.FLAG12,
+         Integer.valueOf(16405)
+      },
+      {
+         AssignmentField.FLAG13,
+         Integer.valueOf(16406)
+      },
+      {
+         AssignmentField.FLAG14,
+         Integer.valueOf(16407)
+      },
+      {
+         AssignmentField.FLAG15,
+         Integer.valueOf(16408)
+      },
+      {
+         AssignmentField.FLAG16,
+         Integer.valueOf(16409)
+      },
+      {
+         AssignmentField.FLAG17,
+         Integer.valueOf(16410)
+      },
+      {
+         AssignmentField.FLAG18,
+         Integer.valueOf(16411)
+      },
+      {
+         AssignmentField.FLAG19,
+         Integer.valueOf(16412)
+      },
+      {
+         AssignmentField.FLAG20,
+         Integer.valueOf(16413)
+      },
+   };
+
+   private static final Map<FieldType, Integer> VAR_DATA_MAP = new HashMap<FieldType, Integer>();
+   static
+   {
+      for (Object[] item : VAR_DATA_MAP_CONTENT)
+      {
+         VAR_DATA_MAP.put((FieldType) item[0], (Integer) item[1]);
+      }
+   }
+
 }

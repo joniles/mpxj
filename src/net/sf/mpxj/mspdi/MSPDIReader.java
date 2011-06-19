@@ -44,6 +44,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.CostRateTable;
@@ -52,6 +53,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
@@ -1218,54 +1220,57 @@ public final class MSPDIReader extends AbstractProjectReader
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(DatatypeConverter.parseDate(assignment.getActualFinish()));
-            //assignment.getActualOvertimeCost()
-            //assignment.getActualOvertimeWork()
+            mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(assignment.getActualOvertimeCost()));
+            mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualOvertimeWork()));
             //assignment.getActualOvertimeWorkProtected()
             mpx.setActualStart(DatatypeConverter.parseDate(assignment.getActualStart()));
             mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
             //assignment.getActualWorkProtected()
-            //assignment.getACWP()
-            //assignment.getBaseline()
-            //assignment.getBCWP()
-            //assignment.getBCWS()
+            mpx.setACWP(DatatypeConverter.parseCurrency(assignment.getACWP()));
+            mpx.setBCWP(DatatypeConverter.parseCurrency(assignment.getBCWP()));
+            mpx.setBCWS(DatatypeConverter.parseCurrency(assignment.getBCWS()));
             //assignment.getBookingType()
+            mpx.setBudgetCost(DatatypeConverter.parseCurrency(assignment.getBudgetCost()));
+            mpx.setBudgetWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getBudgetWork()));
             mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
-            //assignment.getCostRateTable()
-            //assignment.getCostVariance()
-            //assignment.getCreationDate()
-            //assignment.getCV()
+            mpx.setCostRateTableIndex(NumberUtility.getInt(assignment.getCostRateTable()));
+            mpx.setCostVariance(DatatypeConverter.parseCurrency(assignment.getCostVariance()));
+            mpx.setCreateDate(DatatypeConverter.parseDate(assignment.getCreationDate()));
+            mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
             mpx.setDelay(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getDelay()));
-            //assignment.getExtendedAttribute()
             mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
             mpx.setVariableRateUnits(BooleanUtility.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
-            //assignment.getFinishVariance()
-            //assignment.getHyperlink()
-            //assignment.getHyperlinkAddress()
-            //assignment.getHyperlinkSubAddress()
+            mpx.setFinishVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getFinishVariance()));
+            mpx.setHyperlink(assignment.getHyperlink());
+            mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
+            mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());
             mpx.setLevelingDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectHeader(), assignment.getLevelingDelay(), DatatypeConverter.parseDurationTimeUnits(assignment.getLevelingDelayFormat())));
-            //assignment.getNotes()
-            //assignment.getOvertimeCost()
+            mpx.setNotes(assignment.getNotes());
+            mpx.setOvertimeCost(DatatypeConverter.parseCurrency(assignment.getOvertimeCost()));
             mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getOvertimeWork()));
-            //assignment.getPercentWorkComplete()
+            mpx.setPercentageWorkComplete(assignment.getPercentWorkComplete());
             //mpx.setPlannedCost();
             //mpx.setPlannedWork();
-            //assignment.getRegularWork()
-            //assignment.getRemainingCost()
-            //assignment.getRemainingOvertimeCost()
-            //assignment.getRemainingOvertimeWork()
+            mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRegularWork()));
+            mpx.setRemainingCost(DatatypeConverter.parseCurrency(assignment.getRemainingCost()));
+            mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
+            mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
             mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
             //assignment.getResume()
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
-            //assignment.getStartVariance()
+            mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getStartVariance()));
             //assignment.getStop()
-            //assignment.getTimephasedData()
+            mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
-            //assignment.getVAC()
+            mpx.setVAC(DatatypeConverter.parseCurrency(assignment.getVAC()));
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
-            //assignment.getWorkVariance()
+            mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getWorkVariance()));
+
             mpx.setTimephasedComplete(timephasedComplete, raw);
             mpx.setTimephasedPlanned(timephasedPlanned, raw);
+
+            readAssignmentExtendedAttributes(assignment, mpx);
 
             readAssignmentBaselines(assignment, mpx);
 
@@ -1286,8 +1291,11 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          int number = NumberUtility.getInt(baseline.getNumber());
 
+         //baseline.getBCWP()
+         //baseline.getBCWS()         
          Number cost = DatatypeConverter.parseExtendedAttributeCurrency(baseline.getCost());
          Date finish = DatatypeConverter.parseExtendedAttributeDate(baseline.getFinish());
+         //baseline.getNumber()
          Date start = DatatypeConverter.parseExtendedAttributeDate(baseline.getStart());
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
 
@@ -1300,8 +1308,28 @@ public final class MSPDIReader extends AbstractProjectReader
          }
          else
          {
-            // TODO: implement extended baseline support
+            mpx.setBaselineCost(number, cost);
+            mpx.setBaselineWork(number, work);
+            mpx.setBaselineStart(number, start);
+            mpx.setBaselineFinish(number, finish);
          }
+      }
+   }
+
+   /**
+    * This method processes any extended attributes associated with a
+    * resource assignment.
+    *
+    * @param xml MSPDI resource assignment instance
+    * @param mpx MPX task instance
+    */
+   private void readAssignmentExtendedAttributes(Project.Assignments.Assignment xml, ResourceAssignment mpx)
+   {
+      for (Project.Assignments.Assignment.ExtendedAttribute attrib : xml.getExtendedAttribute())
+      {
+         int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
+         AssignmentField mpxFieldID = MPPAssignmentField.getInstance(xmlFieldID);
+         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
       }
    }
 

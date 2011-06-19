@@ -64,6 +64,14 @@ class FieldMap9 extends FieldMap
    /**
     * {@inheritDoc}
     */
+   @Override protected Integer substituteVarDataKey(FieldType type)
+   {
+      return null;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override protected FieldItem[] getDefaultTaskData()
    {
       FieldItem[] result = new FieldItem[]

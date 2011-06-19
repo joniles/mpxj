@@ -64,6 +64,14 @@ class FieldMap12 extends FieldMap
    /**
     * {@inheritDoc}
     */
+   @Override protected Integer substituteVarDataKey(FieldType type)
+   {
+      return null;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override protected FieldItem[] getDefaultTaskData()
    {
       FieldItem[] result = new FieldItem[]
@@ -1175,7 +1183,7 @@ class FieldMap12 extends FieldMap
          new FieldItem(AssignmentField.COST8, FieldLocation.VAR_DATA, 0, 65535, 163),
          new FieldItem(AssignmentField.COST9, FieldLocation.VAR_DATA, 0, 65535, 164),
          new FieldItem(AssignmentField.COST10, FieldLocation.VAR_DATA, 0, 65535, 165),
-         new FieldItem(AssignmentField.ASSIGNMENT_GUID, FieldLocation.FIXED_DATA, 1, 0, 636),
+         new FieldItem(AssignmentField.GUID, FieldLocation.FIXED_DATA, 1, 0, 636),
          new FieldItem(AssignmentField.ASSIGNMENT_TASK_GUID, FieldLocation.FIXED_DATA, 1, 16, 637),
          new FieldItem(AssignmentField.ASSIGNMENT_RESOURCE_GUID, FieldLocation.FIXED_DATA, 1, 32, 638),
          new FieldItem(AssignmentField.ENTERPRISE_COST1, FieldLocation.VAR_DATA, 1, 65535, 381),

@@ -492,7 +492,7 @@ public final class MPPAssignmentField
       FIELD_ARRAY[630] = AssignmentField.ACTUAL_WORK_PROTECTED;
       FIELD_ARRAY[631] = AssignmentField.ACTUAL_OVERTIME_WORK_PROTECTED;
       FIELD_ARRAY[634] = AssignmentField.CREATED;
-      FIELD_ARRAY[636] = AssignmentField.ASSIGNMENT_GUID;
+      FIELD_ARRAY[636] = AssignmentField.GUID;
       FIELD_ARRAY[637] = AssignmentField.ASSIGNMENT_TASK_GUID;
       FIELD_ARRAY[638] = AssignmentField.ASSIGNMENT_RESOURCE_GUID;
       FIELD_ARRAY[646] = AssignmentField.SUMMARY;
@@ -521,6 +521,16 @@ public final class MPPAssignmentField
       FIELD_ARRAY[710] = AssignmentField.BASELINE9_BUDGET_COST;
       FIELD_ARRAY[713] = AssignmentField.BASELINE10_BUDGET_WORK;
       FIELD_ARRAY[714] = AssignmentField.BASELINE10_BUDGET_COST;
+      FIELD_ARRAY[116] = AssignmentField.DURATION1_UNITS;
+      FIELD_ARRAY[117] = AssignmentField.DURATION2_UNITS;
+      FIELD_ARRAY[118] = AssignmentField.DURATION3_UNITS;
+      FIELD_ARRAY[238] = AssignmentField.DURATION4_UNITS;
+      FIELD_ARRAY[239] = AssignmentField.DURATION5_UNITS;
+      FIELD_ARRAY[240] = AssignmentField.DURATION6_UNITS;
+      FIELD_ARRAY[241] = AssignmentField.DURATION7_UNITS;
+      FIELD_ARRAY[242] = AssignmentField.DURATION8_UNITS;
+      FIELD_ARRAY[243] = AssignmentField.DURATION9_UNITS;
+      FIELD_ARRAY[244] = AssignmentField.DURATION10_UNITS;
    }
 
    private static final int[] ID_ARRAY = new int[AssignmentField.MAX_VALUE];
