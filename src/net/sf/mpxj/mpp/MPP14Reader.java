@@ -1022,7 +1022,7 @@ final class MPP14Reader implements MPPVariantReader
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
-         if (fixedData.length >= 8)
+         if (fixedData != null && fixedData.length >= 8)
          {
             int offset = 0;
 

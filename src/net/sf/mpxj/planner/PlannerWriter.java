@@ -440,7 +440,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setName(getString(mpxjTask.getName()));
       plannerTask.setNote(mpxjTask.getNotes());
       plannerTask.setPercentComplete(getIntegerString(mpxjTask.getPercentageWorkComplete()));
-      plannerTask.setPriority(getIntegerString(mpxjTask.getPriority().getValue() * 10));
+      plannerTask.setPriority(mpxjTask.getPriority() == null ? null : getIntegerString(mpxjTask.getPriority().getValue() * 10));
       plannerTask.setScheduling(getScheduling(mpxjTask.getType()));
       plannerTask.setStart(getDateTimeString(DateUtility.getDayStartDate(mpxjTask.getStart())));
       if (mpxjTask.getMilestone())

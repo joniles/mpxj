@@ -246,6 +246,8 @@ final class MPP8Reader implements MPPVariantReader
                cal = m_file.addDefaultBaseCalendar();
                cal.setName(name);
             }
+
+            cal.setUniqueID(Integer.valueOf(calendarID));
          }
          else
          {

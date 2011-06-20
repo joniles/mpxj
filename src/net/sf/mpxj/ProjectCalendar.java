@@ -1064,7 +1064,7 @@ public final class ProjectCalendar extends ProjectEntity
 
       if (m_uniqueID != null)
       {
-         parent.unmapTaskUniqueID(m_uniqueID);
+         parent.unmapCalendarUniqueID(m_uniqueID);
       }
 
       parent.mapCalendarUniqueID(uniqueID, this);

@@ -1187,8 +1187,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (lag != null && lag.getDuration() != 0)
       {
-         double tenthMinutes = 10.0 * Duration.convertUnits(lag.getDuration(), lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
-         link.setLinkLag(BigInteger.valueOf((long) tenthMinutes));
+         double linkLag = lag.getDuration();
+         if (lag.getUnits() != TimeUnit.PERCENT)
+         {
+            linkLag = 10.0 * Duration.convertUnits(linkLag, lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
+         }
+         link.setLinkLag(BigInteger.valueOf((long) linkLag));
          link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits()));
       }
 

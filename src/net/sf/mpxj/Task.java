@@ -1449,12 +1449,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * The Resource Names field lists the names of all resources
     * assigned to a task.
     *
-    * Note that MS Project 98 does no normally populate this field when
+    * Note that MS Project 98 does not normally populate this field when
     * it generates an MPX file, and will therefore not expect to see values
     * in this field when it reads an MPX file. Supplying values for this
-    * field will cause MS Project 98, 2000, and 2002 to create new resources
-    * and ignore any other resource assignments that have been defined
-    * in the MPX file.
+    * field when writing an MPX file will cause MS Project 98, 2000, and 2002 
+    * to create new resources and ignore any other resource assignments 
+    * that have been defined in the MPX file.
     *
     * @param val String containing a comma separated list of names
     */
