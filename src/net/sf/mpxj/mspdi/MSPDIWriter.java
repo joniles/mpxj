@@ -844,7 +844,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setCritical(Boolean.valueOf(mpx.getCritical()));
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
-      xml.setDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
+      xml.setDuration(DatatypeConverter.printDurationMandatory(this, mpx.getDuration()));
       xml.setDurationText(mpx.getDurationText());
       xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration()));
       xml.setEarlyFinish(DatatypeConverter.printDate(mpx.getEarlyFinish()));
@@ -1550,6 +1550,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
                {
                   Date endTime = calendar.getFinishTime(currentStart);
                   Date currentFinish = DateUtility.setTime(currentStart, endTime);
+                  if (currentFinish.getTime() > finishDate.getTime())
+                  {
+                     currentFinish = finishDate;
+                  }
 
                   TimephasedResourceAssignment split = new TimephasedResourceAssignment();
                   split.setStart(currentStart);

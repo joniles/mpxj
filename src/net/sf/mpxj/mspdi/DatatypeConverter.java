@@ -997,6 +997,30 @@ public final class DatatypeConverter
 
       if (duration != null && duration.getDuration() != 0)
       {
+         result = printDurationMandatory(writer, duration);
+      }
+
+      return (result);
+   }
+
+   /**
+    * Print duration.
+    *
+    * Note that Microsoft's xsd:duration parser implementation does not
+    * appear to recognise durations other than those expressed in hours.
+    * We use the compatibility flag to determine whether the output
+    * is adjusted for the benefit of Microsoft Project.
+    *
+    * @param writer parent MSPDIWriter instance
+    * @param duration Duration value
+    * @return xsd:duration value
+    */
+   public static final String printDurationMandatory(MSPDIWriter writer, Duration duration)
+   {
+      String result = null;
+
+      if (duration != null)
+      {
          TimeUnit durationType = duration.getUnits();
 
          if (durationType == TimeUnit.HOURS || durationType == TimeUnit.ELAPSED_HOURS)

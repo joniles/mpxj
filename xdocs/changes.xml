@@ -13,7 +13,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3317333: Error converting Mpp to planner.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316806: MSPDI Linklag for TimeUnit.Percent.</action>			
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316419: Error reading calendars for 2010 files.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3323027: Duplication of calendar id.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3323027: Duplication of calendar id.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3310996: Wrong task start.</action>				
 	</release>
 
 	<release version="4.1.0" date="30/05/2011">

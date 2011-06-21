@@ -307,7 +307,7 @@ abstract class FieldMap
     */
    public void populateContainer(FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
-      //System.out.println("Object: " + id);
+      //System.out.println(container.getClass().getSimpleName()+": " + id);
       for (FieldItem item : m_map.values())
       {
          //System.out.println(item.m_type);
