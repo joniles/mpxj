@@ -70,6 +70,10 @@ final class PrimaveraReader
       m_project.setAutoResourceUniqueID(false);
 
       m_project.setAutoCalendarUniqueID(true);
+      
+      m_project.setTaskFieldAlias(TaskField.DATE1, "Suspend Date");
+      m_project.setTaskFieldAlias(TaskField.DATE2, "Resume Date");
+      m_project.setTaskFieldAlias(TaskField.TEXT1, "Code");
    }
 
    /**
@@ -233,6 +237,9 @@ final class PrimaveraReader
          task.setRemainingWork(row.getDuration("indep_remain_work_qty"));
          task.setStart(row.getDate("anticip_start_date"));
          task.setFinish(row.getDate("anticip_end_date"));
+         task.setDate1(row.getDate("suspend_date"));
+         task.setDate2(row.getDate("resume_date"));
+         task.setText1(row.getString("task_code"));
       }
 
       //

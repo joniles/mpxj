@@ -9,13 +9,14 @@
    <body> 
 
 	<release version="4.2.0" date="CVS HEAD">
-		<action dev="joniles" type="add">Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Naseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</action>		
+		<action dev="joniles" type="add">Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Naseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</action>
+		<action dev="joniles" type="add">Added support for task suspend date, task resume date, and task code read from Primevera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3317333: Error converting Mpp to planner.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316806: MSPDI Linklag for TimeUnit.Percent.</action>			
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316419: Error reading calendars for 2010 files.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3323027: Duplication of calendar id.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3310996: Wrong task start.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3308542: Wrong start and finish dates for 2010 files.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3308542: Wrong start and finish dates for 2010 files.</action>				 		
 	</release>
 
 	<release version="4.1.0" date="30/05/2011">
