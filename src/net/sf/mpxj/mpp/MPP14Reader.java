@@ -1469,17 +1469,17 @@ final class MPP14Reader implements MPPVariantReader
 
          m_parentTasks.put(task.getUniqueID(), (Integer) task.getCachedValue(TaskField.PARENT_TASK_UNIQUE_ID));
 
-         if (task.getStart() == null)
+         if (task.getStart() == null || (task.getCachedValue(TaskField.SCHEDULED_START) != null && task.getTaskMode() == TaskMode.AUTO_SCHEDULED))
          {
             task.setStart((Date) task.getCachedValue(TaskField.SCHEDULED_START));
          }
 
-         if (task.getFinish() == null)
+         if (task.getFinish() == null || (task.getCachedValue(TaskField.SCHEDULED_FINISH) != null && task.getTaskMode() == TaskMode.AUTO_SCHEDULED))
          {
             task.setFinish((Date) task.getCachedValue(TaskField.SCHEDULED_FINISH));
          }
 
-         if (task.getDuration() == null)
+         if (task.getDuration() == null || (task.getCachedValue(TaskField.SCHEDULED_DURATION) != null && task.getTaskMode() == TaskMode.AUTO_SCHEDULED))
          {
             task.setDuration((Duration) task.getCachedValue(TaskField.SCHEDULED_DURATION));
          }
