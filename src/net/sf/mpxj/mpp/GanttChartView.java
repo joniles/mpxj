@@ -39,7 +39,6 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Table;
 
 /**
  * This class represents the set of properties used to define the appearance
@@ -47,13 +46,6 @@ import net.sf.mpxj.Table;
  */
 public abstract class GanttChartView extends GenericView
 {
-   /**
-    * Retrieve the ID of the properties data.
-    * 
-    * @return properties data ID
-    */
-   protected abstract Integer getPropertiesID();
-
    /**
     * Extract the Gantt bar styles.
     * 
@@ -113,11 +105,9 @@ public abstract class GanttChartView extends GenericView
    GanttChartView(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
-      super(fixedData);
+      super(parent, fixedData, varData);
       //System.out.println(varData.getVarMeta());
       //MPPUtility.fileDump("c:\\temp\\vardata.txt", varData.toString().getBytes());
-
-      m_parent = parent;
 
       m_showInMenu = (fixedMeta[8] & 0x08) != 0;
 
@@ -132,12 +122,6 @@ public abstract class GanttChartView extends GenericView
          {
             m_tableWidth = MPPUtility.getShort(tableData, 35);
             m_highlightFilter = (tableData[7] != 0);
-         }
-
-         byte[] tableName = props.getByteArray(TABLE_NAME);
-         if (tableName != null)
-         {
-            m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName));
          }
 
          byte[] filterName = props.getByteArray(FILTER_NAME);
@@ -537,16 +521,6 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve the name of the table part of the view.
-    *
-    * @return table name
-    */
-   public String getTableName()
-   {
-      return (m_tableName);
-   }
-
-   /**
     * Retrieve the name of the filter applied to this view.
     * 
     * @return filter name
@@ -765,17 +739,6 @@ public abstract class GanttChartView extends GenericView
    public FontStyle getSummaryTasksFontStyle()
    {
       return (m_summaryTasksFontStyle);
-   }
-
-   /**
-    * Retrieve an instance of the Table class representing the
-    * table part of this view.
-    *
-    * @return table instance
-    */
-   public Table getTable()
-   {
-      return (m_parent.getTaskTableByName(m_tableName));
    }
 
    /**
@@ -1359,12 +1322,10 @@ public abstract class GanttChartView extends GenericView
       pw.println("   ProgressLinesOtherProgressPointShape=" + m_progressLinesOtherProgressPointShape);
 
       pw.println("   TableWidth=" + m_tableWidth);
-      pw.println("   TableName=" + m_tableName);
       pw.println("   DefaultFilterName=" + m_defaultFilterName);
       pw.println("   GroupName=" + m_groupName);
       pw.println("   HighlightFilter=" + m_highlightFilter);
       pw.println("   ShowInMenu=" + m_showInMenu);
-      pw.println("   Table=" + getTable());
 
       if (m_tableFontStyles != null)
       {
@@ -1403,7 +1364,6 @@ public abstract class GanttChartView extends GenericView
       return (os.toString());
    }
 
-   protected ProjectFile m_parent;
    protected GridLines m_sheetRowsGridLines;
    protected GridLines m_sheetColumnsGridLines;
    protected GridLines m_titleVerticalGridLines;
@@ -1445,7 +1405,6 @@ public abstract class GanttChartView extends GenericView
    protected GanttBarStyleException[] m_barStyleExceptions;
 
    private int m_tableWidth;
-   private String m_tableName;
    private String m_defaultFilterName;
    private String m_groupName;
    private boolean m_highlightFilter;
@@ -1508,7 +1467,6 @@ public abstract class GanttChartView extends GenericView
    protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    protected static final Integer TIMESCALE_PROPERTIES = Integer.valueOf(574619678);
    private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
-   private static final Integer TABLE_NAME = Integer.valueOf(574619658);
    private static final Integer FILTER_NAME = Integer.valueOf(574619659);
    private static final Integer GROUP_NAME = Integer.valueOf(574619672);
    private static final Integer COLUMN_PROPERTIES = Integer.valueOf(574619660);

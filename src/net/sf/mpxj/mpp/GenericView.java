@@ -23,6 +23,10 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ViewType;
 
 /**
@@ -33,17 +37,45 @@ import net.sf.mpxj.ViewType;
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public class GenericView extends AbstractMppView
+public abstract class GenericView extends AbstractMppView
 {
    /**
     * Extract the view data from the view data block.
     *
+    * @param parent parent file
     * @param data view data
+    * @param varData var data
     */
-   public GenericView(byte[] data)
+   public GenericView(ProjectFile parent, byte[] data, Var2Data varData)
+      throws IOException
    {
+      super(parent);
+
       m_id = Integer.valueOf(MPPUtility.getInt(data, 0));
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
       m_type = ViewType.getInstance(MPPUtility.getShort(data, 112));
+
+      byte[] propsData = varData.getByteArray(m_id, getPropertiesID());
+      if (propsData != null)
+      {
+         Props9 props = new Props9(new ByteArrayInputStream(propsData));
+         //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+
+         byte[] tableName = props.getByteArray(TABLE_NAME);
+         if (tableName != null)
+         {
+            m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName));
+         }
+      }
    }
+
+   /**
+    * Retrieve the ID of the properties data.
+    * 
+    * @return properties data ID
+    */
+   protected abstract Integer getPropertiesID();
+
+   private static final Integer TABLE_NAME = Integer.valueOf(574619658);
+
 }

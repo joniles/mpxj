@@ -24,12 +24,23 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.AbstractView;
+import net.sf.mpxj.ProjectFile;
 
 /**
  * This abstract class implements functionality common to all MPP views.
  */
 public abstract class AbstractMppView extends AbstractView
 {
+   /**
+    * Constructor.
+    * 
+    * @param parent parent file
+    */
+   public AbstractMppView(ProjectFile parent)
+   {
+      super(parent);
+   }
+
    /**
     * Remove the ampersand embedded in the view name.
     *

@@ -70,7 +70,7 @@ final class PrimaveraReader
       m_project.setAutoResourceUniqueID(false);
 
       m_project.setAutoCalendarUniqueID(true);
-      
+
       m_project.setTaskFieldAlias(TaskField.DATE1, "Suspend Date");
       m_project.setTaskFieldAlias(TaskField.DATE2, "Resume Date");
       m_project.setTaskFieldAlias(TaskField.TEXT1, "Code");

@@ -1,8 +1,8 @@
 /*
- * file:       View8.java
+ * file:       GenericView12.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       06/04/2005
+ * copyright:  (c) Packwood Software 2011
+ * date:       23/06/2011
  */
 
 /*
@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.IOException;
+
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ViewType;
 
 /**
  * This class represents a view of a set of project data that has been
@@ -34,20 +35,29 @@ import net.sf.mpxj.ViewType;
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public final class View8 extends AbstractMppView
+public class GenericView12 extends GenericView
 {
    /**
-    * Extract the view data from the view data block.
-    *
+    * Constructor.
+    * 
     * @param parent parent file
-    * @param data view data
+    * @param data fixed data
+    * @param varData var data
+    * @throws IOException
     */
-   public View8(ProjectFile parent, byte[] data)
+   public GenericView12(ProjectFile parent, byte[] data, Var2Data varData)
+      throws IOException
    {
-      super(parent);
-
-      m_id = Integer.valueOf(MPPUtility.getInt(data, 0));
-      m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
-      m_type = ViewType.getInstance(MPPUtility.getShort(data, 116));
+      super(parent, data, varData);
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected Integer getPropertiesID()
+   {
+      return (PROPERTIES);
+   }
+
+   private static final Integer PROPERTIES = Integer.valueOf(6);
 }

@@ -44,7 +44,7 @@ class ViewFactory14 implements ViewFactory
       int splitViewFlag = MPPUtility.getShort(fixedData, 110);
       if (splitViewFlag == 1)
       {
-         view = new SplitView9(fixedData, varData);
+         view = new SplitView9(file, fixedData, varData);
       }
       else
       {
@@ -59,7 +59,7 @@ class ViewFactory14 implements ViewFactory
 
             default :
             {
-               view = new GenericView(fixedData);
+               view = new GenericView14(file, fixedData, varData);
                break;
             }
          }

@@ -9,7 +9,7 @@
 <target name="init-props" description="Initialize properties">
    <tstamp/>
 	
-	<property name="current.version" value="4.1.0" />
+	<property name="current.version" value="4.2.0" />
 	
    <!-- 
    	The following two properties are only required if you want to use the xjc target.

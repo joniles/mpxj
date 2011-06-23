@@ -66,8 +66,11 @@ final class ResultSetRow extends MapRow
             }
 
             case Types.CHAR :
+            case Types.NCHAR :
             case Types.VARCHAR :
+            case Types.NVARCHAR :
             case Types.LONGVARCHAR :
+            case Types.LONGNVARCHAR :
             {
                value = rs.getString(name);
                break;
@@ -120,6 +123,7 @@ final class ResultSetRow extends MapRow
                break;
             }
 
+            case Types.ROWID :
             case Types.OTHER :
             {
                value = rs.getObject(name);

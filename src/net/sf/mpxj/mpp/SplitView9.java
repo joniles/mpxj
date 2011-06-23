@@ -26,24 +26,27 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import net.sf.mpxj.ProjectFile;
+
 /**
  * This class represents a user defined view in Microsoft Project
  * which is made up of two existing views, typically shown above
  * and below the division of a split screen.
  */
-public class SplitView9 extends GenericView
+public class SplitView9 extends GenericView9
 {
    /**
     * Constructor.
     * 
+    * @param parent parent file
     * @param fixedData fixed data block
     * @param varData var data block
     * @throws IOException
     */
-   SplitView9(byte[] fixedData, Var2Data varData)
+   SplitView9(ProjectFile parent, byte[] fixedData, Var2Data varData)
       throws IOException
    {
-      super(fixedData);
+      super(parent, fixedData, varData);
 
       byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
       if (propsData != null)
