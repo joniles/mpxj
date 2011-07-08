@@ -1933,7 +1933,42 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
       }
+
+      if (!(result instanceof Duration))
+      {
+         result = null;
+      }
       return (Duration) result;
+   }
+
+   /**
+    * Retrieves the text value for the baseline duration.
+    * 
+    * @return baseline duration text
+    */
+   public String getBaselineDurationText()
+   {
+      Object result = getCachedValue(TaskField.BASELINE_DURATION);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
+      }
+
+      if (!(result instanceof String))
+      {
+         result = null;
+      }
+      return (String) result;
+   }
+
+   /**
+    * Sets the baseline duration text value.
+    * 
+    * @param value baseline duration text
+    */
+   public void setBaselineDurationText(String value)
+   {
+      set(TaskField.BASELINE_DURATION, value);
    }
 
    /**
@@ -1950,7 +1985,42 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
       }
+
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
       return (Date) result;
+   }
+
+   /**
+    * Retrieves the baseline finish text value.
+    * 
+    * @return baseline finish text
+    */
+   public String getBaselineFinishText()
+   {
+      Object result = getCachedValue(TaskField.BASELINE_FINISH);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
+      }
+
+      if (!(result instanceof String))
+      {
+         result = null;
+      }
+      return (String) result;
+   }
+
+   /**
+    * Sets the baseline finish text value.
+    * 
+    * @param value baseline finish text
+    */
+   public void setBaselineFinishText(String value)
+   {
+      set(TaskField.BASELINE_FINISH, value);
    }
 
    /**
@@ -1967,7 +2037,42 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
       }
+
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
       return (Date) result;
+   }
+
+   /**
+    * Retrieves the baseline start text value.
+    * 
+    * @return baseline strat value
+    */
+   public String getBaselineStartText()
+   {
+      Object result = getCachedValue(TaskField.BASELINE_START);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
+      }
+
+      if (!(result instanceof String))
+      {
+         result = null;
+      }
+      return (String) result;
+   }
+
+   /**
+    * Sets the baseline start text value.
+    * 
+    * @param value baseline start text
+    */
+   public void setBaselineStartText(String value)
+   {
+      set(TaskField.BASELINE_START, value);
    }
 
    /**
@@ -6296,12 +6401,49 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineDuration(int baselineNumber)
    {
-      Duration result = (Duration) getCachedValue(selectField(BASELINE_DURATIONS, baselineNumber));
-      if (result == null || result.getDuration() == 0)
+      Object result = getCachedValue(selectField(BASELINE_DURATIONS, baselineNumber));
+      if (result == null)
       {
-         result = (Duration) getCachedValue(selectField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+         result = getCachedValue(selectField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
       }
-      return result;
+
+      if (!(result instanceof Duration))
+      {
+         result = null;
+      }
+      return (Duration) result;
+   }
+
+   /**
+    * Retrieves the baseline duration text value.
+    * 
+    * @param baselineNumber baseline number
+    * @return baseline duration text value
+    */
+   public String getBaselineDurationText(int baselineNumber)
+   {
+      Object result = getCachedValue(selectField(BASELINE_DURATIONS, baselineNumber));
+      if (result == null)
+      {
+         result = getCachedValue(selectField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+      }
+
+      if (!(result instanceof String))
+      {
+         result = null;
+      }
+      return (String) result;
+   }
+
+   /**
+    * Sets the baseline duration text value.
+    * 
+    * @param baselineNumber baseline number
+    * @param value baseline duration text value
+    */
+   public void setBaselineDurationText(int baselineNumber, String value)
+   {
+      set(selectField(BASELINE_DURATIONS, baselineNumber), value);
    }
 
    /**
@@ -6317,7 +6459,44 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          result = getCachedValue(selectField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
       }
+
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
       return (Date) result;
+   }
+
+   /**
+    * Retrieves the baseline finish text value.
+    * 
+    * @param baselineNumber baseline number
+    * @return baseline finish text value
+    */
+   public String getBaselineFinishText(int baselineNumber)
+   {
+      Object result = getCachedValue(selectField(BASELINE_FINISHES, baselineNumber));
+      if (result == null)
+      {
+         result = getCachedValue(selectField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
+      }
+
+      if (!(result instanceof String))
+      {
+         result = null;
+      }
+      return (String) result;
+   }
+
+   /**
+    * Sets the baseline finish text value.
+    * 
+    * @param baselineNumber baseline number
+    * @param value baseline finish text value
+    */
+   public void setBaselineFinishText(int baselineNumber, String value)
+   {
+      set(selectField(BASELINE_FINISHES, baselineNumber), value);
    }
 
    /**
@@ -6333,7 +6512,44 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          result = getCachedValue(selectField(BASELINE_ESTIMATED_STARTS, baselineNumber));
       }
+
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
       return (Date) result;
+   }
+
+   /**
+    * Retrieves the baseline start text value.
+    * 
+    * @param baselineNumber baseline number
+    * @return baseline start text value
+    */
+   public String getBaselineStartText(int baselineNumber)
+   {
+      Object result = getCachedValue(selectField(BASELINE_STARTS, baselineNumber));
+      if (result == null)
+      {
+         result = getCachedValue(selectField(BASELINE_ESTIMATED_STARTS, baselineNumber));
+      }
+
+      if (!(result instanceof String))
+      {
+         result = null;
+      }
+      return (String) result;
+   }
+
+   /**
+    * Sets the baseline start text value.
+    * 
+    * @param baselineNumber baseline number
+    * @param value baseline start text value
+    */
+   public void setBaselineStartText(int baselineNumber, String value)
+   {
+      set(selectField(BASELINE_STARTS, baselineNumber), value);
    }
 
    /**

@@ -187,7 +187,21 @@ public class MpxjQuery
             duration = "(no duration supplied)";
          }
 
-         System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
+         String baselineDuration = task.getBaselineDurationText();
+         if (baselineDuration == null)
+         {
+            dur = task.getBaselineDuration();
+            if (dur != null)
+            {
+               baselineDuration = dur.toString();
+            }
+            else
+            {
+               baselineDuration = "(no duration supplied)";
+            }
+         }
+
+         System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Baseline Duration=" + baselineDuration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
       }
       System.out.println();
    }

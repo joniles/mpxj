@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -806,14 +805,29 @@ abstract class FieldMap
        * @param type item type
        * @return item value
        */
-      private Date getCustomFieldTimestampValue(Var2Data varData, Integer id, Integer type)
+      private Object getCustomFieldTimestampValue(Var2Data varData, Integer id, Integer type)
       {
-         Date result = null;
+         Object result = null;
 
          int mask = varData.getShort(id, type);
          if ((mask & 0xFF00) != VALUE_LIST_MASK)
          {
-            result = varData.getTimestamp(id, type);
+            byte[] data = varData.getByteArray(id, type);
+
+            if (data != null)
+            {
+               if (data.length == 512)
+               {
+                  result = MPPUtility.getUnicodeString(data);
+               }
+               else
+               {
+                  if (data.length >= 4)
+                  {
+                     result = MPPUtility.getTimestamp(data);
+                  }
+               }
+            }
          }
          else
          {
@@ -836,31 +850,29 @@ abstract class FieldMap
        * @param units duration units
        * @return item value
        */
-      private Duration getCustomFieldDurationValue(Var2Data varData, Integer id, Integer type, TimeUnit units)
+      private Object getCustomFieldDurationValue(Var2Data varData, Integer id, Integer type, TimeUnit units)
       {
-         /*
-                  // This functionality has been disabled for the moment as I have not
-                  // been able to reproduce a situation where it is used, and leaving
-                  // it in place interferes with reading AssignmentField.DURATION3.
-                  Duration result = null;
+         Object result = null;
 
-                  int mask = varData.getShort(id, type);
-                  if ((mask & 0xFF00) != VALUE_LIST_MASK)
-                  {
-                     result = MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, type), units);
-                  }
-                  else
-                  {
-                     int uniqueId = varData.getInt(id, 2, type);
-                     CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
-                     if (item != null && item.getValue() != null)
-                     {
-                        result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
-                     }
-                  }
-                  return result;
-         */
-         return MPPUtility.getAdjustedDuration(getProjectFile(), varData.getInt(id, type), units);
+         byte[] data = varData.getByteArray(id, type);
+
+         if (data != null)
+         {
+            if (data.length == 512)
+            {
+               result = MPPUtility.getUnicodeString(data);
+            }
+            else
+            {
+               if (data.length >= 4)
+               {
+                  int duration = MPPUtility.getInt(data);
+                  result = MPPUtility.getAdjustedDuration(getProjectFile(), duration, units);
+               }
+            }
+         }
+
+         return result;
       }
 
       /**

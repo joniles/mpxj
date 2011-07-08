@@ -165,6 +165,10 @@ public class GenericCriteria
                   Duration dur = (Duration) lhs;
                   lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
                }
+               else
+               {
+                  lhs = Duration.getInstance(0, TimeUnit.HOURS);
+               }
                break;
             }
 
@@ -290,6 +294,10 @@ public class GenericCriteria
                   if (value != null && ((Duration) value).getUnits() != TimeUnit.HOURS)
                   {
                      value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+                  }
+                  else
+                  {
+                     value = Duration.getInstance(0, TimeUnit.HOURS);
                   }
                   break;
                }
