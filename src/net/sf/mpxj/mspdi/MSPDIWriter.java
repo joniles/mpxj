@@ -90,6 +90,28 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public final class MSPDIWriter extends AbstractProjectWriter
 {
    /**
+    * Sets a flag to control whether timephased assignment data is split 
+    * into days. The default is true.
+    * 
+    * @param flag boolean flag
+    */
+   public void setSplitTimephasedAsDays(boolean flag)
+   {
+      m_splitTimephasedAsDays = flag;
+   }
+
+   /**
+    * Retrieves a flag to control whether timephased assignment data is split 
+    * into days. The default is true. 
+    * 
+    * @return boolean true
+    */
+   public boolean getSplitTimephasedAsDays()
+   {
+      return m_splitTimephasedAsDays;
+   }
+
+   /**
     * {@inheritDoc}
     */
    public void write(ProjectFile projectFile, OutputStream stream) throws IOException
@@ -1428,21 +1450,28 @@ public final class MSPDIWriter extends AbstractProjectWriter
          BigInteger assignmentID = xml.getUID();
 
          List<TimephasedResourceAssignment> complete = mpx.getTimephasedComplete();
-         TimephasedResourceAssignment lastComplete = null;
-         if (!complete.isEmpty())
-         {
-            lastComplete = complete.get(complete.size() - 1);
-         }
-
          List<TimephasedResourceAssignment> planned = mpx.getTimephasedPlanned();
-         TimephasedResourceAssignment firstPlanned = null;
-         if (!planned.isEmpty())
+
+         if (m_splitTimephasedAsDays)
          {
-            firstPlanned = planned.get(0);
+            TimephasedResourceAssignment lastComplete = null;
+            if (!complete.isEmpty())
+            {
+               lastComplete = complete.get(complete.size() - 1);
+            }
+
+            TimephasedResourceAssignment firstPlanned = null;
+            if (!planned.isEmpty())
+            {
+               firstPlanned = planned.get(0);
+            }
+
+            planned = splitDays(calendar, mpx.getTimephasedPlanned(), null, lastComplete);
+            complete = splitDays(calendar, complete, firstPlanned, null);
          }
 
-         writeAssignmentTimephasedData(assignmentID, list, splitDays(calendar, mpx.getTimephasedPlanned(), null, lastComplete), 1);
-         writeAssignmentTimephasedData(assignmentID, list, splitDays(calendar, complete, firstPlanned, null), 2);
+         writeAssignmentTimephasedData(assignmentID, list, planned, 1);
+         writeAssignmentTimephasedData(assignmentID, list, complete, 2);
       }
    }
 
@@ -1656,6 +1685,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Set<ResourceField> m_resourceExtendedAttributes;
 
    private Set<AssignmentField> m_assignmentExtendedAttributes;
+
+   private boolean m_splitTimephasedAsDays = true;
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 
