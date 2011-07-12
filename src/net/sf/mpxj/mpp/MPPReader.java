@@ -62,8 +62,39 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(InputStream is) throws MPXJException
+   @Override public ProjectFile read(InputStream is) throws MPXJException
    {
+
+      try
+      {
+
+         //
+         // Open the file system
+         //
+         POIFSFileSystem fs = new POIFSFileSystem(is);
+
+         return read(fs);
+
+      }
+      catch (IOException ex)
+      {
+
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+
+      }
+   }
+
+   /**
+    * Alternative entry point allowing an MPP file to be read from
+    * a user-supplied POI file stream. 
+    * 
+    * @param fs POI file stream
+    * @return ProjectFile instance
+    * @throws MPXJException
+    */
+   public ProjectFile read(POIFSFileSystem fs) throws MPXJException
+   {
+
       try
       {
          ProjectFile projectFile = new ProjectFile();
@@ -81,7 +112,6 @@ public final class MPPReader extends AbstractProjectReader
          //
          // Open the file system and retrieve the root directory
          //
-         POIFSFileSystem fs = new POIFSFileSystem(is);
          DirectoryEntry root = fs.getRoot();
 
          //
