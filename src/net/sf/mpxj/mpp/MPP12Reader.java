@@ -325,6 +325,7 @@ final class MPP12Reader implements MPPVariantReader
                   //
                   // task unique ID, 8 bytes, path, file name
                   //
+               case 0x0b :
                case (byte) 0x99 :
                case 0x09 :
                case 0x0D :
