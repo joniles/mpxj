@@ -1234,13 +1234,11 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setBudgetWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getBudgetWork()));
             mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
             mpx.setCostRateTableIndex(NumberUtility.getInt(assignment.getCostRateTable()));
-            mpx.setCostVariance(DatatypeConverter.parseCurrency(assignment.getCostVariance()));
             mpx.setCreateDate(DatatypeConverter.parseDate(assignment.getCreationDate()));
             mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
             mpx.setDelay(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getDelay()));
             mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
             mpx.setVariableRateUnits(BooleanUtility.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
-            mpx.setFinishVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getFinishVariance()));
             mpx.setHyperlink(assignment.getHyperlink());
             mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
             mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());
@@ -1258,14 +1256,12 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
             //assignment.getResume()
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
-            mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getStartVariance()));
             //assignment.getStop()
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
             mpx.setVAC(DatatypeConverter.parseCurrency(assignment.getVAC()));
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
-            mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getWorkVariance()));
 
             mpx.setTimephasedComplete(timephasedComplete, raw);
             mpx.setTimephasedPlanned(timephasedPlanned, raw);
@@ -1273,6 +1269,12 @@ public final class MSPDIReader extends AbstractProjectReader
             readAssignmentExtendedAttributes(assignment, mpx);
 
             readAssignmentBaselines(assignment, mpx);
+
+            // Read last to ensure caching works as expected
+            mpx.setCostVariance(DatatypeConverter.parseCurrency(assignment.getCostVariance()));
+            mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(m_projectFile.getProjectHeader(), assignment.getWorkVariance(), TimeUnit.HOURS));
+            mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectHeader(), assignment.getStartVariance(), TimeUnit.DAYS));
+            mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectHeader(), assignment.getFinishVariance(), TimeUnit.DAYS));
 
             m_projectFile.fireAssignmentReadEvent(mpx);
          }

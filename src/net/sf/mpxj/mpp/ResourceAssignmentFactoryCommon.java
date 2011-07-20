@@ -40,23 +40,35 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.RTFUtility;
 
 /**
  * Common implementation detail to extract resource assignment data from 
  * MPP9 and MPP12 files.
  */
-public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactory
+public class ResourceAssignmentFactoryCommon
 {
    /**
-    * {@inheritDoc}
+    * Main entry point when called to process assignment data.
+    * 
+    * @param file parent project file
+    * @param fieldMap assignment field map
+    * @param useRawTimephasedData use raw timephased data flag
+    * @param preserveNoteFormatting preserve note formatting flag
+    * @param assnVarMeta var meta
+    * @param assnVarData var data
+    * @param assnFixedMeta fixed meta
+    * @param assnFixedData fixed data
+    * @param assnFixedData2 fixed data
     */
-   public void process(ProjectFile file, FieldMap fieldMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData)
+   public void process(ProjectFile file, FieldMap fieldMap, boolean useRawTimephasedData, boolean preserveNoteFormatting, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
       TimephasedResourceAssignmentNormaliser normaliser = new MPPTimephasedResourceAssignmentNormaliser();
+      RTFUtility rtf = new RTFUtility();
 
       //System.out.println(assnFixedMeta);
       //System.out.println(assnFixedData);
@@ -73,9 +85,22 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
 
          int offset = MPPUtility.getInt(meta, 4);
          byte[] data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
-         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset(0))
+         /*
+                  if (data == null || data.length <= fieldMap.getMaxFixedDataOffset(0))
+                  {
+                     continue;
+                  }
+         */
+         if (data == null)
          {
             continue;
+         }
+
+         if (data.length <= fieldMap.getMaxFixedDataOffset(0))
+         {
+            byte[] newData = new byte[fieldMap.getMaxFixedDataOffset(0) + 8];
+            System.arraycopy(data, 0, newData, 0, data.length);
+            data = newData;
          }
 
          int id = MPPUtility.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
@@ -85,13 +110,20 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
             continue;
          }
 
+         byte[] data2 = null;
+         if (assnFixedData2 != null)
+         {
+            data2 = assnFixedData2.getByteArrayValue(loop);
+         }
+
          ResourceAssignment assignment = new ResourceAssignment(file);
          assignment.setTimephasedNormaliser(normaliser);
 
          assignment.disableEvents();
          fieldMap.populateContainer(assignment, varDataId, new byte[][]
          {
-            data
+            data,
+            data2
          }, assnVarData);
          assignment.enableEvents();
 
@@ -122,9 +154,46 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
             assignment.setFlag(20, (meta[31] & 0x04) != 0);
          }
 
+         if (fieldMap.getFieldLocation(AssignmentField.CONFIRMED) != FieldMap.FieldLocation.VAR_DATA)
+         {
+            assignment.setConfirmed((meta[8] & 0x80) != 0);
+         }
+
+         if (fieldMap.getFieldLocation(AssignmentField.RESPONSE_PENDING) != FieldMap.FieldLocation.VAR_DATA)
+         {
+            assignment.setResponsePending((meta[9] & 0x01) != 0);
+         }
+
+         if (fieldMap.getFieldLocation(AssignmentField.TEAM_STATUS_PENDING) != FieldMap.FieldLocation.VAR_DATA)
+         {
+            assignment.setTeamStatusPending((meta[10] & 0x02) != 0);
+         }
+
+         processHyperlinkData(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
+
          //
          // Post processing
          //
+         if (file.getMppFileType() == 9 && assignment.getCreateDate() == null)
+         {
+            byte[] creationData = assnVarData.getByteArray(varDataId, MPP9_CREATION_DATA);
+            if (creationData != null && creationData.length >= 28)
+            {
+               assignment.setCreateDate(MPPUtility.getTimestamp(creationData, 24));
+            }
+         }
+
+         String notes = assignment.getNotes();
+         if (notes != null)
+         {
+            if (!preserveNoteFormatting)
+            {
+               notes = rtf.strip(notes);
+            }
+
+            assignment.setNotes(notes);
+         }
+
          Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
          if (task != null)
          {
@@ -196,6 +265,40 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
    }
 
    /**
+    * Extract assignment hyperlink data. 
+    * 
+    * @param assignment assignment instance
+    * @param data hyperlink data
+    */
+   private void processHyperlinkData(ResourceAssignment assignment, byte[] data)
+   {
+      if (data != null)
+      {
+         int offset = 12;
+
+         offset += 12;
+         String hyperlink = MPPUtility.getUnicodeString(data, offset);
+         offset += ((hyperlink.length() + 1) * 2);
+
+         offset += 12;
+         String address = MPPUtility.getUnicodeString(data, offset);
+         offset += ((address.length() + 1) * 2);
+
+         offset += 12;
+         String subaddress = MPPUtility.getUnicodeString(data, offset);
+         offset += ((subaddress.length() + 1) * 2);
+
+         offset += 12;
+         String screentip = MPPUtility.getUnicodeString(data, offset);
+
+         assignment.setHyperlink(hyperlink);
+         assignment.setHyperlinkAddress(address);
+         assignment.setHyperlinkSubAddress(subaddress);
+         assignment.setHyperlinkScreenTip(screentip);
+      }
+   }
+
+   /**
     * Method used to create missing timephased data.
     * 
     * @param file project file
@@ -247,4 +350,6 @@ public class ResourceAssignmentFactoryCommon implements ResourceAssignmentFactor
          timephasedPlanned.add(tra);
       }
    }
+
+   private static final Integer MPP9_CREATION_DATA = Integer.valueOf(138);
 }

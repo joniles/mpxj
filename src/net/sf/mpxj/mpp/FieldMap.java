@@ -131,17 +131,17 @@ abstract class FieldMap
             //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockIndex + " " + dataBlockOffset + " " + varDataKey);
          }
 
-         //         if (location != FieldLocation.META_DATA)
-         //         {
-         //            System.out.println((type == null ? "?" : type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
-         //         }
+         //                  if (location != FieldLocation.META_DATA)
+         //                  {
+         //                     System.out.println((type == null ? "?" : type.getClass().getSimpleName()+"."+type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
+         //                  }
 
          if (type != null)
          {
-            //            if (location != FieldLocation.META_DATA)
-            //            {               
-            //               System.out.println("new FieldItem("+type.getClass().getSimpleName()+"."+type + ", FieldLocation." + location +", " +dataBlockIndex+", "+dataBlockOffset + ", " + varDataKey+"),");
-            //            }
+            //                        if (location != FieldLocation.META_DATA)
+            //                        {               
+            //                           System.out.println("new FieldItem("+type.getClass().getSimpleName()+"."+type + ", FieldLocation." + location +", " +dataBlockIndex+", "+dataBlockOffset + ", " + varDataKey+"),");
+            //                        }
 
             //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + (type instanceof net.sf.mpxj.TaskField ? "TaskField" : type instanceof net.sf.mpxj.ResourceField ? "ResourceField" : "AssignmentField") + " " + type);
 
@@ -311,7 +311,7 @@ abstract class FieldMap
       {
          //System.out.println(item.m_type);
          Object value = item.read(id, fixedData, varData);
-         //System.out.println(item.m_type + ": " + value);
+         //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
          container.set(item.getType(), value);
       }
    }
@@ -515,7 +515,7 @@ abstract class FieldMap
          if (m_fixedDataBlockIndex < fixedData.length)
          {
             byte[] data = fixedData[m_fixedDataBlockIndex];
-            if (m_fixedDataOffset < data.length)
+            if (data != null && m_fixedDataOffset < data.length)
             {
                switch (m_type.getDataType())
                {

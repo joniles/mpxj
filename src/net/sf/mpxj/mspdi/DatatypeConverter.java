@@ -1322,6 +1322,19 @@ public final class DatatypeConverter
    }
 
    /**
+    * Parse duration represented in thousandths of minutes. 
+    * 
+    * @param header project header
+    * @param value duration value
+    * @param targetTimeUnit required output time units
+    * @return Duration instance
+    */
+   public static final Duration parseDurationInThousanthsOfMinutes(ProjectHeader header, Number value, TimeUnit targetTimeUnit)
+   {
+      return parseDurationInFractionsOfMinutes(header, value, targetTimeUnit, 1000);
+   }
+
+   /**
     * Parse duration represented as tenths of minutes.
     * 
     * @param header project header
@@ -1580,7 +1593,10 @@ public final class DatatypeConverter
    public static final String printTaskUID(Integer value)
    {
       ProjectFile file = PARENT_FILE.get();
-      file.fireTaskWrittenEvent(file.getTaskByUniqueID(value));
+      if (file != null)
+      {
+         file.fireTaskWrittenEvent(file.getTaskByUniqueID(value));
+      }
       return (value.toString());
    }
 
@@ -1604,7 +1620,10 @@ public final class DatatypeConverter
    public static final String printResourceUID(Integer value)
    {
       ProjectFile file = PARENT_FILE.get();
-      file.fireResourceWrittenEvent(file.getResourceByUniqueID(value));
+      if (file != null)
+      {
+         file.fireResourceWrittenEvent(file.getResourceByUniqueID(value));
+      }
       return (value.toString());
    }
 

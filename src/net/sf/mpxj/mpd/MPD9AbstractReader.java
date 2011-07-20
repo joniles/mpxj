@@ -1171,7 +1171,8 @@ abstract class MPD9AbstractReader
          //assignment.setCV();
          assignment.setDelay(row.getDuration("ASSN_DELAY"));
          assignment.setFinish(row.getDate("ASSN_FINISH_DATE"));
-         assignment.setFinishVariance(row.getDuration("ASSN_FINISH_VAR"));
+         assignment.setFinishVariance(MPDUtility.getAdjustedDuration(m_project, row.getInt("ASSN_FINISH_VAR"), TimeUnit.DAYS));
+         
          //assignment.setGUID();
          assignment.setLevelingDelay(MPDUtility.getAdjustedDuration(m_project, row.getInt("ASSN_LEVELING_DELAY"), MPDUtility.getDurationTimeUnits(row.getInt("ASSN_DELAY_FMT"))));
          assignment.setLinkedFields(row.getBoolean("ASSN_HAS_LINKED_FIELDS"));
@@ -1184,8 +1185,9 @@ abstract class MPD9AbstractReader
          assignment.setRegularWork(row.getDuration("ASSN_REG_WORK"));
          assignment.setRemainingWork(row.getDuration("ASSN_REM_WORK"));
          assignment.setResponsePending(row.getBoolean("ASSN_RESPONSE_PENDING"));
-         assignment.setStart(row.getDate("ASSN_START_DATE"));
-         assignment.setStartVariance(row.getDuration("ASSN_START_VAR"));
+         assignment.setStart(row.getDate("ASSN_START_DATE"));       
+         assignment.setStartVariance(MPDUtility.getAdjustedDuration(m_project, row.getInt("ASSN_START_VAR"), TimeUnit.DAYS));
+         
          //assignment.setSV();
          assignment.setTeamStatusPending(row.getBoolean("ASSN_TEAM_STATUS_PENDING"));
          assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue() * 100.0d));

@@ -2493,8 +2493,8 @@ final class MPP9Reader implements MPPVariantReader
          assnFixedData = new FixedData(assnFixedMeta, getEncryptableInputStream(assnDir, "FixedData"));
       }
 
-      ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
-      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
+      ResourceAssignmentFactoryCommon factory = new ResourceAssignmentFactoryCommon();
+      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null);
    }
 
    /**

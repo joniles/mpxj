@@ -940,10 +940,11 @@ final class MPP12Reader implements MPPVariantReader
             }
             else
             {
+               uniqueID = MPPUtility.getInt(data, 0);
+
                //System.out.println(data.length+ " " +MPPUtility.hexdump(data, false));
-               if (data.length == 16 || data.length > fieldMap.getMaxFixedDataOffset(0))
+               if (data.length == 16 || data.length > fieldMap.getMaxFixedDataOffset(0) || uniqueID == 0)
                {
-                  uniqueID = MPPUtility.getInt(data, 0);
                   key = Integer.valueOf(uniqueID);
                   if (taskMap.containsKey(key) == false)
                   {
@@ -1355,7 +1356,16 @@ final class MPP12Reader implements MPPVariantReader
 
          if (data.length < fieldMap.getMaxFixedDataOffset(0))
          {
-            continue;
+            if (id.intValue() == 0)
+            {
+               byte[] newData = new byte[fieldMap.getMaxFixedDataOffset(0) + 8];
+               System.arraycopy(data, 0, newData, 0, data.length);
+               data = newData;
+            }
+            else
+            {
+               continue;
+            }
          }
 
          //System.out.println (id+": "+MPPUtility.hexdump(data, false, 16, ""));
@@ -2234,8 +2244,9 @@ final class MPP12Reader implements MPPVariantReader
       // MSP 20007 seems to write 142 byte blocks, MSP 2010 writes 110 byte blocks
       // We need to identify any cases where the meta data count does not correctly identify the block size
       FixedData assnFixedData = new FixedData(assnFixedMeta, getEncryptableInputStream(assnDir, "FixedData"));
-      ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
-      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
+      FixedData assnFixedData2 = new FixedData(48, getEncryptableInputStream(assnDir, "Fixed2Data"));
+      ResourceAssignmentFactoryCommon factory = new ResourceAssignmentFactoryCommon();
+      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2);
    }
 
    /**

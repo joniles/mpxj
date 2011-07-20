@@ -1615,6 +1615,7 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LINKED_FIELDS.getValue()] = "Linked Fields";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.OVERALLOCATED.getValue()] = "Overallocated";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_SUMMARY_NAME.getValue()] = "Task Summary Name";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_DATA.getValue()] = "Hyperlink Data";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_SUBADDRESS.getValue()] = "Hyperlink Subaddress";

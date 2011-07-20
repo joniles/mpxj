@@ -87,7 +87,7 @@ public enum AssignmentField implements FieldType
    COST_VARIANCE(DataType.CURRENCY),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    PROJECT(DataType.STRING),
-   NOTES(DataType.STRING),
+   NOTES(DataType.ASCII_STRING),
    CONFIRMED(DataType.BOOLEAN),
    RESPONSE_PENDING(DataType.BOOLEAN),
    UPDATE_NEEDED(DataType.BOOLEAN),
@@ -496,6 +496,7 @@ public enum AssignmentField implements FieldType
    BASELINE10_BUDGET_WORK(DataType.WORK),
    BASELINE10_BUDGET_COST(DataType.CURRENCY),
    UNAVAILABLE(DataType.STRING), // Dummy entry
+   HYPERLINK_DATA(DataType.BINARY),
 
    FINISH(DataType.DATE); // Must always be last value
 

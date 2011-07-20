@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
@@ -196,6 +197,237 @@ public class MppAssignmentTest extends MPXJTestCase
          assertEquals("Assignment 2 flag " + (loop + 1), CUSTOM_FLAG[1][loop], assignment2.getFlag(loop + 1));
       }
 
+   }
+
+   /**
+    * Test assignment fields read from an MPP9 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9Fields() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentfields.mpp");
+      testFields(mpp, null, null);
+   }
+
+   /**
+    * Test assignment fields read from an MPP9 file, saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp9FieldsFrom14() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentfields-from14.mpp");
+      testFields(mpp, null, null);
+   }
+
+   /**
+    * Test assignment fields read from an MPP12 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12Fields() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentfields.mpp");
+      testFields(mpp, "230CA12B-3792-4F3B-B69E-89ABAF1C9042", "C3FDB823-3C82-422B-A854-391F7E235EA2");
+   }
+
+   /**
+    * Test assignment fields read from an MPP12 file, saved by Project 2010.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12FieldsFrom14() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentfields-from14.mpp");
+      testFields(mpp, "230CA12B-3792-4F3B-B69E-89ABAF1C9042", "C3FDB823-3C82-422B-A854-391F7E235EA2");
+   }
+
+   /**
+    * Test assignment fields read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Fields() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpp14assignmentfields.mpp");
+      testFields(mpp, "81DC0978-D218-4D29-A139-EF691CDBF851", "0040EAF6-D0A2-41DF-9F67-A3CAEBCC8C5B");
+   }
+
+   /**
+    * Test assignment fields read from an MSPDI file.
+    * 
+    * @throws Exception
+    */
+   public void testMspdiFields() throws Exception
+   {
+      MSPDIReader reader = new MSPDIReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mspdiassignmentfields.xml");
+      testFields(mpp, null, null);
+   }
+
+   /**
+    * Test assignment fields read from an MPD file.
+    * 
+    * @throws Exception
+    */   
+   public void testMpdFields() throws Exception
+   {
+      MPDDatabaseReader reader = new MPDDatabaseReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
+      testFields(mpp, null, null);
+   }
+   
+   /**
+    * Common field value tests for project files.
+    * 
+    * @param mpp project file
+    * @param guid1 expected GUID - varies between file types
+    * @param guid2 expected GUID - varies between file types
+    */
+   private void testFields(ProjectFile mpp, String guid1, String guid2)
+   {
+      DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+      //
+      // Retrieve the summary task
+      //
+      Task task;
+      List<ResourceAssignment> assignments;
+      ResourceAssignment assignment;
+
+      if (mpp.getMppFileType() > 9)
+      {
+         task = mpp.getTaskByID(Integer.valueOf(0));
+
+         assignments = task.getResourceAssignments();
+         assignment = assignments.get(0);
+         assertEquals("Budget Work Resource", assignment.getResource().getName());
+         assertEquals(97, (int) assignment.getBudgetWork().getDuration());
+         assertEquals(98, (int) assignment.getBaselineBudgetWork().getDuration());
+         // test budget flag?
+
+         for (int loop = 1; loop <= 10; loop++)
+         {
+            Number cost = assignment.getBaselineBudgetCost(loop);
+            assertEquals(0, cost.intValue());
+            Duration work = assignment.getBaselineBudgetWork(loop);
+            assertEquals(loop, (int) work.getDuration());
+            assertEquals(TimeUnit.HOURS, work.getUnits());
+         }
+
+         assignment = assignments.get(1);
+         assertEquals("Budget Cost Resource", assignment.getResource().getName());
+         assertEquals(96, assignment.getBudgetCost().intValue());
+         assertEquals(95, assignment.getBaselineBudgetCost().intValue());
+         for (int loop = 1; loop <= 10; loop++)
+         {
+            Number cost = assignment.getBaselineBudgetCost(loop);
+            assertEquals(loop, cost.intValue());
+            Duration work = assignment.getBaselineBudgetWork(loop);
+            assertEquals(0, (int) work.getDuration());
+         }
+      }
+
+      task = mpp.getTaskByID(Integer.valueOf(1));
+      assignments = task.getResourceAssignments();
+      assignment = assignments.get(0);
+      assertEquals("Resource One", assignment.getResource().getName());
+
+      assertEquals(2, TimeUnit.HOURS, assignment.getActualWork());
+      assertEquals(71, TimeUnit.HOURS, assignment.getRegularWork());
+      assertEquals(1.1, TimeUnit.HOURS, assignment.getActualOvertimeWork());
+      assertEquals(7.9, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
+      assertEquals(540, assignment.getOvertimeCost().intValue());
+
+      //
+      // Bizarre MPP12 bug? - shows as zero in MS Project
+      //
+      if (mpp.getMppFileType() != 12)
+      {
+         assertEquals(3978.92, assignment.getRemainingCost().doubleValue(), 0.005);
+      }
+
+      assertEquals(66.08, assignment.getActualOvertimeCost().doubleValue(), 0.005);
+      assertEquals(473.92, assignment.getRemainingOvertimeCost().doubleValue(), 0.005);
+      //assertEquals(111.08, assignment.getACWP().doubleValue(), 0.001);
+      //assertEquals(-111.08, assignment.getCV().doubleValue(), 0.001);
+      assertEquals(4090.00, assignment.getCostVariance().doubleValue(), 0.001);
+      assertEquals(3.0, assignment.getPercentageWorkComplete().doubleValue(), 0.5);
+      assertEquals("Assignment Notes", assignment.getNotes().trim());
+
+      if (mpp.getMppFileType() != 0)
+      {
+         assertEquals(true, assignment.getConfirmed());
+         assertEquals(true, assignment.getResponsePending());
+         assertEquals(false, assignment.getTeamStatusPending());
+      }
+
+      assertEquals(80, TimeUnit.HOURS, assignment.getWorkVariance());
+      assertEquals(2, TimeUnit.DAYS, assignment.getStartVariance());
+      assertEquals(-2.12, TimeUnit.DAYS, assignment.getFinishVariance());
+      assertEquals(0, assignment.getCostRateTableIndex());
+
+      //
+      // Can't reliably find the create date in MPP9
+      //
+      if (mpp.getMppFileType() > 9)
+      {
+         assertEquals("06/07/11 12:09", df.format(assignment.getCreateDate()));
+      }
+
+      if (guid1 != null)
+      {
+         assertEquals(guid1, assignment.getGUID().toString().toUpperCase());
+      }
+
+      assignment = assignments.get(1);
+      assertEquals("Resource Two", assignment.getResource().getName());
+
+      assertEquals(5, TimeUnit.HOURS, assignment.getActualWork());
+      assertEquals(3, TimeUnit.HOURS, assignment.getRegularWork());
+      assertEquals(2, TimeUnit.HOURS, assignment.getActualOvertimeWork());
+      assertEquals(18, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
+      assertEquals(860, assignment.getOvertimeCost().intValue());
+      assertEquals(774, assignment.getRemainingCost().doubleValue(), 0.005);
+      assertEquals(86, assignment.getActualOvertimeCost().doubleValue(), 0.005);
+      assertEquals(774, assignment.getRemainingOvertimeCost().doubleValue(), 0.005);
+      //assertEquals(188, assignment.getACWP().doubleValue(), 0.001);
+      //assertEquals(-188, assignment.getCV().doubleValue(), 0.001);
+      assertEquals(962, assignment.getCostVariance().doubleValue(), 0.001);
+      assertEquals(22, assignment.getPercentageWorkComplete().doubleValue(), 0.5);
+      assertEquals("", assignment.getNotes());
+      assertEquals(23, TimeUnit.HOURS, assignment.getWorkVariance());
+      assertEquals(1.11, TimeUnit.DAYS, assignment.getStartVariance());
+      assertEquals(-10.39, TimeUnit.DAYS, assignment.getFinishVariance());
+      assertEquals(1, assignment.getCostRateTableIndex());
+
+      if (mpp.getMppFileType() != 0)
+      {
+         assertEquals(false, assignment.getConfirmed());
+         assertEquals(false, assignment.getResponsePending());
+         assertEquals(true, assignment.getTeamStatusPending());
+         assertEquals("Test Hyperlink Screen Tip", assignment.getHyperlinkScreenTip());
+      }
+
+      if (mpp.getMppFileType() > 9)
+      {
+         assertEquals("06/07/11 15:31", df.format(assignment.getCreateDate()));
+      }
+
+      if (guid2 != null)
+      {
+         assertEquals(guid2, assignment.getGUID().toString().toUpperCase());
+      }
+
+      assertEquals("Test Hyperlink Display Text", assignment.getHyperlink());
+      assertEquals("http://news.bbc.co.uk", assignment.getHyperlinkAddress());
+      assertEquals("x", assignment.getHyperlinkSubAddress());
    }
 
    private static final int[][] BASELINE_COSTS =

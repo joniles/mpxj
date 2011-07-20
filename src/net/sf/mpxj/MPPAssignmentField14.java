@@ -412,6 +412,7 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[129] = AssignmentField.FLAG7;
       FIELD_ARRAY[130] = AssignmentField.FLAG8;
       FIELD_ARRAY[131] = AssignmentField.FLAG9;
+      FIELD_ARRAY[150] = AssignmentField.HYPERLINK_DATA;
       FIELD_ARRAY[152] = AssignmentField.HYPERLINK;
       FIELD_ARRAY[153] = AssignmentField.HYPERLINK_ADDRESS;
       FIELD_ARRAY[155] = AssignmentField.HYPERLINK_HREF;

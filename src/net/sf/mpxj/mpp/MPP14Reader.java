@@ -2129,11 +2129,12 @@ final class MPP14Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(110, getEncryptableInputStream(assnDir, "FixedData"));
+      FixedData assnFixedData2 = new FixedData(48, getEncryptableInputStream(assnDir, "Fixed2Data"));
       //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
       //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
 
-      ResourceAssignmentFactory factory = new ResourceAssignmentFactoryCommon();
-      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
+      ResourceAssignmentFactoryCommon factory = new ResourceAssignmentFactoryCommon();
+      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2);
    }
 
    /**

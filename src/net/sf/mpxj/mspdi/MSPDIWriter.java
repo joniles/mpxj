@@ -1285,27 +1285,62 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
       xml.setActualFinish(DatatypeConverter.printDate(mpx.getActualFinish()));
+      xml.setActualOvertimeCost(DatatypeConverter.printCurrency(mpx.getActualOvertimeCost()));
+      xml.setActualOvertimeWork(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWork()));
       xml.setActualStart(DatatypeConverter.printDate(mpx.getActualStart()));
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
+      xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
+      xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
+      xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
       xml.setBudgetCost(DatatypeConverter.printCurrency(mpx.getBudgetCost()));
       xml.setBudgetWork(DatatypeConverter.printDuration(this, mpx.getBudgetWork()));
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
+
+      if (mpx.getCostRateTableIndex() != 0)
+      {
+         xml.setCostRateTable(BigInteger.valueOf(mpx.getCostRateTableIndex()));
+      }
+
+      xml.setCreationDate(DatatypeConverter.printDate(mpx.getCreateDate()));
+      xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDelay(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getDelay()));
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setHasFixedRateUnits(Boolean.valueOf(mpx.getVariableRateUnits() == null));
       xml.setFixedMaterial(Boolean.valueOf(mpx.getResource() != null && mpx.getResource().getType() == ResourceType.MATERIAL));
+      xml.setHyperlink(mpx.getHyperlink());
+      xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
+      xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setLevelingDelay(DatatypeConverter.printDurationInTenthsOfInMinutes(mpx.getLevelingDelay()));
       xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelay()));
+
+      if (!mpx.getNotes().isEmpty())
+      {
+         xml.setNotes(mpx.getNotes());
+      }
+
+      xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
+      xml.setPercentWorkComplete(NumberUtility.getBigInteger(mpx.getPercentageWorkComplete()));
       xml.setRateScale(mpx.getVariableRateUnits() == null ? null : DatatypeConverter.printTimeUnit(mpx.getVariableRateUnits()));
+      xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
+      xml.setRemainingCost(DatatypeConverter.printCurrency(mpx.getRemainingCost()));
+      xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
+      xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
+      xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setTaskUID(NumberUtility.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(BigInteger.valueOf(uid));
       xml.setUnits(DatatypeConverter.printUnits(mpx.getUnits()));
+      xml.setVAC(DatatypeConverter.printCurrency(mpx.getVAC()));
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkContour(mpx.getWorkContour());
+
+      xml.setCostVariance(DatatypeConverter.printCurrency(mpx.getCostVariance()));
+      xml.setWorkVariance(DatatypeConverter.printDurationInDecimalThousandthsOfMinutes(mpx.getWorkVariance()));
+      xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
+      xml.setFinishVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getFinishVariance()));
 
       writeAssignmentBaselines(xml, mpx);
 

@@ -1254,7 +1254,18 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getOvertimeCost()
    {
-      return ((Number) getCachedValue(AssignmentField.OVERTIME_COST));
+      Number cost = (Number) getCachedValue(AssignmentField.OVERTIME_COST);
+      if (cost == null)
+      {
+         Number actual = getActualOvertimeCost();
+         Number remaining = getRemainingOvertimeCost();
+         if (actual != null && remaining != null)
+         {
+            cost = NumberUtility.getDouble(actual.doubleValue() + remaining.doubleValue());
+            set(AssignmentField.OVERTIME_COST, cost);
+         }
+      }
+      return (cost);
    }
 
    /**
@@ -1534,7 +1545,18 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getPercentageWorkComplete()
    {
-      return ((Number) getCachedValue(AssignmentField.PERCENT_WORK_COMPLETE));
+      Number pct = (Number) getCachedValue(AssignmentField.PERCENT_WORK_COMPLETE);
+      if (pct == null)
+      {
+         Duration actualWork = getActualWork();
+         Duration work = getWork();
+         if (actualWork != null && work != null && work.getDuration() != 0)
+         {
+            pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), getParentFile().getProjectHeader()).getDuration());
+            set(AssignmentField.PERCENT_WORK_COMPLETE, pct);
+         }
+      }
+      return pct;
    }
 
    /**
@@ -2029,6 +2051,13 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          case BASELINE_WORK :
          {
             m_array[AssignmentField.WORK_VARIANCE.getValue()] = null;
+            break;
+         }
+
+         case ACTUAL_OVERTIME_COST :
+         case REMAINING_OVERTIME_COST :
+         {
+            m_array[AssignmentField.OVERTIME_COST.getValue()] = null;
             break;
          }
 

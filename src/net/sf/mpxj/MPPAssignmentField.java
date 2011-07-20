@@ -163,6 +163,7 @@ public final class MPPAssignmentField
       FIELD_ARRAY[132] = AssignmentField.LINKED_FIELDS;
       FIELD_ARRAY[135] = AssignmentField.OVERALLOCATED;
       FIELD_ARRAY[142] = AssignmentField.TASK_SUMMARY_NAME;
+      FIELD_ARRAY[150] = AssignmentField.HYPERLINK_DATA;
       FIELD_ARRAY[152] = AssignmentField.HYPERLINK;
       FIELD_ARRAY[153] = AssignmentField.HYPERLINK_ADDRESS;
       FIELD_ARRAY[154] = AssignmentField.HYPERLINK_SUBADDRESS;

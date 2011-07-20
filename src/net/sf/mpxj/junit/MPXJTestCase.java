@@ -24,6 +24,8 @@
 package net.sf.mpxj.junit;
 
 import junit.framework.TestCase;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
 
 /**
  * Base class implementing common test case functionality.
@@ -44,6 +46,19 @@ public abstract class MPXJTestCase extends TestCase
 
       String runtime = System.getProperty("java.runtime.name");
       m_ikvm = (runtime != null && runtime.indexOf("IKVM") != -1);
+   }
+
+   /**
+    * Assert method used to test durations.
+    * 
+    * @param expectedDuration expected duration size
+    * @param expectedUnits expected duration units
+    * @param duration duration under test
+    */
+   protected void assertEquals(double expectedDuration, TimeUnit expectedUnits, Duration duration)
+   {
+      assertEquals(expectedDuration, duration.getDuration(), 0.005);
+      assertEquals(expectedUnits, duration.getUnits());
    }
 
    protected String m_basedir;
