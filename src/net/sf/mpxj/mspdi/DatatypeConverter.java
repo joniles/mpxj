@@ -1041,15 +1041,16 @@ public final class DatatypeConverter
     * Print duration time units.
     *
     * @param duration Duration value
-    * @return time units value
+    * @param estimated is this an estimated duration
+    * @return time units value 
     */
-   public static final BigInteger printDurationTimeUnits(Duration duration)
+   public static final BigInteger printDurationTimeUnits(Duration duration, boolean estimated)
    {
       BigInteger result = null;
 
       if (duration != null)
       {
-         result = printDurationTimeUnits(duration.getUnits());
+         result = printDurationTimeUnits(duration.getUnits(), estimated);
       }
 
       return (result);
@@ -1124,6 +1125,7 @@ public final class DatatypeConverter
 
             case 7 :
             case 39 :
+            case 53 :
             {
                result = TimeUnit.DAYS;
                break;
@@ -1190,9 +1192,10 @@ public final class DatatypeConverter
     * durations. Unrecognised duration types are default to hours.
     *
     * @param value Duration units
+    * @param estimated is this an estimated duration
     * @return BigInteger value
     */
-   public static final BigInteger printDurationTimeUnits(TimeUnit value)
+   public static final BigInteger printDurationTimeUnits(TimeUnit value, boolean estimated)
    {
       int result;
 
@@ -1205,74 +1208,74 @@ public final class DatatypeConverter
       {
          case MINUTES :
          {
-            result = 3;
+            result = (estimated ? 35 : 3);
             break;
          }
 
          case ELAPSED_MINUTES :
          {
-            result = 4;
+            result = (estimated ? 36 : 4);
             break;
          }
 
          case ELAPSED_HOURS :
          {
-            result = 6;
+            result = (estimated ? 38 : 6);
             break;
          }
 
          case DAYS :
          {
-            result = 7;
+            result = (estimated ? 39 : 7);
             break;
          }
 
          case ELAPSED_DAYS :
          {
-            result = 8;
+            result = (estimated ? 40 : 8);
             break;
          }
 
          case WEEKS :
          {
-            result = 9;
+            result = (estimated ? 41 : 9);
             break;
          }
 
          case ELAPSED_WEEKS :
          {
-            result = 10;
+            result = (estimated ? 42 : 10);
             break;
          }
 
          case MONTHS :
          {
-            result = 11;
+            result = (estimated ? 43 : 11);
             break;
          }
 
          case ELAPSED_MONTHS :
          {
-            result = 12;
+            result = (estimated ? 44 : 12);
             break;
          }
 
          case PERCENT :
          {
-            result = 19;
+            result = (estimated ? 51 : 19);
             break;
          }
 
          case ELAPSED_PERCENT :
          {
-            result = 20;
+            result = (estimated ? 52 : 20);
             break;
          }
 
          default :
          case HOURS :
          {
-            result = 5;
+            result = (estimated ? 37 : 5);
             break;
          }
       }

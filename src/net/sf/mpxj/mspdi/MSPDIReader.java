@@ -385,6 +385,19 @@ public final class MSPDIReader extends AbstractProjectReader
          bc.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
 
+      /* Don't presently understand how these exceptions operate
+      Project.Calendars.Calendar.Exceptions exceptions = calendar.getExceptions();
+      if (exceptions != null)
+      {
+         for (Project.Calendars.Calendar.Exceptions.Exception exception : exceptions.getException())
+         {
+            Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
+            Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+            bc.addCalendarException(fromDate, toDate);            
+         }
+      }
+      */
+
       map.put(calendar.getUID(), bc);
 
       m_projectFile.fireCalendarReadEvent(bc);
@@ -915,7 +928,11 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
          if (xml.getLevelingDelay() != null && mpx.getLevelingDelayFormat() != null)
          {
-            mpx.setLevelingDelay(Duration.getInstance(xml.getLevelingDelay().doubleValue(), mpx.getLevelingDelayFormat()));
+            double duration = xml.getLevelingDelay().doubleValue();
+            if (duration != 0)
+            {
+               mpx.setLevelingDelay(Duration.convertUnits(duration / 10, TimeUnit.MINUTES, mpx.getLevelingDelayFormat(), m_projectFile.getProjectHeader()));
+            }
          }
 
          //mpx.setLinkedFields();

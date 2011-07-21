@@ -275,14 +275,14 @@ public class MppAssignmentTest extends MPXJTestCase
     * Test assignment fields read from an MPD file.
     * 
     * @throws Exception
-    */   
+    */
    public void testMpdFields() throws Exception
    {
       MPDDatabaseReader reader = new MPDDatabaseReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
       testFields(mpp, null, null);
    }
-   
+
    /**
     * Common field value tests for project files.
     * 

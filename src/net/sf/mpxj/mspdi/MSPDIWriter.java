@@ -194,7 +194,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setDefaultStartTime(DatatypeConverter.printTime(header.getDefaultStartTime()));
       project.setDefaultTaskEVMethod(DatatypeConverter.printEarnedValueMethod(header.getDefaultTaskEarnedValueMethod()));
       project.setDefaultTaskType(header.getDefaultTaskType());
-      project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(header.getDefaultDurationUnits()));
+      project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(header.getDefaultDurationUnits(), false));
       project.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(header.getEarnedValueMethod()));
       project.setEditableActualCosts(Boolean.valueOf(header.getEditableActualCosts()));
       project.setExtendedCreationDate(DatatypeConverter.printDate(header.getExtendedCreationDate()));
@@ -868,7 +868,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
       xml.setDuration(DatatypeConverter.printDurationMandatory(this, mpx.getDuration()));
       xml.setDurationText(mpx.getDurationText());
-      xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration()));
+      xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration(), mpx.getEstimated()));
       xml.setEarlyFinish(DatatypeConverter.printDate(mpx.getEarlyFinish()));
       xml.setEarlyStart(DatatypeConverter.printDate(mpx.getEarlyStart()));
       xml.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(mpx.getEarnedValueMethod()));
@@ -910,7 +910,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Duration levelingDelay = mpx.getLevelingDelay();
          double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
          xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
-         xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay));
+         xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay, false));
       }
 
       xml.setManual(Boolean.valueOf(mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED));
@@ -1016,7 +1016,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          populated = true;
          baseline.setDuration(DatatypeConverter.printDuration(this, duration));
-         baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration));
+         baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration, false));
       }
 
       Date date = mpxjTask.getBaselineFinish();
@@ -1063,7 +1063,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             populated = true;
             baseline.setDuration(DatatypeConverter.printDuration(this, duration));
-            baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration));
+            baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration, false));
          }
 
          date = mpxjTask.getBaselineFinish(loop);
@@ -1137,7 +1137,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       BigInteger result = null;
       if (value instanceof Duration)
       {
-         result = DatatypeConverter.printDurationTimeUnits(((Duration) value).getUnits());
+         result = DatatypeConverter.printDurationTimeUnits(((Duration) value).getUnits(), false);
       }
       return (result);
    }
@@ -1215,7 +1215,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             linkLag = 10.0 * Duration.convertUnits(linkLag, lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
          }
          link.setLinkLag(BigInteger.valueOf((long) linkLag));
-         link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits()));
+         link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits(), false));
       }
 
       return (link);
@@ -1311,7 +1311,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setLevelingDelay(DatatypeConverter.printDurationInTenthsOfInMinutes(mpx.getLevelingDelay()));
-      xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelay()));
+      xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelay(), false));
 
       if (!mpx.getNotes().isEmpty())
       {
@@ -1663,7 +1663,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
-         xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalWork()));
+         xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalWork(), false));
          xml.setValue(DatatypeConverter.printDuration(this, mpx.getTotalWork()));
       }
    }
