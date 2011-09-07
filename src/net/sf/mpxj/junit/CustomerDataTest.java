@@ -30,7 +30,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
-import net.sf.mpxj.primavera.PrimaveraFileReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 /**
  * The tests contained in this class exercise MPXJ
@@ -160,7 +160,7 @@ public class CustomerDataTest extends MPXJTestCase
             MPPReader mppReader = new MPPReader();
             MPXReader mpxReader = new MPXReader();
             MSPDIReader mspdiReader = new MSPDIReader();
-            PrimaveraFileReader primaveraReader = new PrimaveraFileReader();
+            PrimaveraXERFileReader primaveraReader = new PrimaveraXERFileReader();
 
             ProjectFile mpxj;
             int failures = 0;

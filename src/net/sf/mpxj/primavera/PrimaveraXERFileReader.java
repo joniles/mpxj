@@ -48,7 +48,7 @@ import net.sf.mpxj.utility.Tokenizer;
 /**
  * This class creates a new ProjectFile instance by reading a Primavera XER file.
  */
-public final class PrimaveraFileReader extends AbstractProjectReader
+public final class PrimaveraXERFileReader extends AbstractProjectReader
 {
    /**
     * {@inheritDoc}
