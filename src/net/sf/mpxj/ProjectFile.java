@@ -201,10 +201,13 @@ public final class ProjectFile
     */
    public void synchronizeTaskIDToHierarchy()
    {
+      m_allTasks.clear();
+
       int currentID = (getTaskByID(Integer.valueOf(0)) == null ? 1 : 0);
       for (Task task : m_childTasks)
       {
          task.setID(Integer.valueOf(currentID++));
+         m_allTasks.add(task);
          currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
    }
@@ -221,6 +224,7 @@ public final class ProjectFile
       for (Task task : parentTask.getChildTasks())
       {
          task.setID(Integer.valueOf(currentID++));
+         m_allTasks.add(task);
          currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
       return currentID;

@@ -10,6 +10,8 @@
 
 	<release version="5.0.0" date="CVS HEAD">
 		<action dev="joniles" type="add">Added support for reading Primavera PM XML files.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3367438: ResourceAssignment.getTaskUniqueID() returns null.</action>		
 	</release>
 
 	<release version="4.2.0" date="23/06/2011">
