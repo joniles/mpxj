@@ -133,6 +133,14 @@ library can be found in the lib.net folder of the MPXJ distribution.</p>
 </section>
 
 
+<section name="Maven">
+MPXJ is available in a 
+<a href="http://search.maven.org/#browse%7C1362266981">Maven repository</a>. 
+This facility has been provided by a user of MPXJ, so it is not something 
+I can offer any advice or support for.
+</section>
+
+
 <section name="Keep in touch">
 
 <p>We're keen to hear from you about how you are using MPXJ,
