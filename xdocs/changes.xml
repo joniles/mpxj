@@ -12,6 +12,9 @@
 		<action dev="joniles" type="add">Added support for reading Primavera PM XML files.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3367438: ResourceAssignment.getTaskUniqueID() returns null.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3431729: Wrong project name in MPX file.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3431731: Wrong title in XML file when importing from XER file.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3431728  Wrong record number for resource calendar in MPX file.</action>				  
 	</release>
 
 	<release version="4.2.0" date="23/06/2011">

@@ -1925,6 +1925,38 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
+    * Copy the settings from another calendar to this calendar.
+    * 
+    * @param cal calendar data source
+    */
+   public void copy(ProjectCalendar cal)
+   {
+      m_name = cal.m_name;
+      m_baseCalendar = cal.m_baseCalendar;
+      System.arraycopy(cal.m_days, 0, m_days, 0, m_days.length);
+      for (ProjectCalendarException ex : cal.m_exceptions)
+      {
+         addCalendarException(ex.getFromDate(), ex.getToDate());
+         for (DateRange range : ex)
+         {
+            ex.addRange(new DateRange(range.getStart(), range.getEnd()));
+         }
+      }
+
+      for (ProjectCalendarHours hours : m_hours)
+      {
+         if (hours != null)
+         {
+            ProjectCalendarHours copyHours = cal.addCalendarHours(hours.getDay());
+            for (DateRange range : hours)
+            {
+               copyHours.addRange(new DateRange(range.getStart(), range.getEnd()));
+            }
+         }
+      }
+   }
+
+   /**
     * Unique identifier of this calendar.
     */
    private Integer m_uniqueID = Integer.valueOf(0);

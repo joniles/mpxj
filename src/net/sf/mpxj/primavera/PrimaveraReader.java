@@ -37,6 +37,7 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -101,6 +102,7 @@ final class PrimaveraReader
          header.setFinishDate(row.getDate("plan_end_date"));
          header.setName(row.getString("proj_short_name"));
          header.setStartDate(row.getDate("plan_start_date"));
+         header.setProjectTitle(row.getString("proj_short_name"));
       }
    }
 
@@ -113,8 +115,17 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         // Create calendar
-         ProjectCalendar calendar = m_project.addBaseCalendar();
+         ProjectCalendar calendar;
+         String calendarType = row.getString("clndr_type");
+         if (calendarType != null && calendarType.toUpperCase().equals("CA_RSRC"))
+         {
+            calendar = m_project.addResourceCalendar();
+         }
+         else
+         {
+            calendar = m_project.addBaseCalendar();
+         }
+
          Integer id = row.getInteger("clndr_id");
          m_calMap.put(id, calendar);
          calendar.setName(row.getString("clndr_name"));
@@ -197,6 +208,9 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
+         //
+         // Retrieve the core resource data
+         //
          Resource resource = m_project.addResource();
          resource.setUniqueID(row.getInteger("rsrc_id"));
          resource.setName(row.getString("rsrc_name"));
@@ -205,6 +219,53 @@ final class PrimaveraReader
          resource.setNotes(row.getString("rsrc_notes"));
          resource.setCreationDate(row.getDate("create_date"));
          resource.setType(RESOURCE_TYPE_MAP.get(row.getString("rsrc_type")));
+
+         //
+         // Attempt to locate a calendar for this resource
+         //
+         Integer calendarID = row.getInteger("clndr_id");
+         if (calendarID != null)
+         {
+            ProjectCalendar calendar = m_calMap.get(calendarID);
+            if (calendar != null)
+            {
+               //
+               // If the resource is linked to a base calendar, derive
+               // a default calendar from the base calendar.
+               //
+               if (calendar.isBaseCalendar())
+               {
+                  ProjectCalendar resourceCalendar = m_project.addResourceCalendar();
+                  resourceCalendar.setBaseCalendar(calendar);
+                  resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+                  resource.setResourceCalendar(resourceCalendar);
+               }
+               else
+               {
+                  //
+                  // Primavera seems to allow a calendar to be shared between resources
+                  // whereas in the MS Project model there is a one-to-one
+                  // relationship. If we find a shared calendar, take a copy of it
+                  //
+                  if (calendar.getResource() == null)
+                  {
+                     resource.setResourceCalendar(calendar);                    
+                  }
+                  else
+                  {
+                     ProjectCalendar copy = m_project.addResourceCalendar();
+                     copy.copy(calendar);
+                     resource.setResourceCalendar(copy);
+                  }
+               }
+            }
+         }
 
          m_project.fireResourceReadEvent(resource);
       }
