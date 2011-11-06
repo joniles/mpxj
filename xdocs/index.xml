@@ -39,8 +39,7 @@ Project 2002, Microsoft Project 2003, Microsoft Project 2007, and Microsoft Proj
 MPP template files, with the suffix MPT are also supported.</li>
 
 <li><b>MSPDI:</b> The MSPDI file format is Microsoft's XML file format for
-storing project data. Microsoft Project 2002, Microsoft Project
-2003 and Microsoft Project 2007 can read and write MSPDI files. 
+storing project data. Versions of Microsoft Project from 2002 onwards can read and write MSPDI files. 
 MPXJ allows MSPDI files to be created, read, and written. Documentation for the 
 Project 2003 MSPDI file format can be 
 <a href="http://www.microsoft.com/downloads/details.aspx?familyid=FE118952-3547-420A-A412-00A2662442D9" target="_blank">

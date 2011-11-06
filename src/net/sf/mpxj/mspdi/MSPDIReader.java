@@ -385,18 +385,7 @@ public final class MSPDIReader extends AbstractProjectReader
          bc.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
 
-      /* Don't presently understand how these exceptions operate
-      Project.Calendars.Calendar.Exceptions exceptions = calendar.getExceptions();
-      if (exceptions != null)
-      {
-         for (Project.Calendars.Calendar.Exceptions.Exception exception : exceptions.getException())
-         {
-            Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
-            Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
-            bc.addCalendarException(fromDate, toDate);            
-         }
-      }
-      */
+      readExceptions (calendar, bc);
 
       map.put(calendar.getUID(), bc);
 
@@ -500,6 +489,51 @@ public final class MSPDIReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Reads any exceptions present in the file. This is only used in MSPDI
+    * file versions saved by Project 2007 and later.
+    * 
+    * @param calendar XML calendar
+    * @param bc MPXJ calendar
+    */
+   private void readExceptions (Project.Calendars.Calendar calendar, ProjectCalendar bc)
+   {
+      Project.Calendars.Calendar.Exceptions exceptions = calendar.getExceptions();
+      if (exceptions != null)
+      {
+         for (Project.Calendars.Calendar.Exceptions.Exception exception : exceptions.getException())
+         {
+            Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
+            Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+            ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate); 
+            
+            Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
+            if (times != null)
+            {
+               List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();               
+               for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
+               {
+                  Date startTime = DatatypeConverter.parseTime(period.getFromTime());
+                  Date endTime = DatatypeConverter.parseTime(period.getToTime());
+
+                  if (startTime != null && endTime != null)
+                  {
+                     if (startTime.getTime() >= endTime.getTime())
+                     {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(endTime);
+                        cal.add(Calendar.DAY_OF_YEAR, 1);
+                        endTime = cal.getTime();
+                     }
+
+                     bce.addRange(new DateRange(startTime, endTime));
+                  }
+               }
+            }
+         }
+      }      
+   }
+   
    /**
     * This method extracts project extended attribute data from an MSPDI file.
     *

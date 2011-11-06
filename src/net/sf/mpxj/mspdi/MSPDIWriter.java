@@ -77,6 +77,7 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
@@ -109,6 +110,26 @@ public final class MSPDIWriter extends AbstractProjectWriter
    public boolean getSplitTimephasedAsDays()
    {
       return m_splitTimephasedAsDays;
+   }
+
+   /**
+    * Set the save version to use when generating an MSPDI file.
+    * 
+    * @param version save version
+    */
+   public void setSaveVersion(SaveVersion version)
+   {
+      m_saveVersion = version;
+   }
+
+   /**
+    * Retrieve the save version current set.
+    * 
+    * @return current save version
+    */
+   public SaveVersion getSaveVersion()
+   {
+      return m_saveVersion;
    }
 
    /**
@@ -220,6 +241,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setProjectExternallyEdited(Boolean.valueOf(header.getProjectExternallyEdited()));
       project.setRemoveFileProperties(Boolean.valueOf(header.getRemoveFileProperties()));
       project.setRevision(NumberUtility.getBigInteger(header.getRevision()));
+      project.setSaveVersion(BigInteger.valueOf(m_saveVersion.getValue()));
       project.setScheduleFromStart(Boolean.valueOf(header.getScheduleFrom() == ScheduleFrom.START));
       project.setSplitsInProgressTasks(Boolean.valueOf(header.getSplitInProgressTasks()));
       project.setSpreadActualCost(Boolean.valueOf(header.getSpreadActualCost()));
@@ -420,37 +442,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // in date order in the file, otherwise they are ignored
       //
       List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(bc.getCalendarExceptions());
-      Collections.sort(exceptions);
-
-      for (ProjectCalendarException exception : exceptions)
+      if (!exceptions.isEmpty())
       {
-         boolean working = exception.getWorking();
-
-         Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
-         dayList.add(day);
-         day.setDayType(BIGINTEGER_ZERO);
-         day.setDayWorking(Boolean.valueOf(working));
-
-         Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
-         day.setTimePeriod(period);
-         period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
-         period.setToDate(DatatypeConverter.printDate(exception.getToDate()));
-
-         if (working == true)
-         {
-            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
-            day.setWorkingTimes(times);
-            List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
-
-            for (DateRange range : exception)
-            {
-               time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
-               timesList.add(time);
-
-               time.setFromTime(DatatypeConverter.printTime(range.getStart()));
-               time.setToTime(DatatypeConverter.printTime(range.getEnd()));
-            }
-         }
+         Collections.sort(exceptions);
+         writeExceptions(calendar, dayList, exceptions);
       }
 
       //
@@ -466,6 +461,114 @@ public final class MSPDIWriter extends AbstractProjectWriter
       m_projectFile.fireCalendarWrittenEvent(bc);
 
       return (calendar);
+   }
+
+   /**
+    * Main entry point used to determine the format used to write 
+    * calendar exceptions.
+    * 
+    * @param calendar parent calendar
+    * @param dayList list of calendar days
+    * @param exceptions list of exceptions
+    */
+   private void writeExceptions(Project.Calendars.Calendar calendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   {
+      if (m_saveVersion.getValue() < SaveVersion.Project2007.getValue())
+      {
+         writeExcepions9(dayList, exceptions);
+      }
+      else
+      {
+         writeExcepions12(calendar, exceptions);
+      }
+   }
+
+   /**
+    * Write exceptions in the format used by MSPDI files prior to Project 2007.
+    * 
+    * @param dayList list of calendar days
+    * @param exceptions list of exceptions
+    */
+   private void writeExcepions9(List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   {
+      for (ProjectCalendarException exception : exceptions)
+      {
+         boolean working = exception.getWorking();
+
+         Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
+         dayList.add(day);
+         day.setDayType(BIGINTEGER_ZERO);
+         day.setDayWorking(Boolean.valueOf(working));
+
+         Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
+         day.setTimePeriod(period);
+         period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
+         period.setToDate(DatatypeConverter.printDate(exception.getToDate()));
+
+         if (working)
+         {
+            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
+            day.setWorkingTimes(times);
+            List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
+
+            for (DateRange range : exception)
+            {
+               Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
+               timesList.add(time);
+
+               time.setFromTime(DatatypeConverter.printTime(range.getStart()));
+               time.setToTime(DatatypeConverter.printTime(range.getEnd()));
+            }
+         }
+      }
+   }
+
+   /**
+    * Write exceptions into the format used by MSPDI files from
+    * Project 2007 onwards.
+    * 
+    * @param calendar parent calendar
+    * @param exceptions list of exceptions
+    */
+   private void writeExcepions12(Project.Calendars.Calendar calendar, List<ProjectCalendarException> exceptions)
+   {
+      Exceptions ce = m_factory.createProjectCalendarsCalendarExceptions();
+      calendar.setExceptions(ce);
+      List<Exceptions.Exception> el = ce.getException();
+
+      for (ProjectCalendarException exception : exceptions)
+      {
+         Exceptions.Exception ex = m_factory.createProjectCalendarsCalendarExceptionsException();
+         el.add(ex);
+
+         ex.setEnteredByOccurrences(Boolean.FALSE);
+         ex.setOccurrences(BigInteger.ONE);
+         ex.setType(BigInteger.ONE);
+
+         boolean working = exception.getWorking();
+         ex.setDayWorking(Boolean.valueOf(working));
+         
+         Project.Calendars.Calendar.Exceptions.Exception.TimePeriod period = m_factory.createProjectCalendarsCalendarExceptionsExceptionTimePeriod();
+         ex.setTimePeriod(period);
+         period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
+         period.setToDate(DatatypeConverter.printDate(exception.getToDate()));
+
+         if (working)
+         {
+            Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = m_factory.createProjectCalendarsCalendarExceptionsExceptionWorkingTimes();
+            ex.setWorkingTimes(times);
+            List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
+
+            for (DateRange range : exception)
+            {
+               Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarExceptionsExceptionWorkingTimesWorkingTime();
+               timesList.add(time);
+
+               time.setFromTime(DatatypeConverter.printTime(range.getStart()));
+               time.setToTime(DatatypeConverter.printTime(range.getEnd()));
+            }
+         }
+      }
    }
 
    /**
@@ -1722,6 +1825,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Set<AssignmentField> m_assignmentExtendedAttributes;
 
    private boolean m_splitTimephasedAsDays = true;
+
+   private SaveVersion m_saveVersion = SaveVersion.Project2002;
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 
