@@ -691,7 +691,7 @@ public final class MPXReader extends AbstractProjectReader
       }
       else
       {
-         calendar.setBaseCalendar(m_projectFile.getBaseCalendar(record.getString(0)));
+         calendar.setParent(m_projectFile.getBaseCalendar(record.getString(0)));
       }
 
       calendar.setWorkingDay(Day.SUNDAY, DayType.getInstance(record.getInteger(1)));

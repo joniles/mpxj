@@ -115,7 +115,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_projectFile.setAutoResourceUniqueID(false);
          m_projectFile.setAutoCalendarUniqueID(false);
          m_projectFile.setTaskFieldAlias(TaskField.TEXT1, "Code");
-         
+
          m_projectFile.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -287,10 +287,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                // If the resource is linked to a base calendar, derive
                // a default calendar from the base calendar.
                //
-               if (calendar.isBaseCalendar())
+               if (!calendar.isDerived())
                {
                   ProjectCalendar resourceCalendar = m_projectFile.addResourceCalendar();
-                  resourceCalendar.setBaseCalendar(calendar);
+                  resourceCalendar.setParent(calendar);
                   resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
                   resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
                   resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
@@ -309,7 +309,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                   //
                   if (calendar.getResource() == null)
                   {
-                     resource.setResourceCalendar(calendar);                    
+                     resource.setResourceCalendar(calendar);
                   }
                   else
                   {

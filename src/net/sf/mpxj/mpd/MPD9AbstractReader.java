@@ -378,7 +378,7 @@ abstract class MPD9AbstractReader
          ProjectCalendar baseCal = m_calendarMap.get(baseCalendarID);
          if (baseCal != null)
          {
-            cal.setBaseCalendar(baseCal);
+            cal.setParent(baseCal);
          }
       }
    }

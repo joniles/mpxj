@@ -43,7 +43,7 @@ import net.sf.mpxj.utility.NumberUtility;
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public final class ProjectCalendar extends ProjectEntity
+public final class ProjectCalendar extends ProjectCalendarWeek
 {
    /**
     * Default constructor.
@@ -52,12 +52,35 @@ public final class ProjectCalendar extends ProjectEntity
     */
    ProjectCalendar(ProjectFile file)
    {
-      super(file);
+      m_projectFile = file;
 
       if (file.getAutoCalendarUniqueID() == true)
       {
          setUniqueID(Integer.valueOf(file.getCalendarUniqueID()));
       }
+   }
+
+   /**
+    * Add an empty work week.
+    * 
+    * @return new work week
+    */
+   public ProjectCalendarWeek addWorkWeek()
+   {
+      ProjectCalendarWeek week = new ProjectCalendarWeek();
+      week.setParent(this);
+      m_workWeeks.add(week);
+      return week;
+   }
+
+   /**
+    * Retrieve the work weeks associated with this calendar.
+    * 
+    * @return list of work weeks
+    */
+   public List<ProjectCalendarWeek> getWorkWeeks()
+   {
+      return m_workWeeks;
    }
 
    /**
@@ -99,24 +122,10 @@ public final class ProjectCalendar extends ProjectEntity
     * @param day day number
     * @return new ProjectCalendarHours instance
     */
-   public ProjectCalendarHours addCalendarHours(Day day)
+   @Override public ProjectCalendarHours addCalendarHours(Day day)
    {
-      ProjectCalendarHours bch = new ProjectCalendarHours(this);
-      bch.setDay(day);
-      m_hours[day.getValue() - 1] = bch;
       clearWorkingDateCache();
-      return (bch);
-   }
-
-   /**
-    * Adds a set of hours to this calendar without assigning them to
-    * a particular day.
-    *
-    * @return calendar hours instance
-    */
-   public ProjectCalendarHours addCalendarHours()
-   {
-      return (new ProjectCalendarHours(this));
+      return super.addCalendarHours(day);
    }
 
    /**
@@ -125,14 +134,10 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @param hours calendar hours instance
     */
-   public void attachHoursToDay(ProjectCalendarHours hours)
+   @Override public void attachHoursToDay(ProjectCalendarHours hours)
    {
-      if (hours.getParentCalendar() != this)
-      {
-         throw new IllegalArgumentException();
-      }
-      m_hours[hours.getDay().getValue() - 1] = hours;
       clearWorkingDateCache();
+      super.attachHoursToDay(hours);
    }
 
    /**
@@ -141,91 +146,10 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @param hours calendar hours instance
     */
-   public void removeHoursFromDay(ProjectCalendarHours hours)
+   @Override public void removeHoursFromDay(ProjectCalendarHours hours)
    {
-      if (hours.getParentCalendar() != this)
-      {
-         throw new IllegalArgumentException();
-      }
-      m_hours[hours.getDay().getValue() - 1] = null;
       clearWorkingDateCache();
-   }
-
-   /**
-    * This method retrieves the calendar hours for the specified day.
-    * Note that this method only returns the hours specification for the
-    * current calendar.If this is a derived calendar, it does not refer to 
-    * the base calendar. 
-    *
-    * @param day Day instance
-    * @return calendar hours
-    */
-   public ProjectCalendarHours getCalendarHours(Day day)
-   {
-      return (m_hours[day.getValue() - 1]);
-   }
-
-   /**
-    * This method retrieves the calendar hours for the specified day.
-    * Note that if this is a derived calendar, then this method
-    * will refer to the base calendar where no hours are specified
-    * in the derived calendar.
-    * 
-    * @param day Day instance
-    * @return calendar hours
-    */
-   public ProjectCalendarHours getHours(Day day)
-   {
-      ProjectCalendarHours result = getCalendarHours(day);
-      if (result == null)
-      {
-         //
-         // If this is a base calendar and we have no hours, then we
-         // have a problem - so we add the default hours and try again
-         //
-         if (m_baseCalendar == null)
-         {
-            // Only add default hours for the day that is 'missing' to avoid overwriting real calendar hours
-            addDefaultCalendarHours(day);
-            result = getCalendarHours(day);
-         }
-         else
-         {
-            result = m_baseCalendar.getHours(day);
-         }
-      }
-      return result;
-   }
-
-   /**
-    * Retrieve an array representing all of the calendar hours defined
-    * by this calendar.
-    *
-    * @return array of calendar hours
-    */
-   public ProjectCalendarHours[] getHours()
-   {
-      return (m_hours);
-   }
-
-   /**
-    * Calendar name.
-    *
-    * @param name calendar name
-    */
-   public void setName(String name)
-   {
-      m_name = name;
-   }
-
-   /**
-    * Calendar name.
-    *
-    * @return calendar name
-    */
-   public String getName()
-   {
-      return (m_name);
+      super.removeHoursFromDay(hours);
    }
 
    /**
@@ -233,30 +157,25 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @param calendar base calendar instance
     */
-   public void setBaseCalendar(ProjectCalendar calendar)
+   public void setParent(ProjectCalendar calendar)
    {
-      if (m_baseCalendar != null)
+      if (getParent() != null)
       {
-         m_baseCalendar.removeDerivedCalendar(this);
+         getParent().removeDerivedCalendar(this);
       }
 
-      m_baseCalendar = calendar;
+      super.setParent(calendar);
 
-      if (m_baseCalendar != null)
+      if (calendar != null)
       {
-         m_baseCalendar.addDerivedCalendar(this);
+         calendar.addDerivedCalendar(this);
       }
       clearWorkingDateCache();
    }
 
-   /**
-    * Retrieve the ProjectCalendar instance from which this calendar is derived.
-    *
-    * @return ProjectCalendar instance
-    */
-   public ProjectCalendar getBaseCalendar()
+   @Override public ProjectCalendar getParent()
    {
-      return (m_baseCalendar);
+      return (ProjectCalendar) super.getParent();
    }
 
    /**
@@ -267,12 +186,12 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public boolean isWorkingDay(Day day)
    {
-      DayType value = m_days[day.getValue() - 1];
+      DayType value = getWorkingDay(day);
       boolean result;
 
       if (value == DayType.DEFAULT)
       {
-         ProjectCalendar cal = getBaseCalendar();
+         ProjectCalendar cal = getParent();
          if (cal != null)
          {
             result = cal.isWorkingDay(day);
@@ -288,105 +207,6 @@ public final class ProjectCalendar extends ProjectEntity
       }
 
       return (result);
-   }
-
-   /**
-    * Retrieve an array representing the days of the week for this calendar.
-    *
-    * @return array of days of the week
-    */
-   public DayType[] getDays()
-   {
-      return (m_days);
-   }
-
-   /**
-    * This method allows the retrieval of the actual working day flag,
-    * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
-    * from the isWorkingDay method as it retrieves the actual flag value.
-    * The isWorkingDay method will always refer back to the base calendar
-    * to get a boolean value if the underlying flag value is DEFAULT. If
-    * isWorkingDay were the only method available to access this flag,
-    * it would not be possible to determine that a resource calendar
-    * had one or more flags set to DEFAULT.
-    *
-    * @param day required day
-    * @return value of underlying working day flag
-    */
-   public DayType getWorkingDay(Day day)
-   {
-      return (m_days[day.getValue() - 1]);
-   }
-
-   /**
-    * convenience method for setting working or non-working days.
-    *
-    * @param day required day
-    * @param working flag indicating if the day is a working day
-    */
-   public void setWorkingDay(Day day, boolean working)
-   {
-      setWorkingDay(day, (working == true ? DayType.WORKING : DayType.NON_WORKING));
-   }
-
-   /**
-    * This is a convenience method provided to allow a day to be set
-    * as working or non-working, by using the day number to
-    * identify the required day.
-    *
-    * @param day required day
-    * @param working flag indicating if the day is a working day
-    */
-   public void setWorkingDay(Day day, DayType working)
-   {
-      DayType value;
-
-      if (working == null)
-      {
-         if (isBaseCalendar() == false)
-         {
-            value = DayType.DEFAULT;
-         }
-         else
-         {
-            value = DayType.WORKING;
-         }
-      }
-      else
-      {
-         value = working;
-      }
-
-      m_days[day.getValue() - 1] = value;
-   }
-
-   /**
-    * This is a convenience method used to add a default set of calendar
-    * hours to a calendar.
-    */
-   public void addDefaultCalendarHours()
-   {
-      for (int i = 1; i <= 7; i++)
-      {
-         addDefaultCalendarHours(Day.getInstance(i));
-      }
-   }
-
-   /**
-    * This is a convenience method used to add a default set of calendar
-    * hours to a calendar.
-    * 
-    * @param day Day for which to add default hours for
-    */
-   public void addDefaultCalendarHours(Day day)
-   {
-      ProjectCalendarHours hours = addCalendarHours(day);
-
-      if (day != Day.SATURDAY && day != Day.SUNDAY)
-      {
-         hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
-         hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
-      }
    }
 
    /**
@@ -1043,17 +863,6 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * This method returns a flag indicating if this ProjectCalendar instance
-    * represents a base calendar.
-    *
-    * @return boolean flag
-    */
-   public boolean isBaseCalendar()
-   {
-      return (m_baseCalendar == null);
-   }
-
-   /**
     * Modifier method to set the unique ID of this calendar.
     *
     * @param uniqueID unique identifier
@@ -1103,11 +912,12 @@ public final class ProjectCalendar extends ProjectEntity
    public void setResource(Resource resource)
    {
       m_resource = resource;
-      m_name = m_resource.getName();
-      if (m_name == null || m_name.length() == 0)
+      String name = m_resource.getName();
+      if (name == null || name.length() == 0)
       {
-         m_name = "Unnamed Resource";
+         name = "Unnamed Resource";
       }
+      setName(name);
    }
 
    /**
@@ -1164,10 +974,10 @@ public final class ProjectCalendar extends ProjectEntity
          }
       }
 
-      if (exception == null && m_baseCalendar != null)
+      if (exception == null && getParent() != null)
       {
          // Check base calendar as well for an exception.
-         exception = m_baseCalendar.getException(date);
+         exception = getParent().getException(date);
       }
       return (exception);
    }
@@ -1763,19 +1573,6 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * Utility method to clear cached calendar data.
-    */
-   private void clearWorkingDateCache()
-   {
-      m_workingDateCache.clear();
-      m_startTimeCache.clear();
-      for (ProjectCalendar calendar : m_derivedCalendars)
-      {
-         calendar.clearWorkingDateCache();
-      }
-   }
-
-   /**
     * {@inheritDoc}
     */
    @Override public String toString()
@@ -1784,8 +1581,8 @@ public final class ProjectCalendar extends ProjectEntity
       PrintWriter pw = new PrintWriter(os);
       pw.println("[ProjectCalendar");
       pw.println("   ID=" + m_uniqueID);
-      pw.println("   name=" + m_name);
-      pw.println("   baseCalendarName=" + (m_baseCalendar == null ? "" : m_baseCalendar.getName()));
+      pw.println("   name=" + getName());
+      pw.println("   baseCalendarName=" + (getParent() == null ? "" : getParent().getName()));
       pw.println("   resource=" + (m_resource == null ? "" : m_resource.getName()));
 
       String[] dayName =
@@ -1802,8 +1599,8 @@ public final class ProjectCalendar extends ProjectEntity
       for (int loop = 0; loop < 7; loop++)
       {
          pw.println("   [Day " + dayName[loop]);
-         pw.println("      type=" + m_days[loop]);
-         pw.println("      hours=" + m_hours[loop]);
+         pw.println("      type=" + getDays()[loop]);
+         pw.println("      hours=" + getHours()[loop]);
          pw.println("   ]");
       }
 
@@ -1831,7 +1628,7 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public ProjectCalendar(ProjectFile file, ProjectCalendar taskCalendar, ProjectCalendar resourceCalendar)
    {
-      super(file);
+      m_projectFile = file;
 
       // Set the resource
       setResource(resourceCalendar.getResource());
@@ -1931,9 +1728,9 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public void copy(ProjectCalendar cal)
    {
-      m_name = cal.m_name;
-      m_baseCalendar = cal.m_baseCalendar;
-      System.arraycopy(cal.m_days, 0, m_days, 0, m_days.length);
+      setName(cal.getName());
+      setParent(cal.getParent());
+      System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
       for (ProjectCalendarException ex : cal.m_exceptions)
       {
          addCalendarException(ex.getFromDate(), ex.getToDate());
@@ -1943,7 +1740,7 @@ public final class ProjectCalendar extends ProjectEntity
          }
       }
 
-      for (ProjectCalendarHours hours : m_hours)
+      for (ProjectCalendarHours hours : getHours())
       {
          if (hours != null)
          {
@@ -1957,25 +1754,37 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
+    * Utility method to clear cached calendar data.
+    */
+   private void clearWorkingDateCache()
+   {
+      m_workingDateCache.clear();
+      m_startTimeCache.clear();
+      for (ProjectCalendar calendar : m_derivedCalendars)
+      {
+         calendar.clearWorkingDateCache();
+      }
+   }
+
+   /**
+    * Accessor method allowing retrieval of ProjectFile reference.
+    *
+    * @return reference to this the parent ProjectFile instance
+    */
+   public final ProjectFile getParentFile()
+   {
+      return (m_projectFile);
+   }
+
+   /**
+    * Reference to parent ProjectFile.
+    */
+   private ProjectFile m_projectFile;
+
+   /**
     * Unique identifier of this calendar.
     */
    private Integer m_uniqueID = Integer.valueOf(0);
-
-   /**
-    * Calendar name.
-    */
-   private String m_name;
-
-   /**
-    * Base calendar from which this calendar is derived.
-    */
-   private ProjectCalendar m_baseCalendar;
-
-   /**
-    * Array holding working/non-working/default flags for each
-    * day of the week.
-    */
-   private DayType[] m_days = new DayType[7];
 
    /**
     * List of exceptions to the base calendar.
@@ -1988,11 +1797,6 @@ public final class ProjectCalendar extends ProjectEntity
    private boolean m_exceptionsSorted;
 
    /**
-    * List of working hours for the base calendar.
-    */
-   private ProjectCalendarHours[] m_hours = new ProjectCalendarHours[7];
-
-   /**
     * This resource to which this calendar is attached.
     */
    private Resource m_resource;
@@ -2002,18 +1806,21 @@ public final class ProjectCalendar extends ProjectEntity
     */
    private ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<ProjectCalendar>();
 
+   /**
+    * Caches used to speed up date calculations.
+    */
    private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<DateRange, Long>();
    private Map<Date, Date> m_startTimeCache = new WeakHashMap<Date, Date>();
+
+   /**
+    * Work week definitions.
+    */
+   private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<ProjectCalendarWeek>();
 
    /**
     * Default base calendar name to use when none is supplied.
     */
    public static final String DEFAULT_BASE_CALENDAR_NAME = "Standard";
-
-   public static final Date DEFAULT_START1 = DateUtility.getTime(8, 0);
-   public static final Date DEFAULT_END1 = DateUtility.getTime(12, 0);
-   public static final Date DEFAULT_START2 = DateUtility.getTime(13, 0);
-   public static final Date DEFAULT_END2 = DateUtility.getTime(17, 0);
 
    /**
     * It is possible for a project calendar to be configured with no working

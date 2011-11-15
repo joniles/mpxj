@@ -215,8 +215,8 @@ public class MppCalendarTest extends MPXJTestCase
       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
-      assertNull(cal.getBaseCalendar());
-      assertTrue(cal.isBaseCalendar());
+      assertNull(cal.getParent());
+      assertFalse(cal.isDerived());
       assertEquals(DayType.WORKING, cal.getWorkingDay(Day.MONDAY));
       assertEquals(DayType.WORKING, cal.getWorkingDay(Day.TUESDAY));
       assertEquals(DayType.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
@@ -258,8 +258,8 @@ public class MppCalendarTest extends MPXJTestCase
       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
-      assertNull(cal.getBaseCalendar());
-      assertTrue(cal.isBaseCalendar());
+      assertNull(cal.getParent());
+      assertFalse(cal.isDerived());
       assertEquals(DayType.WORKING, cal.getWorkingDay(Day.MONDAY));
       assertEquals(DayType.NON_WORKING, cal.getWorkingDay(Day.TUESDAY));
       assertEquals(DayType.WORKING, cal.getWorkingDay(Day.WEDNESDAY));

@@ -359,7 +359,7 @@ final class MPP8Reader implements MPPVariantReader
          ProjectCalendar baseCal = m_calendarMap.get(baseCalendarID);
          if (baseCal != null)
          {
-            cal.setBaseCalendar(baseCal);
+            cal.setParent(baseCal);
          }
       }
    }

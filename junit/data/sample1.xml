@@ -248,72 +248,12 @@
             <Name>First Resource</Name>
             <IsBaseCalendar>0</IsBaseCalendar>
             <BaseCalendarUID>1</BaseCalendarUID>
-            <WeekDays>
-                <WeekDay>
-                    <DayType>1</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>2</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>3</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>4</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>5</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>6</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>7</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-            </WeekDays>
         </Calendar>
         <Calendar>
             <UID>4</UID>
             <Name>Second Resource</Name>
             <IsBaseCalendar>0</IsBaseCalendar>
             <BaseCalendarUID>2</BaseCalendarUID>
-            <WeekDays>
-                <WeekDay>
-                    <DayType>1</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>2</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>3</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>4</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>5</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>6</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-                <WeekDay>
-                    <DayType>7</DayType>
-                    <DayWorking>0</DayWorking>
-                </WeekDay>
-            </WeekDays>
         </Calendar>
     </Calendars>
     <Tasks>
@@ -363,7 +303,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -414,7 +354,7 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -465,7 +405,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -507,7 +447,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -550,7 +490,7 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -594,7 +534,7 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -638,7 +578,7 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -687,7 +627,7 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -730,7 +670,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -777,7 +717,7 @@
                 <PredecessorUID>9</PredecessorUID>
                 <Type>1</Type>
             </PredecessorLink>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -820,7 +760,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -869,7 +809,7 @@
                 <LinkLag>4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -912,7 +852,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -961,7 +901,7 @@
                 <LinkLag>-4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1004,7 +944,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1051,7 +991,7 @@
                 <PredecessorUID>15</PredecessorUID>
                 <Type>3</Type>
             </PredecessorLink>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1094,7 +1034,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1141,7 +1081,7 @@
                 <PredecessorUID>17</PredecessorUID>
                 <Type>0</Type>
             </PredecessorLink>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1185,7 +1125,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1233,7 +1173,7 @@
                 <PredecessorUID>20</PredecessorUID>
                 <Type>2</Type>
             </PredecessorLink>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1282,7 +1222,7 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1331,7 +1271,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
         <Task>
@@ -1380,7 +1320,7 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>0</Active>
+            <Active>1</Active>
             <Manual>0</Manual>
         </Task>
     </Tasks>
@@ -1389,7 +1329,7 @@
             <UID>1</UID>
             <ID>1</ID>
             <Name>First Resource</Name>
-            <Type>0</Type>
+            <Type>1</Type>
             <IsNull>0</IsNull>
             <Initials>FR</Initials>
             <WorkGroup>0</WorkGroup>
@@ -1440,7 +1380,7 @@ formatting.
             <UID>2</UID>
             <ID>2</ID>
             <Name>Second Resource</Name>
-            <Type>0</Type>
+            <Type>1</Type>
             <IsNull>0</IsNull>
             <Initials>SR</Initials>
             <WorkGroup>0</WorkGroup>
@@ -1482,7 +1422,7 @@ formatting.
             <Cost>201500</Cost>
             <Finish>2003-03-17T17:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
-            <FixedMaterial>1</FixedMaterial>
+            <FixedMaterial>0</FixedMaterial>
             <RateScale>3</RateScale>
             <Start>2003-01-07T08:00:00</Start>
             <Units>0.5</Units>
@@ -1496,7 +1436,7 @@ formatting.
             <Cost>151125</Cost>
             <Finish>2003-03-18T08:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
-            <FixedMaterial>1</FixedMaterial>
+            <FixedMaterial>0</FixedMaterial>
             <RateScale>3</RateScale>
             <Start>2003-01-07T23:00:00</Start>
             <Units>0.75</Units>
@@ -1510,7 +1450,7 @@ formatting.
             <Cost>43000</Cost>
             <Finish>2003-01-13T17:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
-            <FixedMaterial>1</FixedMaterial>
+            <FixedMaterial>0</FixedMaterial>
             <RateScale>3</RateScale>
             <Start>2003-01-07T08:00:00</Start>
             <Units>1</Units>
@@ -1524,7 +1464,7 @@ formatting.
             <Cost>21500</Cost>
             <Finish>2003-01-14T08:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
-            <FixedMaterial>1</FixedMaterial>
+            <FixedMaterial>0</FixedMaterial>
             <RateScale>3</RateScale>
             <Start>2003-01-07T23:00:00</Start>
             <Units>1</Units>

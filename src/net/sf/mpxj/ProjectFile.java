@@ -526,7 +526,7 @@ public final class ProjectFile
                resource.setResourceCalendar(null);
             }
          }
-      calendar.setBaseCalendar(null);
+      calendar.setParent(null);
    }
 
    /**

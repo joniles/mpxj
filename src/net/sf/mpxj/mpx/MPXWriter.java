@@ -316,7 +316,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       m_buffer.setLength(0);
 
-      if (record.getBaseCalendar() == null)
+      if (record.getParent() == null)
       {
          m_buffer.append(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
          m_buffer.append(m_delimiter);
@@ -329,7 +329,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          m_buffer.append(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getBaseCalendar().getName());
+         m_buffer.append(record.getParent().getName());
       }
 
       DayType[] days = record.getDays();
@@ -381,7 +381,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       int recordNumber;
 
-      if (parentCalendar.isBaseCalendar() == true)
+      if (!parentCalendar.isDerived())
       {
          recordNumber = MPXConstants.BASE_CALENDAR_HOURS_RECORD_NUMBER;
       }
@@ -440,7 +440,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       m_buffer.setLength(0);
 
-      if (parentCalendar.isBaseCalendar() == true)
+      if (!parentCalendar.isDerived())
       {
          m_buffer.append(MPXConstants.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER);
       }

@@ -236,7 +236,7 @@ public final class PlannerReader extends AbstractProjectReader
       //
       mpxjCalendar.setUniqueID(getInteger(plannerCalendar.getId()));
       mpxjCalendar.setName(plannerCalendar.getName());
-      mpxjCalendar.setBaseCalendar(parentMpxjCalendar);
+      mpxjCalendar.setParent(parentMpxjCalendar);
 
       //
       // Set working and non working days
@@ -518,7 +518,7 @@ public final class PlannerReader extends AbstractProjectReader
       {
          baseCalendar = m_defaultCalendar;
       }
-      calendar.setBaseCalendar(baseCalendar);
+      calendar.setParent(baseCalendar);
 
       m_projectFile.fireResourceReadEvent(mpxjResource);
    }

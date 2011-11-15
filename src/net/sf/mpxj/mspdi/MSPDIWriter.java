@@ -60,6 +60,7 @@ import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
@@ -78,6 +79,10 @@ import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
@@ -377,15 +382,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
       calendar.setUID(NumberUtility.getBigInteger(bc.getUniqueID()));
-      calendar.setIsBaseCalendar(Boolean.valueOf(bc.isBaseCalendar()));
+      calendar.setIsBaseCalendar(Boolean.valueOf(!bc.isDerived()));
 
-      if (bc.isBaseCalendar() == false)
+      ProjectCalendar base = bc.getParent();
+      if (base != null)
       {
-         ProjectCalendar base = bc.getBaseCalendar();
-         if (base != null)
-         {
-            calendar.setBaseCalendarUID(NumberUtility.getBigInteger(base.getUniqueID()));
-         }
+         calendar.setBaseCalendarUID(NumberUtility.getBigInteger(base.getUniqueID()));
       }
 
       calendar.setName(bc.getName());
@@ -457,6 +459,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          calendar.setWeekDays(days);
       }
+
+      writeWorkWeeks(calendar, bc);
 
       m_projectFile.fireCalendarWrittenEvent(bc);
 
@@ -547,7 +551,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          boolean working = exception.getWorking();
          ex.setDayWorking(Boolean.valueOf(working));
-         
+
          Project.Calendars.Calendar.Exceptions.Exception.TimePeriod period = m_factory.createProjectCalendarsCalendarExceptionsExceptionTimePeriod();
          ex.setTimePeriod(period);
          period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
@@ -566,6 +570,76 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
                time.setFromTime(DatatypeConverter.printTime(range.getStart()));
                time.setToTime(DatatypeConverter.printTime(range.getEnd()));
+            }
+         }
+      }
+   }
+
+   /**
+    * Write the work weeks associated with this calendar.
+    * 
+    * @param xmlCalendar XML calendar instance
+    * @param mpxjCalendar MPXJ calendar instance
+    */
+   private void writeWorkWeeks(Project.Calendars.Calendar xmlCalendar, ProjectCalendar mpxjCalendar)
+   {
+      List<ProjectCalendarWeek> weeks = mpxjCalendar.getWorkWeeks();
+      if (!weeks.isEmpty())
+      {
+         WorkWeeks xmlWorkWeeks = m_factory.createProjectCalendarsCalendarWorkWeeks();
+         xmlCalendar.setWorkWeeks(xmlWorkWeeks);
+         List<WorkWeek> xmlWorkWeekList = xmlWorkWeeks.getWorkWeek();
+
+         for (ProjectCalendarWeek week : weeks)
+         {
+            WorkWeek xmlWeek = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeek();
+            xmlWorkWeekList.add(xmlWeek);
+
+            xmlWeek.setName(week.getName());
+            TimePeriod xmlTimePeriod = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod();
+            xmlWeek.setTimePeriod(xmlTimePeriod);
+            xmlTimePeriod.setFromDate(DatatypeConverter.printDate(week.getDateRange().getStart()));
+            xmlTimePeriod.setToDate(DatatypeConverter.printDate(week.getDateRange().getEnd()));
+
+            WeekDays xmlWeekDays = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDays();
+            xmlWeek.setWeekDays(xmlWeekDays);
+
+            List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay> dayList = xmlWeekDays.getWeekDay();
+
+            for (int loop = 1; loop < 8; loop++)
+            {
+               DayType workingFlag = week.getWorkingDay(Day.getInstance(loop));
+
+               if (workingFlag != DayType.DEFAULT)
+               {
+                  Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDay();
+                  dayList.add(day);
+                  day.setDayType(BigInteger.valueOf(loop));
+                  day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
+
+                  if (workingFlag == DayType.WORKING)
+                  {
+                     Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimes();
+                     day.setWorkingTimes(times);
+                     List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
+
+                     ProjectCalendarHours bch = week.getCalendarHours(Day.getInstance(loop));
+                     if (bch != null)
+                     {
+                        for (DateRange range : bch)
+                        {
+                           if (range != null)
+                           {
+                              Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimesWorkingTime();
+                              timesList.add(time);
+
+                              time.setFromTime(DatatypeConverter.printTime(range.getStart()));
+                              time.setToTime(DatatypeConverter.printTime(range.getEnd()));
+                           }
+                        }
+                     }
+                  }
+               }
             }
          }
       }

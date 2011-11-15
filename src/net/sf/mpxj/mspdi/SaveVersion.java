@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mspdi;
 
-
 /**
  * Instances of this class represent enumerated versions of Microsoft
  * Project which can read and write MSPDI files.
@@ -44,7 +43,6 @@ public enum SaveVersion
    {
       m_value = type;
    }
-
 
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 

@@ -1838,8 +1838,8 @@ public class BasicTest extends MPXJTestCase
       Resource resource = mpx.getResourceByUniqueID(Integer.valueOf(1));
       ProjectCalendar calendar = resource.getResourceCalendar();
       assertEquals("Resource One", calendar.getName());
-      assertFalse(calendar.isBaseCalendar());
-      assertEquals("Standard", calendar.getBaseCalendar().getName());
+      assertTrue(calendar.isDerived());
+      assertEquals("Standard", calendar.getParent().getName());
       assertTrue(calendar.getCalendarExceptions().isEmpty());
 
       //
@@ -1848,8 +1848,8 @@ public class BasicTest extends MPXJTestCase
       resource = mpx.getResourceByUniqueID(Integer.valueOf(2));
       calendar = resource.getResourceCalendar();
       assertEquals("Resource Two", calendar.getName());
-      assertFalse(calendar.isBaseCalendar());
-      assertEquals("Base Calendar", calendar.getBaseCalendar().getName());
+      assertTrue(calendar.isDerived());
+      assertEquals("Base Calendar", calendar.getParent().getName());
       assertTrue(calendar.getCalendarExceptions().isEmpty());
 
       //
@@ -1858,8 +1858,8 @@ public class BasicTest extends MPXJTestCase
       resource = mpx.getResourceByUniqueID(Integer.valueOf(3));
       calendar = resource.getResourceCalendar();
       assertEquals("Resource Three", calendar.getName());
-      assertFalse(calendar.isBaseCalendar());
-      assertEquals("Base Calendar", calendar.getBaseCalendar().getName());
+      assertTrue(calendar.isDerived());
+      assertEquals("Base Calendar", calendar.getParent().getName());
       assertFalse(calendar.getCalendarExceptions().isEmpty());
    }
 
@@ -1877,12 +1877,12 @@ public class BasicTest extends MPXJTestCase
       task = mpx.getTaskByUniqueID(Integer.valueOf(3));
       calendar = task.getCalendar();
       assertEquals("Standard", calendar.getName());
-      assertTrue(calendar.isBaseCalendar());
+      assertFalse(calendar.isDerived());
 
       task = mpx.getTaskByUniqueID(Integer.valueOf(4));
       calendar = task.getCalendar();
       assertEquals("Base Calendar", calendar.getName());
-      assertTrue(calendar.isBaseCalendar());
+      assertFalse(calendar.isDerived());
    }
 
    /**

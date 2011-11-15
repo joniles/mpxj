@@ -233,10 +233,10 @@ final class PrimaveraReader
                // If the resource is linked to a base calendar, derive
                // a default calendar from the base calendar.
                //
-               if (calendar.isBaseCalendar())
+               if (!calendar.isDerived())
                {
                   ProjectCalendar resourceCalendar = m_project.addResourceCalendar();
-                  resourceCalendar.setBaseCalendar(calendar);
+                  resourceCalendar.setParent(calendar);
                   resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
                   resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
                   resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
@@ -255,7 +255,7 @@ final class PrimaveraReader
                   //
                   if (calendar.getResource() == null)
                   {
-                     resource.setResourceCalendar(calendar);                    
+                     resource.setResourceCalendar(calendar);
                   }
                   else
                   {

@@ -629,7 +629,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          case DEFAULT :
          {
-            result = isWorkingDay(mpxjCalendar.getBaseCalendar(), day);
+            result = isWorkingDay(mpxjCalendar.getParent(), day);
             break;
          }
       }

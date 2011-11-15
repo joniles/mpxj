@@ -60,6 +60,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
@@ -81,6 +82,10 @@ import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays;
+import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
@@ -332,7 +337,7 @@ public final class MSPDIReader extends AbstractProjectReader
          ProjectCalendar baseCal = map.get(baseCalendarID);
          if (baseCal != null)
          {
-            cal.setBaseCalendar(baseCal);
+            cal.setParent(baseCal);
          }
       }
 
@@ -385,7 +390,9 @@ public final class MSPDIReader extends AbstractProjectReader
          bc.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
 
-      readExceptions (calendar, bc);
+      readExceptions(calendar, bc);
+
+      readWorkWeeks(calendar, bc);
 
       map.put(calendar.getUID(), bc);
 
@@ -496,7 +503,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param calendar XML calendar
     * @param bc MPXJ calendar
     */
-   private void readExceptions (Project.Calendars.Calendar calendar, ProjectCalendar bc)
+   private void readExceptions(Project.Calendars.Calendar calendar, ProjectCalendar bc)
    {
       Project.Calendars.Calendar.Exceptions exceptions = calendar.getExceptions();
       if (exceptions != null)
@@ -505,12 +512,12 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
             Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
-            ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate); 
-            
+            ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+
             Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
             if (times != null)
             {
-               List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();               
+               List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
                for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
                {
                   Date startTime = DatatypeConverter.parseTime(period.getFromTime());
@@ -531,9 +538,66 @@ public final class MSPDIReader extends AbstractProjectReader
                }
             }
          }
-      }      
+      }
    }
-   
+
+   /**
+    * Read the work weeks associated with this calendar.
+    * 
+    * @param xmlCalendar XML calendar object
+    * @param mpxjCalendar MPXJ calendar object
+    */
+   private void readWorkWeeks(Project.Calendars.Calendar xmlCalendar, ProjectCalendar mpxjCalendar)
+   {
+      WorkWeeks ww = xmlCalendar.getWorkWeeks();
+      if (ww != null)
+      {
+         for (WorkWeek xmlWeek : ww.getWorkWeek())
+         {
+            ProjectCalendarWeek week = mpxjCalendar.addWorkWeek();
+            week.setName(xmlWeek.getName());
+            Date startTime = DatatypeConverter.parseDate(xmlWeek.getTimePeriod().getFromDate());
+            Date endTime = DatatypeConverter.parseDate(xmlWeek.getTimePeriod().getToDate());
+            week.setDateRange(new DateRange(startTime, endTime));
+
+            WeekDays xmlWeekDays = xmlWeek.getWeekDays();
+            if (xmlWeekDays != null)
+            {
+               for (WeekDay xmlWeekDay : xmlWeekDays.getWeekDay())
+               {
+                  int dayNumber = xmlWeekDay.getDayType().intValue();
+                  Day day = Day.getInstance(dayNumber);
+                  week.setWorkingDay(day, BooleanUtility.getBoolean(xmlWeekDay.isDayWorking()));
+                  ProjectCalendarHours hours = week.addCalendarHours(day);
+
+                  Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes times = xmlWeekDay.getWorkingTimes();
+                  if (times != null)
+                  {
+                     for (Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
+                     {
+                        startTime = DatatypeConverter.parseTime(period.getFromTime());
+                        endTime = DatatypeConverter.parseTime(period.getToTime());
+
+                        if (startTime != null && endTime != null)
+                        {
+                           if (startTime.getTime() >= endTime.getTime())
+                           {
+                              Calendar cal = Calendar.getInstance();
+                              cal.setTime(endTime);
+                              cal.add(Calendar.DAY_OF_YEAR, 1);
+                              endTime = cal.getTime();
+                           }
+
+                           hours.addRange(new DateRange(startTime, endTime));
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
    /**
     * This method extracts project extended attribute data from an MSPDI file.
     *

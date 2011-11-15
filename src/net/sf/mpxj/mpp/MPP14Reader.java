@@ -45,6 +45,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
@@ -1137,8 +1138,8 @@ final class MPP14Reader implements MPPVariantReader
                if (cal.isWorkingDay(day) == true)
                {
                   hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                  hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START1, ProjectCalendar.DEFAULT_END1));
-                  hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START2, ProjectCalendar.DEFAULT_END2));
+                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
                }
             }
             else
@@ -1267,7 +1268,7 @@ final class MPP14Reader implements MPPVariantReader
          ProjectCalendar baseCal = map.get(baseCalendarID);
          if (baseCal != null && baseCal.getName() != null)
          {
-            cal.setBaseCalendar(baseCal);
+            cal.setParent(baseCal);
          }
          else
          {
