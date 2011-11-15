@@ -293,8 +293,6 @@ class Props extends MPPComponent
    public static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(1048577);
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(1048578);
 
-   public static final Integer TASK_FIELD_CUSTOM_VALUE_LISTS = Integer.valueOf(37753744);
-
    public static final Integer PASSWORD_FLAG = Integer.valueOf(893386752);
 
    public static final Integer PROTECTION_PASSWORD_HASH = Integer.valueOf(893386756);
@@ -311,7 +309,7 @@ class Props extends MPPComponent
 
    public static final Integer DEFAULT_CALENDAR_HOURS = Integer.valueOf(37753736);
 
-   public static final Integer GRAPHICAL_INDICATOR_DATA = Integer.valueOf(37753744);
+   public static final Integer TASK_FIELD_ATTRIBUTES = Integer.valueOf(37753744);
 
    public static final Integer FONT_BASES = Integer.valueOf(54525952);
 

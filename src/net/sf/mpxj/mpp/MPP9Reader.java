@@ -196,7 +196,7 @@ final class MPP9Reader implements MPPVariantReader
       processResourceFieldNameAliases(m_projectProps.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
 
       // Process custom field value lists
-      processTaskFieldCustomValueLists(m_file, m_projectProps.getByteArray(Props.TASK_FIELD_CUSTOM_VALUE_LISTS));
+      processTaskFieldCustomValueLists(m_file, m_projectProps.getByteArray(Props.TASK_FIELD_ATTRIBUTES));
 
       //
       // Process subproject data

@@ -50,7 +50,7 @@ public final class GraphicalIndicatorReader
    public void process(ProjectFile file, Props props)
    {
       m_file = file;
-      m_data = props.getByteArray(Props.GRAPHICAL_INDICATOR_DATA);
+      m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
 
       if (m_data != null)
       {

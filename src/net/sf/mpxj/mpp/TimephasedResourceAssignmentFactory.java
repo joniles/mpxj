@@ -147,7 +147,7 @@ final class TimephasedResourceAssignmentFactory
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
          {
-            if (!timephasedComplete.isEmpty())
+            if (!timephasedComplete.isEmpty() && units != 0)
             {
                TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
 

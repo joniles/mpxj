@@ -433,7 +433,7 @@ public final class LocaleData_fr extends ListResourceBundle
       },
       {
          LocaleData.NA,
-         "NA"
+         "NC"
       },
 
       {

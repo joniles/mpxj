@@ -1,5 +1,5 @@
 /*
- * file:       PrimaveraFileReader.java
+ * file:       PrimaveraPMFileReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
  * date:       08/08/2011
