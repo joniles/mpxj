@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +34,7 @@ import java.util.Map;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -148,6 +150,7 @@ public final class MPPReader extends AbstractProjectReader
             {
                task.setSplits(null);
             }
+            validationRelations(task);
          }
 
          //
@@ -171,6 +174,37 @@ public final class MPPReader extends AbstractProjectReader
       catch (InstantiationException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+   }
+
+   /**
+    * This method validates all relationships for a task, removing
+    * any which have been incorrectly read from the MPP file and 
+    * point to a parent task.
+    * 
+    * @param task task under test
+    */
+   private void validationRelations(Task task)
+   {
+      List<Relation> predecessors = task.getPredecessors();
+      if (predecessors != null)
+      {
+         ArrayList<Relation> invalid = new ArrayList<Relation>();
+         for (Relation relation : predecessors)
+         {
+            Task sourceTask = relation.getSourceTask();
+            Task targetTask = relation.getTargetTask();
+
+            if (sourceTask.getOutlineNumber().startsWith(targetTask.getOutlineNumber()+'.'))
+            {
+               invalid.add(relation);
+            }
+         }
+
+         for (Relation relation : invalid)
+         {
+            relation.getSourceTask().removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+         }
       }
    }
 
