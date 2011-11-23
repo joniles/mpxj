@@ -329,7 +329,12 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getStart()
    {
-      return ((Date) getCachedValue(AssignmentField.START));
+      Date result = (Date) getCachedValue(AssignmentField.START);
+      if (result == null)
+      {
+         result = getTask().getStart();
+      }
+      return result;
    }
 
    /**
@@ -349,7 +354,12 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getFinish()
    {
-      return ((Date) getCachedValue(AssignmentField.FINISH));
+      Date result = (Date) getCachedValue(AssignmentField.FINISH);
+      if (result == null)
+      {
+         result = getTask().getFinish();
+      }
+      return result;
    }
 
    /**

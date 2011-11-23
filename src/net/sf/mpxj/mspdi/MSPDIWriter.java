@@ -118,6 +118,28 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
+    * Sets a flag to control whether timephased resource assignmnet data
+    * is written to the file. The default is false.
+    * 
+    * @param value boolean flag
+    */
+   public void setWriteTimephasedData(boolean value)
+   {
+      m_writeTimphasedData = value;
+   }
+
+   /**
+    * Retrieves the state of the flag which controls whether timephased 
+    * resource assignmnet data is written to the file. The default is false.
+    * 
+    * @return boolean flag
+    */
+   public boolean getWriteTimephasedData()
+   {
+      return m_writeTimphasedData;
+   }
+
+   /**
     * Set the save version to use when generating an MSPDI file.
     * 
     * @param version save version
@@ -1655,7 +1677,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
-      if (mpx.getHasTimephasedData())
+      if (m_writeTimphasedData && mpx.getHasTimephasedData())
       {
          List<TimephasedDataType> list = xml.getTimephasedData();
          ProjectCalendar calendar = mpx.getCalendar();
@@ -1899,6 +1921,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Set<AssignmentField> m_assignmentExtendedAttributes;
 
    private boolean m_splitTimephasedAsDays = true;
+
+   private boolean m_writeTimphasedData;
 
    private SaveVersion m_saveVersion = SaveVersion.Project2002;
 

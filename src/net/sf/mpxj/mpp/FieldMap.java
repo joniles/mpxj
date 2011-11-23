@@ -23,6 +23,11 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -417,6 +422,67 @@ abstract class FieldMap
    }
 
    /**
+    * Clear the field map.
+    */
+   public void clear()
+   {
+      m_map.clear();
+      Arrays.fill(m_maxFixedDataOffset, 0);
+   }
+
+   /**
+    * Diagnostic method used to dump known field map data.
+    * 
+    * @param props props block containing field map data
+    */
+   public void dumpKnownFieldMaps(Props props)
+   {
+      //for (int key=131092; key < 131098; key++)
+      for (int key = 50331668; key < 50331674; key++)
+      {
+         byte[] fieldMapData = props.getByteArray(Integer.valueOf(key));
+         if (fieldMapData != null)
+         {
+            System.out.println("KEY: " + key);
+            createFieldMap(fieldMapData);
+            System.out.println(toString());
+            clear();
+         }
+      }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+
+      ArrayList<FieldItem> items = new ArrayList<FieldItem>(m_map.values());
+      Collections.sort(items);
+
+      pw.println("[FieldMap");
+
+      for (int loop = 0; loop < m_maxFixedDataOffset.length; loop++)
+      {
+         pw.print(" MaxFixedOffset (block ");
+         pw.print(loop);
+         pw.print(")=");
+         pw.println(m_maxFixedDataOffset[loop]);
+      }
+
+      for (FieldItem item : items)
+      {
+         pw.print(" ");
+         pw.println(item);
+      }
+      pw.println("]");
+
+      pw.close();
+      return sw.toString();
+   }
+   /**
     * Enumeration representing the location of field data.
     */
    enum FieldLocation
@@ -429,10 +495,10 @@ abstract class FieldMap
 
    /**
     * This class is used to collect together the attributes necessary to
-    * descrube the location of each field within the MPP file. It also provides
+    * describe the location of each field within the MPP file. It also provides
     * the methods used to extract an individual field value.
     */
-   public class FieldItem
+   public class FieldItem implements Comparable<FieldItem>
    {
       /**
        * Constructor.
@@ -981,6 +1047,85 @@ abstract class FieldMap
       public FieldLocation getFieldLocation()
       {
          return m_location;
+      }
+
+      /**
+       * Implements the only method in the Comparable interface to allow
+       * FieldItem instances to be sorted.
+       * 
+       * @param item item to compare with
+       * @return comparison result
+       */
+      public int compareTo(FieldItem item)
+      {
+         int result = m_location.compareTo(item.m_location);
+         if (result == 0)
+         {
+            switch (m_location)
+            {
+               case FIXED_DATA :
+               {
+                  result = m_fixedDataBlockIndex - item.m_fixedDataBlockIndex;
+                  if (result == 0)
+                  {
+                     result = m_fixedDataOffset - item.m_fixedDataOffset;
+                  }
+                  break;
+               }
+
+               case VAR_DATA :
+               {
+                  result = m_varDataKey.intValue() - item.m_varDataKey.intValue();
+                  break;
+               }
+
+               default :
+               {
+                  break;
+               }
+            }
+         }
+         return result;
+      }
+
+      /**
+       * {@inheritDoc}
+       */
+      @Override public String toString()
+      {
+         StringBuffer buffer = new StringBuffer();
+         buffer.append("[FieldItem type=");
+         buffer.append(m_type);
+         buffer.append(" location=");
+         buffer.append(m_location);
+
+         switch (m_location)
+         {
+            case FIXED_DATA :
+            {
+               buffer.append(" fixedDataBlockIndex=");
+               buffer.append(m_fixedDataBlockIndex);
+               buffer.append(" fixedDataBlockOffset=");
+               buffer.append(m_fixedDataOffset);
+               break;
+            }
+
+            case VAR_DATA :
+            {
+               buffer.append(" varDataKey=");
+               buffer.append(m_varDataKey);
+               break;
+            }
+
+            default :
+            {
+               break;
+            }
+         }
+
+         buffer.append("]");
+
+         return buffer.toString();
       }
 
       private FieldType m_type;

@@ -19,7 +19,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3431734: In the XML file the element field SaveVersion is missing.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3410406: Loop when import task with 0% on units of works in resources.</action>			
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3378693: French locale NA incorrect.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3435755: Invalid dependency between child and parent.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3435755: Invalid dependency between child and parent.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3435733: Missing tasks from MS Project 2010 mpp file.</action>		
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>
 	</release>
 
