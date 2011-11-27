@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -42,6 +43,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.InputStreamTokenizer;
+import net.sf.mpxj.utility.MPXJNumberFormat;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Tokenizer;
 
@@ -80,6 +82,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       try
       {
          m_tables = new HashMap<String, List<Row>>();
+         m_defaultCurrency = new MPXJNumberFormat();
 
          processFile(is);
 
@@ -103,9 +106,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       finally
       {
+         m_reader = null;
          m_tables = null;
+         m_currentTableName = null;
          m_currentTable = null;
          m_currentFieldNames = null;
+         m_defaultCurrencyName = null;
+         m_currencyMap.clear();
+         m_defaultCurrency = null;
       }
    }
 
@@ -180,6 +188,24 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
+    * Process a currency definition.
+    * 
+    * @param row record from XER file
+    */
+   private void processCurrency(Row row)
+   {
+      String currencyName = row.getString("curr_short_name");
+      MPXJNumberFormat nf = new MPXJNumberFormat();
+      nf.applyPattern("#.#", null, row.getString("decimal_symbol").charAt(0), row.getString("digit_group_symbol").charAt(0));
+      m_currencyMap.put(currencyName, nf);
+
+      if (currencyName.equalsIgnoreCase(m_defaultCurrencyName))
+      {
+         m_defaultCurrency = nf;
+      }
+   }
+
+   /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current file.
     * 
@@ -249,6 +275,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
+      Collections.sort(wbs, WBS_ROW_COMPARATOR);
       m_reader.processTasks(wbs, tasks);
    }
 
@@ -306,10 +333,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       switch (type)
       {
+         case HEADER :
+         {
+            processHeader(record);
+            break;
+         }
+
          case TABLE :
          {
-            String tableName = record.get(1).toLowerCase();
-            m_skipTable = !REQUIRED_TABLES.contains(tableName);
+            m_currentTableName = record.get(1).toLowerCase();
+            m_skipTable = !REQUIRED_TABLES.contains(m_currentTableName);
             if (m_skipTable)
             {
                m_currentTable = null;
@@ -317,7 +350,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             else
             {
                m_currentTable = new LinkedList<Row>();
-               m_tables.put(tableName, m_currentTable);
+               m_tables.put(m_currentTableName, m_currentTable);
             }
             break;
          }
@@ -378,6 +411,20 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                            break;
                         }
 
+                        case CURRENCY :
+                        {
+                           try
+                           {
+                              objectValue = Double.valueOf(m_defaultCurrency.parse(fieldValue).doubleValue());
+                           }
+
+                           catch (ParseException ex)
+                           {
+                              throw new MPXJException(MPXJException.INVALID_NUMBER, ex);
+                           }
+                           break;
+                        }
+
                         case DOUBLE :
                         case DURATION :
                         {
@@ -401,7 +448,19 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
                   map.put(fieldName, objectValue);
                }
-               m_currentTable.add(new MapRow(map));
+
+               Row currentRow = new MapRow(map);
+               m_currentTable.add(currentRow);
+
+               //
+               // Special case - we need to know the default currency format
+               // ahead of time, so process each row as we get it so that
+               // we can correctly parse currency values in later tables.
+               //
+               if (m_currentTableName.equals("currtype"))
+               {
+                  processCurrency(currentRow);
+               }
             }
             break;
          }
@@ -419,6 +478,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       }
 
       return done;
+   }
+
+   /**
+    * Extract any useful attributes from the header record.
+    * 
+    * @param record header record
+    */
+   private void processHeader(List<String> record)
+   {
+      m_defaultCurrencyName = record.get(8);
    }
 
    /**
@@ -463,8 +532,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Integer m_projectID;
    boolean m_skipTable;
    private Map<String, List<Row>> m_tables;
+   private String m_currentTableName;
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
+   private String m_defaultCurrencyName;
+   private Map<String, MPXJNumberFormat> m_currencyMap = new HashMap<String, MPXJNumberFormat>();
+   private MPXJNumberFormat m_defaultCurrency;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
    private List<ProjectListener> m_projectListeners;
@@ -490,7 +563,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       INTEGER,
       DOUBLE,
       DATE,
-      DURATION
+      DURATION,
+      CURRENCY
    }
 
    /**
@@ -519,8 +593,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("rsrc_id", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("create_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("wbs_id", FieldType.INTEGER);
-      FIELD_TYPE_MAP.put("orig_cost", FieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("indep_remain_total_cost", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("orig_cost", FieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("indep_remain_total_cost", FieldType.CURRENCY);
       FIELD_TYPE_MAP.put("indep_remain_work_qty", FieldType.DURATION);
       FIELD_TYPE_MAP.put("anticip_start_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("anticip_end_date", FieldType.DATE);
@@ -548,8 +622,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("remain_qty", FieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty", FieldType.DURATION);
       FIELD_TYPE_MAP.put("act_reg_qty", FieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_cost", FieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("act_reg_cost", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("target_cost", FieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("act_reg_cost", FieldType.CURRENCY);
       FIELD_TYPE_MAP.put("act_start_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("act_end_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("target_start_date", FieldType.DATE);
@@ -567,6 +641,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("month_hr_cnt", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("year_hr_cnt", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("clndr_data", FieldType.STRING);
+
+      FIELD_TYPE_MAP.put("seq_num", FieldType.INTEGER);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
@@ -579,5 +655,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("task");
       REQUIRED_TABLES.add("taskpred");
       REQUIRED_TABLES.add("taskrsrc");
+      REQUIRED_TABLES.add("currtype");
    }
+
+   private static final WbsRowComparator WBS_ROW_COMPARATOR = new WbsRowComparator();
 }

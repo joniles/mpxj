@@ -69,8 +69,8 @@ final class PrimaveraReader
 
       m_project.setAutoTaskUniqueID(false);
       m_project.setAutoResourceUniqueID(false);
-
       m_project.setAutoCalendarUniqueID(true);
+      m_project.setAutoWBS(false);
 
       m_project.setTaskFieldAlias(TaskField.DATE1, "Suspend Date");
       m_project.setTaskFieldAlias(TaskField.DATE2, "Resume Date");
@@ -301,6 +301,7 @@ final class PrimaveraReader
          task.setDate1(row.getDate("suspend_date"));
          task.setDate2(row.getDate("resume_date"));
          task.setText1(row.getString("task_code"));
+         task.setWBS(row.getString("wbs_short_name"));
       }
 
       //
@@ -319,6 +320,7 @@ final class PrimaveraReader
          {
             m_project.getChildTasks().remove(task);
             parentTask.addChildTask(task);
+            task.setWBS(parentTask.getWBS() + "." + task.getWBS());
          }
       }
 

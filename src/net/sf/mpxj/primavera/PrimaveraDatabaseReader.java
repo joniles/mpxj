@@ -171,7 +171,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? and delete_date is null order by seq_num", m_projectID);
+      List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? and delete_date is null order by parent_wbs_id,seq_num", m_projectID);
       List<Row> tasks = getRows("select * from " + m_schema + "task where proj_id=? and delete_date is null", m_projectID);
       m_reader.processTasks(wbs, tasks);
    }
