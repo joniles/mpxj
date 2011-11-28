@@ -133,6 +133,7 @@ public final class MSPDIReader extends AbstractProjectReader
          m_projectFile.setAutoOutlineNumber(false);
          m_projectFile.setAutoWBS(false);
          m_projectFile.setAutoCalendarUniqueID(false);
+         m_projectFile.setAutoAssignmentUniqueID(false);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);
@@ -1373,6 +1374,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
             //assignment.getStop()
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
+            mpx.setUniqueID(NumberUtility.getInteger(assignment.getUID()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
             mpx.setVAC(DatatypeConverter.parseCurrency(assignment.getVAC()));
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));

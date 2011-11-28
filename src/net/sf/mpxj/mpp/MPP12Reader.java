@@ -2030,10 +2030,10 @@ final class MPP12Reader implements MPPVariantReader
       if (consDir != null)
       {
          FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
-         FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));         
-//         FixedMeta consFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("Fixed2Meta"))), 9);
-//         FixedData consFixed2Data = new FixedData(consFixed2Meta, 48, getEncryptableInputStream(consDir, "Fixed2Data"));
-         
+         FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
+         //         FixedMeta consFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("Fixed2Meta"))), 9);
+         //         FixedData consFixed2Data = new FixedData(consFixed2Meta, 48, getEncryptableInputStream(consDir, "Fixed2Data"));
+
          int count = consFixedMeta.getItemCount();
          int lastConstraintID = -1;
 
@@ -2050,11 +2050,11 @@ final class MPP12Reader implements MPPVariantReader
                int index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
                if (index != -1)
                {
-//                  byte[] metaData2 = consFixed2Meta.getByteArrayValue(loop);
-//                  int index2 = consFixed2Data.getIndexFromOffset(MPPUtility.getInt(metaData2, 4));
-//                  byte[] data2 = consFixed2Data.getByteArrayValue(index2);
-                  
-                  byte[] data = consFixedData.getByteArrayValue(index);                                   
+                  //                  byte[] metaData2 = consFixed2Meta.getByteArrayValue(loop);
+                  //                  int index2 = consFixed2Data.getIndexFromOffset(MPPUtility.getInt(metaData2, 4));
+                  //                  byte[] data2 = consFixed2Data.getByteArrayValue(index2);
+
+                  byte[] data = consFixedData.getByteArrayValue(index);
                   int constraintID = MPPUtility.getInt(data, 0);
                   if (constraintID > lastConstraintID)
                   {

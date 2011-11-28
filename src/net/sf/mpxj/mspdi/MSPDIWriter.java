@@ -166,12 +166,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       try
       {
-         m_projectFile = projectFile;
-
          if (CONTEXT == null)
          {
             throw CONTEXT_EXCEPTION;
          }
+
+         m_projectFile = projectFile;
+         m_projectFile.validateUniqueIDsForMicrosoftProject();
 
          Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -1427,15 +1428,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignments(Project project)
    {
-      int uid = 0;
       Project.Assignments assignments = m_factory.createProjectAssignments();
       project.setAssignments(assignments);
       List<Project.Assignments.Assignment> list = assignments.getAssignment();
 
       for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
       {
-         list.add(writeAssignment(assignment, uid));
-         ++uid;
+         list.add(writeAssignment(assignment));
       }
 
       //
@@ -1444,6 +1443,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // write a dummy resource assignment record to ensure that the MSPDI
       // file shows the correct percent complete amount for the task.
       //
+      boolean autoUniqueID = m_projectFile.getAutoAssignmentUniqueID();
+      if (!autoUniqueID)
+      {
+         m_projectFile.setAutoAssignmentUniqueID(true);
+      }
+
       for (Task task : m_projectFile.getAllTasks())
       {
          double percentComplete = NumberUtility.getDouble(task.getPercentageComplete());
@@ -1465,20 +1470,20 @@ public final class MSPDIWriter extends AbstractProjectWriter
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
 
-            list.add(writeAssignment(dummy, uid));
-            ++uid;
+            list.add(writeAssignment(dummy));
          }
       }
+
+      m_projectFile.setAutoAssignmentUniqueID(autoUniqueID);
    }
 
    /**
     * This method writes data for a single assignment to an MSPDI file.
     *
-    * @param mpx Resource assignment data
-    * @param uid Unique ID for the new assignment
+    * @param mpx Resource assignment data 
     * @return New MSPDI assignment instance
     */
-   private Project.Assignments.Assignment writeAssignment(ResourceAssignment mpx, int uid)
+   private Project.Assignments.Assignment writeAssignment(ResourceAssignment mpx)
    {
       Project.Assignments.Assignment xml = m_factory.createProjectAssignmentsAssignment();
 
@@ -1530,7 +1535,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setTaskUID(NumberUtility.getBigInteger(mpx.getTask().getUniqueID()));
-      xml.setUID(BigInteger.valueOf(uid));
+      xml.setUID(NumberUtility.getBigInteger(mpx.getUniqueID()));
       xml.setUnits(DatatypeConverter.printUnits(mpx.getUnits()));
       xml.setVAC(DatatypeConverter.printCurrency(mpx.getVAC()));
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));

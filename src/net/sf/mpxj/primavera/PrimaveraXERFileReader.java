@@ -643,6 +643,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("clndr_data", FieldType.STRING);
 
       FIELD_TYPE_MAP.put("seq_num", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("taskrsrc_id", FieldType.INTEGER);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();

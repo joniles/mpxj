@@ -70,6 +70,7 @@ final class PrimaveraReader
       m_project.setAutoTaskUniqueID(false);
       m_project.setAutoResourceUniqueID(false);
       m_project.setAutoCalendarUniqueID(true);
+      m_project.setAutoAssignmentUniqueID(false);
       m_project.setAutoWBS(false);
 
       m_project.setTaskFieldAlias(TaskField.DATE1, "Suspend Date");
@@ -480,6 +481,7 @@ final class PrimaveraReader
          if (task != null && resource != null)
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
+            assignment.setUniqueID(row.getInteger("taskrsrc_id"));
             assignment.setRemainingWork(row.getDuration("remain_qty"));
             assignment.setBaselineWork(row.getDuration("target_qty"));
             assignment.setActualWork(row.getDuration("act_reg_qty"));

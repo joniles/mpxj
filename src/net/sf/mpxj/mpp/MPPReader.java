@@ -110,6 +110,7 @@ public final class MPPReader extends AbstractProjectReader
          projectFile.setAutoOutlineNumber(false);
          projectFile.setAutoWBS(false);
          projectFile.setAutoCalendarUniqueID(false);
+         projectFile.setAutoAssignmentUniqueID(false);
 
          //
          // Open the file system and retrieve the root directory
@@ -195,7 +196,7 @@ public final class MPPReader extends AbstractProjectReader
             Task sourceTask = relation.getSourceTask();
             Task targetTask = relation.getTargetTask();
 
-            if (sourceTask.getOutlineNumber().startsWith(targetTask.getOutlineNumber()+'.'))
+            if (sourceTask.getOutlineNumber().startsWith(targetTask.getOutlineNumber() + '.'))
             {
                invalid.add(relation);
             }

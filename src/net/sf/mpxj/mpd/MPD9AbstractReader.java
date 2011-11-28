@@ -1190,6 +1190,7 @@ abstract class MPD9AbstractReader
 
          //assignment.setSV();
          assignment.setTeamStatusPending(row.getBoolean("ASSN_TEAM_STATUS_PENDING"));
+         assignment.setUniqueID(row.getInteger("ASSN_UID"));
          assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue() * 100.0d));
          assignment.setUpdateNeeded(row.getBoolean("ASSN_UPDATE_NEEDED"));
          //assignment.setVAC(v);

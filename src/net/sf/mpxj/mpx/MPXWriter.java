@@ -107,6 +107,8 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void write() throws IOException
    {
+      m_projectFile.validateUniqueIDsForMicrosoftProject();
+
       writeFileCreationRecord(m_projectFile.getFileCreationRecord());
       writeProjectHeader(m_projectFile.getProjectHeader());
 

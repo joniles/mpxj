@@ -47,6 +47,11 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    public ResourceAssignment(ProjectFile file)
    {
       super(file);
+
+      if (file.getAutoAssignmentUniqueID() == true)
+      {
+         setUniqueID(Integer.valueOf(file.getAssignmentUniqueID()));
+      }
    }
 
    /**
@@ -80,6 +85,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       m_workgroup = new ResourceAssignmentWorkgroupFields();
 
       return (m_workgroup);
+   }
+
+   /**
+    * Retrieve the unique ID of this resource assignment.
+    * 
+    * @return resource assignment unique ID
+    */
+   public Integer getUniqueID()
+   {
+      return (Integer) getCachedValue(AssignmentField.UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of this resource assignment. 
+    * 
+    * @param uniqueID resource assignment unique ID
+    */
+   public void setUniqueID(Integer uniqueID)
+   {
+      set(AssignmentField.UNIQUE_ID, uniqueID);
    }
 
    /**

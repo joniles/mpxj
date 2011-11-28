@@ -152,7 +152,7 @@ final class MPP14Reader implements MPPVariantReader
          //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
          //FieldMap fm = new FieldMap14(m_file);
          //fm.dumpKnownFieldMaps(m_projectProps);
-         
+
          m_fontBases = new HashMap<Integer, FontBase>();
          m_taskSubProjects = new HashMap<Integer, SubProject>();
          m_parentTasks = new HashMap<Integer, Integer>();
@@ -912,7 +912,7 @@ final class MPP14Reader implements MPPVariantReader
     * @return Mapping between task identifiers and block position
     */
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData)
-   {     
+   {
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
       int itemCount = taskFixedMeta.getItemCount();
       int uniqueID;
@@ -1367,7 +1367,7 @@ final class MPP14Reader implements MPPVariantReader
             System.arraycopy(data, 0, newData, 0, data.length);
             data = newData;
          }
-         
+
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(data,false));

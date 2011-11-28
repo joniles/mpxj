@@ -192,6 +192,133 @@ public final class ProjectFile
    }
 
    /**
+    * Renumbers all task unique IDs.
+    */
+   private void renumberTaskUniqueIDs()
+   {
+      Task firstTask = getTaskByID(Integer.valueOf(0));
+      int uid = (firstTask == null ? 1 : 0);
+
+      for (Task task : m_allTasks)
+      {
+         task.setUniqueID(Integer.valueOf(uid++));
+      }
+   }
+
+   /**
+    * Renumbers all resource unique IDs.
+    */
+   private void renumberResourceUniqueIDs()
+   {
+      int uid = 1;
+
+      for (Resource resource : m_allResources)
+      {
+         resource.setUniqueID(Integer.valueOf(uid++));
+      }
+   }
+
+   /**
+    * Renumbers all assignment unique IDs.
+    */
+   private void renumberAssignmentUniqueIDs()
+   {
+      int uid = 1;
+
+      for (ResourceAssignment assignment : m_allResourceAssignments)
+      {
+         assignment.setUniqueID(Integer.valueOf(uid++));
+      }
+   }
+
+   /**
+    * Renumbers all calendar unique IDs.
+    */
+   private void renumberCalendarUniqueIDs()
+   {
+      int uid = 1;
+
+      for (ProjectCalendar calendar : m_baseCalendars)
+      {
+         calendar.setUniqueID(Integer.valueOf(uid++));
+      }
+
+      for (ProjectCalendar calendar : m_resourceCalendars)
+      {
+         calendar.setUniqueID(Integer.valueOf(uid++));
+      }
+   }
+
+   /**
+    * This method is called to ensure that all unique ID values
+    * held by MPXJ are within the range supported by MS Project.
+    * If any of these values fall outside of this range, the unique IDs
+    * of the relevant entities are renumbered.
+    */
+   public void validateUniqueIDsForMicrosoftProject()
+   {
+      if (!m_allTasks.isEmpty())
+      {
+         for (Task task : m_allTasks)
+         {
+            if (NumberUtility.getInt(task.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            {
+               renumberTaskUniqueIDs();
+               break;
+            }
+         }
+      }
+
+      if (!m_allResources.isEmpty())
+      {
+         for (Resource resource : m_allResources)
+         {
+            if (NumberUtility.getInt(resource.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            {
+               renumberResourceUniqueIDs();
+               break;
+            }
+         }
+      }
+
+      if (!m_allResourceAssignments.isEmpty())
+      {
+         for (ResourceAssignment assignment : m_allResourceAssignments)
+         {
+            if (NumberUtility.getInt(assignment.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            {
+               renumberAssignmentUniqueIDs();
+               break;
+            }
+         }
+      }
+
+      if (!m_baseCalendars.isEmpty())
+      {
+         for (ProjectCalendar calendar : m_baseCalendars)
+         {
+            if (NumberUtility.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            {
+               renumberCalendarUniqueIDs();
+               break;
+            }
+         }
+      }
+
+      if (!m_resourceCalendars.isEmpty())
+      {
+         for (ProjectCalendar calendar : m_resourceCalendars)
+         {
+            if (NumberUtility.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            {
+               renumberCalendarUniqueIDs();
+               break;
+            }
+         }
+      }
+   }
+
+   /**
     * Microsoft Project bases the order of tasks displayed on their ID
     * value. This method takes the hierarchical structure of tasks
     * represented in MPXJ and renumbers the ID values to ensure that
@@ -303,6 +430,16 @@ public final class ProjectFile
    }
 
    /**
+    * Used to set whether the assignment unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoAssignmentUniqueID(boolean flag)
+   {
+      m_autoAssignmentUniqueID = flag;
+   }
+
+   /**
     * Used to set whether the task ID field is automatically populated.
     *
     * @param flag true if automatic ID required.
@@ -368,6 +505,17 @@ public final class ProjectFile
    }
 
    /**
+    * Retrieve the flag that determines whether the assignment unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is true.
+    */
+   public boolean getAutoAssignmentUniqueID()
+   {
+      return (m_autoAssignmentUniqueID);
+   }
+
+   /**
     * Retrieve the flag that determines whether the task ID
     * is generated automatically.
     *
@@ -396,6 +544,16 @@ public final class ProjectFile
    int getCalendarUniqueID()
    {
       return (++m_calendarUniqueID);
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for an assignment.
+    *
+    * @return next unique ID
+    */
+   int getAssignmentUniqueID()
+   {
+      return (++m_assignmentUniqueID);
    }
 
    /**
@@ -990,6 +1148,18 @@ public final class ProjectFile
          if (uniqueID > m_calendarUniqueID)
          {
             m_calendarUniqueID = uniqueID;
+         }
+      }
+
+      //
+      // Update assignment unique IDs
+      //
+      for (ResourceAssignment assignment : m_allResourceAssignments)
+      {
+         int uniqueID = NumberUtility.getInt(assignment.getUniqueID());
+         if (uniqueID > m_assignmentUniqueID)
+         {
+            m_assignmentUniqueID = uniqueID;
          }
       }
    }
@@ -2020,6 +2190,11 @@ public final class ProjectFile
    private int m_calendarUniqueID;
 
    /**
+    * Counter used to populate the unique ID field of an assignment.
+    */
+   private int m_assignmentUniqueID;
+
+   /**
     * Counter used to populate the ID field of a task.
     */
    private int m_taskID;
@@ -2122,6 +2297,12 @@ public final class ProjectFile
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoCalendarUniqueID = true;
+
+   /**
+    * Indicating whether the unique ID of an assignment should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoAssignmentUniqueID = true;
 
    /**
     * Indicating whether the ID of a task should be
@@ -2287,4 +2468,9 @@ public final class ProjectFile
     * Custom field value list items.
     */
    private Map<Integer, CustomFieldValueItem> m_customFieldValueItems = new HashMap<Integer, CustomFieldValueItem>();
+
+   /**
+    * Maximum unique ID value MS Project will accept.
+    */
+   private static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
 }

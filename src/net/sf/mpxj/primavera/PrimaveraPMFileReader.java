@@ -114,6 +114,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_projectFile.setAutoTaskUniqueID(false);
          m_projectFile.setAutoResourceUniqueID(false);
          m_projectFile.setAutoCalendarUniqueID(false);
+         m_projectFile.setAutoAssignmentUniqueID(false);
          m_projectFile.setTaskFieldAlias(TaskField.TEXT1, "Code");
 
          m_projectFile.addProjectListeners(m_projectListeners);
@@ -537,6 +538,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
 
+            assignment.setUniqueID(row.getObjectId());
             assignment.setRemainingWork(getDuration(row.getRemainingUnits()));
             assignment.setBaselineWork(getDuration(row.getPlannedUnits()));
             assignment.setActualWork(getDuration(row.getActualUnits()));

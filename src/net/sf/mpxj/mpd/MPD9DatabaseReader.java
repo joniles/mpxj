@@ -114,6 +114,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          m_project.setAutoOutlineNumber(false);
          m_project.setAutoWBS(false);
          m_project.setAutoCalendarUniqueID(false);
+         m_project.setAutoAssignmentUniqueID(false);
 
          processProjectHeader();
          processCalendars();
