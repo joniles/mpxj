@@ -96,5 +96,17 @@ public final class ProjectHeaderReader
       ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
 
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
+
+      ph.setBaselineDate(0, props.getTimestamp(Props.BASELINE_DATE));
+      ph.setBaselineDate(1, props.getTimestamp(Props.BASELINE1_DATE));
+      ph.setBaselineDate(2, props.getTimestamp(Props.BASELINE2_DATE));
+      ph.setBaselineDate(3, props.getTimestamp(Props.BASELINE3_DATE));
+      ph.setBaselineDate(4, props.getTimestamp(Props.BASELINE4_DATE));
+      ph.setBaselineDate(5, props.getTimestamp(Props.BASELINE5_DATE));
+      ph.setBaselineDate(6, props.getTimestamp(Props.BASELINE6_DATE));
+      ph.setBaselineDate(7, props.getTimestamp(Props.BASELINE7_DATE));
+      ph.setBaselineDate(8, props.getTimestamp(Props.BASELINE8_DATE));
+      ph.setBaselineDate(9, props.getTimestamp(Props.BASELINE9_DATE));
+      ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
    }
 }

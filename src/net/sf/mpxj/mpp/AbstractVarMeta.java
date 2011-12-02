@@ -102,7 +102,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       Integer result = null;
 
       Map<Integer, Integer> map = m_table.get(id);
-      if (map != null)
+      if (map != null && type != null)
       {
          result = map.get(type);
       }

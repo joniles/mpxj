@@ -547,7 +547,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @return timephased completed work
     */
-   public List<TimephasedResourceAssignment> getTimephasedComplete()
+   public List<TimephasedWork> getTimephasedComplete()
    {
       if (m_timephasedCompleteRaw)
       {
@@ -564,15 +564,15 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param timephasedComplete timephased completed work
     * @param raw flag indicating if the assignment data is raw
     */
-   public void setTimephasedComplete(List<TimephasedResourceAssignment> timephasedComplete, boolean raw)
+   public void setTimephasedComplete(List<TimephasedWork> timephasedComplete, boolean raw)
    {
       if (timephasedComplete instanceof LinkedList<?>)
       {
-         m_timephasedComplete = (LinkedList<TimephasedResourceAssignment>) timephasedComplete;
+         m_timephasedComplete = (LinkedList<TimephasedWork>) timephasedComplete;
       }
       else
       {
-         m_timephasedComplete = new LinkedList<TimephasedResourceAssignment>(timephasedComplete);
+         m_timephasedComplete = new LinkedList<TimephasedWork>(timephasedComplete);
       }
       m_timephasedCompleteRaw = raw;
    }
@@ -583,7 +583,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @return timephased planned work
     */
-   public List<TimephasedResourceAssignment> getTimephasedPlanned()
+   public List<TimephasedWork> getTimephasedPlanned()
    {
       if (m_timephasedPlannedRaw)
       {
@@ -600,15 +600,15 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param timephasedPlanned timephased planned work
     * @param raw flag indicating if the assignment data is raw 
     */
-   public void setTimephasedPlanned(List<TimephasedResourceAssignment> timephasedPlanned, boolean raw)
+   public void setTimephasedPlanned(List<TimephasedWork> timephasedPlanned, boolean raw)
    {
       if (timephasedPlanned instanceof LinkedList<?>)
       {
-         m_timephasedPlanned = (LinkedList<TimephasedResourceAssignment>) timephasedPlanned;
+         m_timephasedPlanned = (LinkedList<TimephasedWork>) timephasedPlanned;
       }
       else
       {
-         m_timephasedPlanned = new LinkedList<TimephasedResourceAssignment>(timephasedPlanned);
+         m_timephasedPlanned = new LinkedList<TimephasedWork>(timephasedPlanned);
       }
       m_timephasedPlannedRaw = raw;
    }
@@ -618,9 +618,19 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param normaliser class instance used to normalise timephased data
     */
-   public void setTimephasedNormaliser(TimephasedResourceAssignmentNormaliser normaliser)
+   public void setTimephasedNormaliser(TimephasedWorkNormaliser normaliser)
    {
       m_timephasedNormaliser = normaliser;
+   }
+
+   /**
+    * Set the class instance used to normalise timephased baseline work data.
+    * 
+    * @param normaliser class instance used to normalise timephased data
+    */
+   public void setTimephasedBaselineWorkNormaliser(TimephasedWorkNormaliser normaliser)
+   {
+      m_timephasedBaselineWorkNormaliser = normaliser;
    }
 
    /**
@@ -632,6 +642,48 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    public boolean getHasTimephasedData()
    {
       return (m_timephasedPlanned != null && !m_timephasedPlanned.isEmpty()) || (m_timephasedComplete != null && !m_timephasedComplete.isEmpty());
+   }
+
+   /**
+    * Set timephased baseline work. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    * 
+    * @param index baseline index
+    * @param work timephased work
+    * @param raw flag indicating if the assignment data is raw
+    */
+   public void setTimephasedBaselineWork(int index, List<TimephasedWork> work, boolean raw)
+   {
+      if (work != null)
+      {
+         if (work instanceof LinkedList<?>)
+         {
+            m_timephasedBaselineWork[index] = work;
+         }
+         else
+         {
+            m_timephasedBaselineWork[index] = new LinkedList<TimephasedWork>(work);
+         }
+         m_timephasedBaselineWorkRaw[index] = raw;
+      }
+   }
+
+   /** 
+    * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    * 
+    * @param index baseline index
+    * @return timephased work, or null if no baseline is present
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedBaselineWork(int index)
+   {
+      if (m_timephasedBaselineWorkRaw[index])
+      {
+         m_timephasedBaselineWorkNormaliser.normalise(getParentFile().getBaselineCalendar(), (LinkedList<TimephasedWork>) m_timephasedBaselineWork[index]);
+         m_timephasedBaselineWorkRaw[index] = false;
+      }
+
+      return (List<TimephasedWork>) m_timephasedBaselineWork[index];
    }
 
    /**
@@ -2063,7 +2115,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          case FINISH :
          case BASELINE_FINISH :
          {
-            m_array[TaskField.FINISH_VARIANCE.getValue()] = null;
+            m_array[AssignmentField.FINISH_VARIANCE.getValue()] = null;
             break;
          }
 
@@ -2184,12 +2236,15 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    private Object[] m_array = new Object[AssignmentField.MAX_VALUE];
 
    private boolean m_eventsEnabled = true;
-   private LinkedList<TimephasedResourceAssignment> m_timephasedComplete;
-   private LinkedList<TimephasedResourceAssignment> m_timephasedPlanned;
+   private LinkedList<TimephasedWork> m_timephasedComplete;
+   private LinkedList<TimephasedWork> m_timephasedPlanned;
    private boolean m_timephasedCompleteRaw;
    private boolean m_timephasedPlannedRaw;
-   private TimephasedResourceAssignmentNormaliser m_timephasedNormaliser;
+   private TimephasedWorkNormaliser m_timephasedNormaliser;
    private List<FieldListener> m_listeners;
+   private Object[] m_timephasedBaselineWork = new Object[11];
+   private boolean[] m_timephasedBaselineWorkRaw = new boolean[11];
+   private TimephasedWorkNormaliser m_timephasedBaselineWorkNormaliser;
 
    /**
     * Reference to the parent task of this assignment.

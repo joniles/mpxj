@@ -50,7 +50,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     *
     * @param file the parent file to which this record belongs.
     */
-   ProjectCalendar(ProjectFile file)
+   public ProjectCalendar(ProjectFile file)
    {
       m_projectFile = file;
 

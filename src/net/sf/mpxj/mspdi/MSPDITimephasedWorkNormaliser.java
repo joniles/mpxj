@@ -1,5 +1,5 @@
 /*
- * file:       MspdiTimephasedResourceAssignmentNormaliser.java
+ * file:       MspdiTimephasedWorkNormaliser.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2009
  * date:       09/01/2009
@@ -27,18 +27,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.sf.mpxj.AbstractTimephasedResourceAssignmentNormaliser;
+import net.sf.mpxj.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Normalise timephased resource assignment data from an MSPDI file.
  */
-public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimephasedResourceAssignmentNormaliser
+public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
 {
 
    /**
@@ -49,7 +49,7 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
+   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
       //dumpList("raw", result);
       splitDays(calendar, list);
@@ -63,10 +63,10 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
    }
 
    /*
-      private void dumpList(String label, LinkedList<TimephasedResourceAssignment> list)
+      private void dumpList(String label, LinkedList<TimephasedWork> list)
       {
          System.out.println(label);
-         for (TimephasedResourceAssignment assignment : list)
+         for (TimephasedWork assignment : list)
          {
             System.out.println(assignment);
          }
@@ -79,12 +79,12 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
     * @param calendar current project calendar
     * @param list list of assignment data
     */
-   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
+   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
       Calendar cal = Calendar.getInstance();
 
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          while (assignment != null)
          {
@@ -105,7 +105,7 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
                break;
             }
 
-            TimephasedResourceAssignment[] split = splitFirstDay(calendar, assignment);
+            TimephasedWork[] split = splitFirstDay(calendar, assignment);
             if (split[0] != null)
             {
                result.add(split[0]);
@@ -125,9 +125,9 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
     * @param assignment timephased assignment span
     * @return first day and remainder assignments
     */
-   private TimephasedResourceAssignment[] splitFirstDay(ProjectCalendar calendar, TimephasedResourceAssignment assignment)
+   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork assignment)
    {
-      TimephasedResourceAssignment[] result = new TimephasedResourceAssignment[2];
+      TimephasedWork[] result = new TimephasedWork[2];
 
       //
       // Retrieve data used to calculate the pro-rata work split
@@ -157,7 +157,7 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
 
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
-            TimephasedResourceAssignment split = new TimephasedResourceAssignment();
+            TimephasedWork split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
             split.setTotalWork(splitWork);
@@ -175,7 +175,7 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
          //
          Date splitStart = calendar.getNextWorkStart(splitFinish);
          splitFinish = assignmentFinish;
-         TimephasedResourceAssignment split;
+         TimephasedWork split;
          if (splitStart.getTime() > splitFinish.getTime())
          {
             split = null;
@@ -185,7 +185,7 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
             splitMinutes = assignmentWork.getDuration() - splitMinutes;
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
-            split = new TimephasedResourceAssignment();
+            split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
             split.setTotalWork(splitWork);
@@ -202,12 +202,12 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
     * @param calendar current calendar
     * @param list assignment data
     */
-   private void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
+   private void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
 
-      TimephasedResourceAssignment previousAssignment = null;
-      for (TimephasedResourceAssignment assignment : list)
+      TimephasedWork previousAssignment = null;
+      for (TimephasedWork assignment : list)
       {
          if (previousAssignment == null)
          {
@@ -239,7 +239,7 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
                   work += assignment.getTotalWork().getDuration();
                   Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
 
-                  TimephasedResourceAssignment merged = new TimephasedResourceAssignment();
+                  TimephasedWork merged = new TimephasedWork();
                   merged.setStart(previousAssignment.getStart());
                   merged.setFinish(assignment.getFinish());
                   merged.setTotalWork(totalWork);
@@ -281,9 +281,9 @@ public class MSPDITimephasedResourceAssignmentNormaliser extends AbstractTimepha
     * @param calendar current calendar
     * @param list assignment data
     */
-   private void validateSameDay(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
+   private void validateSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          Date assignmentStart = assignment.getStart();
          Date calendarStartTime = calendar.getStartTime(assignmentStart);

@@ -31,7 +31,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
@@ -132,15 +132,15 @@ public class TimephasedTest extends MPXJTestCase
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       ResourceAssignment assignment = assignments.get(0);
-      List<TimephasedResourceAssignment> timephasedPlanned = assignment.getTimephasedPlanned();
+      List<TimephasedWork> timephasedPlanned = assignment.getTimephasedPlanned();
       assertEquals(3, timephasedPlanned.size());
-      TimephasedResourceAssignment timephased = timephasedPlanned.get(0);
+      TimephasedWork timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
       timephased = timephasedPlanned.get(1);
       testTimephased(timephased, "21/11/2008 08:00", "02/12/2008 17:00", 64.0, 8.0);
       timephased = timephasedPlanned.get(2);
       testTimephased(timephased, "03/12/2008 08:00", "03/12/2008 12:00", 4.0, 4.0);
-      List<TimephasedResourceAssignment> timephasedComplete = assignment.getTimephasedComplete();
+      List<TimephasedWork> timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
 
       //
@@ -1271,13 +1271,13 @@ public class TimephasedTest extends MPXJTestCase
     * Utility method to test the attributes of a timephased resource
     * assignment.
     * 
-    * @param assignment TimephasedResourceAssignment instance to test
+    * @param assignment TimephasedWork instance to test
     * @param start start date for this assignment
     * @param finish finish date for this assignment
     * @param totalWork total work for this assignment
     * @param workPerDay work per day for this assignment
     */
-   private void testTimephased(TimephasedResourceAssignment assignment, String start, String finish, double totalWork, double workPerDay)
+   private void testTimephased(TimephasedWork assignment, String start, String finish, double totalWork, double workPerDay)
    {
       assertEquals(start, m_df.format(assignment.getStart()));
       assertEquals(finish, m_df.format(assignment.getFinish()));
@@ -1294,10 +1294,10 @@ public class TimephasedTest extends MPXJTestCase
    //createTest("timephasedComplete", timephasedComplete);      
 
    /*   
-                  private void createTest(String name, List<TimephasedResourceAssignment> assignments)
+                  private void createTest(String name, List<TimephasedWork> assignments)
                   {
                      int index = 0;
-                     for (TimephasedResourceAssignment assignment : assignments)
+                     for (TimephasedWork assignment : assignments)
                      {
                         System.out.println("timephased = " + name + ".get(" + index + ");");
                         System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");

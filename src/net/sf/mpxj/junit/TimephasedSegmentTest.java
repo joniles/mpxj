@@ -34,7 +34,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpp.TimescaleUnits;
 import net.sf.mpxj.utility.TimephasedUtility;
@@ -1111,8 +1111,8 @@ public class TimephasedSegmentTest extends MPXJTestCase
       ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getCalendar();
-      List<TimephasedResourceAssignment> assignments = (complete ? assignment.getTimephasedComplete() : assignment.getTimephasedPlanned());
-      ArrayList<Duration> durationList = m_timephased.segmentResourceAssignment(calendar, assignments, units, dateList);
+      List<TimephasedWork> assignments = (complete ? assignment.getTimephasedComplete() : assignment.getTimephasedPlanned());
+      ArrayList<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)

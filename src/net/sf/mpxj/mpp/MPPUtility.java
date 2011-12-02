@@ -1479,6 +1479,28 @@ final class MPPUtility
    }
 
    /**
+    * Dumps the contents of a structured block made up from a header
+    * and fixed sized records.
+    * 
+    * @param headerSize header zie
+    * @param blockSize block size
+    * @param data data block
+    */
+   public static void dumpBlockData(int headerSize, int blockSize, byte[] data)
+   {
+      if (data != null)
+      {
+         System.out.println(MPPUtility.hexdump(data, 0, headerSize, false));
+         int index = headerSize;
+         while (index < data.length)
+         {
+            System.out.println(MPPUtility.hexdump(data, index, blockSize, false));
+            index += blockSize;
+         }
+      }
+   }
+
+   /**
     * Get the epoch date.
     * 
     * @return epoch date.

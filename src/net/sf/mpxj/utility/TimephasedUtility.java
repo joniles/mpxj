@@ -32,7 +32,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**
@@ -42,16 +42,16 @@ public final class TimephasedUtility
 {
    /**
     * This is the main entry point used to convert the internal representation
-    * of timephased resource assignment data into an external form which can
+    * of timephased work into an external form which can
     * be displayed to the user.
     * 
     * @param projectCalendar calendar used by the resource assignment 
-    * @param assignments timephased resource assignment data
+    * @param work timephased resource assignment data
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentResourceAssignment(ProjectCalendar projectCalendar, List<TimephasedResourceAssignment> assignments, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
    {
       ArrayList<Duration> result = new ArrayList<Duration>(dateList.size());
       int lastStartIndex = 0;
@@ -68,7 +68,7 @@ public final class TimephasedUtility
          // assignment date ranges in the list, then we show a zero
          // duration for this date range.
          //
-         int startIndex = lastStartIndex == -1 ? -1 : getStartIndex(range, assignments, lastStartIndex);
+         int startIndex = lastStartIndex == -1 ? -1 : getStartIndex(range, work, lastStartIndex);
          if (startIndex == -1)
          {
             result.add(Duration.getInstance(0, TimeUnit.HOURS));
@@ -81,12 +81,27 @@ public final class TimephasedUtility
             // much time from this resource assignment can be allocated
             // to the current date range.
             //
-            result.add(getRangeDuration(projectCalendar, rangeUnits, range, assignments, startIndex));
+            result.add(getRangeDuration(projectCalendar, rangeUnits, range, work, startIndex));
             lastStartIndex = startIndex;
          }
       }
 
       return result;
+   }
+
+   /**
+    * This is the main entry point used to convert the internal representation
+    * of timephased baseline work into an external form which can
+    * be displayed to the user.
+    *  
+    * @param work timephased resource assignment data
+    * @param rangeUnits timescale units
+    * @param dateList timescale date ranges
+    * @return list of durations, one per timescale date range
+    */
+   public ArrayList<Duration> segmentBaselineWork(List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   {
+      return segmentWork(null, work, rangeUnits, dateList);
    }
 
    /**
@@ -98,7 +113,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start the search
     * @return index of timephased resource assignment which intersects with the target date range
     */
-   private int getStartIndex(DateRange range, List<TimephasedResourceAssignment> assignments, int startIndex)
+   private int getStartIndex(DateRange range, List<TimephasedWork> assignments, int startIndex)
    {
       int result = -1;
       long rangeStart = range.getStart().getTime();
@@ -106,7 +121,7 @@ public final class TimephasedUtility
 
       for (int loop = startIndex; loop < assignments.size(); loop++)
       {
-         TimephasedResourceAssignment assignment = assignments.get(loop);
+         TimephasedWork assignment = assignments.get(loop);
          int compareResult = DateUtility.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
 
          //
@@ -155,7 +170,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedResourceAssignment> assignments, int startIndex)
+   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
    {
       Duration result;
 
@@ -191,7 +206,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedResourceAssignment> assignments, int startIndex)
+   private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }
@@ -209,7 +224,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedResourceAssignment> assignments, int startIndex)
+   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
    {
       // option 1:
       // Our date range starts before the start of the TRA at the start index.
@@ -234,7 +249,7 @@ public final class TimephasedUtility
 
       int totalDays = 0;
       double totalWork = 0;
-      TimephasedResourceAssignment assignment = assignments.get(startIndex);
+      TimephasedWork assignment = assignments.get(startIndex);
       boolean done = false;
 
       do
@@ -261,7 +276,7 @@ public final class TimephasedUtility
          //      
          while (startDate < rangeEndDate && startDate < traEndDate)
          {
-            if (projectCalendar.isWorkingDate(calendarDate))
+            if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
             {
                ++totalDays;
             }

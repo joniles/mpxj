@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedResourceAssignmentNormaliser.java
+ * file:       TimephasedWorkNormaliser.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2009
  * date:       09/01/2009
@@ -29,7 +29,7 @@ import java.util.LinkedList;
  * Classes implementing this interface are used to normalise timephased 
  * resource assignment data.
  */
-public interface TimephasedResourceAssignmentNormaliser
+public interface TimephasedWorkNormaliser
 {
 
    /**
@@ -40,7 +40,7 @@ public interface TimephasedResourceAssignmentNormaliser
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list);
+   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
 
    public static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

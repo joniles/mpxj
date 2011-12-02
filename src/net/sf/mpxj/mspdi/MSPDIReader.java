@@ -77,8 +77,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
-import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
+import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
@@ -1275,7 +1275,7 @@ public final class MSPDIReader extends AbstractProjectReader
       if (assignments != null)
       {
          SplitTaskFactory splitFactory = new SplitTaskFactory();
-         TimephasedResourceAssignmentNormaliser normaliser = new MSPDITimephasedResourceAssignmentNormaliser();
+         TimephasedWorkNormaliser normaliser = new MSPDITimephasedWorkNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
             readAssignment(assignment, splitFactory, normaliser);
@@ -1290,7 +1290,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param splitFactory split task handling
     * @param normaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedResourceAssignmentNormaliser normaliser)
+   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedWorkNormaliser normaliser)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1316,8 +1316,8 @@ public final class MSPDIReader extends AbstractProjectReader
             calendar = m_projectFile.getCalendar();
          }
 
-         LinkedList<TimephasedResourceAssignment> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
-         LinkedList<TimephasedResourceAssignment> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+         LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
+         LinkedList<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
          boolean raw = true;
 
          if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
@@ -1459,10 +1459,10 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param list timephased resource assignment list
     * @return boolean flag
     */
-   private boolean isSplit(ProjectCalendar calendar, List<TimephasedResourceAssignment> list)
+   private boolean isSplit(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       boolean result = false;
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          if (assignment.getTotalWork().getDuration() == 0)
          {
@@ -1485,9 +1485,9 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param type flag indicating if this is planned or complete work
     * @return list of timephased resource assignment instances
     */
-   private LinkedList<TimephasedResourceAssignment> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
+   private LinkedList<TimephasedWork> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
    {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
 
       for (TimephasedDataType item : assignment.getTimephasedData())
       {
@@ -1508,7 +1508,7 @@ public final class MSPDIReader extends AbstractProjectReader
             work = Duration.getInstance(NumberUtility.truncate(work.getDuration(), 2), TimeUnit.MINUTES);
          }
 
-         TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
+         TimephasedWork tra = new TimephasedWork();
          tra.setStart(startDate);
          tra.setFinish(finishDate);
          tra.setTotalWork(work);

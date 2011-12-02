@@ -1,5 +1,5 @@
 /*
- * file:       AbstractTimephasedResourceAssignmentNormaliser.java
+ * file:       AbstractTimephasedWorkNormaliser.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2009
  * date:       09/01/2009
@@ -31,7 +31,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * Common implementation detail for normalisation.
  */
-public abstract class AbstractTimephasedResourceAssignmentNormaliser implements TimephasedResourceAssignmentNormaliser
+public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWorkNormaliser
 {
    /**
     * This method converts the internal representation of timephased 
@@ -41,7 +41,7 @@ public abstract class AbstractTimephasedResourceAssignmentNormaliser implements 
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   public abstract void normalise(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list);
+   public abstract void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
 
    /**
     * Merges individual days together into time spans where the
@@ -49,12 +49,12 @@ public abstract class AbstractTimephasedResourceAssignmentNormaliser implements 
     * 
     * @param list assignment data
     */
-   protected void mergeSameWork(LinkedList<TimephasedResourceAssignment> list)
+   protected void mergeSameWork(LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
 
-      TimephasedResourceAssignment previousAssignment = null;
-      for (TimephasedResourceAssignment assignment : list)
+      TimephasedWork previousAssignment = null;
+      for (TimephasedWork assignment : list)
       {
          if (previousAssignment == null)
          {
@@ -74,7 +74,7 @@ public abstract class AbstractTimephasedResourceAssignmentNormaliser implements 
                total += assignmentWork.getDuration();
                Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);
 
-               TimephasedResourceAssignment merged = new TimephasedResourceAssignment();
+               TimephasedWork merged = new TimephasedWork();
                merged.setStart(assignmentStart);
                merged.setFinish(assignmentFinish);
                merged.setWorkPerDay(assignmentWork);
@@ -102,9 +102,9 @@ public abstract class AbstractTimephasedResourceAssignmentNormaliser implements 
     * 
     * @param list assignment data
     */
-   protected void convertToHours(LinkedList<TimephasedResourceAssignment> list)
+   protected void convertToHours(LinkedList<TimephasedWork> list)
    {
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          Duration totalWork = assignment.getTotalWork();
          Duration workPerDay = assignment.getWorkPerDay();

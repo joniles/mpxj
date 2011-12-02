@@ -85,7 +85,7 @@ public class MppDump
       PrintWriter pw = new PrintWriter(new FileWriter(output));
 
       POIFSFileSystem fs = new POIFSFileSystem(is);
-      dumpTree(pw, fs.getRoot(), true, true, null);
+      dumpTree(pw, fs.getRoot(), "", true, true, null);
 
       is.close();
       pw.flush();
@@ -98,12 +98,13 @@ public class MppDump
     *
     * @param pw Output PrintWriter
     * @param dir DirectoryEntry to dump
+    * @param prefix prefix used to identify path to this object
     * @param showData flag indicating if data is dumped, or just structure
     * @param hex set to true if hex output is required
     * @param indent indent used if displaying structure only
     * @throws Exception Thrown on file read errors
     */
-   private static void dumpTree(PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent) throws Exception
+   private static void dumpTree(PrintWriter pw, DirectoryEntry dir, String prefix, boolean showData, boolean hex, String indent) throws Exception
    {
       long byteCount;
 
@@ -117,16 +118,18 @@ public class MppDump
             {
                childIndent += " ";
             }
-            pw.println("start dir: " + entry.getName());
-            dumpTree(pw, (DirectoryEntry) entry, showData, hex, childIndent);
-            pw.println("end dir: " + entry.getName());
+
+            String childPrefix = prefix + "[" + entry.getName() + "].";
+            pw.println("start dir: " + prefix + entry.getName());
+            dumpTree(pw, (DirectoryEntry) entry, childPrefix, showData, hex, childIndent);
+            pw.println("end dir: " + prefix + entry.getName());
          }
          else
             if (entry instanceof DocumentEntry)
             {
                if (showData)
                {
-                  pw.println("start doc: " + entry.getName());
+                  pw.println("start doc: " + prefix + entry.getName());
                   if (hex == true)
                   {
                      byteCount = hexdump(new DocumentInputStream((DocumentEntry) entry), pw);
@@ -135,7 +138,7 @@ public class MppDump
                   {
                      byteCount = asciidump(new DocumentInputStream((DocumentEntry) entry), pw);
                   }
-                  pw.println("end doc: " + entry.getName() + " (" + byteCount + " bytes read)");
+                  pw.println("end doc: " + prefix + entry.getName() + " (" + byteCount + " bytes read)");
                }
                else
                {
@@ -143,12 +146,12 @@ public class MppDump
                   {
                      pw.print(indent);
                   }
-                  pw.println("doc: " + entry.getName());
+                  pw.println("doc: " + prefix + entry.getName());
                }
             }
             else
             {
-               pw.println("found unknown: " + entry.getName());
+               pw.println("found unknown: " + prefix + entry.getName());
             }
       }
    }

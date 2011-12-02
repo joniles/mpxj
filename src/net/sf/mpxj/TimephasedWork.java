@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedResourceAssignment.java
+ * file:       TimephasedWork.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2008
  * date:       25/10/2008
@@ -31,7 +31,7 @@ import java.util.Date;
  * "per day" attribute. The start and end of the span is represented by 
  * "start work" and "cumulative work" attributes. 
  */
-public final class TimephasedResourceAssignment
+public final class TimephasedWork
 {
    /**
     * Retrieve the start date.
@@ -138,7 +138,7 @@ public final class TimephasedResourceAssignment
     */
    @Override public String toString()
    {
-      return "[TimephasedResourceAssignment startWork=" + m_start + " totalWork=" + m_totalWork + " finishWork=" + m_finish + " workPerDay=" + m_workPerDay + " modified=" + m_modified + "]";
+      return "[TimephasedWork startWork=" + m_start + " totalWork=" + m_totalWork + " finishWork=" + m_finish + " workPerDay=" + m_workPerDay + " modified=" + m_modified + "]";
    }
 
    /**
@@ -148,9 +148,9 @@ public final class TimephasedResourceAssignment
    {
       boolean result = false;
 
-      if (o instanceof TimephasedResourceAssignment)
+      if (o instanceof TimephasedWork)
       {
-         TimephasedResourceAssignment t = (TimephasedResourceAssignment) o;
+         TimephasedWork t = (TimephasedWork) o;
          result = m_start.equals(t.m_start) && m_finish.equals(t.m_finish) && m_totalWork.equals(t.m_totalWork) && m_workPerDay.equals(t.m_workPerDay);
       }
 

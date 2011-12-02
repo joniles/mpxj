@@ -2151,6 +2151,30 @@ public final class ProjectHeader extends ProjectEntity
       m_showProjectSummaryTask = value;
    }
 
+   /**
+    * Retrieve the date for a specific baseline. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    * 
+    * @param index baseline index
+    * @return baseline date, null if baseline not set
+    */
+   public Date getBaselineDate(int index)
+   {
+      return m_baselineDate[index];
+   }
+
+   /**
+    * Set the date for a specific baseline. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    * 
+    * @param index baseline index
+    * @param date baseline date, null if baseline not set
+    */
+   public void setBaselineDate(int index, Date date)
+   {
+      m_baselineDate[index] = date;
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2268,6 +2292,7 @@ public final class ProjectHeader extends ProjectEntity
    private Map<Integer, Object> m_documentSummaryInformation;
    private String m_currencyCode;
    private boolean m_showProjectSummaryTask;
+   private Date[] m_baselineDate = new Date[11];
 
    /*
     * Missing MSPDI attributes

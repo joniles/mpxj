@@ -1,8 +1,8 @@
 /*
- * file:       MppTimephasedResourceAssignmentNormaliser.java
+ * file:       MppAbstractTimephasedWorkNormaliser.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2009
- * date:       09/01/2009
+ * copyright:  (c) Packwood Software 2011
+ * date:       02/12/2011
  */
 
 /*
@@ -27,17 +27,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.sf.mpxj.AbstractTimephasedResourceAssignmentNormaliser;
+import net.sf.mpxj.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.utility.DateUtility;
 
 /**
  * Normalise timephased resource assignment data from an MPP file. 
  */
-public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephasedResourceAssignmentNormaliser
+public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
 {
 
    /**
@@ -48,7 +48,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
+   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
       if (!list.isEmpty())
       {
@@ -70,13 +70,13 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
     * @param calendar current project calendar
     * @param list list of assignment data
     */
-   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
+   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
       boolean remainderInserted = false;
       Calendar cal = Calendar.getInstance();
 
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          if (remainderInserted)
          {
@@ -115,7 +115,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
                   cal.add(Calendar.DAY_OF_YEAR, 1);
                   Date remainderFinish = cal.getTime();
 
-                  TimephasedResourceAssignment remainder = new TimephasedResourceAssignment();
+                  TimephasedWork remainder = new TimephasedWork();
                   remainder.setStart(remainderStart);
                   remainder.setFinish(remainderFinish);
                   remainder.setTotalWork(remainingWork);
@@ -130,7 +130,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
                break;
             }
 
-            TimephasedResourceAssignment[] split = splitFirstDay(calendar, assignment);
+            TimephasedWork[] split = splitFirstDay(calendar, assignment);
             if (split[0] != null)
             {
                result.add(split[0]);
@@ -156,9 +156,9 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
     * @param assignment timephased assignment span
     * @return first day and remainder assignments
     */
-   private TimephasedResourceAssignment[] splitFirstDay(ProjectCalendar calendar, TimephasedResourceAssignment assignment)
+   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork assignment)
    {
-      TimephasedResourceAssignment[] result = new TimephasedResourceAssignment[2];
+      TimephasedWork[] result = new TimephasedWork[2];
 
       //
       // Retrieve data used to calculate the pro-rata work split
@@ -211,7 +211,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
                splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
             }
 
-            TimephasedResourceAssignment split = new TimephasedResourceAssignment();
+            TimephasedWork split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
             split.setTotalWork(splitWork);
@@ -229,7 +229,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
          //
          Date splitStart = calendar.getNextWorkStart(splitFinish);
          splitFinish = assignmentFinish;
-         TimephasedResourceAssignment split;
+         TimephasedWork split;
          if (splitStart.getTime() > splitFinish.getTime())
          {
             split = null;
@@ -239,7 +239,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
             splitMinutes = assignmentWork.getDuration() - splitMinutes;
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
-            split = new TimephasedResourceAssignment();
+            split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
             split.setTotalWork(splitWork);
@@ -257,82 +257,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
     * @param calendar current calendar
     * @param list assignment data
     */
-   private void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
-   {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
-
-      TimephasedResourceAssignment previousAssignment = null;
-      for (TimephasedResourceAssignment assignment : list)
-      {
-         if (previousAssignment == null)
-         {
-            assignment.setWorkPerDay(assignment.getTotalWork());
-            result.add(assignment);
-         }
-         else
-         {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateUtility.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateUtility.getDayStartDate(assignmentStart);
-
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
-            {
-               Duration previousAssignmentWork = previousAssignment.getTotalWork();
-               Duration assignmentWork = assignment.getTotalWork();
-
-               if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() == 0)
-               {
-                  continue;
-               }
-
-               Date previousAssignmentFinish = previousAssignment.getFinish();
-
-               if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
-               {
-                  result.removeLast();
-
-                  if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
-                  {
-                     double work = previousAssignment.getTotalWork().getDuration();
-                     work += assignment.getTotalWork().getDuration();
-                     Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
-
-                     TimephasedResourceAssignment merged = new TimephasedResourceAssignment();
-                     merged.setStart(previousAssignment.getStart());
-                     merged.setFinish(assignment.getFinish());
-                     merged.setTotalWork(totalWork);
-                     assignment = merged;
-                  }
-                  else
-                  {
-                     if (assignmentWork.getDuration() == 0)
-                     {
-                        assignment = previousAssignment;
-                     }
-                  }
-               }
-            }
-
-            assignment.setWorkPerDay(assignment.getTotalWork());
-            result.add(assignment);
-         }
-
-         Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
-         Duration assignmentWork = assignment.getTotalWork();
-         if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
-         {
-            result.removeLast();
-         }
-         else
-         {
-            previousAssignment = assignment;
-         }
-      }
-
-      list.clear();
-      list.addAll(result);
-   }
+   protected abstract void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
 
    /**
     * Retrieves the pro-rata work carried out on a given day.
@@ -341,7 +266,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
     * @param assignment current assignment.
     * @return assignment work duration
     */
-   private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedResourceAssignment assignment)
+   private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedWork assignment)
    {
       Date assignmentStart = assignment.getStart();
 
@@ -361,10 +286,10 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
    }
 
    /*
-      private void dumpList(LinkedList<TimephasedResourceAssignment> list)
+      private void dumpList(LinkedList<TimephasedWork> list)
       {
          System.out.println();
-         for (TimephasedResourceAssignment assignment : list)
+         for (TimephasedWork assignment : list)
          {
             System.out.println(assignment);
          }

@@ -1541,8 +1541,19 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.UNIQUE_ID.getValue()] = "Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_UNIQUE_ID.getValue()] = "Task Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_UNIQUE_ID.getValue()] = "Resource Unique ID";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_WORK_DATA.getValue()] = "Planned Work Data";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.COMPLETE_WORK_DATA.getValue()] = "Complete Work Data";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_WORK_PLANNED.getValue()] = "Timephased Work Planned";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_WORK_COMPLETE.getValue()] = "Timephased Work Complete";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE_WORK.getValue()] = "Timephased Baseline Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE1_WORK.getValue()] = "Timephased Baseline1 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE2_WORK.getValue()] = "Timephased Baseline2 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE3_WORK.getValue()] = "Timephased Baseline3 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE4_WORK.getValue()] = "Timephased Baseline4 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE5_WORK.getValue()] = "Timephased Baseline5 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE6_WORK.getValue()] = "Timephased Baseline6 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE7_WORK.getValue()] = "Timephased Baseline7 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE8_WORK.getValue()] = "Timephased Baseline8 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE9_WORK.getValue()] = "Timephased Baseline9 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE10_WORK.getValue()] = "Timephased Baseline10 Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.VARIABLE_RATE_UNITS.getValue()] = "Variable Rate Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LEVELING_DELAY_UNITS.getValue()] = "Leveling Delay Units";
 

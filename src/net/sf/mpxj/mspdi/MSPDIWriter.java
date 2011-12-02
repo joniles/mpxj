@@ -74,7 +74,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
@@ -1688,18 +1688,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
          ProjectCalendar calendar = mpx.getCalendar();
          BigInteger assignmentID = xml.getUID();
 
-         List<TimephasedResourceAssignment> complete = mpx.getTimephasedComplete();
-         List<TimephasedResourceAssignment> planned = mpx.getTimephasedPlanned();
+         List<TimephasedWork> complete = mpx.getTimephasedComplete();
+         List<TimephasedWork> planned = mpx.getTimephasedPlanned();
 
          if (m_splitTimephasedAsDays)
          {
-            TimephasedResourceAssignment lastComplete = null;
+            TimephasedWork lastComplete = null;
             if (!complete.isEmpty())
             {
                lastComplete = complete.get(complete.size() - 1);
             }
 
-            TimephasedResourceAssignment firstPlanned = null;
+            TimephasedWork firstPlanned = null;
             if (!planned.isEmpty())
             {
                firstPlanned = planned.get(0);
@@ -1723,11 +1723,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param last last completed assignment
     * @return list of timephased data ready for output
     */
-   private List<TimephasedResourceAssignment> splitDays(ProjectCalendar calendar, List<TimephasedResourceAssignment> list, TimephasedResourceAssignment first, TimephasedResourceAssignment last)
+   private List<TimephasedWork> splitDays(ProjectCalendar calendar, List<TimephasedWork> list, TimephasedWork first, TimephasedWork last)
    {
-      List<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+      List<TimephasedWork> result = new LinkedList<TimephasedWork>();
 
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          Date startDate = assignment.getStart();
          Date finishDate = assignment.getFinish();
@@ -1761,7 +1761,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                if (paddingRequired)
                {
                   Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);
-                  TimephasedResourceAssignment padding = new TimephasedResourceAssignment();
+                  TimephasedWork padding = new TimephasedWork();
                   padding.setStart(currentStart);
                   padding.setFinish(startDate);
                   padding.setTotalWork(zeroHours);
@@ -1798,7 +1798,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                if (paddingRequired)
                {
                   Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);
-                  TimephasedResourceAssignment padding = new TimephasedResourceAssignment();
+                  TimephasedWork padding = new TimephasedWork();
                   padding.setStart(finishDate);
                   padding.setFinish(currentFinish);
                   padding.setTotalWork(zeroHours);
@@ -1823,7 +1823,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      currentFinish = finishDate;
                   }
 
-                  TimephasedResourceAssignment split = new TimephasedResourceAssignment();
+                  TimephasedWork split = new TimephasedWork();
                   split.setStart(currentStart);
                   split.setFinish(currentFinish);
                   split.setTotalWork(assignment.getWorkPerDay());
@@ -1856,9 +1856,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param data input list of timephased data
     * @param type list type (planned or completed)
     */
-   private void writeAssignmentTimephasedData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedResourceAssignment> data, int type)
+   private void writeAssignmentTimephasedData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
    {
-      for (TimephasedResourceAssignment mpx : data)
+      for (TimephasedWork mpx : data)
       {
          TimephasedDataType xml = m_factory.createTimephasedDataType();
          list.add(xml);

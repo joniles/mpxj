@@ -1020,6 +1020,11 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
 
+      //FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
+      //FixedData calFixed2Data = new FixedData(calFixed2Meta, getEncryptableInputStream(calDir, "Fixed2Data"), 48);
+      //System.out.println (calFixed2Meta);
+      //System.out.println (calFixed2Data);
+
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();

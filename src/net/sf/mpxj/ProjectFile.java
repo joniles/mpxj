@@ -2177,6 +2177,16 @@ public final class ProjectFile
       m_projectHeader.setCalendarName(calendar.getName());
    }
 
+   /**
+    * Retrieve the calendar used internally for timephased baseline calculation.
+    * 
+    * @return baseline calendar
+    */
+   public ProjectCalendar getBaselineCalendar()
+   {
+      return getBaseCalendar("Used for Microsoft Project 98 Baseline Calendar");
+   }
+
    private String m_projectFilePath;
 
    /**

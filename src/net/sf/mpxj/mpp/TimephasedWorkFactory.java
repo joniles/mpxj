@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedResourceAssignmentFactory
+ * file:       TimephasedWorkFactory
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2008
  * date:       25/10/2008
@@ -30,34 +30,34 @@ import java.util.List;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedWork;
 
 /**
- * This class contains methods to create lists of TimephasedResourceAssignment
+ * This class contains methods to create lists of TimephasedWork
  * instances for both complete and planned work relating to as resource
  * assignment.
  */
-final class TimephasedResourceAssignmentFactory
+final class TimephasedWorkFactory
 {
    /**
     * Given a block of data representing completed work, this method will
-    * retrieve a set of TimephasedResourceAssignment instances which represent
+    * retrieve a set of TimephasedWork instances which represent
     * the day by day work carried out for a specific resource assignment.
     *
     * @param calendar calendar on which date calculations are based
     * @param startDate assignment start date 
     * @param data completed work data block
-    * @return list of TimephasedResourceAssignment instances
+    * @return list of TimephasedWork instances
     */
-   public List<TimephasedResourceAssignment> getCompleteWork(ProjectCalendar calendar, Date startDate, byte[] data)
+   public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, Date startDate, byte[] data)
    {
-      LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
       if (data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          double previousCumulativeWork = 0;
-         TimephasedResourceAssignment previousAssignment = null;
+         TimephasedWork previousAssignment = null;
 
          int index = 32;
          int currentBlock = 0;
@@ -87,7 +87,7 @@ final class TimephasedResourceAssignmentFactory
                start = calendar.getDate(startDate, startWork, true);
             }
 
-            TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
+            TimephasedWork assignment = new TimephasedWork();
             assignment.setStart(start);
             assignment.setWorkPerDay(workPerDay);
             assignment.setTotalWork(totalWork);
@@ -128,7 +128,7 @@ final class TimephasedResourceAssignmentFactory
 
    /**
     * Given a block of data representing planned work, this method will
-    * retrieve a set of TimephasedResourceAssignment instances which represent
+    * retrieve a set of TimephasedWork instances which represent
     * the day by day work planned for a specific resource assignment.
     *
     * @param calendar calendar on which date calculations are based
@@ -136,11 +136,11 @@ final class TimephasedResourceAssignmentFactory
     * @param units assignment units 
     * @param data planned work data block
     * @param timephasedComplete list of complete work 
-    * @return list of TimephasedResourceAssignment instances 
+    * @return list of TimephasedWork instances 
     */
-   public List<TimephasedResourceAssignment> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedResourceAssignment> timephasedComplete)
+   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete)
    {
-      LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
+      LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
       if (data != null && data.length > 0)
       {
@@ -149,7 +149,7 @@ final class TimephasedResourceAssignmentFactory
          {
             if (!timephasedComplete.isEmpty() && units != 0)
             {
-               TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
+               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
 
                Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
                double time = MPPUtility.getDouble(data, 16);
@@ -163,7 +163,7 @@ final class TimephasedResourceAssignmentFactory
                time *= 6;
                Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
 
-               TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
+               TimephasedWork assignment = new TimephasedWork();
                assignment.setStart(startWork);
                assignment.setWorkPerDay(workPerDay);
                assignment.setModified(false);
@@ -182,13 +182,13 @@ final class TimephasedResourceAssignmentFactory
 
             if (!timephasedComplete.isEmpty())
             {
-               TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
+               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
                offset = lastComplete.getFinish();
             }
 
             int index = 40;
             double previousCumulativeWork = 0;
-            TimephasedResourceAssignment previousAssignment = null;
+            TimephasedWork previousAssignment = null;
             int currentBlock = 0;
 
             while (currentBlock < blockCount && index + 28 <= data.length)
@@ -220,7 +220,7 @@ final class TimephasedResourceAssignmentFactory
                int modifiedFlag = MPPUtility.getShort(data, index + 22);
                boolean modified = (modifiedFlag == 0 && currentBlock != 0) || ((modifiedFlag & 0x3000) != 0);
 
-               TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
+               TimephasedWork assignment = new TimephasedWork();
                assignment.setStart(start);
                assignment.setWorkPerDay(workPerDay);
                assignment.setModified(modified);
@@ -262,16 +262,16 @@ final class TimephasedResourceAssignmentFactory
    }
 
    /**
-    * Test the list of TimephasedResourceAssignment instances to see
+    * Test the list of TimephasedWork instances to see
     * if any of them have been modified. 
     * 
-    * @param list list of TimephasedResourceAssignment instances
+    * @param list list of TimephasedWork instances
     * @return boolean flag
     */
-   public boolean getWorkModified(List<TimephasedResourceAssignment> list)
+   public boolean getWorkModified(List<TimephasedWork> list)
    {
       boolean result = false;
-      for (TimephasedResourceAssignment assignment : list)
+      for (TimephasedWork assignment : list)
       {
          result = assignment.getModified();
          if (result)
@@ -280,5 +280,55 @@ final class TimephasedResourceAssignmentFactory
          }
       }
       return result;
+   }
+
+   /**
+    * Extracts baseline work from the MPP file for a specific baseline.
+    * Returns null if no baseline work is present, otherwise returns
+    * a list of timephased work items.
+    * 
+    * @param data timephased baseline work data block
+    * @return timephased work
+    */
+   public List<TimephasedWork> getBaselineWork(byte[] data)
+   {
+      LinkedList<TimephasedWork> list = null;
+
+      if (data != null && data.length > 0)
+      {
+         //System.out.println(MPPUtility.hexdump(data, false));
+         int index = 8; // 8 byte header
+         int blockSize = 40;
+         double previousWorkPerformed = 0;
+
+         Duration workPerDay = Duration.getInstance((8 * 60), TimeUnit.MINUTES);
+         Date blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 36);
+         index += blockSize;
+
+         while (index + blockSize <= data.length)
+         {
+            double otherWorkPerformedInMinutes = ((long) MPPUtility.getDouble(data, index + 20)) / 1000;
+            if (otherWorkPerformedInMinutes != previousWorkPerformed)
+            {
+               TimephasedWork work = new TimephasedWork();
+               work.setFinish(MPPUtility.getTimestampFromTenths(data, index + 16));
+               work.setStart(blockStartDate);
+               work.setTotalWork(Duration.getInstance(otherWorkPerformedInMinutes - previousWorkPerformed, TimeUnit.MINUTES));
+               work.setWorkPerDay(workPerDay);
+               previousWorkPerformed = otherWorkPerformedInMinutes;
+
+               if (list == null)
+               {
+                  list = new LinkedList<TimephasedWork>();
+               }
+               list.add(work);
+               //System.out.println(work);
+            }
+            blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 36);
+            index += blockSize;
+         }
+      }
+
+      return list;
    }
 }
