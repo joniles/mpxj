@@ -96,4 +96,13 @@ interface VarMeta
     * @return Boolean flag
     */
    public boolean containsKey(Integer key);
+
+   /**
+    * This method dumps the contents of this VarMeta block as a String.
+    * Note that this facility is provided as a debugging aid.
+    *
+    * @param fieldMap field map used to decode var data keys
+    * @return formatted contents of this block
+    */
+   public String toString(FieldMap fieldMap);
 }

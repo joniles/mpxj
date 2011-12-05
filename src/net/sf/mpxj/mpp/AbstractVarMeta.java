@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.sf.mpxj.FieldType;
+
 /**
  * This class reads in the data from a VarMeta block. This block contains
  * meta data about variable length data items stored in a Var2Data block.
@@ -158,6 +160,18 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     */
    @Override public String toString()
    {
+      return toString(null);
+   }
+
+   /**
+    * This method dumps the contents of this VarMeta block as a String.
+    * Note that this facility is provided as a debugging aid.
+    *
+    * @param fieldMap field map used to decode var data keys
+    * @return formatted contents of this block
+    */
+   public String toString(FieldMap fieldMap)
+   {
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
 
@@ -172,7 +186,8 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
          for (Integer type : map.keySet())
          {
             Integer offset = map.get(type);
-            pw.println("      Type=" + type + " Offset=" + offset);
+            FieldType fieldType = fieldMap == null ? null : fieldMap.getFieldTypeFromVarDataKey(type);
+            pw.println("      Type=" + (fieldType == null ? type : fieldType) + " Offset=" + offset);
          }
       }
 

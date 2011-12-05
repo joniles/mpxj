@@ -135,7 +135,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       Date assignmentStart = assignment.getStart();
       Date assignmentFinish = assignment.getFinish();
       Duration calendarWork = calendar.getWork(assignmentStart, assignmentFinish, TimeUnit.MINUTES);
-      Duration assignmentWork = assignment.getTotalWork();
+      Duration assignmentWork = assignment.getTotalAmount();
 
       if (calendarWork.getDuration() != 0)
       {
@@ -160,7 +160,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
             TimephasedWork split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
-            split.setTotalWork(splitWork);
+            split.setTotalAmount(splitWork);
 
             result[0] = split;
          }
@@ -188,7 +188,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
             split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
-            split.setTotalWork(splitWork);
+            split.setTotalAmount(splitWork);
          }
 
          result[1] = split;
@@ -211,7 +211,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       {
          if (previousAssignment == null)
          {
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
          else
@@ -223,8 +223,8 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {
-               Duration previousAssignmentWork = previousAssignment.getTotalWork();
-               Duration assignmentWork = assignment.getTotalWork();
+               Duration previousAssignmentWork = previousAssignment.getTotalAmount();
+               Duration assignmentWork = assignment.getTotalAmount();
 
                if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() == 0)
                {
@@ -235,14 +235,14 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
                if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                {
-                  double work = previousAssignment.getTotalWork().getDuration();
-                  work += assignment.getTotalWork().getDuration();
+                  double work = previousAssignment.getTotalAmount().getDuration();
+                  work += assignment.getTotalAmount().getDuration();
                   Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
 
                   TimephasedWork merged = new TimephasedWork();
                   merged.setStart(previousAssignment.getStart());
                   merged.setFinish(assignment.getFinish());
-                  merged.setTotalWork(totalWork);
+                  merged.setTotalAmount(totalWork);
                   assignment = merged;
                }
                else
@@ -254,12 +254,12 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
                }
             }
 
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
 
          Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
-         Duration assignmentWork = assignment.getTotalWork();
+         Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
             result.removeLast();
@@ -291,7 +291,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          Date assignmentFinish = assignment.getFinish();
          Date calendarFinishTime = calendar.getFinishTime(assignmentFinish);
          Date assignmentFinishTime = DateUtility.getCanonicalTime(assignmentFinish);
-         double totalWork = assignment.getTotalWork().getDuration();
+         double totalWork = assignment.getTotalAmount().getDuration();
 
          if (assignmentStartTime != null && calendarStartTime != null)
          {

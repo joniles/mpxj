@@ -1111,7 +1111,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
       ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getCalendar();
-      List<TimephasedWork> assignments = (complete ? assignment.getTimephasedComplete() : assignment.getTimephasedPlanned());
+      List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
       ArrayList<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());

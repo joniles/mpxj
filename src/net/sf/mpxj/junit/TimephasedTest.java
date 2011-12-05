@@ -132,7 +132,7 @@ public class TimephasedTest extends MPXJTestCase
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       ResourceAssignment assignment = assignments.get(0);
-      List<TimephasedWork> timephasedPlanned = assignment.getTimephasedPlanned();
+      List<TimephasedWork> timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       TimephasedWork timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -140,7 +140,7 @@ public class TimephasedTest extends MPXJTestCase
       testTimephased(timephased, "21/11/2008 08:00", "02/12/2008 17:00", 64.0, 8.0);
       timephased = timephasedPlanned.get(2);
       testTimephased(timephased, "03/12/2008 08:00", "03/12/2008 12:00", 4.0, 4.0);
-      List<TimephasedWork> timephasedComplete = assignment.getTimephasedComplete();
+      List<TimephasedWork> timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       //
@@ -150,7 +150,7 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(11, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -174,7 +174,7 @@ public class TimephasedTest extends MPXJTestCase
       testTimephased(timephased, "10/12/2008 08:00", "10/12/2008 17:00", 0.875, 0.875);
       timephased = timephasedPlanned.get(10);
       testTimephased(timephased, "11/12/2008 08:00", "11/12/2008 15:00", 0.6, 0.6);
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -206,9 +206,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(11, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 0.7, 0.7);
@@ -240,9 +240,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -264,9 +264,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(7, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -290,9 +290,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(6, timephasedComplete.size());
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -314,9 +314,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -332,9 +332,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(7, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
@@ -358,7 +358,7 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(9, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -378,7 +378,7 @@ public class TimephasedTest extends MPXJTestCase
       testTimephased(timephased, "02/12/2008 00:00", "04/12/2008 00:00", 16.0, 8.0);
       timephased = timephasedPlanned.get(8);
       testTimephased(timephased, "04/12/2008 00:00", "04/12/2008 02:00", 2.0, 2.0);
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       //
@@ -388,9 +388,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(18, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -436,9 +436,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(17, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 0.1, 0.1);
@@ -482,9 +482,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(6, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -518,9 +518,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(12, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -554,9 +554,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(5, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(10, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -596,9 +596,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(9, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -626,9 +626,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(12, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
@@ -662,7 +662,7 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
@@ -670,7 +670,7 @@ public class TimephasedTest extends MPXJTestCase
       testTimephased(timephased, "21/11/2008 00:00", "23/11/2008 00:00", 48.0, 24.0);
       timephased = timephasedPlanned.get(2);
       testTimephased(timephased, "23/11/2008 00:00", "23/11/2008 12:00", 12.0, 12.0);
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       //
@@ -680,9 +680,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       timephased = timephasedPlanned.get(0);
@@ -705,9 +705,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       timephased = timephasedPlanned.get(0);
@@ -730,9 +730,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(2, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
@@ -752,9 +752,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
@@ -776,9 +776,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(4, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
@@ -802,9 +802,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
@@ -820,9 +820,9 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
+      timephasedPlanned = assignment.getTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(6, timephasedComplete.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
@@ -844,8 +844,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -862,8 +862,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(12, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -898,8 +898,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(12, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -934,8 +934,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -958,8 +958,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(7, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -984,8 +984,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(6, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -1014,8 +1014,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       assertEquals(0, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -1032,8 +1032,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(7, timephasedComplete.size());
       assertEquals(0, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -1058,8 +1058,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -1076,8 +1076,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(12, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -1112,8 +1112,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(12, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -1148,8 +1148,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -1172,8 +1172,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       assertEquals(7, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -1198,8 +1198,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(6, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
@@ -1229,8 +1229,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       assertEquals(0, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -1247,8 +1247,8 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();
-      timephasedComplete = assignment.getTimephasedComplete();
+      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(7, timephasedComplete.size());
       assertEquals(0, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
@@ -1281,12 +1281,12 @@ public class TimephasedTest extends MPXJTestCase
    {
       assertEquals(start, m_df.format(assignment.getStart()));
       assertEquals(finish, m_df.format(assignment.getFinish()));
-      assertEquals(totalWork, assignment.getTotalWork().getDuration(), 0.02);
-      assertEquals(TimeUnit.HOURS, assignment.getTotalWork().getUnits());
+      assertEquals(totalWork, assignment.getTotalAmount().getDuration(), 0.02);
+      assertEquals(TimeUnit.HOURS, assignment.getTotalAmount().getUnits());
       if (workPerDay != -1)
       {
-         assertEquals(workPerDay, assignment.getWorkPerDay().getDuration(), 0.02);
-         assertEquals(TimeUnit.HOURS, assignment.getWorkPerDay().getUnits());
+         assertEquals(workPerDay, assignment.getAmountPerDay().getDuration(), 0.02);
+         assertEquals(TimeUnit.HOURS, assignment.getAmountPerDay().getUnits());
       }
    }
 

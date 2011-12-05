@@ -52,7 +52,7 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
       {
          if (previousAssignment == null)
          {
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
          else
@@ -66,19 +66,18 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
             {
                result.removeLast();
 
-               double work = previousAssignment.getTotalWork().getDuration();
-               work += assignment.getTotalWork().getDuration();
+               double work = previousAssignment.getTotalAmount().getDuration();
+               work += assignment.getTotalAmount().getDuration();
                Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
 
                TimephasedWork merged = new TimephasedWork();
                merged.setStart(previousAssignment.getStart());
                merged.setFinish(assignment.getFinish());
-               merged.setTotalWork(totalWork);
+               merged.setTotalAmount(totalWork);
                assignment = merged;
-
             }
 
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
 

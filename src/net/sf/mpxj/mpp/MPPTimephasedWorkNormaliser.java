@@ -52,7 +52,7 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
       {
          if (previousAssignment == null)
          {
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
          else
@@ -64,8 +64,8 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {
-               Duration previousAssignmentWork = previousAssignment.getTotalWork();
-               Duration assignmentWork = assignment.getTotalWork();
+               Duration previousAssignmentWork = previousAssignment.getTotalAmount();
+               Duration assignmentWork = assignment.getTotalAmount();
 
                if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() == 0)
                {
@@ -80,14 +80,14 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
 
                   if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                   {
-                     double work = previousAssignment.getTotalWork().getDuration();
-                     work += assignment.getTotalWork().getDuration();
+                     double work = previousAssignment.getTotalAmount().getDuration();
+                     work += assignment.getTotalAmount().getDuration();
                      Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
 
                      TimephasedWork merged = new TimephasedWork();
                      merged.setStart(previousAssignment.getStart());
                      merged.setFinish(assignment.getFinish());
-                     merged.setTotalWork(totalWork);
+                     merged.setTotalAmount(totalWork);
                      assignment = merged;
                   }
                   else
@@ -100,12 +100,12 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
                }
             }
 
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
 
          Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
-         Duration assignmentWork = assignment.getTotalWork();
+         Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
             result.removeLast();

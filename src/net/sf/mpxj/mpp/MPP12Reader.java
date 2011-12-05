@@ -2253,7 +2253,7 @@ final class MPP12Reader implements MPPVariantReader
       // We need to identify any cases where the meta data count does not correctly identify the block size
       FixedData assnFixedData = new FixedData(assnFixedMeta, getEncryptableInputStream(assnDir, "FixedData"));
       FixedData assnFixedData2 = new FixedData(48, getEncryptableInputStream(assnDir, "Fixed2Data"));
-      ResourceAssignmentFactoryCommon factory = new ResourceAssignmentFactoryCommon();
+      ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
       factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2);
    }
 

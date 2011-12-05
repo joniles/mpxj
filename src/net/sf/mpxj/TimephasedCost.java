@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedWork.java
+ * file:       TimephasedCost.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
  * date:       05/12/2011
@@ -24,9 +24,9 @@
 package net.sf.mpxj;
 
 /**
- * Represents timephased work.
+ * Represents timephased cost.
  */
-public final class TimephasedWork extends TimephasedItem<Duration>
+public final class TimephasedCost extends TimephasedItem<Number>
 {
    // Empty block
 }

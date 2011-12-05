@@ -32,6 +32,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedItem;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
@@ -108,12 +109,13 @@ public final class TimephasedUtility
     * Used to locate the first timephased resource assignment block which
     * intersects with the target date range.
     * 
+    * @param <T> payload type
     * @param range target date range
     * @param assignments timephased resource assignments
     * @param startIndex index at which to start the search
     * @return index of timephased resource assignment which intersects with the target date range
     */
-   private int getStartIndex(DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private <T extends TimephasedItem<?>> int getStartIndex(DateRange range, List<T> assignments, int startIndex)
    {
       int result = -1;
       long rangeStart = range.getStart().getTime();
@@ -121,7 +123,7 @@ public final class TimephasedUtility
 
       for (int loop = startIndex; loop < assignments.size(); loop++)
       {
-         TimephasedWork assignment = assignments.get(loop);
+         T assignment = assignments.get(loop);
          int compareResult = DateUtility.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
 
          //
@@ -290,7 +292,7 @@ public final class TimephasedUtility
          // check to see if the next TRA can be used.
          //
          done = true;
-         totalWork += (assignment.getWorkPerDay().getDuration() * totalDays);
+         totalWork += (assignment.getAmountPerDay().getDuration() * totalDays);
          if (startDate < rangeEndDate)
          {
             ++startIndex;
@@ -304,6 +306,6 @@ public final class TimephasedUtility
       }
       while (!done);
 
-      return Duration.getInstance(totalWork, assignment.getWorkPerDay().getUnits());
+      return Duration.getInstance(totalWork, assignment.getAmountPerDay().getUnits());
    }
 }

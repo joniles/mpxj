@@ -59,7 +59,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * @param costPerUse cost per use
     * @param endDate end date
     */
-   public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Double costPerUse, Date endDate)
+   public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date endDate)
    {
       m_endDate = endDate;
       m_standardRate = standardRate;
@@ -124,7 +124,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * 
     * @return per use rate
     */
-   public Double getCostPerUse()
+   public Number getCostPerUse()
    {
       return m_costPerUse;
    }
@@ -150,7 +150,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
    private TimeUnit m_standardRateFormat;
    private Rate m_overtimeRate;
    private TimeUnit m_overtimeRateFormat;
-   private Double m_costPerUse;
+   private Number m_costPerUse;
 
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
 }

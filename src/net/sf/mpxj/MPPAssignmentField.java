@@ -74,8 +74,9 @@ public final class MPPAssignmentField
       FIELD_ARRAY[20] = AssignmentField.START;
       FIELD_ARRAY[21] = AssignmentField.FINISH;
       FIELD_ARRAY[7] = AssignmentField.ASSIGNMENT_UNITS;
-      FIELD_ARRAY[49] = AssignmentField.TIMEPHASED_WORK_PLANNED;
-      FIELD_ARRAY[50] = AssignmentField.TIMEPHASED_WORK_COMPLETE;
+      FIELD_ARRAY[49] = AssignmentField.TIMEPHASED_WORK;
+      FIELD_ARRAY[50] = AssignmentField.TIMEPHASED_ACTUAL_WORK;
+      FIELD_ARRAY[51] = AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK;
       FIELD_ARRAY[52] = AssignmentField.TIMEPHASED_BASELINE_WORK;
       FIELD_ARRAY[291] = AssignmentField.TIMEPHASED_BASELINE1_WORK;
       FIELD_ARRAY[300] = AssignmentField.TIMEPHASED_BASELINE2_WORK;

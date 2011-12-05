@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
@@ -366,6 +367,27 @@ abstract class FieldMap
       if (item != null)
       {
          result = item.getVarDataKey();
+      }
+      return result;
+   }
+
+   /**
+    * Used to map from a var data key to a field type. Note this
+    * is designed for diagnostic use only, and uses an inefficient search.
+    * 
+    * @param key var data key
+    * @return field type
+    */
+   public FieldType getFieldTypeFromVarDataKey(Integer key)
+   {
+      FieldType result = null;
+      for (Entry<FieldType, FieldMap.FieldItem> entry : m_map.entrySet())
+      {
+         if (entry.getValue().getFieldLocation() == FieldLocation.VAR_DATA && entry.getValue().getVarDataKey().equals(key))
+         {
+            result = entry.getKey();
+            break;
+         }
       }
       return result;
    }

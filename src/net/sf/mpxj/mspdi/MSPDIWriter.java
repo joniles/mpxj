@@ -1688,8 +1688,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          ProjectCalendar calendar = mpx.getCalendar();
          BigInteger assignmentID = xml.getUID();
 
-         List<TimephasedWork> complete = mpx.getTimephasedComplete();
-         List<TimephasedWork> planned = mpx.getTimephasedPlanned();
+         List<TimephasedWork> complete = mpx.getTimephasedActualWork();
+         List<TimephasedWork> planned = mpx.getTimephasedWork();
 
          if (m_splitTimephasedAsDays)
          {
@@ -1705,7 +1705,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                firstPlanned = planned.get(0);
             }
 
-            planned = splitDays(calendar, mpx.getTimephasedPlanned(), null, lastComplete);
+            planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
             complete = splitDays(calendar, complete, firstPlanned, null);
          }
 
@@ -1764,8 +1764,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   TimephasedWork padding = new TimephasedWork();
                   padding.setStart(currentStart);
                   padding.setFinish(startDate);
-                  padding.setTotalWork(zeroHours);
-                  padding.setWorkPerDay(zeroHours);
+                  padding.setTotalAmount(zeroHours);
+                  padding.setAmountPerDay(zeroHours);
                   result.add(padding);
                }
             }
@@ -1801,8 +1801,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   TimephasedWork padding = new TimephasedWork();
                   padding.setStart(finishDate);
                   padding.setFinish(currentFinish);
-                  padding.setTotalWork(zeroHours);
-                  padding.setWorkPerDay(zeroHours);
+                  padding.setTotalAmount(zeroHours);
+                  padding.setAmountPerDay(zeroHours);
                   result.add(padding);
                }
             }
@@ -1826,8 +1826,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   TimephasedWork split = new TimephasedWork();
                   split.setStart(currentStart);
                   split.setFinish(currentFinish);
-                  split.setTotalWork(assignment.getWorkPerDay());
-                  split.setWorkPerDay(assignment.getWorkPerDay());
+                  split.setTotalAmount(assignment.getAmountPerDay());
+                  split.setAmountPerDay(assignment.getAmountPerDay());
                   result.add(split);
                }
 
@@ -1867,8 +1867,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
-         xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalWork(), false));
-         xml.setValue(DatatypeConverter.printDuration(this, mpx.getTotalWork()));
+         xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalAmount(), false));
+         xml.setValue(DatatypeConverter.printDuration(this, mpx.getTotalAmount()));
       }
    }
 

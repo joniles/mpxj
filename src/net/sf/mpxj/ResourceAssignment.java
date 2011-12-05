@@ -547,34 +547,20 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @return timephased completed work
     */
-   public List<TimephasedWork> getTimephasedComplete()
+   public List<TimephasedWork> getTimephasedActualWork()
    {
-      if (m_timephasedCompleteRaw)
-      {
-         m_timephasedNormaliser.normalise(getCalendar(), m_timephasedComplete);
-         m_timephasedCompleteRaw = false;
-      }
-      return m_timephasedComplete;
+      return m_timephasedActualWork == null ? null : m_timephasedActualWork.getData();
    }
 
    /**
     * Sets the timephased breakdown of the completed work for this
     * resource assignment.
     * 
-    * @param timephasedComplete timephased completed work
-    * @param raw flag indicating if the assignment data is raw
+    * @param data timephased data
     */
-   public void setTimephasedComplete(List<TimephasedWork> timephasedComplete, boolean raw)
+   public void setTimephasedActualWork(TimephasedData data)
    {
-      if (timephasedComplete instanceof LinkedList<?>)
-      {
-         m_timephasedComplete = (LinkedList<TimephasedWork>) timephasedComplete;
-      }
-      else
-      {
-         m_timephasedComplete = new LinkedList<TimephasedWork>(timephasedComplete);
-      }
-      m_timephasedCompleteRaw = raw;
+      m_timephasedActualWork = data;
    }
 
    /**
@@ -583,54 +569,262 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedPlanned()
+   public List<TimephasedWork> getTimephasedWork()
    {
-      if (m_timephasedPlannedRaw)
-      {
-         m_timephasedNormaliser.normalise(getCalendar(), m_timephasedPlanned);
-         m_timephasedPlannedRaw = false;
-      }
-      return m_timephasedPlanned;
+      return m_timephasedWork == null ? null : m_timephasedWork.getData();
    }
 
    /**
     * Sets the timephased breakdown of the planned work for this
     * resource assignment.
     * 
-    * @param timephasedPlanned timephased planned work
-    * @param raw flag indicating if the assignment data is raw 
+    * @param data timephased data 
     */
-   public void setTimephasedPlanned(List<TimephasedWork> timephasedPlanned, boolean raw)
+   public void setTimephasedWork(TimephasedData data)
    {
-      if (timephasedPlanned instanceof LinkedList<?>)
+      m_timephasedWork = data;
+   }
+
+   /**
+    * Retrieves the timephased breakdown of the planned overtime work for this
+    * resource assignment. 
+    * 
+    * @return timephased planned work
+    */
+   public List<TimephasedWork> getTimephasedOvertimeWork()
+   {
+      if (m_timephasedOvertimeWork == null && m_timephasedWork != null && getOvertimeWork() != null)
       {
-         m_timephasedPlanned = (LinkedList<TimephasedWork>) timephasedPlanned;
+         double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
+         double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
+
+         m_timephasedOvertimeWork = new TimephasedData(m_timephasedWork, perDayFactor, totalFactor);
+      }
+      return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
+   }
+
+   /**
+    * Sets the timephased breakdown of the actual overtime work
+    * for this assignment.
+    * 
+    * @param data timephased work
+    */
+   public void setTimephasedActualOvertimeWork(TimephasedData data)
+   {
+      m_timephasedActualOvertimeWork = data;
+   }
+
+   /**
+    * Retrieves the timephased breakdown of the actual overtime work for this
+    * resource assignment. 
+    * 
+    * @return timephased planned work
+    */
+   public List<TimephasedWork> getTimephasedActualOvertimeWork()
+   {
+      return m_timephasedActualOvertimeWork == null ? null : m_timephasedActualOvertimeWork.getData();
+   }
+
+   /**
+    * Retrieves the timephased breakdown of cost.
+    * 
+    * @return timephased cost
+    */
+   public List<TimephasedCost> getTimephasedCost()
+   {
+      if (m_timephasedCost == null && m_timephasedWork != null && m_timephasedWork.hasData())
+      {
+         if (hasMultipleCostRates())
+         {
+            m_timephasedCost = getTimephasedCostMultipleRates(m_timephasedWork.getData(), true);
+         }
+         else
+         {
+            m_timephasedCost = getTimephasedCostSingleRate(m_timephasedWork.getData(), true);
+         }
+      }
+      return m_timephasedCost;
+   }
+
+   /**
+    * Retrieves the timephased breakdown of actual cost.
+    * 
+    * @return timephased actual cost
+    */
+   public List<TimephasedCost> getTimephasedActualCost()
+   {
+      if (m_timephasedActualCost == null && m_timephasedWork != null && m_timephasedWork.hasData())
+      {
+         if (hasMultipleCostRates())
+         {
+            m_timephasedActualCost = getTimephasedCostMultipleRates(m_timephasedActualWork.getData(), true);
+         }
+         else
+         {
+            m_timephasedActualCost = getTimephasedCostSingleRate(m_timephasedActualWork.getData(), true);
+         }
+      }
+      return m_timephasedActualCost;
+   }
+
+   /**
+    * Retrieves the timephased breakdown of overtime cost.
+    * 
+    * @return timephased cost
+    */
+   public List<TimephasedCost> getTimephasedOvertimeCost()
+   {
+      if (m_timephasedOvertimeCost == null && m_timephasedOvertimeWork != null && m_timephasedOvertimeWork.hasData())
+      {
+         if (hasMultipleCostRates())
+         {
+            m_timephasedOvertimeCost = getTimephasedCostMultipleRates(m_timephasedOvertimeWork.getData(), false);
+         }
+         else
+         {
+            m_timephasedOvertimeCost = getTimephasedCostSingleRate(m_timephasedOvertimeWork.getData(), false);
+         }
+      }
+      return m_timephasedOvertimeCost;
+   }
+
+   /**
+    * Retrieves the timephased breakdown of actual overtime cost.
+    * 
+    * @return timephased actual overtime cost
+    */
+   public List<TimephasedCost> getTimephasedActualOvertimeCost()
+   {
+      if (m_timephasedActualOvertimeCost == null && m_timephasedActualOvertimeWork != null && m_timephasedActualOvertimeWork.hasData())
+      {
+         if (hasMultipleCostRates())
+         {
+            m_timephasedActualOvertimeCost = getTimephasedCostMultipleRates(m_timephasedActualOvertimeWork.getData(), false);
+         }
+         else
+         {
+            m_timephasedActualOvertimeCost = getTimephasedCostSingleRate(m_timephasedActualOvertimeWork.getData(), false);
+         }
+      }
+      return m_timephasedActualOvertimeCost;
+   }
+
+   /**
+    * Generates timephased costs from timephased work where a single cost rate
+    * applies to the whole assignment.
+    * 
+    * @param list timephased work
+    * @param standard flag indicatring if standard or overtime rate is used
+    * @return timephased cost
+    */
+   private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> list, boolean standard)
+   {
+      List<TimephasedCost> result = new LinkedList<TimephasedCost>();
+      CostRateTableEntry rate = getCostRateTableEntry(getStart());
+      double rateValue = standard ? rate.getStandardRate().getAmount() : rate.getOvertimeRate().getAmount();
+      TimeUnit rateUnits = standard ? rate.getStandardRate().getUnits() : rate.getOvertimeRate().getUnits();
+
+      for (TimephasedWork work : list)
+      {
+         Duration workPerDay = work.getAmountPerDay();
+         if (workPerDay.getUnits() != rateUnits)
+         {
+            workPerDay = workPerDay.convertUnits(rateUnits, getParentFile().getProjectHeader());
+         }
+
+         Duration totalWork = work.getTotalAmount();
+         if (totalWork.getUnits() != rateUnits)
+         {
+            totalWork = totalWork.convertUnits(rateUnits, getParentFile().getProjectHeader());
+         }
+
+         double costPerDay = workPerDay.getDuration() * rateValue;
+         double totalCost = totalWork.getDuration() * rateValue;
+
+         TimephasedCost cost = new TimephasedCost();
+         cost.setStart(work.getStart());
+         cost.setFinish(work.getFinish());
+         cost.setModified(work.getModified());
+         cost.setAmountPerDay(Double.valueOf(costPerDay));
+         cost.setTotalAmount(Double.valueOf(totalCost));
+         result.add(cost);
+      }
+
+      return result;
+   }
+
+   /**
+    * Generates timephased costs from timephased work where multiple cost rates
+    * apply to the assignment.
+    * 
+    * @param list timephased work
+    * @param standard flag indicatring if standard or overtime rate is used
+    * @return timephased cost
+    */
+   @SuppressWarnings("all") private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> list, boolean standard)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * Used to determine if multiple cost rates apply to this assignment.
+    * 
+    * @return true if multiple cost rates apply to this assignment
+    */
+   private boolean hasMultipleCostRates()
+   {
+      boolean result = false;
+      CostRateTable table = getResource().getCostRateTable(getCostRateTableIndex());
+      if (table != null)
+      {
+         //
+         // We assume here that if there is just one entry in the cost rate
+         // table, this is an open ended rate which covers any work, it won't
+         // have specific dates attached to it.
+         //
+         if (table.size() > 1)
+         {
+            //
+            // If we have multiple rates in the table, see if the same rate
+            // is in force at the start and the end of the aaaignment.
+            //
+            CostRateTableEntry startEntry = table.getEntryByDate(getStart());
+            CostRateTableEntry finishEntry = table.getEntryByDate(getFinish());
+            result = (startEntry != finishEntry);
+         }
+      }
+      return result;
+   }
+
+   /**
+    * Retrieves the cost rate table entry active on a given date.
+    * 
+    * @param date target date
+    * @return cost rate table entry
+    */
+   private CostRateTableEntry getCostRateTableEntry(Date date)
+   {
+      CostRateTableEntry result;
+
+      CostRateTable table = getResource().getCostRateTable(getCostRateTableIndex());
+      if (table == null)
+      {
+         Resource resource = getResource();
+         result = new CostRateTableEntry(resource.getStandardRate(), TimeUnit.HOURS, resource.getOvertimeRate(), TimeUnit.HOURS, resource.getCostPerUse(), null);
       }
       else
       {
-         m_timephasedPlanned = new LinkedList<TimephasedWork>(timephasedPlanned);
+         if (table.size() == 1)
+         {
+            result = table.get(0);
+         }
+         else
+         {
+            result = table.getEntryByDate(date);
+         }
       }
-      m_timephasedPlannedRaw = raw;
-   }
 
-   /**
-    * Set the class instance used to normalise timephased data.
-    * 
-    * @param normaliser class instance used to normalise timephased data
-    */
-   public void setTimephasedNormaliser(TimephasedWorkNormaliser normaliser)
-   {
-      m_timephasedNormaliser = normaliser;
-   }
-
-   /**
-    * Set the class instance used to normalise timephased baseline work data.
-    * 
-    * @param normaliser class instance used to normalise timephased data
-    */
-   public void setTimephasedBaselineWorkNormaliser(TimephasedWorkNormaliser normaliser)
-   {
-      m_timephasedBaselineWorkNormaliser = normaliser;
+      return result;
    }
 
    /**
@@ -641,7 +835,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getHasTimephasedData()
    {
-      return (m_timephasedPlanned != null && !m_timephasedPlanned.isEmpty()) || (m_timephasedComplete != null && !m_timephasedComplete.isEmpty());
+      return (m_timephasedWork != null && m_timephasedWork.hasData()) || (m_timephasedActualWork != null && m_timephasedActualWork.hasData());
    }
 
    /**
@@ -649,23 +843,11 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * index 1 represents "Baseline1" and so on.
     * 
     * @param index baseline index
-    * @param work timephased work
-    * @param raw flag indicating if the assignment data is raw
+    * @param data timephased data
     */
-   public void setTimephasedBaselineWork(int index, List<TimephasedWork> work, boolean raw)
+   public void setTimephasedBaselineWork(int index, TimephasedData data)
    {
-      if (work != null)
-      {
-         if (work instanceof LinkedList<?>)
-         {
-            m_timephasedBaselineWork[index] = work;
-         }
-         else
-         {
-            m_timephasedBaselineWork[index] = new LinkedList<TimephasedWork>(work);
-         }
-         m_timephasedBaselineWorkRaw[index] = raw;
-      }
+      m_timephasedBaselineWork[index] = data;
    }
 
    /** 
@@ -675,15 +857,9 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedBaselineWork(int index)
+   public List<TimephasedWork> getTimephasedBaselineWork(int index)
    {
-      if (m_timephasedBaselineWorkRaw[index])
-      {
-         m_timephasedBaselineWorkNormaliser.normalise(getParentFile().getBaselineCalendar(), (LinkedList<TimephasedWork>) m_timephasedBaselineWork[index]);
-         m_timephasedBaselineWorkRaw[index] = false;
-      }
-
-      return (List<TimephasedWork>) m_timephasedBaselineWork[index];
+      return m_timephasedBaselineWork[index] == null ? null : m_timephasedBaselineWork[index].getData();
    }
 
    /**
@@ -2236,15 +2412,21 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    private Object[] m_array = new Object[AssignmentField.MAX_VALUE];
 
    private boolean m_eventsEnabled = true;
-   private LinkedList<TimephasedWork> m_timephasedComplete;
-   private LinkedList<TimephasedWork> m_timephasedPlanned;
-   private boolean m_timephasedCompleteRaw;
-   private boolean m_timephasedPlannedRaw;
-   private TimephasedWorkNormaliser m_timephasedNormaliser;
+
+   private TimephasedData m_timephasedWork;
+   private List<TimephasedCost> m_timephasedCost;
+
+   private TimephasedData m_timephasedActualWork;
+   private List<TimephasedCost> m_timephasedActualCost;
+
+   private TimephasedData m_timephasedOvertimeWork;
+   private List<TimephasedCost> m_timephasedOvertimeCost;
+
+   private TimephasedData m_timephasedActualOvertimeWork;
+   private List<TimephasedCost> m_timephasedActualOvertimeCost;
+
    private List<FieldListener> m_listeners;
-   private Object[] m_timephasedBaselineWork = new Object[11];
-   private boolean[] m_timephasedBaselineWorkRaw = new boolean[11];
-   private TimephasedWorkNormaliser m_timephasedBaselineWorkNormaliser;
+   private TimephasedData[] m_timephasedBaselineWork = new TimephasedData[11];
 
    /**
     * Reference to the parent task of this assignment.

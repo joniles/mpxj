@@ -77,6 +77,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedData;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
@@ -1329,10 +1330,12 @@ public final class MSPDIReader extends AbstractProjectReader
             raw = false;
          }
 
+         TimephasedData timephasedCompleteData = new TimephasedData(calendar, normaliser, timephasedComplete, raw);
+         TimephasedData timephasedPlannedData = new TimephasedData(calendar, normaliser, timephasedPlanned, raw);
+
          if (task != null)
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
-            mpx.setTimephasedNormaliser(normaliser);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(DatatypeConverter.parseDate(assignment.getActualFinish()));
@@ -1380,8 +1383,8 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
 
-            mpx.setTimephasedComplete(timephasedComplete, raw);
-            mpx.setTimephasedPlanned(timephasedPlanned, raw);
+            mpx.setTimephasedActualWork(timephasedCompleteData);
+            mpx.setTimephasedWork(timephasedPlannedData);
 
             readAssignmentExtendedAttributes(assignment, mpx);
 
@@ -1464,7 +1467,7 @@ public final class MSPDIReader extends AbstractProjectReader
       boolean result = false;
       for (TimephasedWork assignment : list)
       {
-         if (assignment.getTotalWork().getDuration() == 0)
+         if (assignment.getTotalAmount().getDuration() == 0)
          {
             Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
             if (calendarWork.getDuration() != 0)
@@ -1511,7 +1514,7 @@ public final class MSPDIReader extends AbstractProjectReader
          TimephasedWork tra = new TimephasedWork();
          tra.setStart(startDate);
          tra.setFinish(finishDate);
-         tra.setTotalWork(work);
+         tra.setTotalAmount(work);
 
          result.add(tra);
       }

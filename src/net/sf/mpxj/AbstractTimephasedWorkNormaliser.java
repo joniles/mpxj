@@ -58,34 +58,34 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
       {
          if (previousAssignment == null)
          {
-            assignment.setWorkPerDay(assignment.getTotalWork());
+            assignment.setAmountPerDay(assignment.getTotalAmount());
             result.add(assignment);
          }
          else
          {
-            Duration previousAssignmentWork = previousAssignment.getWorkPerDay();
-            Duration assignmentWork = assignment.getTotalWork();
+            Duration previousAssignmentWork = previousAssignment.getAmountPerDay();
+            Duration assignmentWork = assignment.getTotalAmount();
 
             if (NumberUtility.equals(previousAssignmentWork.getDuration(), assignmentWork.getDuration(), 0.01))
             {
                Date assignmentStart = previousAssignment.getStart();
                Date assignmentFinish = assignment.getFinish();
-               double total = previousAssignment.getTotalWork().getDuration();
+               double total = previousAssignment.getTotalAmount().getDuration();
                total += assignmentWork.getDuration();
                Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);
 
                TimephasedWork merged = new TimephasedWork();
                merged.setStart(assignmentStart);
                merged.setFinish(assignmentFinish);
-               merged.setWorkPerDay(assignmentWork);
-               merged.setTotalWork(totalWork);
+               merged.setAmountPerDay(assignmentWork);
+               merged.setTotalAmount(totalWork);
 
                result.removeLast();
                assignment = merged;
             }
             else
             {
-               assignment.setWorkPerDay(assignment.getTotalWork());
+               assignment.setAmountPerDay(assignment.getTotalAmount());
             }
             result.add(assignment);
          }
@@ -106,13 +106,12 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
    {
       for (TimephasedWork assignment : list)
       {
-         Duration totalWork = assignment.getTotalWork();
-         Duration workPerDay = assignment.getWorkPerDay();
+         Duration totalWork = assignment.getTotalAmount();
+         Duration workPerDay = assignment.getAmountPerDay();
          totalWork = Duration.getInstance(totalWork.getDuration() / 60, TimeUnit.HOURS);
          workPerDay = Duration.getInstance(workPerDay.getDuration() / 60, TimeUnit.HOURS);
-         assignment.setTotalWork(totalWork);
-         assignment.setWorkPerDay(workPerDay);
+         assignment.setTotalAmount(totalWork);
+         assignment.setAmountPerDay(workPerDay);
       }
    }
-
 }

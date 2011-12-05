@@ -30,7 +30,9 @@ import java.util.List;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedData;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.TimephasedWorkNormaliser;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -89,8 +91,8 @@ final class TimephasedWorkFactory
 
             TimephasedWork assignment = new TimephasedWork();
             assignment.setStart(start);
-            assignment.setWorkPerDay(workPerDay);
-            assignment.setTotalWork(totalWork);
+            assignment.setAmountPerDay(workPerDay);
+            assignment.setTotalAmount(totalWork);
 
             if (previousAssignment != null)
             {
@@ -165,10 +167,10 @@ final class TimephasedWorkFactory
 
                TimephasedWork assignment = new TimephasedWork();
                assignment.setStart(startWork);
-               assignment.setWorkPerDay(workPerDay);
+               assignment.setAmountPerDay(workPerDay);
                assignment.setModified(false);
                assignment.setFinish(finish);
-               assignment.setTotalWork(totalWork);
+               assignment.setTotalAmount(totalWork);
 
                if (assignment.getStart().getTime() != assignment.getFinish().getTime())
                {
@@ -222,9 +224,9 @@ final class TimephasedWorkFactory
 
                TimephasedWork assignment = new TimephasedWork();
                assignment.setStart(start);
-               assignment.setWorkPerDay(workPerDay);
+               assignment.setAmountPerDay(workPerDay);
                assignment.setModified(modified);
-               assignment.setTotalWork(totalWork);
+               assignment.setTotalAmount(totalWork);
 
                if (previousAssignment != null)
                {
@@ -287,15 +289,19 @@ final class TimephasedWorkFactory
     * Returns null if no baseline work is present, otherwise returns
     * a list of timephased work items.
     * 
+    * @param normaliser normaliser associated with this data
     * @param data timephased baseline work data block
+    * @param raw flag indicatring if this data is to be treated as raw
     * @return timephased work
     */
-   public List<TimephasedWork> getBaselineWork(byte[] data)
+   public TimephasedData getBaselineWork(TimephasedWorkNormaliser normaliser, byte[] data, boolean raw)
    {
-      LinkedList<TimephasedWork> list = null;
+      TimephasedData result = null;
 
       if (data != null && data.length > 0)
       {
+         LinkedList<TimephasedWork> list = null;
+
          //System.out.println(MPPUtility.hexdump(data, false));
          int index = 8; // 8 byte header
          int blockSize = 40;
@@ -313,8 +319,8 @@ final class TimephasedWorkFactory
                TimephasedWork work = new TimephasedWork();
                work.setFinish(MPPUtility.getTimestampFromTenths(data, index + 16));
                work.setStart(blockStartDate);
-               work.setTotalWork(Duration.getInstance(otherWorkPerformedInMinutes - previousWorkPerformed, TimeUnit.MINUTES));
-               work.setWorkPerDay(workPerDay);
+               work.setTotalAmount(Duration.getInstance(otherWorkPerformedInMinutes - previousWorkPerformed, TimeUnit.MINUTES));
+               work.setAmountPerDay(workPerDay);
                previousWorkPerformed = otherWorkPerformedInMinutes;
 
                if (list == null)
@@ -327,8 +333,13 @@ final class TimephasedWorkFactory
             blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 36);
             index += blockSize;
          }
+
+         if (list != null)
+         {
+            result = new TimephasedData(null, normaliser, list, raw);
+         }
       }
 
-      return list;
+      return result;
    }
 }

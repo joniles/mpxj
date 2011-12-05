@@ -517,8 +517,9 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[8] = AssignmentField.WORK;
       FIELD_ARRAY[39] = AssignmentField.WORK_CONTOUR;
       FIELD_ARRAY[248] = AssignmentField.WORK_VARIANCE;
-      FIELD_ARRAY[49] = AssignmentField.TIMEPHASED_WORK_PLANNED;
-      FIELD_ARRAY[50] = AssignmentField.TIMEPHASED_WORK_COMPLETE;
+      FIELD_ARRAY[49] = AssignmentField.TIMEPHASED_WORK;
+      FIELD_ARRAY[50] = AssignmentField.TIMEPHASED_ACTUAL_WORK;
+      FIELD_ARRAY[51] = AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK;
       FIELD_ARRAY[52] = AssignmentField.TIMEPHASED_BASELINE_WORK;
       FIELD_ARRAY[291] = AssignmentField.TIMEPHASED_BASELINE1_WORK;
       FIELD_ARRAY[300] = AssignmentField.TIMEPHASED_BASELINE2_WORK;
