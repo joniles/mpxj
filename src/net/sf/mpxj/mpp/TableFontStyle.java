@@ -42,14 +42,14 @@ public class TableFontStyle extends FontStyle
     * @param italic italic flag
     * @param bold bold flag
     * @param underline underline flag
-    * @param strikethrough TODO
+    * @param strikethrough strikethrough flag
     * @param color color
     * @param backgroundColor background color
     * @param backgroundPattern background pattern
     * @param italicChanged italic changed flag
     * @param boldChanged bold changed flag
     * @param underlineChanged underline changed flag
-    * @param strikethroughChanged TODO
+    * @param strikethroughChanged strikethrough changed flag
     * @param colorChanged color changed flag
     * @param fontChanged font changed flag
     * @param backgroundColorChanged background color changed

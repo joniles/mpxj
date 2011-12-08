@@ -2472,7 +2472,6 @@ final class MPP12Reader implements MPPVariantReader
    //private static final int SUBPROJECT_LISTEND = 0x00000303;
 
    // Signals that the previous value was for the subproject task unique id
-   // TODO: figure out why the different value exist.
    private static final int SUBPROJECT_TASKUNIQUEID0 = 0x00000000;
    private static final int SUBPROJECT_TASKUNIQUEID1 = 0x0B340000;
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;

@@ -77,7 +77,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedData;
+import net.sf.mpxj.TimephasedWorkData;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
@@ -1330,8 +1330,8 @@ public final class MSPDIReader extends AbstractProjectReader
             raw = false;
          }
 
-         TimephasedData timephasedCompleteData = new TimephasedData(calendar, normaliser, timephasedComplete, raw);
-         TimephasedData timephasedPlannedData = new TimephasedData(calendar, normaliser, timephasedPlanned, raw);
+         TimephasedWorkData timephasedCompleteData = new TimephasedWorkData(calendar, normaliser, timephasedComplete, raw);
+         TimephasedWorkData timephasedPlannedData = new TimephasedWorkData(calendar, normaliser, timephasedPlanned, raw);
 
          if (task != null)
          {

@@ -1555,6 +1555,17 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE8_WORK.getValue()] = "Timephased Baseline8 Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE9_WORK.getValue()] = "Timephased Baseline9 Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE10_WORK.getValue()] = "Timephased Baseline10 Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE_COST.getValue()] = "Timephased Baseline Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE1_COST.getValue()] = "Timephased Baseline1 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE2_COST.getValue()] = "Timephased Baseline2 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE3_COST.getValue()] = "Timephased Baseline3 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE4_COST.getValue()] = "Timephased Baseline4 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE5_COST.getValue()] = "Timephased Baseline5 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE6_COST.getValue()] = "Timephased Baseline6 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE7_COST.getValue()] = "Timephased Baseline7 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE8_COST.getValue()] = "Timephased Baseline8 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE9_COST.getValue()] = "Timephased Baseline9 Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE10_COST.getValue()] = "Timephased Baseline10 Cost";      
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.VARIABLE_RATE_UNITS.getValue()] = "Variable Rate Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LEVELING_DELAY_UNITS.getValue()] = "Leveling Delay Units";
 

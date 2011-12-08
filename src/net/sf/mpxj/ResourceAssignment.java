@@ -558,7 +558,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param data timephased data
     */
-   public void setTimephasedActualWork(TimephasedData data)
+   public void setTimephasedActualWork(TimephasedWorkData data)
    {
       m_timephasedActualWork = data;
    }
@@ -580,7 +580,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param data timephased data 
     */
-   public void setTimephasedWork(TimephasedData data)
+   public void setTimephasedWork(TimephasedWorkData data)
    {
       m_timephasedWork = data;
    }
@@ -598,7 +598,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
          double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
 
-         m_timephasedOvertimeWork = new TimephasedData(m_timephasedWork, perDayFactor, totalFactor);
+         m_timephasedOvertimeWork = new TimephasedWorkData(m_timephasedWork, perDayFactor, totalFactor);
       }
       return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
    }
@@ -609,7 +609,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param data timephased work
     */
-   public void setTimephasedActualOvertimeWork(TimephasedData data)
+   public void setTimephasedActualOvertimeWork(TimephasedWorkData data)
    {
       m_timephasedActualOvertimeWork = data;
    }
@@ -845,11 +845,23 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param index baseline index
     * @param data timephased data
     */
-   public void setTimephasedBaselineWork(int index, TimephasedData data)
+   public void setTimephasedBaselineWork(int index, TimephasedWorkData data)
    {
       m_timephasedBaselineWork[index] = data;
    }
 
+   /**
+    * Set timephased baseline cost. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    * 
+    * @param index baseline index
+    * @param data timephased data
+    */
+   public void setTimephasedBaselineCost(int index, TimephasedCostData data)
+   {
+      m_timephasedBaselineCost[index] = data;
+   }
+   
    /** 
     * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
@@ -862,6 +874,18 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       return m_timephasedBaselineWork[index] == null ? null : m_timephasedBaselineWork[index].getData();
    }
 
+   /** 
+    * Retrieve timephased baseline cost. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    * 
+    * @param index baseline index
+    * @return timephased work, or null if no baseline is present
+    */
+   public List<TimephasedCost> getTimephasedBaselineCost(int index)
+   {
+      return m_timephasedBaselineCost[index] == null ? null : m_timephasedBaselineCost[index].getData();
+   }
+   
    /**
     * Retrieves the calendar used for this resource assignment.
     * 
@@ -2413,20 +2437,21 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
 
    private boolean m_eventsEnabled = true;
 
-   private TimephasedData m_timephasedWork;
+   private TimephasedWorkData m_timephasedWork;
    private List<TimephasedCost> m_timephasedCost;
 
-   private TimephasedData m_timephasedActualWork;
+   private TimephasedWorkData m_timephasedActualWork;
    private List<TimephasedCost> m_timephasedActualCost;
 
-   private TimephasedData m_timephasedOvertimeWork;
+   private TimephasedWorkData m_timephasedOvertimeWork;
    private List<TimephasedCost> m_timephasedOvertimeCost;
 
-   private TimephasedData m_timephasedActualOvertimeWork;
+   private TimephasedWorkData m_timephasedActualOvertimeWork;
    private List<TimephasedCost> m_timephasedActualOvertimeCost;
 
    private List<FieldListener> m_listeners;
-   private TimephasedData[] m_timephasedBaselineWork = new TimephasedData[11];
+   private TimephasedWorkData[] m_timephasedBaselineWork = new TimephasedWorkData[11];
+   private TimephasedCostData[] m_timephasedBaselineCost = new TimephasedCostData[11];
 
    /**
     * Reference to the parent task of this assignment.

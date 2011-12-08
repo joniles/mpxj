@@ -28,5 +28,27 @@ package net.sf.mpxj;
  */
 public final class TimephasedWork extends TimephasedItem<Duration>
 {
-   // Empty block
+   /**
+    * Default constructor.
+    */
+   public TimephasedWork()
+   {
+      super();
+   }
+
+   /**
+    * Copy constructor, allowing scaling.
+    * 
+    * @param sourceItem item to copy
+    * @param totalFactor total amount factor
+    * @param perDayFactor per day factor
+    */
+   public TimephasedWork(TimephasedWork sourceItem, double totalFactor, double perDayFactor)
+   {
+      setStart(sourceItem.getStart());
+      setFinish(sourceItem.getFinish());
+      setModified(sourceItem.getModified());
+      setTotalAmount(Duration.getInstance(sourceItem.getTotalAmount().getDuration() * totalFactor, sourceItem.getTotalAmount().getUnits()));
+      setAmountPerDay(Duration.getInstance(sourceItem.getAmountPerDay().getDuration() * perDayFactor, sourceItem.getAmountPerDay().getUnits()));
+   }
 }
