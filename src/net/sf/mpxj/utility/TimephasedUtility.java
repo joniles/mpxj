@@ -186,46 +186,48 @@ public final class TimephasedUtility
    private <T extends TimephasedItem<?>> int getStartIndex(DateRange range, List<T> assignments, int startIndex)
    {
       int result = -1;
-      long rangeStart = range.getStart().getTime();
-      long rangeEnd = range.getEnd().getTime();
-
-      for (int loop = startIndex; loop < assignments.size(); loop++)
+      if (assignments != null)
       {
-         T assignment = assignments.get(loop);
-         int compareResult = DateUtility.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
+         long rangeStart = range.getStart().getTime();
+         long rangeEnd = range.getEnd().getTime();
 
-         //
-         // The start of the target range falls after the assignment end - 
-         // move on to test the next assignment.
-         //
-         if (compareResult > 0)
+         for (int loop = startIndex; loop < assignments.size(); loop++)
          {
-            continue;
-         }
+            T assignment = assignments.get(loop);
+            int compareResult = DateUtility.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
 
-         //
-         // The start of the target range  falls within the assignment -
-         // return the index of this assignment to the caller.
-         //
-         if (compareResult == 0)
-         {
-            result = loop;
-            break;
-         }
+            //
+            // The start of the target range falls after the assignment end - 
+            // move on to test the next assignment.
+            //
+            if (compareResult > 0)
+            {
+               continue;
+            }
 
-         //
-         // At this point, we know that the start of the target range is before
-         // the assignment start. We need to determine if the end of the
-         // target range overlaps the assignment.
-         //
-         compareResult = DateUtility.compare(assignment.getStart(), assignment.getFinish(), rangeEnd);
-         if (compareResult >= 0)
-         {
-            result = loop;
-            break;
+            //
+            // The start of the target range  falls within the assignment -
+            // return the index of this assignment to the caller.
+            //
+            if (compareResult == 0)
+            {
+               result = loop;
+               break;
+            }
+
+            //
+            // At this point, we know that the start of the target range is before
+            // the assignment start. We need to determine if the end of the
+            // target range overlaps the assignment.
+            //
+            compareResult = DateUtility.compare(assignment.getStart(), assignment.getFinish(), rangeEnd);
+            if (compareResult >= 0)
+            {
+               result = loop;
+               break;
+            }
          }
       }
-
       return result;
    }
 

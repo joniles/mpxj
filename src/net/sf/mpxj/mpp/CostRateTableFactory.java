@@ -29,6 +29,7 @@ import java.util.Date;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Resource;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -40,10 +41,11 @@ final class CostRateTableFactory
    /**
     * Creates a CostRateTable instance from a block of data.
     * 
+    * @param resource parent resource
+    * @param index cost rate table index
     * @param data data block
-    * @return CostRateTable instance
     */
-   public CostRateTable process(byte[] data)
+   public void process(Resource resource, int index, byte[] data)
    {
       CostRateTable result = new CostRateTable();
 
@@ -64,10 +66,25 @@ final class CostRateTableFactory
       }
       else
       {
-         result.add(CostRateTableEntry.DEFAULT_ENTRY);
+         //
+         // MS Project economises by not actually storing the first cost rate
+         // table if it doesn't need to, so we take this into account here.
+         //         
+         if (index == 0)
+         {
+           Rate standardRate = resource.getStandardRate();
+           Rate overtimeRate = resource.getOvertimeRate();
+           Number costPerUse = resource.getCostPerUse();
+           CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRate.getUnits(), overtimeRate, overtimeRate.getUnits(), costPerUse, CostRateTableEntry.DEFAULT_ENTRY.getEndDate());
+           result.add(entry);
+         }
+         else
+         {
+            result.add(CostRateTableEntry.DEFAULT_ENTRY);
+         }
       }
 
-      return result;
+      resource.setCostRateTable(index, result);
    }
 
    /**

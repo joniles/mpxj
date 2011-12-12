@@ -25,6 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -636,11 +637,11 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       {
          if (hasMultipleCostRates())
          {
-            m_timephasedCost = getTimephasedCostMultipleRates(m_timephasedWork.getData(), true);
+            m_timephasedCost = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
          }
          else
          {
-            m_timephasedCost = getTimephasedCostSingleRate(m_timephasedWork.getData(), true);
+            m_timephasedCost = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
          }
       }
       return m_timephasedCost;
@@ -653,98 +654,84 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public List<TimephasedCost> getTimephasedActualCost()
    {
-      if (m_timephasedActualCost == null && m_timephasedWork != null && m_timephasedWork.hasData())
+      if (m_timephasedActualCost == null && m_timephasedActualWork != null && m_timephasedActualWork.hasData())
       {
          if (hasMultipleCostRates())
          {
-            m_timephasedActualCost = getTimephasedCostMultipleRates(m_timephasedActualWork.getData(), true);
+            m_timephasedActualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
          }
          else
          {
-            m_timephasedActualCost = getTimephasedCostSingleRate(m_timephasedActualWork.getData(), true);
+            m_timephasedActualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
          }
       }
       return m_timephasedActualCost;
    }
 
    /**
-    * Retrieves the timephased breakdown of overtime cost.
-    * 
-    * @return timephased cost
-    */
-   public List<TimephasedCost> getTimephasedOvertimeCost()
-   {
-      if (m_timephasedOvertimeCost == null && m_timephasedOvertimeWork != null && m_timephasedOvertimeWork.hasData())
-      {
-         if (hasMultipleCostRates())
-         {
-            m_timephasedOvertimeCost = getTimephasedCostMultipleRates(m_timephasedOvertimeWork.getData(), false);
-         }
-         else
-         {
-            m_timephasedOvertimeCost = getTimephasedCostSingleRate(m_timephasedOvertimeWork.getData(), false);
-         }
-      }
-      return m_timephasedOvertimeCost;
-   }
-
-   /**
-    * Retrieves the timephased breakdown of actual overtime cost.
-    * 
-    * @return timephased actual overtime cost
-    */
-   public List<TimephasedCost> getTimephasedActualOvertimeCost()
-   {
-      if (m_timephasedActualOvertimeCost == null && m_timephasedActualOvertimeWork != null && m_timephasedActualOvertimeWork.hasData())
-      {
-         if (hasMultipleCostRates())
-         {
-            m_timephasedActualOvertimeCost = getTimephasedCostMultipleRates(m_timephasedActualOvertimeWork.getData(), false);
-         }
-         else
-         {
-            m_timephasedActualOvertimeCost = getTimephasedCostSingleRate(m_timephasedActualOvertimeWork.getData(), false);
-         }
-      }
-      return m_timephasedActualOvertimeCost;
-   }
-
-   /**
     * Generates timephased costs from timephased work where a single cost rate
     * applies to the whole assignment.
     * 
-    * @param list timephased work
-    * @param standard flag indicatring if standard or overtime rate is used
+    * @param standardWorkList timephased work
+    * @param overtimeWorkList timephased work 
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> list, boolean standard)
+   private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       List<TimephasedCost> result = new LinkedList<TimephasedCost>();
       CostRateTableEntry rate = getCostRateTableEntry(getStart());
-      double rateValue = standard ? rate.getStandardRate().getAmount() : rate.getOvertimeRate().getAmount();
-      TimeUnit rateUnits = standard ? rate.getStandardRate().getUnits() : rate.getOvertimeRate().getUnits();
+      double standardRateValue = rate.getStandardRate().getAmount();
+      TimeUnit standardRateUnits = rate.getStandardRate().getUnits();
+      double overtimeRateValue = rate.getOvertimeRate().getAmount();
+      TimeUnit overtimeRateUnits = rate.getOvertimeRate().getUnits();
 
-      for (TimephasedWork work : list)
+      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList.iterator();
+      for (TimephasedWork standardWork : standardWorkList)
       {
-         Duration workPerDay = work.getAmountPerDay();
-         if (workPerDay.getUnits() != rateUnits)
+         TimephasedWork overtimeWork = overtimeIterator.hasNext() ? overtimeIterator.next() : null;
+
+         Duration standardWorkPerDay = standardWork.getAmountPerDay();
+         if (standardWorkPerDay.getUnits() != standardRateUnits)
          {
-            workPerDay = workPerDay.convertUnits(rateUnits, getParentFile().getProjectHeader());
+            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, getParentFile().getProjectHeader());
          }
 
-         Duration totalWork = work.getTotalAmount();
-         if (totalWork.getUnits() != rateUnits)
+         Duration totalStandardWork = standardWork.getTotalAmount();
+         if (totalStandardWork.getUnits() != standardRateUnits)
          {
-            totalWork = totalWork.convertUnits(rateUnits, getParentFile().getProjectHeader());
+            totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, getParentFile().getProjectHeader());
          }
 
-         double costPerDay = workPerDay.getDuration() * rateValue;
-         double totalCost = totalWork.getDuration() * rateValue;
+         Duration overtimeWorkPerDay;
+         Duration totalOvertimeWork;
+
+         if (overtimeWork == null || overtimeWork.getTotalAmount().getDuration() == 0)
+         {
+            overtimeWorkPerDay = Duration.getInstance(0, standardWorkPerDay.getUnits());
+            totalOvertimeWork = Duration.getInstance(0, standardWorkPerDay.getUnits());
+         }
+         else
+         {
+            overtimeWorkPerDay = overtimeWork.getAmountPerDay();
+            if (overtimeWorkPerDay.getUnits() != overtimeRateUnits)
+            {
+               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, getParentFile().getProjectHeader());
+            }
+
+            totalOvertimeWork = overtimeWork.getTotalAmount();
+            if (totalOvertimeWork.getUnits() != overtimeRateUnits)
+            {
+               totalOvertimeWork = totalOvertimeWork.convertUnits(overtimeRateUnits, getParentFile().getProjectHeader());
+            }
+         }
+
+         double costPerDay = (standardWorkPerDay.getDuration() * standardRateValue) + (overtimeWorkPerDay.getDuration() * overtimeRateValue);
+         double totalCost = (totalStandardWork.getDuration() * standardRateValue) + (totalOvertimeWork.getDuration() * overtimeRateValue);
 
          TimephasedCost cost = new TimephasedCost();
-         cost.setStart(work.getStart());
-         cost.setFinish(work.getFinish());
-         cost.setModified(work.getModified());
+         cost.setStart(standardWork.getStart());
+         cost.setFinish(standardWork.getFinish());
+         cost.setModified(standardWork.getModified());
          cost.setAmountPerDay(Double.valueOf(costPerDay));
          cost.setTotalAmount(Double.valueOf(totalCost));
          result.add(cost);
@@ -757,11 +744,11 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * Generates timephased costs from timephased work where multiple cost rates
     * apply to the assignment.
     * 
-    * @param list timephased work
-    * @param standard flag indicatring if standard or overtime rate is used
+    * @param standardWorkList timephased work
+    * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   @SuppressWarnings("all") private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> list, boolean standard)
+   @SuppressWarnings("all") private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       throw new UnsupportedOperationException();
    }
@@ -861,7 +848,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       m_timephasedBaselineCost[index] = data;
    }
-   
+
    /** 
     * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
@@ -885,7 +872,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       return m_timephasedBaselineCost[index] == null ? null : m_timephasedBaselineCost[index].getData();
    }
-   
+
    /**
     * Retrieves the calendar used for this resource assignment.
     * 
@@ -2444,10 +2431,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    private List<TimephasedCost> m_timephasedActualCost;
 
    private TimephasedWorkData m_timephasedOvertimeWork;
-   private List<TimephasedCost> m_timephasedOvertimeCost;
-
    private TimephasedWorkData m_timephasedActualOvertimeWork;
-   private List<TimephasedCost> m_timephasedActualOvertimeCost;
 
    private List<FieldListener> m_listeners;
    private TimephasedWorkData[] m_timephasedBaselineWork = new TimephasedWorkData[11];

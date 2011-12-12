@@ -362,12 +362,21 @@ public class ResourceAssignmentFactory
             }
          }
 
+         
+         Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectHeader());
+         Duration overtimeWork = assignment.getOvertimeWork();
+         if (overtimeWork != null && overtimeWork.getDuration() != 0)
+         {
+            Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectHeader());
+            totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
+         }
+         
          TimephasedWork tra = new TimephasedWork();
          tra.setStart(assignment.getStart());
          tra.setAmountPerDay(workPerDay);
          tra.setModified(false);
          tra.setFinish(assignment.getFinish());
-         tra.setTotalAmount(assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectHeader()));
+         tra.setTotalAmount(totalMinutes);
          timephasedPlanned.add(tra);
       }
    }

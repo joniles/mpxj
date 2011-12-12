@@ -136,6 +136,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       ResourceAssignment assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,8.0,0.0,0.0,8.0,8.0,8.0,8.0,8.0,0.0,0.0,8.0,8.0,0.0});
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {88.0,88.0,88.0,0.0,0.0,88.0,88.0,88.0,88.0,88.0,0.0,0.0,88.0,88.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {88.0,88.0,88.0,0.0,0.0,88.0,88.0,88.0,88.0,88.0,0.0,0.0,88.0,88.0,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,0.0});
       
       task = file.getTaskByID(Integer.valueOf(2));
       assertEquals("Partially complete task", task.getName());
@@ -143,6 +145,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,8.0,0.0,0.0,8.0,8.0,8.0,8.0,8.0,0.0,0.0,8.0,8.0,0.0});
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {96.0,96.0,96.0,0.0,0.0,96.0,96.0,96.0,96.0,96.0,0.0,0.0,96.0,96.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,96.0,96.0,0.0,0.0,96.0,96.0,96.0,96.0,96.0,0.0,0.0,96.0,96.0,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {96.0, 0.0});
       
       task = file.getTaskByID(Integer.valueOf(3));
       assertEquals("Complete task", task.getName());
@@ -150,6 +154,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,8.0,0.0,0.0,8.0,8.0,8.0,8.0,8.0,0.0,0.0,8.0,8.0,0.0});      
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {104.0,104.0,104.0,0.0,0.0,104.0,104.0,104.0,104.0,104.0,0.0,0.0,104.0,104.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {104.0,104.0,104.0,0.0,0.0,104.0,104.0,104.0,104.0,104.0,0.0,0.0,104.0,104.0,0.0});
       
       task = file.getTaskByID(Integer.valueOf(4));
       assertEquals("Planned task with resource holiday", task.getName());
@@ -157,6 +163,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,8.0,0.0,0.0,8.0,8.0,0.0,8.0,8.0,0.0,0.0,8.0,8.0,8.0,0.0});      
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {112.0,112.0,112.0,0.0,0.0,112.0,112.0,0.0,112.0,112.0,0.0,0.0,112.0,112.0,112.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {112.0,112.0,112.0,0.0,0.0,112.0,112.0,0.0,112.0,112.0,0.0,0.0,112.0,112.0,112.0,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,0.0});
       
       task = file.getTaskByID(Integer.valueOf(5));
       assertEquals("Partially complete task with resource holiday", task.getName());
@@ -164,6 +172,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,8.0,0.0,0.0,8.0,8.0,0.0,8.0,8.0,0.0,0.0,8.0,8.0,8.0,0.0});      
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {120.0,120.0,120.0,0.0,0.0,120.0,120.0,0.0,120.0,120.0,0.0,0.0,120.0,120.0,120.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,120.0,120.0,0.0,0.0,120.0,120.0,0.0,120.0,120.0,0.0,0.0,120.0,120.0,120.0,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {120.0,0.0});
       
       task = file.getTaskByID(Integer.valueOf(6));
       assertEquals("Complete task with resource holiday", task.getName());
@@ -171,6 +181,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,8.0,0.0,0.0,8.0,8.0,0.0,8.0,8.0,0.0,0.0,8.0,8.0,8.0,0.0});      
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {128.0,128.0,128.0,0.0,0.0,128.0,128.0,0.0,128.0,128.0,0.0,0.0,128.0,128.0,128.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {128.0,128.0,128.0,0.0,0.0,128.0,128.0,0.0,128.0,128.0,0.0,0.0,128.0,128.0,128.0,0.0});
       
       task = file.getTaskByID(Integer.valueOf(7));
       assertEquals("Planned task with overtime", task.getName());
@@ -178,6 +190,8 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {9.15,9.15,9.15,0.0,0.0,9.15,9.15,9.15,9.15,9.15,0.0,0.0,6.85,0.0});      
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {166.86,166.86,166.86,0.0,0.0,166.86,166.86,166.86,166.86,166.86,0.0,0.0,125.14,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {166.86,166.86,166.86,0.0,0.0,166.86,166.86,166.86,166.86,166.86,0.0,0.0,125.14,0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0,0.0});
       
       task = file.getTaskByID(Integer.valueOf(8));
       assertEquals("Partially complete task with overtime", task.getName());
@@ -185,13 +199,17 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {9.15,9.15,9.15,0.0,0.0,9.15,9.15,9.15,9.15,9.15,0.0,0.0,6.85,0.0});
       testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {176.0,176.0,176.0,0.0,0.0,176.0,176.0,176.0,176.0,176.0,0.0,0.0,132.0,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0, 44.0, 176.0, 0.0, 0.0, 176.0, 176.0, 176.0, 176.0, 176.0, 0.0, 0.0, 132.0, 0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {176.0, 132.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
       
       task = file.getTaskByID(Integer.valueOf(9));
       assertEquals("Partially complete task with overtime added", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
       testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {8.0,8.0,9.48,0.0,0.0,9.48,9.48,9.48,9.48,9.48,0.0,0.0,7.12,0.0});
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {152.00,152.00,194.96,0.0,0.0,194.96,194.96,194.96,194.96,194.96,0.0,0.0,146.22,0.0});      
+      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[] {152.00,152.00,194.96,0.0,0.0,194.96,194.96,194.96,194.96,194.96,0.0,0.0,146.22,0.0});
+      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {0.0, 0.0, 194.96, 0.0, 0.0, 194.96, 194.96, 194.96, 194.96, 194.96, 0.0, 0.0, 146.22, 0.0});
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[] {152.0, 152.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});      
    }
 
    /**
@@ -239,6 +257,55 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
          assertEquals("Failed at index " + loop, expected[loop], costList.get(loop).doubleValue(), 0.009);
       }
    }
+
+   /**
+    * Common method used to test timephased assignment segments against expected data.
+    * 
+    * @param assignment parent resource assignment
+    * @param startDate start date for segments
+    * @param units units of duration for each segment
+    * @param expected array of expected durations for each segment
+    */   
+   private void testCostSegments(ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
+   {
+      testCostSegments(assignment, assignment.getTimephasedCost(), startDate, units, expected);
+   }
+ 
+   /**
+    * Common method used to test timephased assignment segments against expected data.
+    * 
+    * @param assignment parent resource assignment
+    * @param startDate start date for segments
+    * @param units units of duration for each segment
+    * @param expected array of expected durations for each segment
+    */   
+   private void testActualCostSegments(ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
+   {
+      testCostSegments(assignment, assignment.getTimephasedActualCost(), startDate, units, expected);
+   }
+
+   /**
+    * Common method used to test timephased assignment segments against expected data. 
+    * 
+    * @param assignment parent resource assignment
+    * @param assignments timephased cost data
+    * @param startDate start date for segments
+    * @param units units of duration for each segment
+    * @param expected array of expected durations for each segment
+    */
+   private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, Date startDate, TimescaleUnits units, double[] expected)
+   {
+      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      //System.out.println(dateList);    
+      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getCalendar(), assignments, units, dateList);
+      //dumpExpectedData(assignment, costList);
+      assertEquals(expected.length, costList.size());
+      for (int loop = 0; loop < expected.length; loop++)
+      {
+         assertEquals("Failed at index " + loop, expected[loop], costList.get(loop).doubleValue(), 0.02);
+      }
+   }
+
    
    /*
     * Method used to print segment durations as an array - useful for
@@ -246,29 +313,48 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     * 
     * @param assignment parent assignment
     * @param list list of durations
-    */
-   /*   
-      private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
+    */ 
+/*   
+   private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
+   {
+      //System.out.println(assignment);
+      System.out.print("new double[]{");
+      boolean first = true;
+      for (Duration d : list)
       {
-         //System.out.println(assignment);
-         System.out.print("new double[]{");
-         boolean first = true;
-         for(Duration d : list)
+         if (!first)
          {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d.getDuration());
+            System.out.print(", ");
          }
-         System.out.println("}");
+         else
+         {
+            first = false;
+         }
+         System.out.print(d.getDuration());
       }
-   */
+      System.out.println("}");
+   }   
 
+   private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
+   {
+      //System.out.println(assignment);
+      System.out.print("new double[]{");
+      boolean first = true;
+      for (Double d : list)
+      {
+         if (!first)
+         {
+            System.out.print(", ");
+         }
+         else
+         {
+            first = false;
+         }
+         System.out.print(d.doubleValue());
+      }
+      System.out.println("}");
+   }   
+*/   
    private TimescaleUtility m_timescale = new TimescaleUtility();
    private TimephasedUtility m_timephased = new TimephasedUtility();
 }
