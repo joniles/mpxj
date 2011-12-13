@@ -51,55 +51,55 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     * 
     * @throws Exception
     */
-//   public void testMpp9() throws Exception
-//   {
-//      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments.mpp");
-//      testSegments(file);
-//   }
+   public void testMpp9() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased2.mpp");
+      testSegments(file);
+   }
 
    /**
     * Timephased segment test for MPP9 files saved by Project 2007.
     * 
     * @throws Exception
     */
-//   public void testMpp9From12() throws Exception
-//   {
-//      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments-from12.mpp");
-//      testSegments(file);
-//   }
+   public void testMpp9From12() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased2-from12.mpp");
+      testSegments(file);
+   }
 
    /**
     * Timephased segment test for MPP9 files saved by Project 2010.
     * 
     * @throws Exception
     */
-//   public void testMpp9From14() throws Exception
-//   {
-//      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments-from14.mpp");
-//      testSegments(file);
-//   }
+   public void testMpp9From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased2-from14.mpp");
+      testSegments(file);
+   }
 
    /**
     * Timephased segment test for MPP12 files.
     * 
     * @throws Exception
     */
-//   public void testMpp12() throws Exception
-//   {
-//      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephasedsegments.mpp");
-//      testSegments(file);
-//   }
+   public void testMpp12() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephased2.mpp");
+      testSegments(file);
+   }
 
    /**
     * Timephased segment test for MPP12 files saved by Project 2010.
     * 
     * @throws Exception
     */
-//   public void testMpp12From14() throws Exception
-//   {
-//      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephasedsegments-from14.mpp");
-//      testSegments(file);
-//   }
+   public void testMpp12From14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephased2-from14.mpp");
+      testSegments(file);
+   }
 
    /**
     * Timephased segment test for MPP14 files.

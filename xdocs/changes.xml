@@ -10,6 +10,7 @@
 
 	<release version="4.3.0" date="CVS HEAD">
 		<action dev="joniles" type="add">Added support for reading Primavera PM XML files.</action>
+		<action dev="joniles" type="add">Added support for reading timephased cost, and timephased baseline cost and baseline work from MPP files.</action>
 		<action dev="joniles" type="add">Added support for Work Weeks in MSPDI files (SourceForge feature request 3429673).</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3367438: ResourceAssignment.getTaskUniqueID() returns null.</action>		

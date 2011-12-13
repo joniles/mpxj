@@ -54,4 +54,29 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
 
       return result;
    }
+
+   /**
+    * Retrieve the index of the table entry valid for the supplied date. 
+    * 
+    * @param date required date
+    * @return cost rate table entry index 
+    */
+   public int getIndexByDate(Date date)
+   {
+      int result = -1;
+      int index = 0;
+
+      for (CostRateTableEntry entry : this)
+      {
+         if (DateUtility.compare(date, entry.getEndDate()) < 0)
+         {
+            result = index;
+            break;
+         }
+         ++index;
+      }
+
+      return result;
+   }
+
 }

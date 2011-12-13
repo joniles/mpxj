@@ -37,6 +37,20 @@ public final class TimephasedWork extends TimephasedItem<Duration>
    }
 
    /**
+    * Copy constructor.
+    * 
+    * @param sourceItem item to copy
+    */
+   public TimephasedWork(TimephasedWork sourceItem)
+   {
+      setStart(sourceItem.getStart());
+      setFinish(sourceItem.getFinish());
+      setModified(sourceItem.getModified());
+      setTotalAmount(sourceItem.getTotalAmount());
+      setAmountPerDay(sourceItem.getAmountPerDay());
+   }
+
+   /**
     * Copy constructor, allowing scaling.
     * 
     * @param sourceItem item to copy

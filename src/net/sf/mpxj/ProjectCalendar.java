@@ -765,7 +765,82 @@ public final class ProjectCalendar extends ProjectCalendarWeek
    }
 
    /**
-    * Utility method to retrieve the next working date time, given
+    * This method finds the finish of the previous working period.
+    * 
+    * @param cal current Calendar instance
+    */   
+   private void updateToPreviousWorkFinish(Calendar cal)
+   {
+      Date originalDate = cal.getTime();
+
+      //
+      // Find the date ranges for the current day
+      //
+      ProjectCalendarDateRanges ranges = getException(cal.getTime());
+      if (ranges == null)
+      {
+         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         ranges = getHours(day);
+      }
+
+      if (ranges != null)
+      {
+         //
+         // Do we have a start time today?
+         // 
+         Date calTime = DateUtility.getCanonicalTime(cal.getTime());
+         Date finishTime = null;
+         for (DateRange range : ranges)
+         {
+            Date rangeEnd = DateUtility.getCanonicalTime(range.getEnd());
+            Date rangeStartDay = DateUtility.getDayStartDate(range.getStart());
+            Date rangeEndDay = DateUtility.getDayStartDate(range.getEnd());
+
+            if (rangeStartDay.getTime() != rangeEndDay.getTime())
+            {
+               Calendar calendar = Calendar.getInstance();
+               calendar.setTime(rangeEnd);
+               calendar.add(Calendar.DAY_OF_YEAR, 1);
+               rangeEnd = calendar.getTime();
+            }
+
+            if (calTime.getTime() >= rangeEnd.getTime())
+            {
+               finishTime = rangeEnd;
+               break;
+            }
+         }
+
+         //
+         // If we don't have a finish time today - find the previous working day
+         // then retrieve the finish time.
+         //
+         if (finishTime == null)
+         {
+            Day day;
+            int nonWorkingDayCount = 0;
+            do
+            {
+               cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
+               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               ++nonWorkingDayCount;
+               if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
+               {
+                  cal.setTime(originalDate);
+                  break;
+               }
+            }
+            while (!isWorkingDate(cal.getTime(), day));
+
+            finishTime = getFinishTime(cal.getTime());
+         }
+
+         DateUtility.setTime(cal, finishTime);
+      }
+   }
+
+   /**
+    * Utility method to retrieve the next working date start time, given
     * a date and time as a starting point.
     * 
     * @param date date and time start point
@@ -776,6 +851,21 @@ public final class ProjectCalendar extends ProjectCalendarWeek
       Calendar cal = Calendar.getInstance();
       cal.setTime(date);
       updateToNextWorkStart(cal);
+      return cal.getTime();
+   }
+
+   /**
+    * Utility method to retrieve the previous working date finish time, given
+    * a date and time as a starting point.
+    * 
+    * @param date date and time start point
+    * @return date and time of previous work finish
+    */
+   public Date getPreviousWorkFinish(Date date)
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(date);
+      updateToPreviousWorkFinish(cal);
       return cal.getTime();
    }
 

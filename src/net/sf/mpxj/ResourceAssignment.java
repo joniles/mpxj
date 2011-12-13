@@ -679,15 +679,16 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       List<TimephasedCost> result = new LinkedList<TimephasedCost>();
-      CostRateTableEntry rate = getCostRateTableEntry(getStart());
-      double standardRateValue = rate.getStandardRate().getAmount();
-      TimeUnit standardRateUnits = rate.getStandardRate().getUnits();
-      double overtimeRateValue = rate.getOvertimeRate().getAmount();
-      TimeUnit overtimeRateUnits = rate.getOvertimeRate().getUnits();
 
       Iterator<TimephasedWork> overtimeIterator = overtimeWorkList.iterator();
       for (TimephasedWork standardWork : standardWorkList)
       {
+         CostRateTableEntry rate = getCostRateTableEntry(standardWork.getStart());
+         double standardRateValue = rate.getStandardRate().getAmount();
+         TimeUnit standardRateUnits = rate.getStandardRate().getUnits();
+         double overtimeRateValue = rate.getOvertimeRate().getAmount();
+         TimeUnit overtimeRateUnits = rate.getOvertimeRate().getUnits();
+
          TimephasedWork overtimeWork = overtimeIterator.hasNext() ? overtimeIterator.next() : null;
 
          Duration standardWorkPerDay = standardWork.getAmountPerDay();
@@ -750,7 +751,79 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    @SuppressWarnings("all") private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
-      throw new UnsupportedOperationException();
+      List<TimephasedWork> standardWorkResult = new LinkedList<TimephasedWork>();
+      List<TimephasedWork> overtimeWorkResult = new LinkedList<TimephasedWork>();
+      CostRateTable table = getCostRateTable();
+      ProjectCalendar calendar = getCalendar();
+
+      Iterator<TimephasedWork> iter = overtimeWorkList.iterator();
+      for (TimephasedWork standardWork : standardWorkList)
+      {
+         TimephasedWork overtimeWork = iter.hasNext() ? iter.next() : null;
+
+         int startIndex = getCostRateTableEntryIndex(standardWork.getStart());
+         int finishIndex = getCostRateTableEntryIndex(standardWork.getFinish());
+
+         if (startIndex == finishIndex)
+         {
+            standardWorkResult.add(standardWork);
+            if (overtimeWork != null)
+            {
+               overtimeWorkResult.add(overtimeWork);
+            }
+         }
+         else
+         {
+            standardWorkResult.addAll(splitWork(table, calendar, standardWork, startIndex));
+            if (overtimeWork != null)
+            {
+               overtimeWorkResult.addAll(splitWork(table, calendar, overtimeWork, startIndex));
+            }
+         }
+      }
+
+      return getTimephasedCostSingleRate(standardWorkResult, overtimeWorkResult);
+   }
+
+   /**
+    * Splits timephased work segments in line with cost rates. Note that this is
+    * an approximation - where a rate changes during a working day, the second 
+    * rate is used for the whole day.
+    * 
+    * @param table cost rate table
+    * @param calendar calendar used by this assignment
+    * @param work timephased work segment
+    * @param rateIndex rate applicable at the start of the timephased work segment
+    * @return list of segments which replace the one supplied by the caller
+    */
+   private List<TimephasedWork> splitWork(CostRateTable table, ProjectCalendar calendar, TimephasedWork work, int rateIndex)
+   {
+      List<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      work.setTotalAmount(Duration.getInstance(0, work.getAmountPerDay().getUnits()));
+
+      while (true)
+      {
+         CostRateTableEntry rate = table.get(rateIndex);
+         Date splitDate = rate.getEndDate();
+         if (splitDate.getTime() >= work.getFinish().getTime())
+         {
+            result.add(work);
+            break;
+         }
+
+         Date currentPeriodEnd = calendar.getPreviousWorkFinish(splitDate);
+
+         TimephasedWork currentPeriod = new TimephasedWork(work);
+         currentPeriod.setFinish(currentPeriodEnd);
+         result.add(currentPeriod);
+
+         Date nextPeriodStart = calendar.getNextWorkStart(splitDate);
+         work.setStart(nextPeriodStart);
+
+         ++rateIndex;
+      }
+
+      return result;
    }
 
    /**
@@ -761,7 +834,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    private boolean hasMultipleCostRates()
    {
       boolean result = false;
-      CostRateTable table = getResource().getCostRateTable(getCostRateTableIndex());
+      CostRateTable table = getCostRateTable();
       if (table != null)
       {
          //
@@ -793,7 +866,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       CostRateTableEntry result;
 
-      CostRateTable table = getResource().getCostRateTable(getCostRateTableIndex());
+      CostRateTable table = getCostRateTable();
       if (table == null)
       {
          Resource resource = getResource();
@@ -808,6 +881,32 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          else
          {
             result = table.getEntryByDate(date);
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieves the index of a cost rate table entry active on a given date.
+    * 
+    * @param date target date
+    * @return cost rate table entry index
+    */
+   private int getCostRateTableEntryIndex(Date date)
+   {
+      int result = -1;
+
+      CostRateTable table = getCostRateTable();
+      if (table != null)
+      {
+         if (table.size() == 1)
+         {
+            result = 0;
+         }
+         else
+         {
+            result = table.getIndexByDate(date);
          }
       }
 
@@ -2203,6 +2302,16 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       Integer value = (Integer) getCachedValue(AssignmentField.COST_RATE_TABLE);
       return value == null ? 0 : value.intValue();
+   }
+
+   /**
+    * Returns the cost rate table for this assignment.
+    *
+    * @return cost rate table index
+    */
+   public CostRateTable getCostRateTable()
+   {
+      return getResource() == null ? null : getResource().getCostRateTable(getCostRateTableIndex());
    }
 
    /**
