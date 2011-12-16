@@ -32,6 +32,7 @@ import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.planner.PlannerReader;
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 /**
@@ -96,5 +97,6 @@ public final class ProjectReaderUtility
       READER_MAP.put("MPD", MPDDatabaseReader.class);
       READER_MAP.put("PLANNER", PlannerReader.class);
       READER_MAP.put("XER", PrimaveraXERFileReader.class);
+      READER_MAP.put("PMXML", PrimaveraPMFileReader.class);
    }
 }

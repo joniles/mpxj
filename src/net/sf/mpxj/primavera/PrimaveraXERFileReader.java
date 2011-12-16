@@ -40,6 +40,7 @@ import java.util.Set;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.InputStreamTokenizer;
@@ -82,7 +83,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       try
       {
          m_tables = new HashMap<String, List<Row>>();
-         m_defaultCurrency = new MPXJNumberFormat();
+         m_defaultCurrencyFormat = new MPXJNumberFormat();
+         m_defaultCurrencySymbol = "$";
 
          processFile(is);
 
@@ -113,7 +115,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          m_currentFieldNames = null;
          m_defaultCurrencyName = null;
          m_currencyMap.clear();
-         m_defaultCurrency = null;
+         m_defaultCurrencyFormat = null;
+         m_defaultCurrencySymbol = null;
       }
    }
 
@@ -201,7 +204,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       if (currencyName.equalsIgnoreCase(m_defaultCurrencyName))
       {
-         m_defaultCurrency = nf;
+         m_defaultCurrencyFormat = nf;
+         m_defaultCurrencySymbol = row.getString("curr_symbol");
       }
    }
 
@@ -246,8 +250,17 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     */
    private void processProjectHeader()
    {
+      //
+      // Process common attributes
+      //
       List<Row> rows = getRows("project", "proj_id", m_projectID);
       m_reader.processProjectHeader(rows);
+
+      //
+      // Process XER-specific attributes
+      //
+      ProjectHeader ph = m_reader.getProject().getProjectHeader();
+      ph.setCurrencySymbol(m_defaultCurrencySymbol);
    }
 
    /**
@@ -415,7 +428,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                         {
                            try
                            {
-                              objectValue = Double.valueOf(m_defaultCurrency.parse(fieldValue).doubleValue());
+                              objectValue = Double.valueOf(m_defaultCurrencyFormat.parse(fieldValue).doubleValue());
                            }
 
                            catch (ParseException ex)
@@ -537,7 +550,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
    private Map<String, MPXJNumberFormat> m_currencyMap = new HashMap<String, MPXJNumberFormat>();
-   private MPXJNumberFormat m_defaultCurrency;
+   private MPXJNumberFormat m_defaultCurrencyFormat;
+   private String m_defaultCurrencySymbol;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
    private List<ProjectListener> m_projectListeners;

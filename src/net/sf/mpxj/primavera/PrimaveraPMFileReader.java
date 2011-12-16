@@ -67,6 +67,8 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
+import net.sf.mpxj.primavera.schema.CurrencyType;
+import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
@@ -142,7 +144,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          ProjectType project = projects.get(0);
 
-         processProjectHeader(project);
+         processProjectHeader(apibo, project);
          processCalendars(apibo);
          processResources(apibo);
          processTasks(project);
@@ -183,9 +185,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    /**
     * Process project header.
     * 
+    * @param apibo top level object
     * @param project xml container
     */
-   private void processProjectHeader(ProjectType project)
+   private void processProjectHeader(APIBusinessObjects apibo, ProjectType project)
    {
       ProjectHeader header = m_projectFile.getProjectHeader();
 
@@ -193,6 +196,28 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       header.setFinishDate(getValue(project.getFinishDate()));
       header.setName(project.getName());
       header.setStartDate(project.getPlannedStartDate());
+
+      List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
+      if (!list.isEmpty())
+      {
+         GlobalPreferencesType prefs = list.get(0);
+
+         header.setCreationDate(getValue(prefs.getCreateDate()));
+         header.setLastSaved(getValue(prefs.getLastUpdateDate()));
+         header.setMinutesPerDay(Integer.valueOf((int) (NumberUtility.getDouble(prefs.getHoursPerDay()) * 60)));
+         header.setMinutesPerWeek(Integer.valueOf((int) (NumberUtility.getDouble(prefs.getHoursPerWeek()) * 60)));
+         header.setWeekStartDay(Day.getInstance(NumberUtility.getInt(prefs.getStartDayOfWeek())));
+
+         List<CurrencyType> currencyList = apibo.getCurrency();
+         for (CurrencyType currency : currencyList)
+         {
+            if (currency.getObjectId().equals(prefs.getBaseCurrencyObjectId()))
+            {
+               header.setCurrencySymbol(currency.getSymbol());
+               break;
+            }
+         }
+      }
    }
 
    /**

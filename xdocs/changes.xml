@@ -23,7 +23,9 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3435755: Invalid dependency between child and parent.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3435733: Missing tasks from MS Project 2010 mpp file.</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3441494: Wrong WBS code and WBS when converting a Primavera XER file.</action>	
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3441426: Error reading XER file with German localisation for numbers.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3441426: Error reading XER file with German localisation for numbers.</action>	
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3407988: TimephasedResourceAssignments with negative TotalWork.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3448059: Wrong currency symbol in the exported file.</action>				 		
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>						
 	</release>
 

@@ -37,8 +37,10 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.utility.NumberUtility;
@@ -74,8 +76,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       {
          Map<Integer, String> result = new HashMap<Integer, String>();
 
-         List<ResultSetRow> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project where delete_date is null");
-         for (ResultSetRow row : rows)
+         List<Row> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project where delete_date is null");
+         for (Row row : rows)
          {
             Integer id = row.getInteger("proj_id");
             String name = row.getString("proj_short_name");
@@ -149,8 +151,27 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void processProjectHeader() throws SQLException
    {
+      //
+      // Process common attributes
+      //
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       m_reader.processProjectHeader(rows);
+
+      //
+      // Process PMDB-specific attributes
+      //
+      rows = getRows("select * from " + m_schema + "prefer join " + m_schema + "currtype on currtype.curr_id =prefer.curr_id where prefer.delete_date is null");
+      if (!rows.isEmpty())
+      {
+         Row row = rows.get(0);
+         ProjectHeader ph = m_reader.getProject().getProjectHeader();
+         ph.setCurrencySymbol(row.getString("curr_symbol"));
+         ph.setCreationDate(row.getDate("create_date"));
+         ph.setLastSaved(row.getDate("update_date"));         
+         ph.setMinutesPerDay(Integer.valueOf(row.getInt("day_hr_cnt") * 60));
+         ph.setMinutesPerWeek(Integer.valueOf(row.getInt("week_hr_cnt") * 60));
+         ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
+      }
    }
 
    /**
@@ -272,13 +293,13 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     * @return result set
     * @throws SQLException
     */
-   private List<ResultSetRow> getRows(String sql) throws SQLException
+   private List<Row> getRows(String sql) throws SQLException
    {
       allocateConnection();
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+         List<Row> result = new LinkedList<Row>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
