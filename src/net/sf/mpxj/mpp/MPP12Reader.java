@@ -1019,6 +1019,8 @@ final class MPP12Reader implements MPPVariantReader
       int items = calFixedData.getItemCount();
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
       byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
+      ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
+      processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
 
       for (int loop = 0; loop < items; loop++)
       {
@@ -1078,7 +1080,7 @@ final class MPP12Reader implements MPPVariantReader
 
                   if (varData != null)
                   {
-                     processCalendarHours(varData, cal, baseCalendarID == -1);
+                     processCalendarHours(varData, defaultCalendar, cal, baseCalendarID == -1);
                      processCalendarExceptions(varData, cal);
                   }
 
@@ -1104,10 +1106,11 @@ final class MPP12Reader implements MPPVariantReader
     * for the default working week.
     * 
     * @param data calendar data block
+    * @param defaultCalendar calendar to use for default values
     * @param cal calendar instance
     * @param isBaseCalendar true if this is a base calendar
     */
-   private void processCalendarHours(byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
+   private void processCalendarHours(byte[] data, ProjectCalendar defaultCalendar, ProjectCalendar cal, boolean isBaseCalendar)
    {
       // Dump out the calendar related data and fields.
       //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
@@ -1126,20 +1129,35 @@ final class MPP12Reader implements MPPVariantReader
       for (index = 0; index < 7; index++)
       {
          offset = (60 * index);
-         defaultFlag = MPPUtility.getShort(data, offset);
-         periodCount = MPPUtility.getShort(data, offset + 2);
+         defaultFlag = data==null ? 1 : MPPUtility.getShort(data, offset);
          day = Day.getInstance(index + 1);
 
          if (defaultFlag == 1)
          {
-            if (isBaseCalendar == true)
+            if (isBaseCalendar)
             {
-               cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
-               if (cal.isWorkingDay(day) == true)
+               if (defaultCalendar == null)
                {
-                  hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+                  cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
+                  if (cal.isWorkingDay(day))
+                  {
+                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
+                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+                  }
+               }
+               else
+               {
+                  boolean workingDay = defaultCalendar.isWorkingDay(day);
+                  cal.setWorkingDay(day, workingDay);
+                  if (workingDay)
+                  {
+                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
+                     for (DateRange range : defaultCalendar.getHours(day))
+                     {
+                        hours.addRange(range);
+                     }
+                  }
                }
             }
             else
@@ -1152,6 +1170,7 @@ final class MPP12Reader implements MPPVariantReader
             dateRanges.clear();
 
             periodIndex = 0;
+            periodCount = MPPUtility.getShort(data, offset + 2);
             while (periodIndex < periodCount)
             {
                int startOffset = offset + 8 + (periodIndex * 2);

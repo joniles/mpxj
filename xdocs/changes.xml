@@ -25,7 +25,9 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3441494: Wrong WBS code and WBS when converting a Primavera XER file.</action>	
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3441426: Error reading XER file with German localisation for numbers.</action>	
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3407988: TimephasedResourceAssignments with negative TotalWork.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3448059: Wrong currency symbol in the exported file.</action>				 		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3448059: Wrong currency symbol in the exported file.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2891096: TimephasedResourceAssignment end date not correct.</action>	
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3007420: Calendar hours are incorrect.</action>		
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>						
 	</release>
 
