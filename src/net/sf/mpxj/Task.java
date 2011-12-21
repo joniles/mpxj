@@ -227,6 +227,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if ((outlineLevel + 1) == childOutlineLevel)
       {
          m_children.add(child);
+         setSummary(true);
       }
       else
       {
@@ -249,6 +250,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       child.m_parent = this;
       m_children.add(child);
+      setSummary(true);
    }
 
    /**
@@ -272,6 +274,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void clearChildTasks()
    {
       m_children.clear();
+      setSummary(false);
    }
 
    /**
@@ -7050,8 +7053,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    @Override public String toString()
    {
-      SubProject externalTask = getSubProject();
-      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL " + externalTask.getFullPath() + " " + getSubprojectTaskID() + "]" : "") + "]");
+      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]") + (getSubProject()==null?"":(" project=" + getSubProject())));
    }
 
    /**

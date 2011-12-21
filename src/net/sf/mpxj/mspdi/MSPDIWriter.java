@@ -118,7 +118,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Sets a flag to control whether timephased resource assignmnet data
+    * Sets a flag to control whether timephased resource assignment data
     * is written to the file. The default is false.
     * 
     * @param value boolean flag
@@ -130,7 +130,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieves the state of the flag which controls whether timephased 
-    * resource assignmnet data is written to the file. The default is false.
+    * resource assignment data is written to the file. The default is false.
     * 
     * @return boolean flag
     */

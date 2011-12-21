@@ -41,17 +41,36 @@ public abstract class AbstractProjectReader implements ProjectReader
     */
    public ProjectFile read(String fileName) throws MPXJException
    {
+      FileInputStream fis = null;
+
       try
       {
-         FileInputStream fis = new FileInputStream(fileName);
+         fis = new FileInputStream(fileName);
          ProjectFile projectFile = read(fis);
          fis.close();
+         fis = null;
          return (projectFile);
       }
 
       catch (IOException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         if (fis != null)
+         {
+            try
+            {
+               fis.close();
+            }
+
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions on close
+            }
+         }
       }
    }
 
@@ -60,9 +79,11 @@ public abstract class AbstractProjectReader implements ProjectReader
     */
    public ProjectFile read(File file) throws MPXJException
    {
+      FileInputStream fis = null;
+
       try
       {
-         FileInputStream fis = new FileInputStream(file);
+         fis = new FileInputStream(file);
          ProjectFile projectFile = read(fis);
          fis.close();
          return (projectFile);
@@ -71,6 +92,22 @@ public abstract class AbstractProjectReader implements ProjectReader
       catch (IOException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         if (fis != null)
+         {
+            try
+            {
+               fis.close();
+            }
+
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions on close
+            }
+         }
       }
    }
 }
