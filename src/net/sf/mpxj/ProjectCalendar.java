@@ -260,15 +260,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
       Date result = m_startTimeCache.get(date);
       if (result == null)
       {
-         ProjectCalendarDateRanges ranges = getException(date);
-         if (ranges == null)
-         {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-            ranges = getHours(day);
-         }
-
+         ProjectCalendarDateRanges ranges = getRanges(date, null, null);
          if (ranges == null)
          {
             result = getParentFile().getProjectHeader().getDefaultStartTime();
@@ -296,15 +288,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
 
       if (date != null)
       {
-         ProjectCalendarDateRanges ranges = getException(date);
-         if (ranges == null)
-         {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-            ranges = getHours(day);
-         }
-
+         ProjectCalendarDateRanges ranges = getRanges(date, null, null);
          if (ranges == null)
          {
             result = getParentFile().getProjectHeader().getDefaultEndTime();
@@ -369,7 +353,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek
          endCal.setTime(currentDate);
          endCal.add(Calendar.DAY_OF_YEAR, 1);
          Date currentDateEnd = DateUtility.getDayStartDate(endCal.getTime());
-         //Date currentDateEnd = DateUtility.getDayEndDate(currentDate); XXX
          double currentDateWorkingMinutes = getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration();
 
          //
@@ -415,12 +398,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             // in this day. We need to calculate the time of day at which 
             // our work ends.
             //
-            ProjectCalendarDateRanges ranges = getException(cal.getTime());
-            if (ranges == null)
-            {
-               Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-               ranges = getHours(day);
-            }
+            ProjectCalendarDateRanges ranges = getRanges(cal.getTime(), cal, null);
 
             //
             // Now we have the range of working hours for this day,
@@ -592,12 +570,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             // in this day. We need to calculate the time of day at which 
             // our work starts.
             //
-            ProjectCalendarDateRanges ranges = getException(cal.getTime());
-            if (ranges == null)
-            {
-               Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-               ranges = getHours(day);
-            }
+            ProjectCalendarDateRanges ranges = getRanges(cal.getTime(), cal, null);
 
             //
             // Now we have the range of working hours for this day,
@@ -692,13 +665,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek
 
       //
       // Find the date ranges for the current day
-      //
-      ProjectCalendarDateRanges ranges = getException(cal.getTime());
-      if (ranges == null)
-      {
-         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         ranges = getHours(day);
-      }
+      //      
+      ProjectCalendarDateRanges ranges = getRanges(originalDate, cal, null);
 
       if (ranges != null)
       {
@@ -768,21 +736,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     * This method finds the finish of the previous working period.
     * 
     * @param cal current Calendar instance
-    */   
+    */
    private void updateToPreviousWorkFinish(Calendar cal)
    {
       Date originalDate = cal.getTime();
 
       //
       // Find the date ranges for the current day
-      //
-      ProjectCalendarDateRanges ranges = getException(cal.getTime());
-      if (ranges == null)
-      {
-         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         ranges = getHours(day);
-      }
-
+      //      
+      ProjectCalendarDateRanges ranges = getRanges(originalDate, cal, null);
       if (ranges != null)
       {
          //
@@ -896,19 +858,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     */
    private boolean isWorkingDate(Date date, Day day)
    {
-      boolean result;
-      ProjectCalendarException exception = getException(date);
-
-      if (exception != null)
-      {
-         result = exception.getWorking();
-      }
-      else
-      {
-         result = isWorkingDay(day);
-      }
-
-      return result;
+      ProjectCalendarDateRanges ranges = getRanges(date, null, day);
+      return ranges.getRangeCount() != 0;
    }
 
    /**
@@ -1082,17 +1033,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     */
    public Duration getWork(Date date, TimeUnit format)
    {
-      ProjectCalendarDateRanges ranges = getException(date);
-      if (ranges == null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(date);
-         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         ranges = getHours(day);
-      }
-
+      ProjectCalendarDateRanges ranges = getRanges(date, null, null);
       long time = getTotalTime(ranges);
-
       return convertFormat(time, format);
    }
 
@@ -1132,18 +1074,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek
 
          if (canonicalStartDate.getTime() == canonicalEndDate.getTime())
          {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(startDate);
-            Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-
-            if (isWorkingDate(startDate, day) == true)
+            ProjectCalendarDateRanges ranges = getRanges(startDate, null, null);
+            if (ranges.getRangeCount() != 0)
             {
-               ProjectCalendarDateRanges ranges = getException(startDate);
-               if (ranges == null)
-               {
-                  ranges = getHours(day);
-               }
-
                totalTime = getTotalTime(ranges, startDate, endDate);
             }
          }
@@ -1168,15 +1101,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                //
                // Calculate the amount of working time for this day
                //
-               ProjectCalendarException exception = getException(currentDate);
-               if (exception == null)
-               {
-                  totalTime += getTotalTime(getHours(day), currentDate, true);
-               }
-               else
-               {
-                  totalTime += getTotalTime(exception, currentDate, true);
-               }
+               totalTime += getTotalTime(getRanges(currentDate, null, day), currentDate, true);
 
                //
                // Process each working day until we reach the last day
@@ -1198,7 +1123,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                   //
                   // Skip this day if it has no working time
                   //
-                  if (isWorkingDate(currentDate, day) == false)
+                  ProjectCalendarDateRanges ranges = getRanges(currentDate, null, day);
+                  if (ranges.getRangeCount() == 0)
                   {
                      continue;
                   }
@@ -1206,28 +1132,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                   //
                   // Add the working time for the whole day
                   //
-                  exception = getException(currentDate);
-                  if (exception == null)
-                  {
-                     totalTime += getTotalTime(getHours(day));
-                  }
-                  else
-                  {
-                     totalTime += getTotalTime(exception);
-                  }
+                  totalTime += getTotalTime(ranges);
                }
             }
 
             //
             // We are now at the last day
             //
-            if (isWorkingDate(endDate, day) == true)
+            ProjectCalendarDateRanges ranges = getRanges(endDate, null, day);
+            if (ranges.getRangeCount() != 0)
             {
-               ProjectCalendarDateRanges ranges = getException(endDate);
-               if (ranges == null)
-               {
-                  ranges = getHours(day);
-               }
                totalTime += getTotalTime(ranges, DateUtility.getDayStartDate(endDate), endDate);
             }
          }
@@ -1396,29 +1310,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek
    }
 
    /**
-    * Retrieves the amount of working time in a day before or after an
-    * intersection point.
-    * 
-    * @param hours collection of working time in a day
-    * @param date intersection time
-    * @param after true returns time after intersect, false returns time before
-    * @return length of time in milliseconds
-    */
-   private long getTotalTime(ProjectCalendarHours hours, Date date, boolean after)
-   {
-      long total = 0;
-      Date current = DateUtility.getCanonicalTime(date);
-      long currentTime = current.getTime();
-
-      for (DateRange range : hours)
-      {
-         total += getTime(range.getStart(), range.getEnd(), currentTime, after);
-      }
-
-      return (total);
-   }
-
-   /**
     * This method calculates the total amount of working time in a single
     * day, which intersects with the supplied time range.
     * 
@@ -1469,25 +1360,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                }
             }
          }
-      }
-
-      return (total);
-   }
-
-   /**
-    * This method calculates the total amount of working time represented by
-    * a single day of work.
-    * 
-    * @param hours collection of working hours
-    * @return length of time in milliseconds
-    */
-   private long getTotalTime(ProjectCalendarHours hours)
-   {
-      long total = 0;
-
-      for (DateRange range : hours)
-      {
-         total += getTime(range.getStart(), range.getEnd());
       }
 
       return (total);
@@ -1854,6 +1726,33 @@ public final class ProjectCalendar extends ProjectCalendarWeek
       {
          calendar.clearWorkingDateCache();
       }
+   }
+
+   /**
+    * Retrieves the working hours on the given date.
+    * 
+    * @param date required date
+    * @param cal optional calendar instance
+    * @param day optional day instance
+    * @return working hours
+    */
+   private ProjectCalendarDateRanges getRanges(Date date, Calendar cal, Day day)
+   {
+      ProjectCalendarDateRanges ranges = getException(date);
+      if (ranges == null)
+      {
+         if (day == null)
+         {
+            if (cal == null)
+            {
+               cal = Calendar.getInstance();
+               cal.setTime(date);
+            }
+            day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         }
+         ranges = getHours(day);
+      }
+      return ranges;
    }
 
    /**

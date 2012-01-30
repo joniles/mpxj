@@ -40,7 +40,6 @@ import java.util.Set;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.InputStreamTokenizer;
@@ -83,8 +82,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       try
       {
          m_tables = new HashMap<String, List<Row>>();
-         m_defaultCurrencyFormat = new MPXJNumberFormat();
-         m_defaultCurrencySymbol = "$";
+         m_numberFormat = new MPXJNumberFormat();
 
          processFile(is);
 
@@ -115,8 +113,65 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          m_currentFieldNames = null;
          m_defaultCurrencyName = null;
          m_currencyMap.clear();
-         m_defaultCurrencyFormat = null;
-         m_defaultCurrencySymbol = null;
+         m_numberFormat = null;
+         m_defaultCurrencyData = null;
+      }
+   }
+
+   /**
+    * This is a convenience method which allows all projects in an
+    * XER file to be read in a single pass.
+    * 
+    * @param is input stream
+    * @return list of ProjectFile instances
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll(InputStream is) throws MPXJException
+   {
+      try
+      {
+         List<ProjectFile> result = new LinkedList<ProjectFile>();
+         m_tables = new HashMap<String, List<Row>>();
+         m_numberFormat = new MPXJNumberFormat();
+
+         processFile(is);
+
+         List<Row> rows = getRows("project", null, null);
+         for (Row row : rows)
+         {
+            setProjectID(row.getInt("proj_id"));
+
+            m_reader = new PrimaveraReader();
+            ProjectFile project = m_reader.getProject();
+            project.addProjectListeners(m_projectListeners);
+
+            processProjectHeader();
+            processCalendars();
+            processResources();
+            processTasks();
+            processPredecessors();
+            processAssignments();
+
+            m_reader = null;
+            project.updateStructure();
+
+            result.add(project);
+         }
+
+         return result;
+      }
+
+      finally
+      {
+         m_reader = null;
+         m_tables = null;
+         m_currentTableName = null;
+         m_currentTable = null;
+         m_currentFieldNames = null;
+         m_defaultCurrencyName = null;
+         m_currencyMap.clear();
+         m_numberFormat = null;
+         m_defaultCurrencyData = null;
       }
    }
 
@@ -204,8 +259,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       if (currencyName.equalsIgnoreCase(m_defaultCurrencyName))
       {
-         m_defaultCurrencyFormat = nf;
-         m_defaultCurrencySymbol = row.getString("curr_symbol");
+         m_numberFormat = nf;
+         m_defaultCurrencyData = row;
       }
    }
 
@@ -259,8 +314,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       //
       // Process XER-specific attributes
       //
-      ProjectHeader ph = m_reader.getProject().getProjectHeader();
-      ph.setCurrencySymbol(m_defaultCurrencySymbol);
+      if (m_defaultCurrencyData != null)
+      {
+         m_reader.processDefaultCurrency(m_defaultCurrencyData);
+      }
    }
 
    /**
@@ -288,8 +345,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
+      //List<Row> wbsmemos = getRows("wbsmemo", "proj_id", m_projectID);
+      //List<Row> taskmemos = getRows("taskmemo", "proj_id", m_projectID);
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks);
+      m_reader.processTasks(wbs, tasks/*, wbsmemos, taskmemos*/);
    }
 
    /**
@@ -428,7 +487,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                         {
                            try
                            {
-                              objectValue = Double.valueOf(m_defaultCurrencyFormat.parse(fieldValue).doubleValue());
+                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue).doubleValue());
                            }
 
                            catch (ParseException ex)
@@ -439,9 +498,30 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                         }
 
                         case DOUBLE :
+                        {
+                           try
+                           {
+                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue).doubleValue());
+                           }
+
+                           catch (ParseException ex)
+                           {
+                              throw new MPXJException(MPXJException.INVALID_NUMBER, ex);
+                           }
+                           break;
+                        }
+
                         case DURATION :
                         {
-                           objectValue = Double.valueOf(fieldValue);
+                           try
+                           {
+                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue).doubleValue());
+                           }
+
+                           catch (ParseException ex)
+                           {
+                              throw new MPXJException(MPXJException.INVALID_NUMBER, ex);
+                           }
                            break;
                         }
 
@@ -550,8 +630,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
    private Map<String, MPXJNumberFormat> m_currencyMap = new HashMap<String, MPXJNumberFormat>();
-   private MPXJNumberFormat m_defaultCurrencyFormat;
-   private String m_defaultCurrencySymbol;
+   private MPXJNumberFormat m_numberFormat;
+   private Row m_defaultCurrencyData;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
    private List<ProjectListener> m_projectListeners;
@@ -658,6 +738,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       FIELD_TYPE_MAP.put("seq_num", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("taskrsrc_id", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_rsrc_id", FieldType.INTEGER);
+
+      FIELD_TYPE_MAP.put("free_float_hr_cnt", FieldType.DURATION);
+      FIELD_TYPE_MAP.put("total_float_hr_cnt", FieldType.DURATION);
+
+      FIELD_TYPE_MAP.put("decimal_digit_cnt", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("target_qty_per_hr", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", FieldType.DURATION);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();

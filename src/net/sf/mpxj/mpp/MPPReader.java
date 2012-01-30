@@ -196,7 +196,10 @@ public final class MPPReader extends AbstractProjectReader
             Task sourceTask = relation.getSourceTask();
             Task targetTask = relation.getTargetTask();
 
-            if (sourceTask.getOutlineNumber().startsWith(targetTask.getOutlineNumber() + '.'))
+            String sourceOutlineNumber = sourceTask.getOutlineNumber();
+            String targetOutlineNumber = targetTask.getOutlineNumber();
+            
+            if (sourceOutlineNumber != null && targetOutlineNumber != null && sourceOutlineNumber.startsWith(targetOutlineNumber + '.'))
             {
                invalid.add(relation);
             }

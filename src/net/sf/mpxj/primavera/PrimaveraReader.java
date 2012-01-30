@@ -35,6 +35,7 @@ import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -50,9 +51,12 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
+import net.sf.mpxj.utility.BooleanUtility;
 
 /**
  * This class provides a generic front end to read project data from
@@ -76,6 +80,8 @@ final class PrimaveraReader
       m_project.setTaskFieldAlias(TaskField.DATE1, "Suspend Date");
       m_project.setTaskFieldAlias(TaskField.DATE2, "Resume Date");
       m_project.setTaskFieldAlias(TaskField.TEXT1, "Code");
+
+      m_project.setResourceFieldAlias(ResourceField.NUMBER1, "Parent Resource Unique ID");
    }
 
    /**
@@ -102,8 +108,9 @@ final class PrimaveraReader
          header.setCreationDate(row.getDate("create_date"));
          header.setFinishDate(row.getDate("plan_end_date"));
          header.setName(row.getString("proj_short_name"));
-         header.setStartDate(row.getDate("plan_start_date"));
+         header.setStartDate(row.getDate("plan_start_date")); // data_date?
          header.setProjectTitle(row.getString("proj_short_name"));
+         header.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
       }
    }
 
@@ -220,6 +227,12 @@ final class PrimaveraReader
          resource.setNotes(row.getString("rsrc_notes"));
          resource.setCreationDate(row.getDate("create_date"));
          resource.setType(RESOURCE_TYPE_MAP.get(row.getString("rsrc_type")));
+         resource.setInitials(row.getString("rsrc_short_name"));
+         //resource.setMaxUnits(maxUnits); // RSRCRATE.max_qty_per_hr?
+         //resource.setStandardRate(val); // RSRCRATE.cost_per_qty?
+         //resource.setOvertimeRate(overtimeRate); // RSRCRATE.cost_per_qty * RSRC.ot_factor?
+         //resource.setGroup(val); parent resource name?
+         resource.setNumber1(row.getInteger("parent_rsrc_id"));
 
          //
          // Attempt to locate a calendar for this resource
@@ -278,7 +291,7 @@ final class PrimaveraReader
     * @param wbs WBS task data
     * @param tasks task data
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks)
+   public void processTasks(List<Row> wbs, List<Row> tasks/*, List<Row> wbsmemos, List<Row> taskmemos*/)
    {
       Set<Integer> uniqueIDs = new HashSet<Integer>();
 
@@ -303,6 +316,28 @@ final class PrimaveraReader
          task.setDate2(row.getDate("resume_date"));
          task.setText1(row.getString("task_code"));
          task.setWBS(row.getString("wbs_short_name"));
+         //task.setNotes(getNotes(wbsmemos, "wbs_id", uniqueID.intValue(), "wbs_memo"));
+
+         //
+         // When reading from the database it appears that we could join
+         // the PROJWBS table to the TASKSUM table to retrieve the 
+         // additional summarise values noted below. Before adding this 
+         // functionality it would be helpful to understand from a real
+         // Primavera user if this is a valid thing to do?
+         //
+         //task.setActualDuration(val); // act_drtn_hr_cnt
+         //task.setActualWork(val); // act_work_qty
+         //task.setDuration(val); // total_drtn_hr_cnt
+         //task.setBaselineDuration(val); // base_drtn_hr_cnt
+         //task.setBaselineWork(val); // base_work_qty
+         //task.setRemainingDuration(val); // remain_drtn_hr_cnt
+         //task.setRemainingWork(val); // remain_work_qty
+         //task.setTotalSlack(val); // total_float_hr_cnt
+         //task.setBCWP(val); // bcwp
+         //task.setBCWS(val); // bcws
+         //task.setActualCost(val); // act_expense_cost+act_work_cost+ act_equip_cost+act_mat_cost
+         //task.setBaselineCost(val); // base_expense_cost+base_work_cost+base_equip_cost+base_mat_cost
+         //task.setRemainingCost(val); // remain_expense_cost+remain_work_cost+remain_equip_cost+remain_mat_cost          
       }
 
       //
@@ -320,7 +355,7 @@ final class PrimaveraReader
          else
          {
             m_project.getChildTasks().remove(task);
-            parentTask.addChildTask(task);
+            parentTask.getChildTasks().add(task);
             task.setWBS(parentTask.getWBS() + "." + task.getWBS());
          }
       }
@@ -378,6 +413,28 @@ final class PrimaveraReader
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getString("cstr_type")));
          task.setPriority(PRIORITY_MAP.get(row.getString("priority_type")));
          task.setCreateDate(row.getDate("create_date"));
+         task.setType(TASK_TYPE_MAP.get(row.getString("duration_type")));
+         //task.setNotes(getNotes(taskmemos, "task_id", uniqueID.intValue(), "task_memo"));
+         task.setMilestone(BooleanUtility.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
+         task.setFreeSlack(row.getDuration("free_float_hr_cnt"));
+         task.setTotalSlack(row.getDuration("total_float_hr_cnt"));
+
+         //
+         // The Primavera field names listed below come from Oracle 
+         // documentation, but do not appear in the XER file or
+         // in the TASK table.
+         // 
+         //task.setDuration(val); total_drtn_hr_cnt ?
+         //task.setActualDuration(val); act_drtn_hr_cnt ?                   
+         //task.setStart(val); start_date ?         
+         //task.setFinish(date); finish_date ?
+         //task.setPercentageComplete(val); // drtn_complete_pct ?
+         //task.setWork(val); // total_work_qty ?
+         //task.setCost(); // EAC ?
+         //task.setFixedCost(val); // total_expense_cost ?
+         //task.setBaselineCost(val); // bac ?
+         //task.setActualCost(val); // acwp ?
+         //task.setRemainingCost(val); // etc ?
 
          Integer calId = row.getInteger("clndr_id");
          ProjectCalendar cal = m_calMap.get(calId);
@@ -392,6 +449,22 @@ final class PrimaveraReader
 
       updateStructure();
    }
+
+   /*   
+      private String getNotes(List<Row> notes, String keyField, int keyValue, String notesField)
+      {
+         String result = null;
+         for (Row row : notes)
+         {
+            if (row.getInt(keyField) == keyValue)
+            {
+               result = row.getString(notesField);
+               break;
+            }
+         }
+         return result;
+      }
+   */
 
    /**
     * Populates a field based on baseline and actual values.
@@ -486,11 +559,30 @@ final class PrimaveraReader
             assignment.setBaselineWork(row.getDuration("target_qty"));
             assignment.setActualWork(row.getDuration("act_reg_qty"));
             assignment.setBaselineCost(row.getDouble("target_cost"));
-            assignment.setActualCost(row.getDouble("act_reg_cost"));
+            assignment.setActualCost(row.getDouble("act_reg_cost")); // act_cost?
             assignment.setActualStart(row.getDate("act_start_date"));
             assignment.setActualFinish(row.getDate("act_end_date"));
             assignment.setBaselineStart(row.getDate("target_start_date"));
             assignment.setBaselineFinish(row.getDate("target_end_date"));
+            assignment.setDelay(row.getDuration("target_lag_drtn_hr_cnt"));
+            
+            // Calculation below only relevant for RT_Labor?
+            //assignment.setUnits(Double.valueOf(row.getDouble("target_qty_per_hr").doubleValue()*100));
+
+            //assignment.setWork(dur); // total_qty ?
+            
+            // Calculation below only relevant for RT_Labor?
+            //assignment.setRemainingWork(row.getDuration("target_qty")); // target_qty
+            
+            // Calculation below only relevant for RT_Labor?
+            //assignment.setActualWork(row.getDuration("act_reg_qty")); // act_reg_qty
+            
+            // Calculation below only relevant for RT_Labor?
+            //assignment.setOvertimeWork(row.getDuration("act_ot_qty")); // act_ot_qty
+            
+            //assignment.setCost(cost); // total_cost ?
+            //assignment.setStart(val); // start_date ?
+            //assignment.setFinish(val); // end_date ?            
 
             populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
             populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
@@ -500,6 +592,22 @@ final class PrimaveraReader
             m_project.fireAssignmentReadEvent(assignment);
          }
       }
+   }
+
+   /**
+    * Code common to both XER and database readers to extract 
+    * currency format data.
+    * 
+    * @param row row containing currency data
+    */
+   public void processDefaultCurrency(Row row)
+   {
+      ProjectHeader header = m_project.getProjectHeader();
+      header.setCurrencySymbol(row.getString("curr_symbol"));
+      header.setSymbolPosition(CURRENCY_SYMBOL_POSITION_MAP.get(row.getString("pos_curr_fmt_type")));
+      header.setCurrencyDigits(row.getInteger("decimal_digit_cnt"));
+      header.setThousandsSeparator(row.getString("digit_group_symbol").charAt(0));
+      header.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
    }
 
    /**
@@ -529,7 +637,7 @@ final class PrimaveraReader
       RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.MATERIAL);
+      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.WORK);
    }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
@@ -563,5 +671,34 @@ final class PrimaveraReader
       RELATION_TYPE_MAP.put("PR_FF", RelationType.FINISH_FINISH);
       RELATION_TYPE_MAP.put("PR_SS", RelationType.START_START);
       RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
+   }
+
+   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<String, TaskType>();
+   static
+   {
+      TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION);
+      TASK_TYPE_MAP.put("DT_FixedQty", TaskType.FIXED_UNITS);
+      TASK_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_WORK);
+      TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_WORK);
+   }
+
+   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<String, Boolean>();
+   static
+   {
+      MILESTONE_MAP.put("TT_Task", Boolean.FALSE);
+      MILESTONE_MAP.put("TT_Rsrc", Boolean.FALSE);
+      MILESTONE_MAP.put("TT_LOE", Boolean.FALSE);
+      MILESTONE_MAP.put("TT_Mile", Boolean.TRUE);
+      MILESTONE_MAP.put("TT_FinMile", Boolean.TRUE);
+      MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
+   }
+
+   private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<String, CurrencySymbolPosition>();
+   static
+   {
+      CURRENCY_SYMBOL_POSITION_MAP.put("#1.1", CurrencySymbolPosition.BEFORE);
+      CURRENCY_SYMBOL_POSITION_MAP.put("1.1#", CurrencySymbolPosition.AFTER);
+      CURRENCY_SYMBOL_POSITION_MAP.put("# 1.1", CurrencySymbolPosition.BEFORE_WITH_SPACE);
+      CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 }

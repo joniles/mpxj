@@ -129,9 +129,13 @@
 </target>
 
 <target name="clean-dot-net" depends="init-props" description="Clean up .net build files">
-	<delete dir="${basedir}/src.net/bin"/>
-	<delete dir="${basedir}/src.net/obj"/>
-	<delete file="${basedir}/src.net/MpxjSample.suo"/>
+	<delete includeemptydirs="true"> 
+    		<fileset dir="${basedir}/src.net" defaultexcludes="false"> 
+			<include name="**/bin/**" /> 
+			<include name="**/obj/**" /> 
+		</fileset> 
+	</delete> 
+	<delete file="${basedir}/src.net/**/*.suo"/>
 </target>
 	
 <target name="clean" depends="init-props, clean-temp, clean-classes, clean-dot-net" description="Clean up all files">

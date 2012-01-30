@@ -196,7 +196,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       header.setFinishDate(getValue(project.getFinishDate()));
       header.setName(project.getName());
       header.setStartDate(project.getPlannedStartDate());
-
+      
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
       {
@@ -302,7 +302,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          resource.setNotes(xml.getResourceNotes());
          resource.setCreationDate(getValue(xml.getCreateDate()));
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
-
+         
          Integer calendarID = xml.getCalendarObjectId();
          if (calendarID != null)
          {
@@ -366,7 +366,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       //
       // Read WBS entries and create tasks
       //
-
       for (WBSType row : wbs)
       {
          Task task = m_projectFile.addTask();
@@ -398,7 +397,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          else
          {
             m_projectFile.getChildTasks().remove(task);
-            parentTask.addChildTask(task);
+            parentTask.getChildTasks().add(task);
          }
       }
 
@@ -454,7 +453,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setEarlyFinish(getValue(row.getEarlyFinishDate()));
          task.setBaselineStart(getValue(row.getBaselineStartDate()));
          task.setBaselineFinish(getValue(row.getBaselineFinishDate()));
-
+         
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(getValue(row.getCreateDate()));
 
@@ -573,7 +572,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             assignment.setActualFinish(getValue(row.getActualFinishDate()));
             assignment.setBaselineStart(row.getPlannedStartDate());
             assignment.setBaselineFinish(row.getPlannedFinishDate());
-
+            
             populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
             populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);

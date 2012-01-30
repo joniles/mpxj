@@ -28,13 +28,15 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3448059: Wrong currency symbol in the exported file.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2891096: TimephasedResourceAssignment end date not correct.</action>	
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3007420: Calendar hours are incorrect.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3476012: NullReferenceException with getTimephasedBaselineWork.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3481612: Outline number is null when opening Project 2003 MPP file.</action>												
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>						
-		<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when usnig certain methods to add or remove child tasks.</action>
+		<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</action>
 	</release>
 
 	<release version="4.2.0" date="23/06/2011">
 		<action dev="joniles" type="add">Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Baseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</action>
-		<action dev="joniles" type="add">Added support for task suspend date, task resume date, and task code read from Primevera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</action>
+		<action dev="joniles" type="add">Added support for task suspend date, task resume date, and task code read from Primavera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</action>
 		<action dev="joniles" type="add">Added support for retrieving the table associated with any view.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3317333: Error converting Mpp to planner.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316806: MSPDI Linklag for TimeUnit.Percent.</action>			

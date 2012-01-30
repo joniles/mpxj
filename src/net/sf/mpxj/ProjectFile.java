@@ -1090,7 +1090,7 @@ public final class ProjectFile
             }
             else
             {
-               parent.addChildTask(task);
+               parent.addChildTask(task);               
             }
          }
       }
@@ -2184,7 +2184,17 @@ public final class ProjectFile
     */
    public ProjectCalendar getBaselineCalendar()
    {
-      return getBaseCalendar("Used for Microsoft Project 98 Baseline Calendar");
+      //
+      // Attempt to locate the calendar normally used by baselines
+      // If this isn't present, fall back to using the default 
+      // project calendar.
+      //
+      ProjectCalendar result = getBaseCalendar("Used for Microsoft Project 98 Baseline Calendar");
+      if (result == null)
+      {
+         result = getCalendar();
+      }
+      return result;
    }
 
    private String m_projectFilePath;

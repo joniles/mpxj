@@ -1,9 +1,10 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjConvert", "MpxjConvert.csproj", "{E88A789A-DB88-4794-A729-D26235478E7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjQuery", "MpxjQuery\MpxjQuery.csproj", "{669FFFD2-0343-47E2-82B8-3B514A6D971E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjTest", "MpxjTest.csproj", "{286E95B9-5128-4424-9468-B21242C9F015}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjConvert", "MpxjConvert\MpxjConvert.csproj", "{54E90DBB-7A14-4442-97C2-D2130B167EFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjTest", "MpxjTest\MpxjTest.csproj", "{15C569A0-4B30-4E74-BC99-A13788F53244}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +12,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E88A789A-DB88-4794-A729-D26235478E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E88A789A-DB88-4794-A729-D26235478E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E88A789A-DB88-4794-A729-D26235478E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E88A789A-DB88-4794-A729-D26235478E7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{286E95B9-5128-4424-9468-B21242C9F015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{286E95B9-5128-4424-9468-B21242C9F015}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{286E95B9-5128-4424-9468-B21242C9F015}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{286E95B9-5128-4424-9468-B21242C9F015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{669FFFD2-0343-47E2-82B8-3B514A6D971E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669FFFD2-0343-47E2-82B8-3B514A6D971E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669FFFD2-0343-47E2-82B8-3B514A6D971E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669FFFD2-0343-47E2-82B8-3B514A6D971E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54E90DBB-7A14-4442-97C2-D2130B167EFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54E90DBB-7A14-4442-97C2-D2130B167EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54E90DBB-7A14-4442-97C2-D2130B167EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54E90DBB-7A14-4442-97C2-D2130B167EFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C569A0-4B30-4E74-BC99-A13788F53244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C569A0-4B30-4E74-BC99-A13788F53244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C569A0-4B30-4E74-BC99-A13788F53244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C569A0-4B30-4E74-BC99-A13788F53244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

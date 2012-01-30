@@ -145,6 +145,25 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
+    * Convenience method which allows all projects in the database to
+    * be read in a single operation.
+    * 
+    * @return list of ProjectFile instances
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll() throws MPXJException
+   {
+      List<ProjectFile> result = new LinkedList<ProjectFile>();
+      Map<Integer, String> projects = listProjects();
+      for (Integer id : projects.keySet())
+      {
+         setProjectID(id.intValue());
+         result.add(read());
+      }
+      return result;
+   }
+
+   /**
     * Select the project header row from the database.
     * 
     * @throws SQLException
@@ -165,12 +184,13 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       {
          Row row = rows.get(0);
          ProjectHeader ph = m_reader.getProject().getProjectHeader();
-         ph.setCurrencySymbol(row.getString("curr_symbol"));
          ph.setCreationDate(row.getDate("create_date"));
-         ph.setLastSaved(row.getDate("update_date"));         
+         ph.setLastSaved(row.getDate("update_date"));
          ph.setMinutesPerDay(Integer.valueOf(row.getInt("day_hr_cnt") * 60));
          ph.setMinutesPerWeek(Integer.valueOf(row.getInt("week_hr_cnt") * 60));
          ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
+
+         m_reader.processDefaultCurrency(row);
       }
    }
 
