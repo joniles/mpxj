@@ -29,9 +29,11 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2891096: TimephasedResourceAssignment end date not correct.</action>	
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3007420: Calendar hours are incorrect.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3476012: NullReferenceException with getTimephasedBaselineWork.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3481612: Outline number is null when opening Project 2003 MPP file.</action>												
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3481612: Outline number is null when opening Project 2003 MPP file.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3482155: Unable to parse note (unknown locale).</action>														
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>						
-		<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</action>
+		<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</action>		
+		<action dev="joniles" type="fix">Updated to fix an issue where subpprojects were not read correctly (Contributed by Gary McKenney).</action>
 	</release>
 
 	<release version="4.2.0" date="23/06/2011">
