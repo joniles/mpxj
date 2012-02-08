@@ -2702,16 +2702,10 @@ final class MPP9Reader implements MPPVariantReader
          for (int i = 0; i < allTasks.size(); i++)
          {
             Task task = allTasks.get(i);
-
-            if (task.getNull())
-            {
-               continue; // ignore tasks already marked as invalid
-            }
-
             taskID = NumberUtility.getInt(task.getID());
             // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
             // IDs are represented.
-            if (lastTaskID != -1 && taskID > lastTaskID + 1 && taskID > m_highestEmptyTaskID + 1)
+            if (!task.getNull() && lastTaskID != -1 && taskID > lastTaskID + 1 && taskID > m_highestEmptyTaskID + 1)
             {
                // This task looks to be invalid.
                task.setNull(true);
