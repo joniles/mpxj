@@ -9,7 +9,7 @@
 <target name="init-props" description="Initialize properties">
    <tstamp/>
 	
-	<property name="current.version" value="4.2.0" />
+	<property name="current.version" value="4.3.0" />
 	
    <!-- 
    	The following two properties are only required if you want to use the xjc target.
@@ -24,7 +24,7 @@
    <property name="classes.dir" value="${basedir}/classes" />
    <property name="bak.dir" value="${basedir}/bak" />
    <property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
-	<property name="ikvm.dir" value="C:\java\ikvm-0.46.0.1" />
+	<property name="ikvm.dir" value="C:\java\ikvm-7.0.4335.0" />
 		
 	<!-- 
 		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
