@@ -3,13 +3,13 @@
 
 <document>
    <properties>
-      <title>How To: Convert data from one format to another</title> 
+      <title>How To: Convert project data from one format to another</title> 
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
    <body> 
 
-<section name="How To: Convert data from one format to another">
+<section name="How To: Convert project data from one format to another">
 
 <p>To convert project data between different formats you read the source 
 data using an appropriate Reader class, the write the data using a Writer
@@ -37,7 +37,7 @@ writer.write(projectFile, outputFile);
 
 <p>If you already explicitly know the file types you are converting between,
 you can use the specific Reader and Writer classes, as shown below.</p>
-</section>
+
 
 <source>
 import net.sf.mpxj.ProjectFile;
@@ -53,6 +53,31 @@ ProjectFile projectFile = reader.read(inputFile);
 ProjectWriter writer = new MPXWriter();
 writer.write(projectFile, outputFile);
 </source>
+
+<p>
+The following conversions are possible using MPXJ:
+<ul>
+<li>Microsoft Project MPP to Microsoft Project MPX</li>
+<li>Microsoft Project MPP to Microsoft Project XML (MSPDI)</li>
+<li>Microsoft Project MPP to Gnome Planner</li>
+<li>Microsoft Project MPX to Microsoft Project XML (MSPDI)</li>
+<li>Microsoft Project MPX to Gnome Planner</li>
+<li>Microsoft Project XML (MSPDI) to Microsoft Project MPX</li>
+<li>Microsoft Project XML (MSPDI) to Gnome Planner</li>
+<li>Microsoft Project MPD to Microsoft Project MPX</li>
+<li>Microsoft Project MPD to Microsoft Project XML (MSPDI)</li>
+<li>Microsoft Project MPD to Gnome Planner</li>
+<li>Primavera PM XML to Microsoft Project MPX</li>
+<li>Primavera PM XML to Microsoft Project XML (MSPDI)</li>
+<li>Primavera PM XML to Gnome Planner</li>
+<li>Primavera XER to Microsoft Project MPX</li>
+<li>Primavera XER to Microsoft Project XML (MSPDI)</li>
+<li>Primavera XER to Gnome Planner</li>
+<li>Gnome Planner to Microsoft Project MPX</li>
+<li>Gnome Planner to Microsoft Project XML (MSPDI)</li>
+</ul>
+</p>
+</section>
 
 </body>
 </document>

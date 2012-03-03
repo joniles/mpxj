@@ -3,13 +3,13 @@
 
 <document>
    <properties>
-      <title>Getting Started</title> 
+      <title>How To: Get Started</title> 
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
    <body> 
 
-<section name="Introduction">
+<section name="How To: Get Started">
 <p>The MPXJ library allows various formats of Microsoft Project file formats, and
 file formats from other project planning applications
 to be read and written using a single consistent API in Java, .Net, or any other 

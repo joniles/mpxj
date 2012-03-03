@@ -3,13 +3,13 @@
 
 <document>
    <properties>
-      <title>Building MPXJ</title> 
+      <title>How To: Build MPXJ</title> 
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
    <body> 
 
-<section name="Introduction">
+<section name="How To: Build MPXJ">
 <p>Although MPXJ can be downloaded as a complete package from SourceForge,
 the development of the library continues between releases and is driven by
 user requests for new functionality, and bug fixes being applied to existing

@@ -3,13 +3,13 @@
 
 <document>
    <properties>
-      <title>How To: Read from a Primavera database</title> 
+      <title>How To: Read project data from a Primavera database</title> 
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
    <body> 
 
-<section name="How To: Read from a Primavera database">
+<section name="How To: Read project data from a Primavera database">
 
 <p>Reading from a Primavera database is a slightly different proposition
 to reading file-based project data, as a database connection is required.
@@ -61,25 +61,6 @@ ProjectFile projectFile = reader.read();
 </source>
 
 
-<p>MPXJ can do a lot of the work for you, as the example below illustrates.
-This example works where you have source and target file formats which can be
-easily recognised by the file extension (for example .mpp, .mpx, .xer, and so on)</p>
-
-<source>
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
-import net.sf.mpxj.writer.ProjectWriter;
-import net.sf.mpxj.writer.ProjectWriterUtility;
-
-...
-
-ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
-ProjectFile projectFile = reader.read(inputFile);
-
-ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
-writer.write(projectFile, outputFile);
-</source>
 </section>
 
 </body>
