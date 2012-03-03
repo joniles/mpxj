@@ -5,7 +5,7 @@
     <menu name="MPXJ">
       <item name="Overview" href="/index.html" />
       <item name="Changes" href="/changes-report.html" />
-      <item name="How to..." href="" collapse="true">
+      <item name="How to..." href="/howto.html" collapse="true">
       	<item name="How to convert files" href="/howto-convert.html" />
       	<item name="How to work with Primavera" href="/howto-primavera.html" />
       </item>
