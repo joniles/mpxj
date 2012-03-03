@@ -26,14 +26,17 @@ data structure.</p>
 <img src="images/mpxj-entities.png" width="400" height="243" alt="Diagram of key MPXJ entities"/>
 
 <p>
-MPXJ currently allows project data to be read from five distinct file formats
+MPXJ currently allows project data to be read from eight distinct data sources
 using the following reader classes:
 <ul> 
 <li>net.sf.mpxj.mpp.MPPReader: reads Microsoft Project MPP files</li>
 <li>net.sf.mpxj.mpx.MPXReader: reads Microsoft MPX files</li>
 <li>net.sf.mpxj.mspdi.MSPDIReader: reads Microsoft MSPDI (XML) files</li>
-<li>net.sf.mpxj.mpd.MPDIReader: reads Microsoft MPD files</li>
+<li>net.sf.mpxj.mpd.MPDReader: reads Microsoft MPD files</li>
 <li>net.sf.mpxj.planner.PlannerReader: reads Planner (XML) files</li>
+<li>net.sf.mpxj.primavera.PrimaveraDatabaseReader: reads from a Primavera database</li>
+<li>net.sf.mpxj.primavera.PrimaveraPMFileReader: reads Primavera PM XML files</li>
+<li>net.sf.mpxj.primavera.PrimaveraXERFileReader: reads Primavera XER files</li>
 </ul>
 All of these classes implement the ProjectReader interface. If you know which 
 type of file you are working with, you can use these readers directly, 

@@ -33,7 +33,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
    /**
     * {@inheritDoc}
     */
-   public GanttBarStyle[] processDefaultStyles(Props props)
+   @Override public GanttBarStyle[] processDefaultStyles(Props props)
    {
       GanttBarStyle[] barStyles = null;
       byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
@@ -87,7 +87,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
    /**
     * {@inheritDoc}
     */
-   public GanttBarStyleException[] processExceptionStyles(Props props)
+   @Override public GanttBarStyleException[] processExceptionStyles(Props props)
    {
       GanttBarStyleException[] barStyle = null;
       byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);

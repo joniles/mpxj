@@ -107,7 +107,7 @@ public final class MSPDIReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public void addProjectListener(ProjectListener listener)
+   @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -119,7 +119,7 @@ public final class MSPDIReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(InputStream stream) throws MPXJException
+   @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
       {
@@ -157,7 +157,7 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             unmarshaller.setEventHandler(new ValidationEventHandler()
             {
-               public boolean handleEvent(ValidationEvent event)
+               @Override public boolean handleEvent(ValidationEvent event)
                {
                   return (true);
                }

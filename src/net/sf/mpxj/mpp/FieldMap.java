@@ -1078,7 +1078,7 @@ abstract class FieldMap
        * @param item item to compare with
        * @return comparison result
        */
-      public int compareTo(FieldItem item)
+      @Override public int compareTo(FieldItem item)
       {
          int result = m_location.compareTo(item.m_location);
          if (result == 0)

@@ -81,7 +81,7 @@ public final class DateRange implements Comparable<DateRange>
    /**
     * {@inheritDoc}
     */
-   public int compareTo(DateRange o)
+   @Override public int compareTo(DateRange o)
    {
       int result = net.sf.mpxj.utility.DateUtility.compare(m_start, o.m_start);
       if (result == 0)

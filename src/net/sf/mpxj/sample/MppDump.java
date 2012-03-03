@@ -173,7 +173,6 @@ public class MppDump
       char c;
       int loop;
       int count;
-      long address = 0;
       StringBuffer sb = new StringBuffer();
 
       while (true)
@@ -215,8 +214,6 @@ public class MppDump
          }
 
          pw.println(sb.toString());
-
-         address += count;
       }
 
       return (byteCount);
@@ -239,7 +236,6 @@ public class MppDump
       char c;
       int loop;
       int count;
-      long address = 0;
       StringBuffer sb = new StringBuffer();
 
       while (true)
@@ -265,8 +261,6 @@ public class MppDump
          }
 
          pw.print(sb.toString());
-
-         address += count;
       }
 
       return (byteCount);

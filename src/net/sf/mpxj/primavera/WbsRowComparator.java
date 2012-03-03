@@ -34,7 +34,7 @@ class WbsRowComparator implements Comparator<Row>
    /**
     * {@inheritDoc}
     */
-   public int compare(Row o1, Row o2)
+   @Override public int compare(Row o1, Row o2)
    {
       Integer parent1 = o1.getInteger("parent_wbs_id");
       Integer parent2 = o2.getInteger("parent_wbs_id");

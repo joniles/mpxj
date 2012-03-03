@@ -599,6 +599,9 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
          double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
 
+         perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
+         totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
+
          m_timephasedOvertimeWork = new TimephasedWorkData(m_timephasedWork, perDayFactor, totalFactor);
       }
       return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
@@ -633,16 +636,31 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public List<TimephasedCost> getTimephasedCost()
    {
-      if (m_timephasedCost == null && m_timephasedWork != null && m_timephasedWork.hasData())
+      if (m_timephasedCost == null)
       {
-         if (hasMultipleCostRates())
+         Resource r = getResource();
+         ResourceType type = r != null ? r.getType() : ResourceType.WORK;
+
+         //for Work and Material resources, we will calculate in the normal way
+         if (type != ResourceType.COST)
          {
-            m_timephasedCost = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
+            if (m_timephasedWork != null && m_timephasedWork.hasData())
+            {
+               if (hasMultipleCostRates())
+               {
+                  m_timephasedCost = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
+               }
+               else
+               {
+                  m_timephasedCost = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
+               }
+            }
          }
          else
          {
-            m_timephasedCost = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
+            m_timephasedCost = getTimephasedCostFixedAmount();
          }
+
       }
       return m_timephasedCost;
    }
@@ -654,17 +672,33 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public List<TimephasedCost> getTimephasedActualCost()
    {
-      if (m_timephasedActualCost == null && m_timephasedActualWork != null && m_timephasedActualWork.hasData())
+      if (m_timephasedActualCost == null)
       {
-         if (hasMultipleCostRates())
+         Resource r = getResource();
+         ResourceType type = r != null ? r.getType() : ResourceType.WORK;
+
+         //for Work and Material resources, we will calculate in the normal way
+         if (type != ResourceType.COST)
          {
-            m_timephasedActualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+            if (m_timephasedActualWork != null && m_timephasedActualWork.hasData())
+            {
+               if (hasMultipleCostRates())
+               {
+                  m_timephasedActualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+               }
+               else
+               {
+                  m_timephasedActualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+               }
+            }
          }
          else
          {
-            m_timephasedActualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+            m_timephasedActualCost = getTimephasedActualCostFixedAmount();
          }
+
       }
+
       return m_timephasedActualCost;
    }
 
@@ -680,14 +714,28 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       List<TimephasedCost> result = new LinkedList<TimephasedCost>();
 
-      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList.iterator();
+      //just return an empty list if there is no timephased work passed in
+      if (standardWorkList == null)
+      {
+         return result;
+      }
+
+      //takes care of the situation where there is no timephased overtime work
+      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? java.util.Collections.<TimephasedWork> emptyList().iterator() : overtimeWorkList.iterator();
+
       for (TimephasedWork standardWork : standardWorkList)
       {
          CostRateTableEntry rate = getCostRateTableEntry(standardWork.getStart());
          double standardRateValue = rate.getStandardRate().getAmount();
          TimeUnit standardRateUnits = rate.getStandardRate().getUnits();
-         double overtimeRateValue = rate.getOvertimeRate().getAmount();
-         TimeUnit overtimeRateUnits = rate.getOvertimeRate().getUnits();
+         double overtimeRateValue = 0;
+         TimeUnit overtimeRateUnits = standardRateUnits;
+
+         if (rate.getOvertimeRate() != null)
+         {
+            overtimeRateValue = rate.getOvertimeRate().getAmount();
+            overtimeRateUnits = rate.getOvertimeRate().getUnits();
+         }
 
          TimephasedWork overtimeWork = overtimeIterator.hasNext() ? overtimeIterator.next() : null;
 
@@ -729,13 +777,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          double costPerDay = (standardWorkPerDay.getDuration() * standardRateValue) + (overtimeWorkPerDay.getDuration() * overtimeRateValue);
          double totalCost = (totalStandardWork.getDuration() * standardRateValue) + (totalOvertimeWork.getDuration() * overtimeRateValue);
 
-         TimephasedCost cost = new TimephasedCost();
-         cost.setStart(standardWork.getStart());
-         cost.setFinish(standardWork.getFinish());
-         cost.setModified(standardWork.getModified());
-         cost.setAmountPerDay(Double.valueOf(costPerDay));
-         cost.setTotalAmount(Double.valueOf(totalCost));
-         result.add(cost);
+         //if the overtime work does not span the same number of days as the work,
+         //then we have to split this into two TimephasedCost values
+         if (overtimeWork == null || (overtimeWork.getFinish().equals(standardWork.getFinish())))
+         {
+            //normal way
+            TimephasedCost cost = new TimephasedCost();
+            cost.setStart(standardWork.getStart());
+            cost.setFinish(standardWork.getFinish());
+            cost.setModified(standardWork.getModified());
+            cost.setAmountPerDay(Double.valueOf(costPerDay));
+            cost.setTotalAmount(Double.valueOf(totalCost));
+            result.add(cost);
+
+         }
+         else
+         {
+            //prorated way
+            result.addAll(splitCostProrated(getCalendar(), totalCost, costPerDay, standardWork.getStart()));
+         }
+
       }
 
       return result;
@@ -749,7 +810,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   @SuppressWarnings("all") private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       List<TimephasedWork> standardWorkResult = new LinkedList<TimephasedWork>();
       List<TimephasedWork> overtimeWorkResult = new LinkedList<TimephasedWork>();
@@ -783,6 +844,215 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       }
 
       return getTimephasedCostSingleRate(standardWorkResult, overtimeWorkResult);
+   }
+
+   /**
+    * Generates timephased costs from the assignment's cost value. Used for Cost type Resources.
+    * 
+    * @return timephased cost
+    */
+   private List<TimephasedCost> getTimephasedCostFixedAmount()
+   {
+      List<TimephasedCost> result = new LinkedList<TimephasedCost>();
+
+      ProjectCalendar cal = getCalendar();
+
+      double remainingCost = getRemainingCost().doubleValue();
+
+      if (remainingCost > 0)
+      {
+         AccrueType accrueAt = getResource().getAccrueAt();
+
+         if (accrueAt == AccrueType.START)
+         {
+            result.add(splitCostStart(cal, remainingCost, getStart()));
+         }
+         else
+            if (accrueAt == AccrueType.END)
+            {
+               result.add(splitCostEnd(cal, remainingCost, getFinish()));
+            }
+            else
+            {
+               //for prorated, we have to deal with it differently depending on whether or not
+               //any actual has been entered, since we want to mimic the other timephased data
+               //where planned and actual values do not overlap
+               double numWorkingDays = cal.getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
+               double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
+
+               if (getActualCost().intValue() > 0)
+               {
+                  //need to get three possible blocks of data: one for the possible partial amount
+                  //overlap with timephased actual cost; one with all the standard amount days
+                  //that happen after the actual cost stops; and one with any remaining
+                  //partial day cost amount
+
+                  int numActualDaysUsed = (int) Math.ceil(getActualCost().doubleValue() / standardAmountPerDay);
+                  Date actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS), false);
+
+                  double partialDayActualAmount = getActualCost().doubleValue() % standardAmountPerDay;
+
+                  if (partialDayActualAmount > 0)
+                  {
+                     double dayAmount = standardAmountPerDay < remainingCost ? standardAmountPerDay - partialDayActualAmount : remainingCost;
+
+                     result.add(splitCostEnd(cal, dayAmount, actualWorkFinish));
+
+                     remainingCost -= dayAmount;
+                  }
+
+                  //see if there's anything left to work with
+                  if (remainingCost > 0)
+                  {
+                     //have to split up the amount into standard prorated amount days and whatever is left
+                     result.addAll(splitCostProrated(cal, remainingCost, standardAmountPerDay, cal.getNextWorkStart(actualWorkFinish)));
+                  }
+
+               }
+               else
+               {
+                  //no actual cost to worry about, so just a standard split from the beginning of the assignment
+                  result.addAll(splitCostProrated(cal, remainingCost, standardAmountPerDay, getStart()));
+               }
+            }
+      }
+
+      return result;
+   }
+
+   /**
+    * Generates timephased actual costs from the assignment's cost value. Used for Cost type Resources.
+    * 
+    * @return timephased cost
+    */
+   private List<TimephasedCost> getTimephasedActualCostFixedAmount()
+   {
+      List<TimephasedCost> result = new LinkedList<TimephasedCost>();
+
+      double actualCost = getActualCost().doubleValue();
+
+      if (actualCost > 0)
+      {
+         AccrueType accrueAt = getResource().getAccrueAt();
+
+         if (accrueAt == AccrueType.START)
+         {
+            result.add(splitCostStart(getCalendar(), actualCost, getActualStart()));
+         }
+         else
+            if (accrueAt == AccrueType.END)
+            {
+               result.add(splitCostEnd(getCalendar(), actualCost, getActualFinish()));
+            }
+            else
+            {
+               //for prorated, we have to deal with it differently; have to 'fill up' each
+               //day with the standard amount before going to the next one
+               double numWorkingDays = getCalendar().getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
+               double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
+
+               result.addAll(splitCostProrated(getCalendar(), actualCost, standardAmountPerDay, getActualStart()));
+            }
+      }
+
+      return result;
+   }
+
+   /**
+    * Used for Cost type Resources. 
+    * 
+    * Generates a TimphasedCost block for the total amount on the start date. This is useful
+    * for Cost resources that have an AccrueAt value of Start. 
+    * 
+    * @param calendar calendar used by this assignment
+    * @param totalAmount cost amount for this block
+    * @param start start date of the timephased cost block
+    * @return timephased cost
+    */
+   private TimephasedCost splitCostStart(ProjectCalendar calendar, double totalAmount, Date start)
+   {
+      TimephasedCost cost = new TimephasedCost();
+      cost.setStart(start);
+      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS), false));
+      cost.setAmountPerDay(Double.valueOf(totalAmount));
+      cost.setTotalAmount(Double.valueOf(totalAmount));
+
+      return cost;
+   }
+
+   /**
+    * Used for Cost type Resources. 
+    * 
+    * Generates a TimphasedCost block for the total amount on the finish date. This is useful
+    * for Cost resources that have an AccrueAt value of End. 
+    * 
+    * @param calendar calendar used by this assignment
+    * @param totalAmount cost amount for this block
+    * @param finish finish date of the timephased cost block
+    * @return timephased cost
+    */
+   private TimephasedCost splitCostEnd(ProjectCalendar calendar, double totalAmount, Date finish)
+   {
+      TimephasedCost cost = new TimephasedCost();
+      cost.setStart(calendar.getStartDate(finish, Duration.getInstance(1, TimeUnit.DAYS)));
+      cost.setFinish(finish);
+      cost.setAmountPerDay(Double.valueOf(totalAmount));
+      cost.setTotalAmount(Double.valueOf(totalAmount));
+
+      return cost;
+   }
+
+   /**
+    * Used for Cost type Resources. 
+    * 
+    * Generates up to two TimephasedCost blocks for a cost amount. The first block will contain
+    * all the days using the standardAmountPerDay, and a second block will contain any
+    * final amount that is not enough for a complete day. This is useful for Cost resources
+    * who have an AccrueAt value of Prorated.
+    * 
+    * @param calendar calendar used by this assignment
+    * @param totalAmount cost amount to be prorated
+    * @param standardAmountPerDay cost amount for a normal working day
+    * @param start date of the first timephased cost block
+    * @return timephased cost
+    */
+   private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerDay, Date start)
+   {
+      List<TimephasedCost> result = new LinkedList<TimephasedCost>();
+
+      double numStandardAmountDays = Math.floor(totalAmount / standardAmountPerDay);
+      double amountForLastDay = totalAmount % standardAmountPerDay;
+
+      //first block contains all the normal work at the beginning of the assignments life, if any
+
+      if (numStandardAmountDays > 0)
+      {
+         Date finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS), false);
+
+         TimephasedCost standardBlock = new TimephasedCost();
+         standardBlock.setAmountPerDay(Double.valueOf(standardAmountPerDay));
+         standardBlock.setStart(start);
+         standardBlock.setFinish(finishStandardBlock);
+         standardBlock.setTotalAmount(Double.valueOf(numStandardAmountDays * standardAmountPerDay));
+
+         result.add(standardBlock);
+
+         start = calendar.getNextWorkStart(finishStandardBlock);
+      }
+
+      //next block contains the partial day amount, if any
+      if (amountForLastDay > 0)
+      {
+         TimephasedCost nextBlock = new TimephasedCost();
+         nextBlock.setAmountPerDay(Double.valueOf(amountForLastDay));
+         nextBlock.setTotalAmount(Double.valueOf(amountForLastDay));
+         nextBlock.setStart(start);
+         nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS), false));
+
+         result.add(nextBlock);
+      }
+
+      return result;
    }
 
    /**
@@ -1277,7 +1547,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a start value.
     * 
-    * @param index start index (1-30)
+    * @param index start index (1-10)
     * @param value start value
     */
    public void setStart(int index, Date value)
@@ -1288,7 +1558,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a start value.
     * 
-    * @param index start index (1-30)
+    * @param index start index (1-10)
     * @return start value
     */
    public Date getStart(int index)
@@ -1299,7 +1569,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a finish value.
     * 
-    * @param index finish index (1-30)
+    * @param index finish index (1-10)
     * @param value finish value
     */
    public void setFinish(int index, Date value)
@@ -1310,7 +1580,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a finish value.
     * 
-    * @param index finish index (1-30)
+    * @param index finish index (1-10)
     * @return finish value
     */
    public Date getFinish(int index)
@@ -1321,7 +1591,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a date value.
     * 
-    * @param index date index (1-30)
+    * @param index date index (1-10)
     * @param value date value
     */
    public void setDate(int index, Date value)
@@ -1332,7 +1602,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a date value.
     * 
-    * @param index date index (1-30)
+    * @param index date index (1-10)
     * @return date value
     */
    public Date getDate(int index)
@@ -1343,7 +1613,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a number value.
     * 
-    * @param index number index (1-30)
+    * @param index number index (1-20)
     * @param value number value
     */
    public void setNumber(int index, Number value)
@@ -1354,7 +1624,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a number value.
     * 
-    * @param index number index (1-30)
+    * @param index number index (1-20)
     * @return number value
     */
    public Number getNumber(int index)
@@ -1365,7 +1635,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a duration value.
     * 
-    * @param index duration index (1-30)
+    * @param index duration index (1-10)
     * @param value duration value
     */
    public void setDuration(int index, Duration value)
@@ -1376,7 +1646,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a duration value.
     * 
-    * @param index duration index (1-30)
+    * @param index duration index (1-10)
     * @return duration value
     */
    public Duration getDuration(int index)
@@ -1387,7 +1657,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a cost value.
     * 
-    * @param index cost index (1-30)
+    * @param index cost index (1-10)
     * @param value cost value
     */
    public void setCost(int index, Number value)
@@ -1398,7 +1668,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a cost value.
     * 
-    * @param index cost index (1-30)
+    * @param index cost index (1-10)
     * @return cost value
     */
    public Number getCost(int index)
@@ -1409,7 +1679,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Set a flag value.
     * 
-    * @param index flag index (1-30)
+    * @param index flag index (1-20)
     * @param value flag value
     */
    public void setFlag(int index, boolean value)
@@ -1420,7 +1690,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * Retrieve a flag value.
     * 
-    * @param index flag index (1-30)
+    * @param index flag index (1-20)
     * @return flag value
     */
    public boolean getFlag(int index)
@@ -2361,7 +2631,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * {@inheritDoc}
     */
-   public void set(FieldType field, Object value)
+   @Override public void set(FieldType field, Object value)
    {
       if (field != null)
       {
@@ -2465,7 +2735,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * {@inheritDoc}
     */
-   public void addFieldListener(FieldListener listener)
+   @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
       {
@@ -2477,7 +2747,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * {@inheritDoc}
     */
-   public void removeFieldListener(FieldListener listener)
+   @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
       {
@@ -2488,7 +2758,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * {@inheritDoc}
     */
-   public Object getCachedValue(FieldType field)
+   @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
@@ -2496,7 +2766,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    /**
     * {@inheritDoc}
     */
-   public Object getCurrentValue(FieldType field)
+   @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
 

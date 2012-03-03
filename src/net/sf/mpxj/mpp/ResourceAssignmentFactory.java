@@ -71,7 +71,7 @@ public class ResourceAssignmentFactory
       SplitTaskFactory splitFactory = new SplitTaskFactory();
       TimephasedWorkNormaliser normaliser = new MPPTimephasedWorkNormaliser();
       TimephasedWorkNormaliser baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
-      TimephasedCostNormaliser baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();  
+      TimephasedCostNormaliser baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
       ProjectCalendar baselineCalendar = file.getBaselineCalendar();
       RTFUtility rtf = new RTFUtility();
 
@@ -226,7 +226,7 @@ public class ResourceAssignmentFactory
             assignment.setTimephasedBaselineWork(8, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE8_WORK)), !useRawTimephasedData));
             assignment.setTimephasedBaselineWork(9, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE9_WORK)), !useRawTimephasedData));
             assignment.setTimephasedBaselineWork(10, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE10_WORK)), !useRawTimephasedData));
-                      
+
             assignment.setTimephasedBaselineCost(0, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE_COST)), !useRawTimephasedData));
             assignment.setTimephasedBaselineCost(1, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE1_COST)), !useRawTimephasedData));
             assignment.setTimephasedBaselineCost(2, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE2_COST)), !useRawTimephasedData));
@@ -238,7 +238,7 @@ public class ResourceAssignmentFactory
             assignment.setTimephasedBaselineCost(8, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE8_COST)), !useRawTimephasedData));
             assignment.setTimephasedBaselineCost(9, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE9_COST)), !useRawTimephasedData));
             assignment.setTimephasedBaselineCost(10, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE10_COST)), !useRawTimephasedData));
-            
+
             byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
             byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
             byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
@@ -246,7 +246,7 @@ public class ResourceAssignmentFactory
             List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), timephasedActualWorkData);
             List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), timephasedWorkData, timephasedActualWork);
             List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), timephasedActualOvertimeWorkData);
-            
+
             assignment.setActualStart(timephasedActualWork.isEmpty() ? null : assignment.getStart());
             assignment.setActualFinish((assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
 
@@ -332,12 +332,12 @@ public class ResourceAssignmentFactory
       if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
       {
          Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectHeader());
-         
+
          Duration workPerDay;
 
          if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
          {
-            workPerDay = totalMinutes.getDuration()==0?totalMinutes:TimephasedWorkNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
+            workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : TimephasedWorkNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
             int units = NumberUtility.getInt(assignment.getUnits());
             if (units != 100)
             {
@@ -364,15 +364,13 @@ public class ResourceAssignmentFactory
             }
          }
 
-         
-         
          Duration overtimeWork = assignment.getOvertimeWork();
          if (overtimeWork != null && overtimeWork.getDuration() != 0)
          {
             Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectHeader());
             totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
          }
-         
+
          TimephasedWork tra = new TimephasedWork();
          tra.setStart(assignment.getStart());
          tra.setAmountPerDay(workPerDay);

@@ -39,7 +39,7 @@ public abstract class AbstractProjectReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(String fileName) throws MPXJException
+   @Override public ProjectFile read(String fileName) throws MPXJException
    {
       FileInputStream fis = null;
 
@@ -77,7 +77,7 @@ public abstract class AbstractProjectReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(File file) throws MPXJException
+   @Override public ProjectFile read(File file) throws MPXJException
    {
       FileInputStream fis = null;
 

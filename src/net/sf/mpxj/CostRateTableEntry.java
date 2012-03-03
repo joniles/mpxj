@@ -132,7 +132,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
    /**
     * {@inheritDoc}
     */
-   public int compareTo(CostRateTableEntry o)
+   @Override public int compareTo(CostRateTableEntry o)
    {
       return DateUtility.compare(m_endDate, o.m_endDate);
    }

@@ -311,34 +311,34 @@ final class TimephasedDataFactory
          int index = 8; // 8 byte header
          int blockSize = 40;
          double previousCumulativeWorkPerformedInMinutes = 0;
-         
+
          Date blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 36);
          index += blockSize;
          TimephasedWork work = null;
-         
+
          while (index + blockSize <= data.length)
          {
             double cumulativeWorkInMinutes = ((long) MPPUtility.getDouble(data, index + 20)) / 1000;
             if (cumulativeWorkInMinutes != previousCumulativeWorkPerformedInMinutes)
-            {                                            
+            {
                //double unknownWorkThisPeriodInMinutes = ((long) MPPUtility.getDouble(data, index + 0)) / 1000;
-               double normalActualWorkThisPeriodInMinutes = ((double)MPPUtility.getInt(data, index+ 8))/10;
-               double normalRemainingWorkThisPeriodInMinutes = ((double)MPPUtility.getInt(data, index+ 28))/10;               
-               double workThisPeriodInMinutes = cumulativeWorkInMinutes - previousCumulativeWorkPerformedInMinutes;               
-               double overtimeWorkThisPeriodInMinutes = workThisPeriodInMinutes - (normalActualWorkThisPeriodInMinutes+normalRemainingWorkThisPeriodInMinutes);               
-               double overtimeFactor = overtimeWorkThisPeriodInMinutes / (normalActualWorkThisPeriodInMinutes+normalRemainingWorkThisPeriodInMinutes);
-                              
+               double normalActualWorkThisPeriodInMinutes = ((double) MPPUtility.getInt(data, index + 8)) / 10;
+               double normalRemainingWorkThisPeriodInMinutes = ((double) MPPUtility.getInt(data, index + 28)) / 10;
+               double workThisPeriodInMinutes = cumulativeWorkInMinutes - previousCumulativeWorkPerformedInMinutes;
+               double overtimeWorkThisPeriodInMinutes = workThisPeriodInMinutes - (normalActualWorkThisPeriodInMinutes + normalRemainingWorkThisPeriodInMinutes);
+               double overtimeFactor = overtimeWorkThisPeriodInMinutes / (normalActualWorkThisPeriodInMinutes + normalRemainingWorkThisPeriodInMinutes);
+
                double normalWorkPerDayInMinutes = 480;
                double overtimeWorkPerDayInMinutes = normalWorkPerDayInMinutes * overtimeFactor;
-                                        
+
                work = new TimephasedWork();
                work.setFinish(MPPUtility.getTimestampFromTenths(data, index + 16));
                work.setStart(blockStartDate);
                work.setTotalAmount(Duration.getInstance(workThisPeriodInMinutes, TimeUnit.MINUTES));
-               work.setAmountPerDay(Duration.getInstance(normalWorkPerDayInMinutes+overtimeWorkPerDayInMinutes, TimeUnit.MINUTES));
-               
+               work.setAmountPerDay(Duration.getInstance(normalWorkPerDayInMinutes + overtimeWorkPerDayInMinutes, TimeUnit.MINUTES));
+
                previousCumulativeWorkPerformedInMinutes = cumulativeWorkInMinutes;
-               
+
                if (list == null)
                {
                   list = new LinkedList<TimephasedWork>();

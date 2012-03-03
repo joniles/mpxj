@@ -227,7 +227,7 @@ public class MppClean
       List<String> keys = new ArrayList<String>(replacements.keySet());
       Collections.sort(keys, new Comparator<String>()
       {
-         public int compare(String o1, String o2)
+         @Override public int compare(String o1, String o2)
          {
             return (o2.length() - o1.length());
          }

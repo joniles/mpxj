@@ -46,7 +46,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return number of items
     */
-   public int getItemCount()
+   @Override public int getItemCount()
    {
       return (m_itemCount);
    }
@@ -56,7 +56,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return data size
     */
-   public int getDataSize()
+   @Override public int getDataSize()
    {
       return (m_dataSize);
    }
@@ -67,7 +67,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return array of unique identifiers
     */
-   public Integer[] getUniqueIdentifierArray()
+   @Override public Integer[] getUniqueIdentifierArray()
    {
       Integer[] result = new Integer[m_table.size()];
       int index = 0;
@@ -85,7 +85,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return set of unique identifiers
     */
-   public Set<Integer> getUniqueIdentifierSet()
+   @Override public Set<Integer> getUniqueIdentifierSet()
    {
       return (m_table.keySet());
    }
@@ -99,7 +99,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     * @param type data type identifier
     * @return offset of requested item
     */
-   public Integer getOffset(Integer id, Integer type)
+   @Override public Integer getOffset(Integer id, Integer type)
    {
       Integer result = null;
 
@@ -119,7 +119,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     * @param index index of item in the block
     * @return offset of the item in the block
     */
-   public int getOffset(int index)
+   @Override public int getOffset(int index)
    {
       return (m_offsets[index]);
    }
@@ -127,7 +127,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    /**
     * {@inheritDoc}
     */
-   public Set<Integer> getTypes(Integer id)
+   @Override public Set<Integer> getTypes(Integer id)
    {
       Set<Integer> result;
 
@@ -147,7 +147,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    /**
     * {@inheritDoc}
     */
-   public boolean containsKey(Integer key)
+   @Override public boolean containsKey(Integer key)
    {
       return m_table.containsKey(key);
    }
@@ -170,7 +170,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     * @param fieldMap field map used to decode var data keys
     * @return formatted contents of this block
     */
-   public String toString(FieldMap fieldMap)
+   @Override public String toString(FieldMap fieldMap)
    {
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);

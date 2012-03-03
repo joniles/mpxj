@@ -547,7 +547,7 @@ public enum AssignmentField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public String getName()
+   @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
@@ -555,7 +555,7 @@ public enum AssignmentField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public String getName(Locale locale)
+   @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.ASSIGNMENT_COLUMNS);
       String result = null;
@@ -571,7 +571,7 @@ public enum AssignmentField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public int getValue()
+   @Override public int getValue()
    {
       return (m_value);
    }
@@ -579,7 +579,7 @@ public enum AssignmentField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public DataType getDataType()
+   @Override public DataType getDataType()
    {
       return (m_dataType);
    }
@@ -587,7 +587,7 @@ public enum AssignmentField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public FieldType getUnitsType()
+   @Override public FieldType getUnitsType()
    {
       return m_unitsType;
    }

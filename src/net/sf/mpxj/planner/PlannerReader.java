@@ -95,7 +95,7 @@ public final class PlannerReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public void addProjectListener(ProjectListener listener)
+   @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -107,7 +107,7 @@ public final class PlannerReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(InputStream stream) throws MPXJException
+   @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
       {

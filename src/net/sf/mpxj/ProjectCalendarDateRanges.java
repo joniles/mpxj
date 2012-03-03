@@ -82,7 +82,7 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     *
     * @return iterator.
     */
-   public Iterator<DateRange> iterator()
+   @Override public Iterator<DateRange> iterator()
    {
       return (m_ranges.iterator());
    }

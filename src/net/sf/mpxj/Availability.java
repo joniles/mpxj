@@ -66,7 +66,7 @@ public class Availability implements Comparable<Availability>
    /**
     * {@inheritDoc}
     */
-   public int compareTo(Availability o)
+   @Override public int compareTo(Availability o)
    {
       return m_range.compareTo(o.m_range);
    }

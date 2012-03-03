@@ -70,7 +70,7 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * {@inheritDoc}
     */
-   public void write(ProjectFile projectFile, OutputStream out) throws IOException
+   @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
       if (m_useLocaleDefaults == true)

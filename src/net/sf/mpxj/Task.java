@@ -251,7 +251,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       child.m_parent = this;
       m_children.add(child);
       setSummary(true);
-      
+
       if (getParentFile().getAutoOutlineLevel() == true)
       {
          child.setOutlineLevel(Integer.valueOf(NumberUtility.getInt(getOutlineLevel()) + 1));
@@ -381,7 +381,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          {
             assignment = iter.next();
             Integer uniqueID = assignment.getResourceUniqueID();
-            if (uniqueID.equals(resourceUniqueID) == true)
+            if (uniqueID != null && uniqueID.equals(resourceUniqueID) == true)
             {
                break;
             }
@@ -764,36 +764,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Cost1-10 fields show any custom task cost information you want to enter
-    * in your project.
-    *
-    * @param val amount
+    * Set a cost value.
+    * 
+    * @param index cost index (1-10)
+    * @param value cost value
     */
-   public void setCost1(Number val)
+   public void setCost(int index, Number value)
    {
-      set(TaskField.COST1, val);
+      set(selectField(CUSTOM_COST, index), value);
    }
 
    /**
-    * The Cost1-10 fields show any custom task cost information you want to
-    * enter in your project.
-    *
-    * @param val amount
+    * Retrieve a cost value.
+    * 
+    * @param index cost index (1-10)
+    * @return cost value
     */
-   public void setCost2(Number val)
+   public Number getCost(int index)
    {
-      set(TaskField.COST2, val);
-   }
-
-   /**
-    * The Cost1-10 fields show any custom task cost information you want to
-    * enter in your project.
-    *
-    * @param val amount
-    */
-   public void setCost3(Number val)
-   {
-      set(TaskField.COST3, val);
+      return (Number) getCachedValue(selectField(CUSTOM_COST, index));
    }
 
    /**
@@ -899,36 +888,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration1(Duration duration)
-   {
-      set(TaskField.DURATION1, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration2(Duration duration)
-   {
-      set(TaskField.DURATION2, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration3(Duration duration)
-   {
-      set(TaskField.DURATION3, duration);
-   }
-
-   /**
     * The Duration Variance field contains the difference between the
     * baseline duration of a task and the forecast or actual duration
     * of the task.
@@ -988,56 +947,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish1(Date date)
-   {
-      set(TaskField.FINISH1, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish2(Date date)
-   {
-      set(TaskField.FINISH2, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish3(Date date)
-   {
-      set(TaskField.FINISH3, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish4(Date date)
-   {
-      set(TaskField.FINISH4, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish5(Date date)
-   {
-      set(TaskField.FINISH5, date);
-   }
-
-   /**
     * The Finish Variance field contains the amount of time that represents the
     * difference between a task's baseline finish date and its forecast
     * or actual finish date.
@@ -1058,106 +967,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setFixedCost(Number val)
    {
       set(TaskField.FIXED_COST, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag1(boolean val)
-   {
-      set(TaskField.FLAG1, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag2(boolean val)
-   {
-      set(TaskField.FLAG2, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag3(boolean val)
-   {
-      set(TaskField.FLAG3, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag4(boolean val)
-   {
-      set(TaskField.FLAG4, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag5(boolean val)
-   {
-      set(TaskField.FLAG5, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag6(boolean val)
-   {
-      set(TaskField.FLAG6, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag7(boolean val)
-   {
-      set(TaskField.FLAG7, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag8(boolean val)
-   {
-      set(TaskField.FLAG8, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag9(boolean val)
-   {
-      set(TaskField.FLAG9, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag10(boolean val)
-   {
-      set(TaskField.FLAG10, val);
    }
 
    /**
@@ -1273,56 +1082,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setName(String name)
    {
       set(TaskField.NAME, name);
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber1(Number val)
-   {
-      set(TaskField.NUMBER1, val);
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber2(Number val)
-   {
-      set(TaskField.NUMBER2, val);
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber3(Number val)
-   {
-      set(TaskField.NUMBER3, val);
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber4(Number val)
-   {
-      set(TaskField.NUMBER4, val);
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber5(Number val)
-   {
-      set(TaskField.NUMBER5, val);
    }
 
    /**
@@ -1521,66 +1280,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Start1 through Start10 fields are custom fields that show any specific
-    * task start date information you want to enter and store separately in
-    * your project.
-    *
-    * @param val - Date
-    */
-   public void setStart1(Date val)
-   {
-      set(TaskField.START1, val);
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any specific
-    * task start date information you want to enter and store separately in
-    * your project.
-    *
-    * @param val - Date
-    */
-   public void setStart2(Date val)
-   {
-      set(TaskField.START2, val);
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any specific
-    * task start date information you want to enter and store separately in
-    * your project.
-    *
-    * @param val - Date
-    */
-   public void setStart3(Date val)
-   {
-      set(TaskField.START3, val);
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any specific
-    * task start date information you want to enter and store separately in
-    * your project.
-    *
-    * @param val - Date
-    */
-   public void setStart4(Date val)
-   {
-      set(TaskField.START4, val);
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any specific
-    * task start date information you want to enter and store separately in
-    * your project.
-    *
-    * @param val - Date
-    */
-   public void setStart5(Date val)
-   {
-      set(TaskField.START5, val);
-   }
-
-   /**
     * The Start Variance field contains the amount of time that represents the
     * difference between a task's baseline start date and its currently
     * scheduled start date.
@@ -1636,116 +1335,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setSV(Number val)
    {
       set(TaskField.SV, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to enter
-    * in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText1(String val)
-   {
-      set(TaskField.TEXT1, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText2(String val)
-   {
-      set(TaskField.TEXT2, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText3(String val)
-   {
-      set(TaskField.TEXT3, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText4(String val)
-   {
-      set(TaskField.TEXT4, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText5(String val)
-   {
-      set(TaskField.TEXT5, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText6(String val)
-   {
-      set(TaskField.TEXT6, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText7(String val)
-   {
-      set(TaskField.TEXT7, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText8(String val)
-   {
-      set(TaskField.TEXT8, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText9(String val)
-   {
-      set(TaskField.TEXT9, val);
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want to
-    * enter in your project about tasks.
-    *
-    * @param val - String
-    */
-   public void setText10(String val)
-   {
-      set(TaskField.TEXT10, val);
    }
 
    /**
@@ -2183,39 +1772,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Cost1-10 fields show any custom task cost information you
-    * want to enter in your project.
-    *
-    * @return cost amount
-    */
-   public Number getCost1()
-   {
-      return ((Number) getCachedValue(TaskField.COST1));
-   }
-
-   /**
-    * The Cost1-10 fields show any custom task cost information
-    * you want to enter in your project.
-    *
-    * @return amount
-    */
-   public Number getCost2()
-   {
-      return ((Number) getCachedValue(TaskField.COST2));
-   }
-
-   /**
-    * The Cost1-10 fields show any custom task cost information you want to enter
-    * in your project.
-    *
-    * @return amount
-    */
-   public Number getCost3()
-   {
-      return ((Number) getCachedValue(TaskField.COST3));
-   }
-
-   /**
     * The Cost Variance field shows the difference between the baseline cost
     * and total cost for a task. The total cost is the current estimate of costs
     * based on actual costs and remaining costs.
@@ -2324,39 +1880,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Duration1 through Duration10 fields are custom fields that show any
-    * specialized task duration information you want to enter and store separately
-    * in your project.
-    *
-    * @return Duration
+    * Set a duration value.
+    * 
+    * @param index duration index (1-10)
+    * @param value duration value
     */
-   public Duration getDuration1()
+   public void setDuration(int index, Duration value)
    {
-      return (Duration) getCachedValue(TaskField.DURATION1);
+      set(selectField(CUSTOM_DURATION, index), value);
    }
 
    /**
-    * The Duration1 through Duration10 fields are custom fields that show any
-    * specialized task duration information you want to enter and store separately
-    * in your project.
-    *
-    * @return Duration
+    * Retrieve a duration value.
+    * 
+    * @param index duration index (1-10)
+    * @return duration value
     */
-   public Duration getDuration2()
+   public Duration getDuration(int index)
    {
-      return ((Duration) getCachedValue(TaskField.DURATION2));
-   }
-
-   /**
-    * The Duration1 through Duration10 fields are custom fields that show any
-    * specialized task duration information you want to enter and store separately
-    * in your project.
-    *
-    * @return Duration
-    */
-   public Duration getDuration3()
-   {
-      return ((Duration) getCachedValue(TaskField.DURATION3));
+      return (Duration) getCachedValue(selectField(CUSTOM_DURATION, index));
    }
 
    /**
@@ -2431,63 +1973,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task finish date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
+    * Set a finish value.
+    * 
+    * @param index finish index (1-10)
+    * @param value finish value
     */
-   public Date getFinish1()
+   public void setFinish(int index, Date value)
    {
-      return ((Date) getCachedValue(TaskField.FINISH1));
+      set(selectField(CUSTOM_FINISH, index), value);
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task finish date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
+    * Retrieve a finish value.
+    * 
+    * @param index finish index (1-10)
+    * @return finish value
     */
-   public Date getFinish2()
+   public Date getFinish(int index)
    {
-      return ((Date) getCachedValue(TaskField.FINISH2));
-   }
-
-   /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task finish date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
-    */
-   public Date getFinish3()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH3));
-   }
-
-   /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task finish date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
-    */
-   public Date getFinish4()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH4));
-   }
-
-   /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task finish date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
-    */
-   public Date getFinish5()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH5));
+      return (Date) getCachedValue(selectField(CUSTOM_FINISH, index));
    }
 
    /**
@@ -2519,123 +2023,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
+    * Set a flag value.
+    * 
+    * @param index flag index (1-20)
+    * @param value flag value
     */
-   public boolean getFlag1()
+   public void setFlag(int index, boolean value)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG1)));
+      set(selectField(CUSTOM_FLAG, index), value);
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
+    * Retrieve a flag value.
+    * 
+    * @param index flag index (1-20)
+    * @return flag value
     */
-   public boolean getFlag2()
+   public boolean getFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG2)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag3()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG3)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag4()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG4)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag5()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG5)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag6()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG6)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag7()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG7)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag8()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG8)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag9()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG9)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag10()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG10)));
+      return BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
    }
 
    /**
@@ -2760,53 +2166,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
+    * Set a number value.
+    * 
+    * @param index number index (1-20)
+    * @param value number value
     */
-   public Number getNumber1()
+   public void setNumber(int index, Number value)
    {
-      return ((Number) getCachedValue(TaskField.NUMBER1));
+      set(selectField(CUSTOM_NUMBER, index), value);
    }
 
    /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
+    * Retrieve a number value.
+    * 
+    * @param index number index (1-20)
+    * @return number value
     */
-   public Number getNumber2()
+   public Number getNumber(int index)
    {
-      return ((Number) getCachedValue(TaskField.NUMBER2));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber3()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER3));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber4()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER4));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber5()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER5));
+      return (Number) getCachedValue(selectField(CUSTOM_NUMBER, index));
    }
 
    /**
@@ -3027,63 +2405,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Start1 through Start10 fields are custom fields that show any
-    * specific task start date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
+    * Set a start value.
+    * 
+    * @param index start index (1-10)
+    * @param value start value
     */
-   public Date getStart1()
+   public void setStart(int index, Date value)
    {
-      return ((Date) getCachedValue(TaskField.START1));
+      set(selectField(CUSTOM_START, index), value);
    }
 
    /**
-    * The Start1 through Start10 fields are custom fields that show any
-    * specific task start date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
+    * Retrieve a start value.
+    * 
+    * @param index start index (1-10)
+    * @return start value
     */
-   public Date getStart2()
+   public Date getStart(int index)
    {
-      return ((Date) getCachedValue(TaskField.START2));
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any
-    * specific task start date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
-    */
-   public Date getStart3()
-   {
-      return ((Date) getCachedValue(TaskField.START3));
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any
-    * specific task start date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
-    */
-   public Date getStart4()
-   {
-      return ((Date) getCachedValue(TaskField.START4));
-   }
-
-   /**
-    * The Start1 through Start10 fields are custom fields that show any
-    * specific task start date information you want to enter and store
-    * separately in your project.
-    *
-    * @return Date
-    */
-   public Date getStart5()
-   {
-      return ((Date) getCachedValue(TaskField.START5));
+      return (Date) getCachedValue(selectField(CUSTOM_START, index));
    }
 
    /**
@@ -3161,113 +2501,47 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
+    * Set a text value.
+    * 
+    * @param index text index (1-30)
+    * @param value text value
     */
-   public String getText1()
+   public void setText(int index, String value)
    {
-      return ((String) getCachedValue(TaskField.TEXT1));
+      set(selectField(CUSTOM_TEXT, index), value);
    }
 
    /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
+    * Retrieve a text value.
+    * 
+    * @param index text index (1-30)
+    * @return text value
     */
-   public String getText2()
+   public String getText(int index)
    {
-      return ((String) getCachedValue(TaskField.TEXT2));
+      return (String) getCachedValue(selectField(CUSTOM_TEXT, index));
    }
 
    /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
+    * Set an outline code value.
+    * 
+    * @param index outline code index (1-10)
+    * @param value outline code value
     */
-   public String getText3()
+   public void setOutlineCode(int index, String value)
    {
-      return ((String) getCachedValue(TaskField.TEXT3));
+      set(selectField(CUSTOM_OUTLINE_CODE, index), value);
    }
 
    /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
+    * Retrieve an outline code value.
+    * 
+    * @param index outline code index (1-10)
+    * @return outline code value
     */
-   public String getText4()
+   public String getOutlineCode(int index)
    {
-      return ((String) getCachedValue(TaskField.TEXT4));
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
-    */
-   public String getText5()
-   {
-      return ((String) getCachedValue(TaskField.TEXT5));
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
-    */
-   public String getText6()
-   {
-      return ((String) getCachedValue(TaskField.TEXT6));
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
-    */
-   public String getText7()
-   {
-      return ((String) getCachedValue(TaskField.TEXT7));
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
-    */
-   public String getText8()
-   {
-      return ((String) getCachedValue(TaskField.TEXT8));
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
-    */
-   public String getText9()
-   {
-      return ((String) getCachedValue(TaskField.TEXT9));
-   }
-
-   /**
-    * The Text1-30 fields show any custom text information you want
-    * to enter in your project about tasks.
-    *
-    * @return String
-    */
-   public String getText10()
-   {
-      return ((String) getCachedValue(TaskField.TEXT10));
+      return (String) getCachedValue(selectField(CUSTOM_OUTLINE_CODE, index));
    }
 
    /**
@@ -3464,7 +2738,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param o object to compare this instance with
     * @return result of comparison
     */
-   public int compareTo(Task o)
+   @Override public int compareTo(Task o)
    {
       int id1 = NumberUtility.getInt(getID());
       int id2 = NumberUtility.getInt(o.getID());
@@ -3923,206 +3197,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag11()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG11)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag12()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG12)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag13()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG13)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag14()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG14)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag15()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG15)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag16()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG16)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag17()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG17)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag18()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG18)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag19()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG19)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    *
-    * @return flag value
-    */
-   public boolean getFlag20()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.FLAG20)));
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag11(boolean b)
-   {
-      set(TaskField.FLAG11, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag12(boolean b)
-   {
-      set(TaskField.FLAG12, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag13(boolean b)
-   {
-      set(TaskField.FLAG13, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag14(boolean b)
-   {
-      set(TaskField.FLAG14, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag15(boolean b)
-   {
-      set(TaskField.FLAG15, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag16(boolean b)
-   {
-      set(TaskField.FLAG16, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag17(boolean b)
-   {
-      set(TaskField.FLAG17, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag18(boolean b)
-   {
-      set(TaskField.FLAG18, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag19(boolean b)
-   {
-      set(TaskField.FLAG19, b);
-   }
-
-   /**
-    * Sets the flag value.
-    *
-    * @param b flag value
-    */
-   public void setFlag20(boolean b)
-   {
-      set(TaskField.FLAG20, b);
-   }
-
-   /**
     * Sets the effort driven flag.
     *
     * @param flag value
@@ -4143,1383 +3217,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * Retrieves a text value.
-    *
-    * @return Text value
+    * Set a date value.
+    * 
+    * @param index date index (1-10)
+    * @param value date value
     */
-   public String getText11()
+   public void setDate(int index, Date value)
    {
-      return ((String) getCachedValue(TaskField.TEXT11));
+      set(selectField(CUSTOM_DATE, index), value);
    }
 
    /**
-    * Retrieves a text value.
-    *
-    * @return Text value
+    * Retrieve a date value.
+    * 
+    * @param index date index (1-10)
+    * @return date value
     */
-   public String getText12()
+   public Date getDate(int index)
    {
-      return ((String) getCachedValue(TaskField.TEXT12));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText13()
-   {
-      return ((String) getCachedValue(TaskField.TEXT13));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText14()
-   {
-      return ((String) getCachedValue(TaskField.TEXT14));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText15()
-   {
-      return ((String) getCachedValue(TaskField.TEXT15));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText16()
-   {
-      return ((String) getCachedValue(TaskField.TEXT16));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText17()
-   {
-      return ((String) getCachedValue(TaskField.TEXT17));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText18()
-   {
-      return ((String) getCachedValue(TaskField.TEXT18));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText19()
-   {
-      return ((String) getCachedValue(TaskField.TEXT19));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText20()
-   {
-      return ((String) getCachedValue(TaskField.TEXT20));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText21()
-   {
-      return ((String) getCachedValue(TaskField.TEXT21));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText22()
-   {
-      return ((String) getCachedValue(TaskField.TEXT22));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText23()
-   {
-      return ((String) getCachedValue(TaskField.TEXT23));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText24()
-   {
-      return ((String) getCachedValue(TaskField.TEXT24));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText25()
-   {
-      return ((String) getCachedValue(TaskField.TEXT25));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText26()
-   {
-      return ((String) getCachedValue(TaskField.TEXT26));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText27()
-   {
-      return ((String) getCachedValue(TaskField.TEXT27));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText28()
-   {
-      return ((String) getCachedValue(TaskField.TEXT28));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText29()
-   {
-      return ((String) getCachedValue(TaskField.TEXT29));
-   }
-
-   /**
-    * Retrieves a text value.
-    *
-    * @return Text value
-    */
-   public String getText30()
-   {
-      return ((String) getCachedValue(TaskField.TEXT30));
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText11(String string)
-   {
-      set(TaskField.TEXT11, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText12(String string)
-   {
-      set(TaskField.TEXT12, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText13(String string)
-   {
-      set(TaskField.TEXT13, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText14(String string)
-   {
-      set(TaskField.TEXT14, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText15(String string)
-   {
-      set(TaskField.TEXT15, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText16(String string)
-   {
-      set(TaskField.TEXT16, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText17(String string)
-   {
-      set(TaskField.TEXT17, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText18(String string)
-   {
-      set(TaskField.TEXT18, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText19(String string)
-   {
-      set(TaskField.TEXT19, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText20(String string)
-   {
-      set(TaskField.TEXT20, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText21(String string)
-   {
-      set(TaskField.TEXT21, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText22(String string)
-   {
-      set(TaskField.TEXT22, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText23(String string)
-   {
-      set(TaskField.TEXT23, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText24(String string)
-   {
-      set(TaskField.TEXT24, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText25(String string)
-   {
-      set(TaskField.TEXT25, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText26(String string)
-   {
-      set(TaskField.TEXT26, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText27(String string)
-   {
-      set(TaskField.TEXT27, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText28(String string)
-   {
-      set(TaskField.TEXT28, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText29(String string)
-   {
-      set(TaskField.TEXT29, string);
-   }
-
-   /**
-    * Sets a text value.
-    *
-    * @param string Text value
-    */
-   public void setText30(String string)
-   {
-      set(TaskField.TEXT30, string);
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber6(Number val)
-   {
-      set(TaskField.NUMBER6, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber6()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER6));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber7(Number val)
-   {
-      set(TaskField.NUMBER7, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber7()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER7));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber8(Number val)
-   {
-      set(TaskField.NUMBER8, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber8()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER8));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber9(Number val)
-   {
-      set(TaskField.NUMBER9, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber9()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER9));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber10(Number val)
-   {
-      set(TaskField.NUMBER10, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber10()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER10));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber11(Number val)
-   {
-      set(TaskField.NUMBER11, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber11()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER11));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber12(Number val)
-   {
-      set(TaskField.NUMBER12, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber12()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER12));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber13(Number val)
-   {
-      set(TaskField.NUMBER13, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber13()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER13));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber14(Number val)
-   {
-      set(TaskField.NUMBER14, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber14()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER14));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber15(Number val)
-   {
-      set(TaskField.NUMBER15, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber15()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER15));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber16(Number val)
-   {
-      set(TaskField.NUMBER16, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber16()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER16));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber17(Number val)
-   {
-      set(TaskField.NUMBER17, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber17()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER17));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber18(Number val)
-   {
-      set(TaskField.NUMBER18, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber18()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER18));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber19(Number val)
-   {
-      set(TaskField.NUMBER19, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber19()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER19));
-   }
-
-   /**
-    * Sets a numeric value.
-    *
-    * @param val Numeric value
-    */
-   public void setNumber20(Number val)
-   {
-      set(TaskField.NUMBER20, val);
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Number getNumber20()
-   {
-      return ((Number) getCachedValue(TaskField.NUMBER20));
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration10()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION10);
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration4()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION4);
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration5()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION5);
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration6()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION6);
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration7()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION7);
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration8()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION8);
-   }
-
-   /**
-    * Retrieves a duration.
-    *
-    * @return Duration
-    */
-   public Duration getDuration9()
-   {
-      return (Duration) getCachedValue(TaskField.DURATION9);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration10(Duration duration)
-   {
-      set(TaskField.DURATION10, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration4(Duration duration)
-   {
-      set(TaskField.DURATION4, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration5(Duration duration)
-   {
-      set(TaskField.DURATION5, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration6(Duration duration)
-   {
-      set(TaskField.DURATION6, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration7(Duration duration)
-   {
-      set(TaskField.DURATION7, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration8(Duration duration)
-   {
-      set(TaskField.DURATION8, duration);
-   }
-
-   /**
-    * User defined duration field.
-    *
-    * @param duration Duration value
-    */
-   public void setDuration9(Duration duration)
-   {
-      set(TaskField.DURATION9, duration);
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate1()
-   {
-      return ((Date) getCachedValue(TaskField.DATE1));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate10()
-   {
-      return ((Date) getCachedValue(TaskField.DATE10));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate2()
-   {
-      return ((Date) getCachedValue(TaskField.DATE2));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate3()
-   {
-      return ((Date) getCachedValue(TaskField.DATE3));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate4()
-   {
-      return ((Date) getCachedValue(TaskField.DATE4));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate5()
-   {
-      return ((Date) getCachedValue(TaskField.DATE5));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate6()
-   {
-      return ((Date) getCachedValue(TaskField.DATE6));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate7()
-   {
-      return ((Date) getCachedValue(TaskField.DATE7));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate8()
-   {
-      return ((Date) getCachedValue(TaskField.DATE8));
-   }
-
-   /**
-    * Retrieves a date value.
-    *
-    * @return Date value
-    */
-   public Date getDate9()
-   {
-      return ((Date) getCachedValue(TaskField.DATE9));
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate1(Date date)
-   {
-      set(TaskField.DATE1, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate10(Date date)
-   {
-      set(TaskField.DATE10, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate2(Date date)
-   {
-      set(TaskField.DATE2, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate3(Date date)
-   {
-      set(TaskField.DATE3, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate4(Date date)
-   {
-      set(TaskField.DATE4, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate5(Date date)
-   {
-      set(TaskField.DATE5, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate6(Date date)
-   {
-      set(TaskField.DATE6, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate7(Date date)
-   {
-      set(TaskField.DATE7, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate8(Date date)
-   {
-      set(TaskField.DATE8, date);
-   }
-
-   /**
-    * Sets a date value.
-    *
-    * @param date Date value
-    */
-   public void setDate9(Date date)
-   {
-      set(TaskField.DATE9, date);
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost10()
-   {
-      return ((Number) getCachedValue(TaskField.COST10));
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost4()
-   {
-      return ((Number) getCachedValue(TaskField.COST4));
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost5()
-   {
-      return ((Number) getCachedValue(TaskField.COST5));
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost6()
-   {
-      return ((Number) getCachedValue(TaskField.COST6));
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost7()
-   {
-      return ((Number) getCachedValue(TaskField.COST7));
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost8()
-   {
-      return ((Number) getCachedValue(TaskField.COST8));
-   }
-
-   /**
-    * Retrieves a cost.
-    *
-    * @return Cost value
-    */
-   public Number getCost9()
-   {
-      return ((Number) getCachedValue(TaskField.COST9));
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost10(Number number)
-   {
-      set(TaskField.COST10, number);
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost4(Number number)
-   {
-      set(TaskField.COST4, number);
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost5(Number number)
-   {
-      set(TaskField.COST5, number);
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost6(Number number)
-   {
-      set(TaskField.COST6, number);
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost7(Number number)
-   {
-      set(TaskField.COST7, number);
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost8(Number number)
-   {
-      set(TaskField.COST8, number);
-   }
-
-   /**
-    * Sets a cost value.
-    *
-    * @param number Cost value
-    */
-   public void setCost9(Number number)
-   {
-      set(TaskField.COST9, number);
-   }
-
-   /**
-    * Retrieves a start date.
-    *
-    * @return Date start date
-    */
-   public Date getStart10()
-   {
-      return ((Date) getCachedValue(TaskField.START10));
-   }
-
-   /**
-    * Retrieves a start date.
-    *
-    * @return Date start date
-    */
-   public Date getStart6()
-   {
-      return ((Date) getCachedValue(TaskField.START6));
-   }
-
-   /**
-    * Retrieves a start date.
-    *
-    * @return Date start date
-    */
-   public Date getStart7()
-   {
-      return ((Date) getCachedValue(TaskField.START7));
-   }
-
-   /**
-    * Retrieves a start date.
-    *
-    * @return Date start date
-    */
-   public Date getStart8()
-   {
-      return ((Date) getCachedValue(TaskField.START8));
-   }
-
-   /**
-    * Retrieves a start date.
-    *
-    * @return Date start date
-    */
-   public Date getStart9()
-   {
-      return ((Date) getCachedValue(TaskField.START9));
-   }
-
-   /**
-    * Sets a start date.
-    *
-    * @param date Start date
-    */
-   public void setStart10(Date date)
-   {
-      set(TaskField.START10, date);
-   }
-
-   /**
-    * Sets a start date.
-    *
-    * @param date Start date
-    */
-   public void setStart6(Date date)
-   {
-      set(TaskField.START6, date);
-   }
-
-   /**
-    * Sets a start date.
-    *
-    * @param date Start date
-    */
-   public void setStart7(Date date)
-   {
-      set(TaskField.START7, date);
-   }
-
-   /**
-    * Sets a start date.
-    *
-    * @param date Start date
-    */
-   public void setStart8(Date date)
-   {
-      set(TaskField.START8, date);
-   }
-
-   /**
-    * Sets a start date.
-    *
-    * @param date Start date
-    */
-   public void setStart9(Date date)
-   {
-      set(TaskField.START9, date);
-   }
-
-   /**
-    * Retrieves a finish date.
-    *
-    * @return Date finish date
-    */
-   public Date getFinish10()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH10));
-   }
-
-   /**
-    * Retrieves a finish date.
-    *
-    * @return Date finish date
-    */
-   public Date getFinish6()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH6));
-   }
-
-   /**
-    * Retrieves a finish date.
-    *
-    * @return Date finish date
-    */
-   public Date getFinish7()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH7));
-   }
-
-   /**
-    * Retrieves a finish date.
-    *
-    * @return Date finish date
-    */
-   public Date getFinish8()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH8));
-   }
-
-   /**
-    * Retrieves a finish date.
-    *
-    * @return Date finish date
-    */
-   public Date getFinish9()
-   {
-      return ((Date) getCachedValue(TaskField.FINISH9));
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish10(Date date)
-   {
-      set(TaskField.FINISH10, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish6(Date date)
-   {
-      set(TaskField.FINISH6, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish7(Date date)
-   {
-      set(TaskField.FINISH7, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish8(Date date)
-   {
-      set(TaskField.FINISH8, date);
-   }
-
-   /**
-    * User defined finish date field.
-    *
-    * @param date Date value
-    */
-   public void setFinish9(Date date)
-   {
-      set(TaskField.FINISH9, date);
+      return (Date) getCachedValue(selectField(CUSTOM_DATE, index));
    }
 
    /**
@@ -5540,206 +3256,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setOvertimeCost(Number number)
    {
       set(TaskField.OVERTIME_COST, number);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode1(String value)
-   {
-      set(TaskField.OUTLINE_CODE1, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode1()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE1));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode2(String value)
-   {
-      set(TaskField.OUTLINE_CODE2, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode2()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE2));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode3(String value)
-   {
-      set(TaskField.OUTLINE_CODE3, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode3()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE3));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode4(String value)
-   {
-      set(TaskField.OUTLINE_CODE4, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode4()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE4));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode5(String value)
-   {
-      set(TaskField.OUTLINE_CODE5, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode5()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE5));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode6(String value)
-   {
-      set(TaskField.OUTLINE_CODE6, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode6()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE6));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode7(String value)
-   {
-      set(TaskField.OUTLINE_CODE7, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode7()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE7));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode8(String value)
-   {
-      set(TaskField.OUTLINE_CODE8, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode8()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE8));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode9(String value)
-   {
-      set(TaskField.OUTLINE_CODE9, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode9()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE9));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    */
-   public void setOutlineCode10(String value)
-   {
-      set(TaskField.OUTLINE_CODE10, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    */
-   public String getOutlineCode10()
-   {
-      return ((String) getCachedValue(TaskField.OUTLINE_CODE10));
    }
 
    /**
@@ -6212,7 +3728,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getEnterpriseCost(int index)
    {
-      return ((Number) getCachedValue(selectField(ENTERPRISE_COST_FIELDS, index)));
+      return ((Number) getCachedValue(selectField(ENTERPRISE_COST, index)));
    }
 
    /**
@@ -6223,7 +3739,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(ENTERPRISE_COST_FIELDS, index), value);
+      set(selectField(ENTERPRISE_COST, index), value);
    }
 
    /**
@@ -6234,7 +3750,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getEnterpriseDate(int index)
    {
-      return ((Date) getCachedValue(selectField(ENTERPRISE_DATE_FIELDS, index)));
+      return ((Date) getCachedValue(selectField(ENTERPRISE_DATE, index)));
    }
 
    /**
@@ -6245,7 +3761,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(ENTERPRISE_DATE_FIELDS, index), value);
+      set(selectField(ENTERPRISE_DATE, index), value);
    }
 
    /**
@@ -6256,7 +3772,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return ((Duration) getCachedValue(selectField(ENTERPRISE_DURATION_FIELDS, index)));
+      return ((Duration) getCachedValue(selectField(ENTERPRISE_DURATION, index)));
    }
 
    /**
@@ -6267,7 +3783,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(ENTERPRISE_DURATION_FIELDS, index), value);
+      set(selectField(ENTERPRISE_DURATION, index), value);
    }
 
    /**
@@ -6278,7 +3794,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG_FIELDS, index))));
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
    }
 
    /**
@@ -6289,7 +3805,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(ENTERPRISE_FLAG_FIELDS, index), value);
+      set(selectField(ENTERPRISE_FLAG, index), value);
    }
 
    /**
@@ -6300,7 +3816,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getEnterpriseNumber(int index)
    {
-      return ((Number) getCachedValue(selectField(ENTERPRISE_NUMBER_FIELDS, index)));
+      return ((Number) getCachedValue(selectField(ENTERPRISE_NUMBER, index)));
    }
 
    /**
@@ -6311,7 +3827,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(ENTERPRISE_NUMBER_FIELDS, index), value);
+      set(selectField(ENTERPRISE_NUMBER, index), value);
    }
 
    /**
@@ -6322,7 +3838,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getEnterpriseText(int index)
    {
-      return ((String) getCachedValue(selectField(ENTERPRISE_TEXT_FIELDS, index)));
+      return ((String) getCachedValue(selectField(ENTERPRISE_TEXT, index)));
    }
 
    /**
@@ -6333,7 +3849,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(ENTERPRISE_TEXT_FIELDS, index), value);
+      set(selectField(ENTERPRISE_TEXT, index), value);
    }
 
    /**
@@ -6800,7 +4316,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * {@inheritDoc}
     */
-   public Object getCachedValue(FieldType field)
+   @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
@@ -6808,7 +4324,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * {@inheritDoc}
     */
-   public Object getCurrentValue(FieldType field)
+   @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
 
@@ -6884,7 +4400,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * {@inheritDoc}
     */
-   public void set(FieldType field, Object value)
+   @Override public void set(FieldType field, Object value)
    {
       if (field != null)
       {
@@ -7022,7 +4538,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * {@inheritDoc}
     */
-   public void addFieldListener(FieldListener listener)
+   @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
       {
@@ -7034,7 +4550,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * {@inheritDoc}
     */
-   public void removeFieldListener(FieldListener listener)
+   @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
       {
@@ -7153,7 +4669,173 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    private RecurringTask m_recurringTask;
 
-   private static final TaskField[] ENTERPRISE_COST_FIELDS =
+   private static final TaskField[] CUSTOM_COST =
+   {
+      TaskField.COST1,
+      TaskField.COST2,
+      TaskField.COST3,
+      TaskField.COST4,
+      TaskField.COST5,
+      TaskField.COST6,
+      TaskField.COST7,
+      TaskField.COST8,
+      TaskField.COST9,
+      TaskField.COST10
+   };
+
+   private static final TaskField[] CUSTOM_DATE =
+   {
+      TaskField.DATE1,
+      TaskField.DATE2,
+      TaskField.DATE3,
+      TaskField.DATE4,
+      TaskField.DATE5,
+      TaskField.DATE6,
+      TaskField.DATE7,
+      TaskField.DATE8,
+      TaskField.DATE9,
+      TaskField.DATE10
+   };
+
+   private static final TaskField[] CUSTOM_DURATION =
+   {
+      TaskField.DURATION1,
+      TaskField.DURATION2,
+      TaskField.DURATION3,
+      TaskField.DURATION4,
+      TaskField.DURATION5,
+      TaskField.DURATION6,
+      TaskField.DURATION7,
+      TaskField.DURATION8,
+      TaskField.DURATION9,
+      TaskField.DURATION10
+   };
+
+   private static final TaskField[] CUSTOM_FLAG =
+   {
+      TaskField.FLAG1,
+      TaskField.FLAG2,
+      TaskField.FLAG3,
+      TaskField.FLAG4,
+      TaskField.FLAG5,
+      TaskField.FLAG6,
+      TaskField.FLAG7,
+      TaskField.FLAG8,
+      TaskField.FLAG9,
+      TaskField.FLAG10,
+      TaskField.FLAG11,
+      TaskField.FLAG12,
+      TaskField.FLAG13,
+      TaskField.FLAG14,
+      TaskField.FLAG15,
+      TaskField.FLAG16,
+      TaskField.FLAG17,
+      TaskField.FLAG18,
+      TaskField.FLAG19,
+      TaskField.FLAG20
+   };
+
+   private static final TaskField[] CUSTOM_FINISH =
+   {
+      TaskField.FINISH1,
+      TaskField.FINISH2,
+      TaskField.FINISH3,
+      TaskField.FINISH4,
+      TaskField.FINISH5,
+      TaskField.FINISH6,
+      TaskField.FINISH7,
+      TaskField.FINISH8,
+      TaskField.FINISH9,
+      TaskField.FINISH10
+   };
+
+   private static final TaskField[] CUSTOM_NUMBER =
+   {
+      TaskField.NUMBER1,
+      TaskField.NUMBER2,
+      TaskField.NUMBER3,
+      TaskField.NUMBER4,
+      TaskField.NUMBER5,
+      TaskField.NUMBER6,
+      TaskField.NUMBER7,
+      TaskField.NUMBER8,
+      TaskField.NUMBER9,
+      TaskField.NUMBER10,
+      TaskField.NUMBER11,
+      TaskField.NUMBER12,
+      TaskField.NUMBER13,
+      TaskField.NUMBER14,
+      TaskField.NUMBER15,
+      TaskField.NUMBER16,
+      TaskField.NUMBER17,
+      TaskField.NUMBER18,
+      TaskField.NUMBER19,
+      TaskField.NUMBER20
+   };
+
+   private static final TaskField[] CUSTOM_START =
+   {
+      TaskField.START1,
+      TaskField.START2,
+      TaskField.START3,
+      TaskField.START4,
+      TaskField.START5,
+      TaskField.START6,
+      TaskField.START7,
+      TaskField.START8,
+      TaskField.START9,
+      TaskField.START10
+   };
+
+   private static final TaskField[] CUSTOM_TEXT =
+   {
+      TaskField.TEXT1,
+      TaskField.TEXT2,
+      TaskField.TEXT3,
+      TaskField.TEXT4,
+      TaskField.TEXT5,
+      TaskField.TEXT6,
+      TaskField.TEXT7,
+      TaskField.TEXT8,
+      TaskField.TEXT9,
+      TaskField.TEXT10,
+      TaskField.TEXT11,
+      TaskField.TEXT12,
+      TaskField.TEXT13,
+      TaskField.TEXT14,
+      TaskField.TEXT15,
+      TaskField.TEXT16,
+      TaskField.TEXT17,
+      TaskField.TEXT18,
+      TaskField.TEXT19,
+      TaskField.TEXT20,
+      TaskField.TEXT21,
+      TaskField.TEXT22,
+      TaskField.TEXT23,
+      TaskField.TEXT24,
+      TaskField.TEXT25,
+      TaskField.TEXT26,
+      TaskField.TEXT27,
+      TaskField.TEXT28,
+      TaskField.TEXT29,
+      TaskField.TEXT30
+   };
+
+   private static final TaskField[] CUSTOM_OUTLINE_CODE =
+   {
+      TaskField.OUTLINE_CODE1,
+      TaskField.OUTLINE_CODE2,
+      TaskField.OUTLINE_CODE3,
+      TaskField.OUTLINE_CODE4,
+      TaskField.OUTLINE_CODE5,
+      TaskField.OUTLINE_CODE6,
+      TaskField.OUTLINE_CODE7,
+      TaskField.OUTLINE_CODE8,
+      TaskField.OUTLINE_CODE9,
+      TaskField.OUTLINE_CODE10
+   };
+
+   private static final TaskField[] ENTERPRISE_COST =
    {
       TaskField.ENTERPRISE_COST1,
       TaskField.ENTERPRISE_COST2,
@@ -7167,7 +4849,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_COST10
    };
 
-   private static final TaskField[] ENTERPRISE_DATE_FIELDS =
+   private static final TaskField[] ENTERPRISE_DATE =
    {
       TaskField.ENTERPRISE_DATE1,
       TaskField.ENTERPRISE_DATE2,
@@ -7201,7 +4883,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_DATE30
    };
 
-   private static final TaskField[] ENTERPRISE_DURATION_FIELDS =
+   private static final TaskField[] ENTERPRISE_DURATION =
    {
       TaskField.ENTERPRISE_DURATION1,
       TaskField.ENTERPRISE_DURATION2,
@@ -7215,7 +4897,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_DURATION10
    };
 
-   private static final TaskField[] ENTERPRISE_FLAG_FIELDS =
+   private static final TaskField[] ENTERPRISE_FLAG =
    {
       TaskField.ENTERPRISE_FLAG1,
       TaskField.ENTERPRISE_FLAG2,
@@ -7239,7 +4921,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_FLAG20
    };
 
-   private static final TaskField[] ENTERPRISE_NUMBER_FIELDS =
+   private static final TaskField[] ENTERPRISE_NUMBER =
    {
       TaskField.ENTERPRISE_NUMBER1,
       TaskField.ENTERPRISE_NUMBER2,
@@ -7283,7 +4965,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_NUMBER40
    };
 
-   private static final TaskField[] ENTERPRISE_TEXT_FIELDS =
+   private static final TaskField[] ENTERPRISE_TEXT =
    {
       TaskField.ENTERPRISE_TEXT1,
       TaskField.ENTERPRISE_TEXT2,

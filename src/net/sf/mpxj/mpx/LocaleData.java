@@ -108,7 +108,7 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   @SuppressWarnings("unchecked") public static final Map getMap(Locale locale, String key)
+   @SuppressWarnings("rawtypes") public static final Map getMap(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return ((Map) bundle.getObject(key));

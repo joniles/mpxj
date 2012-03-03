@@ -41,7 +41,7 @@ public abstract class AbstractView implements View
    /**
     * {@inheritDoc}
     */
-   public Integer getID()
+   @Override public Integer getID()
    {
       return (m_id);
    }
@@ -49,7 +49,7 @@ public abstract class AbstractView implements View
    /**
     * {@inheritDoc}
     */
-   public String getName()
+   @Override public String getName()
    {
       return (m_name);
    }
@@ -57,7 +57,7 @@ public abstract class AbstractView implements View
    /**
     * {@inheritDoc}
     */
-   public ViewType getType()
+   @Override public ViewType getType()
    {
       return (m_type);
    }

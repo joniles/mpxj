@@ -1065,16 +1065,16 @@ abstract class MPD9AbstractReader
          //
          // Set default flag values
          //
-         task.setFlag1(false);
-         task.setFlag2(false);
-         task.setFlag3(false);
-         task.setFlag4(false);
-         task.setFlag5(false);
-         task.setFlag6(false);
-         task.setFlag7(false);
-         task.setFlag8(false);
-         task.setFlag9(false);
-         task.setFlag10(false);
+         task.setFlag(1, false);
+         task.setFlag(2, false);
+         task.setFlag(3, false);
+         task.setFlag(4, false);
+         task.setFlag(5, false);
+         task.setFlag(6, false);
+         task.setFlag(7, false);
+         task.setFlag(8, false);
+         task.setFlag(9, false);
+         task.setFlag(10, false);
 
          //
          // If we have a WBS value from the MPD file, don't autogenerate

@@ -354,7 +354,7 @@ public final class Duration implements Comparable<Duration>
    /**
     * {@inheritDoc}
     */
-   public int compareTo(Duration rhs)
+   @Override public int compareTo(Duration rhs)
    {
       if (m_units != rhs.m_units)
       {

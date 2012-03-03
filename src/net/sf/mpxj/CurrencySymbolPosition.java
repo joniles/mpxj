@@ -51,7 +51,7 @@ public enum CurrencySymbolPosition implements MpxjEnum
     *
     * @return currency symbol position value
     */
-   public int getValue()
+   @Override public int getValue()
    {
       return (m_value);
    }

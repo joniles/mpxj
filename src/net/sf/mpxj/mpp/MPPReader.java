@@ -52,7 +52,7 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public void addProjectListener(ProjectListener listener)
+   @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -198,7 +198,7 @@ public final class MPPReader extends AbstractProjectReader
 
             String sourceOutlineNumber = sourceTask.getOutlineNumber();
             String targetOutlineNumber = targetTask.getOutlineNumber();
-            
+
             if (sourceOutlineNumber != null && targetOutlineNumber != null && sourceOutlineNumber.startsWith(targetOutlineNumber + '.'))
             {
                invalid.add(relation);

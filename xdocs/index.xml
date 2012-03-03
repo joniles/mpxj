@@ -13,9 +13,9 @@
 
 <p>Welcome to MPXJ! This library provides a set of facilities to
 allow project information to be manipulated in Java and .Net. MPXJ supports
-seven data formats, Microsoft Project Exchange (MPX), Microsoft
+eight data formats, Microsoft Project Exchange (MPX), Microsoft
 Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), Planner (XML), and Primavera (XER and database).</p>
+Project Database (MPD), Planner (XML), and Primavera (PM XML, XER and database).</p>
 
 <p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
@@ -67,7 +67,7 @@ file format.</li>
 
 <li><b>PRIMAVERA:</b> Primavera is a high end project planning tool favoured
 by users with complex planning requirements. It can export project data in the 
-form of an XER file which MPXJ can read. It is also possible for MPXJ to connect
+form of an XER or PM XML files which MPXJ can read. It is also possible for MPXJ to connect
 directly to the Primavera database via JDBC to read project data.</li>
 </ul>
 </section>
@@ -117,8 +117,8 @@ library can be found in the lib directory of the MPXJ distribution.</p>
 <a href="http://sourceforge.net/project/showfiles.php?group_id=70649">SourceForge download page</a>.
 The core MPXJ functionality is contained in the mpxj.dll file, which you
 will find in the lib.net folder of the MPXJ distribution. To use the library
-you will also need to ensure that the IKVM runtime DLLs are in visible to .Net.
-These are also provided in the lib.net folder of the MPXJ distribution.</p>
+you will also need to ensure that the IKVM runtime DLLs are available to your application.
+The required IKVM libraries are provided in the lib.net folder of the MPXJ distribution.</p>
 
 <p>The library is simple to use, and to illustrate this, a
 small number of sample files have been included in the utility
@@ -127,14 +127,22 @@ source package of the distribution.</p>
 <p>The MPP functionality depends on the 
 <a href="http://poi.apache.org/" target="_blank">POI</a> library.
 In order to use the MPP functionality in MPXJ, the
-POI DLL file must be visible to .Net. A copy of this
+POI DLL file must be available to your application. A copy of this
 library can be found in the lib.net folder of the MPXJ distribution.</p>
 </section>
 
 
 <section name="Maven">
 <p>MPXJ is available in a 
-<a href="http://search.maven.org/#browse%7C1362266981">Maven repository</a>. 
+<a href="http://search.maven.org/#browse%7C1362266981">Maven repository</a>.
+An example Maven dependency for MPXJ is shown below:
+<source>
+&lt;dependency&gt;            
+	&lt;groupId&gt;net.sourceforge&lt;/groupId&gt;
+	&lt;artifactId&gt;mpxj&lt;/artifactId&gt;
+	&lt;version&gt;4.3.0&lt;/version&gt;
+&lt;/dependency&gt;
+</source>
 This facility has been provided by a user of MPXJ, so it is not something 
 I can offer any advice or support for.</p>
 </section>
@@ -142,27 +150,25 @@ I can offer any advice or support for.</p>
 
 <section name="Keep in touch">
 
-<p>We're keen to hear from you about how you are using MPXJ,
+<p>I'm keen to hear from you about how you are using MPXJ,
 please 
 <a href="mailto:jon.iles@bcs.org.uk">drop me a note</a>. 
 If you use MPXJ as a part of an application that you redistribute,
-commercially or otherwise, drop us a line and we'll include
+commercially or otherwise, drop me a line and I'll include
 a link to your website on the MPXJ page</p>
 </section>
 
 
 <section name="You can help us">
-<p>Please let us know what features you'd like to see added
-to MPXJ. In addition, the MPP functionality is not
-complete as we have had to reverse engineer the data from
-the MPP file format, so we need to know if you have MPP
+<p>Please let me know what features you'd like to see added
+to MPXJ. In addition to feature requests, if you have MPP
 files that can't be read, or don't contain the data you
-expect. The more of this feedback you can give us, the
-better we can make MPXJ!</p>
+expect, please let me know. The more of this feedback you can give me, the
+better I can make MPXJ!</p>
 <p>We also very much welcome contributions of code to MPXJ. 
 Please note however that by contributing code to MPXJ, you
-are assigning copyright for that code to Packwood Software.
-It is important for us to ensure that their is a single
+are assigning copyright for that code to the project.
+It is important for me to ensure that their is a single
 copyright owner for MPXJ to ensure that we can enforce the
 terms of MPXJ's license agreement where they are violated.</p>
 </section>
@@ -171,9 +177,9 @@ terms of MPXJ's license agreement where they are violated.</p>
 <p>Are you developing a commercial product that uses MPXJ?
 Do you want to integrate MPXJ into your application? Is
 MPXJ missing a feature critical to your business? If the
-answer to any of these questions is yes, we can help you!
-We offer commercial development services and consultancy
-for users of MPXJ at competitive rates. Please  
+answer to any of these questions is yes, I can help you!
+I offer commercial development services and consultancy
+for users of MPXJ. Please  
 <a href="mailto:jon.iles@bcs.org.uk">get in
 touch by mailing me</a>
 to see how we can work together.</p>

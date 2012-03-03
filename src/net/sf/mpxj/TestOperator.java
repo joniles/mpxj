@@ -256,7 +256,7 @@ public enum TestOperator implements MpxjEnum
     *
     * @return int representation of the enum
     */
-   public int getValue()
+   @Override public int getValue()
    {
       return (m_value);
    }
@@ -297,7 +297,11 @@ public enum TestOperator implements MpxjEnum
     * @param rhs range operand
     * @return boolean result
     */
-   @SuppressWarnings("unchecked") protected boolean evaluateWithin(Object lhs, Object rhs)
+   @SuppressWarnings(
+   {
+      "unchecked",
+      "rawtypes"
+   }) protected boolean evaluateWithin(Object lhs, Object rhs)
    {
       boolean result = false;
 
@@ -330,7 +334,11 @@ public enum TestOperator implements MpxjEnum
     * @param rhs operand
     * @return boolean result
     */
-   @SuppressWarnings("unchecked") protected int evaluateCompareTo(Object lhs, Object rhs)
+   @SuppressWarnings(
+   {
+      "unchecked",
+      "rawtypes"
+   }) protected int evaluateCompareTo(Object lhs, Object rhs)
    {
       int result;
 

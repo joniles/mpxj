@@ -84,7 +84,7 @@ final class MPP14Reader implements MPPVariantReader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     */
-   public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
    {
       try
       {
@@ -312,10 +312,10 @@ final class MPP14Reader implements MPPVariantReader
             //            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
-               //
-               // Subproject that is no longer inserted. This is a placeholder in order to be
-               // able to always guarantee unique unique ids.
-               //
+            //
+            // Subproject that is no longer inserted. This is a placeholder in order to be
+            // able to always guarantee unique unique ids.
+            //
                case 0x00 :
                   //   
                   // deleted entry?
@@ -326,9 +326,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, 8 bytes, path, file name
-                  //
+               //
+               // task unique ID, 8 bytes, path, file name
+               //
                case (byte) 0x99 :
                case 0x09 :
                case 0x0D :
@@ -349,9 +349,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, 8 bytes, path, file name
-                  //
+               //
+               // task unique ID, 8 bytes, path, file name
+               //
                case 0x03 :
                case 0x11 :
                case (byte) 0x91 :
@@ -372,9 +372,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, path, unknown, file name
-                  //
+               //
+               // task unique ID, path, unknown, file name
+               //
                case (byte) 0x81 :
                case (byte) 0x83 :
                case 0x41 :
@@ -395,9 +395,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, path, file name
-                  //
+               //
+               // task unique ID, path, file name
+               //
                case 0x01 :
                case 0x08 :
                {
@@ -414,9 +414,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, path, file name
-                  //
+               //
+               // task unique ID, path, file name
+               //
                case (byte) 0xC0 :
                {
                   uniqueIDOffset = itemHeaderOffset;
@@ -434,9 +434,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // resource, task unique ID, path, file name
-                  //
+               //
+               // resource, task unique ID, path, file name
+               //
                case 0x05 :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
@@ -469,9 +469,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // path, file name
-                  //
+               //
+               // path, file name
+               //
                case 0x02 :
                {
                   //filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
@@ -497,9 +497,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, 4 bytes, path, 4 bytes, file name
-                  //
+               //
+               // task unique ID, 4 bytes, path, 4 bytes, file name
+               //
                case (byte) 0x8D :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -515,9 +515,9 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // task unique ID, path, file name
-                  //
+               //
+               // task unique ID, path, file name
+               //
                case 0x0A :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -533,7 +533,7 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  // new resource pool entry
+               // new resource pool entry
                case (byte) 0x44 :
                {
                   filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
@@ -548,18 +548,18 @@ final class MPP14Reader implements MPPVariantReader
                   break;
                }
 
-                  //
-                  // Appears when a subproject is collapsed
-                  //
+               //
+               // Appears when a subproject is collapsed
+               //
                case (byte) 0x80 :
                {
                   offset += 12;
                   break;
                }
 
-                  //
-                  // Any other value, assume 12 bytes to handle old/deleted data?
-                  //
+               //
+               // Any other value, assume 12 bytes to handle old/deleted data?
+               //
                default :
                {
                   offset += 12;
@@ -1466,26 +1466,26 @@ final class MPP14Reader implements MPPVariantReader
             externalTasks.add(task);
          }
 
-         task.setFlag1((metaData[35] & 0x40) != 0);
-         task.setFlag2((metaData[35] & 0x80) != 0);
-         task.setFlag3((metaData[36] & 0x01) != 0);
-         task.setFlag4((metaData[36] & 0x02) != 0);
-         task.setFlag5((metaData[36] & 0x04) != 0);
-         task.setFlag6((metaData[36] & 0x08) != 0);
-         task.setFlag7((metaData[36] & 0x10) != 0);
-         task.setFlag8((metaData[36] & 0x20) != 0);
-         task.setFlag9((metaData[36] & 0x40) != 0);
-         task.setFlag10((metaData[36] & 0x80) != 0);
-         task.setFlag11((metaData[37] & 0x01) != 0);
-         task.setFlag12((metaData[37] & 0x02) != 0);
-         task.setFlag13((metaData[37] & 0x04) != 0);
-         task.setFlag14((metaData[37] & 0x08) != 0);
-         task.setFlag15((metaData[37] & 0x10) != 0);
-         task.setFlag16((metaData[37] & 0x20) != 0);
-         task.setFlag17((metaData[37] & 0x40) != 0);
-         task.setFlag18((metaData[37] & 0x80) != 0);
-         task.setFlag19((metaData[38] & 0x01) != 0);
-         task.setFlag20((metaData[38] & 0x02) != 0);
+         task.setFlag(1, (metaData[35] & 0x40) != 0);
+         task.setFlag(2, (metaData[35] & 0x80) != 0);
+         task.setFlag(3, (metaData[36] & 0x01) != 0);
+         task.setFlag(4, (metaData[36] & 0x02) != 0);
+         task.setFlag(5, (metaData[36] & 0x04) != 0);
+         task.setFlag(6, (metaData[36] & 0x08) != 0);
+         task.setFlag(7, (metaData[36] & 0x10) != 0);
+         task.setFlag(8, (metaData[36] & 0x20) != 0);
+         task.setFlag(9, (metaData[36] & 0x40) != 0);
+         task.setFlag(10, (metaData[36] & 0x80) != 0);
+         task.setFlag(11, (metaData[37] & 0x01) != 0);
+         task.setFlag(12, (metaData[37] & 0x02) != 0);
+         task.setFlag(13, (metaData[37] & 0x04) != 0);
+         task.setFlag(14, (metaData[37] & 0x08) != 0);
+         task.setFlag(15, (metaData[37] & 0x10) != 0);
+         task.setFlag(16, (metaData[37] & 0x20) != 0);
+         task.setFlag(17, (metaData[37] & 0x40) != 0);
+         task.setFlag(18, (metaData[37] & 0x80) != 0);
+         task.setFlag(19, (metaData[38] & 0x01) != 0);
+         task.setFlag(20, (metaData[38] & 0x02) != 0);
 
          task.setHideBar((metaData[10] & 0x80) != 0);
 
@@ -1498,16 +1498,16 @@ final class MPP14Reader implements MPPVariantReader
          task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
 
-         task.setOutlineCode1(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE1_INDEX)));
-         task.setOutlineCode2(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE2_INDEX)));
-         task.setOutlineCode3(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE3_INDEX)));
-         task.setOutlineCode4(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE4_INDEX)));
-         task.setOutlineCode5(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE5_INDEX)));
-         task.setOutlineCode6(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE6_INDEX)));
-         task.setOutlineCode7(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE7_INDEX)));
-         task.setOutlineCode8(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE8_INDEX)));
-         task.setOutlineCode9(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE9_INDEX)));
-         task.setOutlineCode10(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE10_INDEX)));
+         task.setOutlineCode(1, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE1_INDEX)));
+         task.setOutlineCode(2, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE2_INDEX)));
+         task.setOutlineCode(3, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE3_INDEX)));
+         task.setOutlineCode(4, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE4_INDEX)));
+         task.setOutlineCode(5, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE5_INDEX)));
+         task.setOutlineCode(6, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE6_INDEX)));
+         task.setOutlineCode(7, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE7_INDEX)));
+         task.setOutlineCode(8, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE8_INDEX)));
+         task.setOutlineCode(9, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE9_INDEX)));
+         task.setOutlineCode(10, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE10_INDEX)));
 
          task.setRecurring(MPPUtility.getShort(data, 40) == 2);
          task.setRollup((metaData[10] & 0x08) != 0);
@@ -1533,10 +1533,10 @@ final class MPP14Reader implements MPPVariantReader
 
          switch (task.getConstraintType())
          {
-            //
-            // Adjust the start and finish dates if the task
-            // is constrained to start as late as possible.
-            //            
+         //
+         // Adjust the start and finish dates if the task
+         // is constrained to start as late as possible.
+         //            
             case AS_LATE_AS_POSSIBLE :
             {
                if (DateUtility.compare(task.getStart(), task.getLateStart()) < 0)
@@ -2099,26 +2099,26 @@ final class MPP14Reader implements MPPVariantReader
          resource.setUniqueID(id);
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
-         resource.setFlag1((metaData[28] & 0x40) != 0);
-         resource.setFlag2((metaData[28] & 0x80) != 0);
-         resource.setFlag3((metaData[29] & 0x01) != 0);
-         resource.setFlag4((metaData[29] & 0x02) != 0);
-         resource.setFlag5((metaData[29] & 0x04) != 0);
-         resource.setFlag6((metaData[29] & 0x08) != 0);
-         resource.setFlag7((metaData[29] & 0x10) != 0);
-         resource.setFlag8((metaData[29] & 0x20) != 0);
-         resource.setFlag9((metaData[29] & 0x40) != 0);
-         resource.setFlag10((metaData[28] & 0x20) != 0);
-         resource.setFlag11((metaData[29] & 0x20) != 0);
-         resource.setFlag12((metaData[30] & 0x01) != 0);
-         resource.setFlag13((metaData[30] & 0x02) != 0);
-         resource.setFlag14((metaData[30] & 0x04) != 0);
-         resource.setFlag15((metaData[30] & 0x08) != 0);
-         resource.setFlag16((metaData[30] & 0x10) != 0);
-         resource.setFlag17((metaData[30] & 0x20) != 0);
-         resource.setFlag18((metaData[30] & 0x40) != 0);
-         resource.setFlag19((metaData[30] & 0x80) != 0);
-         resource.setFlag20((metaData[31] & 0x01) != 0);
+         resource.setFlag(1, (metaData[28] & 0x40) != 0);
+         resource.setFlag(2, (metaData[28] & 0x80) != 0);
+         resource.setFlag(3, (metaData[29] & 0x01) != 0);
+         resource.setFlag(4, (metaData[29] & 0x02) != 0);
+         resource.setFlag(5, (metaData[29] & 0x04) != 0);
+         resource.setFlag(6, (metaData[29] & 0x08) != 0);
+         resource.setFlag(7, (metaData[29] & 0x10) != 0);
+         resource.setFlag(8, (metaData[29] & 0x20) != 0);
+         resource.setFlag(9, (metaData[29] & 0x40) != 0);
+         resource.setFlag(10, (metaData[28] & 0x20) != 0);
+         resource.setFlag(11, (metaData[29] & 0x20) != 0);
+         resource.setFlag(12, (metaData[30] & 0x01) != 0);
+         resource.setFlag(13, (metaData[30] & 0x02) != 0);
+         resource.setFlag(14, (metaData[30] & 0x04) != 0);
+         resource.setFlag(15, (metaData[30] & 0x08) != 0);
+         resource.setFlag(16, (metaData[30] & 0x10) != 0);
+         resource.setFlag(17, (metaData[30] & 0x20) != 0);
+         resource.setFlag(18, (metaData[30] & 0x40) != 0);
+         resource.setFlag(19, (metaData[30] & 0x80) != 0);
+         resource.setFlag(20, (metaData[31] & 0x01) != 0);
 
          notes = resource.getNotes();
          if (notes != null)

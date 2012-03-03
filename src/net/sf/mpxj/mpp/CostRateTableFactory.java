@@ -72,11 +72,11 @@ final class CostRateTableFactory
          //         
          if (index == 0)
          {
-           Rate standardRate = resource.getStandardRate();
-           Rate overtimeRate = resource.getOvertimeRate();
-           Number costPerUse = resource.getCostPerUse();
-           CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRate.getUnits(), overtimeRate, overtimeRate.getUnits(), costPerUse, CostRateTableEntry.DEFAULT_ENTRY.getEndDate());
-           result.add(entry);
+            Rate standardRate = resource.getStandardRate();
+            Rate overtimeRate = resource.getOvertimeRate();
+            Number costPerUse = resource.getCostPerUse();
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRate.getUnits(), overtimeRate, overtimeRate.getUnits(), costPerUse, CostRateTableEntry.DEFAULT_ENTRY.getEndDate());
+            result.add(entry);
          }
          else
          {

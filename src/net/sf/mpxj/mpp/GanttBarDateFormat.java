@@ -107,7 +107,7 @@ public enum GanttBarDateFormat implements MpxjEnum
     *
     * @return int representation of the enum
     */
-   public int getValue()
+   @Override public int getValue()
    {
       return (m_value);
    }

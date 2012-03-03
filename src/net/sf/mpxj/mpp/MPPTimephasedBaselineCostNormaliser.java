@@ -48,7 +48,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedCost> list)
+   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedCost> list)
    {
       if (!list.isEmpty())
       {

@@ -55,7 +55,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public void addProjectListener(ProjectListener listener)
+   @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -77,7 +77,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(InputStream is) throws MPXJException
+   @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
       {

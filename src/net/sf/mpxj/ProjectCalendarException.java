@@ -99,7 +99,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    /**
     * {@inheritDoc}
     */
-   public int compareTo(ProjectCalendarException o)
+   @Override public int compareTo(ProjectCalendarException o)
    {
       long fromTime1 = m_fromDate.getTime();
       long fromTime2 = o.m_fromDate.getTime();

@@ -9,6 +9,8 @@
    <body> 
 
 	<release version="4.4.0" date="CVS HEAD">
+		<action dev="joniles" type="fix">3479557 : getTimephasedOvertimeWork can return TimephasedWork with NaN</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3480621: Support for timephased cost for cost type resources</action>
 	</release>
 	
 	<release version="4.3.0" date="08/02/2012">

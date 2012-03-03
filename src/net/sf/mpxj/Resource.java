@@ -1391,53 +1391,25 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Additional text.
+    * Set a text value.
     * 
-    * @param val text to set
+    * @param index text index (1-30)
+    * @param value text value
     */
-   public void setText1(String val)
+   public void setText(int index, String value)
    {
-      set(ResourceField.TEXT1, val);
+      set(selectField(CUSTOM_TEXT, index), value);
    }
 
    /**
-    * Additional text.
+    * Retrieve a text value.
     * 
-    * @param val text to set
+    * @param index text index (1-30)
+    * @return text value
     */
-   public void setText2(String val)
+   public String getText(int index)
    {
-      set(ResourceField.TEXT2, val);
-   }
-
-   /**
-    * Additional text.
-    * 
-    * @param val text to set
-    */
-   public void setText3(String val)
-   {
-      set(ResourceField.TEXT3, val);
-   }
-
-   /**
-    * Additional text.
-    * 
-    * @param val text to set
-    */
-   public void setText4(String val)
-   {
-      set(ResourceField.TEXT4, val);
-   }
-
-   /**
-    * Additional text.
-    * 
-    * @param val text to set
-    */
-   public void setText5(String val)
-   {
-      set(ResourceField.TEXT5, val);
+      return (String) getCachedValue(selectField(CUSTOM_TEXT, index));
    }
 
    /**
@@ -1530,56 +1502,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Gets Text 1 field value.
-    * 
-    * @return value
-    */
-   public String getText1()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT1));
-   }
-
-   /**
-    * Gets Text 2 field value.
-    * 
-    * @return value
-    */
-   public String getText2()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT2));
-   }
-
-   /**
-    * Gets Text3 field value.
-    * 
-    * @return value
-    */
-   public String getText3()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT3));
-   }
-
-   /**
-    * Gets Text 4 field value.
-    * 
-    * @return value
-    */
-   public String getText4()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT4));
-   }
-
-   /**
-    * Gets Text 5 field value.
-    * 
-    * @return value
-    */
-   public String getText5()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT5));
-   }
-
-   /**
     * Gets Unique ID field value.
     * 
     * @return value
@@ -1590,2493 +1512,157 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a start value.
     * 
-    * @return Text value
+    * @param index start index (1-10)
+    * @param value start value
     */
-   public String getText6()
+   public void setStart(int index, Date value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT6));
+      set(selectField(CUSTOM_START, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a start value.
     * 
-    * @return Text value
+    * @param index start index (1-10)
+    * @return start value
     */
-   public String getText7()
+   public Date getStart(int index)
    {
-      return ((String) getCachedValue(ResourceField.TEXT7));
+      return (Date) getCachedValue(selectField(CUSTOM_START, index));
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a finish value.
     * 
-    * @return Text value
+    * @param index finish index (1-10)
+    * @param value finish value
     */
-   public String getText8()
+   public void setFinish(int index, Date value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT8));
+      set(selectField(CUSTOM_FINISH, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a finish value.
     * 
-    * @return Text value
+    * @param index finish index (1-10)
+    * @return finish value
     */
-   public String getText9()
+   public Date getFinish(int index)
    {
-      return ((String) getCachedValue(ResourceField.TEXT9));
+      return (Date) getCachedValue(selectField(CUSTOM_FINISH, index));
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a number value.
     * 
-    * @return Text value
+    * @param index number index (1-20)
+    * @param value number value
     */
-   public String getText10()
+   public void setNumber(int index, Number value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT10));
+      set(selectField(CUSTOM_NUMBER, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a number value.
     * 
-    * @return Text value
+    * @param index number index (1-20)
+    * @return number value
     */
-   public String getText11()
+   public Number getNumber(int index)
    {
-      return ((String) getCachedValue(ResourceField.TEXT11));
+      return (Number) getCachedValue(selectField(CUSTOM_NUMBER, index));
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a duration value.
     * 
-    * @return Text value
+    * @param index duration index (1-10)
+    * @param value duration value
     */
-   public String getText12()
+   public void setDuration(int index, Duration value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT12));
+      set(selectField(CUSTOM_DURATION, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a duration value.
     * 
-    * @return Text value
+    * @param index duration index (1-10)
+    * @return duration value
     */
-   public String getText13()
+   public Duration getDuration(int index)
    {
-      return ((String) getCachedValue(ResourceField.TEXT13));
+      return (Duration) getCachedValue(selectField(CUSTOM_DURATION, index));
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a date value.
     * 
-    * @return Text value
+    * @param index date index (1-10)
+    * @param value date value
     */
-   public String getText14()
+   public void setDate(int index, Date value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT14));
+      set(selectField(CUSTOM_DATE, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a date value.
     * 
-    * @return Text value
+    * @param index date index (1-10)
+    * @return date value
     */
-   public String getText15()
+   public Date getDate(int index)
    {
-      return ((String) getCachedValue(ResourceField.TEXT15));
+      return (Date) getCachedValue(selectField(CUSTOM_DATE, index));
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a cost value.
     * 
-    * @return Text value
+    * @param index cost index (1-10)
+    * @param value cost value
     */
-   public String getText16()
+   public void setCost(int index, Number value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT16));
+      set(selectField(CUSTOM_COST, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a cost value.
     * 
-    * @return Text value
+    * @param index cost index (1-10)
+    * @return cost value
     */
-   public String getText17()
+   public Number getCost(int index)
    {
-      return ((String) getCachedValue(ResourceField.TEXT17));
+      return (Number) getCachedValue(selectField(CUSTOM_COST, index));
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Set a flag value.
     * 
-    * @return Text value
+    * @param index flag index (1-20)
+    * @param value flag value
     */
-   public String getText18()
+   public void setFlag(int index, boolean value)
    {
-      return ((String) getCachedValue(ResourceField.TEXT18));
+      set(selectField(CUSTOM_FLAG, index), value);
    }
 
    /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
+    * Retrieve a flag value.
     * 
-    * @return Text value
-    */
-   public String getText19()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT19));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText20()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT20));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText21()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT21));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText22()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT22));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText23()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT23));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText24()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT24));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText25()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT25));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText26()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT26));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText27()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT27));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText28()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT28));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText29()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT29));
-   }
-
-   /**
-    * Retrieves a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Text value
-    */
-   public String getText30()
-   {
-      return ((String) getCachedValue(ResourceField.TEXT30));
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText6(String string)
-   {
-      set(ResourceField.TEXT6, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText7(String string)
-   {
-      set(ResourceField.TEXT7, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText8(String string)
-   {
-      set(ResourceField.TEXT8, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText9(String string)
-   {
-      set(ResourceField.TEXT9, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText10(String string)
-   {
-      set(ResourceField.TEXT10, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText11(String string)
-   {
-      set(ResourceField.TEXT11, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText12(String string)
-   {
-      set(ResourceField.TEXT12, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText13(String string)
-   {
-      set(ResourceField.TEXT13, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText14(String string)
-   {
-      set(ResourceField.TEXT14, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText15(String string)
-   {
-      set(ResourceField.TEXT15, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText16(String string)
-   {
-      set(ResourceField.TEXT16, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText17(String string)
-   {
-      set(ResourceField.TEXT17, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText18(String string)
-   {
-      set(ResourceField.TEXT18, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText19(String string)
-   {
-      set(ResourceField.TEXT19, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText20(String string)
-   {
-      set(ResourceField.TEXT20, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText21(String string)
-   {
-      set(ResourceField.TEXT21, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText22(String string)
-   {
-      set(ResourceField.TEXT22, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText23(String string)
-   {
-      set(ResourceField.TEXT23, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText24(String string)
-   {
-      set(ResourceField.TEXT24, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText25(String string)
-   {
-      set(ResourceField.TEXT25, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText26(String string)
-   {
-      set(ResourceField.TEXT26, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText27(String string)
-   {
-      set(ResourceField.TEXT27, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText28(String string)
-   {
-      set(ResourceField.TEXT28, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText29(String string)
-   {
-      set(ResourceField.TEXT29, string);
-   }
-
-   /**
-    * Sets a text value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param string Text value
-    */
-   public void setText30(String string)
-   {
-      set(ResourceField.TEXT30, string);
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart1()
-   {
-      return ((Date) getCachedValue(ResourceField.START1));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart2()
-   {
-      return ((Date) getCachedValue(ResourceField.START2));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart3()
-   {
-      return ((Date) getCachedValue(ResourceField.START3));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart4()
-   {
-      return ((Date) getCachedValue(ResourceField.START4));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart5()
-   {
-      return ((Date) getCachedValue(ResourceField.START5));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart6()
-   {
-      return ((Date) getCachedValue(ResourceField.START6));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart7()
-   {
-      return ((Date) getCachedValue(ResourceField.START7));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart8()
-   {
-      return ((Date) getCachedValue(ResourceField.START8));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart9()
-   {
-      return ((Date) getCachedValue(ResourceField.START9));
-   }
-
-   /**
-    * Retrieves a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date start date
-    */
-   public Date getStart10()
-   {
-      return ((Date) getCachedValue(ResourceField.START10));
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart1(Date date)
-   {
-      set(ResourceField.START1, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart2(Date date)
-   {
-      set(ResourceField.START2, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart3(Date date)
-   {
-      set(ResourceField.START3, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart4(Date date)
-   {
-      set(ResourceField.START4, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart5(Date date)
-   {
-      set(ResourceField.START5, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart6(Date date)
-   {
-      set(ResourceField.START6, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart7(Date date)
-   {
-      set(ResourceField.START7, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart8(Date date)
-   {
-      set(ResourceField.START8, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart9(Date date)
-   {
-      set(ResourceField.START9, date);
-   }
-
-   /**
-    * Sets a start date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Start date
-    */
-   public void setStart10(Date date)
-   {
-      set(ResourceField.START10, date);
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish1()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH1));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish2()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH2));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish3()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH3));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish4()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH4));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish5()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH5));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish6()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH6));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish7()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH7));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish8()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH8));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish9()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH9));
-   }
-
-   /**
-    * Retrieves a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date finish date
-    */
-   public Date getFinish10()
-   {
-      return ((Date) getCachedValue(ResourceField.FINISH10));
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish1(Date date)
-   {
-      set(ResourceField.FINISH1, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish2(Date date)
-   {
-      set(ResourceField.FINISH2, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish3(Date date)
-   {
-      set(ResourceField.FINISH3, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish4(Date date)
-   {
-      set(ResourceField.FINISH4, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish5(Date date)
-   {
-      set(ResourceField.FINISH5, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish6(Date date)
-   {
-      set(ResourceField.FINISH6, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish7(Date date)
-   {
-      set(ResourceField.FINISH7, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish8(Date date)
-   {
-      set(ResourceField.FINISH8, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish9(Date date)
-   {
-      set(ResourceField.FINISH9, date);
-   }
-
-   /**
-    * Sets a finish date. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Finish date
-    */
-   public void setFinish10(Date date)
-   {
-      set(ResourceField.FINISH10, date);
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber1(Number val)
-   {
-      set(ResourceField.NUMBER1, val);
-   }
-
-   /**
-    * Retrieves a numeric value Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber1()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER1));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber2(Number val)
-   {
-      set(ResourceField.NUMBER2, val);
-   }
-
-   /**
-    * Retrieves a numeric value Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber2()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER2));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber3(Number val)
-   {
-      set(ResourceField.NUMBER3, val);
-   }
-
-   /**
-    * Retrieves a numeric value Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber3()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER3));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber4(Number val)
-   {
-      set(ResourceField.NUMBER4, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber4()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER4));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber5(Number val)
-   {
-      set(ResourceField.NUMBER5, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber5()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER5));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber6(Number val)
-   {
-      set(ResourceField.NUMBER6, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber6()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER6));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber7(Number val)
-   {
-      set(ResourceField.NUMBER7, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber7()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER7));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber8(Number val)
-   {
-      set(ResourceField.NUMBER8, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber8()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER8));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber9(Number val)
-   {
-      set(ResourceField.NUMBER9, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber9()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER9));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber10(Number val)
-   {
-      set(ResourceField.NUMBER10, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber10()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER10));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber11(Number val)
-   {
-      set(ResourceField.NUMBER11, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber11()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER11));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber12(Number val)
-   {
-      set(ResourceField.NUMBER12, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber12()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER12));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber13(Number val)
-   {
-      set(ResourceField.NUMBER13, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber13()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER13));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber14(Number val)
-   {
-      set(ResourceField.NUMBER14, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber14()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER14));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber15(Number val)
-   {
-      set(ResourceField.NUMBER15, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber15()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER15));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber16(Number val)
-   {
-      set(ResourceField.NUMBER16, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber16()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER16));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber17(Number val)
-   {
-      set(ResourceField.NUMBER17, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber17()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER17));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber18(Number val)
-   {
-      set(ResourceField.NUMBER18, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber18()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER18));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber19(Number val)
-   {
-      set(ResourceField.NUMBER19, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber19()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER19));
-   }
-
-   /**
-    * Sets a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param val Numeric value
-    */
-   public void setNumber20(Number val)
-   {
-      set(ResourceField.NUMBER20, val);
-   }
-
-   /**
-    * Retrieves a numeric value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Numeric value
-    */
-   public Number getNumber20()
-   {
-      return ((Number) getCachedValue(ResourceField.NUMBER20));
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration1()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION1);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration2()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION2);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration3()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION3);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration4()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION4);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration5()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION5);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration6()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION6);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration7()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION7);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration8()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION8);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration9()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION9);
-   }
-
-   /**
-    * Retrieves a duration. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Duration
-    */
-   public Duration getDuration10()
-   {
-      return (Duration) getCachedValue(ResourceField.DURATION10);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration1(Duration duration)
-   {
-      set(ResourceField.DURATION1, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration2(Duration duration)
-   {
-      set(ResourceField.DURATION2, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration3(Duration duration)
-   {
-      set(ResourceField.DURATION3, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration4(Duration duration)
-   {
-      set(ResourceField.DURATION4, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration5(Duration duration)
-   {
-      set(ResourceField.DURATION5, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration6(Duration duration)
-   {
-      set(ResourceField.DURATION6, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration7(Duration duration)
-   {
-      set(ResourceField.DURATION7, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration8(Duration duration)
-   {
-      set(ResourceField.DURATION8, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration9(Duration duration)
-   {
-      set(ResourceField.DURATION9, duration);
-   }
-
-   /**
-    * Sets a duration value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param duration Duration value
-    */
-   public void setDuration10(Duration duration)
-   {
-      set(ResourceField.DURATION10, duration);
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate1()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE1));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate10()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE10));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate2()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE2));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate3()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE3));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate4()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE4));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate5()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE5));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate6()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE6));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate7()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE7));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate8()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE8));
-   }
-
-   /**
-    * Retrieves a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Date value
-    */
-   public Date getDate9()
-   {
-      return ((Date) getCachedValue(ResourceField.DATE9));
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate1(Date date)
-   {
-      set(ResourceField.DATE1, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate10(Date date)
-   {
-      set(ResourceField.DATE10, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate2(Date date)
-   {
-      set(ResourceField.DATE2, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate3(Date date)
-   {
-      set(ResourceField.DATE3, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate4(Date date)
-   {
-      set(ResourceField.DATE4, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate5(Date date)
-   {
-      set(ResourceField.DATE5, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate6(Date date)
-   {
-      set(ResourceField.DATE6, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate7(Date date)
-   {
-      set(ResourceField.DATE7, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate8(Date date)
-   {
-      set(ResourceField.DATE8, date);
-   }
-
-   /**
-    * Sets a date value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param date Date value
-    */
-   public void setDate9(Date date)
-   {
-      set(ResourceField.DATE9, date);
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost1()
-   {
-      return ((Number) getCachedValue(ResourceField.COST1));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost2()
-   {
-      return ((Number) getCachedValue(ResourceField.COST2));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost3()
-   {
-      return ((Number) getCachedValue(ResourceField.COST3));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost4()
-   {
-      return ((Number) getCachedValue(ResourceField.COST4));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost5()
-   {
-      return ((Number) getCachedValue(ResourceField.COST5));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost6()
-   {
-      return ((Number) getCachedValue(ResourceField.COST6));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost7()
-   {
-      return ((Number) getCachedValue(ResourceField.COST7));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost8()
-   {
-      return ((Number) getCachedValue(ResourceField.COST8));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost9()
-   {
-      return ((Number) getCachedValue(ResourceField.COST9));
-   }
-
-   /**
-    * Retrieves a cost. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @return Cost value
-    */
-   public Number getCost10()
-   {
-      return ((Number) getCachedValue(ResourceField.COST10));
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost1(Number number)
-   {
-      set(ResourceField.COST1, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost2(Number number)
-   {
-      set(ResourceField.COST2, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost3(Number number)
-   {
-      set(ResourceField.COST3, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost4(Number number)
-   {
-      set(ResourceField.COST4, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost5(Number number)
-   {
-      set(ResourceField.COST5, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost6(Number number)
-   {
-      set(ResourceField.COST6, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost7(Number number)
-   {
-      set(ResourceField.COST7, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost8(Number number)
-   {
-      set(ResourceField.COST8, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost9(Number number)
-   {
-      set(ResourceField.COST9, number);
-   }
-
-   /**
-    * Sets a cost value. Note that this value is an extension to the MPX
-    * specification.
-    * 
-    * @param number Cost value
-    */
-   public void setCost10(Number number)
-   {
-      set(ResourceField.COST10, number);
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
+    * @param index flag index (1-20)
     * @return flag value
     */
-   public boolean getFlag1()
+   public boolean getFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG1)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag2()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG2)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag3()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG3)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag4()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG4)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag5()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG5)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag6()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG6)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag7()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG7)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag8()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG8)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag9()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG9)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag10()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG10)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag11()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG11)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag12()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG12)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag13()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG13)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag14()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG14)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag15()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG15)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag16()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG16)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag17()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG17)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag18()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG18)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag19()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG19)));
-   }
-
-   /**
-    * Retrieves the flag value.
-    * 
-    * @return flag value
-    */
-   public boolean getFlag20()
-   {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.FLAG20)));
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag1(boolean b)
-   {
-      set(ResourceField.FLAG1, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag2(boolean b)
-   {
-      set(ResourceField.FLAG2, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag3(boolean b)
-   {
-      set(ResourceField.FLAG3, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag4(boolean b)
-   {
-      set(ResourceField.FLAG4, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag5(boolean b)
-   {
-      set(ResourceField.FLAG5, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag6(boolean b)
-   {
-      set(ResourceField.FLAG6, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag7(boolean b)
-   {
-      set(ResourceField.FLAG7, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag8(boolean b)
-   {
-      set(ResourceField.FLAG8, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag9(boolean b)
-   {
-      set(ResourceField.FLAG9, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag10(boolean b)
-   {
-      set(ResourceField.FLAG10, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag11(boolean b)
-   {
-      set(ResourceField.FLAG11, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag12(boolean b)
-   {
-      set(ResourceField.FLAG12, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag13(boolean b)
-   {
-      set(ResourceField.FLAG13, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag14(boolean b)
-   {
-      set(ResourceField.FLAG14, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag15(boolean b)
-   {
-      set(ResourceField.FLAG15, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag16(boolean b)
-   {
-      set(ResourceField.FLAG16, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag17(boolean b)
-   {
-      set(ResourceField.FLAG17, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag18(boolean b)
-   {
-      set(ResourceField.FLAG18, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag19(boolean b)
-   {
-      set(ResourceField.FLAG19, b);
-   }
-
-   /**
-    * Sets the flag value.
-    * 
-    * @param b flag value
-    */
-   public void setFlag20(boolean b)
-   {
-      set(ResourceField.FLAG20, b);
+      return BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
    }
 
    /**
@@ -4378,7 +1964,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseCost(int index)
    {
-      return ((Number) getCachedValue(selectResourceField(ENTERPRISE_COST_FIELDS, index)));
+      return ((Number) getCachedValue(selectField(ENTERPRISE_COST, index)));
    }
 
    /**
@@ -4389,7 +1975,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectResourceField(ENTERPRISE_COST_FIELDS, index), value);
+      set(selectField(ENTERPRISE_COST, index), value);
    }
 
    /**
@@ -4400,7 +1986,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getEnterpriseDate(int index)
    {
-      return ((Date) getCachedValue(selectResourceField(ENTERPRISE_DATE_FIELDS, index)));
+      return ((Date) getCachedValue(selectField(ENTERPRISE_DATE, index)));
    }
 
    /**
@@ -4411,7 +1997,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectResourceField(ENTERPRISE_DATE_FIELDS, index), value);
+      set(selectField(ENTERPRISE_DATE, index), value);
    }
 
    /**
@@ -4422,7 +2008,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return ((Duration) getCachedValue(selectResourceField(ENTERPRISE_DURATION_FIELDS, index)));
+      return ((Duration) getCachedValue(selectField(ENTERPRISE_DURATION, index)));
    }
 
    /**
@@ -4433,7 +2019,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectResourceField(ENTERPRISE_DURATION_FIELDS, index), value);
+      set(selectField(ENTERPRISE_DURATION, index), value);
    }
 
    /**
@@ -4444,7 +2030,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectResourceField(ENTERPRISE_FLAG_FIELDS, index))));
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
    }
 
    /**
@@ -4455,7 +2041,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectResourceField(ENTERPRISE_FLAG_FIELDS, index), value);
+      set(selectField(ENTERPRISE_FLAG, index), value);
    }
 
    /**
@@ -4466,7 +2052,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseNumber(int index)
    {
-      return ((Number) getCachedValue(selectResourceField(ENTERPRISE_NUMBER_FIELDS, index)));
+      return ((Number) getCachedValue(selectField(ENTERPRISE_NUMBER, index)));
    }
 
    /**
@@ -4477,7 +2063,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectResourceField(ENTERPRISE_NUMBER_FIELDS, index), value);
+      set(selectField(ENTERPRISE_NUMBER, index), value);
    }
 
    /**
@@ -4488,7 +2074,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getEnterpriseText(int index)
    {
-      return ((String) getCachedValue(selectResourceField(ENTERPRISE_TEXT_FIELDS, index)));
+      return ((String) getCachedValue(selectField(ENTERPRISE_TEXT, index)));
    }
 
    /**
@@ -4499,7 +2085,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectResourceField(ENTERPRISE_TEXT_FIELDS, index), value);
+      set(selectField(ENTERPRISE_TEXT, index), value);
    }
 
    /**
@@ -4510,7 +2096,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setBaselineCost(int baselineNumber, Number value)
    {
-      set(selectResourceField(BASELINE_COSTS, baselineNumber), value);
+      set(selectField(BASELINE_COSTS, baselineNumber), value);
    }
 
    /**
@@ -4521,7 +2107,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setBaselineWork(int baselineNumber, Duration value)
    {
-      set(selectResourceField(BASELINE_WORKS, baselineNumber), value);
+      set(selectField(BASELINE_WORKS, baselineNumber), value);
    }
 
    /**
@@ -4532,7 +2118,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBaselineCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectResourceField(BASELINE_COSTS, baselineNumber)));
+      return ((Number) getCachedValue(selectField(BASELINE_COSTS, baselineNumber)));
    }
 
    /**
@@ -4543,7 +2129,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getBaselineWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectResourceField(BASELINE_WORKS, baselineNumber)));
+      return ((Duration) getCachedValue(selectField(BASELINE_WORKS, baselineNumber)));
    }
 
    /**
@@ -4631,7 +2217,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param index required field index
     * @return ResourceField instance
     */
-   private ResourceField selectResourceField(ResourceField[] fields, int index)
+   private ResourceField selectField(ResourceField[] fields, int index)
    {
       if (index < 1 || index > fields.length)
       {
@@ -4643,7 +2229,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * {@inheritDoc}
     */
-   public Object getCachedValue(FieldType field)
+   @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
@@ -4651,7 +2237,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * {@inheritDoc}
     */
-   public Object getCurrentValue(FieldType field)
+   @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
 
@@ -4705,7 +2291,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * {@inheritDoc}
     */
-   public void set(FieldType field, Object value)
+   @Override public void set(FieldType field, Object value)
    {
       if (field != null)
       {
@@ -4790,7 +2376,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * {@inheritDoc}
     */
-   public void addFieldListener(FieldListener listener)
+   @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
       {
@@ -4802,7 +2388,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * {@inheritDoc}
     */
-   public void removeFieldListener(FieldListener listener)
+   @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
       {
@@ -4848,7 +2434,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param o object to compare this instance with
     * @return result of comparison
     */
-   public int compareTo(Resource o)
+   @Override public int compareTo(Resource o)
    {
       int id1 = NumberUtility.getInt(getID());
       int id2 = NumberUtility.getInt(o.getID());
@@ -4884,7 +2470,159 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return ("[Resource id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");
    }
 
-   private static final ResourceField[] ENTERPRISE_COST_FIELDS =
+   private static final ResourceField[] CUSTOM_COST =
+   {
+      ResourceField.COST1,
+      ResourceField.COST2,
+      ResourceField.COST3,
+      ResourceField.COST4,
+      ResourceField.COST5,
+      ResourceField.COST6,
+      ResourceField.COST7,
+      ResourceField.COST8,
+      ResourceField.COST9,
+      ResourceField.COST10
+   };
+
+   private static final ResourceField[] CUSTOM_DATE =
+   {
+      ResourceField.DATE1,
+      ResourceField.DATE2,
+      ResourceField.DATE3,
+      ResourceField.DATE4,
+      ResourceField.DATE5,
+      ResourceField.DATE6,
+      ResourceField.DATE7,
+      ResourceField.DATE8,
+      ResourceField.DATE9,
+      ResourceField.DATE10
+   };
+
+   private static final ResourceField[] CUSTOM_DURATION =
+   {
+      ResourceField.DURATION1,
+      ResourceField.DURATION2,
+      ResourceField.DURATION3,
+      ResourceField.DURATION4,
+      ResourceField.DURATION5,
+      ResourceField.DURATION6,
+      ResourceField.DURATION7,
+      ResourceField.DURATION8,
+      ResourceField.DURATION9,
+      ResourceField.DURATION10
+   };
+
+   private static final ResourceField[] CUSTOM_FINISH =
+   {
+      ResourceField.FINISH1,
+      ResourceField.FINISH2,
+      ResourceField.FINISH3,
+      ResourceField.FINISH4,
+      ResourceField.FINISH5,
+      ResourceField.FINISH6,
+      ResourceField.FINISH7,
+      ResourceField.FINISH8,
+      ResourceField.FINISH9,
+      ResourceField.FINISH10
+   };
+
+   private static final ResourceField[] CUSTOM_START =
+   {
+      ResourceField.START1,
+      ResourceField.START2,
+      ResourceField.START3,
+      ResourceField.START4,
+      ResourceField.START5,
+      ResourceField.START6,
+      ResourceField.START7,
+      ResourceField.START8,
+      ResourceField.START9,
+      ResourceField.START10
+   };
+
+   private static final ResourceField[] CUSTOM_FLAG =
+   {
+      ResourceField.FLAG1,
+      ResourceField.FLAG2,
+      ResourceField.FLAG3,
+      ResourceField.FLAG4,
+      ResourceField.FLAG5,
+      ResourceField.FLAG6,
+      ResourceField.FLAG7,
+      ResourceField.FLAG8,
+      ResourceField.FLAG9,
+      ResourceField.FLAG10,
+      ResourceField.FLAG11,
+      ResourceField.FLAG12,
+      ResourceField.FLAG13,
+      ResourceField.FLAG14,
+      ResourceField.FLAG15,
+      ResourceField.FLAG16,
+      ResourceField.FLAG17,
+      ResourceField.FLAG18,
+      ResourceField.FLAG19,
+      ResourceField.FLAG20
+   };
+
+   private static final ResourceField[] CUSTOM_NUMBER =
+   {
+      ResourceField.NUMBER1,
+      ResourceField.NUMBER2,
+      ResourceField.NUMBER3,
+      ResourceField.NUMBER4,
+      ResourceField.NUMBER5,
+      ResourceField.NUMBER6,
+      ResourceField.NUMBER7,
+      ResourceField.NUMBER8,
+      ResourceField.NUMBER9,
+      ResourceField.NUMBER10,
+      ResourceField.NUMBER11,
+      ResourceField.NUMBER12,
+      ResourceField.NUMBER13,
+      ResourceField.NUMBER14,
+      ResourceField.NUMBER15,
+      ResourceField.NUMBER16,
+      ResourceField.NUMBER17,
+      ResourceField.NUMBER18,
+      ResourceField.NUMBER19,
+      ResourceField.NUMBER20
+   };
+
+   private static final ResourceField[] CUSTOM_TEXT =
+   {
+      ResourceField.TEXT1,
+      ResourceField.TEXT2,
+      ResourceField.TEXT3,
+      ResourceField.TEXT4,
+      ResourceField.TEXT5,
+      ResourceField.TEXT6,
+      ResourceField.TEXT7,
+      ResourceField.TEXT8,
+      ResourceField.TEXT9,
+      ResourceField.TEXT10,
+      ResourceField.TEXT11,
+      ResourceField.TEXT12,
+      ResourceField.TEXT13,
+      ResourceField.TEXT14,
+      ResourceField.TEXT15,
+      ResourceField.TEXT16,
+      ResourceField.TEXT17,
+      ResourceField.TEXT18,
+      ResourceField.TEXT19,
+      ResourceField.TEXT20,
+      ResourceField.TEXT21,
+      ResourceField.TEXT22,
+      ResourceField.TEXT23,
+      ResourceField.TEXT24,
+      ResourceField.TEXT25,
+      ResourceField.TEXT26,
+      ResourceField.TEXT27,
+      ResourceField.TEXT28,
+      ResourceField.TEXT29,
+      ResourceField.TEXT30
+   };
+
+   private static final ResourceField[] ENTERPRISE_COST =
    {
       ResourceField.ENTERPRISE_COST1,
       ResourceField.ENTERPRISE_COST2,
@@ -4898,7 +2636,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_COST10
    };
 
-   private static final ResourceField[] ENTERPRISE_DATE_FIELDS =
+   private static final ResourceField[] ENTERPRISE_DATE =
    {
       ResourceField.ENTERPRISE_DATE1,
       ResourceField.ENTERPRISE_DATE2,
@@ -4932,7 +2670,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_DATE30
    };
 
-   private static final ResourceField[] ENTERPRISE_DURATION_FIELDS =
+   private static final ResourceField[] ENTERPRISE_DURATION =
    {
       ResourceField.ENTERPRISE_DURATION1,
       ResourceField.ENTERPRISE_DURATION2,
@@ -4946,7 +2684,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_DURATION10
    };
 
-   private static final ResourceField[] ENTERPRISE_FLAG_FIELDS =
+   private static final ResourceField[] ENTERPRISE_FLAG =
    {
       ResourceField.ENTERPRISE_FLAG1,
       ResourceField.ENTERPRISE_FLAG2,
@@ -4970,7 +2708,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_FLAG20
    };
 
-   private static final ResourceField[] ENTERPRISE_NUMBER_FIELDS =
+   private static final ResourceField[] ENTERPRISE_NUMBER =
    {
       ResourceField.ENTERPRISE_NUMBER1,
       ResourceField.ENTERPRISE_NUMBER2,
@@ -5014,7 +2752,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_NUMBER40
    };
 
-   private static final ResourceField[] ENTERPRISE_TEXT_FIELDS =
+   private static final ResourceField[] ENTERPRISE_TEXT =
    {
       ResourceField.ENTERPRISE_TEXT1,
       ResourceField.ENTERPRISE_TEXT2,

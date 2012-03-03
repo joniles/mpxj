@@ -54,7 +54,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public void addProjectListener(ProjectListener listener)
+   @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -285,7 +285,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(String fileName)
+   @Override public ProjectFile read(String fileName)
    {
       throw new UnsupportedOperationException();
    }
@@ -293,7 +293,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(File file)
+   @Override public ProjectFile read(File file)
    {
       throw new UnsupportedOperationException();
    }
@@ -301,7 +301,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(InputStream inputStream)
+   @Override public ProjectFile read(InputStream inputStream)
    {
       throw new UnsupportedOperationException();
    }

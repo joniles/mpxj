@@ -1090,7 +1090,7 @@ public final class ProjectFile
             }
             else
             {
-               parent.addChildTask(task);               
+               parent.addChildTask(task);
             }
          }
       }

@@ -163,7 +163,7 @@ public final class RTFUtility
       {
          encoding = "Cp1252";
       }
-      
+
       return (encoding);
    }
 
@@ -340,7 +340,7 @@ public final class RTFUtility
     */
    private static final Map<String, String> LOCALEID_MAPPING = new HashMap<String, String>();
    static
-   {      
+   {
       LOCALEID_MAPPING.put("1025", "Cp1256"); // Arabic (Saudi Arabia)
       LOCALEID_MAPPING.put("1026", "Cp1251"); // Bulgarian      
       LOCALEID_MAPPING.put("1028", "Cp950"); // Chinese (Taiwan)

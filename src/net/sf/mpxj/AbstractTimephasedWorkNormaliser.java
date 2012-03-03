@@ -41,7 +41,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   public abstract void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
+   @Override public abstract void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
 
    /**
     * Merges individual days together into time spans where the

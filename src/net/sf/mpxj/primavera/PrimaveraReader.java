@@ -232,7 +232,7 @@ final class PrimaveraReader
          //resource.setStandardRate(val); // RSRCRATE.cost_per_qty?
          //resource.setOvertimeRate(overtimeRate); // RSRCRATE.cost_per_qty * RSRC.ot_factor?
          //resource.setGroup(val); parent resource name?
-         resource.setNumber1(row.getInteger("parent_rsrc_id"));
+         resource.setNumber(1, row.getInteger("parent_rsrc_id"));
 
          //
          // Attempt to locate a calendar for this resource
@@ -312,9 +312,9 @@ final class PrimaveraReader
          task.setRemainingWork(row.getDuration("indep_remain_work_qty"));
          task.setStart(row.getDate("anticip_start_date"));
          task.setFinish(row.getDate("anticip_end_date"));
-         task.setDate1(row.getDate("suspend_date"));
-         task.setDate2(row.getDate("resume_date"));
-         task.setText1(row.getString("task_code"));
+         task.setDate(1, row.getDate("suspend_date"));
+         task.setDate(2, row.getDate("resume_date"));
+         task.setText(1, row.getString("task_code"));
          task.setWBS(row.getString("wbs_short_name"));
          //task.setNotes(getNotes(wbsmemos, "wbs_id", uniqueID.intValue(), "wbs_memo"));
 
@@ -565,21 +565,21 @@ final class PrimaveraReader
             assignment.setBaselineStart(row.getDate("target_start_date"));
             assignment.setBaselineFinish(row.getDate("target_end_date"));
             assignment.setDelay(row.getDuration("target_lag_drtn_hr_cnt"));
-            
+
             // Calculation below only relevant for RT_Labor?
             //assignment.setUnits(Double.valueOf(row.getDouble("target_qty_per_hr").doubleValue()*100));
 
             //assignment.setWork(dur); // total_qty ?
-            
+
             // Calculation below only relevant for RT_Labor?
             //assignment.setRemainingWork(row.getDuration("target_qty")); // target_qty
-            
+
             // Calculation below only relevant for RT_Labor?
             //assignment.setActualWork(row.getDuration("act_reg_qty")); // act_reg_qty
-            
+
             // Calculation below only relevant for RT_Labor?
             //assignment.setOvertimeWork(row.getDuration("act_ot_qty")); // act_ot_qty
-            
+
             //assignment.setCost(cost); // total_cost ?
             //assignment.setStart(val); // start_date ?
             //assignment.setFinish(val); // end_date ?            

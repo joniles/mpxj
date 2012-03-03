@@ -72,7 +72,7 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public void addProjectListener(ProjectListener listener)
+   @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -84,7 +84,7 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(InputStream is) throws MPXJException
+   @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       int line = 1;
 
