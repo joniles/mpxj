@@ -47,6 +47,15 @@ public class MPPTaskField
       {
          result = FIELD_ARRAY[value];
       }
+      else
+      {
+         if ((value & 0x8000) !=0)
+         {
+            int baseValue = TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue();
+            int id = baseValue + (value & 0xFFF);
+            result = TaskField.getInstance(id);
+         }
+      }
 
       return (result);
    }

@@ -325,7 +325,8 @@ class Props extends MPPComponent
 
    public static final Integer TASK_FIELD_MAP = Integer.valueOf(131092);
    public static final Integer TASK_FIELD_MAP2 = Integer.valueOf(50331668);
-
+   public static final Integer ENTERPRISE_CUSTOM_FIELD_MAP = Integer.valueOf(37753797); // MPP14 37753768?      
+   
    public static final Integer RESOURCE_FIELD_MAP = Integer.valueOf(131093);
    public static final Integer RESOURCE_FIELD_MAP2 = Integer.valueOf(50331669);
 

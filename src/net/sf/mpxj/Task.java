@@ -3853,6 +3853,28 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Retrieve an enterprise custom field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public String getEnterpriseCustomField(int index)
+   {
+      return ((String) getCachedValue(selectField(ENTERPRISE_CUSTOM_FIELD, index)));
+   }
+
+   /**
+    * Set an enterprise custom field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseCustomField(int index, String value)
+   {
+      set(selectField(ENTERPRISE_CUSTOM_FIELD, index), value);
+   }
+
+   /**
     * Set a baseline value.
     * 
     * @param baselineNumber baseline index (1-10)
@@ -5007,6 +5029,60 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_TEXT38,
       TaskField.ENTERPRISE_TEXT39,
       TaskField.ENTERPRISE_TEXT40
+   };
+
+   private static final TaskField[] ENTERPRISE_CUSTOM_FIELD =
+   {
+      TaskField.ENTERPRISE_CUSTOM_FIELD1,
+      TaskField.ENTERPRISE_CUSTOM_FIELD2,
+      TaskField.ENTERPRISE_CUSTOM_FIELD3,
+      TaskField.ENTERPRISE_CUSTOM_FIELD4,
+      TaskField.ENTERPRISE_CUSTOM_FIELD5,
+      TaskField.ENTERPRISE_CUSTOM_FIELD6,
+      TaskField.ENTERPRISE_CUSTOM_FIELD7,
+      TaskField.ENTERPRISE_CUSTOM_FIELD8,
+      TaskField.ENTERPRISE_CUSTOM_FIELD9,
+      TaskField.ENTERPRISE_CUSTOM_FIELD10,
+      TaskField.ENTERPRISE_CUSTOM_FIELD11,
+      TaskField.ENTERPRISE_CUSTOM_FIELD12,
+      TaskField.ENTERPRISE_CUSTOM_FIELD13,
+      TaskField.ENTERPRISE_CUSTOM_FIELD14,
+      TaskField.ENTERPRISE_CUSTOM_FIELD15,
+      TaskField.ENTERPRISE_CUSTOM_FIELD16,
+      TaskField.ENTERPRISE_CUSTOM_FIELD17,
+      TaskField.ENTERPRISE_CUSTOM_FIELD18,
+      TaskField.ENTERPRISE_CUSTOM_FIELD19,
+      TaskField.ENTERPRISE_CUSTOM_FIELD20,
+      TaskField.ENTERPRISE_CUSTOM_FIELD21,
+      TaskField.ENTERPRISE_CUSTOM_FIELD22,
+      TaskField.ENTERPRISE_CUSTOM_FIELD23,
+      TaskField.ENTERPRISE_CUSTOM_FIELD24,
+      TaskField.ENTERPRISE_CUSTOM_FIELD25,
+      TaskField.ENTERPRISE_CUSTOM_FIELD26,
+      TaskField.ENTERPRISE_CUSTOM_FIELD27,
+      TaskField.ENTERPRISE_CUSTOM_FIELD28,
+      TaskField.ENTERPRISE_CUSTOM_FIELD29,
+      TaskField.ENTERPRISE_CUSTOM_FIELD30,
+      TaskField.ENTERPRISE_CUSTOM_FIELD31,
+      TaskField.ENTERPRISE_CUSTOM_FIELD32,
+      TaskField.ENTERPRISE_CUSTOM_FIELD33,
+      TaskField.ENTERPRISE_CUSTOM_FIELD34,
+      TaskField.ENTERPRISE_CUSTOM_FIELD35,
+      TaskField.ENTERPRISE_CUSTOM_FIELD36,
+      TaskField.ENTERPRISE_CUSTOM_FIELD37,
+      TaskField.ENTERPRISE_CUSTOM_FIELD38,
+      TaskField.ENTERPRISE_CUSTOM_FIELD39,
+      TaskField.ENTERPRISE_CUSTOM_FIELD40,
+      TaskField.ENTERPRISE_CUSTOM_FIELD41,
+      TaskField.ENTERPRISE_CUSTOM_FIELD42,
+      TaskField.ENTERPRISE_CUSTOM_FIELD43,
+      TaskField.ENTERPRISE_CUSTOM_FIELD44,
+      TaskField.ENTERPRISE_CUSTOM_FIELD45,
+      TaskField.ENTERPRISE_CUSTOM_FIELD46,
+      TaskField.ENTERPRISE_CUSTOM_FIELD47,
+      TaskField.ENTERPRISE_CUSTOM_FIELD48,
+      TaskField.ENTERPRISE_CUSTOM_FIELD49,
+      TaskField.ENTERPRISE_CUSTOM_FIELD50
    };
 
    private static final TaskField[] BASELINE_COSTS =

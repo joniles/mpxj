@@ -55,6 +55,7 @@ public class ResourceAssignmentFactory
     * 
     * @param file parent project file
     * @param fieldMap assignment field map
+    * @param enterpriseCustomFieldMap enterprise custom field map
     * @param useRawTimephasedData use raw timephased data flag
     * @param preserveNoteFormatting preserve note formatting flag
     * @param assnVarMeta var meta
@@ -63,7 +64,7 @@ public class ResourceAssignmentFactory
     * @param assnFixedData fixed data
     * @param assnFixedData2 fixed data
     */
-   public void process(ProjectFile file, FieldMap fieldMap, boolean useRawTimephasedData, boolean preserveNoteFormatting, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, boolean useRawTimephasedData, boolean preserveNoteFormatting, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
@@ -118,11 +119,18 @@ public class ResourceAssignmentFactory
          ResourceAssignment assignment = new ResourceAssignment(file);
 
          assignment.disableEvents();
+         
          fieldMap.populateContainer(assignment, varDataId, new byte[][]
          {
             data,
             data2
          }, assnVarData);
+         
+         if (enterpriseCustomFieldMap != null)
+         {
+            enterpriseCustomFieldMap.populateContainer(assignment, varDataId, null, assnVarData);
+         }
+         
          assignment.enableEvents();
 
          if (fieldMap.getFieldLocation(AssignmentField.FLAG1) != FieldMap.FieldLocation.VAR_DATA)

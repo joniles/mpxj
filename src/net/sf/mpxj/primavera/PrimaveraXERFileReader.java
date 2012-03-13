@@ -731,9 +731,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("last_chng_date", FieldType.STRING);
       FIELD_TYPE_MAP.put("clndr_type", FieldType.STRING);
       FIELD_TYPE_MAP.put("day_hr_cnt", FieldType.INTEGER);
-      FIELD_TYPE_MAP.put("week_hr_cnt", FieldType.INTEGER);
-      FIELD_TYPE_MAP.put("month_hr_cnt", FieldType.INTEGER);
-      FIELD_TYPE_MAP.put("year_hr_cnt", FieldType.INTEGER);
+      FIELD_TYPE_MAP.put("week_hr_cnt", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("month_hr_cnt", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("year_hr_cnt", FieldType.DOUBLE);
       FIELD_TYPE_MAP.put("clndr_data", FieldType.STRING);
 
       FIELD_TYPE_MAP.put("seq_num", FieldType.INTEGER);

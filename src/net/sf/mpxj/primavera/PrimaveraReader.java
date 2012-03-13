@@ -418,7 +418,8 @@ final class PrimaveraReader
          task.setMilestone(BooleanUtility.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setFreeSlack(row.getDuration("free_float_hr_cnt"));
          task.setTotalSlack(row.getDuration("total_float_hr_cnt"));
-
+         task.setText(1, row.getString("task_code"));
+         
          //
          // The Primavera field names listed below come from Oracle 
          // documentation, but do not appear in the XER file or

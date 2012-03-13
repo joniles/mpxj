@@ -1831,6 +1831,28 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    }
 
    /**
+    * Retrieve an enterprise custom field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public String getEnterpriseCustomField(int index)
+   {
+      return ((String) getCachedValue(selectField(ENTERPRISE_CUSTOM_FIELD, index)));
+   }
+
+   /**
+    * Set an enterprise custom field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseCustomField(int index, String value)
+   {
+      set(selectField(ENTERPRISE_CUSTOM_FIELD, index), value);
+   }
+
+   /**
     * Returns the regular work of this resource assignment.
     *
     * @return work
@@ -3239,6 +3261,60 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       AssignmentField.ENTERPRISE_TEXT38,
       AssignmentField.ENTERPRISE_TEXT39,
       AssignmentField.ENTERPRISE_TEXT40
+   };
+
+   private static final AssignmentField[] ENTERPRISE_CUSTOM_FIELD =
+   {
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD1,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD2,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD3,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD4,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD5,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD6,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD7,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD8,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD9,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD10,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD11,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD12,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD13,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD14,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD15,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD16,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD17,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD18,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD19,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD20,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD21,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD22,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD23,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD24,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD25,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD26,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD27,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD28,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD29,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD30,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD31,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD32,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD33,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD34,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD35,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD36,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD37,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD38,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD39,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD40,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD41,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD42,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD43,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD44,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD45,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD46,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD47,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD48,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD49,
+      AssignmentField.ENTERPRISE_CUSTOM_FIELD50
    };
 
 }

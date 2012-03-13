@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -1339,6 +1340,9 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap14(m_file);
       fieldMap.createTaskFieldMap(m_projectProps);
 
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
+      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
+
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
@@ -1446,11 +1450,15 @@ final class MPP14Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
+         
          fieldMap.populateContainer(task, id, new byte[][]
          {
             data,
             data2
          }, taskVarData);
+         
+         enterpriseCustomFieldMap.populateContainer(task, id, null, taskVarData);
+         
          task.enableEvents();
 
          task.setActive((metaData2[8] & 0x04) != 0);
@@ -2021,6 +2029,9 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap14(m_file);
       fieldMap.createResourceFieldMap(m_projectProps);
 
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
+      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
+
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
@@ -2071,11 +2082,15 @@ final class MPP14Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
+         
          fieldMap.populateContainer(resource, id, new byte[][]
          {
             data,
             data2
          }, rscVarData);
+         
+         enterpriseCustomFieldMap.populateContainer(resource, id, null, rscVarData);
+         
          resource.enableEvents();
 
          resource.setBudget((metaData2[8] & 0x20) != 0);
@@ -2171,6 +2186,9 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap14(m_file);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
+      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
+
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
@@ -2181,7 +2199,7 @@ final class MPP14Reader implements MPPVariantReader
       //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2);
+      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2);
    }
 
    /**

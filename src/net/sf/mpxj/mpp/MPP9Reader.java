@@ -2514,7 +2514,7 @@ final class MPP9Reader implements MPPVariantReader
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null);
+      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null);
    }
 
    /**

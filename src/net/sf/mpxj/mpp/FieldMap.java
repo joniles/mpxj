@@ -137,10 +137,10 @@ abstract class FieldMap
             //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockIndex + " " + dataBlockOffset + " " + varDataKey);
          }
 
-         //                  if (location != FieldLocation.META_DATA)
-         //                  {
-         //                     System.out.println((type == null ? "?" : type.getClass().getSimpleName()+"."+type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF));
-         //                  }
+         //         if (location != FieldLocation.META_DATA)
+         //         {
+         //            System.out.println((type == null ? "?" : type.getClass().getSimpleName() + "." + type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF) + " " + Integer.toHexString((MPPUtility.getInt(data, index + 12))));
+         //         }
 
          if (type != null)
          {
@@ -229,6 +229,44 @@ abstract class FieldMap
       else
       {
          createFieldMap(fieldMapData);
+      }
+   }
+
+   /**
+    * Create a field map for enterprise custom fields.
+    * 
+    * @param props props data
+    * @param c target class
+    */
+   public void createEnterpriseCustomFieldMap(Props props, Class<?> c)
+   {
+      byte[] fieldMapData = null;
+      for (Integer key : ENTERPRISE_CUSTOM_KEYS)
+      {
+         fieldMapData = props.getByteArray(key);
+         if (fieldMapData != null)
+         {
+            break;
+         }
+      }
+
+      if (fieldMapData != null)
+      {
+         int index = 4;
+         while (index < fieldMapData.length)
+         {
+            int typeValue = MPPUtility.getInt(fieldMapData, index);
+            FieldType type = getFieldType(typeValue);
+            if (type != null && type.getClass() == c && type.toString().startsWith("Enterprise Custom Field"))
+            {
+               int varDataKey = (typeValue & 0xFFFF);
+               m_map.put(type, new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey));
+               //System.out.println(type.getClass().getSimpleName() + "." + type + " " + Integer.toHexString(typeValue));
+            }
+            //System.out.println((type == null ? "?" : type.getClass().getSimpleName() + "." + type) + " " + Integer.toHexString(typeValue));
+
+            index += 4;
+         }
       }
    }
 
@@ -625,7 +663,7 @@ abstract class FieldMap
                      TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
                      if (units == null)
                      {
-                        units = TimeUnit.HOURS;
+                        units = getProjectFile().getProjectHeader().getDefaultDurationUnits();
                      }
 
                      result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(data, m_fixedDataOffset), units);
@@ -1165,6 +1203,11 @@ abstract class FieldMap
    {
       Props.TASK_FIELD_MAP,
       Props.TASK_FIELD_MAP2
+   };
+
+   private static final Integer[] ENTERPRISE_CUSTOM_KEYS =
+   {
+      Props.ENTERPRISE_CUSTOM_FIELD_MAP
    };
 
    private static final Integer[] RESOURCE_KEYS =

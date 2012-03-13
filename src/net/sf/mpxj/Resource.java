@@ -2089,6 +2089,28 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve an enterprise custom field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public String getEnterpriseCustomField(int index)
+   {
+      return ((String) getCachedValue(selectField(ENTERPRISE_CUSTOM_FIELD, index)));
+   }
+
+   /**
+    * Set an enterprise custom field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseCustomField(int index, String value)
+   {
+      set(selectField(ENTERPRISE_CUSTOM_FIELD, index), value);
+   }
+
+   /**
     * Set a baseline value.
     * 
     * @param baselineNumber baseline index (1-10)
@@ -2794,6 +2816,60 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_TEXT38,
       ResourceField.ENTERPRISE_TEXT39,
       ResourceField.ENTERPRISE_TEXT40
+   };
+
+   private static final ResourceField[] ENTERPRISE_CUSTOM_FIELD =
+   {
+      ResourceField.ENTERPRISE_CUSTOM_FIELD1,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD2,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD3,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD4,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD5,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD6,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD7,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD8,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD9,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD10,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD11,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD12,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD13,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD14,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD15,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD16,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD17,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD18,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD19,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD20,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD21,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD22,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD23,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD24,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD25,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD26,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD27,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD28,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD29,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD30,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD31,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD32,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD33,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD34,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD35,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD36,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD37,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD38,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD39,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD40,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD41,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD42,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD43,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD44,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD45,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD46,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD47,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD48,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD49,
+      ResourceField.ENTERPRISE_CUSTOM_FIELD50
    };
 
    private static final ResourceField[] BASELINE_COSTS =
