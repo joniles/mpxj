@@ -186,8 +186,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       updateBaseCalendarNames();
 
-      processCalendarData(m_project.getBaseCalendars());
-      processCalendarData(m_project.getResourceCalendars());
+      processCalendarData(m_project.getCalendars());
    }
 
    /**

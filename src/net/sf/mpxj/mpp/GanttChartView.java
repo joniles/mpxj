@@ -34,7 +34,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.MPPTaskField;
@@ -938,7 +937,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines monthly day
     */
-   public Day getProgressLinesIntervalMonthlyFirstLastDay()
+   public ProgressLineDay getProgressLinesIntervalMonthlyFirstLastDay()
    {
       return (m_progressLinesIntervalMonthlyFirstLastDay);
    }
@@ -1441,7 +1440,7 @@ public abstract class GanttChartView extends GenericView
    protected boolean m_progressLinesIntervalMonthlyDay;
    protected int m_progressLinesIntervalMonthlyDayDayNumber;
    protected int m_progressLinesIntervalMonthlyDayMonthNumber;
-   protected Day m_progressLinesIntervalMonthlyFirstLastDay;
+   protected ProgressLineDay m_progressLinesIntervalMonthlyFirstLastDay;
    protected boolean m_progressLinesIntervalMonthlyFirstLast;
    protected int m_progressLinesIntervalMonthlyFirstLastMonthNumber;
    protected boolean m_progressLinesBeginAtProjectStart;

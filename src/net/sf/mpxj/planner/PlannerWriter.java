@@ -167,7 +167,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //    
-      for (ProjectCalendar mpxjCalendar : m_projectFile.getBaseCalendars())
+      for (ProjectCalendar mpxjCalendar : m_projectFile.getCalendars())
       {
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();
          calendar.add(plannerCalendar);

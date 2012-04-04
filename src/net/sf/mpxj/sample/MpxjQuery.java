@@ -461,12 +461,7 @@ public class MpxjQuery
     */
    private static void listCalendars(ProjectFile file)
    {
-      for (ProjectCalendar cal : file.getBaseCalendars())
-      {
-         System.out.println(cal.toString());
-      }
-
-      for (ProjectCalendar cal : file.getResourceCalendars())
+      for (ProjectCalendar cal : file.getCalendars())
       {
          System.out.println(cal.toString());
       }

@@ -238,12 +238,7 @@ public final class ProjectFile
    {
       int uid = 1;
 
-      for (ProjectCalendar calendar : m_baseCalendars)
-      {
-         calendar.setUniqueID(Integer.valueOf(uid++));
-      }
-
-      for (ProjectCalendar calendar : m_resourceCalendars)
+      for (ProjectCalendar calendar : m_calendars)
       {
          calendar.setUniqueID(Integer.valueOf(uid++));
       }
@@ -293,21 +288,9 @@ public final class ProjectFile
          }
       }
 
-      if (!m_baseCalendars.isEmpty())
+      if (!m_calendars.isEmpty())
       {
-         for (ProjectCalendar calendar : m_baseCalendars)
-         {
-            if (NumberUtility.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
-            {
-               renumberCalendarUniqueIDs();
-               break;
-            }
-         }
-      }
-
-      if (!m_resourceCalendars.isEmpty())
-      {
-         for (ProjectCalendar calendar : m_resourceCalendars)
+         for (ProjectCalendar calendar : m_calendars)
          {
             if (NumberUtility.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
             {
@@ -359,7 +342,7 @@ public final class ProjectFile
 
    /**
     * This method is used to retrieve a list of all of the top level tasks
-    * that are defined in this MPX file.
+    * that are defined in this project file.
     *
     * @return list of tasks
     */
@@ -370,7 +353,7 @@ public final class ProjectFile
 
    /**
     * This method is used to retrieve a list of all of the tasks
-    * that are defined in this MPX file.
+    * that are defined in this project file.
     *
     * @return list of all tasks
     */
@@ -639,64 +622,48 @@ public final class ProjectFile
    }
 
    /**
-    * This method is provided to create a resource calendar, before it
-    * has been attached to a resource.
+    * This method is used to add a new calendar to the file.
     *
-    * @return new ProjectCalendar instance
+    * @return new calendar object
     */
-   public ProjectCalendar addResourceCalendar()
+   public ProjectCalendar addCalendar()
    {
       ProjectCalendar calendar = new ProjectCalendar(this);
-      m_resourceCalendars.add(calendar);
+      m_calendars.add(calendar);
       return (calendar);
    }
 
    /**
-    * This method is used to add a new base calendar to the file.
-    *
-    * @return new base calendar object
-    */
-   public ProjectCalendar addBaseCalendar()
-   {
-      ProjectCalendar calendar = new ProjectCalendar(this);
-      m_baseCalendars.add(calendar);
-      return (calendar);
-   }
-
-   /**
-    * Removes a base calendar.
+    * Removes a calendar.
     *
     * @param calendar calendar to be removed
     */
    public void removeCalendar(ProjectCalendar calendar)
    {
-      if (m_baseCalendars.contains(calendar))
+      if (m_calendars.contains(calendar))
       {
-         m_baseCalendars.remove(calendar);
+         m_calendars.remove(calendar);
       }
-      else
-         if (m_resourceCalendars.contains(calendar))
-         {
-            m_resourceCalendars.remove(calendar);
-            Resource resource = calendar.getResource();
-            if (resource != null)
-            {
-               resource.setResourceCalendar(null);
-            }
-         }
+
+      Resource resource = calendar.getResource();
+      if (resource != null)
+      {
+         resource.setResourceCalendar(null);
+      }
+
       calendar.setParent(null);
    }
 
    /**
-    * This is a convenience method used to add a base calendar called
+    * This is a convenience method used to add a calendar called
     * "Standard" to the file, and populate it with a default working week
     * and default working hours.
     *
-    * @return a new default base calendar
+    * @return a new default calendar
     */
    public ProjectCalendar addDefaultBaseCalendar()
    {
-      ProjectCalendar calendar = addBaseCalendar();
+      ProjectCalendar calendar = addCalendar();
 
       calendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
@@ -714,16 +681,14 @@ public final class ProjectFile
    }
 
    /**
-    * This is a protected convenience method to add a default resource
-    * calendar. This is used when the calendar data is available before
-    * the resource data has been read, a situation which occurs with MPP
-    * files.
+    * This is a protected convenience method to add a default derived
+    * calendar.
     *
     * @return new ProjectCalendar instance
     */
-   public ProjectCalendar getDefaultResourceCalendar()
+   public ProjectCalendar addDefaultDerivedCalendar()
    {
-      ProjectCalendar calendar = new ProjectCalendar(this);
+      ProjectCalendar calendar = addCalendar();
 
       calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
       calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
@@ -737,25 +702,14 @@ public final class ProjectFile
    }
 
    /**
-    * This method retrieves the list of base calendars defined in
+    * This method retrieves the list of calendars defined in
     * this file.
     *
-    * @return list of base calendars
+    * @return list of calendars
     */
-   public List<ProjectCalendar> getBaseCalendars()
+   public List<ProjectCalendar> getCalendars()
    {
-      return (m_baseCalendars);
-   }
-
-   /**
-    * This method retrieves the list of resource calendars defined in
-    * this file.
-    *
-    * @return list of resource calendars
-    */
-   public List<ProjectCalendar> getResourceCalendars()
-   {
-      return (m_resourceCalendars);
+      return (m_calendars);
    }
 
    /**
@@ -811,8 +765,7 @@ public final class ProjectFile
    }
 
    /**
-    * This method is used to retrieve a list of all of the resources
-    * that are defined in this MPX file.
+    * Retrieves a list of all resources in this project.
     *
     * @return list of all resources
     */
@@ -822,8 +775,7 @@ public final class ProjectFile
    }
 
    /**
-    * This method is used to retrieve a list of all of the resource assignments
-    * that are defined in this MPX file.
+    * Retrieves a list of all resource assignments in this project.
     *
     * @return list of all resources
     */
@@ -873,19 +825,19 @@ public final class ProjectFile
    }
 
    /**
-    * Retrieves the named base calendar. This method will return
-    * null if the named base calendar is not located.
+    * Retrieves the named calendar. This method will return
+    * null if the named calendar is not located.
     *
-    * @param calendarName name of the required base calendar
-    * @return base calendar object
+    * @param calendarName name of the required calendar
+    * @return ProjectCalendar instance
     */
-   public ProjectCalendar getBaseCalendar(String calendarName)
+   public ProjectCalendar getCalendarByName(String calendarName)
    {
       ProjectCalendar calendar = null;
 
       if (calendarName != null && calendarName.length() != 0)
       {
-         Iterator<ProjectCalendar> iter = m_baseCalendars.iterator();
+         Iterator<ProjectCalendar> iter = m_calendars.iterator();
          while (iter.hasNext() == true)
          {
             calendar = iter.next();
@@ -904,14 +856,14 @@ public final class ProjectFile
    }
 
    /**
-    * Retrieves the base calendar referred to by the supplied unique ID
+    * Retrieves the calendar referred to by the supplied unique ID
     * value. This method will return null if the required calendar is not
     * located.
     *
     * @param calendarID calendar unique ID
     * @return ProjectCalendar instance
     */
-   public ProjectCalendar getBaseCalendarByUniqueID(Integer calendarID)
+   public ProjectCalendar getCalendarByUniqueID(Integer calendarID)
    {
       return (m_calendarUniqueIDMap.get(calendarID));
    }
@@ -957,7 +909,7 @@ public final class ProjectFile
     */
    public Duration getDuration(String calendarName, Date startDate, Date endDate) throws MPXJException
    {
-      ProjectCalendar calendar = getBaseCalendar(calendarName);
+      ProjectCalendar calendar = getCalendarByName(calendarName);
 
       if (calendar == null)
       {
@@ -1017,7 +969,7 @@ public final class ProjectFile
 
    /**
     * This method is used to recreate the hierarchical structure of the
-    * MPX file from scratch. The method sorts the list of all tasks,
+    * project file from scratch. The method sorts the list of all tasks,
     * then iterates through it creating the parent-child structure defined
     * by the outline level field.
     */
@@ -1128,21 +1080,9 @@ public final class ProjectFile
       }
 
       //
-      // Update base calendar unique IDs
+      // Update calendar unique IDs
       //
-      for (ProjectCalendar calendar : m_baseCalendars)
-      {
-         int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
-         if (uniqueID > m_calendarUniqueID)
-         {
-            m_calendarUniqueID = uniqueID;
-         }
-      }
-
-      //
-      // Update resource calendar unique IDs
-      //
-      for (ProjectCalendar calendar : m_resourceCalendars)
+      for (ProjectCalendar calendar : m_calendars)
       {
          int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
@@ -1625,7 +1565,7 @@ public final class ProjectFile
 
    /**
     * Allows derived classes to gain access to the mapping between
-    * MPX task field numbers and aliases.
+    * task fields and aliases.
     *
     * @return task field to alias map
     */
@@ -2163,7 +2103,7 @@ public final class ProjectFile
    public ProjectCalendar getCalendar()
    {
       String calendarName = m_projectHeader.getCalendarName();
-      ProjectCalendar calendar = getBaseCalendar(calendarName);
+      ProjectCalendar calendar = getCalendarByName(calendarName);
       return calendar;
    }
 
@@ -2189,7 +2129,7 @@ public final class ProjectFile
       // If this isn't present, fall back to using the default 
       // project calendar.
       //
-      ProjectCalendar result = getBaseCalendar("Used for Microsoft Project 98 Baseline Calendar");
+      ProjectCalendar result = getCalendarByName("Used for Microsoft Project 98 Baseline Calendar");
       if (result == null)
       {
          result = getCalendar();
@@ -2254,14 +2194,9 @@ public final class ProjectFile
    private List<ResourceAssignment> m_allResourceAssignments = new LinkedList<ResourceAssignment>();
 
    /**
-    * List holding references to all base calendars.
+    * List holding references to all calendars.
     */
-   private List<ProjectCalendar> m_baseCalendars = new LinkedList<ProjectCalendar>();
-
-   /**
-    * List holding references to all resource calendars.
-    */
-   private List<ProjectCalendar> m_resourceCalendars = new LinkedList<ProjectCalendar>();
+   private List<ProjectCalendar> m_calendars = new LinkedList<ProjectCalendar>();
 
    /**
     * File creation record.

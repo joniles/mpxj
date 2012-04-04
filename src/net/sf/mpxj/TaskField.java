@@ -1019,9 +1019,9 @@ public enum TaskField implements FieldType
    ENTERPRISE_CUSTOM_FIELD47(DataType.STRING),
    ENTERPRISE_CUSTOM_FIELD48(DataType.STRING),
    ENTERPRISE_CUSTOM_FIELD49(DataType.STRING),
-   ENTERPRISE_CUSTOM_FIELD50(DataType.STRING),   
+   ENTERPRISE_CUSTOM_FIELD50(DataType.STRING),
    // KEEP THESE TOGETHER AND IN ORDER
-   
+
    FINISH(DataType.DATE); // Must always be last value
 
    /**

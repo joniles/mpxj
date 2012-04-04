@@ -31,7 +31,7 @@ import net.sf.mpxj.utility.NumberUtility;
  * This class is used to represent an accrue type. It provides a mapping
  * between the textual description of a accrue type found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
- * programatically.
+ * programmatically.
  */
 public enum AccrueType implements MpxjEnum
 {

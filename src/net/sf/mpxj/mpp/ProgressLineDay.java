@@ -24,58 +24,102 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.utility.EnumUtility;
+import net.sf.mpxj.utility.MpxjEnum;
 
 /**
  * Instances of this class represent enumerated day values used as to
  * define when progress lines are drawn.
  */
-public final class ProgressLineDay extends Day
+public enum ProgressLineDay implements MpxjEnum
 {
+   SUNDAY(1, Day.SUNDAY),
+   MONDAY(2, Day.MONDAY),
+   TUESDAY(3, Day.TUESDAY),
+   WEDNESDAY(4, Day.WEDNESDAY),
+   THURSDAY(5, Day.THURSDAY),
+   FRIDAY(6, Day.FRIDAY),
+   SATURDAY(7, Day.SATURDAY),
+   DAY(8, null),
+   WORKINGDAY(9, null),
+   NONWORKINGDAY(10, null);
+
    /**
     * Private constructor.
     *
     * @param value day value
+    * @param day equivalent Day instance
     */
-   protected ProgressLineDay(int value)
+   private ProgressLineDay(int value, Day day)
    {
-      super(value);
+      m_value = value;
+      m_day = day;
    }
 
    /**
-    * Retrieve a Day instance representing the supplied value.
+    * Retrieves the int representation of the day.
     *
-    * @param value task type value
+    * @return task type value
+    */
+   @Override public int getValue()
+   {
+      return m_value;
+   }
+
+   /**
+    * Retrieve the Day instance which is equivalent to this ProgressLine.
+    * 
     * @return Day instance
     */
-   public static Day getInstance(int value)
+   public Day getDay()
    {
-      Day result = null;
+      return m_day;
+   }
 
-      if (value < 8)
+   /**
+    * This method provides a simple mechanism to retrieve 
+    * the next day in correct sequence, including the transition
+    * from Sunday to Monday. 
+    * 
+    * @return ProgressLineDay instance
+    */
+   public ProgressLineDay getNextDay()
+   {
+      int value = m_value + 1;
+      if (value > 7)
       {
-         result = Day.getInstance(value);
+         value = 1;
+      }
+      return (getInstance(value));
+   }
+
+   /**
+    * Retrieve a ProgressLineDay instance representing the supplied value.
+    *
+    * @param type type value
+    * @return ProgressLineDay instance
+    */
+   public static ProgressLineDay getInstance(int type)
+   {
+      ProgressLineDay result;
+
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         result = null;
       }
       else
       {
-         value -= 8;
-
-         if (value >= 0 && value < DAY_ARRAY.length)
-         {
-            result = DAY_ARRAY[value];
-         }
+         result = TYPE_VALUES[type];
       }
-
-      return (result);
+      return result;
    }
 
-   public static final Day DAY = new ProgressLineDay(8);
-   public static final Day WORKINGDAY = new ProgressLineDay(9);
-   public static final Day NONWORKINGDAY = new ProgressLineDay(10);
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final ProgressLineDay[] TYPE_VALUES = EnumUtility.createTypeArray(ProgressLineDay.class, 1);
 
-   private static final Day[] DAY_ARRAY =
-   {
-      DAY,
-      WORKINGDAY,
-      NONWORKINGDAY
-   };
+   private int m_value;
+   private Day m_day;
+
 }

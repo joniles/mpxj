@@ -209,10 +209,10 @@ public class MppCalendarTest extends MPXJTestCase
    {
       DateFormat tf = new SimpleDateFormat("HH:mm");
 
-      List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
-      assertEquals(5, baseCalendars.size());
+      List<ProjectCalendar> baseCalendars = mpp.getCalendars();
+      assertEquals(8, baseCalendars.size());
 
-      ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
+      ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
       assertNull(cal.getParent());
@@ -237,9 +237,6 @@ public class MppCalendarTest extends MPXJTestCase
       range = cal.getCalendarHours(Day.MONDAY).getRange(1);
       assertEquals("13:00", tf.format(range.getStart()));
       assertEquals("17:00", tf.format(range.getEnd()));
-
-      List<ProjectCalendar> resourceCalendars = mpp.getResourceCalendars();
-      assertEquals(2, resourceCalendars.size());
    }
 
    /**
@@ -252,10 +249,10 @@ public class MppCalendarTest extends MPXJTestCase
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
       DateFormat tf = new SimpleDateFormat("HH:mm");
 
-      List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
-      assertEquals(1, baseCalendars.size());
+      List<ProjectCalendar> baseCalendars = mpp.getCalendars();
+      assertEquals(2, baseCalendars.size());
 
-      ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
+      ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
       assertNull(cal.getParent());

@@ -1063,7 +1063,7 @@ final class MPP12Reader implements MPPVariantReader
                   {
                      if (varData != null || defaultCalendarData != null)
                      {
-                        cal = m_file.addBaseCalendar();
+                        cal = m_file.addCalendar();
                         if (varData == null)
                         {
                            varData = defaultCalendarData;
@@ -1080,11 +1080,11 @@ final class MPP12Reader implements MPPVariantReader
                   {
                      if (varData != null)
                      {
-                        cal = m_file.addResourceCalendar();
+                        cal = m_file.addCalendar();
                      }
                      else
                      {
-                        cal = m_file.getDefaultResourceCalendar();
+                        cal = m_file.addDefaultDerivedCalendar();
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
@@ -1332,7 +1332,7 @@ final class MPP12Reader implements MPPVariantReader
 
       FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
-      
+
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
@@ -1452,9 +1452,9 @@ final class MPP12Reader implements MPPVariantReader
             data,
             data2
          }, taskVarData);
-         
+
          enterpriseCustomFieldMap.populateContainer(task, id, null, taskVarData);
-         
+
          task.enableEvents();
 
          task.setEffortDriven((metaData[11] & 0x10) != 0);
@@ -1582,7 +1582,7 @@ final class MPP12Reader implements MPPVariantReader
          Integer calendarID = (Integer) task.getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
          if (calendarID != null && calendarID.intValue() != -1)
          {
-            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(calendarID);
+            ProjectCalendar calendar = m_file.getCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
                task.setCalendar(calendar);
@@ -2137,7 +2137,7 @@ final class MPP12Reader implements MPPVariantReader
 
       FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
-      
+
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
@@ -2193,9 +2193,9 @@ final class MPP12Reader implements MPPVariantReader
             data,
             data2
          }, rscVarData);
-         
+
          enterpriseCustomFieldMap.populateContainer(resource, id, null, rscVarData);
-         
+
          resource.enableEvents();
 
          resource.setBudget((metaData2[8] & 0x20) != 0);
@@ -2295,7 +2295,7 @@ final class MPP12Reader implements MPPVariantReader
 
       FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
-      
+
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));

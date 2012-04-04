@@ -238,7 +238,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (baseCalendarID > 0)
             {
-               cal = m_file.getDefaultResourceCalendar();
+               cal = m_file.addDefaultDerivedCalendar();
                baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
             }
             else
@@ -253,12 +253,12 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (baseCalendarID > 0)
             {
-               cal = m_file.addResourceCalendar();
+               cal = m_file.addCalendar();
                baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
             }
             else
             {
-               cal = m_file.addBaseCalendar();
+               cal = m_file.addCalendar();
                cal.setName(name);
             }
 

@@ -260,7 +260,7 @@ public final class MPXReader extends AbstractProjectReader
 
          case MPXConstants.BASE_CALENDAR_RECORD_NUMBER :
          {
-            m_lastBaseCalendar = m_projectFile.addBaseCalendar();
+            m_lastBaseCalendar = m_projectFile.addCalendar();
             populateCalendar(record, m_lastBaseCalendar, true);
             break;
          }
@@ -691,7 +691,7 @@ public final class MPXReader extends AbstractProjectReader
       }
       else
       {
-         calendar.setParent(m_projectFile.getBaseCalendar(record.getString(0)));
+         calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
 
       calendar.setWorkingDay(Day.SUNDAY, DayType.getInstance(record.getInteger(1)));

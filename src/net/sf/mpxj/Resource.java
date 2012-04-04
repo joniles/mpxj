@@ -35,7 +35,7 @@ import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * This class represents the Resource record as found in an MPX file.
+ * This class represents a resource used in a project.
  */
 public final class Resource extends ProjectEntity implements Comparable<Resource>, FieldContainer
 {

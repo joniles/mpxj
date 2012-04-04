@@ -5,7 +5,7 @@
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
   <jxb:bindings schemaLocation="file:p6apibo.xsd" node="/xsd:schema">
 
-   <jxb:globalBindings>      
+   <jxb:globalBindings generateElementProperty="false">      
       <jxb:javaType name="java.util.Date"
                     xmlType="xsd:dateTime"     
                     parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseDateTime" 

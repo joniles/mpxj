@@ -32,7 +32,7 @@ import java.util.EnumSet;
 public final class EnumUtility
 {
    /**
-    * Creates a lookup array based on the "value" associated wth an MpxjEnum.
+    * Creates a lookup array based on the "value" associated with an MpxjEnum.
     * 
     * @param <E> target enumeration
     * @param c enumeration class
@@ -44,11 +44,11 @@ public final class EnumUtility
    }
 
    /**
-    * Creates a lookup array based on the "value" associated wth an MpxjEnum. 
+    * Creates a lookup array based on the "value" associated with an MpxjEnum. 
     * 
     * @param <E> target enumeration
     * @param c enumeration class
-    * @param arraySizeOffset offset to appy to the array size
+    * @param arraySizeOffset offset to apply to the array size
     * @return lookup array
     */
    @SuppressWarnings(

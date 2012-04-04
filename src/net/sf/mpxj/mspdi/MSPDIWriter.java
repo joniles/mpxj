@@ -361,22 +361,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeCalendars(Project project)
    {
       //
-      // First step, find all of the base calendars and resource calendars,
-      // add them to a list ready for processing, and create a map between
-      // names and unique IDs
-      //
-      LinkedList<ProjectCalendar> calendarList = new LinkedList<ProjectCalendar>(m_projectFile.getBaseCalendars());
-
-      for (Resource resource : m_projectFile.getAllResources())
-      {
-         ProjectCalendar cal = resource.getResourceCalendar();
-         if (cal != null)
-         {
-            calendarList.add(cal);
-         }
-      }
-
-      //
       // Create the new MSPDI calendar list
       //
       Project.Calendars calendars = m_factory.createProjectCalendars();
@@ -386,7 +370,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //
-      for (ProjectCalendar cal : calendarList)
+      for (ProjectCalendar cal : m_projectFile.getCalendars())
       {
          calendar.add(writeCalendar(cal));
       }

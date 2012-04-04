@@ -1073,7 +1073,7 @@ final class MPP14Reader implements MPPVariantReader
                   {
                      if (varData != null || defaultCalendarData != null)
                      {
-                        cal = m_file.addBaseCalendar();
+                        cal = m_file.addCalendar();
                         if (varData == null)
                         {
                            varData = defaultCalendarData;
@@ -1090,11 +1090,11 @@ final class MPP14Reader implements MPPVariantReader
                   {
                      if (varData != null)
                      {
-                        cal = m_file.addResourceCalendar();
+                        cal = m_file.addCalendar();
                      }
                      else
                      {
-                        cal = m_file.getDefaultResourceCalendar();
+                        cal = m_file.addDefaultDerivedCalendar();
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
@@ -1450,15 +1450,15 @@ final class MPP14Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
-         
+
          fieldMap.populateContainer(task, id, new byte[][]
          {
             data,
             data2
          }, taskVarData);
-         
+
          enterpriseCustomFieldMap.populateContainer(task, id, null, taskVarData);
-         
+
          task.enableEvents();
 
          task.setActive((metaData2[8] & 0x04) != 0);
@@ -1607,7 +1607,7 @@ final class MPP14Reader implements MPPVariantReader
          Integer calendarID = (Integer) task.getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
          if (calendarID != null && calendarID.intValue() != -1)
          {
-            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(calendarID);
+            ProjectCalendar calendar = m_file.getCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
                task.setCalendar(calendar);
@@ -2082,15 +2082,15 @@ final class MPP14Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         
+
          fieldMap.populateContainer(resource, id, new byte[][]
          {
             data,
             data2
          }, rscVarData);
-         
+
          enterpriseCustomFieldMap.populateContainer(resource, id, null, rscVarData);
-         
+
          resource.enableEvents();
 
          resource.setBudget((metaData2[8] & 0x20) != 0);

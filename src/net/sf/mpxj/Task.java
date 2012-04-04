@@ -1646,7 +1646,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * Retrieves the baseline start text value.
     * 
-    * @return baseline strat value
+    * @return baseline start value
     */
    public String getBaselineStartText()
    {
@@ -2229,7 +2229,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * Retrieves the list of predecessors for this task.
     * 
-    * @return list of prdecessor Relation instances
+    * @return list of predecessor Relation instances
     */
    @SuppressWarnings("unchecked") public List<Relation> getPredecessors()
    {

@@ -176,7 +176,7 @@ public final class SubProject
    }
 
    /**
-    * Retrieves all the external task unique ids for this MPX file.
+    * Retrieves all the external task unique ids for this project file.
     *
     * @return all sub project details
     */

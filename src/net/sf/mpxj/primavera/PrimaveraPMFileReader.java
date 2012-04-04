@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
@@ -67,6 +66,10 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
+import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
+import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
+import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
+import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
 import net.sf.mpxj.primavera.schema.ProjectType;
@@ -75,10 +78,6 @@ import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
-import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
-import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
-import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
-import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
@@ -139,7 +138,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          List<ProjectType> projects = apibo.getProject();
          if (projects.size() != 1)
          {
-            throw new MPXJException("Exoecting 1 project, found " + projects.size());
+            throw new MPXJException("Expecting 1 project, found " + projects.size());
          }
 
          ProjectType project = projects.get(0);
@@ -192,8 +191,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       ProjectHeader header = m_projectFile.getProjectHeader();
 
-      header.setCreationDate(getValue(project.getCreateDate()));
-      header.setFinishDate(getValue(project.getFinishDate()));
+      header.setCreationDate(project.getCreateDate());
+      header.setFinishDate(project.getFinishDate());
       header.setName(project.getName());
       header.setStartDate(project.getPlannedStartDate());
 
@@ -202,8 +201,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       {
          GlobalPreferencesType prefs = list.get(0);
 
-         header.setCreationDate(getValue(prefs.getCreateDate()));
-         header.setLastSaved(getValue(prefs.getLastUpdateDate()));
+         header.setCreationDate(prefs.getCreateDate());
+         header.setLastSaved(prefs.getLastUpdateDate());
          header.setMinutesPerDay(Integer.valueOf((int) (NumberUtility.getDouble(prefs.getHoursPerDay()) * 60)));
          header.setMinutesPerWeek(Integer.valueOf((int) (NumberUtility.getDouble(prefs.getHoursPerWeek()) * 60)));
          header.setWeekStartDay(Day.getInstance(NumberUtility.getInt(prefs.getStartDayOfWeek())));
@@ -229,7 +228,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       for (CalendarType row : apibo.getCalendar())
       {
-         ProjectCalendar calendar = m_projectFile.addBaseCalendar();
+         ProjectCalendar calendar = m_projectFile.addCalendar();
          Integer id = row.getObjectId();
          m_calMap.put(id, calendar);
          calendar.setName(row.getName());
@@ -300,7 +299,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          resource.setCode(xml.getEmployeeId());
          resource.setEmailAddress(xml.getEmailAddress());
          resource.setNotes(xml.getResourceNotes());
-         resource.setCreationDate(getValue(xml.getCreateDate()));
+         resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
 
          Integer calendarID = xml.getCalendarObjectId();
@@ -315,7 +314,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                //
                if (!calendar.isDerived())
                {
-                  ProjectCalendar resourceCalendar = m_projectFile.addResourceCalendar();
+                  ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
                   resourceCalendar.setParent(calendar);
                   resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
                   resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
@@ -339,7 +338,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                   }
                   else
                   {
-                     ProjectCalendar copy = m_projectFile.addResourceCalendar();
+                     ProjectCalendar copy = m_projectFile.addCalendar();
                      copy.copy(calendar);
                      resource.setResourceCalendar(copy);
                   }
@@ -374,11 +373,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          task.setUniqueID(uniqueID);
          task.setName(row.getName());
-         task.setBaselineCost(getValue(row.getSummaryBaselineTotalCost()));
-         task.setRemainingCost(getValue(row.getSummaryRemainingTotalCost()));
+         task.setBaselineCost(row.getSummaryBaselineTotalCost());
+         task.setRemainingCost(row.getSummaryRemainingTotalCost());
          task.setRemainingDuration(getDuration(row.getSummaryRemainingDuration()));
-         task.setStart(getValue(row.getAnticipatedStartDate()));
-         task.setFinish(getValue(row.getAnticipatedFinishDate()));
+         task.setStart(row.getAnticipatedStartDate());
+         task.setFinish(row.getAnticipatedFinishDate());
          task.setText(1, row.getCode());
       }
 
@@ -389,7 +388,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       for (WBSType row : wbs)
       {
          Task task = m_projectFile.getTaskByUniqueID(row.getObjectId());
-         Task parentTask = m_projectFile.getTaskByUniqueID(getValue(row.getParentObjectId()));
+         Task parentTask = m_projectFile.getTaskByUniqueID(row.getParentObjectId());
          if (parentTask == null)
          {
             m_projectFile.getChildTasks().add(task);
@@ -422,7 +421,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          uniqueIDs.add(uniqueID);
 
          Task task;
-         Integer parentTaskID = getValue(row.getWBSObjectId());
+         Integer parentTaskID = row.getWBSObjectId();
          Task parentTask = m_projectFile.getTaskByUniqueID(parentTaskID);
          if (parentTask == null)
          {
@@ -442,20 +441,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          //task.setBaselineWork(row.getDuration("target_work_qty"));
          task.setBaselineDuration(getDuration(row.getBaselineDuration()));
 
-         task.setConstraintDate(getValue(row.getPrimaryConstraintDate()));
+         task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
-         task.setActualStart(getValue(row.getActualStartDate()));
-         task.setActualFinish(getValue(row.getActualFinishDate()));
-         task.setLateStart(getValue(row.getLateStartDate()));
-         task.setLateFinish(getValue(row.getLateFinishDate()));
-         task.setFinish(getValue(row.getExpectedFinishDate()));
-         task.setEarlyStart(getValue(row.getEarlyStartDate()));
-         task.setEarlyFinish(getValue(row.getEarlyFinishDate()));
-         task.setBaselineStart(getValue(row.getBaselineStartDate()));
-         task.setBaselineFinish(getValue(row.getBaselineFinishDate()));
+         task.setActualStart(row.getActualStartDate());
+         task.setActualFinish(row.getActualFinishDate());
+         task.setLateStart(row.getLateStartDate());
+         task.setLateFinish(row.getLateFinishDate());
+         task.setFinish(row.getExpectedFinishDate());
+         task.setEarlyStart(row.getEarlyStartDate());
+         task.setEarlyFinish(row.getEarlyFinishDate());
+         task.setBaselineStart(row.getBaselineStartDate());
+         task.setBaselineFinish(row.getBaselineFinishDate());
 
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
-         task.setCreateDate(getValue(row.getCreateDate()));
+         task.setCreateDate(row.getCreateDate());
 
          Integer calId = row.getCalendarObjectId();
          ProjectCalendar cal = m_calMap.get(calId);
@@ -557,7 +556,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       for (ResourceAssignmentType row : assignments)
       {
          Task task = m_projectFile.getTaskByUniqueID(mapTaskID(row.getActivityObjectId()));
-         Resource resource = m_projectFile.getResourceByUniqueID(getValue(row.getResourceObjectId()));
+         Resource resource = m_projectFile.getResourceByUniqueID(row.getResourceObjectId());
          if (task != null && resource != null)
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
@@ -566,10 +565,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             assignment.setRemainingWork(getDuration(row.getRemainingUnits()));
             assignment.setBaselineWork(getDuration(row.getPlannedUnits()));
             assignment.setActualWork(getDuration(row.getActualUnits()));
-            assignment.setBaselineCost(getValue(row.getPlannedCost()));
-            assignment.setActualCost(getValue(row.getActualCost()));
-            assignment.setActualStart(getValue(row.getActualStartDate()));
-            assignment.setActualFinish(getValue(row.getActualFinishDate()));
+            assignment.setBaselineCost(row.getPlannedCost());
+            assignment.setActualCost(row.getActualCost());
+            assignment.setActualStart(row.getActualStartDate());
+            assignment.setActualFinish(row.getActualFinishDate());
             assignment.setBaselineStart(row.getPlannedStartDate());
             assignment.setBaselineFinish(row.getPlannedFinishDate());
 
@@ -584,41 +583,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    /**
-    * Extracts a value from a JAXBElement instance.
-    * 
-    * @param <T> value type
-    * @param element JAXBElement instance
-    * @return value
-    */
-   private <T> T getValue(JAXBElement<T> element)
-   {
-      T result = null;
-
-      if (element != null)
-      {
-         result = element.getValue();
-      }
-
-      return result;
-   }
-
-   /**
     * Extracts a duration from a JAXBElement instance.
     * 
     * @param duration duration expressed in hours
     * @return duration instance
     */
-   private Duration getDuration(JAXBElement<Double> duration)
+   private Duration getDuration(Double duration)
    {
       Duration result = null;
 
       if (duration != null)
       {
-         Double value = duration.getValue();
-         if (value != null)
-         {
-            result = Duration.getInstance(NumberUtility.getDouble(value), TimeUnit.HOURS);
-         }
+         result = Duration.getInstance(NumberUtility.getDouble(duration), TimeUnit.HOURS);
       }
 
       return result;

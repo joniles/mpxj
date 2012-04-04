@@ -123,16 +123,7 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         ProjectCalendar calendar;
-         String calendarType = row.getString("clndr_type");
-         if (calendarType != null && calendarType.toUpperCase().equals("CA_RSRC"))
-         {
-            calendar = m_project.addResourceCalendar();
-         }
-         else
-         {
-            calendar = m_project.addBaseCalendar();
-         }
+         ProjectCalendar calendar = m_project.addCalendar();
 
          Integer id = row.getInteger("clndr_id");
          m_calMap.put(id, calendar);
@@ -249,7 +240,7 @@ final class PrimaveraReader
                //
                if (!calendar.isDerived())
                {
-                  ProjectCalendar resourceCalendar = m_project.addResourceCalendar();
+                  ProjectCalendar resourceCalendar = m_project.addCalendar();
                   resourceCalendar.setParent(calendar);
                   resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
                   resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
@@ -273,7 +264,7 @@ final class PrimaveraReader
                   }
                   else
                   {
-                     ProjectCalendar copy = m_project.addResourceCalendar();
+                     ProjectCalendar copy = m_project.addCalendar();
                      copy.copy(calendar);
                      resource.setResourceCalendar(copy);
                   }
@@ -419,7 +410,7 @@ final class PrimaveraReader
          task.setFreeSlack(row.getDuration("free_float_hr_cnt"));
          task.setTotalSlack(row.getDuration("total_float_hr_cnt"));
          task.setText(1, row.getString("task_code"));
-         
+
          //
          // The Primavera field names listed below come from Oracle 
          // documentation, but do not appear in the XER file or

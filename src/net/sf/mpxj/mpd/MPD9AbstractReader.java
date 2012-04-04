@@ -76,7 +76,7 @@ abstract class MPD9AbstractReader
    protected void reset()
    {
       m_calendarMap.clear();
-      m_baseCalendars.clear();
+      m_baseCalendarReferences.clear();
       m_resourceMap.clear();
       m_assignmentMap.clear();
    }
@@ -244,18 +244,15 @@ abstract class MPD9AbstractReader
          ProjectCalendar cal = null;
          if (baseCalendar == true)
          {
-            cal = m_project.addBaseCalendar();
+            cal = m_project.addCalendar();
             cal.setName(row.getString("CAL_NAME"));
          }
          else
          {
             Integer resourceID = row.getInteger("RES_UID");
-            if (resourceID != null && resourceID.intValue() != 0)
-            {
-               cal = m_project.addResourceCalendar();
-               m_baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, row.getInteger("CAL_BASE_UID")));
-               m_resourceMap.put(resourceID, cal);
-            }
+            cal = m_project.addCalendar();
+            m_baseCalendarReferences.add(new Pair<ProjectCalendar, Integer>(cal, row.getInteger("CAL_BASE_UID")));
+            m_resourceMap.put(resourceID, cal);
          }
 
          if (cal != null)
@@ -371,7 +368,7 @@ abstract class MPD9AbstractReader
     */
    protected void updateBaseCalendarNames()
    {
-      for (Pair<ProjectCalendar, Integer> pair : m_baseCalendars)
+      for (Pair<ProjectCalendar, Integer> pair : m_baseCalendarReferences)
       {
          ProjectCalendar cal = pair.getFirst();
          Integer baseCalendarID = pair.getSecond();
@@ -597,7 +594,7 @@ abstract class MPD9AbstractReader
             resource.setNotes(notes);
          }
 
-         resource.setResourceCalendar(m_project.getBaseCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
+         resource.setResourceCalendar(m_project.getCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
 
          //
          // Calculate the cost variance
@@ -826,7 +823,7 @@ abstract class MPD9AbstractReader
          task.setBaselineWork(row.getDuration("TASK_BASE_WORK"));
          //task.setBCWP(row.getCurrency("TASK_BCWP")); //@todo FIXME
          //task.setBCWS(row.getCurrency("TASK_BCWS")); //@todo FIXME
-         task.setCalendar(m_project.getBaseCalendarByUniqueID(row.getInteger("TASK_CAL_UID")));
+         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("TASK_CAL_UID")));
          //task.setConfirmed();
          task.setConstraintDate(row.getDate("TASK_CONSTRAINT_DATE"));
          task.setConstraintType(ConstraintType.getInstance(row.getInt("TASK_CONSTRAINT_TYPE")));
@@ -1146,7 +1143,7 @@ abstract class MPD9AbstractReader
       Resource resource = m_project.getResourceByUniqueID(row.getInteger("RES_UID"));
       Task task = m_project.getTaskByUniqueID(row.getInteger("TASK_UID"));
 
-      if (task != null && resource != null)
+      if (task != null)
       {
          ResourceAssignment assignment = task.addResourceAssignment(resource);
          m_assignmentMap.put(row.getInteger("ASSN_UID"), assignment);
@@ -1341,7 +1338,7 @@ abstract class MPD9AbstractReader
    private RTFUtility m_rtf = new RTFUtility();
 
    private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<Integer, ProjectCalendar>();
-   private List<Pair<ProjectCalendar, Integer>> m_baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
+   private List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new LinkedList<Pair<ProjectCalendar, Integer>>();
    private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<Integer, ProjectCalendar>();
    private Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<Integer, ResourceAssignment>();
 }

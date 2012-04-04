@@ -49,7 +49,7 @@ public final class MPPResourceField
       }
       else
       {
-         if ((value & 0x8000) !=0)
+         if ((value & 0x8000) != 0)
          {
             int baseValue = ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue();
             int id = baseValue + (value & 0xFFF);

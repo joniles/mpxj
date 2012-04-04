@@ -24,9 +24,7 @@
 package net.sf.mpxj;
 
 /**
- * This class represents the relationship between two tasks. These
- * relationships normally found in the lists of predecessors and
- * successors associated with a task record in an MPX file.
+ * This class represents the relationship between two tasks.
  */
 public final class Relation
 {

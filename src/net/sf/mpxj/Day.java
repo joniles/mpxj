@@ -23,17 +23,28 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.EnumUtility;
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated day values.
  */
-public class Day
+public enum Day implements MpxjEnum
 {
+   SUNDAY(1),
+   MONDAY(2),
+   TUESDAY(3),
+   WEDNESDAY(4),
+   THURSDAY(5),
+   FRIDAY(6),
+   SATURDAY(7);
+
    /**
     * Protected constructor.
     *
     * @param value day value
     */
-   protected Day(int value)
+   private Day(int value)
    {
       m_value = value;
    }
@@ -43,7 +54,7 @@ public class Day
     *
     * @return task type value
     */
-   public int getValue()
+   @Override public int getValue()
    {
       return (m_value);
    }
@@ -68,50 +79,28 @@ public class Day
    /**
     * Retrieve a Day instance representing the supplied value.
     *
-    * @param value task type value
+    * @param type type value
     * @return Day instance
     */
-   public static Day getInstance(int value)
+   public static Day getInstance(int type)
    {
-      Day result = null;
+      Day result;
 
-      if (value >= 0 && value < DAY_ARRAY.length)
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         result = DAY_ARRAY[value];
+         result = null;
       }
-
-      return (result);
+      else
+      {
+         result = TYPE_VALUES[type];
+      }
+      return result;
    }
 
    /**
-    * Retrieves the string representation of this instance.
-    *
-    * @return string representation
+    * Array mapping int types to enums.
     */
-   @Override public String toString()
-   {
-      return (Integer.toString(m_value));
-   }
+   private static final Day[] TYPE_VALUES = EnumUtility.createTypeArray(Day.class, 1);
 
    private int m_value;
-
-   public static final Day SUNDAY = new Day(1);
-   public static final Day MONDAY = new Day(2);
-   public static final Day TUESDAY = new Day(3);
-   public static final Day WEDNESDAY = new Day(4);
-   public static final Day THURSDAY = new Day(5);
-   public static final Day FRIDAY = new Day(6);
-   public static final Day SATURDAY = new Day(7);
-
-   private static final Day[] DAY_ARRAY =
-   {
-      null,
-      SUNDAY,
-      MONDAY,
-      TUESDAY,
-      WEDNESDAY,
-      THURSDAY,
-      FRIDAY,
-      SATURDAY
-   };
 }

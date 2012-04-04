@@ -354,17 +354,7 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars)
    {
-      ProjectCalendar bc;
-
-      if (BooleanUtility.getBoolean(calendar.isIsBaseCalendar()) == true)
-      {
-         bc = m_projectFile.addBaseCalendar();
-      }
-      else
-      {
-         bc = m_projectFile.addResourceCalendar();
-      }
-
+      ProjectCalendar bc = m_projectFile.addCalendar();
       bc.setUniqueID(NumberUtility.getInteger(calendar.getUID()));
       bc.setName(calendar.getName());
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
@@ -1194,7 +1184,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger calendarID = task.getCalendarUID();
       if (calendarID != null)
       {
-         calendar = m_projectFile.getBaseCalendarByUniqueID(Integer.valueOf(calendarID.intValue()));
+         calendar = m_projectFile.getCalendarByUniqueID(Integer.valueOf(calendarID.intValue()));
       }
 
       return (calendar);

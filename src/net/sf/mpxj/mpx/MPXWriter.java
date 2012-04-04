@@ -36,11 +36,12 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
@@ -233,7 +234,7 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write project calendars
       //
-      for (ProjectCalendar cal : m_projectFile.getBaseCalendars())
+      for (ProjectCalendar cal : m_projectFile.getCalendars())
       {
          writeCalendar(cal);
       }
@@ -316,58 +317,64 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeCalendar(ProjectCalendar record) throws IOException
    {
-      m_buffer.setLength(0);
-
-      if (record.getParent() == null)
+      //
+      // Test used to ensure that we don't write the default calendar used for the "Unassigned" resource
+      //
+      if (record.getParent() == null || record.getResource() != null)
       {
-         m_buffer.append(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
-         m_buffer.append(m_delimiter);
-         if (record.getName() != null)
+         m_buffer.setLength(0);
+
+         if (record.getParent() == null)
          {
-            m_buffer.append(record.getName());
+            m_buffer.append(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
+            m_buffer.append(m_delimiter);
+            if (record.getName() != null)
+            {
+               m_buffer.append(record.getName());
+            }
          }
-      }
-      else
-      {
-         m_buffer.append(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
-         m_buffer.append(m_delimiter);
-         m_buffer.append(record.getParent().getName());
-      }
-
-      DayType[] days = record.getDays();
-      for (int loop = 0; loop < days.length; loop++)
-      {
-         m_buffer.append(m_delimiter);
-         m_buffer.append(days[loop].getValue());
-      }
-
-      m_buffer.append(MPXConstants.EOL);
-      m_writer.write(m_buffer.toString());
-
-      ProjectCalendarHours[] hours = record.getHours();
-      for (int loop = 0; loop < hours.length; loop++)
-      {
-         if (hours[loop] != null)
+         else
          {
-            writeCalendarHours(record, hours[loop]);
+            m_buffer.append(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
+            m_buffer.append(m_delimiter);
+            m_buffer.append(record.getParent().getName());
          }
-      }
 
-      if (!record.getCalendarExceptions().isEmpty())
-      {
-         //
-         // A quirk of MS Project is that these exceptions must be
-         // in date order in the file, otherwise they are ignored.
-         // The getCalendarExceptions method now guarantees that
-         // the exceptions list is sorted when retrieved.
-         //
-         for (ProjectCalendarException ex : record.getCalendarExceptions())
+         DayType[] days = record.getDays();
+         for (int loop = 0; loop < days.length; loop++)
          {
-            writeCalendarException(record, ex);
+            m_buffer.append(m_delimiter);
+            m_buffer.append(days[loop].getValue());
          }
-      }
 
-      m_projectFile.fireCalendarWrittenEvent(record);
+         m_buffer.append(MPXConstants.EOL);
+         m_writer.write(m_buffer.toString());
+
+         ProjectCalendarHours[] hours = record.getHours();
+         for (int loop = 0; loop < hours.length; loop++)
+         {
+            if (hours[loop] != null)
+            {
+               writeCalendarHours(record, hours[loop]);
+            }
+         }
+
+         if (!record.getCalendarExceptions().isEmpty())
+         {
+            //
+            // A quirk of MS Project is that these exceptions must be
+            // in date order in the file, otherwise they are ignored.
+            // The getCalendarExceptions method now guarantees that
+            // the exceptions list is sorted when retrieved.
+            //
+            for (ProjectCalendarException ex : record.getCalendarExceptions())
+            {
+               writeCalendarException(record, ex);
+            }
+         }
+
+         m_projectFile.fireCalendarWrittenEvent(record);
+      }
    }
 
    /**
@@ -944,7 +951,14 @@ public final class MPXWriter extends AbstractProjectWriter
             }
             else
             {
-               result = o.toString();
+               if (o instanceof Day)
+               {
+                  result = Integer.toString(((Day) o).getValue());
+               }
+               else
+               {
+                  result = o.toString();
+               }
             }
          }
 

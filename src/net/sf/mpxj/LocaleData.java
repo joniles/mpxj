@@ -987,7 +987,7 @@ public class LocaleData extends ListResourceBundle
 
       TASK_COLUMNS_ARRAY[TaskField.MANUAL_DURATION.getValue()] = "Manual Duration";
       TASK_COLUMNS_ARRAY[TaskField.MANUAL_DURATION_UNITS.getValue()] = "Manual Duration Units";
-      
+
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";
@@ -1621,7 +1621,7 @@ public class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD48.getValue()] = "Enterprise Custom Field 48";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD49.getValue()] = "Enterprise Custom Field 49";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD50.getValue()] = "Enterprise Custom Field 50";
-      
+
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.WORK.getValue()] = "Work";
@@ -2110,7 +2110,7 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION8_UNITS.getValue()] = "Duration8 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION9_UNITS.getValue()] = "Duration9 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION10_UNITS.getValue()] = "Duration10 Units";
-      
+
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";
@@ -2160,7 +2160,7 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD47.getValue()] = "Enterprise Custom Field 47";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD48.getValue()] = "Enterprise Custom Field 48";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD49.getValue()] = "Enterprise Custom Field 49";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD50.getValue()] = "Enterprise Custom Field 50";      
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD50.getValue()] = "Enterprise Custom Field 50";
    }
 
    private static final Object[][] RESOURCES =

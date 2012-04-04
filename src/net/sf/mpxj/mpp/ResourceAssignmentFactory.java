@@ -119,18 +119,18 @@ public class ResourceAssignmentFactory
          ResourceAssignment assignment = new ResourceAssignment(file);
 
          assignment.disableEvents();
-         
+
          fieldMap.populateContainer(assignment, varDataId, new byte[][]
          {
             data,
             data2
          }, assnVarData);
-         
+
          if (enterpriseCustomFieldMap != null)
          {
             enterpriseCustomFieldMap.populateContainer(assignment, varDataId, null, assnVarData);
          }
-         
+
          assignment.enableEvents();
 
          if (fieldMap.getFieldLocation(AssignmentField.FLAG1) != FieldMap.FieldLocation.VAR_DATA)

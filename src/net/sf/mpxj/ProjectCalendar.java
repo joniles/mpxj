@@ -223,25 +223,19 @@ public final class ProjectCalendar extends ProjectCalendarWeek
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
-      int dayIndex = cal.get(Calendar.DAY_OF_WEEK);
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
+      Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), Day.getInstance(dayIndex)) == true)
+         if (isWorkingDate(cal.getTime(), day) == true)
          {
             ++duration;
          }
 
          --days;
-
-         ++dayIndex;
-         if (dayIndex > 7)
-         {
-            dayIndex = 1;
-         }
-
+         day = day.getNextDay();
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
 

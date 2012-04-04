@@ -202,7 +202,7 @@ public final class PlannerReader extends AbstractProjectReader
          }
 
          Integer defaultCalendarID = getInteger(project.getCalendar());
-         m_defaultCalendar = m_projectFile.getBaseCalendarByUniqueID(defaultCalendarID);
+         m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
          if (m_defaultCalendar != null)
          {
             m_projectFile.getProjectHeader().setCalendarName(m_defaultCalendar.getName());
@@ -221,15 +221,7 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Create a calendar instance
       //
-      ProjectCalendar mpxjCalendar;
-      if (parentMpxjCalendar == null)
-      {
-         mpxjCalendar = m_projectFile.addBaseCalendar();
-      }
-      else
-      {
-         mpxjCalendar = m_projectFile.addResourceCalendar();
-      }
+      ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
 
       //
       // Populate basic details
@@ -513,7 +505,7 @@ public final class PlannerReader extends AbstractProjectReader
       calendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
       calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
 
-      ProjectCalendar baseCalendar = m_projectFile.getBaseCalendarByUniqueID(getInteger(plannerResource.getCalendar()));
+      ProjectCalendar baseCalendar = m_projectFile.getCalendarByUniqueID(getInteger(plannerResource.getCalendar()));
       if (baseCalendar == null)
       {
          baseCalendar = m_defaultCalendar;
