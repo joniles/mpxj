@@ -14,6 +14,7 @@
 		<action dev="joniles" type="update">Updated to remove the distinction between base calendar and resource calendars in the ProjectFile class.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3479557: getTimephasedOvertimeWork can return TimephasedWork with NaN</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3480621: Support for timephased cost for cost type resources</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3496435: Rolled Up tasks don't use default duration units</action>
 	</release>
 	
 	<release version="4.3.0" date="08/02/2012">

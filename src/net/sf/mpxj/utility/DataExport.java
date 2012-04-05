@@ -195,10 +195,10 @@ public final class DataExport
          {
             switch (columnTypes[index])
             {
-               case Types.BINARY :
-               case Types.BLOB :
-               case Types.LONGVARBINARY :
-               case Types.VARBINARY :
+               case Types.BINARY:
+               case Types.BLOB:
+               case Types.LONGVARBINARY:
+               case Types.VARBINARY:
                {
                   pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
 
@@ -209,8 +209,8 @@ public final class DataExport
                   break;
                }
 
-               case Types.DATE :
-               case Types.TIME :
+               case Types.DATE:
+               case Types.TIME:
                {
                   Date data = rs.getDate(index + 1);
                   //if (data != null)
@@ -225,7 +225,7 @@ public final class DataExport
                   break;
                }
 
-               case Types.TIMESTAMP :
+               case Types.TIMESTAMP:
                {
                   Timestamp data = rs.getTimestamp(index + 1);
                   //if (data != null)
@@ -240,7 +240,7 @@ public final class DataExport
                   break;
                }
 
-               case Types.NUMERIC :
+               case Types.NUMERIC:
                {
                   //
                   // If we have a non-null value, map the value to a
@@ -292,7 +292,7 @@ public final class DataExport
                   break;
                }
 
-               default :
+               default:
                {
                   String data = rs.getString(index + 1);
                   //if (data != null)
@@ -338,25 +338,25 @@ public final class DataExport
 
          switch (c)
          {
-            case '<' :
+            case '<':
             {
                sb.append("&lt;");
                break;
             }
 
-            case '>' :
+            case '>':
             {
                sb.append("&gt;");
                break;
             }
 
-            case '&' :
+            case '&':
             {
                sb.append("&amp;");
                break;
             }
 
-            default :
+            default:
             {
                if (validXMLCharacter(c) == true)
                {

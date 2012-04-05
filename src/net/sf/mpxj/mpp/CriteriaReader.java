@@ -205,33 +205,33 @@ public abstract class CriteriaReader
          {
             switch (block[0])
             {
-               case (byte) 0x0B :
+               case (byte) 0x0B:
                {
                   processBlock(list, getChildBlock(block));
                   break;
                }
 
-               case (byte) 0x06 :
+               case (byte) 0x06:
                {
                   processBlock(list, getListNextBlock(block));
                   break;
                }
 
-               case (byte) 0xED : // EQUALS
+               case (byte) 0xED: // EQUALS
                {
                   addCriteria(list, block);
                   break;
                }
 
-               case (byte) 0x19 : // AND
-               case (byte) 0x1B :
+               case (byte) 0x19: // AND
+               case (byte) 0x1B:
                {
                   addBlock(list, block, TestOperator.AND);
                   break;
                }
 
-               case (byte) 0x1A : // OR
-               case (byte) 0x1C :
+               case (byte) 0x1A: // OR
+               case (byte) 0x1C:
                {
                   addBlock(list, block, TestOperator.OR);
                   break;
@@ -307,19 +307,19 @@ public abstract class CriteriaReader
 
       switch (block[0])
       {
-         case 0x07 : // Field
+         case 0x07: // Field
          {
             result = getFieldType(block);
             break;
          }
 
-         case 0x01 : // Constant value
+         case 0x01: // Constant value
          {
             result = getConstantValue(field, block);
             break;
          }
 
-         case 0x00 : // Prompt
+         case 0x00: // Prompt
          {
             result = getPromptValue(field, block);
             break;
@@ -342,51 +342,51 @@ public abstract class CriteriaReader
 
       switch (type.getDataType())
       {
-         case DURATION :
+         case DURATION:
          {
             value = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
             break;
          }
 
-         case NUMERIC :
+         case NUMERIC:
          {
             value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()));
             break;
          }
 
-         case PERCENTAGE :
+         case PERCENTAGE:
          {
             value = Double.valueOf(MPPUtility.getShort(block, getValueOffset()));
             break;
          }
 
-         case CURRENCY :
+         case CURRENCY:
          {
             value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()) / 100);
             break;
          }
 
-         case STRING :
+         case STRING:
          {
             int textOffset = getTextOffset(block);
             value = MPPUtility.getUnicodeString(m_criteriaData, m_dataOffset + m_criteriaTextStart + textOffset);
             break;
          }
 
-         case BOOLEAN :
+         case BOOLEAN:
          {
             int intValue = MPPUtility.getShort(block, getValueOffset());
             value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
             break;
          }
 
-         case DATE :
+         case DATE:
          {
             value = MPPUtility.getTimestamp(block, getValueOffset());
             break;
          }
 
-         default :
+         default:
          {
             value = null;
             break;

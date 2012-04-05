@@ -882,26 +882,26 @@ public final class MSPDIWriter extends AbstractProjectWriter
          DataType dataType = type.getDataType();
          switch (dataType)
          {
-            case BOOLEAN :
+            case BOOLEAN:
             {
                write = ((Boolean) value).booleanValue();
                break;
             }
 
-            case CURRENCY :
-            case NUMERIC :
+            case CURRENCY:
+            case NUMERIC:
             {
                write = (((Number) value).intValue() != 0);
                break;
             }
 
-            case DURATION :
+            case DURATION:
             {
                write = (((Duration) value).getDuration() != 0);
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

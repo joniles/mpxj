@@ -268,7 +268,7 @@ final class MPP9Reader implements MPPVariantReader
             // Subproject that is no longer inserted. This is a placeholder in order to be
             // able to always guarantee unique unique ids.
             //
-               case 0x00 :
+               case 0x00:
                {
                   offset += 8;
                   break;
@@ -277,9 +277,9 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case (byte) 0x99 :
-               case 0x09 :
-               case 0x0D :
+               case (byte) 0x99:
+               case 0x09:
+               case 0x0D:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -300,7 +300,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case (byte) 0x91 :
+               case (byte) 0x91:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -318,8 +318,8 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               case 0x11 :
-               case 0x03 :
+               case 0x11:
+               case 0x03:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -340,8 +340,8 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, path, unknown, file name
                //
-               case (byte) 0x81 :
-               case 0x41 :
+               case (byte) 0x81:
+               case 0x41:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -362,8 +362,8 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case 0x01 :
-               case 0x08 :
+               case 0x01:
+               case 0x08:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -381,7 +381,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case (byte) 0xC0 :
+               case (byte) 0xC0:
                {
                   uniqueIDOffset = itemHeaderOffset;
 
@@ -401,7 +401,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // resource, task unique ID, path, file name
                //
-               case 0x05 :
+               case 0x05:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -417,7 +417,7 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               case 0x45 :
+               case 0x45:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -437,8 +437,8 @@ final class MPP9Reader implements MPPVariantReader
                //
                // path, file name
                //
-               case 0x02 :
-               case 0x04 :
+               case 0x02:
+               case 0x04:
                {
                   filePathOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -458,7 +458,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 4 bytes, path, 4 bytes, file name
                //
-               case (byte) 0x8D :
+               case (byte) 0x8D:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 8;
@@ -476,7 +476,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case 0x0A :
+               case 0x0A:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -494,21 +494,21 @@ final class MPP9Reader implements MPPVariantReader
                //
                // Appears when a subproject is collapsed
                //
-               case (byte) 0x80 :
+               case (byte) 0x80:
                {
                   offset += 12;
                   break;
                }
 
                // deleted entry?
-               case 0x10 :
+               case 0x10:
                {
                   offset += 8;
                   break;
                }
 
                // new resource pool entry
-               case (byte) 0x44 :
+               case (byte) 0x44:
                {
                   filePathOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -526,7 +526,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // Any other value, assume 12 bytes to handle old/deleted data?
                //
-               default :
+               default:
                {
                   offset += 12;
                   break;
@@ -560,19 +560,19 @@ final class MPP9Reader implements MPPVariantReader
             {
                switch (value)
                {
-                  case SUBPROJECT_TASKUNIQUEID0 :
-                  case SUBPROJECT_TASKUNIQUEID1 :
-                  case SUBPROJECT_TASKUNIQUEID2 :
-                  case SUBPROJECT_TASKUNIQUEID3 :
-                  case SUBPROJECT_TASKUNIQUEID4 :
-                  case SUBPROJECT_TASKUNIQUEID5 :
+                  case SUBPROJECT_TASKUNIQUEID0:
+                  case SUBPROJECT_TASKUNIQUEID1:
+                  case SUBPROJECT_TASKUNIQUEID2:
+                  case SUBPROJECT_TASKUNIQUEID3:
+                  case SUBPROJECT_TASKUNIQUEID4:
+                  case SUBPROJECT_TASKUNIQUEID5:
                      // The previous value was for the subproject unique task id
                      sp.setTaskUniqueID(Integer.valueOf(prev));
                      m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                      prev = 0;
                      break;
 
-                  default :
+                  default:
                      if (prev != 0)
                      {
                         // The previous value was for an external task unique task id
@@ -1039,7 +1039,7 @@ final class MPP9Reader implements MPPVariantReader
 
       switch (field.getDataType())
       {
-         case DATE :
+         case DATE:
             while (offset + 4 <= data.length)
             {
                Date date = MPPUtility.getTimestamp(data, offset);
@@ -1047,7 +1047,7 @@ final class MPP9Reader implements MPPVariantReader
                offset += 4;
             }
             break;
-         case CURRENCY :
+         case CURRENCY:
             while (offset + 8 <= data.length)
             {
                Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
@@ -1055,7 +1055,7 @@ final class MPP9Reader implements MPPVariantReader
                offset += 8;
             }
             break;
-         case NUMERIC :
+         case NUMERIC:
             while (offset + 8 <= data.length)
             {
                Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset));
@@ -1063,7 +1063,7 @@ final class MPP9Reader implements MPPVariantReader
                offset += 8;
             }
             break;
-         case DURATION :
+         case DURATION:
             while (offset + 6 <= data.length)
             {
                Duration duration = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
@@ -1071,7 +1071,7 @@ final class MPP9Reader implements MPPVariantReader
                offset += 6;
             }
             break;
-         case STRING :
+         case STRING:
             while (offset < data.length)
             {
                String s = MPPUtility.getUnicodeString(data, offset);
@@ -1079,7 +1079,7 @@ final class MPP9Reader implements MPPVariantReader
                offset += s.length() * 2 + 2;
             }
             break;
-         case BOOLEAN :
+         case BOOLEAN:
             while (offset + 2 <= data.length)
             {
                boolean b = (MPPUtility.getShort(data, offset) == 0x01);
@@ -1087,7 +1087,7 @@ final class MPP9Reader implements MPPVariantReader
                offset += 2;
             }
             break;
-         default :
+         default:
             return null;
       }
 
@@ -1780,7 +1780,7 @@ final class MPP9Reader implements MPPVariantReader
          // Adjust the start and finish dates if the task
          // is constrained to start as late as possible.
          //            
-            case AS_LATE_AS_POSSIBLE :
+            case AS_LATE_AS_POSSIBLE:
             {
                if (DateUtility.compare(task.getStart(), task.getLateStart()) < 0)
                {
@@ -1793,8 +1793,8 @@ final class MPP9Reader implements MPPVariantReader
                break;
             }
 
-            case START_NO_LATER_THAN :
-            case FINISH_NO_LATER_THAN :
+            case START_NO_LATER_THAN:
+            case FINISH_NO_LATER_THAN:
             {
                if (DateUtility.compare(task.getFinish(), task.getStart()) < 0)
                {
@@ -1803,7 +1803,7 @@ final class MPP9Reader implements MPPVariantReader
                break;
             }
 
-            default :
+            default:
             {
                break;
             }
@@ -1961,26 +1961,26 @@ final class MPP9Reader implements MPPVariantReader
 
                switch (field.getDataType())
                {
-                  case CURRENCY :
+                  case CURRENCY:
                   {
                      value = Double.valueOf(props.getDouble(key) / 100);
                      break;
                   }
 
-                  case DATE :
+                  case DATE:
                   {
                      value = props.getTimestamp(key);
                      break;
                   }
 
-                  case WORK :
+                  case WORK:
                   {
                      double durationValueInHours = MPPUtility.getDouble(props.getByteArray(key)) / 60000;
                      value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
                      break;
                   }
 
-                  case DURATION :
+                  case DURATION:
                   {
                      byte[] durationData = props.getByteArray(key);
                      double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
@@ -1998,7 +1998,7 @@ final class MPP9Reader implements MPPVariantReader
                      break;
                   }
 
-                  case BOOLEAN :
+                  case BOOLEAN:
                   {
                      field = null;
                      int bits = props.getInt(key);
@@ -2025,25 +2025,25 @@ final class MPP9Reader implements MPPVariantReader
                      break;
                   }
 
-                  case NUMERIC :
+                  case NUMERIC:
                   {
                      value = Double.valueOf(props.getDouble(key));
                      break;
                   }
 
-                  case STRING :
+                  case STRING:
                   {
                      value = props.getUnicodeString(key);
                      break;
                   }
 
-                  case PERCENTAGE :
+                  case PERCENTAGE:
                   {
                      value = Integer.valueOf(props.getShort(key));
                      break;
                   }
 
-                  default :
+                  default:
                   {
                      break;
                   }
@@ -2090,19 +2090,19 @@ final class MPP9Reader implements MPPVariantReader
 
                switch (field.getDataType())
                {
-                  case CURRENCY :
+                  case CURRENCY:
                   {
                      value = Double.valueOf(props.getDouble(key) / 100);
                      break;
                   }
 
-                  case DATE :
+                  case DATE:
                   {
                      value = props.getTimestamp(key);
                      break;
                   }
 
-                  case DURATION :
+                  case DURATION:
                   {
                      byte[] durationData = props.getByteArray(key);
                      double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
@@ -2121,7 +2121,7 @@ final class MPP9Reader implements MPPVariantReader
 
                   }
 
-                  case BOOLEAN :
+                  case BOOLEAN:
                   {
                      field = null;
                      int bits = props.getInt(key);
@@ -2148,19 +2148,19 @@ final class MPP9Reader implements MPPVariantReader
                      break;
                   }
 
-                  case NUMERIC :
+                  case NUMERIC:
                   {
                      value = Double.valueOf(props.getDouble(key));
                      break;
                   }
 
-                  case STRING :
+                  case STRING:
                   {
                      value = props.getUnicodeString(key);
                      break;
                   }
 
-                  default :
+                  default:
                   {
                      break;
                   }

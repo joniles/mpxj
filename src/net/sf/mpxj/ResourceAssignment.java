@@ -2693,50 +2693,50 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       //
       switch (field)
       {
-         case START :
-         case BASELINE_START :
+         case START:
+         case BASELINE_START:
          {
             m_array[AssignmentField.START_VARIANCE.getValue()] = null;
             break;
          }
 
-         case FINISH :
-         case BASELINE_FINISH :
+         case FINISH:
+         case BASELINE_FINISH:
          {
             m_array[AssignmentField.FINISH_VARIANCE.getValue()] = null;
             break;
          }
 
-         case BCWP :
-         case ACWP :
+         case BCWP:
+         case ACWP:
          {
             m_array[AssignmentField.CV.getValue()] = null;
             m_array[AssignmentField.SV.getValue()] = null;
             break;
          }
 
-         case COST :
-         case BASELINE_COST :
+         case COST:
+         case BASELINE_COST:
          {
             m_array[AssignmentField.COST_VARIANCE.getValue()] = null;
             break;
          }
 
-         case WORK :
-         case BASELINE_WORK :
+         case WORK:
+         case BASELINE_WORK:
          {
             m_array[AssignmentField.WORK_VARIANCE.getValue()] = null;
             break;
          }
 
-         case ACTUAL_OVERTIME_COST :
-         case REMAINING_OVERTIME_COST :
+         case ACTUAL_OVERTIME_COST:
+         case REMAINING_OVERTIME_COST:
          {
             m_array[AssignmentField.OVERTIME_COST.getValue()] = null;
             break;
          }
 
-         default :
+         default:
          {
             break;
          }

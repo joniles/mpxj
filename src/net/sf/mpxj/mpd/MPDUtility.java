@@ -55,26 +55,26 @@ public final class MPDUtility
 
       switch (value)
       {
-         case 1 :
+         case 1:
          {
             result = CurrencySymbolPosition.AFTER;
             break;
          }
 
-         case 2 :
+         case 2:
          {
             result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
             break;
          }
 
-         case 3 :
+         case 3:
          {
             result = CurrencySymbolPosition.AFTER_WITH_SPACE;
             break;
          }
 
-         case 0 :
-         default :
+         case 0:
+         default:
          {
             result = CurrencySymbolPosition.BEFORE;
             break;
@@ -98,62 +98,62 @@ public final class MPDUtility
 
       switch (type & DURATION_UNITS_MASK)
       {
-         case 3 :
+         case 3:
          {
             units = TimeUnit.MINUTES;
             break;
          }
 
-         case 4 :
+         case 4:
          {
             units = TimeUnit.ELAPSED_MINUTES;
             break;
          }
 
-         case 5 :
+         case 5:
          {
             units = TimeUnit.HOURS;
             break;
          }
 
-         case 6 :
+         case 6:
          {
             units = TimeUnit.ELAPSED_HOURS;
             break;
          }
 
-         case 8 :
+         case 8:
          {
             units = TimeUnit.ELAPSED_DAYS;
             break;
          }
 
-         case 9 :
+         case 9:
          {
             units = TimeUnit.WEEKS;
             break;
          }
 
-         case 10 :
+         case 10:
          {
             units = TimeUnit.ELAPSED_WEEKS;
             break;
          }
 
-         case 11 :
+         case 11:
          {
             units = TimeUnit.MONTHS;
             break;
          }
 
-         case 12 :
+         case 12:
          {
             units = TimeUnit.ELAPSED_MONTHS;
             break;
          }
 
-         default :
-         case 7 :
+         default:
+         case 7:
          {
             units = TimeUnit.DAYS;
             break;
@@ -179,23 +179,23 @@ public final class MPDUtility
       Duration result;
       switch (timeUnit)
       {
-         case MINUTES :
-         case ELAPSED_MINUTES :
+         case MINUTES:
+         case ELAPSED_MINUTES:
          {
             double totalMinutes = duration / 10;
             result = Duration.getInstance(totalMinutes, timeUnit);
             break;
          }
 
-         case HOURS :
-         case ELAPSED_HOURS :
+         case HOURS:
+         case ELAPSED_HOURS:
          {
             double totalHours = duration / 600;
             result = Duration.getInstance(totalHours, timeUnit);
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
             double totalDays = 0;
@@ -207,7 +207,7 @@ public final class MPDUtility
             break;
          }
 
-         case ELAPSED_DAYS :
+         case ELAPSED_DAYS:
          {
             double unitsPerDay = 24d * 600d;
             double totalDays = duration / unitsPerDay;
@@ -215,7 +215,7 @@ public final class MPDUtility
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
             double totalWeeks = 0;
@@ -227,7 +227,7 @@ public final class MPDUtility
             break;
          }
 
-         case ELAPSED_WEEKS :
+         case ELAPSED_WEEKS:
          {
             double unitsPerWeek = (60 * 24 * 7 * 10);
             double totalWeeks = duration / unitsPerWeek;
@@ -235,7 +235,7 @@ public final class MPDUtility
             break;
          }
 
-         case ELAPSED_MONTHS :
+         case ELAPSED_MONTHS:
          {
             double unitsPerMonth = (60 * 24 * 30 * 10);
             double totalMonths = duration / unitsPerMonth;
@@ -243,14 +243,14 @@ public final class MPDUtility
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             double totalMonths = duration / 96000;
             result = Duration.getInstance(totalMonths, timeUnit);
             break;
          }
 
-         default :
+         default:
          {
             result = Duration.getInstance(duration, timeUnit);
             break;
@@ -274,57 +274,57 @@ public final class MPDUtility
       // Value is given in 1/10 of minute
       switch (type)
       {
-         case MINUTES :
-         case ELAPSED_MINUTES :
+         case MINUTES:
+         case ELAPSED_MINUTES:
          {
             duration = value / 10;
             break;
          }
 
-         case HOURS :
-         case ELAPSED_HOURS :
+         case HOURS:
+         case ELAPSED_HOURS:
          {
             duration = value / 600; // 60 * 10
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             duration = value / 4800; // 8 * 60 * 10
             break;
          }
 
-         case ELAPSED_DAYS :
+         case ELAPSED_DAYS:
          {
             duration = value / 14400; // 24 * 60 * 10
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             duration = value / 24000; // 5 * 8 * 60 * 10
             break;
          }
 
-         case ELAPSED_WEEKS :
+         case ELAPSED_WEEKS:
          {
             duration = value / 100800; // 7 * 24 * 60 * 10
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             duration = value / 96000; // 4 * 5 * 8 * 60 * 10
             break;
          }
 
-         case ELAPSED_MONTHS :
+         case ELAPSED_MONTHS:
          {
             duration = value / 432000; // 30 * 24 * 60 * 10
             break;
          }
 
-         default :
+         default:
          {
             duration = value;
             break;

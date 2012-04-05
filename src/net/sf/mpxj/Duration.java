@@ -127,62 +127,62 @@ public final class Duration implements Comparable<Duration>
    {
       switch (fromUnits)
       {
-         case YEARS :
+         case YEARS:
          {
             duration *= (minutesPerWeek * 52);
             break;
          }
 
-         case ELAPSED_YEARS :
+         case ELAPSED_YEARS:
          {
             duration *= (60 * 24 * 7 * 52);
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             duration *= (minutesPerDay * daysPerMonth);
             break;
          }
 
-         case ELAPSED_MONTHS :
+         case ELAPSED_MONTHS:
          {
             duration *= (60 * 24 * 30);
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             duration *= minutesPerWeek;
             break;
          }
 
-         case ELAPSED_WEEKS :
+         case ELAPSED_WEEKS:
          {
             duration *= (60 * 24 * 7);
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             duration *= minutesPerDay;
             break;
          }
 
-         case ELAPSED_DAYS :
+         case ELAPSED_DAYS:
          {
             duration *= (60 * 24);
             break;
          }
 
-         case HOURS :
-         case ELAPSED_HOURS :
+         case HOURS:
+         case ELAPSED_HOURS:
          {
             duration *= 60;
             break;
          }
 
-         default :
+         default:
          {
             break;
          }
@@ -192,14 +192,14 @@ public final class Duration implements Comparable<Duration>
       {
          switch (toUnits)
          {
-            case HOURS :
-            case ELAPSED_HOURS :
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                duration /= 60;
                break;
             }
 
-            case DAYS :
+            case DAYS:
             {
                if (minutesPerDay != 0)
                {
@@ -212,13 +212,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_DAYS :
+            case ELAPSED_DAYS:
             {
                duration /= (60 * 24);
                break;
             }
 
-            case WEEKS :
+            case WEEKS:
             {
                if (minutesPerWeek != 0)
                {
@@ -231,13 +231,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_WEEKS :
+            case ELAPSED_WEEKS:
             {
                duration /= (60 * 24 * 7);
                break;
             }
 
-            case MONTHS :
+            case MONTHS:
             {
                if (minutesPerDay != 0 && daysPerMonth != 0)
                {
@@ -250,13 +250,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_MONTHS :
+            case ELAPSED_MONTHS:
             {
                duration /= (60 * 24 * 30);
                break;
             }
 
-            case YEARS :
+            case YEARS:
             {
                if (minutesPerWeek != 0)
                {
@@ -269,13 +269,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_YEARS :
+            case ELAPSED_YEARS:
             {
                duration /= (60 * 24 * 7 * 52);
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

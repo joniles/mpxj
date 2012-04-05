@@ -134,36 +134,36 @@ public final class GroupReader14
             {
                switch (type.getDataType())
                {
-                  case DURATION :
-                  case NUMERIC :
-                  case CURRENCY :
+                  case DURATION:
+                  case NUMERIC:
+                  case CURRENCY:
                   {
                      startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 47));
                      groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 63));
                      break;
                   }
 
-                  case PERCENTAGE :
+                  case PERCENTAGE:
                   {
                      startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 47));
                      groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
                      break;
                   }
 
-                  case BOOLEAN :
+                  case BOOLEAN:
                   {
                      startAt = (MPPUtility.getShort(groupVarData, offset + 47) == 1 ? Boolean.TRUE : Boolean.FALSE);
                      break;
                   }
 
-                  case DATE :
+                  case DATE:
                   {
                      startAt = MPPUtility.getTimestamp(groupVarData, offset + 47);
                      groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
                      break;
                   }
 
-                  default :
+                  default:
                   {
                      break;
                   }

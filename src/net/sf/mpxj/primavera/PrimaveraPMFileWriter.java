@@ -590,19 +590,19 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       switch (resource.getType())
       {
-         case MATERIAL :
+         case MATERIAL:
          {
             result = "Material";
             break;
          }
 
-         case COST :
+         case COST:
          {
             result = "Nonlabor";
             break;
          }
 
-         default :
+         default:
          {
             result = "Labor";
             break;

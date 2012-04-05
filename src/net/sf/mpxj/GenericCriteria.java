@@ -149,7 +149,7 @@ public class GenericCriteria
          lhs = container.getCurrentValue(field);
          switch (field.getDataType())
          {
-            case DATE :
+            case DATE:
             {
                if (lhs != null)
                {
@@ -158,7 +158,7 @@ public class GenericCriteria
                break;
             }
 
-            case DURATION :
+            case DURATION:
             {
                if (lhs != null)
                {
@@ -172,13 +172,13 @@ public class GenericCriteria
                break;
             }
 
-            case STRING :
+            case STRING:
             {
                lhs = lhs == null ? "" : lhs;
                break;
             }
 
-            default :
+            default:
             {
                break;
             }
@@ -204,14 +204,14 @@ public class GenericCriteria
       boolean result;
       switch (m_operator)
       {
-         case AND :
-         case OR :
+         case AND:
+         case OR:
          {
             result = evaluateLogicalOperator(container, promptValues);
             break;
          }
 
-         default :
+         default:
          {
             result = m_operator.evaluate(lhs, rhs);
             break;
@@ -280,7 +280,7 @@ public class GenericCriteria
 
             switch (type.getDataType())
             {
-               case DATE :
+               case DATE:
                {
                   if (value != null)
                   {
@@ -289,7 +289,7 @@ public class GenericCriteria
                   break;
                }
 
-               case DURATION :
+               case DURATION:
                {
                   if (value != null && ((Duration) value).getUnits() != TimeUnit.HOURS)
                   {
@@ -302,13 +302,13 @@ public class GenericCriteria
                   break;
                }
 
-               case STRING :
+               case STRING:
                {
                   value = value == null ? "" : value;
                   break;
                }
 
-               default :
+               default:
                {
                   break;
                }
@@ -357,8 +357,8 @@ public class GenericCriteria
 
       switch (m_operator)
       {
-         case AND :
-         case OR :
+         case AND:
+         case OR:
          {
             int index = 0;
             for (GenericCriteria c : m_criteriaList)
@@ -375,7 +375,7 @@ public class GenericCriteria
             break;
          }
 
-         default :
+         default:
          {
             sb.append(m_leftValue);
             sb.append(" ");

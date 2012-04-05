@@ -2269,37 +2269,37 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
          switch (resourceField)
          {
-            case COST_VARIANCE :
+            case COST_VARIANCE:
             {
                result = getCostVariance();
                break;
             }
 
-            case WORK_VARIANCE :
+            case WORK_VARIANCE:
             {
                result = getWorkVariance();
                break;
             }
 
-            case CV :
+            case CV:
             {
                result = getCV();
                break;
             }
 
-            case SV :
+            case SV:
             {
                result = getSV();
                break;
             }
 
-            case OVERALLOCATED :
+            case OVERALLOCATED:
             {
                result = Boolean.valueOf(getOverAllocated());
                break;
             }
 
-            default :
+            default:
             {
                result = m_array[field.getValue()];
                break;
@@ -2342,42 +2342,42 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       //
       switch (field)
       {
-         case COST :
-         case BASELINE_COST :
+         case COST:
+         case BASELINE_COST:
          {
             m_array[ResourceField.COST_VARIANCE.getValue()] = null;
             break;
          }
 
-         case WORK :
-         case BASELINE_WORK :
+         case WORK:
+         case BASELINE_WORK:
          {
             m_array[ResourceField.WORK_VARIANCE.getValue()] = null;
             break;
          }
 
-         case BCWP :
-         case ACWP :
+         case BCWP:
+         case ACWP:
          {
             m_array[ResourceField.CV.getValue()] = null;
             m_array[ResourceField.SV.getValue()] = null;
             break;
          }
 
-         case BCWS :
+         case BCWS:
          {
             m_array[ResourceField.SV.getValue()] = null;
             break;
          }
 
-         case PEAK :
-         case MAX_UNITS :
+         case PEAK:
+         case MAX_UNITS:
          {
             m_array[ResourceField.OVERALLOCATED.getValue()] = null;
             break;
          }
 
-         default :
+         default:
          {
             break;
          }

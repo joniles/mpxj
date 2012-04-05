@@ -1076,43 +1076,43 @@ public abstract class GanttChartView extends GenericView
    {
       switch (height)
       {
-         case 0 :
+         case 0:
          {
             height = 6;
             break;
          }
 
-         case 1 :
+         case 1:
          {
             height = 8;
             break;
          }
 
-         case 2 :
+         case 2:
          {
             height = 10;
             break;
          }
 
-         case 3 :
+         case 3:
          {
             height = 12;
             break;
          }
 
-         case 4 :
+         case 4:
          {
             height = 14;
             break;
          }
 
-         case 5 :
+         case 5:
          {
             height = 18;
             break;
          }
 
-         case 6 :
+         case 6:
          {
             height = 24;
             break;

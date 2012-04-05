@@ -736,7 +736,7 @@ abstract class MPD9AbstractReader
 
       switch (prefix)
       {
-         case MPPTaskField.TASK_FIELD_BASE :
+         case MPPTaskField.TASK_FIELD_BASE:
          {
             TaskField field = MPPTaskField.getInstance(index);
             if (field != null && field != TaskField.NOTES)
@@ -754,7 +754,7 @@ abstract class MPD9AbstractReader
             break;
          }
 
-         case MPPResourceField.RESOURCE_FIELD_BASE :
+         case MPPResourceField.RESOURCE_FIELD_BASE:
          {
             ResourceField field = MPPResourceField.getInstance(index);
             if (field != null && field != ResourceField.NOTES)
@@ -772,7 +772,7 @@ abstract class MPD9AbstractReader
             break;
          }
 
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
             AssignmentField field = MPPAssignmentField.getInstance(index);
             if (field != null && field != AssignmentField.NOTES)

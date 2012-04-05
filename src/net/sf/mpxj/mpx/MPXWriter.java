@@ -569,13 +569,13 @@ public final class MPXWriter extends AbstractProjectWriter
 
             switch (c)
             {
-               case '"' :
+               case '"':
                {
                   m_buffer.append("\"\"");
                   break;
                }
 
-               default :
+               default:
                {
                   m_buffer.append(c);
                   break;
@@ -1308,74 +1308,74 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       switch (type)
       {
-         case DATE :
+         case DATE:
          {
             value = formatDateTime(value);
             break;
          }
 
-         case CURRENCY :
+         case CURRENCY:
          {
             value = formatCurrency((Number) value);
             break;
          }
 
-         case UNITS :
+         case UNITS:
          {
             value = formatUnits((Number) value);
             break;
          }
 
-         case PERCENTAGE :
+         case PERCENTAGE:
          {
             value = formatPercentage((Number) value);
             break;
          }
 
-         case ACCRUE :
+         case ACCRUE:
          {
             value = formatAccrueType((AccrueType) value);
             break;
          }
 
-         case CONSTRAINT :
+         case CONSTRAINT:
          {
             value = formatConstraintType((ConstraintType) value);
             break;
          }
 
-         case WORK :
-         case DURATION :
+         case WORK:
+         case DURATION:
          {
             value = formatDuration(value);
             break;
          }
 
-         case RATE :
+         case RATE:
          {
             value = formatRate((Rate) value);
             break;
          }
 
-         case PRIORITY :
+         case PRIORITY:
          {
             value = formatPriority((Priority) value);
             break;
          }
 
-         case RELATION_LIST :
+         case RELATION_LIST:
          {
             value = formatRelationList((List<Relation>) value);
             break;
          }
 
-         case TASK_TYPE :
+         case TASK_TYPE:
          {
             value = formatTaskType((TaskType) value);
             break;
          }
 
-         default :
+         default:
          {
             break;
          }

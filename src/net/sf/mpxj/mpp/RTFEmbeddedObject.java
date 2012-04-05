@@ -76,8 +76,8 @@ public final class RTFEmbeddedObject
    {
       switch (type)
       {
-         case 2 :
-         case 5 :
+         case 2:
+         case 5:
          {
             m_typeFlag1 = getInt(blocks);
             m_typeFlag2 = getInt(blocks);
@@ -86,7 +86,7 @@ public final class RTFEmbeddedObject
             break;
          }
 
-         case 1 :
+         case 1:
          {
             int length = getInt(blocks);
             m_data = getData(blocks, length);
@@ -290,22 +290,22 @@ public final class RTFEmbeddedObject
          c = text.charAt(offset);
          switch (c)
          {
-            case ' ' : // found that OBJDATA could be followed by a space the EOL
-            case '\r' :
-            case '\n' :
+            case ' ': // found that OBJDATA could be followed by a space the EOL
+            case '\r':
+            case '\n':
             {
                ++offset;
                break;
             }
 
-            case '}' :
+            case '}':
             {
                offset = -1;
                finished = true;
                break;
             }
 
-            default :
+            default:
             {
                finished = true;
                break;
@@ -334,15 +334,15 @@ public final class RTFEmbeddedObject
          c = text.charAt(offset);
          switch (c)
          {
-            case '\r' :
-            case '\n' :
-            case '}' :
+            case '\r':
+            case '\n':
+            case '}':
             {
                finished = true;
                break;
             }
 
-            default :
+            default:
             {
                ++offset;
                break;

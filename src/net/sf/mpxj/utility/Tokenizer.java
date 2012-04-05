@@ -75,7 +75,7 @@ public abstract class Tokenizer
 
          switch (c)
          {
-            case TT_EOF :
+            case TT_EOF:
             {
                if (m_buffer.length() != 0)
                {
@@ -89,7 +89,7 @@ public abstract class Tokenizer
                break;
             }
 
-            case TT_EOL :
+            case TT_EOL:
             {
                int length = m_buffer.length();
 
@@ -112,7 +112,7 @@ public abstract class Tokenizer
                break;
             }
 
-            default :
+            default:
             {
                if (c == m_quote)
                {

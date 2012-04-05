@@ -248,14 +248,14 @@ public final class TimephasedUtility
 
       switch (rangeUnits)
       {
-         case MINUTES :
-         case HOURS :
+         case MINUTES:
+         case HOURS:
          {
             result = getRangeDurationSubDay(projectCalendar, rangeUnits, range, assignments, startIndex);
             break;
          }
 
-         default :
+         default:
          {
             result = getRangeDurationWholeDay(projectCalendar, rangeUnits, range, assignments, startIndex);
             break;
@@ -396,14 +396,14 @@ public final class TimephasedUtility
 
       switch (rangeUnits)
       {
-         case MINUTES :
-         case HOURS :
+         case MINUTES:
+         case HOURS:
          {
             result = getRangeCostSubDay(projectCalendar, rangeUnits, range, assignments, startIndex);
             break;
          }
 
-         default :
+         default:
          {
             result = getRangeCostWholeDay(projectCalendar, rangeUnits, range, assignments, startIndex);
             break;

@@ -4123,18 +4123,18 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          int percentComplete = NumberUtility.getInt(getPercentageComplete());
          switch (percentComplete)
          {
-            case 0 :
+            case 0:
             {
                break;
             }
 
-            case 100 :
+            case 100:
             {
                value = getActualFinish();
                break;
             }
 
-            default :
+            default:
             {
                Duration duration = getDuration();
                double durationValue = (duration.getDuration() * percentComplete) / 100d;
@@ -4354,61 +4354,61 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          switch ((TaskField) field)
          {
-            case START_VARIANCE :
+            case START_VARIANCE:
             {
                result = getStartVariance();
                break;
             }
 
-            case COST_VARIANCE :
+            case COST_VARIANCE:
             {
                result = getCostVariance();
                break;
             }
 
-            case DURATION_VARIANCE :
+            case DURATION_VARIANCE:
             {
                result = getDurationVariance();
                break;
             }
 
-            case WORK_VARIANCE :
+            case WORK_VARIANCE:
             {
                result = getWorkVariance();
                break;
             }
 
-            case CV :
+            case CV:
             {
                result = getCV();
                break;
             }
 
-            case SV :
+            case SV:
             {
                result = getSV();
                break;
             }
 
-            case TOTAL_SLACK :
+            case TOTAL_SLACK:
             {
                result = getTotalSlack();
                break;
             }
 
-            case CRITICAL :
+            case CRITICAL:
             {
                result = Boolean.valueOf(getCritical());
                break;
             }
 
-            case COMPLETE_THROUGH :
+            case COMPLETE_THROUGH:
             {
                result = getCompleteThrough();
                break;
             }
 
-            default :
+            default:
             {
                result = m_array[field.getValue()];
                break;
@@ -4451,71 +4451,71 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       //
       switch (field)
       {
-         case START :
-         case BASELINE_START :
+         case START:
+         case BASELINE_START:
          {
             m_array[TaskField.START_VARIANCE.getValue()] = null;
             break;
          }
 
-         case FINISH :
-         case BASELINE_FINISH :
+         case FINISH:
+         case BASELINE_FINISH:
          {
             m_array[TaskField.FINISH_VARIANCE.getValue()] = null;
             break;
          }
 
-         case COST :
-         case BASELINE_COST :
+         case COST:
+         case BASELINE_COST:
          {
             m_array[TaskField.COST_VARIANCE.getValue()] = null;
             break;
          }
 
-         case DURATION :
+         case DURATION:
          {
             m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
             m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
             break;
          }
 
-         case BASELINE_DURATION :
+         case BASELINE_DURATION:
          {
             m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
             break;
          }
 
-         case WORK :
-         case BASELINE_WORK :
+         case WORK:
+         case BASELINE_WORK:
          {
             m_array[TaskField.WORK_VARIANCE.getValue()] = null;
             break;
          }
 
-         case BCWP :
-         case ACWP :
+         case BCWP:
+         case ACWP:
          {
             m_array[TaskField.CV.getValue()] = null;
             m_array[TaskField.SV.getValue()] = null;
             break;
          }
 
-         case BCWS :
+         case BCWS:
          {
             m_array[TaskField.SV.getValue()] = null;
             break;
          }
 
-         case START_SLACK :
-         case FINISH_SLACK :
+         case START_SLACK:
+         case FINISH_SLACK:
          {
             m_array[TaskField.TOTAL_SLACK.getValue()] = null;
             m_array[TaskField.CRITICAL.getValue()] = null;
             break;
          }
 
-         case EARLY_FINISH :
-         case LATE_FINISH :
+         case EARLY_FINISH:
+         case LATE_FINISH:
          {
             m_array[TaskField.FINISH_SLACK.getValue()] = null;
             m_array[TaskField.TOTAL_SLACK.getValue()] = null;
@@ -4523,8 +4523,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
             break;
          }
 
-         case EARLY_START :
-         case LATE_START :
+         case EARLY_START:
+         case LATE_START:
          {
             m_array[TaskField.START_SLACK.getValue()] = null;
             m_array[TaskField.TOTAL_SLACK.getValue()] = null;
@@ -4532,14 +4532,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
             break;
          }
 
-         case ACTUAL_START :
-         case PERCENT_COMPLETE :
+         case ACTUAL_START:
+         case PERCENT_COMPLETE:
          {
             m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
             break;
          }
 
-         default :
+         default:
          {
             break;
          }

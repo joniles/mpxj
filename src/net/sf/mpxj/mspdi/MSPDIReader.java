@@ -624,7 +624,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          switch (base)
          {
-            case MPPTaskField.TASK_FIELD_BASE :
+            case MPPTaskField.TASK_FIELD_BASE:
             {
                TaskField taskField = MPPTaskField.getInstance(index);
                if (taskField != null)
@@ -634,7 +634,7 @@ public final class MSPDIReader extends AbstractProjectReader
                break;
             }
 
-            case MPPResourceField.RESOURCE_FIELD_BASE :
+            case MPPResourceField.RESOURCE_FIELD_BASE:
             {
                ResourceField resourceField = MPPResourceField.getInstance(index);
                if (resourceField != null)

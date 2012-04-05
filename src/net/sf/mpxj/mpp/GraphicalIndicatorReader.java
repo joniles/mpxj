@@ -83,13 +83,13 @@ public final class GraphicalIndicatorReader
       FieldType type = null;
       switch (entityType)
       {
-         case 0x0B :
+         case 0x0B:
          {
             type = MPPTaskField.getInstance(fieldType);
             break;
          }
 
-         case 0x0C :
+         case 0x0C:
          {
             type = MPPResourceField.getInstance(fieldType);
             break;
@@ -218,7 +218,7 @@ public final class GraphicalIndicatorReader
 
          switch (type.getDataType())
          {
-            case DURATION : // 0x03
+            case DURATION: // 0x03
             {
                Duration value = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(m_data, m_dataOffset + 4)));
                m_dataOffset += 6;
@@ -226,7 +226,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case NUMERIC : // 0x05
+            case NUMERIC: // 0x05
             {
                Double value = Double.valueOf(MPPUtility.getDouble(m_data, m_dataOffset));
                m_dataOffset += 8;
@@ -234,7 +234,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case CURRENCY : // 0x06
+            case CURRENCY: // 0x06
             {
                Double value = Double.valueOf(MPPUtility.getDouble(m_data, m_dataOffset) / 100);
                m_dataOffset += 8;
@@ -242,7 +242,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case STRING : // 0x08
+            case STRING: // 0x08
             {
                String value = MPPUtility.getUnicodeString(m_data, m_dataOffset);
                m_dataOffset += ((value.length() + 1) * 2);
@@ -250,7 +250,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case BOOLEAN : // 0x0B
+            case BOOLEAN: // 0x0B
             {
                int value = MPPUtility.getShort(m_data, m_dataOffset);
                m_dataOffset += 2;
@@ -258,7 +258,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case DATE : // 0x13
+            case DATE: // 0x13
             {
                Date value = MPPUtility.getTimestamp(m_data, m_dataOffset);
                m_dataOffset += 4;
@@ -266,7 +266,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

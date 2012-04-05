@@ -272,13 +272,13 @@ public final class RTFUtility
                char c = sb.charAt(endIndex);
                switch (c)
                {
-                  case '{' :
+                  case '{':
                   {
                      ++nesting;
                      break;
                   }
 
-                  case '}' :
+                  case '}':
                   {
                      --nesting;
                      break;

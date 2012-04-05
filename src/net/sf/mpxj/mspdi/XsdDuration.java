@@ -101,16 +101,16 @@ final class XsdDuration
          {
             switch (duration.getUnits())
             {
-               case MINUTES :
-               case ELAPSED_MINUTES :
+               case MINUTES:
+               case ELAPSED_MINUTES:
                {
                   m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case HOURS :
-               case ELAPSED_HOURS :
+               case HOURS:
+               case ELAPSED_HOURS:
                {
                   m_hours = (int) amount;
                   amount = (amount * 60) - (m_hours * 60);
@@ -119,8 +119,8 @@ final class XsdDuration
                   break;
                }
 
-               case DAYS :
-               case ELAPSED_DAYS :
+               case DAYS:
+               case ELAPSED_DAYS:
                {
                   m_days = (int) amount;
                   amount = (amount * 24) - (m_days * 24);
@@ -131,8 +131,8 @@ final class XsdDuration
                   break;
                }
 
-               case WEEKS :
-               case ELAPSED_WEEKS :
+               case WEEKS:
+               case ELAPSED_WEEKS:
                {
                   amount *= 7;
                   m_days = (int) amount;
@@ -144,8 +144,8 @@ final class XsdDuration
                   break;
                }
 
-               case MONTHS :
-               case ELAPSED_MONTHS :
+               case MONTHS:
+               case ELAPSED_MONTHS:
                {
                   m_months = (int) amount;
                   amount = (amount * 28) - (m_months * 28);
@@ -158,8 +158,8 @@ final class XsdDuration
                   break;
                }
 
-               case YEARS :
-               case ELAPSED_YEARS :
+               case YEARS:
+               case ELAPSED_YEARS:
                {
                   m_years = (int) amount;
                   amount = (amount * 12) - (m_years * 12);
@@ -174,7 +174,7 @@ final class XsdDuration
                   break;
                }
 
-               default :
+               default:
                {
                   break;
                }
@@ -215,13 +215,13 @@ final class XsdDuration
 
       switch (c)
       {
-         case 'Y' :
+         case 'Y':
          {
             m_years = Integer.parseInt(number.toString());
             break;
          }
 
-         case 'M' :
+         case 'M':
          {
             if (m_hasTime == false)
             {
@@ -234,31 +234,31 @@ final class XsdDuration
             break;
          }
 
-         case 'D' :
+         case 'D':
          {
             m_days = Integer.parseInt(number.toString());
             break;
          }
 
-         case 'T' :
+         case 'T':
          {
             m_hasTime = true;
             break;
          }
 
-         case 'H' :
+         case 'H':
          {
             m_hours = Integer.parseInt(number.toString());
             break;
          }
 
-         case 'S' :
+         case 'S':
          {
             m_seconds = Double.parseDouble(number.toString());
             break;
          }
 
-         default :
+         default:
          {
             throw new IllegalArgumentException(duration);
          }

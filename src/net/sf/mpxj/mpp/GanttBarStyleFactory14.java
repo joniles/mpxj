@@ -178,25 +178,25 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       {
          switch (result)
          {
-            case START_TEXT :
+            case START_TEXT:
             {
                result = TaskField.START;
                break;
             }
 
-            case FINISH_TEXT :
+            case FINISH_TEXT:
             {
                result = TaskField.FINISH;
                break;
             }
 
-            case DURATION_TEXT :
+            case DURATION_TEXT:
             {
                result = TaskField.DURATION;
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

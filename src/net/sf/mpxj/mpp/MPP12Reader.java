@@ -313,11 +313,11 @@ final class MPP12Reader implements MPPVariantReader
             // Subproject that is no longer inserted. This is a placeholder in order to be
             // able to always guarantee unique unique ids.
             //
-               case 0x00 :
+               case 0x00:
                   //   
                   // deleted entry?
                   //
-               case 0x10 :
+               case 0x10:
                {
                   offset += 8;
                   break;
@@ -326,10 +326,10 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case 0x0b :
-               case (byte) 0x99 :
-               case 0x09 :
-               case 0x0D :
+               case 0x0b:
+               case (byte) 0x99:
+               case 0x09:
+               case 0x0D:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -350,9 +350,9 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case 0x03 :
-               case 0x11 :
-               case (byte) 0x91 :
+               case 0x03:
+               case 0x11:
+               case (byte) 0x91:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -373,9 +373,9 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, path, unknown, file name
                //
-               case (byte) 0x81 :
-               case (byte) 0x83 :
-               case 0x41 :
+               case (byte) 0x81:
+               case (byte) 0x83:
+               case 0x41:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -396,8 +396,8 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case 0x01 :
-               case 0x08 :
+               case 0x01:
+               case 0x08:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -415,7 +415,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case (byte) 0xC0 :
+               case (byte) 0xC0:
                {
                   uniqueIDOffset = itemHeaderOffset;
 
@@ -435,7 +435,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // resource, task unique ID, path, file name
                //
-               case 0x05 :
+               case 0x05:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -450,7 +450,7 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               case 0x45 :
+               case 0x45:
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -470,7 +470,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // path, file name
                //
-               case 0x02 :
+               case 0x02:
                {
                   //filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -483,7 +483,7 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               case 0x04 :
+               case 0x04:
                {
                   filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -498,7 +498,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, 4 bytes, path, 4 bytes, file name
                //
-               case (byte) 0x8D :
+               case (byte) 0x8D:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 8;
@@ -516,7 +516,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case 0x0A :
+               case 0x0A:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -532,7 +532,7 @@ final class MPP12Reader implements MPPVariantReader
                }
 
                // new resource pool entry
-               case (byte) 0x44 :
+               case (byte) 0x44:
                {
                   filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -549,7 +549,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // Appears when a subproject is collapsed
                //
-               case (byte) 0x80 :
+               case (byte) 0x80:
                {
                   offset += 12;
                   break;
@@ -558,7 +558,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // Any other value, assume 12 bytes to handle old/deleted data?
                //
-               default :
+               default:
                {
                   offset += 12;
                   break;
@@ -609,20 +609,20 @@ final class MPP12Reader implements MPPVariantReader
             type = MPPUtility.getInt(data, uniqueIDOffset + 4);
             switch (type)
             {
-               case SUBPROJECT_TASKUNIQUEID0 :
-               case SUBPROJECT_TASKUNIQUEID1 :
-               case SUBPROJECT_TASKUNIQUEID2 :
-               case SUBPROJECT_TASKUNIQUEID3 :
-               case SUBPROJECT_TASKUNIQUEID4 :
-               case SUBPROJECT_TASKUNIQUEID5 :
-               case SUBPROJECT_TASKUNIQUEID6 :
+               case SUBPROJECT_TASKUNIQUEID0:
+               case SUBPROJECT_TASKUNIQUEID1:
+               case SUBPROJECT_TASKUNIQUEID2:
+               case SUBPROJECT_TASKUNIQUEID3:
+               case SUBPROJECT_TASKUNIQUEID4:
+               case SUBPROJECT_TASKUNIQUEID5:
+               case SUBPROJECT_TASKUNIQUEID6:
                {
                   sp.setTaskUniqueID(Integer.valueOf(value));
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                   break;
                }
 
-               default :
+               default:
                {
                   if (value != 0)
                   {
@@ -1520,7 +1520,7 @@ final class MPP12Reader implements MPPVariantReader
          // Adjust the start and finish dates if the task
          // is constrained to start as late as possible.
          //            
-            case AS_LATE_AS_POSSIBLE :
+            case AS_LATE_AS_POSSIBLE:
             {
                if (DateUtility.compare(task.getStart(), task.getLateStart()) < 0)
                {
@@ -1533,8 +1533,8 @@ final class MPP12Reader implements MPPVariantReader
                break;
             }
 
-            case START_NO_LATER_THAN :
-            case FINISH_NO_LATER_THAN :
+            case START_NO_LATER_THAN:
+            case FINISH_NO_LATER_THAN:
             {
                if (DateUtility.compare(task.getFinish(), task.getStart()) < 0)
                {
@@ -1543,7 +1543,7 @@ final class MPP12Reader implements MPPVariantReader
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

@@ -475,14 +475,14 @@ public final class RecurringTask
 
          switch (m_recurrenceType)
          {
-            case DAILY :
+            case DAILY:
             {
                pw.print(" " + ORDINAL[m_dailyFrequency.intValue()]);
                pw.print(m_dailyWorkday ? " Workday" : " Day");
                break;
             }
 
-            case WEEKLY :
+            case WEEKLY:
             {
                pw.print(" " + ORDINAL[m_weeklyFrequency.intValue()]);
                pw.print(" week on ");
@@ -524,7 +524,7 @@ public final class RecurringTask
                break;
             }
 
-            case MONTHLY :
+            case MONTHLY:
             {
                if (m_monthlyRelative)
                {
@@ -546,7 +546,7 @@ public final class RecurringTask
                break;
             }
 
-            case YEARLY :
+            case YEARLY:
             {
                pw.print(" on the ");
                if (m_yearlyAbsolute)

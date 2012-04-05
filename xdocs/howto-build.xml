@@ -17,7 +17,7 @@ features. Many MPXJ users will work with and ship software based on
 intermediate versions of MPXJ built from the code in CVS in order to take
 advantage of these enhancements before they become available in an official 
 release. This approach is supported by the fact that code is only checked into 
-CVS if the suite of JUnit regression tests have been completed successfuly: 
+CVS if the suite of JUnit regression tests have been completed successfully: 
 therefore the quality of the code taken from CVS at any point can be guaranteed 
 to be as good as that in an official release.</p>
 
@@ -26,16 +26,32 @@ understand how to build the library, whether you are using it in the form
 of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
 </section>
 
+<section name="Obtaining the source">
+<p>The first step in the process of building your own version of MPXJ is to obtain 
+the latest source from CVS. The MPXJ CVS repository is described <a href="https://sourceforge.net/scm/?type=cvs&group_id=70649" target="_blank">here</a>.
+If you are working with a command line CVS client, you will need to execute the following commands:</p>
+
+<source>
+cvs -d:pserver:anonymous@mpxj.cvs.sourceforge.net:/cvsroot/mpxj login 
+cvs -z3 -d:pserver:anonymous@mpxj.cvs.sourceforge.net:/cvsroot/mpxj co -P . 
+</source>
+
+<p>Note that as part of the "checkout" command the module name given is ".", which means that everything in the root of the repository is retrieved.</p>
+
+<p>There are plenty of freely available CVS clients which you can use to avoid
+having to install and work with the command line version. <a href="http://www.eclipse.org/" target="_blank">Eclipse</a> comes with a CVS client as standard, 
+and for Windows users <a href="http://www.tortoisecvs.org/" target="_blank">Tortoise CVS</a> works well and has nice integration with the Windows Explorer.</p>
+</section>
+
 <section name="Building the Java JAR">
 <p>The MPXJ build process is based on the use of an Ant script. If you aren't 
 familiar with Ant, it is script execution tool similar in concept to 
-make or nmake. 
-The prerequisites for building MPXJ are:
+make or nmake. The prerequisites for building MPXJ are:
 <ul>
 	<li>A Java Development Kit (JDK) - at the minimum Java 1.6 is required.  
 	A suitable JDK can be downloaded from <a href="http://java.sun.com/" target="_blank">http://java.sun.com</a></li>
-	<li>Apache Ant. I use version 1.7.1, but the ant build script will probably 
-	work happily with older versions. Ant can be downloaded from <a href="http://ant.apache.org/">http://ant.apache.org</a></li>
+	<li>Apache Ant. I wrote these instructions using version 1.7.1, but the ant build script will probably 
+	work happily with older or newer versions. Ant can be downloaded from <a href="http://ant.apache.org/">http://ant.apache.org</a></li>
 	<li>The latest version of MPXJ from CVS. Details of the MPXJ CVS repository and how to use it can be found <a href="http://sourceforge.net/cvs/?group_id=70649" target="_blank">here</a>.</li>
 </ul>
 </p>
@@ -58,7 +74,7 @@ are available on the path.
 <section name="Building the .NET DLLs">
 <p>Building the .NET DLL version of MPXJ uses the same steps described for
 building the Java JAR file, but with the additional prerequisite that IKVM 
-is availabale on your system. The steps required are as follows.
+is available on your system. The steps required are as follows.
 <ol>
 <li>Download IKVM from 
 <a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a> and
@@ -66,7 +82,7 @@ unzip the files into a convenient directory.</li>
 <li>Change directory to the ant subdirectory of the MPXJ folder.</li>
 <li>Edit the build.xml file and ensure that the property named ikvm.dir is 
 set to point to the location where you have unzipped IKVM.</li>
-<li>Now you can follow the steps described above ro build the Java JAR file. 
+<li>Now you can follow the steps described above to build the Java JAR file. 
 The Ant script will recognise that IKVM is present and build the .NET DLL 
 in the lib.net folder.</li>
 </ol>

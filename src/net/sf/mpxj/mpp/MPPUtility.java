@@ -670,57 +670,57 @@ final class MPPUtility
       // Value is given in 1/10 of minute
       switch (type)
       {
-         case MINUTES :
-         case ELAPSED_MINUTES :
+         case MINUTES:
+         case ELAPSED_MINUTES:
          {
             duration = value / 10;
             break;
          }
 
-         case HOURS :
-         case ELAPSED_HOURS :
+         case HOURS:
+         case ELAPSED_HOURS:
          {
             duration = value / 600; // 60 * 10
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             duration = value / 4800; // 8 * 60 * 10
             break;
          }
 
-         case ELAPSED_DAYS :
+         case ELAPSED_DAYS:
          {
             duration = value / 14400; // 24 * 60 * 10
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             duration = value / 24000; // 5 * 8 * 60 * 10
             break;
          }
 
-         case ELAPSED_WEEKS :
+         case ELAPSED_WEEKS:
          {
             duration = value / 100800; // 7 * 24 * 60 * 10
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             duration = value / 96000; // 
             break;
          }
 
-         case ELAPSED_MONTHS :
+         case ELAPSED_MONTHS:
          {
             duration = value / 432000; // 30 * 24 * 60 * 10
             break;
          }
 
-         default :
+         default:
          {
             duration = value;
             break;
@@ -740,83 +740,97 @@ final class MPPUtility
     */
    public static final TimeUnit getDurationTimeUnits(int type)
    {
+      return getDurationTimeUnits(type, null);
+   }
+
+   /**
+    * This method converts between the duration units representation
+    * used in the MPP file, and the standard MPX duration units.
+    * If the supplied units are unrecognised, the units default to days.
+    *
+    * @param type MPP units
+    * @param projectDefaultDurationUnits default duration units for this project
+    * @return MPX units
+    */
+   public static final TimeUnit getDurationTimeUnits(int type, TimeUnit projectDefaultDurationUnits)
+   {
       TimeUnit units;
 
       switch (type & DURATION_UNITS_MASK)
       {
-         case 3 :
+         case 3:
          {
             units = TimeUnit.MINUTES;
             break;
          }
 
-         case 4 :
+         case 4:
          {
             units = TimeUnit.ELAPSED_MINUTES;
             break;
          }
 
-         case 5 :
+         case 5:
          {
             units = TimeUnit.HOURS;
             break;
          }
 
-         case 6 :
+         case 6:
          {
             units = TimeUnit.ELAPSED_HOURS;
             break;
          }
 
-         case 8 :
+         case 8:
          {
             units = TimeUnit.ELAPSED_DAYS;
             break;
          }
 
-         case 9 :
+         case 9:
          {
             units = TimeUnit.WEEKS;
             break;
          }
 
-         case 10 :
+         case 10:
          {
             units = TimeUnit.ELAPSED_WEEKS;
             break;
          }
 
-         case 11 :
+         case 11:
          {
             units = TimeUnit.MONTHS;
             break;
          }
 
-         case 12 :
+         case 12:
          {
             units = TimeUnit.ELAPSED_MONTHS;
             break;
          }
 
-         case 19 :
+         case 19:
          {
             units = TimeUnit.PERCENT;
             break;
          }
 
-         case 7 :
+         case 7:
          {
             units = TimeUnit.DAYS;
             break;
          }
 
-         case 21 : // duration in days of a recurring task
+         case 21:
          {
-            units = TimeUnit.DAYS;
+            units = projectDefaultDurationUnits == null ? TimeUnit.DAYS : projectDefaultDurationUnits;
             break;
          }
-         
-         default :
+
+         default:
          {
             units = TimeUnit.DAYS;
             break;
@@ -845,7 +859,7 @@ final class MPPUtility
       {
          switch (timeUnit)
          {
-            case DAYS :
+            case DAYS:
             {
                double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
                double totalDays = 0;
@@ -857,7 +871,7 @@ final class MPPUtility
                break;
             }
 
-            case ELAPSED_DAYS :
+            case ELAPSED_DAYS:
             {
                double unitsPerDay = 24d * 600d;
                double totalDays = duration / unitsPerDay;
@@ -865,7 +879,7 @@ final class MPPUtility
                break;
             }
 
-            case WEEKS :
+            case WEEKS:
             {
                double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
                double totalWeeks = 0;
@@ -877,7 +891,7 @@ final class MPPUtility
                break;
             }
 
-            case ELAPSED_WEEKS :
+            case ELAPSED_WEEKS:
             {
                double unitsPerWeek = (60 * 24 * 7 * 10);
                double totalWeeks = duration / unitsPerWeek;
@@ -885,7 +899,7 @@ final class MPPUtility
                break;
             }
 
-            case MONTHS :
+            case MONTHS:
             {
                double unitsPerMonth = file.getProjectHeader().getMinutesPerDay().doubleValue() * file.getProjectHeader().getDaysPerMonth().doubleValue() * 10d;
                double totalMonths = 0;
@@ -897,7 +911,7 @@ final class MPPUtility
                break;
             }
 
-            case ELAPSED_MONTHS :
+            case ELAPSED_MONTHS:
             {
                double unitsPerMonth = (60 * 24 * 30 * 10);
                double totalMonths = duration / unitsPerMonth;
@@ -905,7 +919,7 @@ final class MPPUtility
                break;
             }
 
-            default :
+            default:
             {
                result = getDuration(duration, timeUnit);
                break;
@@ -941,26 +955,26 @@ final class MPPUtility
 
       switch (value)
       {
-         case 1 :
+         case 1:
          {
             result = CurrencySymbolPosition.AFTER;
             break;
          }
 
-         case 2 :
+         case 2:
          {
             result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
             break;
          }
 
-         case 3 :
+         case 3:
          {
             result = CurrencySymbolPosition.AFTER_WITH_SPACE;
             break;
          }
 
-         case 0 :
-         default :
+         case 0:
+         default:
          {
             result = CurrencySymbolPosition.BEFORE;
             break;

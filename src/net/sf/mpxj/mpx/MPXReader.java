@@ -229,43 +229,43 @@ public final class MPXReader extends AbstractProjectReader
    {
       switch (Integer.parseInt(recordNumber))
       {
-         case MPXConstants.PROJECT_NAMES_RECORD_NUMBER :
-         case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER :
-         case MPXConstants.COMMENTS_RECORD_NUMBER :
+         case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
+         case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
+         case MPXConstants.COMMENTS_RECORD_NUMBER:
          {
             // silently ignored
             break;
          }
 
-         case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER :
+         case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
             populateCurrencySettings(record, m_projectFile.getProjectHeader());
             m_formats.update();
             break;
          }
 
-         case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER :
+         case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
             populateDefaultSettings(record, m_projectFile.getProjectHeader());
             m_formats.update();
             break;
          }
 
-         case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER :
+         case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
             populateDateTimeSettings(record, m_projectFile.getProjectHeader());
             m_formats.update();
             break;
          }
 
-         case MPXConstants.BASE_CALENDAR_RECORD_NUMBER :
+         case MPXConstants.BASE_CALENDAR_RECORD_NUMBER:
          {
             m_lastBaseCalendar = m_projectFile.addCalendar();
             populateCalendar(record, m_lastBaseCalendar, true);
             break;
          }
 
-         case MPXConstants.BASE_CALENDAR_HOURS_RECORD_NUMBER :
+         case MPXConstants.BASE_CALENDAR_HOURS_RECORD_NUMBER:
          {
             if (m_lastBaseCalendar != null)
             {
@@ -276,7 +276,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER :
+         case MPXConstants.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER:
          {
             if (m_lastBaseCalendar != null)
             {
@@ -286,14 +286,14 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.PROJECT_HEADER_RECORD_NUMBER :
+         case MPXConstants.PROJECT_HEADER_RECORD_NUMBER:
          {
             populateProjectHeader(record, m_projectFile.getProjectHeader());
             m_formats.update();
             break;
          }
 
-         case MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER:
          {
             if ((m_resourceTableDefinition == false) && (m_ignoreTextModels == false))
             {
@@ -304,7 +304,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER:
          {
             if (m_resourceTableDefinition == false)
             {
@@ -315,7 +315,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_RECORD_NUMBER:
          {
             m_lastResource = m_projectFile.addResource();
             populateResource(m_lastResource, record);
@@ -323,7 +323,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_NOTES_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_NOTES_RECORD_NUMBER:
          {
             if (m_lastResource != null)
             {
@@ -333,7 +333,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER:
          {
             if (m_lastResource != null)
             {
@@ -344,7 +344,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER:
          {
             if (m_lastResourceCalendar != null)
             {
@@ -355,7 +355,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER:
          {
             if (m_lastResourceCalendar != null)
             {
@@ -365,7 +365,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER :
+         case MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER:
          {
             if ((m_taskTableDefinition == false) && (m_ignoreTextModels == false))
             {
@@ -376,7 +376,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER :
+         case MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER:
          {
             if (m_taskTableDefinition == false)
             {
@@ -387,7 +387,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.TASK_RECORD_NUMBER :
+         case MPXConstants.TASK_RECORD_NUMBER:
          {
             m_lastTask = m_projectFile.addTask();
             populateTask(record, m_lastTask);
@@ -413,7 +413,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.TASK_NOTES_RECORD_NUMBER :
+         case MPXConstants.TASK_NOTES_RECORD_NUMBER:
          {
             if (m_lastTask != null)
             {
@@ -423,7 +423,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RECURRING_TASK_RECORD_NUMBER :
+         case MPXConstants.RECURRING_TASK_RECORD_NUMBER:
          {
             if (m_lastTask != null)
             {
@@ -435,7 +435,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER:
          {
             if (m_lastTask != null)
             {
@@ -446,7 +446,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.RESOURCE_ASSIGNMENT_WORKGROUP_FIELDS_RECORD_NUMBER :
+         case MPXConstants.RESOURCE_ASSIGNMENT_WORKGROUP_FIELDS_RECORD_NUMBER:
          {
             if (m_lastResourceAssignment != null)
             {
@@ -457,13 +457,13 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.FILE_CREATION_RECORD_NUMBER :
+         case MPXConstants.FILE_CREATION_RECORD_NUMBER:
          {
             populateFileCreationRecord(record, m_projectFile.getFileCreationRecord());
             break;
          }
 
-         default :
+         default:
          {
             throw new MPXJException(MPXJException.INVALID_RECORD);
          }
@@ -737,79 +737,79 @@ public final class MPXReader extends AbstractProjectReader
          ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
          switch (resourceField)
          {
-            case OBJECTS :
+            case OBJECTS:
             {
                resource.set(resourceField, record.getInteger(i));
                break;
             }
 
-            case ID :
+            case ID:
             {
                resource.setID(record.getInteger(i));
                break;
             }
 
-            case UNIQUE_ID :
+            case UNIQUE_ID:
             {
                resource.setUniqueID(record.getInteger(i));
                break;
             }
 
-            case MAX_UNITS :
+            case MAX_UNITS:
             {
                resource.set(resourceField, record.getUnits(i));
                break;
             }
 
-            case PERCENT_WORK_COMPLETE :
-            case PEAK :
+            case PERCENT_WORK_COMPLETE:
+            case PEAK:
             {
                resource.set(resourceField, record.getPercentage(i));
                break;
             }
 
-            case COST :
-            case COST_PER_USE :
-            case COST_VARIANCE :
-            case BASELINE_COST :
-            case ACTUAL_COST :
-            case REMAINING_COST :
+            case COST:
+            case COST_PER_USE:
+            case COST_VARIANCE:
+            case BASELINE_COST:
+            case ACTUAL_COST:
+            case REMAINING_COST:
             {
                resource.set(resourceField, record.getCurrency(i));
                break;
             }
 
-            case OVERTIME_RATE :
-            case STANDARD_RATE :
+            case OVERTIME_RATE:
+            case STANDARD_RATE:
             {
                resource.set(resourceField, record.getRate(i));
                break;
             }
 
-            case REMAINING_WORK :
-            case OVERTIME_WORK :
-            case BASELINE_WORK :
-            case ACTUAL_WORK :
-            case WORK :
-            case WORK_VARIANCE :
+            case REMAINING_WORK:
+            case OVERTIME_WORK:
+            case BASELINE_WORK:
+            case ACTUAL_WORK:
+            case WORK:
+            case WORK_VARIANCE:
             {
                resource.set(resourceField, record.getDuration(i));
                break;
             }
 
-            case ACCRUE_AT :
+            case ACCRUE_AT:
             {
                resource.set(resourceField, record.getAccrueType(i));
                break;
             }
 
-            case OVERALLOCATED :
+            case OVERALLOCATED:
             {
                resource.set(resourceField, record.getBoolean(i, falseText));
                break;
             }
 
-            default :
+            default:
             {
                resource.set(resourceField, field);
                break;
@@ -1035,15 +1035,15 @@ public final class MPXReader extends AbstractProjectReader
 
          switch (taskField)
          {
-            case PREDECESSORS :
-            case UNIQUE_ID_PREDECESSORS :
+            case PREDECESSORS:
+            case UNIQUE_ID_PREDECESSORS:
             {
                populateRelationList(task, taskField, field);
                break;
             }
 
-            case PERCENT_COMPLETE :
-            case PERCENT_WORK_COMPLETE :
+            case PERCENT_COMPLETE:
+            case PERCENT_WORK_COMPLETE:
             {
                try
                {
@@ -1057,19 +1057,19 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case ACTUAL_COST :
-            case BASELINE_COST :
-            case BCWP :
-            case BCWS :
-            case COST :
-            case COST1 :
-            case COST2 :
-            case COST3 :
-            case COST_VARIANCE :
-            case CV :
-            case FIXED_COST :
-            case REMAINING_COST :
-            case SV :
+            case ACTUAL_COST:
+            case BASELINE_COST:
+            case BCWP:
+            case BCWS:
+            case COST:
+            case COST1:
+            case COST2:
+            case COST3:
+            case COST_VARIANCE:
+            case CV:
+            case FIXED_COST:
+            case REMAINING_COST:
+            case SV:
             {
                try
                {
@@ -1083,53 +1083,53 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case ACTUAL_DURATION :
-            case ACTUAL_WORK :
-            case BASELINE_DURATION :
-            case BASELINE_WORK :
-            case DURATION :
-            case DURATION1 :
-            case DURATION2 :
-            case DURATION3 :
-            case DURATION_VARIANCE :
-            case FINISH_VARIANCE :
-            case FREE_SLACK :
-            case REMAINING_DURATION :
-            case REMAINING_WORK :
-            case START_VARIANCE :
-            case TOTAL_SLACK :
-            case WORK :
-            case WORK_VARIANCE :
-            case LEVELING_DELAY :
+            case ACTUAL_DURATION:
+            case ACTUAL_WORK:
+            case BASELINE_DURATION:
+            case BASELINE_WORK:
+            case DURATION:
+            case DURATION1:
+            case DURATION2:
+            case DURATION3:
+            case DURATION_VARIANCE:
+            case FINISH_VARIANCE:
+            case FREE_SLACK:
+            case REMAINING_DURATION:
+            case REMAINING_WORK:
+            case START_VARIANCE:
+            case TOTAL_SLACK:
+            case WORK:
+            case WORK_VARIANCE:
+            case LEVELING_DELAY:
             {
                task.set(taskField, DurationUtility.getInstance(field, m_formats.getDurationDecimalFormat(), m_locale));
                break;
             }
 
-            case ACTUAL_FINISH :
-            case ACTUAL_START :
-            case BASELINE_FINISH :
-            case BASELINE_START :
-            case CONSTRAINT_DATE :
-            case CREATED :
-            case EARLY_FINISH :
-            case EARLY_START :
-            case FINISH :
-            case FINISH1 :
-            case FINISH2 :
-            case FINISH3 :
-            case FINISH4 :
-            case FINISH5 :
-            case LATE_FINISH :
-            case LATE_START :
-            case RESUME :
-            case START :
-            case START1 :
-            case START2 :
-            case START3 :
-            case START4 :
-            case START5 :
-            case STOP :
+            case ACTUAL_FINISH:
+            case ACTUAL_START:
+            case BASELINE_FINISH:
+            case BASELINE_START:
+            case CONSTRAINT_DATE:
+            case CREATED:
+            case EARLY_FINISH:
+            case EARLY_START:
+            case FINISH:
+            case FINISH1:
+            case FINISH2:
+            case FINISH3:
+            case FINISH4:
+            case FINISH5:
+            case LATE_FINISH:
+            case LATE_START:
+            case RESUME:
+            case START:
+            case START1:
+            case START2:
+            case START3:
+            case START4:
+            case START5:
+            case STOP:
             {
                try
                {
@@ -1143,60 +1143,60 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case CONFIRMED :
-            case CRITICAL :
-            case FLAG1 :
-            case FLAG2 :
-            case FLAG3 :
-            case FLAG4 :
-            case FLAG5 :
-            case FLAG6 :
-            case FLAG7 :
-            case FLAG8 :
-            case FLAG9 :
-            case FLAG10 :
-            case HIDEBAR :
-            case LINKED_FIELDS :
-            case MARKED :
-            case MILESTONE :
-            case ROLLUP :
-            case SUMMARY :
-            case UPDATE_NEEDED :
+            case CONFIRMED:
+            case CRITICAL:
+            case FLAG1:
+            case FLAG2:
+            case FLAG3:
+            case FLAG4:
+            case FLAG5:
+            case FLAG6:
+            case FLAG7:
+            case FLAG8:
+            case FLAG9:
+            case FLAG10:
+            case HIDEBAR:
+            case LINKED_FIELDS:
+            case MARKED:
+            case MILESTONE:
+            case ROLLUP:
+            case SUMMARY:
+            case UPDATE_NEEDED:
             {
                task.set(taskField, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
                break;
             }
 
-            case CONSTRAINT_TYPE :
+            case CONSTRAINT_TYPE:
             {
                task.set(taskField, ConstraintTypeUtility.getInstance(m_locale, field));
                break;
             }
 
-            case OBJECTS :
-            case OUTLINE_LEVEL :
+            case OBJECTS:
+            case OUTLINE_LEVEL:
             {
                task.set(taskField, Integer.valueOf(field));
                break;
             }
 
-            case ID :
+            case ID:
             {
                task.setID(Integer.valueOf(field));
                break;
             }
 
-            case UNIQUE_ID :
+            case UNIQUE_ID:
             {
                task.setUniqueID(Integer.valueOf(field));
                break;
             }
 
-            case NUMBER1 :
-            case NUMBER2 :
-            case NUMBER3 :
-            case NUMBER4 :
-            case NUMBER5 :
+            case NUMBER1:
+            case NUMBER2:
+            case NUMBER3:
+            case NUMBER4:
+            case NUMBER5:
             {
                try
                {
@@ -1211,20 +1211,20 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case PRIORITY :
+            case PRIORITY:
             {
                task.set(taskField, PriorityUtility.getInstance(m_locale, field));
                break;
             }
 
-            case TYPE :
+            case TYPE:
             {
                boolean fixed = ((field.equalsIgnoreCase(falseText) == true) ? false : true);
                task.setType(fixed ? TaskType.FIXED_DURATION : TaskType.FIXED_UNITS);
                break;
             }
 
-            default :
+            default:
             {
                task.set(taskField, field);
                break;

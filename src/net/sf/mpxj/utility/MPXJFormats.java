@@ -84,25 +84,25 @@ public final class MPXJFormats
 
       switch (header.getSymbolPosition())
       {
-         case AFTER :
+         case AFTER:
          {
             suffix = currencySymbol;
             break;
          }
 
-         case BEFORE :
+         case BEFORE:
          {
             prefix = currencySymbol;
             break;
          }
 
-         case AFTER_WITH_SPACE :
+         case AFTER_WITH_SPACE:
          {
             suffix = " " + currencySymbol;
             break;
          }
 
-         case BEFORE_WITH_SPACE :
+         case BEFORE_WITH_SPACE:
          {
             prefix = currencySymbol + " ";
             break;
@@ -174,14 +174,14 @@ public final class MPXJFormats
          c = literal.charAt(loop);
          switch (c)
          {
-            case '0' :
-            case '#' :
-            case '.' :
-            case '-' :
-            case ',' :
-            case 'E' :
-            case ';' :
-            case '%' :
+            case '0':
+            case '#':
+            case '.':
+            case '-':
+            case ',':
+            case 'E':
+            case ';':
+            case '%':
             {
                sb.append("'");
                sb.append(c);
@@ -189,7 +189,7 @@ public final class MPXJFormats
                break;
             }
 
-            default :
+            default:
             {
                sb.append(c);
                break;
@@ -216,19 +216,19 @@ public final class MPXJFormats
 
       switch (dateOrder)
       {
-         case DMY :
+         case DMY:
          {
             datePattern = "dd" + datesep + "MM" + datesep + "yy";
             break;
          }
 
-         case MDY :
+         case MDY:
          {
             datePattern = "MM" + datesep + "dd" + datesep + "yy";
             break;
          }
 
-         case YMD :
+         case YMD:
          {
             datePattern = "yy" + datesep + "MM" + datesep + "dd";
             break;
@@ -237,23 +237,23 @@ public final class MPXJFormats
 
       switch (header.getDateFormat())
       {
-         case DD_MM_YY_HH_MM :
+         case DD_MM_YY_HH_MM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd" + datesep + "MM" + datesep + "yy " + timePattern;
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "MM" + datesep + "dd" + datesep + "yy " + timePattern;
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "yy" + datesep + "MM" + datesep + "dd " + timePattern;
                   break;
@@ -262,23 +262,23 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MM_YY :
+         case DD_MM_YY:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd" + datesep + "MM" + datesep + "yy";
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "MM" + datesep + "dd" + datesep + "yy";
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "yy" + datesep + "MM" + datesep + "dd";
                   break;
@@ -288,23 +288,23 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MMMMM_YYYY_HH_MM :
+         case DD_MMMMM_YYYY_HH_MM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd MMMMM yyyy " + timePattern;
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "MMMMM dd yyyy " + timePattern;
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "yyyy MMMMM dd " + timePattern;
                   break;
@@ -313,23 +313,23 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MMMMM_YYYY :
+         case DD_MMMMM_YYYY:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd MMMMM yyyy";
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "MMMMM dd yyyy";
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "yyyy MMMMM dd";
                   break;
@@ -338,18 +338,18 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MMM_HH_MM :
+         case DD_MMM_HH_MM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd MMM " + timePattern;
                   break;
                }
 
-               case YMD :
-               case MDY :
+               case YMD:
+               case MDY:
                {
                   dateTimePattern = " MMM dd " + timePattern;
                   break;
@@ -358,23 +358,23 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MMM_YY :
+         case DD_MMM_YY:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd MMM ''yy";
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "MMM dd ''yy";
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "''yy MMM dd";
                   break;
@@ -383,18 +383,18 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MMMMM :
+         case DD_MMMMM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd MMMMM";
                   break;
                }
 
-               case YMD :
-               case MDY :
+               case YMD:
+               case MDY:
                {
                   dateTimePattern = "MMMMM dd";
                   break;
@@ -403,18 +403,18 @@ public final class MPXJFormats
             break;
          }
 
-         case DD_MMM :
+         case DD_MMM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd MMM";
                   break;
                }
 
-               case YMD :
-               case MDY :
+               case YMD:
+               case MDY:
                {
                   dateTimePattern = "MMM dd";
                   break;
@@ -423,23 +423,23 @@ public final class MPXJFormats
             break;
          }
 
-         case EEE_DD_MM_YY_HH_MM :
+         case EEE_DD_MM_YY_HH_MM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "EEE " + "dd" + datesep + "MM" + datesep + "yy " + timePattern;
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "EEE " + "MM" + datesep + "dd" + datesep + "yy " + timePattern;
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "EEE " + "yy" + datesep + "MM" + datesep + "dd " + timePattern;
                   break;
@@ -448,23 +448,23 @@ public final class MPXJFormats
             break;
          }
 
-         case EEE_DD_MM_YY :
+         case EEE_DD_MM_YY:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "EEE dd" + datesep + "MM" + datesep + "yy";
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "EEE MM" + datesep + "dd" + datesep + "yy";
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "EEE yy" + datesep + "MM" + datesep + "dd";
                   break;
@@ -473,23 +473,23 @@ public final class MPXJFormats
             break;
          }
 
-         case EEE_DD_MMM_YY :
+         case EEE_DD_MMM_YY:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "EEE dd MMM ''yy";
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "EEE MM dd ''yy";
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "EEE ''yy MMM dd";
                   break;
@@ -498,24 +498,24 @@ public final class MPXJFormats
             break;
          }
 
-         case EEE_HH_MM :
+         case EEE_HH_MM:
          {
             dateTimePattern = "EEE " + timePattern;
             break;
          }
 
-         case DD_MM :
+         case DD_MM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd" + datesep + "MM";
                   break;
                }
 
-               case YMD :
-               case MDY :
+               case YMD:
+               case MDY:
                {
                   dateTimePattern = "MM" + datesep + "dd";
                   break;
@@ -524,30 +524,30 @@ public final class MPXJFormats
             break;
          }
 
-         case DD :
+         case DD:
          {
             dateTimePattern = "dd";
             break;
          }
 
-         case HH_MM :
+         case HH_MM:
          {
             dateTimePattern = timePattern;
             break;
          }
 
-         case EEE_DD_MMM :
+         case EEE_DD_MMM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "EEE dd MMM";
                   break;
                }
 
-               case YMD :
-               case MDY :
+               case YMD:
+               case MDY:
                {
                   dateTimePattern = "EEE MMM dd";
                   break;
@@ -556,18 +556,18 @@ public final class MPXJFormats
             break;
          }
 
-         case EEE_DD_MM :
+         case EEE_DD_MM:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "EEE dd" + datesep + "MM";
                   break;
                }
 
-               case YMD :
-               case MDY :
+               case YMD:
+               case MDY:
                {
                   dateTimePattern = "EEE MM" + datesep + "dd";
                   break;
@@ -576,41 +576,41 @@ public final class MPXJFormats
             break;
          }
 
-         case EEE_DD :
+         case EEE_DD:
          {
             dateTimePattern = "EEE dd";
             break;
          }
 
-         case DD_WWW :
+         case DD_WWW:
          {
             dateTimePattern = "F" + datesep + "'W'ww";
             break;
          }
 
-         case DD_WWW_YY_HH_MM :
+         case DD_WWW_YY_HH_MM:
          {
             dateTimePattern = "F" + datesep + "'W'ww" + datesep + "yy " + timePattern;
             break;
          }
 
-         case DD_MM_YYYY :
+         case DD_MM_YYYY:
          {
             switch (dateOrder)
             {
-               case DMY :
+               case DMY:
                {
                   dateTimePattern = "dd" + datesep + "MM" + datesep + "yyyy";
                   break;
                }
 
-               case MDY :
+               case MDY:
                {
                   dateTimePattern = "MM" + datesep + "dd" + datesep + "yyyy";
                   break;
                }
 
-               case YMD :
+               case YMD:
                {
                   dateTimePattern = "yyyy" + datesep + "MM" + datesep + "dd";
                   break;

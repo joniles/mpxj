@@ -58,31 +58,31 @@ final class ResultSetRow extends MapRow
 
          switch (type)
          {
-            case Types.BIT :
-            case Types.BOOLEAN :
+            case Types.BIT:
+            case Types.BOOLEAN:
             {
                value = Boolean.valueOf(rs.getBoolean(name));
                break;
             }
 
-            case Types.CHAR :
-            case Types.NCHAR :
-            case Types.VARCHAR :
-            case Types.NVARCHAR :
-            case Types.LONGVARCHAR :
-            case Types.LONGNVARCHAR :
+            case Types.CHAR:
+            case Types.NCHAR:
+            case Types.VARCHAR:
+            case Types.NVARCHAR:
+            case Types.LONGVARCHAR:
+            case Types.LONGNVARCHAR:
             {
                value = rs.getString(name);
                break;
             }
 
-            case Types.DATE :
+            case Types.DATE:
             {
                value = rs.getDate(name);
                break;
             }
 
-            case Types.TIMESTAMP :
+            case Types.TIMESTAMP:
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
@@ -96,41 +96,41 @@ final class ResultSetRow extends MapRow
                break;
             }
 
-            case Types.DOUBLE :
-            case Types.NUMERIC :
+            case Types.DOUBLE:
+            case Types.NUMERIC:
             {
                value = NumberUtility.getDouble(rs.getDouble(name));
                break;
             }
 
-            case Types.INTEGER :
-            case Types.SMALLINT :
+            case Types.INTEGER:
+            case Types.SMALLINT:
             {
                value = Integer.valueOf(rs.getInt(name));
                break;
             }
 
-            case Types.BIGINT :
+            case Types.BIGINT:
             {
                value = Long.valueOf(rs.getLong(name));
                break;
             }
 
-            case Types.VARBINARY :
-            case Types.LONGVARBINARY :
+            case Types.VARBINARY:
+            case Types.LONGVARBINARY:
             {
                value = rs.getBytes(name);
                break;
             }
 
-            case Types.ROWID :
-            case Types.OTHER :
+            case Types.ROWID:
+            case Types.OTHER:
             {
                value = rs.getObject(name);
                break;
             }
 
-            default :
+            default:
             {
                throw new IllegalArgumentException("Unsupported SQL type: " + type + " for column " + name);
             }

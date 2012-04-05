@@ -51,13 +51,13 @@ class ViewFactory14 implements ViewFactory
          ViewType type = ViewType.getInstance(MPPUtility.getShort(fixedData, 112));
          switch (type)
          {
-            case GANTT_CHART :
+            case GANTT_CHART:
             {
                view = new GanttChartView14(file, fixedMeta, fixedData, varData, fontBases);
                break;
             }
 
-            default :
+            default:
             {
                view = new GenericView14(file, fixedData, varData);
                break;

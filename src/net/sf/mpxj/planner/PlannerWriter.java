@@ -615,19 +615,19 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       switch (mpxjCalendar.getWorkingDay(day))
       {
-         case WORKING :
+         case WORKING:
          {
             result = true;
             break;
          }
 
-         case NON_WORKING :
+         case NON_WORKING:
          {
             result = false;
             break;
          }
 
-         case DEFAULT :
+         case DEFAULT:
          {
             result = isWorkingDay(mpxjCalendar.getParent(), day);
             break;
@@ -651,19 +651,19 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       switch (mpxjCalendar.getWorkingDay(day))
       {
-         case WORKING :
+         case WORKING:
          {
             result = "0";
             break;
          }
 
-         case NON_WORKING :
+         case NON_WORKING:
          {
             result = "1";
             break;
          }
 
-         case DEFAULT :
+         case DEFAULT:
          {
             result = "2";
             break;
@@ -770,47 +770,47 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          switch (value.getUnits())
          {
-            case MINUTES :
-            case ELAPSED_MINUTES :
+            case MINUTES:
+            case ELAPSED_MINUTES:
             {
                seconds = value.getDuration() * 60;
                break;
             }
 
-            case HOURS :
-            case ELAPSED_HOURS :
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                seconds = value.getDuration() * (60 * 60);
                break;
             }
 
-            case DAYS :
+            case DAYS:
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                seconds = value.getDuration() * (minutesPerDay * 60);
                break;
             }
 
-            case ELAPSED_DAYS :
+            case ELAPSED_DAYS:
             {
                seconds = value.getDuration() * (24 * 60 * 60);
                break;
             }
 
-            case WEEKS :
+            case WEEKS:
             {
                double minutesPerWeek = m_projectFile.getProjectHeader().getMinutesPerWeek().doubleValue();
                seconds = value.getDuration() * (minutesPerWeek * 60);
                break;
             }
 
-            case ELAPSED_WEEKS :
+            case ELAPSED_WEEKS:
             {
                seconds = value.getDuration() * (7 * 24 * 60 * 60);
                break;
             }
 
-            case MONTHS :
+            case MONTHS:
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
@@ -818,13 +818,13 @@ public final class PlannerWriter extends AbstractProjectWriter
                break;
             }
 
-            case ELAPSED_MONTHS :
+            case ELAPSED_MONTHS:
             {
                seconds = value.getDuration() * (30 * 24 * 60 * 60);
                break;
             }
 
-            case YEARS :
+            case YEARS:
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
@@ -832,13 +832,13 @@ public final class PlannerWriter extends AbstractProjectWriter
                break;
             }
 
-            case ELAPSED_YEARS :
+            case ELAPSED_YEARS:
             {
                seconds = value.getDuration() * (365 * 24 * 60 * 60);
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

@@ -59,6 +59,7 @@ abstract class FieldMap
    public FieldMap(ProjectFile file)
    {
       m_file = file;
+      m_defaultProjectTimeUnits = m_file.getProjectHeader().getDefaultDurationUnits();
    }
 
    /**
@@ -592,19 +593,19 @@ abstract class FieldMap
 
          switch (m_location)
          {
-            case FIXED_DATA :
+            case FIXED_DATA:
             {
                result = readFixedData(id, fixedData, varData);
                break;
             }
 
-            case VAR_DATA :
+            case VAR_DATA:
             {
                result = readVarData(id, fixedData, varData);
                break;
             }
 
-            case META_DATA :
+            case META_DATA:
             {
                // We know that the Boolean flags are stored in the
                // "meta data" block, and can see that the first
@@ -617,7 +618,7 @@ abstract class FieldMap
                break;
             }
 
-            default :
+            default:
             {
                // Unknown location - ignore this.
                break;
@@ -645,19 +646,19 @@ abstract class FieldMap
             {
                switch (m_type.getDataType())
                {
-                  case DATE :
+                  case DATE:
                   {
                      result = MPPUtility.getTimestamp(data, m_fixedDataOffset);
                      break;
                   }
 
-                  case INTEGER :
+                  case INTEGER:
                   {
                      result = Integer.valueOf(MPPUtility.getInt(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case DURATION :
+                  case DURATION:
                   {
                      FieldType unitsType = m_type.getUnitsType();
                      TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
@@ -670,110 +671,110 @@ abstract class FieldMap
                      break;
                   }
 
-                  case TIME_UNITS :
+                  case TIME_UNITS:
                   {
-                     result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, m_fixedDataOffset), m_defaultProjectTimeUnits);
                      break;
                   }
 
-                  case CONSTRAINT :
+                  case CONSTRAINT:
                   {
                      result = ConstraintType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case PRIORITY :
+                  case PRIORITY:
                   {
                      result = Priority.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case PERCENTAGE :
+                  case PERCENTAGE:
                   {
                      result = MPPUtility.getPercentage(data, m_fixedDataOffset);
                      break;
                   }
 
-                  case TASK_TYPE :
+                  case TASK_TYPE:
                   {
                      result = TaskType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case ACCRUE :
+                  case ACCRUE:
                   {
                      result = AccrueType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case CURRENCY :
+                  case CURRENCY:
                   {
                      result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
                      break;
                   }
 
-                  case UNITS :
+                  case UNITS:
                   {
                      result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
                      break;
                   }
 
-                  case RATE :
+                  case RATE:
                   {
                      result = new Rate(MPPUtility.getDouble(data, m_fixedDataOffset), TimeUnit.HOURS);
                      break;
                   }
 
-                  case WORK :
+                  case WORK:
                   {
                      result = Duration.getInstance(MPPUtility.getDouble(data, m_fixedDataOffset) / 60000, TimeUnit.HOURS);
                      break;
                   }
 
-                  case SHORT :
+                  case SHORT:
                   {
                      result = Integer.valueOf(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case BOOLEAN :
+                  case BOOLEAN:
                   {
                      result = Boolean.valueOf(MPPUtility.getShort(data, m_fixedDataOffset) != 0);
                      break;
                   }
 
-                  case DELAY :
+                  case DELAY:
                   {
                      result = MPPUtility.getDuration(MPPUtility.getShort(data, m_fixedDataOffset), TimeUnit.HOURS);
                      break;
                   }
 
-                  case WORK_UNITS :
+                  case WORK_UNITS:
                   {
                      int variableRateUnitsValue = MPPUtility.getByte(data, m_fixedDataOffset);
                      result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
                      break;
                   }
 
-                  case WORKGROUP :
+                  case WORKGROUP:
                   {
                      result = WorkGroup.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
-                  case RATE_UNITS :
+                  case RATE_UNITS:
                   {
                      result = TimeUnit.getInstance(MPPUtility.getShort(data, m_fixedDataOffset) - 1);
                      break;
                   }
 
-                  case GUID :
+                  case GUID:
                   {
                      result = MPPUtility.getGUID(data, m_fixedDataOffset);
                      break;
                   }
 
-                  default :
+                  default:
                   {
                      //System.out.println("**** UNSUPPORTED FIXED DATA TYPE");
                      break;
@@ -798,7 +799,7 @@ abstract class FieldMap
 
          switch (m_type.getDataType())
          {
-            case DURATION :
+            case DURATION:
             {
                FieldType unitsType = m_type.getUnitsType();
                TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
@@ -810,110 +811,110 @@ abstract class FieldMap
                break;
             }
 
-            case TIME_UNITS :
+            case TIME_UNITS:
             {
-               result = MPPUtility.getDurationTimeUnits(varData.getShort(id, m_varDataKey));
+               result = MPPUtility.getDurationTimeUnits(varData.getShort(id, m_varDataKey), m_defaultProjectTimeUnits);
                break;
             }
 
-            case CURRENCY :
+            case CURRENCY:
             {
                result = NumberUtility.getDouble(varData.getDouble(id, m_varDataKey) / 100);
                break;
             }
 
-            case STRING :
+            case STRING:
             {
                result = getCustomFieldUnicodeStringValue(varData, id, m_varDataKey);
                break;
             }
 
-            case DATE :
+            case DATE:
             {
                result = getCustomFieldTimestampValue(varData, id, m_varDataKey);
                break;
             }
 
-            case NUMERIC :
+            case NUMERIC:
             {
                result = getCustomFieldDoubleValue(varData, id, m_varDataKey);
                break;
             }
 
-            case INTEGER :
+            case INTEGER:
             {
                result = Integer.valueOf(varData.getInt(id, m_varDataKey));
                break;
             }
 
-            case WORK :
+            case WORK:
             {
                result = Duration.getInstance(varData.getDouble(id, m_varDataKey) / 60000, TimeUnit.HOURS);
                break;
             }
 
-            case ASCII_STRING :
+            case ASCII_STRING:
             {
                result = varData.getString(id, m_varDataKey);
                break;
             }
 
-            case DELAY :
+            case DELAY:
             {
                result = MPPUtility.getDuration(varData.getShort(id, m_varDataKey), TimeUnit.HOURS);
                break;
             }
 
-            case WORK_UNITS :
+            case WORK_UNITS:
             {
                int variableRateUnitsValue = varData.getByte(id, m_varDataKey);
                result = variableRateUnitsValue == 0 ? null : MPPUtility.getWorkTimeUnits(variableRateUnitsValue);
                break;
             }
 
-            case RATE_UNITS :
+            case RATE_UNITS:
             {
                result = TimeUnit.getInstance(varData.getShort(id, m_varDataKey) - 1);
                break;
             }
 
-            case ACCRUE :
+            case ACCRUE:
             {
                result = AccrueType.getInstance(varData.getShort(id, m_varDataKey));
                break;
             }
 
-            case SHORT :
+            case SHORT:
             {
                result = Integer.valueOf(varData.getShort(id, m_varDataKey));
                break;
             }
 
-            case BOOLEAN :
+            case BOOLEAN:
             {
                result = Boolean.valueOf(varData.getShort(id, m_varDataKey) != 0);
                break;
             }
 
-            case WORKGROUP :
+            case WORKGROUP:
             {
                result = WorkGroup.getInstance(varData.getShort(id, m_varDataKey));
                break;
             }
 
-            case GUID :
+            case GUID:
             {
                result = MPPUtility.getGUID(varData.getByteArray(id, m_varDataKey), 0);
                break;
             }
 
-            case BINARY :
+            case BINARY:
             {
                // Do nothing for binary data
                break;
             }
 
-            default :
+            default:
             {
                //System.out.println("**** UNSUPPORTED VAR DATA TYPE");
                break;
@@ -1123,7 +1124,7 @@ abstract class FieldMap
          {
             switch (m_location)
             {
-               case FIXED_DATA :
+               case FIXED_DATA:
                {
                   result = m_fixedDataBlockIndex - item.m_fixedDataBlockIndex;
                   if (result == 0)
@@ -1133,13 +1134,13 @@ abstract class FieldMap
                   break;
                }
 
-               case VAR_DATA :
+               case VAR_DATA:
                {
                   result = m_varDataKey.intValue() - item.m_varDataKey.intValue();
                   break;
                }
 
-               default :
+               default:
                {
                   break;
                }
@@ -1161,7 +1162,7 @@ abstract class FieldMap
 
          switch (m_location)
          {
-            case FIXED_DATA :
+            case FIXED_DATA:
             {
                buffer.append(" fixedDataBlockIndex=");
                buffer.append(m_fixedDataBlockIndex);
@@ -1170,14 +1171,14 @@ abstract class FieldMap
                break;
             }
 
-            case VAR_DATA :
+            case VAR_DATA:
             {
                buffer.append(" varDataKey=");
                buffer.append(m_varDataKey);
                break;
             }
 
-            default :
+            default:
             {
                break;
             }
@@ -1196,6 +1197,7 @@ abstract class FieldMap
    }
 
    private ProjectFile m_file;
+   protected TimeUnit m_defaultProjectTimeUnits;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataOffset = new int[MAX_FIXED_DATA_BLOCKS];
 

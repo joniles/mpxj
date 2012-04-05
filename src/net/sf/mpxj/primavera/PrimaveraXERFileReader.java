@@ -405,13 +405,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       switch (type)
       {
-         case HEADER :
+         case HEADER:
          {
             processHeader(record);
             break;
          }
 
-         case TABLE :
+         case TABLE:
          {
             m_currentTableName = record.get(1).toLowerCase();
             m_skipTable = !REQUIRED_TABLES.contains(m_currentTableName);
@@ -427,7 +427,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             break;
          }
 
-         case FIELDS :
+         case FIELDS:
          {
             if (m_skipTable)
             {
@@ -444,7 +444,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             break;
          }
 
-         case DATA :
+         case DATA:
          {
             if (!m_skipTable)
             {
@@ -468,7 +468,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                   {
                      switch (fieldType)
                      {
-                        case DATE :
+                        case DATE:
                         {
                            try
                            {
@@ -483,7 +483,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                            break;
                         }
 
-                        case CURRENCY :
+                        case CURRENCY:
                         {
                            try
                            {
@@ -497,7 +497,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                            break;
                         }
 
-                        case DOUBLE :
+                        case DOUBLE:
                         {
                            try
                            {
@@ -511,7 +511,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                            break;
                         }
 
-                        case DURATION :
+                        case DURATION:
                         {
                            try
                            {
@@ -525,13 +525,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                            break;
                         }
 
-                        case INTEGER :
+                        case INTEGER:
                         {
                            objectValue = Integer.valueOf(fieldValue);
                            break;
                         }
 
-                        default :
+                        default:
                         {
                            objectValue = fieldValue;
                            break;
@@ -558,13 +558,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             break;
          }
 
-         case END :
+         case END:
          {
             done = true;
             break;
          }
 
-         default :
+         default:
          {
             break;
          }

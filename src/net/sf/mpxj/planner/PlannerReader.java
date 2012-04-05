@@ -282,13 +282,13 @@ public final class PlannerReader extends AbstractProjectReader
       {
          switch (getInt(plannerDay))
          {
-            case 0 :
+            case 0:
             {
                dayType = DayType.WORKING;
                break;
             }
 
-            case 1 :
+            case 1:
             {
                dayType = DayType.NON_WORKING;
                break;

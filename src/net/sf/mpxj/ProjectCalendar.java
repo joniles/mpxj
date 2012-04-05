@@ -1171,21 +1171,21 @@ public final class ProjectCalendar extends ProjectCalendarWeek
       double daysPerMonth = getParentFile().getProjectHeader().getDaysPerMonth().doubleValue();
       switch (format)
       {
-         case MINUTES :
+         case MINUTES:
          {
             duration = totalTime;
             duration /= (60 * 1000);
             break;
          }
 
-         case HOURS :
+         case HOURS:
          {
             duration = totalTime;
             duration /= (60 * 60 * 1000);
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             duration = totalTime;
             if (minutesPerDay != 0)
@@ -1199,7 +1199,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             duration = totalTime;
             if (minutesPerWeek != 0)
@@ -1213,7 +1213,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             duration = totalTime;
             if (daysPerMonth != 0 && minutesPerDay != 0)
@@ -1227,37 +1227,37 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             break;
          }
 
-         case ELAPSED_MINUTES :
+         case ELAPSED_MINUTES:
          {
             duration = totalTime / (60 * 1000);
             break;
          }
 
-         case ELAPSED_HOURS :
+         case ELAPSED_HOURS:
          {
             duration = totalTime / (60 * 60 * 1000);
             break;
          }
 
-         case ELAPSED_DAYS :
+         case ELAPSED_DAYS:
          {
             duration = totalTime / (24 * 60 * 60 * 1000);
             break;
          }
 
-         case ELAPSED_WEEKS :
+         case ELAPSED_WEEKS:
          {
             duration = totalTime / (7 * 24 * 60 * 60 * 1000);
             break;
          }
 
-         case ELAPSED_MONTHS :
+         case ELAPSED_MONTHS:
          {
             duration = totalTime / (30 * 24 * 60 * 60 * 1000);
             break;
          }
 
-         default :
+         default:
          {
             throw new IllegalArgumentException("TimeUnit " + format + " not supported");
          }

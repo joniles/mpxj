@@ -90,20 +90,20 @@ public final class FileVersion
 
       switch (m_value)
       {
-         case 1 :
+         case 1:
          {
             result = "1.0";
             break;
          }
 
-         case 3 :
+         case 3:
          {
             result = "3.0";
             break;
          }
 
-         default :
-         case 4 :
+         default:
+         case 4:
          {
             result = "4.0";
             break;

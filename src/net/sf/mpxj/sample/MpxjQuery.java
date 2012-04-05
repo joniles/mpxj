@@ -149,43 +149,20 @@ public class MpxjQuery
    private static void listTasks(ProjectFile file)
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
-      String startDate;
-      String finishDate;
-      String duration;
-      Date date;
-      Duration dur;
 
       for (Task task : file.getAllTasks())
       {
-         date = task.getStart();
-         if (date != null)
-         {
-            startDate = df.format(date);
-         }
-         else
-         {
-            startDate = "(no date supplied)";
-         }
+         Date date = task.getStart();
+         String startDate = date != null ? df.format(date) : "(no start date supplied)";
 
          date = task.getFinish();
-         if (date != null)
-         {
-            finishDate = df.format(date);
-         }
-         else
-         {
-            finishDate = "(no date supplied)";
-         }
+         String finishDate = date != null ? df.format(date) : "(no finish date supplied)";
 
-         dur = task.getDuration();
-         if (dur != null)
-         {
-            duration = dur.toString();
-         }
-         else
-         {
-            duration = "(no duration supplied)";
-         }
+         Duration dur = task.getDuration();
+         String duration = dur != null ? dur.toString() : "(no duration supplied)";
+
+         dur = task.getActualDuration();
+         String actualDuration = dur != null ? dur.toString() : "(no actual duration supplied)";
 
          String baselineDuration = task.getBaselineDurationText();
          if (baselineDuration == null)
@@ -201,7 +178,7 @@ public class MpxjQuery
             }
          }
 
-         System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Baseline Duration=" + baselineDuration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
+         System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Actual Duration" + actualDuration + " Baseline Duration=" + baselineDuration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
       }
       System.out.println();
    }

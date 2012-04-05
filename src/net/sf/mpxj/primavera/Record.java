@@ -185,13 +185,13 @@ class Record
          char c = text.charAt(i);
          switch (c)
          {
-            case '(' :
+            case '(':
             {
                ++count;
                break;
             }
 
-            case ')' :
+            case ')':
             {
                --count;
                if (count == 0)

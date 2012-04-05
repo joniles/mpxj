@@ -241,43 +241,43 @@ public final class DatatypeConverter
       {
          switch (mpxFieldID.getDataType())
          {
-            case STRING :
+            case STRING:
             {
                mpx.set(mpxFieldID, value);
                break;
             }
 
-            case DATE :
+            case DATE:
             {
                mpx.set(mpxFieldID, parseExtendedAttributeDate(value));
                break;
             }
 
-            case CURRENCY :
+            case CURRENCY:
             {
                mpx.set(mpxFieldID, parseExtendedAttributeCurrency(value));
                break;
             }
 
-            case BOOLEAN :
+            case BOOLEAN:
             {
                mpx.set(mpxFieldID, parseExtendedAttributeBoolean(value));
                break;
             }
 
-            case NUMERIC :
+            case NUMERIC:
             {
                mpx.set(mpxFieldID, parseExtendedAttributeNumber(value));
                break;
             }
 
-            case DURATION :
+            case DURATION:
             {
                mpx.set(mpxFieldID, parseDuration(file, null, value));
                break;
             }
 
-            default :
+            default:
             {
                break;
             }
@@ -297,26 +297,26 @@ public final class DatatypeConverter
 
       switch (value)
       {
-         default :
-         case BEFORE :
+         default:
+         case BEFORE:
          {
             result = "0";
             break;
          }
 
-         case AFTER :
+         case AFTER:
          {
             result = "1";
             break;
          }
 
-         case BEFORE_WITH_SPACE :
+         case BEFORE_WITH_SPACE:
          {
             result = "2";
             break;
          }
 
-         case AFTER_WITH_SPACE :
+         case AFTER_WITH_SPACE:
          {
             result = "3";
             break;
@@ -338,25 +338,25 @@ public final class DatatypeConverter
 
       switch (NumberUtility.getInt(value))
       {
-         case 0 :
+         case 0:
          {
             result = CurrencySymbolPosition.BEFORE;
             break;
          }
 
-         case 1 :
+         case 1:
          {
             result = CurrencySymbolPosition.AFTER;
             break;
          }
 
-         case 2 :
+         case 2:
          {
             result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
             break;
          }
 
-         case 3 :
+         case 3:
          {
             result = CurrencySymbolPosition.AFTER_WITH_SPACE;
             break;
@@ -669,38 +669,38 @@ public final class DatatypeConverter
       {
          switch (value.intValue())
          {
-            case 1 :
+            case 1:
             {
                result = TimeUnit.MINUTES;
                break;
             }
 
-            case 3 :
+            case 3:
             {
                result = TimeUnit.DAYS;
                break;
             }
 
-            case 4 :
+            case 4:
             {
                result = TimeUnit.WEEKS;
                break;
             }
 
-            case 5 :
+            case 5:
             {
                result = TimeUnit.MONTHS;
                break;
             }
 
-            case 7 :
+            case 7:
             {
                result = TimeUnit.YEARS;
                break;
             }
 
-            default :
-            case 2 :
+            default:
+            case 2:
             {
                result = TimeUnit.HOURS;
                break;
@@ -728,38 +728,38 @@ public final class DatatypeConverter
 
       switch (value)
       {
-         case MINUTES :
+         case MINUTES:
          {
             result = 1;
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             result = 3;
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             result = 4;
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             result = 5;
             break;
          }
 
-         case YEARS :
+         case YEARS:
          {
             result = 7;
             break;
          }
 
-         default :
-         case HOURS :
+         default:
+         case HOURS:
          {
             result = 2;
             break;
@@ -815,7 +815,7 @@ public final class DatatypeConverter
 
          switch (units)
          {
-            case YEARS :
+            case YEARS:
             {
                //
                // Calculate the number of years
@@ -829,7 +829,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_YEARS :
+            case ELAPSED_YEARS:
             {
                //
                // Calculate the number of years
@@ -843,7 +843,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case MONTHS :
+            case MONTHS:
             {
                //
                // Calculate the number of months
@@ -857,7 +857,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_MONTHS :
+            case ELAPSED_MONTHS:
             {
                //
                // Calculate the number of months
@@ -871,7 +871,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case WEEKS :
+            case WEEKS:
             {
                //
                // Calculate the number of weeks
@@ -885,7 +885,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_WEEKS :
+            case ELAPSED_WEEKS:
             {
                //
                // Calculate the number of weeks
@@ -899,7 +899,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case DAYS :
+            case DAYS:
             {
                //
                // Calculate the number of days
@@ -913,7 +913,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_DAYS :
+            case ELAPSED_DAYS:
             {
                //
                // Calculate the number of days
@@ -927,8 +927,8 @@ public final class DatatypeConverter
                break;
             }
 
-            case HOURS :
-            case ELAPSED_HOURS :
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                //
                // Calculate the number of hours
@@ -942,8 +942,8 @@ public final class DatatypeConverter
                break;
             }
 
-            case MINUTES :
-            case ELAPSED_MINUTES :
+            case MINUTES:
+            case ELAPSED_MINUTES:
             {
                //
                // Calculate the number of minutes
@@ -957,7 +957,7 @@ public final class DatatypeConverter
                break;
             }
 
-            default :
+            default:
             {
                break;
             }
@@ -1095,86 +1095,86 @@ public final class DatatypeConverter
       {
          switch (value.intValue())
          {
-            case 3 :
-            case 35 :
+            case 3:
+            case 35:
             {
                result = TimeUnit.MINUTES;
                break;
             }
 
-            case 4 :
-            case 36 :
+            case 4:
+            case 36:
             {
                result = TimeUnit.ELAPSED_MINUTES;
                break;
             }
 
-            case 5 :
-            case 37 :
+            case 5:
+            case 37:
             {
                result = TimeUnit.HOURS;
                break;
             }
 
-            case 6 :
-            case 38 :
+            case 6:
+            case 38:
             {
                result = TimeUnit.ELAPSED_HOURS;
                break;
             }
 
-            case 7 :
-            case 39 :
-            case 53 :
+            case 7:
+            case 39:
+            case 53:
             {
                result = TimeUnit.DAYS;
                break;
             }
 
-            case 8 :
-            case 40 :
+            case 8:
+            case 40:
             {
                result = TimeUnit.ELAPSED_DAYS;
                break;
             }
 
-            case 9 :
-            case 41 :
+            case 9:
+            case 41:
             {
                result = TimeUnit.WEEKS;
                break;
             }
 
-            case 10 :
-            case 42 :
+            case 10:
+            case 42:
             {
                result = TimeUnit.ELAPSED_WEEKS;
                break;
             }
 
-            case 11 :
-            case 43 :
+            case 11:
+            case 43:
             {
                result = TimeUnit.MONTHS;
                break;
             }
 
-            case 12 :
-            case 44 :
+            case 12:
+            case 44:
             {
                result = TimeUnit.ELAPSED_MONTHS;
                break;
             }
 
-            case 19 :
-            case 51 :
+            case 19:
+            case 51:
             {
                result = TimeUnit.PERCENT;
                break;
             }
 
-            case 20 :
-            case 52 :
+            case 20:
+            case 52:
             {
                result = TimeUnit.ELAPSED_PERCENT;
                break;
@@ -1206,74 +1206,74 @@ public final class DatatypeConverter
 
       switch (value)
       {
-         case MINUTES :
+         case MINUTES:
          {
             result = (estimated ? 35 : 3);
             break;
          }
 
-         case ELAPSED_MINUTES :
+         case ELAPSED_MINUTES:
          {
             result = (estimated ? 36 : 4);
             break;
          }
 
-         case ELAPSED_HOURS :
+         case ELAPSED_HOURS:
          {
             result = (estimated ? 38 : 6);
             break;
          }
 
-         case DAYS :
+         case DAYS:
          {
             result = (estimated ? 39 : 7);
             break;
          }
 
-         case ELAPSED_DAYS :
+         case ELAPSED_DAYS:
          {
             result = (estimated ? 40 : 8);
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             result = (estimated ? 41 : 9);
             break;
          }
 
-         case ELAPSED_WEEKS :
+         case ELAPSED_WEEKS:
          {
             result = (estimated ? 42 : 10);
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             result = (estimated ? 43 : 11);
             break;
          }
 
-         case ELAPSED_MONTHS :
+         case ELAPSED_MONTHS:
          {
             result = (estimated ? 44 : 12);
             break;
          }
 
-         case PERCENT :
+         case PERCENT:
          {
             result = (estimated ? 51 : 19);
             break;
          }
 
-         case ELAPSED_PERCENT :
+         case ELAPSED_PERCENT:
          {
             result = (estimated ? 52 : 20);
             break;
          }
 
-         default :
-         case HOURS :
+         default:
+         case HOURS:
          {
             result = (estimated ? 37 : 5);
             break;
@@ -1442,62 +1442,62 @@ public final class DatatypeConverter
 
          switch (duration.getUnits())
          {
-            case HOURS :
-            case ELAPSED_HOURS :
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                result *= 60;
                break;
             }
 
-            case DAYS :
+            case DAYS:
             {
                result *= (60 * 8);
                break;
             }
 
-            case ELAPSED_DAYS :
+            case ELAPSED_DAYS:
             {
                result *= (60 * 24);
                break;
             }
 
-            case WEEKS :
+            case WEEKS:
             {
                result *= (60 * 8 * 5);
                break;
             }
 
-            case ELAPSED_WEEKS :
+            case ELAPSED_WEEKS:
             {
                result *= (60 * 24 * 7);
                break;
             }
 
-            case MONTHS :
+            case MONTHS:
             {
                result *= (60 * 8 * 5 * 4);
                break;
             }
 
-            case ELAPSED_MONTHS :
+            case ELAPSED_MONTHS:
             {
                result *= (60 * 24 * 30);
                break;
             }
 
-            case YEARS :
+            case YEARS:
             {
                result *= (60 * 8 * 5 * 52);
                break;
             }
 
-            case ELAPSED_YEARS :
+            case ELAPSED_YEARS:
             {
                result *= (60 * 24 * 365);
                break;
             }
 
-            default :
+            default:
             {
                break;
             }

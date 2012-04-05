@@ -15,7 +15,7 @@
 allow project information to be manipulated in Java and .Net. MPXJ supports
 eight data formats, Microsoft Project Exchange (MPX), Microsoft
 Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), Planner (XML), and Primavera (PM XML, XER and database).</p>
+Project Database (MPD), Planner (XML), and Primavera (PM XML, XER, and database).</p>
 
 <p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
@@ -67,8 +67,9 @@ file format.</li>
 
 <li><b>PRIMAVERA:</b> Primavera is a high end project planning tool favoured
 by users with complex planning requirements. It can export project data in the 
-form of an XER or PM XML files which MPXJ can read. It is also possible for MPXJ to connect
-directly to the Primavera database via JDBC to read project data.</li>
+form of an XER or PM XML files, both of which MPXJ can read. It is also possible for MPXJ to connect
+directly to the Primavera database via JDBC to read project data. MPXJ can also write PM XML files 
+to allow data to be exported in a form which can be consumed by Primavera.</li>
 </ul>
 </section>
 
@@ -199,8 +200,8 @@ use of the POI library. The license for this library can
 be found in the legal directory of the distribution.</p>
 
 <p>The functionality used to create .NET DLLs and the supporting libraries
-it requires depend on IKVM and GNU Classpath. The licenses for these libraries
-and utilities can be found in the legal directory of the distribution.</p>
+it requires depends on IKVM. The licenses for IKVM and its associated
+third party libraries can be found in the legal directory of the distribution.</p>
 
 <p>A copy of the JUnit library is provided for your
 convenience to allow you to run the regression tests
@@ -209,10 +210,9 @@ the legal directory of the distribution.</p>
 </section>
 
 <section name="Acknowledgements"> 
-<p>This product includes software developed by the Apache Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org</a>)</p> 
-<p>This product includes software developed by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p>
-<p>This product includes software developed by the GNU Classpath Project (<a href="http://www.gnu.org/software/classpath/" target="_blank">http://www.gnu.org/software/classpath</a>)</p>
-<p>This product includes software developed by the JUnit Project (<a href="http://www.junit.org/" target="_blank">http://www.junit.org</a>)</p> 
+<p>This product includes software provided by the Apache Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org</a>)</p> 
+<p>This product includes software provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p>
+<p>This product includes software provided by the JUnit Project (<a href="http://www.junit.org/" target="_blank">http://www.junit.org</a>)</p> 
 </section>
 
    </body> 

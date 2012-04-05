@@ -54,25 +54,25 @@ public final class FieldTypeUtility
 
       switch (prefix)
       {
-         case MPPTaskField.TASK_FIELD_BASE :
+         case MPPTaskField.TASK_FIELD_BASE:
          {
             result = MPPTaskField.getInstance(index);
             break;
          }
 
-         case MPPResourceField.RESOURCE_FIELD_BASE :
+         case MPPResourceField.RESOURCE_FIELD_BASE:
          {
             result = MPPResourceField.getInstance(index);
             break;
          }
 
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
             result = MPPAssignmentField.getInstance(index);
             break;
          }
 
-         default :
+         default:
          {
             result = null;
             break;
@@ -97,7 +97,7 @@ public final class FieldTypeUtility
 
       switch (prefix)
       {
-         case MPPTaskField.TASK_FIELD_BASE :
+         case MPPTaskField.TASK_FIELD_BASE:
          {
             result = MPPTaskField.getInstance(index);
             if (result == null)
@@ -107,7 +107,7 @@ public final class FieldTypeUtility
             break;
          }
 
-         case MPPResourceField.RESOURCE_FIELD_BASE :
+         case MPPResourceField.RESOURCE_FIELD_BASE:
          {
             result = MPPResourceField.getInstance(index);
             if (result == null)
@@ -117,7 +117,7 @@ public final class FieldTypeUtility
             break;
          }
 
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
             result = MPPAssignmentField.getInstance(index);
             if (result == null)
@@ -127,7 +127,7 @@ public final class FieldTypeUtility
             break;
          }
 
-         default :
+         default:
          {
             result = null;
             break;
@@ -152,25 +152,25 @@ public final class FieldTypeUtility
 
       switch (prefix)
       {
-         case MPPTaskField.TASK_FIELD_BASE :
+         case MPPTaskField.TASK_FIELD_BASE:
          {
             result = MPPTaskField14.getInstanceUnmapped(index);
             break;
          }
 
-         case MPPResourceField.RESOURCE_FIELD_BASE :
+         case MPPResourceField.RESOURCE_FIELD_BASE:
          {
             result = MPPResourceField14.getInstance(index);
             break;
          }
 
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
             result = MPPAssignmentField14.getInstance(index);
             break;
          }
 
-         default :
+         default:
          {
             result = null;
             break;
@@ -196,7 +196,7 @@ public final class FieldTypeUtility
 
       switch (prefix)
       {
-         case MPPTaskField.TASK_FIELD_BASE :
+         case MPPTaskField.TASK_FIELD_BASE:
          {
             result = MPPTaskField14.getInstance(index);
             if (result == null)
@@ -206,7 +206,7 @@ public final class FieldTypeUtility
             break;
          }
 
-         case MPPResourceField.RESOURCE_FIELD_BASE :
+         case MPPResourceField.RESOURCE_FIELD_BASE:
          {
             result = MPPResourceField14.getInstance(index);
             if (result == null)
@@ -216,7 +216,7 @@ public final class FieldTypeUtility
             break;
          }
 
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE :
+         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
             result = MPPAssignmentField14.getInstance(index);
             if (result == null)
@@ -226,7 +226,7 @@ public final class FieldTypeUtility
             break;
          }
 
-         default :
+         default:
          {
             result = null;
             break;

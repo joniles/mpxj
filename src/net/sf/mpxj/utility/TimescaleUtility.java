@@ -66,21 +66,21 @@ public final class TimescaleUtility
 
       switch (segmentUnit)
       {
-         case MINUTES :
+         case MINUTES:
          {
             calendarIncrementUnit = Calendar.MINUTE;
             calendarIncrementAmount = 1;
             break;
          }
 
-         case HOURS :
+         case HOURS:
          {
             calendarIncrementUnit = Calendar.HOUR_OF_DAY;
             calendarIncrementAmount = 1;
             break;
          }
 
-         case WEEKS :
+         case WEEKS:
          {
             cal.set(Calendar.DAY_OF_WEEK, m_weekStartDay);
             calendarIncrementUnit = Calendar.DAY_OF_YEAR;
@@ -88,7 +88,7 @@ public final class TimescaleUtility
             break;
          }
 
-         case THIRDS_OF_MONTHS :
+         case THIRDS_OF_MONTHS:
          {
             cal.set(Calendar.DAY_OF_MONTH, 1);
             calendarIncrementUnit = Calendar.DAY_OF_YEAR;
@@ -96,7 +96,7 @@ public final class TimescaleUtility
             break;
          }
 
-         case MONTHS :
+         case MONTHS:
          {
             cal.set(Calendar.DAY_OF_MONTH, 1);
             calendarIncrementUnit = Calendar.MONTH;
@@ -104,7 +104,7 @@ public final class TimescaleUtility
             break;
          }
 
-         case QUARTERS :
+         case QUARTERS:
          {
             int currentMonth = cal.get(Calendar.MONTH);
             int currentQuarter = currentMonth / 3;
@@ -116,7 +116,7 @@ public final class TimescaleUtility
             break;
          }
 
-         case HALF_YEARS : // align to jan, jun
+         case HALF_YEARS: // align to jan, jun
          {
             int currentMonth = cal.get(Calendar.MONTH);
             int currentHalf = currentMonth / 6;
@@ -128,7 +128,7 @@ public final class TimescaleUtility
             break;
          }
 
-         case YEARS : // align to 1 jan
+         case YEARS: // align to 1 jan
          {
             cal.set(Calendar.DAY_OF_MONTH, 1);
             cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -137,8 +137,8 @@ public final class TimescaleUtility
             break;
          }
 
-         default :
-         case DAYS :
+         default:
+         case DAYS:
          {
             calendarIncrementUnit = Calendar.DAY_OF_YEAR;
             calendarIncrementAmount = 1;

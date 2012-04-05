@@ -420,21 +420,21 @@ public class BasicTest extends MPXJTestCase
       {
          switch (NumberUtility.getInt(assignment.getResource().getID()))
          {
-            case 1 :
+            case 1:
             {
                assertEquals(200, (int) assignment.getRemainingWork().getDuration());
                assertEquals(TimeUnit.HOURS, assignment.getRemainingWork().getUnits());
                break;
             }
 
-            case 2 :
+            case 2:
             {
                assertEquals(300, (int) assignment.getRemainingWork().getDuration());
                assertEquals(TimeUnit.HOURS, assignment.getRemainingWork().getUnits());
                break;
             }
 
-            default :
+            default:
             {
                assertTrue("Unexpected resource", false);
                break;
