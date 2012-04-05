@@ -28,7 +28,7 @@ of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
 
 <section name="Obtaining the source">
 <p>The first step in the process of building your own version of MPXJ is to obtain 
-the latest source from CVS. The MPXJ CVS repository is described <a href="https://sourceforge.net/scm/?type=cvs&group_id=70649" target="_blank">here</a>.
+the latest source from CVS. The MPXJ CVS repository is described <a href="https://sourceforge.net/scm/?type=cvs&amp;group_id=70649" target="_blank">here</a>.
 If you are working with a command line CVS client, you will need to execute the following commands:</p>
 
 <source>
