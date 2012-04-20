@@ -524,7 +524,7 @@ public final class ProjectFile
     *
     * @return next unique ID
     */
-   int getCalendarUniqueID()
+   public int getCalendarUniqueID()
    {
       return (++m_calendarUniqueID);
    }

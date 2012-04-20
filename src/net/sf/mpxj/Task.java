@@ -259,6 +259,33 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Inserts a child task prior to a given sibling task.
+    * 
+    * @param child new child task
+    * @param previousSibling sibling task
+    */
+   public void addChildTaskBefore(Task child, Task previousSibling)
+   {
+      int index = m_children.indexOf(previousSibling);
+      if (index == -1)
+      {
+         m_children.add(child);
+      }
+      else
+      {
+         m_children.add(index, child);
+      }
+
+      child.m_parent = this;
+      setSummary(true);
+
+      if (getParentFile().getAutoOutlineLevel() == true)
+      {
+         child.setOutlineLevel(Integer.valueOf(NumberUtility.getInt(getOutlineLevel()) + 1));
+      }
+   }
+
+   /**
     * Removes a child task.
     *
     * @param child child task instance

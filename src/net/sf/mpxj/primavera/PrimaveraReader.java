@@ -328,7 +328,9 @@ final class PrimaveraReader
          //task.setBCWS(val); // bcws
          //task.setActualCost(val); // act_expense_cost+act_work_cost+ act_equip_cost+act_mat_cost
          //task.setBaselineCost(val); // base_expense_cost+base_work_cost+base_equip_cost+base_mat_cost
-         //task.setRemainingCost(val); // remain_expense_cost+remain_work_cost+remain_equip_cost+remain_mat_cost          
+         //task.setRemainingCost(val); // remain_expense_cost+remain_work_cost+remain_equip_cost+remain_mat_cost
+
+         m_project.fireTaskReadEvent(task);
       }
 
       //

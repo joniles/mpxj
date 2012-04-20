@@ -138,7 +138,7 @@ public final class DataExport
     * Process a single table.
     * 
     * @param pw output print writer
-    * @param connection databae connection
+    * @param connection database connection
     * @param name table name
     * @throws Exception
     */

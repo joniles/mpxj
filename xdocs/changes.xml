@@ -10,6 +10,7 @@
 
 	<release version="4.4.0" date="CVS HEAD">
 		<action dev="joniles" type="add">Added support for writing Primavera PM XML files.</action>
+		<action dev="joniles" type="add">Added support for reading Asta Powerproject MDB files.</action>
 		<action dev="joniles" type="add">Added support for reading Enterprise Custom Fields 1-50 for Task, Resources, and Resource Assignments.</action>
 		<action dev="joniles" type="update">Updated to remove the distinction between base calendar and resource calendars in the ProjectFile class.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3479557: getTimephasedOvertimeWork can return TimephasedWork with NaN</action>
@@ -44,7 +45,7 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3483865: MPP9Reader marks all tasks after a null task as null.</action>																		
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>						
 		<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</action>		
-		<action dev="joniles" type="fix">Updated to fix an issue where subpprojects were not read correctly (Contributed by Gary McKenney).</action>
+		<action dev="joniles" type="fix">Updated to fix an issue where subprojects were not read correctly (Contributed by Gary McKenney).</action>
 	</release>
 
 	<release version="4.2.0" date="23/06/2011">
