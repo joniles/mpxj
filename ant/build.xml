@@ -73,7 +73,8 @@
 </target>
 
 <target name="compile" depends="init" description="Compile Everything">
-   <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}">
+   <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+      <compilerarg line="-encoding cp1252"/>
       <!-- <compilerarg value="-Xlint"/> -->
    </javac>
 </target>
@@ -109,7 +110,7 @@
    </exec>	
 </target>
 
-<target name="archive" depends="jar,dll" description="Create library files">
+<target name="archive" depends="clean,jar,dll" description="Create library files">
    
 </target>
 
