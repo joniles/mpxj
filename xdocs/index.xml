@@ -13,9 +13,9 @@
 
 <p>Welcome to MPXJ! This library provides a set of facilities to
 allow project information to be manipulated in Java and .Net. MPXJ supports
-eight data formats, Microsoft Project Exchange (MPX), Microsoft
+a range of data formats: Microsoft Project Exchange (MPX), Microsoft
 Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), Planner (XML), and Primavera (PM XML, XER, and database).</p>
+Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), and Asta Powerproject (PP, MDB).</p>
 
 <p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
@@ -70,6 +70,10 @@ by users with complex planning requirements. It can export project data in the
 form of an XER or PM XML files, both of which MPXJ can read. It is also possible for MPXJ to connect
 directly to the Primavera database via JDBC to read project data. MPXJ can also write PM XML files 
 to allow data to be exported in a form which can be consumed by Primavera.</li>
+
+<li><b>POWERPROJECT:</b> Asta Powerproject is a planning tool used in a number of industries, 
+particularly construction. Powerproject can save data to PP files or to MDB database files, 
+and MPXJ can read both of these format.s</li>
 </ul>
 </section>
 

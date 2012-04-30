@@ -171,6 +171,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
          calendar.addDerivedCalendar(this);
       }
       clearWorkingDateCache();
+
    }
 
    @Override public ProjectCalendar getParent()

@@ -23,15 +23,23 @@
 
 package net.sf.mpxj.asta;
 
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RelationType;
@@ -116,16 +124,17 @@ final class AstaReader
       //
       // Process groups
       //
-      for (Row row : permanentRows)
-      {
-         Resource resource = m_project.getResourceByUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
-         Resource group = m_project.getResourceByUniqueID(row.getInteger("ROLE"));
-         if (resource != null && group != null)
-         {
-            resource.setGroup(group.getName());
-         }
-      }
-
+      /*      
+            for (Row row : permanentRows)
+            {
+               Resource resource = m_project.getResourceByUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
+               Resource group = m_project.getResourceByUniqueID(row.getInteger("ROLE"));
+               if (resource != null && group != null)
+               {
+                  resource.setGroup(group.getName());
+               }
+            }
+      */
       //
       // Process consumable resources
       //
@@ -837,6 +846,234 @@ final class AstaReader
 
       task.setConstraintType(constraintType);
       task.setConstraintDate(constraintDate);
+   }
+
+   /**
+    * Creates a mapping between exception ID values and working/non-working days.
+    * 
+    * @param rows rows from the exceptions table
+    * @return exception map
+    */
+   public Map<Integer, DayType> createExceptionTypeMap(List<Row> rows)
+   {
+      Map<Integer, DayType> map = new HashMap<Integer, DayType>();
+      for (Row row : rows)
+      {
+         Integer id = row.getInteger("EXCEPTIONNID");
+         DayType result;
+
+         switch (row.getInt("UNIQUE_BIT_FIELD"))
+         {
+            case 8: // Working
+            case 32: // Overtime
+            case 128: //Weekend Working
+            {
+               result = DayType.WORKING;
+               break;
+            }
+
+            case 4: // Non Working            
+            case 16: // Holiday                       
+            case 64: // Weather            
+            case -2147483648: // Weekend
+            default:
+            {
+               result = DayType.NON_WORKING;
+               break;
+            }
+         }
+
+         map.put(id, result);
+      }
+      return map;
+   }
+
+   /**
+    * Creates a map of work pattern rows indexed by the primary key.
+    * 
+    * @param rows work pattern rows
+    * @return work pattern map
+    */
+   public Map<Integer, Row> createWorkPatternMap(List<Row> rows)
+   {
+      Map<Integer, Row> map = new HashMap<Integer, Row>();
+      for (Row row : rows)
+      {
+         map.put(row.getInteger("WORK_PATTERNID"), row);
+      }
+      return map;
+   }
+
+   /**
+    * Creates a map between a calendar ID and a list of
+    * work pattern assignment rows.
+    * 
+    * @param rows work pattern assignment rows
+    * @return work pattern assignment map
+    */
+   public Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows)
+   {
+      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      for (Row row : rows)
+      {
+         Integer calendarID = row.getInteger("WORK_PATTERN_ASSIGNMENTID");
+         List<Row> list = map.get(calendarID);
+         if (list == null)
+         {
+            list = new LinkedList<Row>();
+            map.put(calendarID, list);
+         }
+         list.add(row);
+      }
+      return map;
+   }
+
+   /**
+    * Creates a map between a calendar ID and a list of exception assignment rows.
+    * 
+    * @param rows exception assignment rows
+    * @return exception assignment map
+    */
+   public Map<Integer, List<Row>> createExceptionAssignmentMap(List<Row> rows)
+   {
+      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      for (Row row : rows)
+      {
+         Integer calendarID = row.getInteger("EXCEPTION_ASSIGNMENTID");
+         List<Row> list = map.get(calendarID);
+         if (list == null)
+         {
+            list = new LinkedList<Row>();
+            map.put(calendarID, list);
+         }
+         list.add(row);
+      }
+      return map;
+   }
+
+   /**
+    * Creates a map between a calendar ID and a list of time entry rows.
+    * 
+    * @param rows time entry rows
+    * @return time entry map
+    */
+   public Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows)
+   {
+      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      for (Row row : rows)
+      {
+         Integer calendarID = row.getInteger("TIME_ENTRYID");
+         List<Row> list = map.get(calendarID);
+         if (list == null)
+         {
+            list = new LinkedList<Row>();
+            map.put(calendarID, list);
+         }
+         list.add(row);
+      }
+      return map;
+   }
+
+   /**
+    * Creates a ProjectCalendar instance from the Asta data.
+    * 
+    * @param calendarRow basic calendar data
+    * @param workPatternMap work pattern map
+    * @param workPatternAssignmentMap work pattern assignment map
+    * @param exceptionAssignmentMap exception assignment map
+    * @param timeEntryMap time entry map
+    * @param exceptionTypeMap exception type map
+    */
+   public void processCalendar(Row calendarRow, Map<Integer, Row> workPatternMap, Map<Integer, List<Row>> workPatternAssignmentMap, Map<Integer, List<Row>> exceptionAssignmentMap, Map<Integer, List<Row>> timeEntryMap, Map<Integer, DayType> exceptionTypeMap)
+   {
+      //
+      // Create the calendar and add the default working hours
+      //
+      ProjectCalendar calendar = m_project.addCalendar();
+      Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
+      calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
+      processWorkPattern(calendar, dominantWorkPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
+      calendar.setName(calendarRow.getString("NAMK"));
+
+      //
+      // Add any additional working weeks
+      //
+      List<Row> rows = workPatternAssignmentMap.get(calendar.getUniqueID());
+      if (rows != null)
+      {
+         for (Row row : rows)
+         {
+            Integer workPatternID = row.getInteger("WORK_PATTERN");
+            if (!workPatternID.equals(dominantWorkPatternID))
+            {
+               ProjectCalendarWeek week = calendar.addWorkWeek();
+               week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+               processWorkPattern(week, row.getInteger("WORK_PATTERN"), workPatternMap, timeEntryMap, exceptionTypeMap);
+            }
+         }
+      }
+
+      //
+      // Add exceptions - not sure how exceptions which turn non-working days into working days are handled by Asta - if at all?
+      //
+      rows = exceptionAssignmentMap.get(calendar.getUniqueID());
+      if (rows != null)
+      {
+         for (Row row : rows)
+         {
+            Date startDate = row.getDate("STARU_DATE");
+            Date endDate = row.getDate("ENE_DATE");
+            calendar.addCalendarException(startDate, endDate);
+         }
+      }
+   }
+
+   /**
+    * Populates a ProjectCalendarWeek instance from Asta work pattern data.
+    * 
+    * @param week target ProjectCalendarWeek instance
+    * @param workPatternID target work pattern ID
+    * @param workPatternMap work pattern data
+    * @param timeEntryMap time entry map
+    * @param exceptionTypeMap exception type map
+    */
+   private void processWorkPattern(ProjectCalendarWeek week, Integer workPatternID, Map<Integer, Row> workPatternMap, Map<Integer, List<Row>> timeEntryMap, Map<Integer, DayType> exceptionTypeMap)
+   {
+      week.setName(workPatternMap.get(workPatternID).getString("NAMN"));
+
+      List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
+      long lastEndTime = Long.MIN_VALUE;
+      Day currentDay = Day.SUNDAY;
+      ProjectCalendarHours hours = week.addCalendarHours(currentDay);
+      Arrays.fill(week.getDays(), DayType.NON_WORKING);
+
+      for (Row row : timeEntryRows)
+      {
+         Date startTime = row.getDate("START_TIME");
+         Date endTime = row.getDate("END_TIME");
+         if (startTime.getTime() > endTime.getTime())
+         {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(endTime);
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+            endTime = cal.getTime();
+         }
+
+         if (startTime.getTime() < lastEndTime)
+         {
+            currentDay = currentDay.getNextDay();
+            hours = week.addCalendarHours(currentDay);
+         }
+
+         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
+         if (type == DayType.WORKING)
+         {
+            hours.addRange(new DateRange(startTime, endTime));
+            week.setWorkingDay(currentDay, DayType.WORKING);
+         }
+
+         lastEndTime = endTime.getTime();
+      }
    }
 
    private ProjectFile m_project;

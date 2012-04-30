@@ -1,8 +1,8 @@
 /*
  * file:       MapRow.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * copyright:  (c) Packwood Software 2012
+ * date:       29/04/2012
  */
 
 /*
@@ -49,7 +49,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final String getString(String name)
+   @Override public String getString(String name)
    {
       Object value = getObject(name);
       String result;
@@ -67,7 +67,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Integer getInteger(String name)
+   @Override public Integer getInteger(String name)
    {
       Object result = getObject(name);
       if (result != null)
@@ -83,7 +83,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Double getDouble(String name)
+   @Override public Double getDouble(String name)
    {
       Object result = getObject(name);
       if (result != null)
@@ -99,7 +99,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Double getCurrency(String name)
+   @Override public Double getCurrency(String name)
    {
       Double value = getDouble(name);
       if (value != null)
@@ -112,7 +112,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final boolean getBoolean(String name)
+   @Override public boolean getBoolean(String name)
    {
       boolean result = false;
       Object value = getObject(name);
@@ -133,7 +133,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final int getInt(String name)
+   @Override public int getInt(String name)
    {
       return (NumberUtility.getInt((Number) getObject(name)));
    }
@@ -141,7 +141,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Date getDate(String name)
+   @Override public Date getDate(String name)
    {
       return ((Date) getObject(name));
    }
@@ -149,7 +149,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Duration getDuration(String name)
+   @Override public Duration getDuration(String name)
    {
       return (Duration.getInstance(NumberUtility.getDouble(getDouble(name)), TimeUnit.HOURS));
    }
@@ -157,7 +157,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Duration getWork(String name)
+   @Override public Duration getWork(String name)
    {
       return (Duration.getInstance(NumberUtility.getDouble(getDouble(name)) / 3600, TimeUnit.HOURS));
    }
@@ -168,10 +168,20 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   private final Object getObject(String name)
+   public Object getObject(String name)
    {
       Object result = m_map.get(name);
       return (result);
+   }
+
+   /**
+    * Retrieve the internal Map instance used to hold row data.
+    * 
+    * @return Map instance
+    */
+   public Map<String, Object> getMap()
+   {
+      return m_map;
    }
 
    protected Map<String, Object> m_map;

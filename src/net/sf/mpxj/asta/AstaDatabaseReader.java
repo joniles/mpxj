@@ -31,9 +31,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,13 +38,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
@@ -175,11 +167,25 @@ public final class AstaDatabaseReader implements ProjectReader
     */
    private void processCalendars() throws SQLException
    {
-      Map<Integer, DayType> exceptionMap = createExceptionMap();
-      List<Row> rows = getRows("select * from calendar where projid=?", m_projectID);
+      List<Row> rows = getRows("select * from exceptionn");
+      Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
+
+      rows = getRows("select * from work_pattern");
+      Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
+
+      rows = getRows("select * from work_pattern_assignment");
+      Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
+
+      rows = getRows("select * from exception_assignment order by exception_assignmentid, ordf");
+      Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
+
+      rows = getRows("select * from time_entry order by time_entryid, ordf");
+      Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
+
+      rows = getRows("select * from calendar where projid=? order by calendarid", m_projectID);
       for (Row row : rows)
       {
-         processCalendar(row, exceptionMap);
+         m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
       }
 
       //
@@ -213,8 +219,8 @@ public final class AstaDatabaseReader implements ProjectReader
     */
    private void processResources() throws SQLException
    {
-      List<Row> permanentRows = getRows("select * from permanent_resource inner join perm_resource_skill on permanent_resource.permanent_resourceid = perm_resource_skill.player where permanent_resource.projid=?", m_projectID);
-      List<Row> consumableRows = getRows("select * from consumable_resource where projid=?", m_projectID);
+      List<Row> permanentRows = getRows("select * from permanent_resource where projid=? order by permanent_resourceid", m_projectID);
+      List<Row> consumableRows = getRows("select * from consumable_resource where projid=? order by consumable_resourceid", m_projectID);
       m_reader.processResources(permanentRows, consumableRows);
    }
 
@@ -238,7 +244,7 @@ public final class AstaDatabaseReader implements ProjectReader
     */
    private void processPredecessors() throws SQLException
    {
-      List<Row> rows = getRows("select * from link where projid=?", m_projectID);
+      List<Row> rows = getRows("select * from link where projid=? order by linkid", m_projectID);
       m_reader.processPredecessors(rows);
    }
 
@@ -249,7 +255,7 @@ public final class AstaDatabaseReader implements ProjectReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> permanentAssignments = getRows("select * from permanent_schedul_allocation inner join perm_resource_skill on permanent_schedul_allocation.allocatiop_of = perm_resource_skill.perm_resource_skillid where permanent_schedul_allocation.projid=?", m_projectID);
+      List<Row> permanentAssignments = getRows("select * from permanent_schedul_allocation inner join perm_resource_skill on permanent_schedul_allocation.allocatiop_of = perm_resource_skill.perm_resource_skillid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.permanent_schedul_allocationid", m_projectID);
       m_reader.processAssignments(permanentAssignments);
    }
 
@@ -415,43 +421,6 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query 
-    * which takes two parameters.
-    * 
-    * @param sql query statement
-    * @param var1 bind variable value
-    * @param var2 bind variable value 
-    * @return result set
-    * @throws SQLException
-    */
-   private List<Row> getRows(String sql, Integer var1, Integer var2) throws SQLException
-   {
-      allocateConnection();
-
-      try
-      {
-         List<Row> result = new LinkedList<Row>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberUtility.getInt(var1));
-         m_ps.setInt(2, NumberUtility.getInt(var2));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
-         {
-            result.add(new ResultSetRow(m_rs, m_meta));
-         }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
-      }
-   }
-
-   /**
     * Allocates a database connection.
     * 
     * @throws SQLException
@@ -543,137 +512,6 @@ public final class AstaDatabaseReader implements ProjectReader
    public String getSchema()
    {
       return m_schema;
-   }
-
-   /**
-    * Creates a map used to translate between exception ID values
-    * and the working/non-working enum values.
-    * 
-    * @return Map instance
-    * @throws SQLException
-    */
-   private Map<Integer, DayType> createExceptionMap() throws SQLException
-   {
-      Map<Integer, DayType> map = new HashMap<Integer, DayType>();
-      List<Row> rows = getRows("select * from exceptionn");
-      for (Row row : rows)
-      {
-         Integer id = row.getInteger("EXCEPTIONNID");
-         DayType result;
-
-         switch (row.getInt("UNIQUE_BIT_FIELD"))
-         {
-            case 8: // Working
-            case 32: // Overtime
-            case 128: //Weekend Working
-            {
-               result = DayType.WORKING;
-               break;
-            }
-
-            case 4: // Non Working            
-            case 16: // Holiday                       
-            case 64: // Weather            
-            case -2147483648: // Weekend
-            default:
-            {
-               result = DayType.NON_WORKING;
-               break;
-            }
-         }
-
-         map.put(id, result);
-      }
-      return map;
-   }
-
-   /**
-    * Process an individual calendar.
-    * 
-    * @param calendarRow calendar data
-    * @param exceptionMap exception ID map
-    * @throws SQLException
-    */
-   private void processCalendar(Row calendarRow, Map<Integer, DayType> exceptionMap) throws SQLException
-   {
-      //
-      // Create the calendar and add the default working hours
-      //
-      ProjectCalendar calendar = m_reader.getProject().addCalendar();
-      Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
-      calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
-      processWorkPattern(calendar, dominantWorkPatternID, exceptionMap);
-      calendar.setName(calendarRow.getString("NAMK"));
-
-      //
-      // Add any additional working weeks
-      //
-      List<Row> rows = getRows("select * from work_pattern_assignment where work_pattern_assignmentid=? and work_pattern<>?", calendar.getUniqueID(), dominantWorkPatternID);
-      for (Row row : rows)
-      {
-         ProjectCalendarWeek week = calendar.addWorkWeek();
-         week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
-         processWorkPattern(week, row.getInteger("WORK_PATTERN"), exceptionMap);
-      }
-
-      //
-      // Add exceptions - not sure how exceptions which turn non-working days into working days are handled by Asta - if at all?
-      //
-      rows = getRows("select * from exception_assignment where exception_assignmentid=? order by ordf", calendar.getUniqueID());
-      for (Row row : rows)
-      {
-         Date startDate = row.getDate("STARU_DATE");
-         Date endDate = row.getDate("ENE_DATE");
-         calendar.addCalendarException(startDate, endDate);
-      }
-   }
-
-   /**
-    * Convert a work pattern into a ProjectCalendarWeek instance.
-    * 
-    * @param week ProjectCalendarWeek instance
-    * @param workPatternID target work pattern ID
-    * @param exceptionMap exception ID map
-    * @throws SQLException
-    */
-   private void processWorkPattern(ProjectCalendarWeek week, Integer workPatternID, Map<Integer, DayType> exceptionMap) throws SQLException
-   {
-      List<Row> rows = getRows("select * from work_pattern where work_patternid=?", workPatternID);
-      week.setName(rows.get(0).getString("NAMN"));
-
-      rows = getRows("select * from time_entry where time_entryid=? order by ordf", workPatternID);
-      long lastEndTime = Long.MIN_VALUE;
-      Day currentDay = Day.SUNDAY;
-      ProjectCalendarHours hours = week.addCalendarHours(currentDay);
-      Arrays.fill(week.getDays(), DayType.NON_WORKING);
-
-      for (Row row : rows)
-      {
-         Date startTime = row.getDate("START_TIME");
-         Date endTime = row.getDate("END_TIME");
-         if (startTime.getTime() > endTime.getTime())
-         {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(endTime);
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            endTime = cal.getTime();
-         }
-
-         if (startTime.getTime() < lastEndTime)
-         {
-            currentDay = currentDay.getNextDay();
-            hours = week.addCalendarHours(currentDay);
-         }
-
-         DayType type = exceptionMap.get(row.getInteger("EXCEPTIOP"));
-         if (type == DayType.WORKING)
-         {
-            hours.addRange(new DateRange(startTime, endTime));
-            week.setWorkingDay(currentDay, DayType.WORKING);
-         }
-
-         lastEndTime = endTime.getTime();
-      }
    }
 
    /**

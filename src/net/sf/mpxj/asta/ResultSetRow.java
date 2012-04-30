@@ -1,8 +1,8 @@
 /*
  * file:       ResultSetRow.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * copyright:  (c) Packwood Software 2012
+ * date:       29/04/2012
  */
 
 /*
