@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using net.sf.mpxj;
 using net.sf.mpxj.reader;
-using java.util;
+using net.sf.mpxj.ExtensionMethods;
 
 namespace MpxjQuery
 {
@@ -73,37 +73,14 @@ namespace MpxjQuery
         }
 
         /// <summary>
-        /// Convenience method to convert a Java Date into a .net DateTime.
-        /// </summary>
-        /// <param name="javaDate">Java Date instance</param>
-        /// <returns>DateTime instance</returns>
-        private static DateTime ToDateTime(Date javaDate)
-        {
-            DateTime result = new DateTime(621355968000000000 + (javaDate.getTime() * 10000));
-            return result;
-        }
-
-        /// <summary>
-        /// Convenience method to convert a Java Collection into an enumerable instance.
-        /// </summary>
-        /// <param name="javaCollection">Java Collection instance</param>
-        /// <returns>enumerable object</returns>
-        private static EnumerableCollection ToEnumerable(Collection javaCollection)
-        {
-            return new EnumerableCollection(javaCollection);
-        }
-
-        /// <summary>
         /// Reads basic summary details from the project header.
         /// </summary>
         /// <param name="file">project file</param>
         private static void listProjectHeader(ProjectFile file)
         {
             ProjectHeader header = file.getProjectHeader();
-            Date startDate = header.getStartDate();
-            Date finishDate = header.getFinishDate();
-            String formattedStartDate = startDate == null ? "(none)" : ToDateTime(startDate).ToString();
-            String formattedFinishDate = finishDate == null ? "(none)" : ToDateTime(finishDate).ToString();
+            String formattedStartDate = header.getStartDate() == null ? "(none)" : header.getStartDate().ToDateTime().ToString();
+            String formattedFinishDate = header.getFinishDate() == null ? "(none)" : header.getFinishDate().ToDateTime().ToString();
 
             System.Console.WriteLine("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
             System.Console.WriteLine();
@@ -115,7 +92,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listResources(ProjectFile file)
         {
-            foreach (Resource resource in ToEnumerable(file.getAllResources()))
+            foreach (Resource resource in file.getAllResources().ToIEnumerable())
             {
                 System.Console.WriteLine("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID() + ") Start=" + resource.getStart() + " Finish=" + resource.getFinish());
             }
@@ -128,18 +105,17 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listTasks(ProjectFile file)
         {
-            String startDate;
-            String finishDate;
-            String duration;
-            Date date;
-            Duration dur;
-
-            foreach (Task task in ToEnumerable(file.getAllTasks()))
+            foreach (Task task in file.getAllTasks().ToIEnumerable())
             {
-                date = task.getStart();
+                String startDate;
+                String finishDate;
+                String duration;
+                Duration dur;
+
+                var date = task.getStart();
                 if (date != null)
                 {
-                    startDate = ToDateTime(date).ToString();
+                    startDate = date.ToDateTime().ToString();
                 }
                 else
                 {
@@ -149,7 +125,7 @@ namespace MpxjQuery
                 date = task.getFinish();
                 if (date != null)
                 {
-                    finishDate = ToDateTime(date).ToString();
+                    finishDate = date.ToDateTime().ToString();
                 }
                 else
                 {
@@ -192,7 +168,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listHierarchy(ProjectFile file)
         {
-            foreach (Task task in ToEnumerable(file.getChildTasks()))
+            foreach (Task task in file.getChildTasks().ToIEnumerable())
             {
                 System.Console.WriteLine("Task: " + task.getName());
                 listHierarchy(task, " ");
@@ -208,7 +184,7 @@ namespace MpxjQuery
         /// <param name="indent">print indent</param>
         private static void listHierarchy(Task task, String indent)
         {
-            foreach (Task child in ToEnumerable(task.getChildTasks()))
+            foreach (Task child in task.getChildTasks().ToIEnumerable())
             {
                 System.Console.WriteLine(indent + "Task: " + child.getName());
                 listHierarchy(child, indent + " ");
@@ -226,7 +202,7 @@ namespace MpxjQuery
             String taskName;
             String resourceName;
 
-            foreach (ResourceAssignment assignment in ToEnumerable(file.getAllResourceAssignments()))
+            foreach (ResourceAssignment assignment in file.getAllResourceAssignments().ToIEnumerable())
             {
                 task = assignment.getTask();
                 if (task == null)
@@ -262,11 +238,11 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listAssignmentsByTask(ProjectFile file)
         {
-            foreach (Task task in ToEnumerable(file.getAllTasks()))
+            foreach (Task task in file.getAllTasks().ToIEnumerable())
             {
                 System.Console.WriteLine("Assignments for task " + task.getName() + ":");
 
-                foreach (ResourceAssignment assignment in ToEnumerable(task.getResourceAssignments()))
+                foreach (ResourceAssignment assignment in task.getResourceAssignments().ToIEnumerable())
                 {
                     Resource resource = assignment.getResource();
                     String resourceName;
@@ -295,11 +271,11 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listAssignmentsByResource(ProjectFile file)
         {
-            foreach (Resource resource in ToEnumerable(file.getAllResources()))
+            foreach (Resource resource in file.getAllResources().ToIEnumerable())
             {
                 System.Console.WriteLine("Assignments for resource " + resource.getName() + ":");
 
-                foreach (ResourceAssignment assignment in ToEnumerable(resource.getTaskAssignments()))
+                foreach (ResourceAssignment assignment in resource.getTaskAssignments().ToIEnumerable())
                 {
                     Task task = assignment.getTask();
                     System.Console.WriteLine("   " + task.getName());
@@ -315,7 +291,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listTaskNotes(ProjectFile file)
         {
-            foreach (Task task in ToEnumerable(file.getAllTasks()))
+            foreach (Task task in file.getAllTasks().ToIEnumerable())
             {
                 String notes = task.getNotes();
 
@@ -334,7 +310,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listResourceNotes(ProjectFile file)
         {
-            foreach (Resource resource in ToEnumerable(file.getAllResources()))
+            foreach (Resource resource in file.getAllResources().ToIEnumerable())
             {
                 String notes = resource.getNotes();
 
@@ -353,7 +329,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listRelationships(ProjectFile file)
         {
-            foreach (Task task in ToEnumerable(file.getAllTasks()))
+            foreach (Task task in file.getAllTasks().ToIEnumerable())
             {
                 System.Console.Write(task.getID());
                 System.Console.Write('\t');
@@ -381,7 +357,7 @@ namespace MpxjQuery
                     System.Console.Write('"');
                 }
                 bool first = true;
-                foreach (Relation relation in ToEnumerable(relations))
+                foreach (Relation relation in relations.ToIEnumerable())
                 {
                     if (!first)
                     {
@@ -417,7 +393,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listSlack(ProjectFile file)
         {
-            foreach (Task task in ToEnumerable(file.getAllTasks()))
+            foreach (Task task in file.getAllTasks().ToIEnumerable())
             {
                 System.Console.WriteLine(task.getName() + " Total Slack=" + task.getTotalSlack() + " Start Slack=" + task.getStartSlack() + " Finish Slack=" + task.getFinishSlack());
             }
@@ -429,12 +405,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listCalendars(ProjectFile file)
         {
-            foreach (ProjectCalendar cal in ToEnumerable(file.getBaseCalendars()))
-            {
-                System.Console.WriteLine(cal.toString());
-            }
-
-            foreach (ProjectCalendar cal in ToEnumerable(file.getResourceCalendars()))
+            foreach (ProjectCalendar cal in file.getCalendars().ToIEnumerable())
             {
                 System.Console.WriteLine(cal.toString());
             }

@@ -92,13 +92,13 @@ public class ProjectCalendarWeek
    {
       m_parent = parent;
 
-      setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-      setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-      setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-      setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-      setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-      setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-      setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+      for (int loop=0; loop< m_days.length; loop++)
+      {
+         if (m_days[loop] == null)
+         {
+            m_days[loop] = DayType.DEFAULT;
+         }
+      }
    }
 
    /**

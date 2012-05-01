@@ -1325,6 +1325,17 @@ public final class DatatypeConverter
    }
 
    /**
+    * Parse duration represented in tenths of minutes.
+    *
+    * @param value duration value
+    * @return Duration instance
+    */   
+   public static final Duration parseDurationInTenthsOfMinutes(Number value)
+   {
+      return parseDurationInFractionsOfMinutes(null, value, TimeUnit.MINUTES, 10);
+   }
+   
+   /**
     * Parse duration represented in thousandths of minutes. 
     * 
     * @param header project header
@@ -1383,12 +1394,12 @@ public final class DatatypeConverter
    }
 
    /**
-    * Print duration in thousandths of minutes.
+    * Print duration in tenths of minutes.
     *
     * @param duration Duration instance
-    * @return duration in thousandths of minutes
+    * @return duration in tenths of minutes
     */
-   public static final BigInteger printDurationInTenthsOfInMinutes(Duration duration)
+   public static final BigInteger printDurationInIntegerTenthsOfMinutes(Duration duration)
    {
       BigInteger result = null;
 

@@ -1491,14 +1491,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setCreationDate(DatatypeConverter.printDate(mpx.getCreateDate()));
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
-      xml.setDelay(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getDelay()));
+      xml.setDelay(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getDelay()));
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setHasFixedRateUnits(Boolean.valueOf(mpx.getVariableRateUnits() == null));
       xml.setFixedMaterial(Boolean.valueOf(mpx.getResource() != null && mpx.getResource().getType() == ResourceType.MATERIAL));
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
-      xml.setLevelingDelay(DatatypeConverter.printDurationInTenthsOfInMinutes(mpx.getLevelingDelay()));
+      xml.setLevelingDelay(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getLevelingDelay()));
       xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelay(), false));
 
       if (!mpx.getNotes().isEmpty())

@@ -135,11 +135,11 @@
 	<delete includeemptydirs="true"> 
     		<fileset dir="${basedir}/src.net" defaultexcludes="false"> 
 			<include name="**/bin/**" /> 
-			<include name="**/obj/**" /> 
+			<include name="**/obj/**" />
+    	   <include name="**/*.suo" />
+    		<include name="**/*.user" />
 		</fileset> 
 	</delete> 
-	<delete file="${basedir}/src.net/**/*.suo"/>
-	<delete file="${basedir}/src.net/**/*.user"/>
 </target>
 	
 <target name="clean" depends="init-props, clean-temp, clean-classes, clean-dot-net" description="Clean up all files">

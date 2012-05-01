@@ -1345,7 +1345,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setCostRateTableIndex(NumberUtility.getInt(assignment.getCostRateTable()));
             mpx.setCreateDate(DatatypeConverter.parseDate(assignment.getCreationDate()));
             mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
-            mpx.setDelay(DatatypeConverter.parseDurationInThousanthsOfMinutes(assignment.getDelay()));
+            mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
             mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
             mpx.setVariableRateUnits(BooleanUtility.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
             mpx.setHyperlink(assignment.getHyperlink());
