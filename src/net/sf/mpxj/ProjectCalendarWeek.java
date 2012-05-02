@@ -92,7 +92,7 @@ public class ProjectCalendarWeek
    {
       m_parent = parent;
 
-      for (int loop=0; loop< m_days.length; loop++)
+      for (int loop = 0; loop < m_days.length; loop++)
       {
          if (m_days[loop] == null)
          {

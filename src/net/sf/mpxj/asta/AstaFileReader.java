@@ -1223,40 +1223,11 @@ public final class AstaFileReader extends AbstractProjectReader
 
    private static final char DELIMITER = ',';
 
-   private static final RowComparator CALENDAR_COMPARATOR = new RowComparator(new String[]
-   {
-      "CALENDARID"
-   });
-
-   private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator(new String[]
-   {
-      "PERMANENT_RESOURCEID"
-   });
-
-   private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator(new String[]
-   {
-      "CONSUMABLE_RESOURCEID"
-   });
-
-   private static final RowComparator BAR_COMPARATOR = new RowComparator(new String[]
-   {
-      "NATURAL_ORDER"
-   });
-
-   private static final RowComparator TASK_COMPARATOR = new RowComparator(new String[]
-   {
-      "WBT",
-      "NATURAO_ORDER"
-   });
-
-   private static final RowComparator LINK_COMPARATOR = new RowComparator(new String[]
-   {
-      "LINKID"
-   });
-
-   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator(new String[]
-   {
-      "PERMANENT_SCHEDUL_ALLOCATIONID"
-   });
-
+   private static final RowComparator CALENDAR_COMPARATOR = new RowComparator("CALENDARID");
+   private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("PERMANENT_RESOURCEID");
+   private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("CONSUMABLE_RESOURCEID");
+   private static final RowComparator BAR_COMPARATOR = new RowComparator("NATURAL_ORDER");
+   private static final RowComparator TASK_COMPARATOR = new RowComparator("WBT", "NATURAO_ORDER");
+   private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");
+   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
 }

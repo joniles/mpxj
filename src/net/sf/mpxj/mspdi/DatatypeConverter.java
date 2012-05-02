@@ -1329,12 +1329,12 @@ public final class DatatypeConverter
     *
     * @param value duration value
     * @return Duration instance
-    */   
+    */
    public static final Duration parseDurationInTenthsOfMinutes(Number value)
    {
       return parseDurationInFractionsOfMinutes(null, value, TimeUnit.MINUTES, 10);
    }
-   
+
    /**
     * Parse duration represented in thousandths of minutes. 
     * 
