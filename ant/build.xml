@@ -48,6 +48,7 @@
 		<property name="poi.dll" value="${basedir}\lib.net\${poi.jar}.dll" />
 		<property name="junit.dll" value="${basedir}\lib.net\junit.dll" />
 		<property name="mpxj.dll" value="${basedir}\lib.net\mpxj.dll" />
+		<property name="mpxj-unmapped.dll" value="${basedir}\lib.net\mpxj-unmapped.dll" />
 
 		<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
 		<available file="${ikvmc.exe}" property="ikvmc.exists" />
@@ -108,6 +109,10 @@
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0003 -out:${junit.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${basedir}\junit\junit.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.exe}" dir="${basedir}">
+			<arg line="-nowarn:0003 -out:${mpxj-unmapped.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${basedir}/ikvm-remap.xml -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">

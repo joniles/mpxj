@@ -7,7 +7,8 @@
       <item name="Changes" href="/changes-report.html" />
       <item name="How to..." href="/howto.html" collapse="true">
       	<item name="How to get started" href="/howto-start.html" />
-      	<item name="How to build MPXJ" href="/howto-build.html" />
+      	<item name="How to build MPXJ" href="/howto-build.html" />      	
+      	<item name="How to use MPXJ with .Net" href="/howto-dotnet.html" />      	
       	<item name="How to convert files" href="/howto-convert.html" />      	
       	<item name="How to work with MPX files" href="/howto-mpx.html" />
       	<item name="How to work with MPP files" href="/howto-mpp.html" /> 
