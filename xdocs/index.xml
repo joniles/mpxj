@@ -15,7 +15,8 @@
 allow project information to be manipulated in Java and .Net. MPXJ supports
 a range of data formats: Microsoft Project Exchange (MPX), Microsoft
 Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), and Asta Powerproject (PP, MDB).</p>
+Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), 
+Asta Powerproject (PP, MDB), and the Standard Data Exchange Format (SDEF).</p>
 
 <p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
@@ -74,6 +75,11 @@ to allow data to be exported in a form which can be consumed by Primavera.</li>
 <li><b>POWERPROJECT:</b> Asta Powerproject is a planning tool used in a number of industries, 
 particularly construction. Powerproject can save data to PP files or to MDB database files, 
 and MPXJ can read both of these format.s</li>
+
+<li><b>SDEF:</b> SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
+Army Corp of Engineers).  SDEF is a fixed column format text file, used to import
+a project schedule up into the QCS (Quality Control System) software from USACE.</li>
+
 </ul>
 </section>
 
