@@ -93,9 +93,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\junit.dll</HintPath>
     </Reference>
-    <Reference Include="mpxj, Version=4.2.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\mpxj.dll</HintPath>
+    <Reference Include="mpxj-for-csharp">
+      <HintPath>..\..\lib.net\mpxj-for-csharp.dll</HintPath>
     </Reference>
     <Reference Include="poi-3.7-20101029, Version=4.2.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

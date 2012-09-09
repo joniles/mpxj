@@ -62,11 +62,6 @@ public final class MPXJException extends Exception
    public static final String INVALID_TIME_UNIT = "Invalid time unit";
 
    /**
-    * Invalid time error message.
-    */
-   public static final String INVALID_TIME = "Invalid time";
-
-   /**
     * Invalid date error message.
     */
    public static final String INVALID_DATE = "Invalid date";
@@ -75,11 +70,6 @@ public final class MPXJException extends Exception
     * Invalid number error message.
     */
    public static final String INVALID_NUMBER = "Invalid number or number format";
-
-   /**
-    * Invalid duration error message.
-    */
-   public static final String INVALID_DURATION = "Invalid duration";
 
    /**
     * Invalid file error message.

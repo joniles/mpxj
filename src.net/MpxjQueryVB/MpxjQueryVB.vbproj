@@ -89,8 +89,8 @@
     <Reference Include="IKVM.Runtime">
       <HintPath>..\..\lib.net\IKVM.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="mpxj">
-      <HintPath>..\..\lib.net\mpxj.dll</HintPath>
+    <Reference Include="mpxj-for-vb">
+      <HintPath>..\..\lib.net\mpxj-for-vb.dll</HintPath>
     </Reference>
     <Reference Include="poi-3.7-20101029">
       <HintPath>..\..\lib.net\poi-3.7-20101029.dll</HintPath>
