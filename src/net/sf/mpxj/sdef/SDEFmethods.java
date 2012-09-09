@@ -29,7 +29,7 @@ import net.sf.mpxj.ProjectCalendar;
 /**
  * This class contains some general purpose static methods used in my SDEFWriter.
  */
-public class SDEFmethods
+class SDEFmethods
 {
    /**
     * Method to force an input string into a fixed width field
