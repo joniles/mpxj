@@ -149,6 +149,10 @@ final class MPP14Reader implements MPPVariantReader
          DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
          m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+         m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+         m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
+         //m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
+         //m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
          m_projectProps = new Props14(getEncryptableInputStream(m_projectDir, "Props"));
          //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
          //FieldMap fm = new FieldMap14(m_file);
@@ -227,6 +231,11 @@ final class MPP14Reader implements MPPVariantReader
          item.setValue(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE));
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
+
+         byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
+         item.setParent(Integer.valueOf(MPPUtility.getShort(b, 8)));
+
+         //byte b2[] = m_outlineCodeFixedData2.getByteArrayValue(loop+3); // contains FieldGUID in first 16 bytes
 
          m_file.addCustomFieldValueItem(item);
       }
@@ -2367,14 +2376,52 @@ final class MPP14Reader implements MPPVariantReader
          if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getUnicodeString(item.getValue());
+
+            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+            if (result2 != null && !result2.isEmpty())
+            {
+               result = result2 + "." + result;
+            }
          }
       }
       return result;
    }
 
    /**
+    * Retrieve custom field value.
+    * 
+    * @param varData var data block
+    * @param outlineCodeVarData var data block
+    * @param id parent item ID
+    * @return item value
+    */
+   private String getCustomFieldOutlineCodeValue(Var2Data varData, Var2Data outlineCodeVarData, Integer id)
+   {
+      String result = null;
+
+      int uniqueId = id.intValue();
+      if (uniqueId == 0)
+      {
+         return "";
+      }
+
+      CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+      if (item != null && item.getValue() != null)
+      {
+         result = MPPUtility.getUnicodeString(item.getValue());
+         String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+         if (result2 != null && !result2.isEmpty())
+         {
+            result = result2 + "." + result;
+         }
+      }
+
+      return result;
+   }
+
+   /**
     * Method used to instantiate the appropriate input stream reader,
-    * a standard one, or one which can deal with "encrypted" data.
+    * sa standard one, or one which can deal with "encrypted" data.
     * 
     * @param directory directory entry
     * @param name file name
@@ -2436,6 +2483,10 @@ final class MPP14Reader implements MPPVariantReader
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
+   private FixedData m_outlineCodeFixedData;
+   private FixedMeta m_outlineCodeFixedMeta;
+   //private FixedData m_outlineCodeFixedData2;
+   //private FixedMeta m_outlineCodeFixedMeta2;
    private Props14 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;

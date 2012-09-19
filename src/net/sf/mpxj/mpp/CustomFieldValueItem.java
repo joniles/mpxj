@@ -109,8 +109,29 @@ public final class CustomFieldValueItem
       return m_unknown;
    }
 
+   /**
+    * Set the parent ID.
+    * 
+    * @param id parent ID
+    */
+   public void setParent(Integer id)
+   {
+      m_parentId = id;
+   }
+
+   /**
+    * Retrieve the parent ID.
+    * 
+    * @return parent IDs
+    */
+   public Integer getParent()
+   {
+      return m_parentId;
+   }
+
    private Integer m_uniqueID;
    private byte[] m_value;
    private String m_description;
    private byte[] m_unknown;
+   private Integer m_parentId;
 }
