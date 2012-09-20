@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -69,7 +69,7 @@ final class FixedMeta extends MPPComponent
       m_itemCount = readInt(is);
       readInt(is);
 
-      m_itemCount = (fileSize - 16) / itemSize;
+      m_itemCount = (fileSize - HEADER_SIZE) / itemSize;
 
       m_array = new Object[m_itemCount];
 
@@ -77,6 +77,46 @@ final class FixedMeta extends MPPComponent
       {
          m_array[loop] = readByteArray(is, itemSize);
       }
+   }
+
+   /**
+    * Constructor, allowing a selection of possible block sizes to be supplied.
+    * 
+    * @param is input stream
+    * @param itemSizes list of potential block sizes
+    */
+   FixedMeta(InputStream is, int... itemSizes)
+      throws IOException
+   {
+
+      this(is, FixedMeta.optimumItemSize(is, itemSizes));
+
+   }
+
+   /**
+    * Given a list of potential block sizes, try to determine 
+    * which one provides the best fit to the size of the data block.
+    * 
+    * @param is input stream
+    * @param itemSizes list of potential item sizes
+    * @return optimum item size
+    */
+   private static int optimumItemSize(InputStream is, int... itemSizes) throws IOException
+   {
+      int available = is.available() - HEADER_SIZE;
+
+      int itemSize = itemSizes[0];
+
+      for (int index = 0; index < itemSizes.length; index++)
+      {
+         itemSize = itemSizes[index];
+         if (available % itemSize == 0)
+         {
+            break;
+         }
+      }
+
+      return itemSize;
    }
 
    /**
@@ -151,4 +191,9 @@ final class FixedMeta extends MPPComponent
     * at the start of the block.
     */
    private static final int MAGIC = 0xFADFADBA;
+
+   /**
+    * Header size.
+    */
+   private static final int HEADER_SIZE = 16;
 }
