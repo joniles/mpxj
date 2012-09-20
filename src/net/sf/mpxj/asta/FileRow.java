@@ -81,14 +81,14 @@ class FileRow extends MapRow
          {
             case Types.BIT:
             {
-               value = Integer.parseInt(data) == 0 ? Boolean.FALSE : Boolean.TRUE;
+               value = parseBoolean(data);
                break;
             }
 
             case Types.VARCHAR:
             case Types.LONGVARCHAR:
             {
-               value = data.substring(2, data.length() - 2);
+               value = parseString(data);
                break;
             }
 
@@ -106,7 +106,7 @@ class FileRow extends MapRow
 
             case Types.INTEGER:
             {
-               value = Integer.valueOf(data);
+               value = parseInteger(data);
                break;
             }
 
@@ -126,6 +126,75 @@ class FileRow extends MapRow
    }
 
    /**
+    * Parse a string representation of a Boolean value.
+    * 
+    * @param value string representation
+    * @return Boolean value
+    */
+   private Boolean parseBoolean(String value) throws ParseException
+   {
+      Boolean result = null;
+      Integer number = parseInteger(value);
+      if (number != null)
+      {
+         result = number.intValue() == 0 ? Boolean.FALSE : Boolean.TRUE;
+      }
+
+      return result;
+   }
+
+   /**
+    * Parse a string representation of an Integer value.
+    * 
+    * @param value string representation
+    * @return Integer value
+    */
+   private Integer parseInteger(String value) throws ParseException
+   {
+      Integer result = null;
+
+      if (value.length() > 0 && value.indexOf(' ') == -1)
+      {
+         if (value.indexOf('.') == -1)
+         {
+            result = Integer.valueOf(value);
+         }
+         else
+         {
+            Number n = parseDouble(value);
+            result = Integer.valueOf(n.intValue());
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Parse a string.
+    * 
+    * @param value string representation
+    * @return String value
+    */
+   private String parseString(String value)
+   {
+      if (value != null)
+      {
+         // Strip angle brackets if present
+         if (!value.isEmpty() && value.charAt(0) == '<')
+         {
+            value = value.substring(1, value.length() - 1);
+         }
+
+         // Strip quotes if present
+         if (!value.isEmpty() && value.charAt(0) == '"')
+         {
+            value = value.substring(1, value.length() - 1);
+         }
+      }
+      return value;
+   }
+
+   /**
     * Parse the string representation of a double.
     * 
     * @param value string representation
@@ -134,32 +203,36 @@ class FileRow extends MapRow
     */
    private Number parseDouble(String value) throws ParseException
    {
-      DecimalFormat df = DOUBLE_FORMAT.get();
-      if (df == null)
-      {
-         df = new DecimalFormat("#.#E0");
-         DOUBLE_FORMAT.set(df);
-      }
 
       Number result = null;
-      if (value.length() > 2)
+      value = parseString(value);
+
+      // If we still have a value
+      if (value != null && !value.isEmpty() && !value.equals("-1 -1"))
       {
-         String number;
          int index = value.indexOf("E+");
-         if (index == -1)
+         if (index != -1)
          {
-            number = value.substring(1, value.length() - 1);
+            value = value.substring(0, index) + 'E' + value.substring(index + 2, value.length());
+         }
+
+         if (value.indexOf('E') != -1)
+         {
+            DecimalFormat df = DOUBLE_FORMAT.get();
+            if (df == null)
+            {
+               df = new DecimalFormat("#.#E0");
+               DOUBLE_FORMAT.set(df);
+            }
+
+            result = df.parse(value);
          }
          else
          {
-            number = value.substring(1, index) + 'E' + value.substring(index + 2, value.length() - 1);
+            result = Double.valueOf(value);
          }
-         result = df.parse(number);
       }
-      else
-      {
-         result = Double.valueOf(value);
-      }
+
       return result;
    }
 
