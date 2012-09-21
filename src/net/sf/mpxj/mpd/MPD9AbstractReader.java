@@ -589,7 +589,7 @@ abstract class MPD9AbstractReader
          {
             if (m_preserveNoteFormatting == false)
             {
-               notes = m_rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
             resource.setNotes(notes);
          }
@@ -1046,7 +1046,7 @@ abstract class MPD9AbstractReader
          {
             if (m_preserveNoteFormatting == false)
             {
-               notes = m_rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
             task.setNotes(notes);
          }
@@ -1200,7 +1200,7 @@ abstract class MPD9AbstractReader
          {
             if (m_preserveNoteFormatting == false)
             {
-               notes = m_rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
             assignment.setNotes(notes);
          }
@@ -1335,7 +1335,6 @@ abstract class MPD9AbstractReader
 
    private boolean m_preserveNoteFormatting;
    private boolean m_autoWBS = true;
-   private RTFUtility m_rtf = new RTFUtility();
 
    private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<Integer, ProjectCalendar>();
    private List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new LinkedList<Pair<ProjectCalendar, Integer>>();

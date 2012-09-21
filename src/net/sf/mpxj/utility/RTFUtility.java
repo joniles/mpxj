@@ -37,15 +37,58 @@ import java.util.regex.Pattern;
 public final class RTFUtility
 {
    /**
+    * Simple heuristic to determine if the string may contain RTF commands.
+    * 
+    * @param text source text
+    * @return true if the text may contain RTF commands
+    */
+   public static boolean isPlainText(String text)
+   {
+      return text.indexOf('\\') == -1;
+   }
+
+   /**
+    * Simple heuristic to determine if the string contains formal RTF.
+    * 
+    * @param text source text
+    * @return true if the text may contain formal RTF
+    */
+   private static boolean isFormalRTF(String text)
+   {
+      return text.startsWith("{\\rtf");
+   }
+
+   /**
     * This method removes all RTF formatting from a given piece of text.
     *
     * @param text Text from which the RTF formatting is to be removed.
     * @return Plain text
     */
-   public String strip(String text)
+   public static String strip(String text)
    {
+      boolean formalRTF = isFormalRTF(text);
+
+      text = normaliseLineEnds(text);
+      text = stripLineEnds(text, formalRTF);
       text = processDoubleByteChars(text);
       text = regexpStrip(text);
+      text = stripExtraLineEnd(text, formalRTF);
+
+      return text;
+   }
+
+   /**
+    * Replace Window-style line ends (\r\n) with Java style (\n).
+    * 
+    * @param text input text
+    * @return text with normalised line ends
+    */
+   private static String normaliseLineEnds(String text)
+   {
+      if (text.indexOf("\r\n") != -1)
+      {
+         text = text.replace("\r\n", "\n");
+      }
       return text;
    }
 
@@ -56,12 +99,12 @@ public final class RTFUtility
     * @param text RTF text
     * @return RTF text with Unicode characters
     */
-   private String processDoubleByteChars(String text)
+   private static String processDoubleByteChars(String text)
    {
       String[] tokens = text.split("\\\\");
       int index = 0;
-      String currentEncoding = null;
-      StringBuffer result = new StringBuffer(text.length());
+      String currentEncoding = DEFAULT_ENCODING;
+      StringBuilder result = new StringBuilder(text.length());
       boolean collectingBytes = false;
       LinkedList<String> bytes = new LinkedList<String>();
       boolean firstWord = true;
@@ -71,7 +114,7 @@ public final class RTFUtility
          String token = tokens[index];
          if (token.length() != 0)
          {
-            if (token.charAt(0) == '\'')
+            if (token.length() > 1 && token.charAt(0) == '\'' && isHexDigit(token.charAt(1)) && isHexDigit(token.charAt(2)))
             {
                if (!collectingBytes)
                {
@@ -128,13 +171,24 @@ public final class RTFUtility
    }
 
    /**
+    * Determine if the digit is a valid hex character.
+    * 
+    * @param c digit to test
+    * @return true if the digit is a valid hex character
+    */
+   private static boolean isHexDigit(char c)
+   {
+      return Character.isDigit(c) || (c - 'a' >= 0 && c - 'a' < 6) || (c - 'A' >= 0 && c - 'A' < 6);
+   }
+
+   /**
     * Extracts a locale ID from an RTF command and converts 
     * it to a character encoding.
     * 
     * @param token RTF command
     * @return encoding
     */
-   private String processEncoding(String token)
+   private static String processEncoding(String token)
    {
       String localeID = null;
 
@@ -146,7 +200,7 @@ public final class RTFUtility
 
       if (index != token.length())
       {
-         StringBuffer sb = new StringBuffer(token.length());
+         StringBuilder sb = new StringBuilder(token.length());
          while (index < token.length() && Character.isDigit(token.charAt(index)))
          {
             sb.append(token.charAt(index));
@@ -161,7 +215,7 @@ public final class RTFUtility
       String encoding = LOCALEID_MAPPING.get(localeID);
       if (encoding == null)
       {
-         encoding = "Cp1252";
+         encoding = DEFAULT_ENCODING;
       }
 
       return (encoding);
@@ -175,7 +229,7 @@ public final class RTFUtility
     * @param currentEncoding current character set encoding
     * @return Unicode string
     */
-   private String processBytes(LinkedList<String> bytes, String currentEncoding)
+   private static String processBytes(LinkedList<String> bytes, String currentEncoding)
    {
       byte[] raw = new byte[bytes.size()];
       int byteIndex = 0;
@@ -193,7 +247,7 @@ public final class RTFUtility
 
       catch (UnsupportedEncodingException ex)
       {
-         ex.printStackTrace();
+         // Ignored
       }
 
       return (result);
@@ -206,12 +260,11 @@ public final class RTFUtility
     * @param rtf input RTF text
     * @return stripped text
     */
-   private String regexpStrip(String rtf)
+   private static String regexpStrip(String rtf)
    {
       rtf = stripCommands("{\\object", rtf);
 
-      //System.out.println(RTF_PATTERN.pattern());
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       try
       {
          Matcher m = RTF_PATTERN.matcher(rtf);
@@ -234,10 +287,18 @@ public final class RTFUtility
 
             index = m.end();
          }
+
+         //
+         // If we had no matches, return the text we passed to the regexp
+         //
+         if (index == 0)
+         {
+            sb.append(rtf);
+         }
       }
       catch (Exception ex)
       {
-         System.out.println(ex);
+         // Ignored
       }
 
       return sb.toString();
@@ -251,15 +312,15 @@ public final class RTFUtility
     * @param rtf RTF text
     * @return stripped text
     */
-   private String stripCommands(String command, String rtf)
+   private static String stripCommands(String command, String rtf)
    {
       //
-      // Do we have embedded binary data?
+      // Do we have any of these commands present in the RTF?
       //
       int startIndex = rtf.indexOf(command);
       if (startIndex != -1)
       {
-         StringBuffer sb = new StringBuffer(rtf);
+         StringBuilder sb = new StringBuilder(rtf);
          do
          {
             //
@@ -316,9 +377,96 @@ public final class RTFUtility
    }
 
    /**
-    * Pattern used to match RTF syntax.
+    * If we really do have a block of RTF - not just plain text
+    * with RTF commands embedded, then strip end of line characters.
+    * These will be represented as \par in RTF if they really are line
+    * breaks.
+    *
+    * @param text source text
+    * @param formalRTF true if this is real RTF
+    * @return text with line ends stripped
     */
-   private static final Pattern RTF_PATTERN = Pattern.compile("(\\\\\\\\)|(\\\\~)|(\\{\\\\stylesheet.*\\{.*\\}\\{.*\\}\\})|(\\{\\\\[A-Za-z]* .*\\})|(\\\\[A-Za-z]* .*;\\})|(\\\\[A-Za-z]*-?[0-9]* .*;\\})|(\\\\[A-Za-z]*-?[0-9]+ )|(\\\\[A-Za-z]*-?[0-9]+)|(\\\\\\*)|(\\\\[A-Za-z]* )|(\\\\[A-Za-z]*)|(\\\\\\{)|(\\\\\\})|(\\{)|(\\})|(\\r\\n)");
+   private static String stripLineEnds(String text, boolean formalRTF)
+   {
+      if (formalRTF)
+      {
+         int index = text.indexOf('\n');
+         if (index != -1)
+         {
+            StringBuilder sb = new StringBuilder(text);
+            while (index != -1)
+            {
+               if (index != 0 && sb.charAt(index - 1) == '}')
+               {
+                  //
+                  // We follow a close command character - no problem to remove
+                  //
+                  sb.replace(index, index + 1, "");
+               }
+               else
+               {
+                  //
+                  // We need to maintain some white space for the stripping to work as expected
+                  //
+                  sb.replace(index, index + 1, " ");
+               }
+               index = sb.indexOf("\n", index);
+            }
+            text = sb.toString();
+         }
+         text = text.trim();
+      }
+      return text;
+   }
+
+   /**
+    * Remove the trailing line end from an RTF block.
+    * 
+    * @param text source text
+    * @param formalRTF true if this is a real RTF block
+    * @return text with line end stripped
+    */
+   private static String stripExtraLineEnd(String text, boolean formalRTF)
+   {
+      if (formalRTF && text.endsWith("\n"))
+      {
+         text = text.substring(0, text.length() - 1);
+      }
+      return text;
+   }
+
+   /**
+    * Pattern used to match RTF syntax.
+    * 
+    * Despite its size, this is actually a relatively simple expression. The format
+    * below breaks this down into a series of "or" statements... so what we're saying is
+    * return a matched group to the caller if our input text matches expression 1 
+    * or matches expression 2... and so on. Broadly speaking we're just tokenizing the RTF
+    * syntax.
+    * 
+    * The expression is complicated by the requirement to escape special characters -
+    * backslash in particular. To manipulate this I'd recommend using System.println to print the expression
+    * out (to get rid of the Java character escaping) and then use a copy of RegExBuilder
+    * (http://www.redfernplace.com/software-projects/regex-builder/) to visualise
+    * what the expression is doing.
+    */
+   private static final String RTF_PATTERN_TEXT = "" //
+            + "(\\\\\\{)|(\\\\\\})|" //
+            + "(\\{)|(\\})|" //
+            + "(\\\\\\\\)|" //
+            + "(\\\\~)|" //
+            + "(\\{\\\\stylesheet.*\\{.*\\}\\{.*\\}\\})|" //
+            + "(\\{\\\\[A-Za-z]* .*\\})|" //
+            + "(\\\\[A-Za-z]* .*;\\})|" //
+            + "(\\\\[A-Za-z]*-?[0-9]* .*;\\})|" //
+            + "(\\\\[A-Za-z]*-?[0-9]+ )|" //
+            + "(\\\\[A-Za-z]*-?[0-9]+)|" //
+            + "(\\\\\\*)|" //
+            + "(\\\\[A-Za-z]* )|" // 
+            + "(\\\\[A-Za-z]*)|" //
+            + "(\\r\\n)";
+
+   private static final Pattern RTF_PATTERN = Pattern.compile(RTF_PATTERN_TEXT);
 
    private static final Map<String, String> RTF_MAPPING = new HashMap<String, String>();
    static
@@ -396,6 +544,8 @@ public final class RTFUtility
       LOCALEID_MAPPING.put("13313", "Cp1256"); // Arabic (Kuwait)      
       LOCALEID_MAPPING.put("14337", "Cp1256"); // Arabic (U.A.E.)      
       LOCALEID_MAPPING.put("15361", "Cp1256"); // Arabic (Bahrain)      
-      LOCALEID_MAPPING.put("16385", "Cp1256"); // Arabic (Qatar)            
+      LOCALEID_MAPPING.put("16385", "Cp1256"); // Arabic (Qatar)
    }
+
+   private static final String DEFAULT_ENCODING = "Cp1252";
 }

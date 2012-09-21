@@ -389,7 +389,6 @@ final class MPP8Reader implements MPPVariantReader
       Task task;
       boolean autoWBS = true;
       String notes;
-      RTFUtility rtf = new RTFUtility();
       byte[] flags = new byte[3];
       RecurringTaskReader recurringTaskReader = null;
       TimeUnit defaultProjectTimeUnits = m_file.getProjectHeader().getDefaultDurationUnits();
@@ -689,7 +688,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
 
             task.setNotes(notes);
@@ -828,7 +827,6 @@ final class MPP8Reader implements MPPVariantReader
       int id;
       Resource resource;
       String notes;
-      RTFUtility rtf = new RTFUtility();
       ProjectCalendar calendar;
 
       for (int loop = 0; loop < resources; loop++)
@@ -1025,7 +1023,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
 
             resource.setNotes(notes);

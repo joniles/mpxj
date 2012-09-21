@@ -711,7 +711,7 @@ public class MppTaskTest extends MPXJTestCase
       // milestone
       assertTrue(task.getMilestone());
       // Notes
-      assertEquals("Notes Example\n", task.getNotes());
+      assertEquals("Notes Example", task.getNotes());
       // custom number columns
       assertEquals(Double.valueOf(1), task.getNumber(1));
       assertEquals(Double.valueOf(2), task.getNumber(2));

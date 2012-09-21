@@ -1388,7 +1388,6 @@ final class MPP14Reader implements MPPVariantReader
       boolean autoWBS = true;
       LinkedList<Task> externalTasks = new LinkedList<Task>();
       RecurringTaskReader recurringTaskReader = null;
-      RTFUtility rtf = new RTFUtility();
       String notes;
 
       for (int loop = 0; loop < uniqueid.length; loop++)
@@ -1604,7 +1603,7 @@ final class MPP14Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
 
             task.setNotes(notes);
@@ -2067,8 +2066,6 @@ final class MPP14Reader implements MPPVariantReader
       byte[] data;
       byte[] metaData;
       Resource resource;
-
-      RTFUtility rtf = new RTFUtility();
       String notes;
 
       for (int loop = 0; loop < uniqueid.length; loop++)
@@ -2149,7 +2146,7 @@ final class MPP14Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
 
             resource.setNotes(notes);

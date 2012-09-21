@@ -74,7 +74,6 @@ public class ResourceAssignmentFactory
       TimephasedWorkNormaliser baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
       TimephasedCostNormaliser baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
       ProjectCalendar baselineCalendar = file.getBaselineCalendar();
-      RTFUtility rtf = new RTFUtility();
 
       //System.out.println(assnFixedMeta);
       //System.out.println(assnFixedData);
@@ -194,7 +193,7 @@ public class ResourceAssignmentFactory
          {
             if (!preserveNoteFormatting)
             {
-               notes = rtf.strip(notes);
+               notes = RTFUtility.strip(notes);
             }
 
             assignment.setNotes(notes);
