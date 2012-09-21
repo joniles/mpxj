@@ -109,7 +109,7 @@ public final class MPXJFormats
          }
       }
 
-      StringBuffer pattern = new StringBuffer(prefix);
+      StringBuilder pattern = new StringBuilder(prefix);
       pattern.append("#0");
 
       int digits = header.getCurrencyDigits().intValue();
@@ -165,7 +165,7 @@ public final class MPXJFormats
     */
    private String quoteFormatCharacters(String literal)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       int length = literal.length();
       char c;
 

@@ -81,7 +81,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       m_delimiter = projectFile.getDelimiter();
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
-      m_buffer = new StringBuffer();
+      m_buffer = new StringBuilder();
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
 
       try
@@ -859,7 +859,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String escapeQuotes(String value)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       int length = value.length();
       char c;
 
@@ -891,7 +891,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       if (text.indexOf('\r') != -1 || text.indexOf('\n') != -1)
       {
-         StringBuffer sb = new StringBuffer(text);
+         StringBuilder sb = new StringBuilder(text);
 
          int index;
 
@@ -994,7 +994,7 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @param buffer input sring buffer
     */
-   private void stripTrailingDelimiters(StringBuffer buffer)
+   private void stripTrailingDelimiters(StringBuilder buffer)
    {
       int index = buffer.length() - 1;
 
@@ -1139,7 +1139,7 @@ public final class MPXWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         StringBuffer buffer = new StringBuffer(m_formats.getCurrencyFormat().format(value.getAmount()));
+         StringBuilder buffer = new StringBuilder(m_formats.getCurrencyFormat().format(value.getAmount()));
          buffer.append("/");
          buffer.append(formatTimeUnit(value.getUnits()));
          result = buffer.toString();
@@ -1204,7 +1204,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (value != null)
       {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          for (Relation relation : value)
          {
             if (sb.length() != 0)
@@ -1233,7 +1233,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (relation != null)
       {
-         StringBuffer sb = new StringBuffer(relation.getTargetTask().getID().toString());
+         StringBuilder sb = new StringBuilder(relation.getTargetTask().getID().toString());
 
          Duration duration = relation.getLag();
          RelationType type = relation.getType();
@@ -1455,6 +1455,6 @@ public final class MPXWriter extends AbstractProjectWriter
    private char m_delimiter;
    private Locale m_locale = Locale.ENGLISH;
    private boolean m_useLocaleDefaults = true;
-   private StringBuffer m_buffer;
+   private StringBuilder m_buffer;
    private MPXJFormats m_formats;
 }

@@ -1168,7 +1168,7 @@ final class MPP8Reader implements MPPVariantReader
       FixFix ff = new FixFix(126, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
       FixDeferFix fdf = new FixDeferFix(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixDeferFix   0"))));
       int items = ff.getItemCount();
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       for (int loop = 0; loop < items; loop++)
       {

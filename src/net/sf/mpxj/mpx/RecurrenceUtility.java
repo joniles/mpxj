@@ -200,7 +200,7 @@ final class RecurrenceUtility
       String result = null;
       if (days != null)
       {
-         StringBuffer sb = new StringBuffer("0000000");
+         StringBuilder sb = new StringBuilder("0000000");
          sb.append(Integer.toBinaryString(days.intValue()));
          result = sb.toString().substring(sb.length() - 7);
       }

@@ -200,7 +200,7 @@ public final class GroupClause
     */
    @Override public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("[GroupClause field=");
       sb.append(m_field);
       sb.append(" ascending=");

@@ -360,7 +360,7 @@ public final class MPDUtility
     */
    public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       if (buffer != null)
       {
@@ -430,7 +430,7 @@ public final class MPDUtility
     */
    public static final String hexdump(byte[] buffer, boolean ascii, int columns, String prefix)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       if (buffer != null)
       {
          int index = 0;

@@ -62,7 +62,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 {
    private ProjectFile m_projectFile; // from MPXJ library
    private PrintStream m_writer; // line out to a text file
-   private StringBuffer m_buffer; // used to accumulate characters
+   private StringBuilder m_buffer; // used to accumulate characters
    private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
    private double m_minutesPerDay;
    private double m_minutesPerWeek; // needed to get everything into days
@@ -78,7 +78,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
    {
       m_projectFile = projectFile;
       m_writer = new PrintStream(out); // the print stream class is the easiest way to create a text file
-      m_buffer = new StringBuffer();
+      m_buffer = new StringBuilder();
 
       try
       {

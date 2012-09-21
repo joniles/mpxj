@@ -274,7 +274,7 @@ public class MppClean
       char c2 = 0;
       if (oldText != null && oldText.length() != 0 && !replacements.containsKey(oldText))
       {
-         StringBuffer newText = new StringBuffer(oldText.length());
+         StringBuilder newText = new StringBuilder(oldText.length());
          for (int loop = 0; loop < oldText.length(); loop++)
          {
             char c = oldText.charAt(loop);

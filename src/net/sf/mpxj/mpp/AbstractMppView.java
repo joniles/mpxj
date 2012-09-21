@@ -53,7 +53,7 @@ public abstract class AbstractMppView extends AbstractView
       {
          if (name.indexOf('&') != -1)
          {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             int index = 0;
             char c;
 

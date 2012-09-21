@@ -485,7 +485,7 @@ public class MapFileGenerator
     */
    private String createMethodSignature(Method method)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("(");
       for (Class<?> type : method.getParameterTypes())
       {

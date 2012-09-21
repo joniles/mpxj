@@ -352,7 +352,7 @@ public class GenericCriteria
     */
    @Override public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("(");
 
       switch (m_operator)

@@ -173,7 +173,7 @@ public class MppDump
       char c;
       int loop;
       int count;
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       while (true)
       {
@@ -236,7 +236,7 @@ public class MppDump
       char c;
       int loop;
       int count;
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       while (true)
       {

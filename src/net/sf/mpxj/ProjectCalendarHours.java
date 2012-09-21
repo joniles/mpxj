@@ -81,7 +81,7 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
     */
    @Override public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("[ProjectCalendarHours ");
       for (DateRange range : this)
       {

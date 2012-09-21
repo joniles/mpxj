@@ -184,7 +184,7 @@ public final class DataExport
       //
       pw.println("<table name=\"" + name + "\">");
 
-      StringBuffer buffer = new StringBuffer(255);
+      StringBuilder buffer = new StringBuilder(255);
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.UK);
 
       while (rs.next() == true)
@@ -325,7 +325,7 @@ public final class DataExport
     * @param text input text
     * @return escaped text
     */
-   private String escapeText(StringBuffer sb, String text)
+   private String escapeText(StringBuilder sb, String text)
    {
       int length = text.length();
       char c;

@@ -78,7 +78,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
     */
    @Override public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("[GraphicalIndicatorCriteria indicator=");
       sb.append(m_indicator);
       sb.append(" criteria=");

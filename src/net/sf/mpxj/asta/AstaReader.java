@@ -685,7 +685,7 @@ final class AstaReader
 
       if (name != null && name.length() != 0)
       {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          sb.append(name.charAt(0));
          int index = 1;
          while (true)

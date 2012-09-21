@@ -179,8 +179,8 @@ final class TaskModel
       int number;
       char delimiter = m_parentFile.getDelimiter();
 
-      StringBuffer textual = new StringBuffer();
-      StringBuffer numeric = new StringBuffer();
+      StringBuilder textual = new StringBuilder();
+      StringBuilder numeric = new StringBuilder();
 
       textual.append(MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER);
       numeric.append(MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER);

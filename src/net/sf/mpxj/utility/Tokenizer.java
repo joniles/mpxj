@@ -200,5 +200,5 @@ public abstract class Tokenizer
    private char m_delimiter = ',';
    private int m_next;
    private int m_type;
-   private StringBuffer m_buffer = new StringBuffer();
+   private StringBuilder m_buffer = new StringBuilder();
 }

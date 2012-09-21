@@ -120,7 +120,7 @@ final class MPPUtility
       {
          MPPUtility.decodeBuffer(data, encryptionCode);
 
-         StringBuffer buffer = new StringBuffer();
+         StringBuilder buffer = new StringBuilder();
          char c;
 
          for (int i = 0; i < PASSWORD_MASK.length; i++)
@@ -519,7 +519,7 @@ final class MPPUtility
     */
    public static final String getUnicodeString(byte[] data, int offset)
    {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       char c;
 
       for (int loop = offset; loop < (data.length - 1); loop += 2)
@@ -552,7 +552,7 @@ final class MPPUtility
     */
    public static final String getUnicodeString(byte[] data, int offset, int length)
    {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       char c;
       int loop = offset;
       int byteLength = 0;
@@ -601,7 +601,7 @@ final class MPPUtility
     */
    public static final String getString(byte[] data, int offset)
    {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       char c;
 
       for (int loop = 0; offset + loop < data.length; loop++)
@@ -996,7 +996,7 @@ final class MPPUtility
       {
          if (name.indexOf('&') != -1)
          {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             int index = 0;
             char c;
 
@@ -1063,7 +1063,7 @@ final class MPPUtility
     */
    public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       if (buffer != null)
       {
@@ -1133,7 +1133,7 @@ final class MPPUtility
     */
    public static final String hexdump(byte[] buffer, boolean ascii, int columns, String prefix)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       if (buffer != null)
       {
          int index = 0;
@@ -1174,7 +1174,7 @@ final class MPPUtility
     */
    public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       if (buffer != null)
       {
          int index = offset;

@@ -213,7 +213,7 @@ public class Filter
     */
    @Override public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("[Filter id=");
       sb.append(m_id);
       sb.append(" name=");

@@ -1154,7 +1154,7 @@ abstract class FieldMap
        */
       @Override public String toString()
       {
-         StringBuffer buffer = new StringBuffer();
+         StringBuilder buffer = new StringBuilder();
          buffer.append("[FieldItem type=");
          buffer.append(m_type);
          buffer.append(" location=");

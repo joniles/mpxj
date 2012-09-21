@@ -111,7 +111,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     */
    @Override public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("[ProjectCalendarException");
       sb.append(" working=" + getWorking());
       sb.append(" fromDate=" + m_fromDate);

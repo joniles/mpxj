@@ -559,7 +559,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getDateTime(Date value)
    {
-      StringBuffer result = new StringBuffer(16);
+      StringBuilder result = new StringBuilder(16);
 
       if (value != null)
       {
@@ -688,7 +688,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int hours = cal.get(Calendar.HOUR_OF_DAY);
       int minutes = cal.get(Calendar.MINUTE);
 
-      StringBuffer sb = new StringBuffer(4);
+      StringBuilder sb = new StringBuilder(4);
       sb.append(m_twoDigitFormat.format(hours));
       sb.append(m_twoDigitFormat.format(minutes));
 
@@ -712,7 +712,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int month = cal.get(Calendar.MONTH) + 1;
       int day = cal.get(Calendar.DAY_OF_MONTH);
 
-      StringBuffer sb = new StringBuffer(8);
+      StringBuilder sb = new StringBuilder(8);
       sb.append(m_fourDigitFormat.format(year));
       sb.append(m_twoDigitFormat.format(month));
       sb.append(m_twoDigitFormat.format(day));
@@ -735,7 +735,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          Calendar cal = Calendar.getInstance();
          cal.setTime(value);
-         StringBuffer sb = new StringBuffer(16);
+         StringBuilder sb = new StringBuilder(16);
          sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
          sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
          sb.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));

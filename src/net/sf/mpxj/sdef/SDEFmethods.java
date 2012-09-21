@@ -43,7 +43,7 @@ class SDEFmethods
    public static String lset(String input, int width)
    {
       String result;
-      StringBuffer pad = new StringBuffer();
+      StringBuilder pad = new StringBuilder();
       if (input == null)
       {
          for (int i = 0; i < width; i++)
@@ -82,7 +82,7 @@ class SDEFmethods
    public static String rset(String input, int width)
    {
       String result; // result to return			
-      StringBuffer pad = new StringBuffer();
+      StringBuilder pad = new StringBuilder();
       if (input == null)
       {
          for (int i = 0; i < width - 1; i++)
