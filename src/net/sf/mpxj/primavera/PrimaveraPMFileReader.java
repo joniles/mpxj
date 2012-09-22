@@ -116,7 +116,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_projectFile.setAutoResourceUniqueID(false);
          m_projectFile.setAutoCalendarUniqueID(false);
          m_projectFile.setAutoAssignmentUniqueID(false);
-         m_projectFile.setTaskFieldAlias(TaskField.TEXT1, "Code");
+         m_projectFile.setTaskFieldAlias(TaskField.TEXT1, "WBS Code");
+         m_projectFile.setTaskFieldAlias(TaskField.TEXT2, "Task ID");
 
          m_projectFile.addProjectListeners(m_projectListeners);
 
@@ -455,6 +456,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
+         task.setText(2, row.getId());
 
          Integer calId = row.getCalendarObjectId();
          ProjectCalendar cal = m_calMap.get(calId);
