@@ -1079,7 +1079,7 @@ final class MPP14Reader implements MPPVariantReader
                   byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
                   ProjectCalendar cal;
 
-                  if (baseCalendarID == -1)
+                  if (baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
                   {
                      if (varData != null || defaultCalendarData != null)
                      {
