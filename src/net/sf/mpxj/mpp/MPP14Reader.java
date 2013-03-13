@@ -975,7 +975,8 @@ final class MPP14Reader implements MPPVariantReader
                //
                if (data.length == 16 || ((data.length * 100) / fieldMap.getMaxFixedDataOffset(0)) > 75)
                {
-                  uniqueID = MPPUtility.getInt(data, 0);
+                  int offset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
+                  uniqueID = MPPUtility.getInt(data, offset);
                   key = Integer.valueOf(uniqueID);
                   if (taskMap.containsKey(key) == false)
                   {
