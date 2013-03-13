@@ -456,7 +456,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
-         task.setText(2, row.getId());
+         task.setText(1, row.getId());
 
          Integer calId = row.getCalendarObjectId();
          ProjectCalendar cal = m_calMap.get(calId);
