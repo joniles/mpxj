@@ -23,6 +23,7 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3528901: Extract Primavera Task ID</action>		
 		<action dev="joniles" type="fix">Updated to fix an issue where the resource assignment delay attribute was not being read from or written to MSPDI files correctly</action>
 		<action dev="joniles" type="fix">Updated to fix an issue where derived calendars were not being read correctly from MPP files</action>
+		<action dev="joniles" type="update">Updated to use IKVM 7.2.</action>
 	</release>
 	
 	<release version="4.3.0" date="08/02/2012">
