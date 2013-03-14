@@ -142,11 +142,11 @@
 		<delete file="${basedir}/ikvm-remap-csharp.xml"/>
 	</target>
 
-	<target name="archive" depends="clean,jar,dll" description="Create library files">
+	<target name="archive" depends="jar,dll" description="Create library files">
 
 	</target>
 
-	<target name="distribute" depends="compile,archive,clean-classes,clean-dot-net" description="Create distribution">
+	<target name="distribute" depends="archive,clean-classes,clean-dot-net" description="Create distribution">
 		<zip zipfile="${distribution}">
 			<zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*" />
 		</zip>
