@@ -42,8 +42,10 @@ final class ResultSetRow extends MapRow
    /**
     * Constructor.
     * 
-    * @param rs result set from which data is drawn
-    * @param meta result set meta data
+    * @param rs
+    *            result set from which data is drawn
+    * @param meta
+    *            result set meta data
     */
    public ResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
@@ -94,6 +96,7 @@ final class ResultSetRow extends MapRow
                break;
             }
 
+            case Types.DECIMAL:
             case Types.DOUBLE:
             case Types.NUMERIC:
             {

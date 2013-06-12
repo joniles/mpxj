@@ -8,7 +8,11 @@
 
    <body> 
 
-	<release version="4.4.0" date="CVS HEAD">
+	<release version="4.5.0" date="CVS HEAD">
+		<action dev="joniles" type="add">Added support Primavera decimal database columns.</action>
+	</release>
+
+	<release version="4.4.0" date="14/03/2013">
 		<action dev="joniles" type="add">Added support for writing Primavera PM XML files.</action>
 		<action dev="joniles" type="add">Added support for reading Asta Powerproject PP and MDB files.</action>
 		<action dev="joniles" type="add">Added support for writing SDEF files (Contributed by William Iverson).</action>		
