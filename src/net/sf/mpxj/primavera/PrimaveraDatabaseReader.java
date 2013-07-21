@@ -186,7 +186,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          ProjectHeader ph = m_reader.getProject().getProjectHeader();
          ph.setCreationDate(row.getDate("create_date"));
          ph.setLastSaved(row.getDate("update_date"));
-         ph.setMinutesPerDay(Integer.valueOf(row.getInt("day_hr_cnt") * 60));
+         ph.setMinutesPerDay(Double.valueOf(row.getDouble("day_hr_cnt").doubleValue() * 60));
          ph.setMinutesPerWeek(Double.valueOf(row.getDouble("week_hr_cnt").doubleValue() * 60));
          ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
 
