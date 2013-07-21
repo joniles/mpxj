@@ -1074,12 +1074,12 @@ final class MPP14Reader implements MPPVariantReader
                Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
                int baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
 
-               if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 && calendarMap.containsKey(calendarID) == false)
+               if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
                {
                   byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
                   ProjectCalendar cal;
 
-                  if (baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
+                  if (baseCalendarID == 0 || baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
                   {
                      if (varData != null || defaultCalendarData != null)
                      {

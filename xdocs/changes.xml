@@ -10,6 +10,7 @@
 
 	<release version="4.5.0" date="CVS HEAD">
 		<action dev="joniles" type="add">Added support Primavera decimal database columns.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 213: Unable to load mpp from project-2013</action>
 	</release>
 
 	<release version="4.4.0" date="14/03/2013">
