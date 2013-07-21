@@ -103,7 +103,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader();
+         m_reader = new PrimaveraReader(m_udfCounters);
          ProjectFile project = m_reader.getProject();
          project.addProjectListeners(m_projectListeners);
 
@@ -467,6 +467,17 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       return m_schema;
    }
 
+   /**
+    * Override the default field name mapping for user defined types.
+    * 
+    * @param type target user defined data type
+    * @param fieldName field name
+    */
+   public void setFieldNameForUdfType(UserFieldDataType type, String fieldName)
+   {
+      m_udfCounters.setFieldNameForType(type, fieldName);
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
@@ -477,4 +488,5 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
+   private UserFieldCounters m_udfCounters = new UserFieldCounters();
 }
