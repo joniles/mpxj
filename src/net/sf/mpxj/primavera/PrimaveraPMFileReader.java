@@ -24,6 +24,7 @@
 package net.sf.mpxj.primavera;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -79,6 +80,7 @@ import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -110,6 +112,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       try
       {
+         //
+         // This is a hack to ensure that the incoming file has a namespace
+         // which JAXB will accept.
+         //
+         InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, UTF8);
+
          m_projectFile = new ProjectFile();
 
          m_projectFile.setAutoTaskUniqueID(false);
@@ -125,7 +133,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(namespaceCorrectedStream));
 
          if (CONTEXT == null)
          {
@@ -137,12 +145,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          APIBusinessObjects apibo = (APIBusinessObjects) unmarshaller.unmarshal(doc);
 
          List<ProjectType> projects = apibo.getProject();
-         if (projects.size() != 1)
+         ProjectType project = null;
+         for (ProjectType currentProject : projects)
          {
-            throw new MPXJException("Expecting 1 project, found " + projects.size());
+            if (!BooleanUtility.getBoolean(currentProject.isExternal()))
+            {
+               project = currentProject;
+               break;
+            }
          }
 
-         ProjectType project = projects.get(0);
+         if (project == null)
+         {
+            throw new MPXJException("Unable to locate any non-external projects in a list of " + projects.size() + " projects");
+         }
 
          processProjectHeader(apibo, project);
          processCalendars(apibo);
@@ -653,6 +669,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
+
+   private static final Charset UTF8 = Charset.forName("UTF8");
+   private static final int NAMESPACE_SCOPE = 512;
+   private static final String NAMESPACE_REGEX = "xmlns=\\\".*\\\"";
+   private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects\"";
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();
    static
