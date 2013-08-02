@@ -592,7 +592,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     */
    private void processHeader(List<String> record)
    {
-      m_defaultCurrencyName = record.get(8);
+      m_defaultCurrencyName = record.size() > 8 ? record.get(8) : "USD";
    }
 
    /**
