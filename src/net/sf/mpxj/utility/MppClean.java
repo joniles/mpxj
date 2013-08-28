@@ -241,6 +241,7 @@ public class MppClean
       int dataSize = dis.available();
       byte[] data = new byte[dataSize];
       dis.read(data);
+      dis.close();
 
       //
       // Replace the text
