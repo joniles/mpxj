@@ -1666,7 +1666,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                resourceIndex++;
             }
 
-            if (end.compareTo(start) > 0)
+            if (end != null && end.compareTo(start) > 0)
             {
                // Found a block
                hours.addRange(new DateRange(start, end));
