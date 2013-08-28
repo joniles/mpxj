@@ -1629,6 +1629,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             {
                break;
             }
+
             if (resourceHours.getRangeCount() > resourceIndex)
             {
                range2 = resourceHours.getRange(resourceIndex);
