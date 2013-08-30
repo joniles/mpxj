@@ -494,9 +494,23 @@ final class PrimaveraReader
     */
    private void addUserDefinedField(UserFieldDataType type, String name)
    {
-      String fieldName = m_udfCounters.nextName(type);
-      TaskField taskField = TaskField.valueOf(fieldName);
-      m_project.setTaskFieldAlias(taskField, name);
+      try
+      {
+         String fieldName = m_udfCounters.nextName(type);
+         TaskField taskField = TaskField.valueOf(fieldName);
+         m_project.setTaskFieldAlias(taskField, name);
+      }
+
+      catch (Exception ex)
+      {
+         //
+         // SF#227: If we get an exception thrown here... it's likely that
+         // we've run out of user defined fields, for example
+         // there are only 30 TEXT fields. We'll ignore this: the user
+         // defined field won't be mapped to an alias, so we'll
+         // ignore it when we read in the values.
+         //
+      }
    }
 
    /**
@@ -527,38 +541,41 @@ final class PrimaveraReader
       Object value = null;
 
       TaskField field = m_project.getAliasTaskField(fieldName);
-      DataType fieldType = field.getDataType();
-
-      switch (fieldType)
+      if (field != null)
       {
-         case DATE:
+         DataType fieldType = field.getDataType();
+
+         switch (fieldType)
          {
-            value = row.getDate("udf_date");
-            break;
+            case DATE:
+            {
+               value = row.getDate("udf_date");
+               break;
+            }
+
+            case CURRENCY:
+            case NUMERIC:
+            {
+               value = row.getDouble("udf_number");
+               break;
+            }
+
+            case GUID:
+            case INTEGER:
+            {
+               value = row.getInteger("udf_code_id");
+               break;
+            }
+
+            default:
+            {
+               value = row.getString("udf_text");
+               break;
+            }
          }
 
-         case CURRENCY:
-         case NUMERIC:
-         {
-            value = row.getDouble("udf_number");
-            break;
-         }
-
-         case GUID:
-         case INTEGER:
-         {
-            value = row.getInteger("udf_code_id");
-            break;
-         }
-
-         default:
-         {
-            value = row.getString("udf_text");
-            break;
-         }
+         task.setFieldByAlias(fieldName, value);
       }
-
-      task.setFieldByAlias(fieldName, value);
    }
 
    /**
