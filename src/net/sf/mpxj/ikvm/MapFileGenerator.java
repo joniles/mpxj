@@ -151,7 +151,8 @@ public class MapFileGenerator
          jarFile.toURI().toURL()
       }, currentThreadClassLoader);
 
-      Enumeration<JarEntry> enumeration = new JarFile(jarFile).entries();
+      JarFile jar = new JarFile(jarFile);
+      Enumeration<JarEntry> enumeration = jar.entries();
       while (enumeration.hasMoreElements())
       {
          JarEntry jarEntry = enumeration.nextElement();
@@ -160,6 +161,7 @@ public class MapFileGenerator
             addClass(loader, jarEntry, writer, mapClassMethods);
          }
       }
+      jar.close();
    }
 
    /**
