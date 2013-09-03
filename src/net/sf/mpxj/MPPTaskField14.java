@@ -547,7 +547,7 @@ public class MPPTaskField14
       FIELD_ARRAY[21] = TaskField.FREE_SLACK;
       FIELD_ARRAY[446] = TaskField.GROUP_BY_SUMMARY;
       FIELD_ARRAY[1143] = TaskField.GUID;
-      FIELD_ARRAY[109] = TaskField.HIDE_BAR;
+      FIELD_ARRAY[109] = TaskField.HIDEBAR;
       FIELD_ARRAY[218] = TaskField.HYPERLINK_ADDRESS;
       FIELD_ARRAY[220] = TaskField.HYPERLINK_HREF;
       FIELD_ARRAY[219] = TaskField.HYPERLINK_SUBADDRESS;

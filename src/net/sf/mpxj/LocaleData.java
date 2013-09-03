@@ -623,7 +623,6 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.EAC.getValue()] = "EAC";
       TASK_COLUMNS_ARRAY[TaskField.EARNED_VALUE_METHOD.getValue()] = "Earned Value Method";
       TASK_COLUMNS_ARRAY[TaskField.ERROR_MESSAGE.getValue()] = "Error Message";
-      TASK_COLUMNS_ARRAY[TaskField.HIDE_BAR.getValue()] = "Hide Bar";
       TASK_COLUMNS_ARRAY[TaskField.IGNORE_WARNINGS.getValue()] = "Ignore Warnings";
       TASK_COLUMNS_ARRAY[TaskField.PEAK.getValue()] = "Peak";
       TASK_COLUMNS_ARRAY[TaskField.PHYSICAL_PERCENT_COMPLETE.getValue()] = "Physical % Complete";

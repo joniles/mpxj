@@ -638,7 +638,7 @@ public enum TaskField implements FieldType
    EAC(DataType.STRING), // Check data type
    EARNED_VALUE_METHOD(DataType.STRING), // Check data type
    ERROR_MESSAGE(DataType.STRING),
-   HIDE_BAR(DataType.BOOLEAN),
+
    IGNORE_WARNINGS(DataType.BOOLEAN),
    PEAK(DataType.STRING), // Check data type
    PHYSICAL_PERCENT_COMPLETE(DataType.SHORT),
