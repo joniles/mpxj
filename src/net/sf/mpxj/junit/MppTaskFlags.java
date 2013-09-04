@@ -39,6 +39,33 @@ public class MppTaskFlags extends MPXJTestCase
    }
 
    /**
+    * Test MPP9 saved by Project 2010.
+    */
+   public void testMpp9FromProject2010() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp9Project2010.mpp");
+      testFlags(mpp);
+   }
+
+   /**
+    * Test MPP12 saved by Project 2010.
+    */
+   public void testMpp12FromProject2010() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp12Project2010.mpp");
+      testFlags(mpp);
+   }
+
+   /**
+    * Test MPP14 saved by Project 2010.
+    */
+   public void testMpp14FromProject2010() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp14Project2010.mpp");
+      testFlags(mpp);
+   }
+
+   /**
     * Common code to test flag values.
     * 
     * @param mpp project file to test
