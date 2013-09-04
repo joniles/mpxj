@@ -16,11 +16,13 @@ public class MppBitFlag
     * @param offset offset in buffer
     * @param mask bit mask 
     */
-   public MppBitFlag(FieldType type, int offset, int mask)
+   public MppBitFlag(FieldType type, int offset, int mask, Object zeroValue, Object nonZeroValue)
    {
       m_type = type;
       m_offset = offset;
       m_mask = mask;
+      m_zeroValue = zeroValue;
+      m_nonZeroValue = nonZeroValue;
    }
 
    /**
@@ -32,10 +34,12 @@ public class MppBitFlag
     */
    public void setValue(FieldContainer container, byte[] data)
    {
-      container.set(m_type, Boolean.valueOf((data[m_offset] & m_mask) != 0));
+      container.set(m_type, ((data[m_offset] & m_mask) == 0) ? m_zeroValue : m_nonZeroValue);
    }
 
    private final FieldType m_type;
    private final int m_offset;
    private final int m_mask;
+   private final Object m_zeroValue;
+   private final Object m_nonZeroValue;
 }
