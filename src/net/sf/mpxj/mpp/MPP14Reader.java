@@ -40,6 +40,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.MPXJException;
@@ -1391,6 +1392,20 @@ final class MPP14Reader implements MPPVariantReader
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 
+      //
+      // Select the correct meta data locations depending on
+      // which version of Microsoft project generated this file
+      //
+      MppBitFlag[] metaDataBitFlags;
+      if (m_file.getApplicationName().equals("Microsoft.Project 15.0"))
+      {
+         metaDataBitFlags = PROJECT2013_META_DATA_BIT_FLAGS;
+      }
+      else
+      {
+         metaDataBitFlags = PROJECT2010_META_DATA_BIT_FLAGS;
+      }
+
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
          id = (Integer) uniqueid[loop];
@@ -1470,11 +1485,9 @@ final class MPP14Reader implements MPPVariantReader
 
          task.enableEvents();
 
-         task.setActive((metaData2[8] & 0x04) != 0);
+         //System.out.println(task.getUniqueID() + "\t" + task.getName() + "\t" + MPPUtility.hexdump(metaData, false));
 
-         task.setEffortDriven((metaData[11] & 0x10) != 0);
          task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
-         task.setExpanded(((metaData[12] & 0x02) == 0));
 
          Integer externalTaskID = task.getSubprojectTaskID();
          if (externalTaskID != null && externalTaskID.intValue() != 0)
@@ -1483,37 +1496,9 @@ final class MPP14Reader implements MPPVariantReader
             externalTasks.add(task);
          }
 
-         task.setFlag(1, (metaData[35] & 0x40) != 0);
-         task.setFlag(2, (metaData[35] & 0x80) != 0);
-         task.setFlag(3, (metaData[36] & 0x01) != 0);
-         task.setFlag(4, (metaData[36] & 0x02) != 0);
-         task.setFlag(5, (metaData[36] & 0x04) != 0);
-         task.setFlag(6, (metaData[36] & 0x08) != 0);
-         task.setFlag(7, (metaData[36] & 0x10) != 0);
-         task.setFlag(8, (metaData[36] & 0x20) != 0);
-         task.setFlag(9, (metaData[36] & 0x40) != 0);
-         task.setFlag(10, (metaData[36] & 0x80) != 0);
-         task.setFlag(11, (metaData[37] & 0x01) != 0);
-         task.setFlag(12, (metaData[37] & 0x02) != 0);
-         task.setFlag(13, (metaData[37] & 0x04) != 0);
-         task.setFlag(14, (metaData[37] & 0x08) != 0);
-         task.setFlag(15, (metaData[37] & 0x10) != 0);
-         task.setFlag(16, (metaData[37] & 0x20) != 0);
-         task.setFlag(17, (metaData[37] & 0x40) != 0);
-         task.setFlag(18, (metaData[37] & 0x80) != 0);
-         task.setFlag(19, (metaData[38] & 0x01) != 0);
-         task.setFlag(20, (metaData[38] & 0x02) != 0);
-
-         task.setHideBar((metaData[10] & 0x80) != 0);
-
          processHyperlinkData(task, taskVarData.getByteArray(id, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
 
          task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
-         task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
-         task.setLevelAssignments((metaData[13] & 0x04) != 0);
-         task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
-         task.setMarked((metaData[9] & 0x40) != 0);
-         task.setMilestone((metaData[8] & 0x20) != 0);
 
          task.setOutlineCode(1, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE1_INDEX)));
          task.setOutlineCode(2, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE2_INDEX)));
@@ -1527,9 +1512,14 @@ final class MPP14Reader implements MPPVariantReader
          task.setOutlineCode(10, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE10_INDEX)));
 
          task.setRecurring(MPPUtility.getShort(data, 40) == 2);
-         task.setRollup((metaData[10] & 0x08) != 0);
-         task.setTaskMode((metaData2[8] & 0x08) == 0 ? TaskMode.AUTO_SCHEDULED : TaskMode.MANUALLY_SCHEDULED);
+
          task.setUniqueID(id);
+
+         task.setActive((metaData2[8] & 0x04) != 0);
+         task.setTaskMode((metaData2[8] & 0x08) == 0 ? TaskMode.AUTO_SCHEDULED : TaskMode.MANUALLY_SCHEDULED);
+
+         task.setExpanded(((metaData[12] & 0x02) == 0));
+         readBitFields(metaDataBitFlags, task, metaData);
 
          m_parentTasks.put(task.getUniqueID(), (Integer) task.getCachedValue(TaskField.PARENT_TASK_UNIQUE_ID));
 
@@ -2442,6 +2432,22 @@ final class MPP14Reader implements MPPVariantReader
       return (stream);
    }
 
+   /**
+    * Iterate through a set of bit field flags and set the value for each one
+    * in the supplied container.
+    * 
+    * @param flags bit field flags
+    * @param container field container
+    * @param data source data
+    */
+   private void readBitFields(MppBitFlag[] flags, FieldContainer container, byte[] data)
+   {
+      for (MppBitFlag flag : flags)
+      {
+         flag.setValue(container, data);
+      }
+   }
+
    //   private static void dumpUnknownData (String label, int[][] spec, byte[] data)
    //   {
    //      System.out.print (label);
@@ -2506,7 +2512,7 @@ final class MPP14Reader implements MPPVariantReader
    //         }         
    //         return (result);
    //      }
-   //   };
+   //   };  
 
    //   private static final Comparator<Task> FINISH_COMPARATOR = new Comparator<Task>()
    //   {
@@ -2576,5 +2582,69 @@ final class MPP14Reader implements MPPVariantReader
       true,
       true,
       false
+   };
+
+   private static final MppBitFlag[] PROJECT2010_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(TaskField.EFFORT_DRIVEN, 11, 0x10),
+      new MppBitFlag(TaskField.FLAG1, 35, 0x40),
+      new MppBitFlag(TaskField.FLAG2, 35, 0x80),
+      new MppBitFlag(TaskField.FLAG3, 36, 0x01),
+      new MppBitFlag(TaskField.FLAG4, 36, 0x02),
+      new MppBitFlag(TaskField.FLAG5, 36, 0x04),
+      new MppBitFlag(TaskField.FLAG6, 36, 0x08),
+      new MppBitFlag(TaskField.FLAG7, 36, 0x10),
+      new MppBitFlag(TaskField.FLAG8, 36, 0x20),
+      new MppBitFlag(TaskField.FLAG9, 36, 0x40),
+      new MppBitFlag(TaskField.FLAG10, 36, 0x80),
+      new MppBitFlag(TaskField.FLAG11, 37, 0x01),
+      new MppBitFlag(TaskField.FLAG12, 37, 0x02),
+      new MppBitFlag(TaskField.FLAG13, 37, 0x04),
+      new MppBitFlag(TaskField.FLAG14, 37, 0x08),
+      new MppBitFlag(TaskField.FLAG15, 37, 0x10),
+      new MppBitFlag(TaskField.FLAG16, 37, 0x20),
+      new MppBitFlag(TaskField.FLAG17, 37, 0x40),
+      new MppBitFlag(TaskField.FLAG18, 37, 0x80),
+      new MppBitFlag(TaskField.FLAG19, 38, 0x01),
+      new MppBitFlag(TaskField.FLAG20, 38, 0x02),
+      new MppBitFlag(TaskField.HIDEBAR, 10, 0x80),
+      new MppBitFlag(TaskField.IGNORE_RESOURCE_CALENDAR, 10, 0x02),
+      new MppBitFlag(TaskField.LEVEL_ASSIGNMENTS, 13, 0x04),
+      new MppBitFlag(TaskField.LEVELING_CAN_SPLIT, 13, 0x02),
+      new MppBitFlag(TaskField.MARKED, 9, 0x40),
+      new MppBitFlag(TaskField.MILESTONE, 8, 0x20),
+      new MppBitFlag(TaskField.ROLLUP, 10, 0x08)
+   };
+
+   private static final MppBitFlag[] PROJECT2013_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(TaskField.EFFORT_DRIVEN, 13, 0x08),
+      new MppBitFlag(TaskField.FLAG1, 24, 0x02),
+      new MppBitFlag(TaskField.FLAG2, 24, 0x04),
+      new MppBitFlag(TaskField.FLAG3, 24, 0x08),
+      new MppBitFlag(TaskField.FLAG4, 24, 0x10),
+      new MppBitFlag(TaskField.FLAG5, 24, 0x20),
+      new MppBitFlag(TaskField.FLAG6, 24, 0x40),
+      new MppBitFlag(TaskField.FLAG7, 24, 0x80),
+      new MppBitFlag(TaskField.FLAG8, 25, 0x01),
+      new MppBitFlag(TaskField.FLAG9, 25, 0x02),
+      new MppBitFlag(TaskField.FLAG10, 25, 0x04),
+      new MppBitFlag(TaskField.FLAG11, 33, 0x02),
+      new MppBitFlag(TaskField.FLAG12, 33, 0x04),
+      new MppBitFlag(TaskField.FLAG13, 33, 0x08),
+      new MppBitFlag(TaskField.FLAG14, 33, 0x10),
+      new MppBitFlag(TaskField.FLAG15, 33, 0x20),
+      new MppBitFlag(TaskField.FLAG16, 33, 0x40),
+      new MppBitFlag(TaskField.FLAG17, 33, 0x80),
+      new MppBitFlag(TaskField.FLAG18, 34, 0x01),
+      new MppBitFlag(TaskField.FLAG19, 34, 0x02),
+      new MppBitFlag(TaskField.FLAG20, 34, 0x04),
+      new MppBitFlag(TaskField.HIDEBAR, 12, 0x80),
+      new MppBitFlag(TaskField.IGNORE_RESOURCE_CALENDAR, 17, 0x20),
+      new MppBitFlag(TaskField.LEVEL_ASSIGNMENTS, 16, 0x04),
+      new MppBitFlag(TaskField.LEVELING_CAN_SPLIT, 16, 0x02),
+      new MppBitFlag(TaskField.MARKED, 12, 0x02),
+      new MppBitFlag(TaskField.MILESTONE, 10, 0x02),
+      new MppBitFlag(TaskField.ROLLUP, 12, 0x04)
    };
 }

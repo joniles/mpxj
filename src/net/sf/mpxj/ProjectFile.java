@@ -1694,7 +1694,8 @@ public final class ProjectFile
     * This method retrieves a value representing the type of MPP file
     * that has been read. Currently this method will return the value 8 for
     * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
-    * Project 2002) and 12 for an MPP12 file (Project 12).
+    * Project 2002), 12 for an MPP12 file (Project 2003, Project 2007) and 14 for an
+    * MPP14 file (Project 2010 and Project 2013).
     *
     * @return integer representing the file type
     */
@@ -1711,6 +1712,26 @@ public final class ProjectFile
    public void setMppFileType(int fileType)
    {
       m_mppFileType = fileType;
+   }
+
+   /**
+    * Retrieves the name of the application used to create this project data.
+    * 
+    * @return application name
+    */
+   public String getApplicationName()
+   {
+      return m_applicationName;
+   }
+
+   /**
+    * Sets the name of the application used to create this projectdata.
+    * 
+    * @param name application name
+    */
+   public void setApplicationName(String name)
+   {
+      m_applicationName = name;
    }
 
    /**
@@ -2342,6 +2363,13 @@ public final class ProjectFile
     * has been read.
     */
    private int m_mppFileType;
+
+   /**
+    * This field can be used to record the name of the application
+    * used to produce the project data. At present only MppReader
+    * populates this attribute.
+    */
+   private String m_applicationName;
 
    /**
     * List of views defined in this file.
