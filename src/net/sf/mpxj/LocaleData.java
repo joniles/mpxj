@@ -169,7 +169,7 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.COST1.getValue()] = "Cost1";
       TASK_COLUMNS_ARRAY[TaskField.COST2.getValue()] = "Cost2";
       TASK_COLUMNS_ARRAY[TaskField.COST3.getValue()] = "Cost3";
-      TASK_COLUMNS_ARRAY[TaskField.HIDEBAR.getValue()] = "Hide Bar";
+      TASK_COLUMNS_ARRAY[TaskField.HIDE_BAR.getValue()] = "Hide Bar";
       TASK_COLUMNS_ARRAY[TaskField.CONFIRMED.getValue()] = "Confirmed";
       TASK_COLUMNS_ARRAY[TaskField.UPDATE_NEEDED.getValue()] = "Update Needed";
       TASK_COLUMNS_ARRAY[TaskField.CONTACT.getValue()] = "Contact";

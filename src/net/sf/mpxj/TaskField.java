@@ -152,7 +152,7 @@ public enum TaskField implements FieldType
    COST1(DataType.CURRENCY),
    COST2(DataType.CURRENCY),
    COST3(DataType.CURRENCY),
-   HIDEBAR(DataType.BOOLEAN),
+   HIDE_BAR(DataType.BOOLEAN),
    CONFIRMED(DataType.BOOLEAN),
    UPDATE_NEEDED(DataType.BOOLEAN),
    CONTACT(DataType.STRING),

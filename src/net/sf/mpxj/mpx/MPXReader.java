@@ -1155,7 +1155,7 @@ public final class MPXReader extends AbstractProjectReader
             case FLAG8:
             case FLAG9:
             case FLAG10:
-            case HIDEBAR:
+            case HIDE_BAR:
             case LINKED_FIELDS:
             case MARKED:
             case MILESTONE:

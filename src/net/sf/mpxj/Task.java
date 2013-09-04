@@ -1017,7 +1017,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setHideBar(boolean flag)
    {
-      set(TaskField.HIDEBAR, flag);
+      set(TaskField.HIDE_BAR, flag);
    }
 
    /**
@@ -2094,7 +2094,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getHideBar()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.HIDEBAR)));
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.HIDE_BAR)));
    }
 
    /**

@@ -125,7 +125,7 @@ final class MPXTaskField
       MPX_MPXJ_ARRAY[117] = TaskField.FLAG8;
       MPX_MPXJ_ARRAY[118] = TaskField.FLAG9;
       MPX_MPXJ_ARRAY[93] = TaskField.FREE_SLACK;
-      MPX_MPXJ_ARRAY[123] = TaskField.HIDEBAR;
+      MPX_MPXJ_ARRAY[123] = TaskField.HIDE_BAR;
       MPX_MPXJ_ARRAY[90] = TaskField.ID;
       MPX_MPXJ_ARRAY[55] = TaskField.LATE_FINISH;
       MPX_MPXJ_ARRAY[54] = TaskField.LATE_START;
