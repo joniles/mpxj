@@ -3,6 +3,7 @@ package net.sf.mpxj.junit;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.mpp.MPPReader;
 
 /**
@@ -280,6 +281,47 @@ public class MppTaskFlags extends MPXJTestCase
       task = mpp.getTaskByUniqueID(Integer.valueOf(61));
       assertEquals("Flag20", task.getName());
       testFlag(task, 20);
+
+      if (mpp.getMppFileType() == 14)
+      {
+         //
+         // Active
+         //
+         task = mpp.getTaskByUniqueID(Integer.valueOf(63));
+         assertEquals("Active: On", task.getName());
+         assertTrue(task.getActive());
+
+         task = mpp.getTaskByUniqueID(Integer.valueOf(64));
+         assertEquals("Active: Off", task.getName());
+         assertFalse(task.getActive());
+
+         task = mpp.getTaskByUniqueID(Integer.valueOf(65));
+         assertEquals("Active: On", task.getName());
+         assertTrue(task.getActive());
+
+         task = mpp.getTaskByUniqueID(Integer.valueOf(66));
+         assertEquals("Active: Off", task.getName());
+         assertFalse(task.getActive());
+
+         //
+         // Task Mode
+         //
+         task = mpp.getTaskByUniqueID(Integer.valueOf(68));
+         assertEquals("Mode: Auto", task.getName());
+         assertEquals(TaskMode.AUTO_SCHEDULED, task.getTaskMode());
+
+         task = mpp.getTaskByUniqueID(Integer.valueOf(69));
+         assertEquals("Mode: Manual", task.getName());
+         assertEquals(TaskMode.MANUALLY_SCHEDULED, task.getTaskMode());
+
+         task = mpp.getTaskByUniqueID(Integer.valueOf(70));
+         assertEquals("Mode: Auto", task.getName());
+         assertEquals(TaskMode.AUTO_SCHEDULED, task.getTaskMode());
+
+         task = mpp.getTaskByUniqueID(Integer.valueOf(71));
+         assertEquals("Mode: Manual", task.getName());
+         assertEquals(TaskMode.MANUALLY_SCHEDULED, task.getTaskMode());
+      }
    }
 
    /**

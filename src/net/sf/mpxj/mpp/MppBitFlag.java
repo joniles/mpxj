@@ -15,6 +15,8 @@ public class MppBitFlag
     * @param type field type
     * @param offset offset in buffer
     * @param mask bit mask 
+    * @param zeroValue value to return if expression is zero
+    * @param nonZeroValue value to return if expression is non-zero
     */
    public MppBitFlag(FieldType type, int offset, int mask, Object zeroValue, Object nonZeroValue)
    {

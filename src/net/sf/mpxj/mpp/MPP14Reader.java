@@ -1397,13 +1397,16 @@ final class MPP14Reader implements MPPVariantReader
       // which version of Microsoft project generated this file
       //
       MppBitFlag[] metaDataBitFlags;
+      MppBitFlag[] metaData2BitFlags;
       if (m_file.getApplicationName().equals("Microsoft.Project 15.0"))
       {
          metaDataBitFlags = PROJECT2013_META_DATA_BIT_FLAGS;
+         metaData2BitFlags = PROJECT2013_META_DATA2_BIT_FLAGS;
       }
       else
       {
          metaDataBitFlags = PROJECT2010_META_DATA_BIT_FLAGS;
+         metaData2BitFlags = PROJECT2010_META_DATA2_BIT_FLAGS;
       }
 
       for (int loop = 0; loop < uniqueid.length; loop++)
@@ -1485,8 +1488,6 @@ final class MPP14Reader implements MPPVariantReader
 
          task.enableEvents();
 
-         //System.out.println(task.getUniqueID() + "\t" + task.getName() + "\t" + MPPUtility.hexdump(metaData, false));
-
          task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
 
          Integer externalTaskID = task.getSubprojectTaskID();
@@ -1515,11 +1516,9 @@ final class MPP14Reader implements MPPVariantReader
 
          task.setUniqueID(id);
 
-         task.setActive((metaData2[8] & 0x04) != 0);
-         task.setTaskMode((metaData2[8] & 0x08) == 0 ? TaskMode.AUTO_SCHEDULED : TaskMode.MANUALLY_SCHEDULED);
-
          task.setExpanded(((metaData[12] & 0x02) == 0));
          readBitFields(metaDataBitFlags, task, metaData);
+         readBitFields(metaData2BitFlags, task, metaData2);
 
          m_parentTasks.put(task.getUniqueID(), (Integer) task.getCachedValue(TaskField.PARENT_TASK_UNIQUE_ID));
 
@@ -2646,5 +2645,17 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.MARKED, 12, 0x02, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.MILESTONE, 10, 0x02, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.ROLLUP, 12, 0x04, Boolean.FALSE, Boolean.TRUE)
+   };
+
+   private static final MppBitFlag[] PROJECT2010_META_DATA2_BIT_FLAGS =
+   {
+      new MppBitFlag(TaskField.ACTIVE, 8, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(TaskField.TASK_MODE, 8, 0x08, TaskMode.AUTO_SCHEDULED, TaskMode.MANUALLY_SCHEDULED)
+   };
+
+   private static final MppBitFlag[] PROJECT2013_META_DATA2_BIT_FLAGS =
+   {
+      new MppBitFlag(TaskField.ACTIVE, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(TaskField.TASK_MODE, 8, 0x80, TaskMode.AUTO_SCHEDULED, TaskMode.MANUALLY_SCHEDULED)
    };
 }
