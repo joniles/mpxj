@@ -304,10 +304,11 @@ final class PrimaveraReader
     * 
     * @param wbs WBS task data
     * @param tasks task data
+    * @param costs task costs
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks)
+   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> costs)
    {
-      processTasks(wbs, tasks, null);
+      processTasks(wbs, tasks, costs, null);
    }
 
    /**
@@ -315,11 +316,13 @@ final class PrimaveraReader
     * 
     * @param wbs WBS task data
     * @param tasks task data
+    * @param costs task costs
     * @param udfVals User Defined Fields values data
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> udfVals/*, List<Row> wbsmemos, List<Row> taskmemos*/)
+   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> costs, List<Row> udfVals)
    {
       Set<Integer> uniqueIDs = new HashSet<Integer>();
+      Map<Integer, TaskCosts> taskCostsMap = processCosts(costs);
 
       //
       // Read WBS entries and create tasks
@@ -449,6 +452,17 @@ final class PrimaveraReader
          task.setText(1, row.getString("task_code"));
 
          //
+         // Apply costs if we have any
+         //
+         TaskCosts taskCosts = taskCostsMap.get(row.getInteger("task_id"));
+         if (taskCosts != null)
+         {
+            task.setActualCost(taskCosts.getActual());
+            task.setCost(taskCosts.getPlanned());
+            task.setRemainingCost(taskCosts.getRemaining());
+         }
+
+         //
          // The Primavera field names listed below come from Oracle 
          // documentation, but do not appear in the XER file or
          // in the TASK table.
@@ -484,6 +498,33 @@ final class PrimaveraReader
       }
 
       updateStructure();
+   }
+
+   /**
+    * Summarise cost values for each task.
+    * 
+    * @param costs list of cost rows
+    * @return map of task IDs to costs
+    */
+   private Map<Integer, TaskCosts> processCosts(List<Row> costs)
+   {
+      Map<Integer, TaskCosts> map = new HashMap<Integer, TaskCosts>();
+      for (Row cost : costs)
+      {
+         Integer taskID = cost.getInteger("task_id");
+         TaskCosts taskCosts = map.get(taskID);
+         if (taskCosts == null)
+         {
+            taskCosts = new TaskCosts();
+            map.put(taskID, taskCosts);
+         }
+
+         taskCosts.addActual(cost.getDouble("act_cost"));
+         taskCosts.addPlanned(cost.getDouble("target_cost"));
+         taskCosts.addRemaining(cost.getDouble("remain_cost"));
+      }
+
+      return map;
    }
 
    /**

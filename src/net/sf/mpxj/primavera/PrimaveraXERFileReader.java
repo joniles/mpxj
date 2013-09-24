@@ -356,11 +356,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
+      List<Row> costs = getRows("projcost", "proj_id", m_projectID);
       //List<Row> wbsmemos = getRows("wbsmemo", "proj_id", m_projectID);
       //List<Row> taskmemos = getRows("taskmemo", "proj_id", m_projectID);
       List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks, udfVals/*, wbsmemos, taskmemos*/);
+      m_reader.processTasks(wbs, tasks, costs, udfVals/*, wbsmemos, taskmemos*/);
    }
 
    /**
@@ -770,6 +771,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("decimal_digit_cnt", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("target_qty_per_hr", FieldType.DOUBLE);
       FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", FieldType.DURATION);
+
+      FIELD_TYPE_MAP.put("act_cost", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("target_cost", FieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("remain_cost", FieldType.DOUBLE);
+
       // User Defined Fields types (UDF)
       FIELD_TYPE_MAP.put("udf_type", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("table_name", FieldType.STRING);
@@ -798,6 +804,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("currtype");
       REQUIRED_TABLES.add("udftype");
       REQUIRED_TABLES.add("udfvalue");
+      REQUIRED_TABLES.add("projcost");
    }
 
    private static final WbsRowComparator WBS_ROW_COMPARATOR = new WbsRowComparator();
