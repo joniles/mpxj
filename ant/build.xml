@@ -24,7 +24,7 @@
 		<property name="classes.dir" value="${basedir}/classes" />
 		<property name="bak.dir" value="${basedir}/bak" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
-		<property name="ikvm.dir" value="C:\java\ikvm-7.2.4630.5" />
+		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 
 		<!-- 
 		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
