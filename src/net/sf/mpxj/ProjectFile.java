@@ -869,18 +869,6 @@ public final class ProjectFile
    }
 
    /**
-    * This method is used to retrieve the number of child tasks associated
-    * with this parent task. This method is used as part of the process
-    * of automatically generating the WBS.
-    *
-    * @return Number of child tasks
-    */
-   int getChildTaskCount()
-   {
-      return (m_childTasks.size());
-   }
-
-   /**
     * This method is used to calculate the duration of work between two fixed
     * dates according to the work schedule defined in the named calendar. The
     * calendar used is the "Standard" calendar. If this calendar does not exist,

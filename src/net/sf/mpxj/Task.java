@@ -108,7 +108,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
          else
          {
-            wbs = Integer.toString(getParentFile().getChildTaskCount() + 1);
+            wbs = Integer.toString(getParentFile().getChildTasks().size() + 1);
          }
       }
       else
@@ -122,13 +122,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
             wbs = wbs.substring(0, index);
          }
 
-         if (wbs.equals("0") == true)
+         int childTaskCount = parent.getChildTasks().size() + 1;
+         if (wbs.equals("0"))
          {
-            wbs = Integer.toString(parent.getChildTaskCount() + 1);
+            wbs = Integer.toString(childTaskCount);
          }
          else
          {
-            wbs += ("." + (parent.getChildTaskCount() + 1));
+            wbs += ("." + childTaskCount);
          }
       }
 
@@ -153,7 +154,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
          else
          {
-            outline = Integer.toString(getParentFile().getChildTaskCount() + 1);
+            outline = Integer.toString(getParentFile().getChildTasks().size() + 1);
          }
       }
       else
@@ -167,13 +168,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
             outline = outline.substring(0, index);
          }
 
-         if (outline.equals("0") == true)
+         int childTaskCount = parent.getChildTasks().size() + 1;
+         if (outline.equals("0"))
          {
-            outline = Integer.toString(parent.getChildTaskCount() + 1);
+            outline = Integer.toString(childTaskCount);
          }
          else
          {
-            outline += ("." + (parent.getChildTaskCount() + 1));
+            outline += ("." + childTaskCount);
          }
       }
 
@@ -2718,16 +2720,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
       }
       return (variance);
-   }
-
-   /**
-    * Retrieve count of the number of child tasks.
-    *
-    * @return Number of child tasks.
-    */
-   int getChildTaskCount()
-   {
-      return (m_children.size());
    }
 
    /**
