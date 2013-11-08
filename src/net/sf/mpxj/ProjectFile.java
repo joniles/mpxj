@@ -39,7 +39,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * This class represents a project plan.
  */
-public final class ProjectFile
+public final class ProjectFile implements TaskContainer
 {
    /**
     * Accessor method to retrieve the current file delimiter character.
@@ -346,7 +346,7 @@ public final class ProjectFile
     *
     * @return list of tasks
     */
-   public List<Task> getChildTasks()
+   @Override public List<Task> getChildTasks()
    {
       return (m_childTasks);
    }

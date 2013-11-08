@@ -38,7 +38,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * This class represents a task record from an project file.
  */
-public final class Task extends ProjectEntity implements Comparable<Task>, FieldContainer
+public final class Task extends ProjectEntity implements Comparable<Task>, FieldContainer, TaskContainer
 {
    /**
     * Default constructor.
@@ -2741,7 +2741,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return child tasks
     */
-   public List<Task> getChildTasks()
+   @Override public List<Task> getChildTasks()
    {
       return (m_children);
    }
