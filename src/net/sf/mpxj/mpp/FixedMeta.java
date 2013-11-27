@@ -49,9 +49,30 @@ final class FixedMeta extends MPPComponent
     * @param itemSize size of each item in the block
     * @throws IOException on file read failure
     */
-   FixedMeta(InputStream is, int itemSize)
+   FixedMeta(InputStream is, final int itemSize)
       throws IOException
    {
+      this(is, new FixedMetaItemSizeProvider()
+      {
+         @Override public int getItemSize(int fileSize, int itemCount)
+         {
+            return itemSize;
+         }
+      });
+   }
+
+   /**
+    * Constructor. Supply an item size provider to allow different strategies to be
+    * used to determine the correct item size.
+    * 
+    * @param is input stream from which the meta data is read
+    * @param itemSizeProvider item size provider used to calculate the item size
+    * @throws IOException
+    */
+   FixedMeta(InputStream is, FixedMetaItemSizeProvider itemSizeProvider)
+      throws IOException
+   {
+
       //
       // The POI file system guarantees that this is accurate
       //
@@ -69,6 +90,7 @@ final class FixedMeta extends MPPComponent
       m_itemCount = readInt(is);
       readInt(is);
 
+      int itemSize = itemSizeProvider.getItemSize(fileSize, m_itemCount);
       m_itemCount = (fileSize - HEADER_SIZE) / itemSize;
 
       m_array = new Object[m_itemCount];
@@ -85,38 +107,34 @@ final class FixedMeta extends MPPComponent
     * @param is input stream
     * @param itemSizes list of potential block sizes
     */
-   FixedMeta(InputStream is, int... itemSizes)
+   FixedMeta(InputStream is, final int... itemSizes)
       throws IOException
    {
-
-      this(is, FixedMeta.optimumItemSize(is, itemSizes));
-
-   }
-
-   /**
-    * Given a list of potential block sizes, try to determine 
-    * which one provides the best fit to the size of the data block.
-    * 
-    * @param is input stream
-    * @param itemSizes list of potential item sizes
-    * @return optimum item size
-    */
-   private static int optimumItemSize(InputStream is, int... itemSizes) throws IOException
-   {
-      int available = is.available() - HEADER_SIZE;
-
-      int itemSize = itemSizes[0];
-
-      for (int index = 0; index < itemSizes.length; index++)
+      this(is, new FixedMetaItemSizeProvider()
       {
-         itemSize = itemSizes[index];
-         if (available % itemSize == 0)
+         @Override public int getItemSize(int fileSize, int itemCount)
          {
-            break;
-         }
-      }
+            int itemSize = itemSizes[0];
+            int available = fileSize - HEADER_SIZE;
+            int distance = Integer.MIN_VALUE;
 
-      return itemSize;
+            for (int index = 0; index < itemSizes.length; index++)
+            {
+               int testItemSize = itemSizes[index];
+               if (available % testItemSize == 0)
+               {
+                  int testDistance = (itemCount * testItemSize) - available;
+                  if (testDistance <= 0 && testDistance > distance)
+                  {
+                     itemSize = testItemSize;
+                     distance = testDistance;
+                  }
+               }
+            }
+
+            return itemSize;
+         }
+      });
    }
 
    /**
