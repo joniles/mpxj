@@ -126,22 +126,22 @@ public final class LocaleData_de extends ListResourceBundle
       "Niedrig",
       "Mittel",
       "Hoch",
-      "Höher",
+      "H\u00F6her",
       "Sehr hoch",
-      "Am höchsten",
+      "Am h\u00F6chsten",
       "Nicht abgleichen"
    };
 
    private static final String[] CONSTRAINT_TYPES_DATA =
    {
-      "So früh wie möglich",
-      "So spät wie möglich",
+      "So fr\u00FCh wie m\u00F6glich",
+      "So sp\u00E4t wie m\u00F6glich",
       "Muss anfangen am",
       "Muss enden am",
-      "Anfang nicht früher als",
-      "Anfang nicht später als",
-      "Ende nicht früher als",
-      "Ende nicht später als"
+      "Anfang nicht fr\u00FCher als",
+      "Anfang nicht sp\u00E4ter als",
+      "Ende nicht fr\u00FCher als",
+      "Ende nicht sp\u00E4ter als"
    };
 
    private static final String[] TASK_NAMES_DATA =
@@ -198,10 +198,10 @@ public final class LocaleData_de extends ListResourceBundle
       null,
       "Anfang",
       "Ende",
-      "Frühester Anfang",
-      "Frühestes Ende",
-      "Spätester Anfang",
-      "Spätestes Ende",
+      "Fr\u00FChester Anfang",
+      "Fr\u00FChestes Ende",
+      "Sp\u00E4tester Anfang",
+      "Sp\u00E4testes Ende",
       "Geplanter Anfang",
       "Geplantes Ende",
       "Aktueller Anfang",
@@ -214,14 +214,14 @@ public final class LocaleData_de extends ListResourceBundle
       "Ende3",
       "Abweichung Anfang",
       "Abweichung Ende",
-      "Einschränkungstermin",
+      "Einschr\u00E4nkungstermin",
       null,
-      "Vorgänger",
+      "Vorg\u00E4nger",
       "Nachfolger",
       "Ressourcenamen",
-      "Ressourcenkürzel",
-      "Einmalige Nr. für Vorgänger",
-      "Einmalige Nr. für Nachfolger",
+      "Ressourcenk\u00FCrzel",
+      "Einmalige Nr. f\u00FCr Vorg\u00E4nger",
+      "Einmalige Nr. f\u00FCr Nachfolger",
       null,
       null,
       null,
@@ -237,11 +237,11 @@ public final class LocaleData_de extends ListResourceBundle
       "KA",
       null,
       "Nr.",
-      "Einschränkungsart",
-      "Verzögerung",
+      "Einschr\u00E4nkungsart",
+      "Verz\u00F6gerung",
       "Freie Pufferzeit",
       "Gesamte Pufferzeit",
-      "Priorität",
+      "Priorit\u00E4t",
       "Teilprojektdatei",
       "Projekt",
       "Einmalige Nr.",
@@ -268,7 +268,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Attribut10",
       "Sammelvorgang",
       "Objekte",
-      "Verknüpfte Felder",
+      "Verkn\u00FCpfte Felder",
       "Balken ausblenden",
       null,
       "Erzeugt",
@@ -281,7 +281,7 @@ public final class LocaleData_de extends ListResourceBundle
       null,
       null,
       null,
-      "Bestätigt",
+      "Best\u00E4tigt",
       "Aktualisierung erforderlich",
       null,
       null,
@@ -297,7 +297,7 @@ public final class LocaleData_de extends ListResourceBundle
       null,
       null,
       "Unterbrechungstermin",
-      "Wiederaufnahme nicht früher als",
+      "Wiederaufnahme nicht fr\u00FCher als",
       "Wiederaufnahme"
    };
 
@@ -305,7 +305,7 @@ public final class LocaleData_de extends ListResourceBundle
    {
       null,
       "Name",
-      "Kürzel",
+      "K\u00FCrzel",
       "Gruppe",
       "Code",
       "Text1",
@@ -327,7 +327,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Geplante Arbeit",
       "Aktuelle Arbeit",
       "Verbleibende Arbeit",
-      "Überstundenarbeit",
+      "\u00DCberstundenarbeit",
       "Abweichung Arbeit",
       "% Arbeit abgeschlossen",
       null,
@@ -346,15 +346,15 @@ public final class LocaleData_de extends ListResourceBundle
       "Nr.",
       "Max. Einheiten",
       "Standardsatz",
-      "Überstundensatz",
+      "\u00DCberstundensatz",
       "Kosten pro Einsatz",
-      "Fällig am",
-      "Überlastet",
+      "F\u00E4llig am",
+      "\u00DCberlastet",
       "Spitze",
       "Basiskalender",
       "Einmalige Nr.",
       "Objekte",
-      "Verknüpfte Felder"
+      "Verkn\u00FCpfte Felder"
    };
 
    private static final Object[][] RESOURCE_DATA =
@@ -379,7 +379,7 @@ public final class LocaleData_de extends ListResourceBundle
 
       {
          LocaleData.CURRENCY_SYMBOL,
-         "€"
+         "\u20AC"
       },
       {
          LocaleData.CURRENCY_SYMBOL_POSITION,

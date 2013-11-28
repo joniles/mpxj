@@ -106,9 +106,9 @@ public final class LocaleData_zh extends ListResourceBundle
 
    private static final String[] ACCRUE_TYPES_DATA =
    {
-      "开始", // "Start",
-      "结束", // "End",
-      "按比例" // "Prorated"
+      "\u5F00\u59CB", // "Start",
+      "\u7ED3\u675F", // "End",
+      "\u6309\u6BD4\u4F8B" // "Prorated"
    };
 
    private static final String[] RELATION_TYPES_DATA =
@@ -135,118 +135,118 @@ public final class LocaleData_zh extends ListResourceBundle
 
    private static final String[] CONSTRAINT_TYPES_DATA =
    {
-      "越早越好", //   "As Soon As Possible",
-      "越晚越好", //   "As Late As Possible",
-      "必须开始于", //   "Must Start On",
-      "必须完成于", //   "Must Finish On",
-      "不得早于...开始", //   "Start No Earlier Than",
-      "不得晚于...开始", //   "Start No Later Than",
-      "不得早于...完成", //   "Finish No Earlier Than",
-      "不得晚于...完成" //   "Finish No Later Than"
+      "\u8D8A\u65E9\u8D8A\u597D", //   "As Soon As Possible",
+      "\u8D8A\u665A\u8D8A\u597D", //   "As Late As Possible",
+      "\u5FC5\u987B\u5F00\u59CB\u4E8E", //   "Must Start On",
+      "\u5FC5\u987B\u5B8C\u6210\u4E8E", //   "Must Finish On",
+      "\u4E0D\u5F97\u65E9\u4E8E...\u5F00\u59CB", //   "Start No Earlier Than",
+      "\u4E0D\u5F97\u665A\u4E8E...\u5F00\u59CB", //   "Start No Later Than",
+      "\u4E0D\u5F97\u65E9\u4E8E...\u5B8C\u6210", //   "Finish No Earlier Than",
+      "\u4E0D\u5F97\u665A\u4E8E...\u5B8C\u6210" //   "Finish No Later Than"
    };
 
    private static final String[] TASK_NAMES_DATA =
    {
       null, //
-      "名称", //   "Name",
+      "\u540D\u79F0", //   "Name",
       "WBS", //   "WBS",
-      "大纲级别", //   "Outline Level",
-      "文本1", //   "Text1",
-      "文本2", //   "Text2",
-      "文本3", //   "Text3",
-      "文本4", //   "Text4",
-      "文本5", //   "Text5",
-      "文本6", //   "Text6",
-      "文本7", //   "Text7",
-      "文本8", //   "Text8",
-      "文本9", //   "Text9",
-      "文本10", //   "Text10",
-      "备注", //  "Notes",
-      "联系人", //  "Contact",
-      "资源组", //   "Resource Group",
+      "\u5927\u7EB2\u7EA7\u522B", //   "Outline Level",
+      "\u6587\u672C1", //   "Text1",
+      "\u6587\u672C2", //   "Text2",
+      "\u6587\u672C3", //   "Text3",
+      "\u6587\u672C4", //   "Text4",
+      "\u6587\u672C5", //   "Text5",
+      "\u6587\u672C6", //   "Text6",
+      "\u6587\u672C7", //   "Text7",
+      "\u6587\u672C8", //   "Text8",
+      "\u6587\u672C9", //   "Text9",
+      "\u6587\u672C10", //   "Text10",
+      "\u5907\u6CE8", //  "Notes",
+      "\u8054\u7CFB\u4EBA", //  "Contact",
+      "\u8D44\u6E90\u7EC4", //   "Resource Group",
       null, //
       null, //
       null, //
-      "工时", //   "Work",
-      "比较基准工时", //   "Baseline Work",
-      "实际工时", //   "Actual Work",
-      "剩余工时", //   "Remaining Work",
-      "工时差异", //   "Work Variance",
-      "工时完成百分比", //   "% Work Complete",
-      null, //
-      null, //
-      null, //
-      null, //
-      "成本", //   "Cost",
-      "比较基准成本", //   "Baseline Cost",
-      "实际成本", //   "Actual Cost",
-      "剩余成本", //   "Remaining Cost",
-      "成本差异", //   "Cost Variance",
-      "固定成本", //   "Fixed Cost",
-      "成本1", //   "Cost1",
-      "成本2", //   "Cost2",
-      "成本3", //   "Cost3",
-      null, //
-      "工期", //   "Duration",
-      "比较基准工期", //   "Baseline Duration",
-      "实际工期", //   "Actual Duration",
-      "剩余工期", //   "Remaining Duration",
-      "完成百分比", //   "% Complete",
-      "工期差异", //   "Duration Variance",
-      "工期1", //   "Duration1",
-      "工期2", //   "Duration2",
-      "工期3", //   "Duration3",
-      null, //
-      "开始时间", //   "Start",
-      "完成时间", //   "Finish",
-      "最早开始时间", //   "Early Start",
-      "最早完成时间", //   "Early Finish",
-      "最晚开始时间", //   "Late Start",
-      "最晚完成时间", //   "Late Finish",
-      "比较基准开始时间", //   "Baseline Start",
-      "比较基准完成时间", //   "Baseline Finish",
-      "实际开始时间", //   "Actual Start",
-      "实际完成时间", //   "Actual Finish",
-      "开始时间1", //   "Start1",
-      "完成时间1", //   "Finish1",
-      "开始时间2", //   "Start2",
-      "完成时间2", //   "Finish2",
-      "开始时间3", //   "Start3",
-      "完成时间3", //   "Finish3",
-      "开时间差异", //   "Start Variance",
-      "完成时间差异", //   "Finish Variance",
-      "限制日期", //   "Constraint Date",
-      null, //
-      "前置任务", //   "Predecessors",
-      "后续任务", //   "Successors",
-      "资源名称", //   "Resource Names",
-      "资源缩写", //   "Resource Initials",
-      "唯一标识号前置任务", //   "Unique ID Predecessors",
-      "唯一标识号后续任务", //   "Unique ID Successors",
+      "\u5DE5\u65F6", //   "Work",
+      "\u6BD4\u8F83\u57FA\u51C6\u5DE5\u65F6", //   "Baseline Work",
+      "\u5B9E\u9645\u5DE5\u65F6", //   "Actual Work",
+      "\u5269\u4F59\u5DE5\u65F6", //   "Remaining Work",
+      "\u5DE5\u65F6\u5DEE\u5F02", //   "Work Variance",
+      "\u5DE5\u65F6\u5B8C\u6210\u767E\u5206\u6BD4", //   "% Work Complete",
       null, //
       null, //
       null, //
       null, //
-      "固定", //No such field named "Fixed" in project 2003
-      "里程碑", //   "Milestone",
-      "关键", //   "Critical",
-      "已标记", //   "Marked",
-      "总成型任务", //   "Rollup",
+      "\u6210\u672C", //   "Cost",
+      "\u6BD4\u8F83\u57FA\u51C6\u6210\u672C", //   "Baseline Cost",
+      "\u5B9E\u9645\u6210\u672C", //   "Actual Cost",
+      "\u5269\u4F59\u6210\u672C", //   "Remaining Cost",
+      "\u6210\u672C\u5DEE\u5F02", //   "Cost Variance",
+      "\u56FA\u5B9A\u6210\u672C", //   "Fixed Cost",
+      "\u6210\u672C1", //   "Cost1",
+      "\u6210\u672C2", //   "Cost2",
+      "\u6210\u672C3", //   "Cost3",
+      null, //
+      "\u5DE5\u671F", //   "Duration",
+      "\u6BD4\u8F83\u57FA\u51C6\u5DE5\u671F", //   "Baseline Duration",
+      "\u5B9E\u9645\u5DE5\u671F", //   "Actual Duration",
+      "\u5269\u4F59\u5DE5\u671F", //   "Remaining Duration",
+      "\u5B8C\u6210\u767E\u5206\u6BD4", //   "% Complete",
+      "\u5DE5\u671F\u5DEE\u5F02", //   "Duration Variance",
+      "\u5DE5\u671F1", //   "Duration1",
+      "\u5DE5\u671F2", //   "Duration2",
+      "\u5DE5\u671F3", //   "Duration3",
+      null, //
+      "\u5F00\u59CB\u65F6\u95F4", //   "Start",
+      "\u5B8C\u6210\u65F6\u95F4", //   "Finish",
+      "\u6700\u65E9\u5F00\u59CB\u65F6\u95F4", //   "Early Start",
+      "\u6700\u65E9\u5B8C\u6210\u65F6\u95F4", //   "Early Finish",
+      "\u6700\u665A\u5F00\u59CB\u65F6\u95F4", //   "Late Start",
+      "\u6700\u665A\u5B8C\u6210\u65F6\u95F4", //   "Late Finish",
+      "\u6BD4\u8F83\u57FA\u51C6\u5F00\u59CB\u65F6\u95F4", //   "Baseline Start",
+      "\u6BD4\u8F83\u57FA\u51C6\u5B8C\u6210\u65F6\u95F4", //   "Baseline Finish",
+      "\u5B9E\u9645\u5F00\u59CB\u65F6\u95F4", //   "Actual Start",
+      "\u5B9E\u9645\u5B8C\u6210\u65F6\u95F4", //   "Actual Finish",
+      "\u5F00\u59CB\u65F6\u95F41", //   "Start1",
+      "\u5B8C\u6210\u65F6\u95F41", //   "Finish1",
+      "\u5F00\u59CB\u65F6\u95F42", //   "Start2",
+      "\u5B8C\u6210\u65F6\u95F42", //   "Finish2",
+      "\u5F00\u59CB\u65F6\u95F43", //   "Start3",
+      "\u5B8C\u6210\u65F6\u95F43", //   "Finish3",
+      "\u5F00\u65F6\u95F4\u5DEE\u5F02", //   "Start Variance",
+      "\u5B8C\u6210\u65F6\u95F4\u5DEE\u5F02", //   "Finish Variance",
+      "\u9650\u5236\u65E5\u671F", //   "Constraint Date",
+      null, //
+      "\u524D\u7F6E\u4EFB\u52A1", //   "Predecessors",
+      "\u540E\u7EED\u4EFB\u52A1", //   "Successors",
+      "\u8D44\u6E90\u540D\u79F0", //   "Resource Names",
+      "\u8D44\u6E90\u7F29\u5199", //   "Resource Initials",
+      "\u552F\u4E00\u6807\u8BC6\u53F7\u524D\u7F6E\u4EFB\u52A1", //   "Unique ID Predecessors",
+      "\u552F\u4E00\u6807\u8BC6\u53F7\u540E\u7EED\u4EFB\u52A1", //   "Unique ID Successors",
+      null, //
+      null, //
+      null, //
+      null, //
+      "\u56FA\u5B9A", //No such field named "Fixed" in project 2003
+      "\u91CC\u7A0B\u7891", //   "Milestone",
+      "\u5173\u952E", //   "Critical",
+      "\u5DF2\u6807\u8BB0", //   "Marked",
+      "\u603B\u6210\u578B\u4EFB\u52A1", //   "Rollup",
       "BCWS", //   "BCWS",
       "BCWP", //   "BCWP",
       "SV", //   "SV",
       "CV", //   "CV",
       null, //
-      "标识号", //   "ID",
-      "限制类型", //   "Constraint Type",
-      "延迟", //No such field named   "Delay" in project 2003
-      "可用时差", //   "Free Slack",
-      "总时差", //   "Total Slack",
-      "优先级'", //   "Priority",
-      "子项目文件", //   "Subproject File",
-      "项目", //   "Project",
-      "唯一标识号", //   "Unique ID",
-      "大纲数字", //   "Outline Number",
+      "\u6807\u8BC6\u53F7", //   "ID",
+      "\u9650\u5236\u7C7B\u578B", //   "Constraint Type",
+      "\u5EF6\u8FDF", //No such field named   "Delay" in project 2003
+      "\u53EF\u7528\u65F6\u5DEE", //   "Free Slack",
+      "\u603B\u65F6\u5DEE", //   "Total Slack",
+      "\u4F18\u5148\u7EA7'", //   "Priority",
+      "\u5B50\u9879\u76EE\u6587\u4EF6", //   "Subproject File",
+      "\u9879\u76EE", //   "Project",
+      "\u552F\u4E00\u6807\u8BC6\u53F7", //   "Unique ID",
+      "\u5927\u7EB2\u6570\u5B57", //   "Outline Number",
       null, //
       null, //
       null, //
@@ -257,65 +257,65 @@ public final class LocaleData_zh extends ListResourceBundle
       null, //
       null, //
       null, //
-      "标志1", //   "Flag1",
-      "标志2", //   "Flag2",
-      "标志3", //   "Flag3",
-      "标志4", //   "Flag4",
-      "标志5", //   "Flag5",
-      "标志6", //   "Flag6",
-      "标志7", //   "Flag7",
-      "标志8", //   "Flag8",
-      "标志9", //   "Flag9",
-      "标志10", //   "Flag10",
-      "摘要", //   "Summary",
-      "对象数目", //   "Objects",
-      "链接域", //   "Linked Fields",
-      "隐藏条形图", //   "Hide Bar",
+      "\u6807\u5FD71", //   "Flag1",
+      "\u6807\u5FD72", //   "Flag2",
+      "\u6807\u5FD73", //   "Flag3",
+      "\u6807\u5FD74", //   "Flag4",
+      "\u6807\u5FD75", //   "Flag5",
+      "\u6807\u5FD76", //   "Flag6",
+      "\u6807\u5FD77", //   "Flag7",
+      "\u6807\u5FD78", //   "Flag8",
+      "\u6807\u5FD79", //   "Flag9",
+      "\u6807\u5FD710", //   "Flag10",
+      "\u6458\u8981", //   "Summary",
+      "\u5BF9\u8C61\u6570\u76EE", //   "Objects",
+      "\u94FE\u63A5\u57DF", //   "Linked Fields",
+      "\u9690\u85CF\u6761\u5F62\u56FE", //   "Hide Bar",
       null, //
-      "创建日期", //   "Created",
-      "开始时间4", //   "Start4",
-      "完成时间4", //   "Finish4",
-      "开始时间5", //   "Start5",
-      "完成时间5", //   "Finish5",
-      null, //
-      null, //
-      null, //
-      null, //
-      null, //
-      "已确认", //   "Confirmed",
-      "需要更新", //   "Update Needed",
-      null, //
-      null, //
-      null, //
-      "数字1", //   "Number1",
-      "数字2", //   "Number2",
-      "数字3", //   "Number3",
-      "数字4", //   "Number4",
-      "数字5", //   "Number5",
+      "\u521B\u5EFA\u65E5\u671F", //   "Created",
+      "\u5F00\u59CB\u65F6\u95F44", //   "Start4",
+      "\u5B8C\u6210\u65F6\u95F44", //   "Finish4",
+      "\u5F00\u59CB\u65F6\u95F45", //   "Start5",
+      "\u5B8C\u6210\u65F6\u95F45", //   "Finish5",
       null, //
       null, //
       null, //
       null, //
       null, //
-      "停止", //   "Stop",
-      "不早于...重新开始", //   "Resume No Earlier Than",
-      "重新开始" //   "Resume"
+      "\u5DF2\u786E\u8BA4", //   "Confirmed",
+      "\u9700\u8981\u66F4\u65B0", //   "Update Needed",
+      null, //
+      null, //
+      null, //
+      "\u6570\u5B571", //   "Number1",
+      "\u6570\u5B572", //   "Number2",
+      "\u6570\u5B573", //   "Number3",
+      "\u6570\u5B574", //   "Number4",
+      "\u6570\u5B575", //   "Number5",
+      null, //
+      null, //
+      null, //
+      null, //
+      null, //
+      "\u505C\u6B62", //   "Stop",
+      "\u4E0D\u65E9\u4E8E...\u91CD\u65B0\u5F00\u59CB", //   "Resume No Earlier Than",
+      "\u91CD\u65B0\u5F00\u59CB" //   "Resume"
    };
 
    private static final String[] RESOURCE_NAMES_DATA =
    {
       null, //
-      "名称", //   "Name",
-      "缩写", //   "Initials",
-      "组", //   "Group",
-      "代码", //   "Code",
-      "文本1", //   "Text1",
-      "文本2", //   "Text2",
-      "文本3", //   "Text3",
-      "文本4", //   "Text4",
-      "文本5", //   "Text5",
-      "备注", //   "Notes",
-      "电子邮件地址", //   "Email Address",
+      "\u540D\u79F0", //   "Name",
+      "\u7F29\u5199", //   "Initials",
+      "\u7EC4", //   "Group",
+      "\u4EE3\u7801", //   "Code",
+      "\u6587\u672C1", //   "Text1",
+      "\u6587\u672C2", //   "Text2",
+      "\u6587\u672C3", //   "Text3",
+      "\u6587\u672C4", //   "Text4",
+      "\u6587\u672C5", //   "Text5",
+      "\u5907\u6CE8", //   "Notes",
+      "\u7535\u5B50\u90AE\u4EF6\u5730\u5740", //   "Email Address",
       null, //
       null, //
       null, //
@@ -324,38 +324,38 @@ public final class LocaleData_zh extends ListResourceBundle
       null, //
       null, //
       null, //
-      "工时", //   "Work",
-      "比较基准工时", //   "Baseline Work",
-      "剩余工时", //   "Actual Work",
-      "加班工时", //   "Remaining Work",
-      "工时完成百分比", //   "Overtime Work",
-      "工时差异", //   "Work Variance",
-      "工时完成百分比", //   "% Work Complete",
+      "\u5DE5\u65F6", //   "Work",
+      "\u6BD4\u8F83\u57FA\u51C6\u5DE5\u65F6", //   "Baseline Work",
+      "\u5269\u4F59\u5DE5\u65F6", //   "Actual Work",
+      "\u52A0\u73ED\u5DE5\u65F6", //   "Remaining Work",
+      "\u5DE5\u65F6\u5B8C\u6210\u767E\u5206\u6BD4", //   "Overtime Work",
+      "\u5DE5\u65F6\u5DEE\u5F02", //   "Work Variance",
+      "\u5DE5\u65F6\u5B8C\u6210\u767E\u5206\u6BD4", //   "% Work Complete",
       null, //
       null, //
       null, //
-      "成本", //   "Cost",
-      "比较基准成本", //   "Baseline Cost",
-      "实际成本", //   "Actual Cost",
-      "剩余成本", //   "Remaining Cost",
-      "成本差异", //   "Cost Variance",
+      "\u6210\u672C", //   "Cost",
+      "\u6BD4\u8F83\u57FA\u51C6\u6210\u672C", //   "Baseline Cost",
+      "\u5B9E\u9645\u6210\u672C", //   "Actual Cost",
+      "\u5269\u4F59\u6210\u672C", //   "Remaining Cost",
+      "\u6210\u672C\u5DEE\u5F02", //   "Cost Variance",
       null, //
       null, //
       null, //
       null, //
       null, //
-      "标识号", //   "ID",
-      "最大单位", //   "Max Units",
-      "标准费率", //   "Standard Rate",
-      "加班费率", //   "Overtime Rate",
-      "每次使用成本", //   "Cost Per Use",
-      "成本累算", //   "Accrue At",
-      "过度分配", //   "Overallocated",
-      "最大使用量", //   "Peak",
-      "基准日历", //   "Base Calendar",
-      "唯一标识号", //   "Unique ID",
-      "对象数目", //   "Objects",
-      "链接域", //   "Linked Fields",
+      "\u6807\u8BC6\u53F7", //   "ID",
+      "\u6700\u5927\u5355\u4F4D", //   "Max Units",
+      "\u6807\u51C6\u8D39\u7387", //   "Standard Rate",
+      "\u52A0\u73ED\u8D39\u7387", //   "Overtime Rate",
+      "\u6BCF\u6B21\u4F7F\u7528\u6210\u672C", //   "Cost Per Use",
+      "\u6210\u672C\u7D2F\u7B97", //   "Accrue At",
+      "\u8FC7\u5EA6\u5206\u914D", //   "Overallocated",
+      "\u6700\u5927\u4F7F\u7528\u91CF", //   "Peak",
+      "\u57FA\u51C6\u65E5\u5386", //   "Base Calendar",
+      "\u552F\u4E00\u6807\u8BC6\u53F7", //   "Unique ID",
+      "\u5BF9\u8C61\u6570\u76EE", //   "Objects",
+      "\u94FE\u63A5\u57DF", //   "Linked Fields",
    };
 
    private static final Object[][] RESOURCE_DATA =
@@ -437,11 +437,11 @@ public final class LocaleData_zh extends ListResourceBundle
 
       {
          LocaleData.YES,
-         "是"
+         "\u662F"
       },
       {
          LocaleData.NO,
-         "否"
+         "\u5426"
       },
 
       {

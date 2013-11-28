@@ -108,7 +108,7 @@ public final class LocaleData_sv extends ListResourceBundle
       null,
       "Namn",
       "WBS",
-      "Dispositionsnivå",
+      "Dispositionsniv\u00E5",
       "Text1",
       "Text2",
       "Text3",
@@ -138,7 +138,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Kostnad",
       "Originalkostnad",
       "Verklig kostnad",
-      "Återstående kostnad",
+      "\u00C5terst\u00E5ende kostnad",
       "Cost Variance", // Translate
       "Fast kostnad",
       "Kostnad1",
@@ -149,7 +149,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Originalvaraktighet",
       "Actual Duration", // Translate
       "Remaining Duration", // Translate
-      "% färdigt",
+      "% f\u00E4rdigt",
       "Duration Variance", // Translate
       "Varaktighet1",
       "Varaktighet2",
@@ -175,7 +175,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Finish Variance", // Translate
       "Villkorsdatum",
       null,
-      "Föregående aktiviteter",
+      "F\u00F6reg\u00E5ende aktiviteter",
       "Successors", // Translate
       "Resource Names", // Translate
       "Resource Initials", // Translate
@@ -188,7 +188,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Fast",
       "Milstolpe",
       "Critical", // Translate
-      "Märkt",
+      "M\u00E4rkt",
       "Upplyft",
       "BCWS", // Translate
       "BCWP", // Translate
@@ -197,7 +197,7 @@ public final class LocaleData_sv extends ListResourceBundle
       null,
       "ID",
       "Villkorstyp",
-      "Förskjutning",
+      "F\u00F6rskjutning",
       "Fritt slack",
       "Totalt slack",
       "Prioritet",
@@ -256,7 +256,7 @@ public final class LocaleData_sv extends ListResourceBundle
       null,
       null,
       "Stopp",
-      "Fortsätt tidigast",
+      "Forts\u00E4tt tidigast",
       "Resume", // Translate
    };
 
@@ -286,7 +286,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Originalarbete",
       "Verkligt arbete",
       "Remaining Work", // translate
-      "Övertidsarbete",
+      "\u00D6vertidsarbete",
       "Work Variance", // translate
       "% Work Complete", // translate
       null,
@@ -305,9 +305,9 @@ public final class LocaleData_sv extends ListResourceBundle
       "ID",
       "Max enheter",
       "Standardkostnad",
-      "Övertidskostnad",
-      "Kostnad per tillfälle",
-      "Påförs",
+      "\u00D6vertidskostnad",
+      "Kostnad per tillf\u00E4lle",
+      "P\u00E5f\u00F6rs",
       "Overallocated", // translate
       "Peak", // translated
       "Base Calendar", // translate

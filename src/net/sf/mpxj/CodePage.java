@@ -37,7 +37,8 @@ public enum CodePage
    MAC("MAC", "MacRoman"),
    LATIN("850", "Cp850"),
    US("437", "Cp437"),
-   ZH("ZH", "GB2312");
+   ZH("ZH", "GB2312"),
+   RU("RU", "Cp1251");
 
    /**
     * Private constructor.

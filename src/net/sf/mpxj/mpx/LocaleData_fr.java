@@ -107,7 +107,7 @@ public final class LocaleData_fr extends ListResourceBundle
 
    private static final String[] ACCRUE_TYPES_DATA =
    {
-      "Début", //   "Start",
+      "D\u00E9but", //   "Start",
       "Fin", //   "End",
       "Proportion" //   "Prorated"
    };
@@ -123,26 +123,26 @@ public final class LocaleData_fr extends ListResourceBundle
    private static final String[] PRIORITY_TYPES_DATA =
    {
       "Le Plus Bas", //   "Lowest",
-      "Très Bas", //   "Very Low",
+      "Tr\u00E8s Bas", //   "Very Low",
       "Plus Bas", //   "Lower",
       "Bas", //   "Low",
       "Moyen", //   "Medium",
-      "Elevé", //   "High",
-      "Plus Elevé", //   "Higher",
-      "Très Elevé", //   "Very High",
-      "Le Plus Elevé", //   "Highest",
+      "Elev\u00E9", //   "High",
+      "Plus Elev\u00E9", //   "Higher",
+      "Tr\u00E8s Elev\u00E9", //   "Very High",
+      "Le Plus Elev\u00E9", //   "Highest",
       "Ne Pas Niveler" //   "Do Not Level"
    };
 
    private static final String[] CONSTRAINT_TYPES_DATA =
    {
-      "Dès Que Possible", //   "As Soon As Possible",
+      "D\u00E8s Que Possible", //   "As Soon As Possible",
       "Le Plus Tard Possible", //   "As Late As Possible",
       "Doit Commencer Le", //   "Must Start On",
       "Doit Finir Le", //   "Must Finish On",
-      "Début Au Plus Tôt Le", //   "Start No Earlier Than",
-      "Début Au Plus Tard Le", //   "Start No Later Than",
-      "Fin Au Plus Tôt Le", //   "Finish No Earlier Than",
+      "D\u00E9but Au Plus T\u00F4t Le", //   "Start No Earlier Than",
+      "D\u00E9but Au Plus Tard Le", //   "Start No Later Than",
+      "Fin Au Plus T\u00F4t Le", //   "Finish No Earlier Than",
       "Fin Au Plus Tard Le" //   "Finish No Later Than"
    };
 
@@ -151,7 +151,7 @@ public final class LocaleData_fr extends ListResourceBundle
       null, //
       "Nom", //   "Name",
       "WBS", //   "WBS",
-      "Nível Externo", //   "Outline Level",
+      "N\u00EDvel Externo", //   "Outline Level",
       "Texte1", //   "Text1",
       "Texte2", //   "Text2",
       "Texte3", //   "Text3",
@@ -170,59 +170,59 @@ public final class LocaleData_fr extends ListResourceBundle
       null, //
       "Travail", //   "Work",
       "Travail Normal", //   "Baseline Work",
-      "Travail Réel", //   "Actual Work",
+      "Travail R\u00E9el", //   "Actual Work",
       "Travail Restant", //   "Remaining Work",
       "Variation de Travail", //   "Work Variance",
-      "% Travail achevé", //   "% Work Complete",
+      "% Travail achev\u00E9", //   "% Work Complete",
       null, //
       null, //
       null, //
       null, //
-      "Coût", //   "Cost",
-      "Coût Planifié", //   "Baseline Cost",
-      "Coût Réel", //   "Actual Cost",
-      "Coût Restant", //   "Remaining Cost",
-      "Variation de Coût", //   "Cost Variance",
-      "Coût Fixe", //   "Fixed Cost",
-      "Coût1", //   "Cost1",
-      "Coût2", //   "Cost2",
-      "Coût3", //   "Cost3",
+      "Co\u00FBt", //   "Cost",
+      "Co\u00FBt Planifi\u00E9", //   "Baseline Cost",
+      "Co\u00FBt R\u00E9el", //   "Actual Cost",
+      "Co\u00FBt Restant", //   "Remaining Cost",
+      "Variation de Co\u00FBt", //   "Cost Variance",
+      "Co\u00FBt Fixe", //   "Fixed Cost",
+      "Co\u00FBt1", //   "Cost1",
+      "Co\u00FBt2", //   "Cost2",
+      "Co\u00FBt3", //   "Cost3",
       null, //
-      "Durée", //   "Duration",
-      "Durée Planifiée", //   "Baseline Duration",
-      "Durée Réelle", //   "Actual Duration",
-      "Durée Restante", //   "Remaining Duration",
-      "% Achevé", //   "% Complete",
-      "Variation de Durée", //   "Duration Variance",
-      "Durée1", //   "Duration1",
-      "Durée2", //   "Duration2",
-      "Durée3", //   "Duration3",
+      "Dur\u00E9e", //   "Duration",
+      "Dur\u00E9e Planifi\u00E9e", //   "Baseline Duration",
+      "Dur\u00E9e R\u00E9elle", //   "Actual Duration",
+      "Dur\u00E9e Restante", //   "Remaining Duration",
+      "% Achev\u00E9", //   "% Complete",
+      "Variation de Dur\u00E9e", //   "Duration Variance",
+      "Dur\u00E9e1", //   "Duration1",
+      "Dur\u00E9e2", //   "Duration2",
+      "Dur\u00E9e3", //   "Duration3",
       null, //
-      "Début", //   "Start",
+      "D\u00E9but", //   "Start",
       "Fin", //   "Finish",
-      "Début Au Plus Tôt", //   "Early Start",
-      "Fin Au Plus Tôt", //   "Early Finish",
-      "Début Au Plus Tard", //   "Late Start",
+      "D\u00E9but Au Plus T\u00F4t", //   "Early Start",
+      "Fin Au Plus T\u00F4t", //   "Early Finish",
+      "D\u00E9but Au Plus Tard", //   "Late Start",
       "Fin Au Plus Tard", //   "Late Finish",
-      "Début Planifié", //   "Baseline Start",
-      "Fin Planifiée", //   "Baseline Finish",
-      "Début Réel", //   "Actual Start",
-      "Fin Réelle", //   "Actual Finish",
-      "Début1", //   "Start1",
+      "D\u00E9but Planifi\u00E9", //   "Baseline Start",
+      "Fin Planifi\u00E9e", //   "Baseline Finish",
+      "D\u00E9but R\u00E9el", //   "Actual Start",
+      "Fin R\u00E9elle", //   "Actual Finish",
+      "D\u00E9but1", //   "Start1",
       "Fin1", //   "Finish1",
-      "Début2", //   "Start2",
+      "D\u00E9but2", //   "Start2",
       "Fin2", //   "Finish2",
-      "Début3", //   "Start3",
+      "D\u00E9but3", //   "Start3",
       "Fin3", //   "Finish3",
-      "Marge de Début", //   "Start Variance",
+      "Marge de D\u00E9but", //   "Start Variance",
       "Marge de Fin", //   "Finish Variance",
       "Date Contrainte", //   "Constraint Date",
       null, //
-      "Prédécesseurs", //   "Predecessors",
+      "Pr\u00E9d\u00E9cesseurs", //   "Predecessors",
       "Successeurs", //   "Successors",
       "Noms Ressources", //   "Resource Names",
       "Ressources Initiales", //   "Resource Initials",
-      "ID Unique des Prédécesseurs",//   "Unique ID Predecessors",
+      "ID Unique des Pr\u00E9d\u00E9cesseurs",//   "Unique ID Predecessors",
       "ID Unique des Successeurs", //   "Unique ID Successors",
       null, //
       null, //
@@ -231,7 +231,7 @@ public final class LocaleData_fr extends ListResourceBundle
       "Fixe", //   "Fixed",
       "Jalon", //   "Milestone",
       "Critique", //   "Critical",
-      "Marqué", //   "Marked",
+      "Marqu\u00E9", //   "Marked",
       "Rollup", //   "Rollup",
       "BCWS", //   "BCWS",
       "BCWP", //   "BCWP",
@@ -240,14 +240,14 @@ public final class LocaleData_fr extends ListResourceBundle
       null, //
       "ID", //   "ID",
       "Type de Contrainte", //   "Constraint Type",
-      "Délai", //   "Delay",
+      "D\u00E9lai", //   "Delay",
       "Marge Libre", //   "Free Slack",
       "Marge Totale", //   "Total Slack",
-      "Priorité", //   "Priority",
+      "Priorit\u00E9", //   "Priority",
       "Arquivo Subprojeto", //   "Subproject File",
       "Projet", //   "Project",
       "ID Unique", //   "Unique ID",
-      "Numéro Externe", //   "Outline Number",
+      "Num\u00E9ro Externe", //   "Outline Number",
       null, //
       null, //
       null, //
@@ -270,21 +270,21 @@ public final class LocaleData_fr extends ListResourceBundle
       "Indicateur10", //   "Flag10",
       "Sommaire", //   "Summary",
       "Objets", //   "Objects",
-      "Champs Liés", //   "Linked Fields",
+      "Champs Li\u00E9s", //   "Linked Fields",
       "Cacher Barre", //   "Hide Bar",
       null, //
-      "Créé", //   "Created",
-      "Début4", //   "Start4",
+      "Cr\u00E9\u00E9", //   "Created",
+      "D\u00E9but4", //   "Start4",
       "Fin4", //   "Finish4",
-      "Début5", //   "Start5",
+      "D\u00E9but5", //   "Start5",
       "Fin5", //   "Finish5",
       null, //
       null, //
       null, //
       null, //
       null, //
-      "Confirmé", //   "Confirmed",
-      "Mise à Jour Nécessaire", //   "Update Needed",
+      "Confirm\u00E9", //   "Confirmed",
+      "Mise \u00E0 Jour N\u00E9cessaire", //   "Update Needed",
       null, //
       null, //
       null, //
@@ -299,7 +299,7 @@ public final class LocaleData_fr extends ListResourceBundle
       null, //
       null, //
       "Stop", //   "Stop",
-      "Continuer Pas Plus Tôt Que", //   "Resume No Earlier Than",
+      "Continuer Pas Plus T\u00F4t Que", //   "Resume No Earlier Than",
       "Continuer" //   "Resume"
    };
 
@@ -326,37 +326,37 @@ public final class LocaleData_fr extends ListResourceBundle
       null, //
       null, //
       "Travail", //   "Work",
-      "Travail Planifié", //   "Baseline Work",
-      "Travail Réel", //   "Actual Work",
+      "Travail Planifi\u00E9", //   "Baseline Work",
+      "Travail R\u00E9el", //   "Actual Work",
       "Travail Restant", //   "Remaining Work",
       "Heures sup.", //   "Overtime Work",
       "Variation de Travail", //   "Work Variance",
-      "% Travail achevé", //   "% Work Complete",
+      "% Travail achev\u00E9", //   "% Work Complete",
       null, //
       null, //
       null, //
-      "Coût", //   "Cost",
-      "Coût Planifié", //   "Baseline Cost",
-      "Coût Réel", //   "Actual Cost",
-      "Coût Restant", //   "Remaining Cost",
-      "Variation de Coût", //   "Cost Variance",
+      "Co\u00FBt", //   "Cost",
+      "Co\u00FBt Planifi\u00E9", //   "Baseline Cost",
+      "Co\u00FBt R\u00E9el", //   "Actual Cost",
+      "Co\u00FBt Restant", //   "Remaining Cost",
+      "Variation de Co\u00FBt", //   "Cost Variance",
       null, //
       null, //
       null, //
       null, //
       null, //
       "ID", //   "ID",
-      "Unités Maximales", //   "Max Units",
+      "Unit\u00E9s Maximales", //   "Max Units",
       "Taux Standard", //   "Standard Rate",
       "Taux heures sup.", //   "Overtime Rate",
-      "Coût par Utilisation", //   "Cost Per Use",
+      "Co\u00FBt par Utilisation", //   "Cost Per Use",
       "Resulte em", //   "Accrue At",
       "En Surcharge", //   "Overallocated",
       "Pointe", //   "Peak",
       "Calendrier de Base", //   "Base Calendar",
       "ID Unique", //   "Unique ID",
       "Objets", //   "Objects",
-      "Champs Liés", //   "Linked Fields",
+      "Champs Li\u00E9s", //   "Linked Fields",
    };
 
    private static final Object[][] RESOURCE_DATA =

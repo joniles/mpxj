@@ -1,6 +1,6 @@
 /*
  * file:       LocaleData_pt.java
- * author:     Cláudio Engelsdorff Avila
+ * author:     Cl\u00E1udio Engelsdorff Avila
  *             Jon Iles
  * copyright:  (c) Packwood Software 2004
  * date:       16/08/2004
@@ -125,24 +125,24 @@ public final class LocaleData_pt extends ListResourceBundle
       "Muito Baixo", //   "Very Low",
       "Lower", //   "Lower",
       "Baixo", //   "Low",
-      "Média", //   "Medium",
+      "M\u00E9dia", //   "Medium",
       "Alta", //   "High",
       "Higher", //   "Higher",
       "Muito Alta", //   "Very High",
-      "Altíssimo", //   "Highest",
-      "Não Nivelar" //   "Do Not Level"
+      "Alt\u00EDssimo", //   "Highest",
+      "N\u00E3o Nivelar" //   "Do Not Level"
    };
 
    private static final String[] CONSTRAINT_TYPES_DATA =
    {
-      "O Mais Breve Possível", //   "As Soon As Possible",
-      "O Mais Tarde Possível", //   "As Late As Possible",
+      "O Mais Breve Poss\u00EDvel", //   "As Soon As Possible",
+      "O Mais Tarde Poss\u00EDvel", //   "As Late As Possible",
       "Deve Iniciar Em", //   "Must Start On",
       "Deve Terminar Em", //   "Must Finish On",
-      "Não Iniciar Antes De", //   "Start No Earlier Than",
-      "Não Iniciar Depois De", //   "Start No Later Than",
-      "Não Terminar Antes De", //   "Finish No Earlier Than",
-      "Não Terminar Depois De" //   "Finish No Later Than"
+      "N\u00E3o Iniciar Antes De", //   "Start No Earlier Than",
+      "N\u00E3o Iniciar Depois De", //   "Start No Later Than",
+      "N\u00E3o Terminar Antes De", //   "Finish No Earlier Than",
+      "N\u00E3o Terminar Depois De" //   "Finish No Later Than"
    };
 
    private static final String[] TASK_NAMES_DATA =
@@ -150,7 +150,7 @@ public final class LocaleData_pt extends ListResourceBundle
       null, //
       "Nome", //   "Name",
       "WBS", //   "WBS",
-      "Nível Externo", //   "Outline Level",
+      "N\u00EDvel Externo", //   "Outline Level",
       "Texto1", //   "Text1",
       "Texto2", //   "Text2",
       "Texto3", //   "Text3",
@@ -161,7 +161,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "Texto8", //   "Text8",
       "Texto9", //   "Text9",
       "Texto10", //   "Text10",
-      "Anotações", //   "Notes",
+      "Anota\u00E7\u00F5es", //   "Notes",
       "Contacto", //   "Contact",
       "Grupo de Recursos", //   "Resource Group",
       null, //
@@ -171,7 +171,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "Linha Base de Trabalho", //   "Baseline Work",
       "Trabalho Realizado", //   "Actual Work",
       "Trabalho Restante", //   "Remaining Work",
-      "Variação Trabalho", //   "Work Variance",
+      "Varia\u00E7\u00E3o Trabalho", //   "Work Variance",
       "% Trabalho Completo", //   "% Work Complete",
       null, //
       null, //
@@ -181,21 +181,21 @@ public final class LocaleData_pt extends ListResourceBundle
       "Linha de Base de Custo", //   "Baseline Cost",
       "Custo Real", //   "Actual Cost",
       "Custo Restante", //   "Remaining Cost",
-      "Variação de Custo", //   "Cost Variance",
+      "Varia\u00E7\u00E3o de Custo", //   "Cost Variance",
       "Custo Fixo", //   "Fixed Cost",
       "Custo1", //   "Cost1",
       "Custo2", //   "Cost2",
       "Custo3", //   "Cost3",
       null, //
-      "Duração", //   "Duration",
-      "Linha Base de Duração", //   "Baseline Duration",
-      "Duração Real", //   "Actual Duration",
-      "Duração Restante", //   "Remaining Duration",
+      "Dura\u00E7\u00E3o", //   "Duration",
+      "Linha Base de Dura\u00E7\u00E3o", //   "Baseline Duration",
+      "Dura\u00E7\u00E3o Real", //   "Actual Duration",
+      "Dura\u00E7\u00E3o Restante", //   "Remaining Duration",
       "% Completo", //   "% Complete",
-      "Variação de Duração", //   "Duration Variance",
-      "Duração1", //   "Duration1",
-      "Duração2", //   "Duration2",
-      "Duração3", //   "Duration3",
+      "Varia\u00E7\u00E3o de Dura\u00E7\u00E3o", //   "Duration Variance",
+      "Dura\u00E7\u00E3o1", //   "Duration1",
+      "Dura\u00E7\u00E3o2", //   "Duration2",
+      "Dura\u00E7\u00E3o3", //   "Duration3",
       null, //
       "Inicio", //   "Start",
       "Fim", //   "Finish",
@@ -213,9 +213,9 @@ public final class LocaleData_pt extends ListResourceBundle
       "Fim2", //   "Finish2",
       "Inicio3", //   "Start3",
       "Fim3", //   "Finish3",
-      "Variação Inicio", //   "Start Variance",
-      "Variação Fim", //   "Finish Variance",
-      "Limitação de Data", //   "Constraint Date",
+      "Varia\u00E7\u00E3o Inicio", //   "Start Variance",
+      "Varia\u00E7\u00E3o Fim", //   "Finish Variance",
+      "Limita\u00E7\u00E3o de Data", //   "Constraint Date",
       null, //
       "Predecessores", //   "Predecessors",
       "Sucessores", //   "Successors",
@@ -229,7 +229,7 @@ public final class LocaleData_pt extends ListResourceBundle
       null, //
       "Fixado", //   "Fixed",
       "Milestone", //   "Milestone",
-      "Crítico", //   "Critical",
+      "Cr\u00EDtico", //   "Critical",
       "Marcado", //   "Marked",
       "Rollup", //   "Rollup",
       "BCWS", //   "BCWS",
@@ -238,7 +238,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "CV", //   "CV",
       null, //
       "ID", //   "ID",
-      "Tipo de Limitação", //   "Constraint Type",
+      "Tipo de Limita\u00E7\u00E3o", //   "Constraint Type",
       "Espera", //   "Delay",
       "Folga Livre", //   "Free Slack",
       "Total Folga", //   "Total Slack",
@@ -246,7 +246,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "Arquivo Subprojeto", //   "Subproject File",
       "Projeto", //   "Project",
       "ID Unico", //   "Unique ID",
-      "Número Externo", //   "Outline Number",
+      "N\u00FAmero Externo", //   "Outline Number",
       null, //
       null, //
       null, //
@@ -267,7 +267,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "Flag8", //   "Flag8",
       "Flag9", //   "Flag9",
       "Flag10", //   "Flag10",
-      "Sumário", //   "Summary",
+      "Sum\u00E1rio", //   "Summary",
       "Objetos", //   "Objects",
       "Campos Ligados", //   "Linked Fields",
       "Esconder Barra", //   "Hide Bar",
@@ -283,22 +283,22 @@ public final class LocaleData_pt extends ListResourceBundle
       null, //
       null, //
       "Confirmado", //   "Confirmed",
-      "Atualização Necessária", //   "Update Needed",
+      "Atualiza\u00E7\u00E3o Necess\u00E1ria", //   "Update Needed",
       null, //
       null, //
       null, //
-      "Número1", //   "Number1",
-      "Número2", //   "Number2",
-      "Número3", //   "Number3",
-      "Número4", //   "Number4",
-      "Número5", //   "Number5",
+      "N\u00FAmero1", //   "Number1",
+      "N\u00FAmero2", //   "Number2",
+      "N\u00FAmero3", //   "Number3",
+      "N\u00FAmero4", //   "Number4",
+      "N\u00FAmero5", //   "Number5",
       null, //
       null, //
       null, //
       null, //
       null, //
       "Pare", //   "Stop",
-      "Não Continuar Antes de", //   "Resume No Earlier Than",
+      "N\u00E3o Continuar Antes de", //   "Resume No Earlier Than",
       "Continuar" //   "Resume"
    };
 
@@ -308,14 +308,14 @@ public final class LocaleData_pt extends ListResourceBundle
       "Nome", //   "Name",
       "Iniciais", //   "Initials",
       "Grupo", //   "Group",
-      "Código", //   "Code",
+      "C\u00F3digo", //   "Code",
       "Texto1", //   "Text1",
       "Texto2", //   "Text2",
       "Texto3", //   "Text3",
       "Texto4", //   "Text4",
       "Texto5", //   "Text5",
-      "Anotações", //   "Notes",
-      "Endereço Email", //   "Email Address",
+      "Anota\u00E7\u00F5es", //   "Notes",
+      "Endere\u00E7o Email", //   "Email Address",
       null, //
       null, //
       null, //
@@ -329,7 +329,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "Trabalho Real", //   "Actual Work",
       "Trabalho Restante", //   "Remaining Work",
       "Trabalho Extra", //   "Overtime Work",
-      "Variação Trabalho", //   "Work Variance",
+      "Varia\u00E7\u00E3o Trabalho", //   "Work Variance",
       "% Trabalho Completo", //   "% Work Complete",
       null, //
       null, //
@@ -338,21 +338,21 @@ public final class LocaleData_pt extends ListResourceBundle
       "Linha Base de Custo", //   "Baseline Cost",
       "Custo Real", //   "Actual Cost",
       "Custo Restante", //   "Remaining Cost",
-      "Variação de Custo", //   "Cost Variance",
+      "Varia\u00E7\u00E3o de Custo", //   "Cost Variance",
       null, //
       null, //
       null, //
       null, //
       null, //
       "ID", //   "ID",
-      "Máximo de Unidades", //   "Max Units",
-      "Taxa Padrão", //   "Standard Rate",
+      "M\u00E1ximo de Unidades", //   "Max Units",
+      "Taxa Padr\u00E3o", //   "Standard Rate",
       "Taxa de Tempo Extra", //   "Overtime Rate",
       "Custo por Uso", //   "Cost Per Use",
       "Resulte em", //   "Accrue At",
       "Sobrecarregado", //   "Overallocated",
       "Pico", //   "Peak",
-      "Calendário Base", //   "Base Calendar",
+      "Calend\u00E1rio Base", //   "Base Calendar",
       "ID Unico", //   "Unique ID",
       "Objetos", //   "Objects",
       "Campos Ligados", //   "Linked Fields",
@@ -429,7 +429,7 @@ public final class LocaleData_pt extends ListResourceBundle
       },
       {
          LocaleData.NO,
-         "Não"
+         "N\u00E3o"
       },
 
       {
