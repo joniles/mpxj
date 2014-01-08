@@ -58,6 +58,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.utility.BooleanUtility;
+import net.sf.mpxj.utility.DateUtility;
 
 /**
  * This class provides a generic front end to read project data from
@@ -339,8 +340,8 @@ final class PrimaveraReader
          task.setBaselineCost(row.getDouble("orig_cost"));
          task.setRemainingCost(row.getDouble("indep_remain_total_cost"));
          task.setRemainingWork(row.getDuration("indep_remain_work_qty"));
-         task.setStart(row.getDate("anticip_start_date"));
-         task.setFinish(row.getDate("anticip_end_date"));
+         task.setBaselineStart(row.getDate("anticip_start_date"));
+         task.setBaselineFinish(row.getDate("anticip_end_date"));
          task.setDate(1, row.getDate("suspend_date"));
          task.setDate(2, row.getDate("resume_date"));
          task.setText(1, row.getString("task_code"));
@@ -388,6 +389,7 @@ final class PrimaveraReader
             m_project.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
             task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+
          }
       }
 
@@ -498,6 +500,7 @@ final class PrimaveraReader
       }
 
       updateStructure();
+      updateDates();
    }
 
    /**
@@ -711,6 +714,78 @@ final class PrimaveraReader
          id = updateStructure(id, childTask, outlineLevel);
       }
       return id;
+   }
+
+   /**
+    * The Primavera WBS entries we read in as tasks have user-entered start and end dates
+    * which aren't calculated or adjusted based on the child task dates. We try
+    * to compensate for this by using these user-entered dates as baseline dates, and
+    * deriving the planned start, actual start, planned finish and actual finish from
+    * the child tasks. This method recursively descends through the tasks to do this.
+    */
+   private void updateDates()
+   {
+      for (Task task : m_project.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    * 
+    * @param parentTask parent task.
+    */
+   private void updateDates(Task parentTask)
+   {
+      int finished = 0;
+      Date plannedStartDate = parentTask.getStart();
+      Date plannedFinishDate = parentTask.getFinish();
+      Date actualStartDate = parentTask.getActualStart();
+      Date actualFinishDate = parentTask.getActualFinish();
+
+      for (Task task : parentTask.getChildTasks())
+      {
+         updateDates(task);
+
+         if (plannedStartDate == null || DateUtility.compare(plannedStartDate, task.getStart()) > 0)
+         {
+            plannedStartDate = task.getStart();
+         }
+
+         if (actualStartDate == null || DateUtility.compare(actualStartDate, task.getActualStart()) > 0)
+         {
+            actualStartDate = task.getActualStart();
+         }
+
+         if (plannedFinishDate == null || DateUtility.compare(plannedFinishDate, task.getFinish()) < 0)
+         {
+            plannedFinishDate = task.getFinish();
+         }
+
+         if (actualFinishDate == null || DateUtility.compare(actualFinishDate, task.getActualFinish()) < 0)
+         {
+            actualFinishDate = task.getFinish();
+         }
+
+         if (task.getActualFinish() != null)
+         {
+            ++finished;
+         }
+      }
+
+      parentTask.setStart(plannedStartDate);
+      parentTask.setFinish(plannedFinishDate);
+      parentTask.setActualStart(actualStartDate);
+
+      //
+      // Only if all child tasks have actual finish dates do we
+      // set the actual finish date on the parent task.
+      //
+      if (finished == parentTask.getChildTasks().size())
+      {
+         parentTask.setActualFinish(actualFinishDate);
+      }
    }
 
    /**
