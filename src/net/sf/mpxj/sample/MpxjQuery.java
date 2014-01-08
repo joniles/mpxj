@@ -107,6 +107,7 @@ public class MpxjQuery
       listSlack(mpx);
 
       listCalendars(mpx);
+
    }
 
    /**
@@ -193,7 +194,7 @@ public class MpxjQuery
    {
       for (Task task : file.getChildTasks())
       {
-         System.out.println("Task: " + task.getName());
+         System.out.println("Task: " + task.getName() + "\t" + task.getStart() + "\t" + task.getFinish());
          listHierarchy(task, " ");
       }
 
@@ -210,7 +211,7 @@ public class MpxjQuery
    {
       for (Task child : task.getChildTasks())
       {
-         System.out.println(indent + "Task: " + child.getName());
+         System.out.println(indent + "Task: " + child.getName() + "\t" + child.getStart() + "\t" + child.getFinish());
          listHierarchy(child, indent + " ");
       }
    }
