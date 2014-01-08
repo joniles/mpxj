@@ -25,7 +25,7 @@ package net.sf.mpxj.primavera;
 
 /**
  * Package private class used as a container for
- * summarised task costs.
+ * summarised task costs..
  */
 class TaskCosts
 {
