@@ -116,7 +116,7 @@ public abstract class Tokenizer
             {
                if (c == m_quote)
                {
-                  if (quoted == false && m_buffer.length() == 0)
+                  if (quoted == false && startQuotedIsValid(m_buffer))
                   {
                      quoted = true;
                   }
@@ -159,6 +159,20 @@ public abstract class Tokenizer
       m_type = result;
 
       return (result);
+   }
+
+   /**
+    * This method allows us to control the behaviour of the tokenizer for 
+    * quoted text. Normally quoted text begins with a quote character
+    * at the first position within a field. As this method is protected,
+    * sub classes can alter this behaviour if required.
+    * 
+    * @param buffer the field contents read so far
+    * @return true if it is valid to treat the subsequent text as quoted
+    */
+   protected boolean startQuotedIsValid(StringBuilder buffer)
+   {
+      return buffer.length() == 0;
    }
 
    /**

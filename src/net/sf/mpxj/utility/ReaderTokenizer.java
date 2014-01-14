@@ -23,14 +23,14 @@
 
 package net.sf.mpxj.utility;
 
-import java.io.Reader;
 import java.io.IOException;
+import java.io.Reader;
 
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from a Reader instance.
  */
-public final class ReaderTokenizer extends Tokenizer
+public class ReaderTokenizer extends Tokenizer
 {
    /**
     * Constructor.

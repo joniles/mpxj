@@ -30,7 +30,7 @@ import java.io.InputStream;
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from an InputStream instance.
  */
-public final class InputStreamTokenizer extends Tokenizer
+public class InputStreamTokenizer extends Tokenizer
 {
    /**
     * Constructor.

@@ -110,7 +110,13 @@ public final class AstaFileReader extends AbstractProjectReader
    {
       try
       {
-         Tokenizer tk = new InputStreamTokenizer(is);
+         Tokenizer tk = new InputStreamTokenizer(is)
+         {
+            @Override protected boolean startQuotedIsValid(StringBuilder buffer)
+            {
+               return buffer.length() == 1 && buffer.charAt(0) == '<';
+            }
+         };
          tk.setDelimiter(DELIMITER);
          ArrayList<String> columns = new ArrayList<String>();
          String nextTokenPrefix = null;
