@@ -23,10 +23,10 @@
 
   <repository>
     <connection>
-      scm:cvs:pserver:anonymous@mpxj.cvs.sf.net:/cvsroot/mpxj:src
+      git://git.code.sf.net/p/mpxj/mpxj mpxj-mpxj
     </connection>
     <url>
-      http://mpxj.cvs.sourceforge.net/mpxj/
+      https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/
     </url>
   </repository>
 
@@ -82,7 +82,6 @@
 
   <reports>
     <report>maven-changes-plugin</report>
-    <report>maven-statcvs-plugin</report>
     <report>maven-javadoc-plugin</report>
     <report>maven-faq-plugin</report>
   </reports>
