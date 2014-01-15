@@ -212,6 +212,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       header.setFinishDate(project.getFinishDate());
       header.setName(project.getName());
       header.setStartDate(project.getPlannedStartDate());
+      header.setStatusDate(project.getDataDate());
 
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())

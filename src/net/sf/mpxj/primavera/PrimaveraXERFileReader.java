@@ -776,6 +776,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("target_cost", FieldType.DOUBLE);
       FIELD_TYPE_MAP.put("remain_cost", FieldType.DOUBLE);
 
+      FIELD_TYPE_MAP.put("last_recalc_date", FieldType.DATE);
+
       // User Defined Fields types (UDF)
       FIELD_TYPE_MAP.put("udf_type", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("table_name", FieldType.STRING);

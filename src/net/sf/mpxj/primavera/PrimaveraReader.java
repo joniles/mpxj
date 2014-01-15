@@ -119,6 +119,7 @@ final class PrimaveraReader
          header.setStartDate(row.getDate("plan_start_date")); // data_date?
          header.setProjectTitle(row.getString("proj_short_name"));
          header.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
+         header.setStatusDate(row.getDate("last_recalc_date"));
       }
    }
 
