@@ -56,8 +56,8 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:cvs:pserver:anonymous@mpxj.cvs.sf.net:/cvsroot/mpxj:src</connection>
-    <url>http://mpxj.cvs.sourceforge.net/mpxj/</url>
+    <connection>scm:git://git.code.sf.net/p/mpxj/mpxj:src</connection>
+    <url>http://sourceforge.net/p/mpxj/mpxj/ci/master/tree/</url>
   </scm>
 
   <developers>
