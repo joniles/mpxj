@@ -610,10 +610,10 @@ abstract class FieldMap
                // We know that the Boolean flags are stored in the
                // "meta data" block, and can see that the first
                // four bytes of each row read from the field map
-               // data in the MPP file represtn a bit mask... but
+               // data in the MPP file represents a bit mask... but
                // we just haven't worked out how to convert this into
                // the actual location in the data. For now we rely on
-               // the ocation in the file being fixed. This is why
+               // the location in the file being fixed. This is why
                // we ignore the META_DATA case.
                break;
             }
