@@ -10,6 +10,8 @@
 		<tstamp />
 
 		<property name="current.version" value="4.5.0" />
+		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
+		<property name="windows.tools.dir" value="c:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools" />
 
 		<!-- 
 		The following two properties are only required if you want to use the xjc target.
@@ -20,11 +22,12 @@
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 
 		<property name="lib.dir" value="${basedir}/lib" />
+		<property name="lib.net.dir" value="${basedir}/lib.net" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
 		<property name="classes.dir" value="${basedir}/classes" />
 		<property name="bak.dir" value="${basedir}/bak" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
-		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
+		
 
 		<!-- 
 		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
@@ -45,14 +48,19 @@
 		<property name="poi.classpath" refid="poi.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
-		<property name="poi.dll" value="${basedir}\lib.net\${poi.jar}.dll" />
-		<property name="junit.dll" value="${basedir}\lib.net\junit.dll" />
-		<property name="mpxj.dll" value="${basedir}\lib.net\mpxj.dll" />
-		<property name="mpxj-for-vb.dll" value="${basedir}\lib.net\mpxj-for-vb.dll" />
-		<property name="mpxj-for-csharp.dll" value="${basedir}\lib.net\mpxj-for-csharp.dll" />
+		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
+		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
+		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
+		<property name="mpxj-for-vb.dll" value="${lib.net.dir}\mpxj-for-vb.dll" />
+		<property name="mpxj-for-csharp.dll" value="${lib.net.dir}\mpxj-for-csharp.dll" />
 
 		<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
-		<available file="${ikvmc.exe}" property="ikvmc.exists" />
+		<property name="ikvmstub.exe" value="${ikvm.dir}/bin/ikvmstub.exe" />
+		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
+		<available file="${ikvmc.exe}" property="ikvm.available" />
+
+		<property name="tlbexp.exe" value="${windows.tools.dir}/tlbexp.exe" />
+		<available file="${tlbexp.exe}" property="tlbexp.available" />
 	</target>
 
 
@@ -79,6 +87,7 @@
 		</javac>
 	</target>
 
+
 	<target name="document" depends="init-props" description="Generate documentation">
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
@@ -90,26 +99,75 @@
 		<jar jarfile="${basedir}/mpxj.jar" basedir="${classes.dir}" />
 	</target>
 
-	<target name="dll" depends="compile" description="Build .net DLLs" if="ikvmc.exists">		
+	<target name="ikvm-compile" depends="init" description="Compile everything reday for use with IKVM" if="ikvm.available">
+
+		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
+		<property name="ikvm.classes.dir" value="${ikvm.working.dir}/classes" />
+		<property name="ikvm.lib.dir" value="${ikvm.working.dir}/lib" />
+
+
+		<delete dir="${ikvm.working.dir}" />
+		<mkdir dir="${ikvm.src.dir}" />
+		<mkdir dir="${ikvm.classes.dir}" />
+		<mkdir dir="${ikvm.lib.dir}" />
+
+		<exec executable="${ikvmstub.exe}" dir="${basedir}">
+			<arg line="-out:${ikvm.lib.dir}/mscorlib.jar mscorlib" />
+		</exec>
+
+		<copy todir="${ikvm.src.dir}">
+			<fileset dir="${basedir}/src" includes="**" />
+		</copy>
+
+		<replace dir="${ikvm.src.dir}" token="public class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ">
+			<include name="**/*.java" />
+			<exclude name="**/schema/*.java" />
+			<exclude name="**/FieldMap.java" />
+		</replace>
+
+		<replace dir="${ikvm.src.dir}" token="public final class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public final class ">
+			<include name="**/*.java" />
+		</replace>
+
+		<replace dir="${ikvm.src.dir}" token="public interface " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public interface ">
+			<include name="**/*.java" />
+		</replace>
+
+		<replace dir="${ikvm.src.dir}" token="class ProjectEntity" value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ProjectEntity">
+			<include name="**/*.java" />
+		</replace>
+
+		<replace dir="${ikvm.src.dir}" token="public enum " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public enum ">
+			<include name="**/*.java" />
+		</replace>
+
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+			<compilerarg line="-encoding cp1252" />
+		</javac>
+
+		<jar jarfile="${ikvm.working.dir}/mpxj.jar" basedir="${ikvm.classes.dir}" />
+	</target>
+
+	<target name="dll" depends="ikvm-compile" description="Build .net DLLs" if="ikvm.available">
 		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
-			<arg value="${basedir}/mpxj.jar" />
-			<arg value="${basedir}/ikvm-remap-vb.xml" />
+			<arg value="${ikvm.working.dir}/mpxj.jar" />
+			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
 			<arg value="False" />
 			<classpath>
 				<pathelement path="${classpath}" />
-				<pathelement path="${basedir}/mpxj.jar" />
+				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
 			</classpath>
 		</java>
 
 		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
-			<arg value="${basedir}/mpxj.jar" />
-			<arg value="${basedir}/ikvm-remap-csharp.xml" />
+			<arg value="${ikvm.working.dir}/mpxj.jar" />
+			<arg value="${ikvm.working.dir}/ikvm-remap-csharp.xml" />
 			<arg value="True" />
 			<classpath>
 				<pathelement path="${classpath}" />
-				<pathelement path="${basedir}/mpxj.jar" />
+				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
 			</classpath>
@@ -125,28 +183,92 @@
 
 		<!-- Generate the original unmapped DLL -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -reference:${poi.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${basedir}/ikvm-remap-vb.xml -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${basedir}/ikvm-remap-csharp.xml -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll -reference:system.dll ${basedir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:${junit.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
-		<delete file="${basedir}/ikvm-remap-vb.xml"/>
-		<delete file="${basedir}/ikvm-remap-csharp.xml"/>
+		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
+		<apply executable="${tlbexp.exe}" parallel="false" relative="true" dir="${lib.net.dir}" failifexecutionfails="true">
+			<arg value="/nologo"/>
+			<arg value="/silence:000017CE"/>
+			<arg value="/silence:001311D9"/>
+			<arg value="/silence:80131178"/>
+			<arg value="/silence:0013117F"/>
+			<arg value="/silence:8013117D"/>
+			<arg value="/silence:801311B0"/>
+			<arg value="/silence:80131172"/>
+			<srcfile />
+			<fileset dir="${lib.net.dir}">
+				<include name="**/*.dll" />
+			</fileset>
+		</apply>
+
+		<!-- Generate a batch file which installs the assemblies in the GAC -->
+		<echo file="${lib.net.dir}\mpxj-gac-install.bat" message="@echo off${line.separator}echo This batch file installs the DLLs required to use MPXJ into the GAC${line.separator}pause${line.separator}"/>
+		<apply executable="cmd.exe" parallel="false" relative="true">
+			<arg value="/c" />
+			<srcfile prefix="echo gacutil /i " />
+			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-gac-install.bat" />
+			<fileset dir="${lib.net.dir}">
+				<include name="*.dll" />
+			</fileset>
+		</apply>
+		<replace file="${lib.net.dir}\mpxj-gac-install.bat" token='" "' value="" />
+
+		<!-- Generate a batch file which removes the assemblies from the GAC -->
+		<echo file="${lib.net.dir}\mpxj-gac-uninstall.bat" message="@echo off${line.separator}echo This batch file uninstalls the DLLs required to use MPXJ from the GAC${line.separator}pause${line.separator}"/>
+		<apply executable="cmd.exe" parallel="false" relative="true" addsourcefile="false">
+			<arg value="/c" />
+			<targetfile prefix="echo gacutil /u " />
+			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-gac-uninstall.bat" />
+			<fileset dir="${lib.net.dir}">
+				<include name="**/*.dll" />
+			</fileset>
+			<mapper type="glob" from="*.dll" to="*"/>
+		</apply>
+		<replace file="${lib.net.dir}\mpxj-gac-uninstall.bat" token='" "' value="" />
+
+		<!-- Generate a batch file to register the assemblies -->
+		<echo file="${lib.net.dir}\mpxj-register-assemblies.bat" message="@echo off${line.separator}echo This batch file registers the .Net assemblies used by MPXJ so that they can be called from COM${line.separator}pause${line.separator}"/>		
+		<apply executable="cmd.exe" parallel="false" relative="true">
+			<arg value="/c" />
+			<srcfile prefix="echo regasm " />				
+			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-register-assemblies.bat" />
+			<fileset dir="${lib.net.dir}">
+				<include name="**/*.dll" />
+			</fileset>
+		</apply>
+		<replace file="${lib.net.dir}\mpxj-register-assemblies.bat" token='" "' value="" />
+		
+		<!-- Generate a batch file to unregister the assemblies -->
+		<echo file="${lib.net.dir}\mpxj-unregister-assemblies.bat" message="@echo off${line.separator}echo This batch file deregisters the .Net assemblies used by MPXJ so that they are no longer available to be called from COM${line.separator}pause${line.separator}"/>
+		<apply executable="cmd.exe" parallel="false" relative="true">
+			<arg value="/c" />
+			<srcfile prefix="echo regasm /u " />
+			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-unregister-assemblies.bat" />
+			<fileset dir="${lib.net.dir}">
+				<include name="**/*.dll" />
+			</fileset>
+		</apply>
+		<replace file="${lib.net.dir}\mpxj-unregister-assemblies.bat" token='" "' value="" />
+
+		<delete dir="${ikvm.working.dir}" />
 	</target>
 
 	<target name="archive" depends="jar,dll" description="Create library files">
 
 	</target>
 
-	<target name="distribute" depends="archive,clean-classes,clean-dot-net" description="Create distribution">
+	<target name="distribute" depends="archive,clean-java,clean-dot-net" description="Create distribution">
 		<zip zipfile="${distribution}">
 			<zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*" />
 		</zip>
@@ -159,11 +281,11 @@
 		</delete>
 	</target>
 
-	<target name="clean-classes" depends="init-props" description="Clean up class files">
+	<target name="clean-java" depends="init-props" description="Clean up Java build files">
 		<delete dir="${classes.dir}" />
 	</target>
 
-	<target name="clean-dot-net" depends="init-props" description="Clean up .net build files">
+	<target name="clean-dot-net" depends="init-props" description="Clean up .Net build files">
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}/src.net" defaultexcludes="false">
 				<include name="**/bin/**" />
@@ -172,16 +294,28 @@
 				<include name="**/*.user" />
 			</fileset>
 		</delete>
+				
+		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="clean" depends="init-props, clean-temp, clean-classes, clean-dot-net" description="Clean up all files">
+	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net" description="Clean up all files">
+
+		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
+		
 		<delete file="${mpxj.dll}" />
 		<delete file="${mpxj-for-csharp.dll}" />
 		<delete file="${mpxj-for-vb.dll}" />
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
-		<delete dir="${doc.dir}" />
+		
+		<delete>
+			<fileset dir="${lib.net.dir}">				
+				<include name="*.tlb"/>
+				<include name="*.bat"/>
+			</fileset>
+		</delete>			
+		
 	</target>
 
 	<target name="coverage" depends="archive" description="Code coverage using Emma">
