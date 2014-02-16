@@ -1219,7 +1219,7 @@ public final class MPXReader extends AbstractProjectReader
 
             case TYPE:
             {
-               boolean fixed = ((field.equalsIgnoreCase(falseText) == true) ? false : true);
+               boolean fixed = !field.equalsIgnoreCase(falseText);
                task.setType(fixed ? TaskType.FIXED_DURATION : TaskType.FIXED_UNITS);
                break;
             }

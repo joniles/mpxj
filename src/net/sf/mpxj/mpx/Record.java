@@ -319,7 +319,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = Integer.parseInt(m_fields[field]) == 1 ? true : false;
+         result = Integer.parseInt(m_fields[field]) == 1;
       }
 
       return (result);
