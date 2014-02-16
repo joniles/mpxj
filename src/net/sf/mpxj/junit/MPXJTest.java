@@ -71,6 +71,7 @@ public class MPXJTest extends TestSuite
       addTestSuite(MppAssignmentTest.class);
       addTestSuite(TimephasedSegmentTest2.class);
       addTestSuite(MppTaskFlags.class);
+      addTestSuite(MppResourceFlags.class);
       addTestSuite(CustomerDataTest.class);
    }
 

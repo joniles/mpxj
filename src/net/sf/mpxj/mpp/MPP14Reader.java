@@ -62,6 +62,7 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
+import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.Pair;
 import net.sf.mpxj.utility.RTFUtility;
@@ -1400,13 +1401,13 @@ final class MPP14Reader implements MPPVariantReader
       MppBitFlag[] metaData2BitFlags;
       if (m_file.getApplicationName().equals("Microsoft.Project 15.0"))
       {
-         metaDataBitFlags = PROJECT2013_META_DATA_BIT_FLAGS;
-         metaData2BitFlags = PROJECT2013_META_DATA2_BIT_FLAGS;
+         metaDataBitFlags = PROJECT2013_TASK_META_DATA_BIT_FLAGS;
+         metaData2BitFlags = PROJECT2013_TASK_META_DATA2_BIT_FLAGS;
       }
       else
       {
-         metaDataBitFlags = PROJECT2010_META_DATA_BIT_FLAGS;
-         metaData2BitFlags = PROJECT2010_META_DATA2_BIT_FLAGS;
+         metaDataBitFlags = PROJECT2010_TASK_META_DATA_BIT_FLAGS;
+         metaData2BitFlags = PROJECT2010_TASK_META_DATA2_BIT_FLAGS;
       }
 
       for (int loop = 0; loop < uniqueid.length; loop++)
@@ -2058,6 +2059,23 @@ final class MPP14Reader implements MPPVariantReader
       Resource resource;
       String notes;
 
+      //
+      // Select the correct meta data locations depending on
+      // which version of Microsoft project generated this file
+      //
+      MppBitFlag[] metaDataBitFlags;
+      MppBitFlag[] metaData2BitFlags;
+      if (m_file.getApplicationName().equals("Microsoft.Project 15.0"))
+      {
+         metaDataBitFlags = PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS;
+         metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS;
+      }
+      else
+      {
+         metaDataBitFlags = PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS;
+         metaData2BitFlags = PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS;
+      }
+
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
@@ -2089,8 +2107,6 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.enableEvents();
 
-         resource.setBudget((metaData2[8] & 0x20) != 0);
-
          processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
 
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
@@ -2106,30 +2122,16 @@ final class MPP14Reader implements MPPVariantReader
          resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE9_INDEX))), OUTLINECODE_DATA));
          resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE10_INDEX))), OUTLINECODE_DATA));
 
-         resource.setType((MPPUtility.getShort(data, 14) == 0 ? ResourceType.WORK : ((metaData2[8] & 0x10) == 0) ? ResourceType.MATERIAL : ResourceType.COST));
-         resource.setUniqueID(id);
-
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
-         resource.setFlag(1, (metaData[28] & 0x40) != 0);
-         resource.setFlag(2, (metaData[28] & 0x80) != 0);
-         resource.setFlag(3, (metaData[29] & 0x01) != 0);
-         resource.setFlag(4, (metaData[29] & 0x02) != 0);
-         resource.setFlag(5, (metaData[29] & 0x04) != 0);
-         resource.setFlag(6, (metaData[29] & 0x08) != 0);
-         resource.setFlag(7, (metaData[29] & 0x10) != 0);
-         resource.setFlag(8, (metaData[29] & 0x20) != 0);
-         resource.setFlag(9, (metaData[29] & 0x40) != 0);
-         resource.setFlag(10, (metaData[28] & 0x20) != 0);
-         resource.setFlag(11, (metaData[29] & 0x20) != 0);
-         resource.setFlag(12, (metaData[30] & 0x01) != 0);
-         resource.setFlag(13, (metaData[30] & 0x02) != 0);
-         resource.setFlag(14, (metaData[30] & 0x04) != 0);
-         resource.setFlag(15, (metaData[30] & 0x08) != 0);
-         resource.setFlag(16, (metaData[30] & 0x10) != 0);
-         resource.setFlag(17, (metaData[30] & 0x20) != 0);
-         resource.setFlag(18, (metaData[30] & 0x40) != 0);
-         resource.setFlag(19, (metaData[30] & 0x80) != 0);
-         resource.setFlag(20, (metaData[31] & 0x01) != 0);
+         readBitFields(metaDataBitFlags, resource, metaData);
+         readBitFields(metaData2BitFlags, resource, metaData2);
+
+         if (resource.getWorkGroup() == WorkGroup.DEFAULT)
+         {
+            resource.setType(ResourceType.WORK);
+         }
+
+         resource.setUniqueID(id);
 
          notes = resource.getNotes();
          if (notes != null)
@@ -2583,7 +2585,7 @@ final class MPP14Reader implements MPPVariantReader
       false
    };
 
-   private static final MppBitFlag[] PROJECT2010_META_DATA_BIT_FLAGS =
+   private static final MppBitFlag[] PROJECT2010_TASK_META_DATA_BIT_FLAGS =
    {
       new MppBitFlag(TaskField.EFFORT_DRIVEN, 11, 0x10, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG1, 35, 0x40, Boolean.FALSE, Boolean.TRUE),
@@ -2615,7 +2617,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.ROLLUP, 10, 0x08, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2013_META_DATA_BIT_FLAGS =
+   private static final MppBitFlag[] PROJECT2013_TASK_META_DATA_BIT_FLAGS =
    {
       new MppBitFlag(TaskField.EFFORT_DRIVEN, 13, 0x08, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG1, 24, 0x02, Boolean.FALSE, Boolean.TRUE),
@@ -2647,15 +2649,75 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.ROLLUP, 12, 0x04, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2010_META_DATA2_BIT_FLAGS =
+   private static final MppBitFlag[] PROJECT2010_TASK_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x04, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.TASK_MODE, 8, 0x08, TaskMode.AUTO_SCHEDULED, TaskMode.MANUALLY_SCHEDULED)
    };
 
-   private static final MppBitFlag[] PROJECT2013_META_DATA2_BIT_FLAGS =
+   private static final MppBitFlag[] PROJECT2013_TASK_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.TASK_MODE, 8, 0x80, TaskMode.AUTO_SCHEDULED, TaskMode.MANUALLY_SCHEDULED)
+   };
+
+   private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS =
+   {
+      new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+   };
+
+   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS =
+   {
+      new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.TYPE, 4, 0x08, ResourceType.COST, ResourceType.MATERIAL)
+   };
+
+   private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(ResourceField.FLAG1, 28, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG2, 28, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG3, 29, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG4, 29, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG5, 29, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG6, 29, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG7, 29, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG8, 29, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG9, 29, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG10, 28, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG11, 29, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG12, 30, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG13, 30, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG14, 30, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG15, 30, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG16, 30, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG17, 30, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG18, 30, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG19, 30, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG20, 31, 0x01, Boolean.FALSE, Boolean.TRUE)
+   };
+
+   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(ResourceField.FLAG1, 19, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG2, 20, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG3, 20, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG4, 20, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG5, 20, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG6, 20, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG7, 20, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG8, 20, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG9, 20, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG10, 19, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG11, 24, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG12, 25, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG13, 25, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG14, 25, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG15, 25, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG16, 25, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG17, 25, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG18, 25, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG19, 25, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG20, 26, 0x01, Boolean.FALSE, Boolean.TRUE)
    };
 }
