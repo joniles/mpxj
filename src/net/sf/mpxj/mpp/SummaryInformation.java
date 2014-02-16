@@ -88,7 +88,7 @@ final class SummaryInformation
     * @param ps property set
     * @return map
     */
-   @SuppressWarnings("unchecked") private HashMap<Integer, Object> getPropertyMap(PropertySet ps)
+   private HashMap<Integer, Object> getPropertyMap(PropertySet ps)
    {
       HashMap<Integer, Object> map = new HashMap<Integer, Object>();
       Property[] properties;
