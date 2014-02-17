@@ -87,7 +87,7 @@ public final class PrimaveraConvert
       Connection c = DriverManager.getConnection(connectionString);
       PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
       reader.setConnection(c);
-      reader.setProjectID(Integer.valueOf(projectID).intValue());
+      reader.setProjectID(Integer.parseInt(projectID));
       ProjectFile projectFile = reader.read();
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading database completed in " + elapsed + "ms.");
