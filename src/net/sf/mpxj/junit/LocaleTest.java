@@ -74,31 +74,18 @@ public class LocaleTest extends MPXJTestCase
     */
    private void testLocale(Locale locale) throws Exception
    {
-      File out = null;
-      boolean success = true;
+      MPXReader reader = new MPXReader();
+      MPXWriter writer = new MPXWriter();
 
-      try
-      {
-         MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter();
+      File in = new File(m_basedir + "/sample.mpx");
+      ProjectFile mpx = reader.read(in);
+      File out = File.createTempFile("junit-" + locale.getLanguage(), ".mpx");
+      writer.setLocale(locale);
+      writer.write(mpx, out);
 
-         File in = new File(m_basedir + "/sample.mpx");
-         ProjectFile mpx = reader.read(in);
-         out = File.createTempFile("junit-" + locale.getLanguage(), ".mpx");
-         writer.setLocale(locale);
-         writer.write(mpx, out);
-
-         reader.setLocale(locale);
-         reader.read(out);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      reader.setLocale(locale);
+      reader.read(out);
+      out.deleteOnExit();
    }
 
    /**

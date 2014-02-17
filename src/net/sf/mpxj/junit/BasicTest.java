@@ -65,28 +65,15 @@ public class BasicTest extends MPXJTestCase
     */
    public void testRewrite1() throws Exception
    {
-      File out = null;
-      boolean success = true;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample.mpx");
-         ProjectFile mpx = new MPXReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         MPXWriter writer = new MPXWriter();
-         writer.setUseLocaleDefaults(false);
-         writer.write(mpx, out);
-         success = FileUtility.equals(in, out);
-         assertTrue("Files are not identical", success);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample.mpx");
+      ProjectFile mpx = new MPXReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      MPXWriter writer = new MPXWriter();
+      writer.setUseLocaleDefaults(false);
+      writer.write(mpx, out);
+      boolean success = FileUtility.equals(in, out);
+      assertTrue("Files are not identical", success);
+      out.deleteOnExit();
    }
 
    /**
@@ -97,26 +84,13 @@ public class BasicTest extends MPXJTestCase
     */
    public void testRewrite2() throws Exception
    {
-      File out = null;
-      boolean success = true;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample1.xml");
-         ProjectFile xml = new MSPDIReader().read(in);
-         out = File.createTempFile("junit", ".xml");
-         new MSPDIWriter().write(xml, out);
-         success = FileUtility.equals(in, out);
-         assertTrue("Files are not identical", success);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample1.xml");
+      ProjectFile xml = new MSPDIReader().read(in);
+      File out = File.createTempFile("junit", ".xml");
+      new MSPDIWriter().write(xml, out);
+      boolean success = FileUtility.equals(in, out);
+      assertTrue("Files are not identical", success);
+      out.deleteOnExit();
    }
 
    /**
@@ -127,28 +101,15 @@ public class BasicTest extends MPXJTestCase
     */
    public void testRewrite3() throws Exception
    {
-      File out = null;
-      boolean success = true;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample1.mpx");
-         ProjectFile mpx = new MPXReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         MPXWriter writer = new MPXWriter();
-         writer.setUseLocaleDefaults(false);
-         writer.write(mpx, out);
-         success = FileUtility.equals(in, out);
-         assertTrue("Files are not identical", success);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample1.mpx");
+      ProjectFile mpx = new MPXReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      MPXWriter writer = new MPXWriter();
+      writer.setUseLocaleDefaults(false);
+      writer.write(mpx, out);
+      boolean success = FileUtility.equals(in, out);
+      assertTrue("Files are not identical", success);
+      out.deleteOnExit();
    }
 
    /**
@@ -159,29 +120,16 @@ public class BasicTest extends MPXJTestCase
     */
    public void testRewrite4() throws Exception
    {
-      File out = null;
-      boolean success = true;
-
-      try
-      {
-         File in = new File(m_basedir + "/empty.mpp");
-         ProjectFile mpx = new MPPReader().read(in);
-         mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
-         out = File.createTempFile("junit", ".mpx");
-         MPXWriter writer = new MPXWriter();
-         writer.setUseLocaleDefaults(false);
-         writer.write(mpx, out);
-         success = FileUtility.equals(new File(m_basedir + "/empty.mpx"), out);
-         assertTrue("Files are not identical", success);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/empty.mpp");
+      ProjectFile mpx = new MPPReader().read(in);
+      mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
+      File out = File.createTempFile("junit", ".mpx");
+      MPXWriter writer = new MPXWriter();
+      writer.setUseLocaleDefaults(false);
+      writer.write(mpx, out);
+      boolean success = FileUtility.equals(new File(m_basedir + "/empty.mpx"), out);
+      assertTrue("Files are not identical", success);
+      out.deleteOnExit();
    }
 
    /**
@@ -191,26 +139,13 @@ public class BasicTest extends MPXJTestCase
     */
    public void testRewrite5() throws Exception
    {
-      File out = null;
-      boolean success = true;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample.mpx");
-         ProjectFile mpx = new MPXReader().read(in);
-         out = File.createTempFile("junit", ".planner");
-         new PlannerWriter().write(mpx, out);
-         //success = FileUtility.equals (in, out);
-         //assertTrue ("Files are not identical", success);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample.mpx");
+      ProjectFile mpx = new MPXReader().read(in);
+      File out = File.createTempFile("junit", ".planner");
+      new PlannerWriter().write(mpx, out);
+      //success = FileUtility.equals (in, out);
+      //assertTrue ("Files are not identical", success);
+      out.deleteOnExit();
    }
 
    /**
@@ -329,24 +264,12 @@ public class BasicTest extends MPXJTestCase
     */
    public void testConversion1() throws Exception
    {
-      File out = null;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample98.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out);
-         commonTests(mpp);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample98.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out);
+      commonTests(mpp);
+      out.deleteOnExit();
    }
 
    /**
@@ -354,24 +277,12 @@ public class BasicTest extends MPXJTestCase
     */
    public void testConversion2() throws Exception
    {
-      File out = null;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out);
-         commonTests(mpp);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out);
+      commonTests(mpp);
+      out.deleteOnExit();
    }
 
    /**
@@ -379,24 +290,12 @@ public class BasicTest extends MPXJTestCase
     */
    public void testConversion3() throws Exception
    {
-      File out = null;
-
-      try
-      {
-         File in = new File(m_basedir + "/sample.xml");
-         ProjectFile xml = new MSPDIReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(xml, out);
-         commonTests(xml);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/sample.xml");
+      ProjectFile xml = new MSPDIReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(xml, out);
+      commonTests(xml);
+      out.deleteOnExit();
    }
 
    /**
@@ -453,28 +352,16 @@ public class BasicTest extends MPXJTestCase
     */
    public void testConversion4() throws Exception
    {
-      File out = null;
+      File in = new File(m_basedir + "/sample.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out);
 
-      try
-      {
-         File in = new File(m_basedir + "/sample.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out);
-
-         ProjectFile mpx = new MPXReader().read(out);
-         out.delete();
-         out = File.createTempFile("junit", ".xml");
-         new MSPDIWriter().write(mpx, out);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      ProjectFile mpx = new MPXReader().read(out);
+      out.deleteOnExit();
+      out = File.createTempFile("junit", ".xml");
+      new MSPDIWriter().write(mpx, out);
+      out.deleteOnExit();
    }
 
    /**
@@ -508,81 +395,70 @@ public class BasicTest extends MPXJTestCase
     */
    public void testTaskNotes() throws Exception
    {
-      File out = null;
+      String notes1 = "Notes, containing a comma. Done.";
+      String notes2 = "Notes \"containing embedded quotes\" Done.";
+      String notes3 = "Notes, \"containing embedded quotes, and comma's too.\" Done.";
+      String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
+      String notes5 = "Normal unquoted notes. Done.";
 
-      try
-      {
-         String notes1 = "Notes, containing a comma. Done.";
-         String notes2 = "Notes \"containing embedded quotes\" Done.";
-         String notes3 = "Notes, \"containing embedded quotes, and comma's too.\" Done.";
-         String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
-         String notes5 = "Normal unquoted notes. Done.";
+      ProjectFile file1 = new ProjectFile();
 
-         ProjectFile file1 = new ProjectFile();
+      Task task1 = file1.addTask();
+      task1.setName("Test Task 1");
+      task1.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
+      task1.setStart(new Date());
+      task1.setNotes(notes1);
 
-         Task task1 = file1.addTask();
-         task1.setName("Test Task 1");
-         task1.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-         task1.setStart(new Date());
-         task1.setNotes(notes1);
+      Task task2 = file1.addTask();
+      task2.setName("Test Task 2");
+      task2.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
+      task2.setStart(new Date());
+      task2.setNotes(notes2);
 
-         Task task2 = file1.addTask();
-         task2.setName("Test Task 2");
-         task2.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-         task2.setStart(new Date());
-         task2.setNotes(notes2);
+      Task task3 = file1.addTask();
+      task3.setName("Test Task 3");
+      task3.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
+      task3.setStart(new Date());
+      task3.setNotes(notes3);
 
-         Task task3 = file1.addTask();
-         task3.setName("Test Task 3");
-         task3.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-         task3.setStart(new Date());
-         task3.setNotes(notes3);
+      Task task4 = file1.addTask();
+      task4.setName("Test Task 4");
+      task4.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
+      task4.setStart(new Date());
+      task4.setNotes(notes4);
 
-         Task task4 = file1.addTask();
-         task4.setName("Test Task 4");
-         task4.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-         task4.setStart(new Date());
-         task4.setNotes(notes4);
+      Task task5 = file1.addTask();
+      task5.setName("Test Task 5");
+      task5.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
+      task5.setStart(new Date());
+      task5.setNotes(notes5);
 
-         Task task5 = file1.addTask();
-         task5.setName("Test Task 5");
-         task5.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-         task5.setStart(new Date());
-         task5.setNotes(notes5);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(file1, out);
 
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(file1, out);
+      ProjectFile file2 = new MPXReader().read(out);
+      String notes;
+      Task task1a = file2.getTaskByUniqueID(task1.getUniqueID());
+      notes = task1a.getNotes();
+      assertEquals(notes1, notes);
 
-         ProjectFile file2 = new MPXReader().read(out);
-         String notes;
-         Task task1a = file2.getTaskByUniqueID(task1.getUniqueID());
-         notes = task1a.getNotes();
-         assertEquals(notes1, notes);
+      Task task2a = file2.getTaskByUniqueID(task2.getUniqueID());
+      notes = task2a.getNotes();
+      assertEquals(notes2, notes);
 
-         Task task2a = file2.getTaskByUniqueID(task2.getUniqueID());
-         notes = task2a.getNotes();
-         assertEquals(notes2, notes);
+      Task task3a = file2.getTaskByUniqueID(task3.getUniqueID());
+      notes = task3a.getNotes();
+      assertEquals(notes3, notes);
 
-         Task task3a = file2.getTaskByUniqueID(task3.getUniqueID());
-         notes = task3a.getNotes();
-         assertEquals(notes3, notes);
+      Task task4a = file2.getTaskByUniqueID(task4.getUniqueID());
+      notes = task4a.getNotes();
+      assertEquals(notes4, notes);
 
-         Task task4a = file2.getTaskByUniqueID(task4.getUniqueID());
-         notes = task4a.getNotes();
-         assertEquals(notes4, notes);
+      Task task5a = file2.getTaskByUniqueID(task5.getUniqueID());
+      notes = task5a.getNotes();
+      assertEquals(notes5, notes);
 
-         Task task5a = file2.getTaskByUniqueID(task5.getUniqueID());
-         notes = task5a.getNotes();
-         assertEquals(notes5, notes);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      out.deleteOnExit();
    }
 
    /**
@@ -593,71 +469,59 @@ public class BasicTest extends MPXJTestCase
     */
    public void testResourceNotes() throws Exception
    {
-      File out = null;
+      String notes1 = "Notes, containing a comma. Done.";
+      String notes2 = "Notes \"containing embedded quotes\" Done.";
+      String notes3 = "Notes, \"containing embedded quotes, and comma's too.\" Done.";
+      String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
+      String notes5 = "Normal unquoted notes. Done.";
 
-      try
-      {
-         String notes1 = "Notes, containing a comma. Done.";
-         String notes2 = "Notes \"containing embedded quotes\" Done.";
-         String notes3 = "Notes, \"containing embedded quotes, and comma's too.\" Done.";
-         String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
-         String notes5 = "Normal unquoted notes. Done.";
+      ProjectFile file1 = new ProjectFile();
 
-         ProjectFile file1 = new ProjectFile();
+      Resource resource1 = file1.addResource();
+      resource1.setName("Test Resource 1");
+      resource1.setNotes(notes1);
 
-         Resource resource1 = file1.addResource();
-         resource1.setName("Test Resource 1");
-         resource1.setNotes(notes1);
+      Resource resource2 = file1.addResource();
+      resource2.setName("Test Resource 2");
+      resource2.setNotes(notes2);
 
-         Resource resource2 = file1.addResource();
-         resource2.setName("Test Resource 2");
-         resource2.setNotes(notes2);
+      Resource resource3 = file1.addResource();
+      resource3.setName("Test Resource 3");
+      resource3.setNotes(notes3);
 
-         Resource resource3 = file1.addResource();
-         resource3.setName("Test Resource 3");
-         resource3.setNotes(notes3);
+      Resource resource4 = file1.addResource();
+      resource4.setName("Test Resource 4");
+      resource4.setNotes(notes4);
 
-         Resource resource4 = file1.addResource();
-         resource4.setName("Test Resource 4");
-         resource4.setNotes(notes4);
+      Resource resource5 = file1.addResource();
+      resource5.setName("Test Resource 5");
+      resource5.setNotes(notes5);
 
-         Resource resource5 = file1.addResource();
-         resource5.setName("Test Resource 5");
-         resource5.setNotes(notes5);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(file1, out);
 
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(file1, out);
+      ProjectFile file2 = new MPXReader().read(out);
+      String notes;
+      Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueID());
+      notes = resource1a.getNotes();
+      assertEquals(notes1, notes);
 
-         ProjectFile file2 = new MPXReader().read(out);
-         String notes;
-         Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueID());
-         notes = resource1a.getNotes();
-         assertEquals(notes1, notes);
+      Resource resource2a = file2.getResourceByUniqueID(resource2.getUniqueID());
+      notes = resource2a.getNotes();
+      assertEquals(notes2, notes);
 
-         Resource resource2a = file2.getResourceByUniqueID(resource2.getUniqueID());
-         notes = resource2a.getNotes();
-         assertEquals(notes2, notes);
+      Resource resource3a = file2.getResourceByUniqueID(resource3.getUniqueID());
+      notes = resource3a.getNotes();
+      assertEquals(notes3, notes);
 
-         Resource resource3a = file2.getResourceByUniqueID(resource3.getUniqueID());
-         notes = resource3a.getNotes();
-         assertEquals(notes3, notes);
+      Resource resource4a = file2.getResourceByUniqueID(resource4.getUniqueID());
+      notes = resource4a.getNotes();
+      assertEquals(notes4, notes);
 
-         Resource resource4a = file2.getResourceByUniqueID(resource4.getUniqueID());
-         notes = resource4a.getNotes();
-         assertEquals(notes4, notes);
-
-         Resource resource5a = file2.getResourceByUniqueID(resource5.getUniqueID());
-         notes = resource5a.getNotes();
-         assertEquals(notes5, notes);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      Resource resource5a = file2.getResourceByUniqueID(resource5.getUniqueID());
+      notes = resource5a.getNotes();
+      assertEquals(notes5, notes);
+      out.deleteOnExit();
    }
 
    /**
@@ -665,23 +529,11 @@ public class BasicTest extends MPXJTestCase
     */
    public void testBug1() throws Exception
    {
-      File out = null;
-
-      try
-      {
-         File in = new File(m_basedir + "/bug1.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/bug1.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out);
+      out.deleteOnExit();
    }
 
    /**
@@ -689,23 +541,11 @@ public class BasicTest extends MPXJTestCase
     */
    public void testBug2() throws Exception
    {
-      File out = null;
-
-      try
-      {
-         File in = new File(m_basedir + "/bug2.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out);
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/bug2.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out);
+      out.deleteOnExit();
    }
 
    /**
@@ -728,23 +568,11 @@ public class BasicTest extends MPXJTestCase
     */
    public void testBug4() throws Exception
    {
-      File out = null;
-
-      try
-      {
-         File in = new File(m_basedir + "/bug4.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out.getAbsolutePath());
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/bug4.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out.getAbsolutePath());
+      out.deleteOnExit();
    }
 
    /**
@@ -1069,55 +897,43 @@ public class BasicTest extends MPXJTestCase
     */
    public void testTaskCalendars() throws Exception
    {
-      File out = null;
+      //
+      // Read in the MPP file. The task names should
+      // match the calendar names.
+      //
+      File in = new File(m_basedir + "/sample1.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
+      ProjectCalendar cal;
 
-      try
+      for (Task task : mpp.getAllTasks())
       {
-         //
-         // Read in the MPP file. The task names should
-         // match the calendar names.
-         //
-         File in = new File(m_basedir + "/sample1.mpp");
-         ProjectFile mpp = new MPPReader().read(in);
-         ProjectCalendar cal;
-
-         for (Task task : mpp.getAllTasks())
+         cal = task.getCalendar();
+         if (cal != null)
          {
-            cal = task.getCalendar();
-            if (cal != null)
-            {
-               assertEquals(task.getName(), cal.getName());
-            }
-         }
-
-         //
-         // Write this out as an MSPDI file
-         //
-         out = File.createTempFile("junit", ".xml");
-         new MSPDIWriter().write(mpp, out);
-
-         //
-         // Read the MSPDI file in again, and check the
-         // calendar names to ensure consistency
-         //
-         ProjectFile mspdi = new MSPDIReader().read(out.getCanonicalPath());
-         for (Task task : mspdi.getAllTasks())
-         {
-            cal = task.getCalendar();
-            if (cal != null)
-            {
-               assertEquals(task.getName(), cal.getName());
-            }
+            assertEquals(task.getName(), cal.getName());
          }
       }
 
-      finally
+      //
+      // Write this out as an MSPDI file
+      //
+      File out = File.createTempFile("junit", ".xml");
+      new MSPDIWriter().write(mpp, out);
+
+      //
+      // Read the MSPDI file in again, and check the
+      // calendar names to ensure consistency
+      //
+      ProjectFile mspdi = new MSPDIReader().read(out.getCanonicalPath());
+      for (Task task : mspdi.getAllTasks())
       {
-         if (out != null)
+         cal = task.getCalendar();
+         if (cal != null)
          {
-            out.delete();
+            assertEquals(task.getName(), cal.getName());
          }
       }
+      out.deleteOnExit();
    }
 
    /**
@@ -1127,34 +943,19 @@ public class BasicTest extends MPXJTestCase
     */
    public void testMSPDIAliases() throws Exception
    {
-      File out = null;
-      boolean success = true;
+      MSPDIReader reader = new MSPDIReader();
+      MSPDIWriter writer = new MSPDIWriter();
 
-      try
-      {
-         MSPDIReader reader = new MSPDIReader();
-         MSPDIWriter writer = new MSPDIWriter();
+      File in = new File(m_basedir + "/alias.xml");
+      ProjectFile xml = reader.read(in);
+      validateAliases(xml);
 
-         File in = new File(m_basedir + "/alias.xml");
-         ProjectFile xml = reader.read(in);
-         validateAliases(xml);
+      File out = File.createTempFile("junit", ".xml");
+      writer.write(xml, out);
 
-         out = File.createTempFile("junit", ".xml");
-         writer.write(xml, out);
-
-         xml = reader.read(out);
-         validateAliases(xml);
-
-         success = true;
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      xml = reader.read(out);
+      validateAliases(xml);
+      out.deleteOnExit();
    }
 
    /**
@@ -1449,63 +1250,49 @@ public class BasicTest extends MPXJTestCase
     */
    public void testEmbeddedLineBreaks() throws Exception
    {
-      File out = null;
-      boolean success = false;
+      //
+      // Create a simple MPX file
+      //
+      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      ProjectFile file = new ProjectFile();
+      file.addDefaultBaseCalendar();
 
-      try
-      {
-         //
-         // Create a simple MPX file
-         //
-         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-         ProjectFile file = new ProjectFile();
-         file.addDefaultBaseCalendar();
+      ProjectHeader header = file.getProjectHeader();
+      header.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
+      header.setStartDate(df.parse("01/01/2003"));
 
-         ProjectHeader header = file.getProjectHeader();
-         header.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
-         header.setStartDate(df.parse("01/01/2003"));
+      Resource resource1 = file.addResource();
+      resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
+      resource1.setNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
 
-         Resource resource1 = file.addResource();
-         resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
-         resource1.setNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
+      Task task1 = file.addTask();
+      task1.setName("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
+      task1.setNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
 
-         Task task1 = file.addTask();
-         task1.setName("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
-         task1.setNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
+      //
+      // Write the file
+      //
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(file, out);
 
-         //
-         // Write the file
-         //
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(file, out);
+      //
+      // Ensure we can read it successfully
+      //
+      file = new MPXReader().read(out);
+      assertEquals(1, file.getAllTasks().size());
+      assertEquals(1, file.getAllResources().size());
 
-         //
-         // Ensure we can read it successfully
-         //
-         file = new MPXReader().read(out);
-         assertEquals(1, file.getAllTasks().size());
-         assertEquals(1, file.getAllResources().size());
+      header = file.getProjectHeader();
+      assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", header.getComments());
 
-         header = file.getProjectHeader();
-         assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", header.getComments());
+      task1 = file.getTaskByUniqueID(Integer.valueOf(1));
+      assertEquals("Task1: Some\nExample\nText\nWith\nBreaks", task1.getName());
+      assertEquals("Task1 Notes: Some\nExample\nText\nWith\nBreaks", task1.getNotes());
 
-         task1 = file.getTaskByUniqueID(Integer.valueOf(1));
-         assertEquals("Task1: Some\nExample\nText\nWith\nBreaks", task1.getName());
-         assertEquals("Task1 Notes: Some\nExample\nText\nWith\nBreaks", task1.getNotes());
-
-         resource1 = file.getResourceByUniqueID(Integer.valueOf(1));
-         assertEquals("Resource1: Some\nExample\nText\nWith\nBreaks", resource1.getName());
-         assertEquals("Resource1 Notes: Some\nExample\nText\nWith\nBreaks", resource1.getNotes());
-         success = true;
-      }
-
-      finally
-      {
-         if (success == true && out != null)
-         {
-            out.delete();
-         }
-      }
+      resource1 = file.getResourceByUniqueID(Integer.valueOf(1));
+      assertEquals("Resource1: Some\nExample\nText\nWith\nBreaks", resource1.getName());
+      assertEquals("Resource1 Notes: Some\nExample\nText\nWith\nBreaks", resource1.getNotes());
+      out.deleteOnExit();
    }
 
    /**
@@ -1574,7 +1361,7 @@ public class BasicTest extends MPXJTestCase
       xml = reader.read(out);
       commonMspdiExtendedAttributeTests(xml);
 
-      out.delete();
+      out.deleteOnExit();
    }
 
    /**
@@ -1622,72 +1409,57 @@ public class BasicTest extends MPXJTestCase
     */
    public void testProjectHeader() throws Exception
    {
-      File out = null;
+      MPXReader reader = new MPXReader();
+      MPXWriter writer = new MPXWriter();
 
-      try
-      {
-         MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter();
+      //
+      // Read the MPX file and ensure that the project header fields
+      // have the expected values.
+      //
+      ProjectFile mpx = reader.read(m_basedir + "/headertest.mpx");
+      testHeaderFields(mpx);
 
-         //
-         // Read the MPX file and ensure that the project header fields
-         // have the expected values.
-         //
-         ProjectFile mpx = reader.read(m_basedir + "/headertest.mpx");
-         testHeaderFields(mpx);
+      //
+      // Write the file, re-read it and test to ensure that
+      // the project header fields have the expected values
+      //
+      File out = File.createTempFile("junit", ".mpx");
+      writer.write(mpx, out);
+      mpx = reader.read(out);
+      testHeaderFields(mpx);
+      out.deleteOnExit();
 
-         //
-         // Write the file, re-read it and test to ensure that
-         // the project header fields have the expected values
-         //
-         out = File.createTempFile("junit", ".mpx");
-         writer.write(mpx, out);
-         mpx = reader.read(out);
-         testHeaderFields(mpx);
-         out.delete();
-         out = null;
+      //
+      // Read the MPP8 file and ensure that the project header fields
+      // have the expected values.
+      //
+      mpx = new MPPReader().read(m_basedir + "/headertest8.mpp");
+      testHeaderFields(mpx);
 
-         //
-         // Read the MPP8 file and ensure that the project header fields
-         // have the expected values.
-         //
-         mpx = new MPPReader().read(m_basedir + "/headertest8.mpp");
-         testHeaderFields(mpx);
+      //
+      // Read the MPP9 file and ensure that the project header fields
+      // have the expected values.
+      //
+      mpx = new MPPReader().read(m_basedir + "/headertest9.mpp");
+      testHeaderFields(mpx);
 
-         //
-         // Read the MPP9 file and ensure that the project header fields
-         // have the expected values.
-         //
-         mpx = new MPPReader().read(m_basedir + "/headertest9.mpp");
-         testHeaderFields(mpx);
+      //
+      // Read the MSPDI file and ensure that the project header fields
+      // have the expected values.
+      //
+      mpx = new MSPDIReader().read(m_basedir + "/headertest.xml");
+      testHeaderFields(mpx);
 
-         //
-         // Read the MSPDI file and ensure that the project header fields
-         // have the expected values.
-         //
-         mpx = new MSPDIReader().read(m_basedir + "/headertest.xml");
-         testHeaderFields(mpx);
+      //
+      // Write the file, re-read it and test to ensure that
+      // the project header fields have the expected values
+      //
+      out = File.createTempFile("junit", ".xml");
+      new MSPDIWriter().write(mpx, out);
 
-         //
-         // Write the file, re-read it and test to ensure that
-         // the project header fields have the expected values
-         //
-         out = File.createTempFile("junit", ".xml");
-         new MSPDIWriter().write(mpx, out);
-
-         mpx = new MSPDIReader().read(out);
-         testHeaderFields(mpx);
-         out.delete();
-         out = null;
-      }
-
-      catch (Exception ex)
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      mpx = new MSPDIReader().read(out);
+      testHeaderFields(mpx);
+      out.deleteOnExit();
    }
 
    /**
@@ -1744,44 +1516,17 @@ public class BasicTest extends MPXJTestCase
       ProjectFile xml = new MSPDIReader().read(m_basedir + "/mspdipriority.xml");
       validatePriority(xml);
 
-      File out = null;
-      boolean success = false;
-      try
-      {
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpx, out);
-         ProjectFile mpx2 = new MPXReader().read(out);
-         validatePriority(mpx2);
-         success = true;
-      }
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpx, out);
+      ProjectFile mpx2 = new MPXReader().read(out);
+      validatePriority(mpx2);
+      out.deleteOnExit();
 
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
-
-      out = null;
-      success = false;
-      try
-      {
-         out = File.createTempFile("junit", ".xml");
-         new MSPDIWriter().write(mpx, out);
-
-         ProjectFile xml3 = new MSPDIReader().read(out);
-         validatePriority(xml3);
-         success = true;
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      out = File.createTempFile("junit", ".xml");
+      new MSPDIWriter().write(mpx, out);
+      ProjectFile xml3 = new MSPDIReader().read(out);
+      validatePriority(xml3);
+      out.deleteOnExit();
    }
 
    /**
@@ -1983,26 +1728,14 @@ public class BasicTest extends MPXJTestCase
       //
       // Write the file and re-read it to ensure we get consistent results.
       //
-      File out = null;
+      File out = File.createTempFile("junit", ".mpx");
+      new MPXWriter().write(mpp, out);
 
-      try
-      {
-         out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpp, out);
-
-         ProjectFile mpx = new MPXReader().read(out);
-         assertEquals(6, mpx.getAllTasks().size());
-         assertEquals(6, mpx.getAllResources().size());
-         assertEquals(3, mpx.getAllResourceAssignments().size());
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
-      }
+      ProjectFile mpx = new MPXReader().read(out);
+      assertEquals(6, mpx.getAllTasks().size());
+      assertEquals(6, mpx.getAllResources().size());
+      assertEquals(3, mpx.getAllResourceAssignments().size());
+      out.deleteOnExit();
    }
 
    /**
@@ -2012,27 +1745,14 @@ public class BasicTest extends MPXJTestCase
     */
    public void testProjectCalendarExceptions() throws Exception
    {
-      File out = null;
-      boolean success = true;
-
-      try
-      {
-         File in = new File(m_basedir + "/calendarExceptions.mpx");
-         ProjectFile mpx = new MPXReader().read(in);
-         out = File.createTempFile("junit", ".mpx");
-         MPXWriter writer = new MPXWriter();
-         writer.setUseLocaleDefaults(false);
-         writer.write(mpx, out);
-         success = FileUtility.equals(in, out);
-         assertTrue("Files are not identical", success);
-      }
-
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File(m_basedir + "/calendarExceptions.mpx");
+      ProjectFile mpx = new MPXReader().read(in);
+      File out = File.createTempFile("junit", ".mpx");
+      MPXWriter writer = new MPXWriter();
+      writer.setUseLocaleDefaults(false);
+      writer.write(mpx, out);
+      boolean success = FileUtility.equals(in, out);
+      assertTrue("Files are not identical", success);
+      out.deleteOnExit();
    }
 }
