@@ -227,7 +227,7 @@ public class CostRateTableTest extends MPXJTestCase
       CostRateTableEntry entry = table.getEntryByDate(m_df.parse("18/06/2009 07:00"));
       assertEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "19/06/2009 08:00", entry);
       entry = table.getEntryByDate(m_df.parse("19/06/2009 10:00"));
-      assertEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "31/12/2049 23:59", table, 1);
+      assertEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "31/12/2049 23:59", entry);
    }
 
    /**
