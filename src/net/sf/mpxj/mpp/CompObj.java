@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * This class handles reading the data found in the CompObj block
@@ -49,7 +49,7 @@ final class CompObj extends MPPComponent
       length = readInt(is);
       m_applicationName = new String(readByteArray(is, length), 0, length - 1);
 
-      if (m_applicationName != null && m_applicationName.equals("Microsoft Project 4.0") == true)
+      if (m_applicationName.equals("Microsoft Project 4.0"))
       {
          m_fileFormat = "MSProject.MPP4";
          m_applicationID = "MSProject.Project.4";

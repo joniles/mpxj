@@ -113,7 +113,7 @@ public final class DatatypeConverter
     */
    public static final Number parseExtendedAttributeNumber(String value)
    {
-      return (new Double(value));
+      return (Double.valueOf(value));
    }
 
    /**
@@ -1622,7 +1622,7 @@ public final class DatatypeConverter
     */
    public static final Integer parseTaskUID(String value)
    {
-      return (new Integer(value));
+      return (Integer.valueOf(value));
    }
 
    /**
@@ -1649,7 +1649,7 @@ public final class DatatypeConverter
     */
    public static final Integer parseResourceUID(String value)
    {
-      return (new Integer(value));
+      return (Integer.valueOf(value));
    }
 
    /**
