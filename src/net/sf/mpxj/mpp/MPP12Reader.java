@@ -1637,7 +1637,7 @@ final class MPP12Reader implements MPPVariantReader
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(id);
-            task.setID(new Integer(MPPUtility.getInt(data, 4)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             //System.out.println(task);
             continue;

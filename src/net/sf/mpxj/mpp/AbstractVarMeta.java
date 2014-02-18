@@ -183,11 +183,10 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       {
          pw.println("   Entries for Unique ID: " + uniqueID);
          Map<Integer, Integer> map = m_table.get(uniqueID);
-         for (Integer type : map.keySet())
+         for (Map.Entry<Integer, Integer> entry : map.entrySet())
          {
-            Integer offset = map.get(type);
-            FieldType fieldType = fieldMap == null ? null : fieldMap.getFieldTypeFromVarDataKey(type);
-            pw.println("      Type=" + (fieldType == null ? type : fieldType) + " Offset=" + offset);
+            FieldType fieldType = fieldMap == null ? null : fieldMap.getFieldTypeFromVarDataKey(entry.getKey());
+            pw.println("      Type=" + (fieldType == null ? entry.getKey() : fieldType) + " Offset=" + entry.getValue());
          }
       }
 
@@ -197,7 +196,6 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       pw.close();
       return (sw.toString());
    }
-
    protected int m_unknown1;
    protected int m_itemCount;
    protected int m_unknown2;

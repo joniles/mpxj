@@ -1590,15 +1590,12 @@ final class MPP14Reader implements MPPVariantReader
          // Retrieve the task notes.
          //
          notes = task.getNotes();
-         if (notes != null)
+         if (m_reader.getPreserveNoteFormatting() == false)
          {
-            if (m_reader.getPreserveNoteFormatting() == false)
-            {
-               notes = RTFUtility.strip(notes);
-            }
-
-            task.setNotes(notes);
+            notes = RTFUtility.strip(notes);
          }
+
+         task.setNotes(notes);
 
          //
          // Set the calendar name
@@ -1670,7 +1667,7 @@ final class MPP14Reader implements MPPVariantReader
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(id);
-            task.setID(new Integer(MPPUtility.getInt(data, 4)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             //System.out.println(task);
             continue;

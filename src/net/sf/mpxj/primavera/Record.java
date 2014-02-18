@@ -234,20 +234,21 @@ class Record
     */
    protected String toString(int spaces)
    {
-      String result = "(0||" + (m_field == null ? "" : m_field) + "(" + (m_value == null ? "" : m_value) + ")(";
+      StringBuilder result = new StringBuilder("(0||" + (m_field == null ? "" : m_field) + "(" + (m_value == null ? "" : m_value) + ")(");
       for (Record record : m_records)
       {
          if (spaces != 0)
          {
-            result += SEPARATOR;
+            result.append(SEPARATOR);
             for (int i = 0; i < spaces * 2; i++)
             {
-               result += " ";
+               result.append(" ");
             }
          }
-         result += record.toString(spaces + 1);
+         result.append(record.toString(spaces + 1));
       }
-      return result + "))";
+      result.append("))");
+      return result.toString();
    }
 
    private String m_field;

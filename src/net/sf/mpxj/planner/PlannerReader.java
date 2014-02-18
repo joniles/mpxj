@@ -258,12 +258,9 @@ public final class PlannerReader extends AbstractProjectReader
       // Process any derived calendars
       //
       List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
-      if (calendarList != null)
+      for (net.sf.mpxj.planner.schema.Calendar cal : calendarList)
       {
-         for (net.sf.mpxj.planner.schema.Calendar cal : calendarList)
-         {
-            readCalendar(cal, mpxjCalendar);
-         }
+         readCalendar(cal, mpxjCalendar);
       }
    }
 
@@ -709,82 +706,79 @@ public final class PlannerReader extends AbstractProjectReader
    {
       Allocations allocations = plannerProject.getAllocations();
       List<Allocation> allocationList = allocations.getAllocation();
-      if (allocationList != null)
+      Set<Task> tasksWithAssignments = new HashSet<Task>();
+
+      for (Allocation allocation : allocationList)
       {
-         Set<Task> tasksWithAssignments = new HashSet<Task>();
+         Integer taskID = getInteger(allocation.getTaskId());
+         Integer resourceID = getInteger(allocation.getResourceId());
+         Integer units = getInteger(allocation.getUnits());
 
-         for (Allocation allocation : allocationList)
+         Task task = m_projectFile.getTaskByUniqueID(taskID);
+         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+
+         if (task != null && resource != null)
          {
-            Integer taskID = getInteger(allocation.getTaskId());
-            Integer resourceID = getInteger(allocation.getResourceId());
-            Integer units = getInteger(allocation.getUnits());
+            Duration work = task.getWork();
+            int percentComplete = NumberUtility.getInt(task.getPercentageComplete());
 
-            Task task = m_projectFile.getTaskByUniqueID(taskID);
-            Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
+            assignment.setUnits(units);
+            assignment.setWork(work);
 
-            if (task != null && resource != null)
+            if (percentComplete != 0)
             {
-               Duration work = task.getWork();
-               int percentComplete = NumberUtility.getInt(task.getPercentageComplete());
-
-               ResourceAssignment assignment = task.addResourceAssignment(resource);
-               assignment.setUnits(units);
-               assignment.setWork(work);
-
-               if (percentComplete != 0)
-               {
-                  Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete) / 100, work.getUnits());
-                  assignment.setActualWork(actualWork);
-                  assignment.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
-               }
-               else
-               {
-                  assignment.setRemainingWork(work);
-               }
-
-               assignment.setStart(task.getStart());
-               assignment.setFinish(task.getFinish());
-
-               tasksWithAssignments.add(task);
-
-               m_projectFile.fireAssignmentReadEvent(assignment);
+               Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete) / 100, work.getUnits());
+               assignment.setActualWork(actualWork);
+               assignment.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
             }
-         }
-
-         //
-         // Adjust work per assignment for tasks with multiple assignments
-         //
-         for (Task task : tasksWithAssignments)
-         {
-            List<ResourceAssignment> assignments = task.getResourceAssignments();
-            if (assignments.size() > 1)
+            else
             {
-               double maxUnits = 0;
-               for (ResourceAssignment assignment : assignments)
+               assignment.setRemainingWork(work);
+            }
+
+            assignment.setStart(task.getStart());
+            assignment.setFinish(task.getFinish());
+
+            tasksWithAssignments.add(task);
+
+            m_projectFile.fireAssignmentReadEvent(assignment);
+         }
+      }
+
+      //
+      // Adjust work per assignment for tasks with multiple assignments
+      //
+      for (Task task : tasksWithAssignments)
+      {
+         List<ResourceAssignment> assignments = task.getResourceAssignments();
+         if (assignments.size() > 1)
+         {
+            double maxUnits = 0;
+            for (ResourceAssignment assignment : assignments)
+            {
+               maxUnits += assignment.getUnits().doubleValue();
+            }
+
+            for (ResourceAssignment assignment : assignments)
+            {
+               Duration work = assignment.getWork();
+               double factor = assignment.getUnits().doubleValue() / maxUnits;
+
+               work = Duration.getInstance(work.getDuration() * factor, work.getUnits());
+               assignment.setWork(work);
+               Duration actualWork = assignment.getActualWork();
+               if (actualWork != null)
                {
-                  maxUnits += assignment.getUnits().doubleValue();
+                  actualWork = Duration.getInstance(actualWork.getDuration() * factor, actualWork.getUnits());
+                  assignment.setActualWork(actualWork);
                }
 
-               for (ResourceAssignment assignment : assignments)
+               Duration remainingWork = assignment.getRemainingWork();
+               if (remainingWork != null)
                {
-                  Duration work = assignment.getWork();
-                  double factor = assignment.getUnits().doubleValue() / maxUnits;
-
-                  work = Duration.getInstance(work.getDuration() * factor, work.getUnits());
-                  assignment.setWork(work);
-                  Duration actualWork = assignment.getActualWork();
-                  if (actualWork != null)
-                  {
-                     actualWork = Duration.getInstance(actualWork.getDuration() * factor, actualWork.getUnits());
-                     assignment.setActualWork(actualWork);
-                  }
-
-                  Duration remainingWork = assignment.getRemainingWork();
-                  if (remainingWork != null)
-                  {
-                     remainingWork = Duration.getInstance(remainingWork.getDuration() * factor, remainingWork.getUnits());
-                     assignment.setRemainingWork(remainingWork);
-                  }
+                  remainingWork = Duration.getInstance(remainingWork.getDuration() * factor, remainingWork.getUnits());
+                  assignment.setRemainingWork(remainingWork);
                }
             }
          }

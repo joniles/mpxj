@@ -4657,7 +4657,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          for (Relation relation : list)
          {
-            if (relation.getTargetTask().getUniqueID() == task.getUniqueID())
+            if (relation.getTargetTask().getUniqueID().intValue() == task.getUniqueID().intValue())
             {
                result = true;
                break;

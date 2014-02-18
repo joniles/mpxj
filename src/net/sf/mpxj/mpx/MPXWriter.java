@@ -635,7 +635,7 @@ public final class MPXWriter extends AbstractProjectWriter
       // Write the task notes
       //
       String notes = record.getNotes();
-      if (notes != null && notes.length() != 0)
+      if (notes.length() != 0)
       {
          writeNotes(MPXConstants.TASK_NOTES_RECORD_NUMBER, notes);
       }

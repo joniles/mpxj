@@ -122,20 +122,20 @@ class SDEFmethods
     */
    public static String workDays(ProjectCalendar input)
    {
-      String result = "";
+      StringBuilder result = new StringBuilder();
       DayType[] test = input.getDays(); // get the array from MPXJ ProjectCalendar
       for (DayType i : test)
       { // go through every day in the given array
          if (i == DayType.NON_WORKING)
          {
-            result += "N"; // only put N for non-working day of the week
+            result.append("N"); // only put N for non-working day of the week
          }
          else
          {
-            result += "Y"; // Assume WORKING day unless NON_WORKING
+            result.append("Y"); // Assume WORKING day unless NON_WORKING
          }
       }
-      return result; // According to USACE specs., exceptions will be specified in HOLI records
+      return result.toString(); // According to USACE specs., exceptions will be specified in HOLI records
    }
 
 }
