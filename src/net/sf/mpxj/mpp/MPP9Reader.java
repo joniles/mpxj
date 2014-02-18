@@ -2449,15 +2449,12 @@ final class MPP9Reader implements MPPVariantReader
          resource.setFlag(20, (metaData[31] & 0x01) != 0);
 
          notes = resource.getNotes();
-         if (notes != null)
+         if (m_reader.getPreserveNoteFormatting() == false)
          {
-            if (m_reader.getPreserveNoteFormatting() == false)
-            {
-               notes = RTFUtility.strip(notes);
-            }
-
-            resource.setNotes(notes);
+            notes = RTFUtility.strip(notes);
          }
+
+         resource.setNotes(notes);
 
          //
          // Configure the resource calendar

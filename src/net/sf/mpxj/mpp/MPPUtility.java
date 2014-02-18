@@ -1374,10 +1374,7 @@ final class MPPUtility
                try
                {
                   Date d = MPPUtility.getTime(data, i);
-                  if (d != null)
-                  {
-                     System.out.println(i + ":" + d.toString());
-                  }
+                  System.out.println(i + ":" + d.toString());
                }
                catch (Exception ex)
                {

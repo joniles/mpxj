@@ -2134,15 +2134,12 @@ final class MPP14Reader implements MPPVariantReader
          resource.setUniqueID(id);
 
          notes = resource.getNotes();
-         if (notes != null)
+         if (m_reader.getPreserveNoteFormatting() == false)
          {
-            if (m_reader.getPreserveNoteFormatting() == false)
-            {
-               notes = RTFUtility.strip(notes);
-            }
-
-            resource.setNotes(notes);
+            notes = RTFUtility.strip(notes);
          }
+
+         resource.setNotes(notes);
 
          //
          // Configure the resource calendar

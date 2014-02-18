@@ -241,7 +241,7 @@ abstract class MPD9AbstractReader
       if (NumberUtility.getInt(uniqueID) > 0)
       {
          boolean baseCalendar = row.getBoolean("CAL_IS_BASE_CAL");
-         ProjectCalendar cal = null;
+         ProjectCalendar cal;
          if (baseCalendar == true)
          {
             cal = m_project.addCalendar();
@@ -255,12 +255,9 @@ abstract class MPD9AbstractReader
             m_resourceMap.put(resourceID, cal);
          }
 
-         if (cal != null)
-         {
-            cal.setUniqueID(uniqueID);
-            m_calendarMap.put(uniqueID, cal);
-            m_project.fireCalendarReadEvent(cal);
-         }
+         cal.setUniqueID(uniqueID);
+         m_calendarMap.put(uniqueID, cal);
+         m_project.fireCalendarReadEvent(cal);
       }
    }
 

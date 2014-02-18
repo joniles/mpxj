@@ -324,7 +324,7 @@ public class MpxjQuery
       {
          String notes = task.getNotes();
 
-         if (notes != null && notes.length() != 0)
+         if (notes.length() != 0)
          {
             System.out.println("Notes for " + task.getName() + ": " + notes);
          }

@@ -1178,26 +1178,23 @@ final class MPP8Reader implements MPPVariantReader
          table.setID(MPPUtility.getInt(data, 0));
 
          String name = MPPUtility.getUnicodeString(data, 4);
-         if (name != null)
+         if (name.indexOf('&') != -1)
          {
-            if (name.indexOf('&') != -1)
+            sb.setLength(0);
+            int index = 0;
+            char c;
+
+            while (index < name.length())
             {
-               sb.setLength(0);
-               int index = 0;
-               char c;
-
-               while (index < name.length())
+               c = name.charAt(index);
+               if (c != '&')
                {
-                  c = name.charAt(index);
-                  if (c != '&')
-                  {
-                     sb.append(c);
-                  }
-                  ++index;
+                  sb.append(c);
                }
-
-               name = sb.toString();
+               ++index;
             }
+
+            name = sb.toString();
          }
 
          table.setName(MPPUtility.removeAmpersands(name));

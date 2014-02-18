@@ -311,111 +311,108 @@ public final class PlannerReader extends AbstractProjectReader
       if (types != null)
       {
          List<OverriddenDayType> typeList = types.getOverriddenDayType();
-         if (typeList != null)
+         Iterator<OverriddenDayType> iter = typeList.iterator();
+         OverriddenDayType odt = null;
+         while (iter.hasNext())
          {
-            Iterator<OverriddenDayType> iter = typeList.iterator();
-            OverriddenDayType odt = null;
-            while (iter.hasNext())
+            odt = iter.next();
+            if (getInt(odt.getId()) != 0)
             {
-               odt = iter.next();
-               if (getInt(odt.getId()) != 0)
-               {
-                  odt = null;
-                  continue;
-               }
-
-               break;
+               odt = null;
+               continue;
             }
 
-            if (odt != null)
+            break;
+         }
+
+         if (odt != null)
+         {
+            List<Interval> intervalList = odt.getInterval();
+            if (intervalList != null)
             {
-               List<Interval> intervalList = odt.getInterval();
-               if (intervalList != null)
+               ProjectCalendarHours mondayHours = null;
+               ProjectCalendarHours tuesdayHours = null;
+               ProjectCalendarHours wednesdayHours = null;
+               ProjectCalendarHours thursdayHours = null;
+               ProjectCalendarHours fridayHours = null;
+               ProjectCalendarHours saturdayHours = null;
+               ProjectCalendarHours sundayHours = null;
+
+               if (mpxjCalendar.isWorkingDay(Day.MONDAY))
                {
-                  ProjectCalendarHours mondayHours = null;
-                  ProjectCalendarHours tuesdayHours = null;
-                  ProjectCalendarHours wednesdayHours = null;
-                  ProjectCalendarHours thursdayHours = null;
-                  ProjectCalendarHours fridayHours = null;
-                  ProjectCalendarHours saturdayHours = null;
-                  ProjectCalendarHours sundayHours = null;
+                  mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
+               }
 
-                  if (mpxjCalendar.isWorkingDay(Day.MONDAY))
+               if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
+               {
+                  tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
+               }
+
+               if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
+               {
+                  wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
+               }
+
+               if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
+               {
+                  thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
+               }
+
+               if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
+               {
+                  fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
+               }
+
+               if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
+               {
+                  saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
+               }
+
+               if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
+               {
+                  sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
+               }
+
+               for (Interval interval : intervalList)
+               {
+                  Date startTime = getTime(interval.getStart());
+                  Date endTime = getTime(interval.getEnd());
+
+                  m_defaultWorkingHours.add(new DateRange(startTime, endTime));
+
+                  if (mondayHours != null)
                   {
-                     mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
+                     mondayHours.addRange(new DateRange(startTime, endTime));
                   }
 
-                  if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
+                  if (tuesdayHours != null)
                   {
-                     tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
+                     tuesdayHours.addRange(new DateRange(startTime, endTime));
                   }
 
-                  if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
+                  if (wednesdayHours != null)
                   {
-                     wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
+                     wednesdayHours.addRange(new DateRange(startTime, endTime));
                   }
 
-                  if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
+                  if (thursdayHours != null)
                   {
-                     thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
+                     thursdayHours.addRange(new DateRange(startTime, endTime));
                   }
 
-                  if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
+                  if (fridayHours != null)
                   {
-                     fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
+                     fridayHours.addRange(new DateRange(startTime, endTime));
                   }
 
-                  if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
+                  if (saturdayHours != null)
                   {
-                     saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
+                     saturdayHours.addRange(new DateRange(startTime, endTime));
                   }
 
-                  if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
+                  if (sundayHours != null)
                   {
-                     sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
-                  }
-
-                  for (Interval interval : intervalList)
-                  {
-                     Date startTime = getTime(interval.getStart());
-                     Date endTime = getTime(interval.getEnd());
-
-                     m_defaultWorkingHours.add(new DateRange(startTime, endTime));
-
-                     if (mondayHours != null)
-                     {
-                        mondayHours.addRange(new DateRange(startTime, endTime));
-                     }
-
-                     if (tuesdayHours != null)
-                     {
-                        tuesdayHours.addRange(new DateRange(startTime, endTime));
-                     }
-
-                     if (wednesdayHours != null)
-                     {
-                        wednesdayHours.addRange(new DateRange(startTime, endTime));
-                     }
-
-                     if (thursdayHours != null)
-                     {
-                        thursdayHours.addRange(new DateRange(startTime, endTime));
-                     }
-
-                     if (fridayHours != null)
-                     {
-                        fridayHours.addRange(new DateRange(startTime, endTime));
-                     }
-
-                     if (saturdayHours != null)
-                     {
-                        saturdayHours.addRange(new DateRange(startTime, endTime));
-                     }
-
-                     if (sundayHours != null)
-                     {
-                        sundayHours.addRange(new DateRange(startTime, endTime));
-                     }
+                     sundayHours.addRange(new DateRange(startTime, endTime));
                   }
                }
             }
