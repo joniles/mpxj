@@ -257,8 +257,8 @@ public final class SDEFWriter // extends AbstractProjectWriter
          {
             dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
          }
-         Double days = new Double(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
-         Integer est = new Integer(days.intValue());
+         Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
+         Integer est = Integer.valueOf(days.intValue());
          m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE	      
 
          String conType = "ES "; // assume early start
@@ -343,7 +343,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
             m_buffer.append(SDEFmethods.rset(pred.getSourceTask().getUniqueID().toString(), 10) + " ");
             m_buffer.append(SDEFmethods.rset(pred.getTargetTask().getUniqueID().toString(), 10) + " ");
             String type = "C"; // default finish-to-start
-            if (pred.getType().toString() != "FS")
+            if (!pred.getType().toString().equals("FS"))
             {
                type = pred.getType().toString().substring(0, 1);
             }
@@ -355,8 +355,8 @@ public final class SDEFWriter // extends AbstractProjectWriter
             {
                dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
             }
-            Double days = new Double(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
-            Integer est = new Integer(days.intValue());
+            Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
+            Integer est = Integer.valueOf(days.intValue());
             m_buffer.append(SDEFmethods.rset(est.toString(), 4) + " "); // task duration in days required by USACE		    	  
          }
          m_writer.println(m_buffer.toString());
@@ -407,8 +407,8 @@ public final class SDEFWriter // extends AbstractProjectWriter
          {
             dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
          }
-         Double days = new Double(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
-         Integer est = new Integer(days.intValue());
+         Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
+         Integer est = Integer.valueOf(days.intValue());
          m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE		      
 
          DecimalFormat twoDec = new DecimalFormat("#0.00"); // USACE required currency format
@@ -426,8 +426,8 @@ public final class SDEFWriter // extends AbstractProjectWriter
          {
             dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
          }
-         days = new Double(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
-         est = new Integer(days.intValue());
+         days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
+         est = Integer.valueOf(days.intValue());
          char slack;
          if (est.intValue() >= 0)
          {
@@ -438,7 +438,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
             slack = '-'; // only write a negative when it's negative, i.e. can't be done in project management terms!!!
          }
          m_buffer.append(slack + " ");
-         est = new Integer(Math.abs(days.intValue()));
+         est = Integer.valueOf(Math.abs(days.intValue()));
          m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE		      
          m_writer.println(m_buffer.toString());
          m_projectFile.fireTaskWrittenEvent(record);
