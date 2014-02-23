@@ -318,8 +318,14 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               case 0x11:
+               //
+               // task unique ID, path, file name
+               //
+               case 0x01:
                case 0x03:
+               case 0x08:
+               case 0x0A:
+               case 0x11:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -329,9 +335,6 @@ final class MPP9Reader implements MPPVariantReader
 
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
-
-                  // Unknown offset
-                  //offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
@@ -350,25 +353,6 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   // unknown offset to 2 bytes of data?
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // task unique ID, path, file name
-               //
-               case 0x01:
-               case 0x08:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
@@ -465,24 +449,6 @@ final class MPP9Reader implements MPPVariantReader
 
                   filePathOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 8;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // task unique ID, path, file name
-               //
-               case 0x0A:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
 
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;

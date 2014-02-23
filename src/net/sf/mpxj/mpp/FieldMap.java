@@ -708,11 +708,6 @@ abstract class FieldMap
                   }
 
                   case CURRENCY:
-                  {
-                     result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
-                     break;
-                  }
-
                   case UNITS:
                   {
                      result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
