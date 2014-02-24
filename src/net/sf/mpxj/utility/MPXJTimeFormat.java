@@ -89,5 +89,15 @@ public final class MPXJTimeFormat extends SimpleDateFormat
       setDateFormatSymbols(symbols);
    }
 
+   @Override public int hashCode()
+   {
+      return super.hashCode();
+   }
+
+   @Override public boolean equals(Object obj)
+   {
+      return super.equals(obj);
+   }
+
    private String m_null = "NA";
 }

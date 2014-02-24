@@ -110,7 +110,7 @@ public enum TestOperator implements MpxjEnum
 
          if (lhs == null)
          {
-            result = (lhs == getSingleOperand(rhs));
+            result = (getSingleOperand(rhs) == null);
          }
          else
          {
@@ -130,7 +130,7 @@ public enum TestOperator implements MpxjEnum
          boolean result;
          if (lhs == null)
          {
-            result = (lhs != getSingleOperand(rhs));
+            result = (getSingleOperand(rhs) != null);
          }
          else
          {

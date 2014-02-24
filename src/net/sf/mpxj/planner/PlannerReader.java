@@ -325,92 +325,89 @@ public final class PlannerReader extends AbstractProjectReader
          if (odt != null)
          {
             List<Interval> intervalList = odt.getInterval();
-            if (intervalList != null)
+            ProjectCalendarHours mondayHours = null;
+            ProjectCalendarHours tuesdayHours = null;
+            ProjectCalendarHours wednesdayHours = null;
+            ProjectCalendarHours thursdayHours = null;
+            ProjectCalendarHours fridayHours = null;
+            ProjectCalendarHours saturdayHours = null;
+            ProjectCalendarHours sundayHours = null;
+
+            if (mpxjCalendar.isWorkingDay(Day.MONDAY))
             {
-               ProjectCalendarHours mondayHours = null;
-               ProjectCalendarHours tuesdayHours = null;
-               ProjectCalendarHours wednesdayHours = null;
-               ProjectCalendarHours thursdayHours = null;
-               ProjectCalendarHours fridayHours = null;
-               ProjectCalendarHours saturdayHours = null;
-               ProjectCalendarHours sundayHours = null;
+               mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
+            }
 
-               if (mpxjCalendar.isWorkingDay(Day.MONDAY))
+            if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
+            {
+               tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
+            }
+
+            if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
+            {
+               wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
+            }
+
+            if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
+            {
+               thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
+            }
+
+            if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
+            {
+               fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
+            }
+
+            if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
+            {
+               saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
+            }
+
+            if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
+            {
+               sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
+            }
+
+            for (Interval interval : intervalList)
+            {
+               Date startTime = getTime(interval.getStart());
+               Date endTime = getTime(interval.getEnd());
+
+               m_defaultWorkingHours.add(new DateRange(startTime, endTime));
+
+               if (mondayHours != null)
                {
-                  mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
+                  mondayHours.addRange(new DateRange(startTime, endTime));
                }
 
-               if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
+               if (tuesdayHours != null)
                {
-                  tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
+                  tuesdayHours.addRange(new DateRange(startTime, endTime));
                }
 
-               if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
+               if (wednesdayHours != null)
                {
-                  wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
+                  wednesdayHours.addRange(new DateRange(startTime, endTime));
                }
 
-               if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
+               if (thursdayHours != null)
                {
-                  thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
+                  thursdayHours.addRange(new DateRange(startTime, endTime));
                }
 
-               if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
+               if (fridayHours != null)
                {
-                  fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
+                  fridayHours.addRange(new DateRange(startTime, endTime));
                }
 
-               if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
+               if (saturdayHours != null)
                {
-                  saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
+                  saturdayHours.addRange(new DateRange(startTime, endTime));
                }
 
-               if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
+               if (sundayHours != null)
                {
-                  sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
-               }
-
-               for (Interval interval : intervalList)
-               {
-                  Date startTime = getTime(interval.getStart());
-                  Date endTime = getTime(interval.getEnd());
-
-                  m_defaultWorkingHours.add(new DateRange(startTime, endTime));
-
-                  if (mondayHours != null)
-                  {
-                     mondayHours.addRange(new DateRange(startTime, endTime));
-                  }
-
-                  if (tuesdayHours != null)
-                  {
-                     tuesdayHours.addRange(new DateRange(startTime, endTime));
-                  }
-
-                  if (wednesdayHours != null)
-                  {
-                     wednesdayHours.addRange(new DateRange(startTime, endTime));
-                  }
-
-                  if (thursdayHours != null)
-                  {
-                     thursdayHours.addRange(new DateRange(startTime, endTime));
-                  }
-
-                  if (fridayHours != null)
-                  {
-                     fridayHours.addRange(new DateRange(startTime, endTime));
-                  }
-
-                  if (saturdayHours != null)
-                  {
-                     saturdayHours.addRange(new DateRange(startTime, endTime));
-                  }
-
-                  if (sundayHours != null)
-                  {
-                     sundayHours.addRange(new DateRange(startTime, endTime));
-                  }
+                  sundayHours.addRange(new DateRange(startTime, endTime));
                }
             }
          }
@@ -429,21 +426,18 @@ public final class PlannerReader extends AbstractProjectReader
       if (days != null)
       {
          List<net.sf.mpxj.planner.schema.Day> dayList = days.getDay();
-         if (dayList != null)
+         for (net.sf.mpxj.planner.schema.Day day : dayList)
          {
-            for (net.sf.mpxj.planner.schema.Day day : dayList)
+            if (day.getType().equals("day-type"))
             {
-               if (day.getType().equals("day-type"))
+               Date exceptionDate = getDate(day.getDate());
+               ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
+               if (getInt(day.getId()) == 0)
                {
-                  Date exceptionDate = getDate(day.getDate());
-                  ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
-                  if (getInt(day.getId()) == 0)
+                  for (int hoursIndex = 0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
                   {
-                     for (int hoursIndex = 0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
-                     {
-                        DateRange range = m_defaultWorkingHours.get(hoursIndex);
-                        exception.addRange(range);
-                     }
+                     DateRange range = m_defaultWorkingHours.get(hoursIndex);
+                     exception.addRange(range);
                   }
                }
             }
@@ -642,12 +636,9 @@ public final class PlannerReader extends AbstractProjectReader
       // Process child tasks
       //
       List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
-      if (childTasks != null)
+      for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
       {
-         for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
-         {
-            readTask(mpxjTask, childTask);
-         }
+         readTask(mpxjTask, childTask);
       }
    }
 
@@ -664,22 +655,19 @@ public final class PlannerReader extends AbstractProjectReader
       if (predecessors != null)
       {
          List<Predecessor> predecessorList = predecessors.getPredecessor();
-         if (predecessorList != null)
+         for (Predecessor predecessor : predecessorList)
          {
-            for (Predecessor predecessor : predecessorList)
+            Integer predecessorID = getInteger(predecessor.getPredecessorId());
+            Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
+            if (predecessorTask != null)
             {
-               Integer predecessorID = getInteger(predecessor.getPredecessorId());
-               Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
-               if (predecessorTask != null)
+               Duration lag = getDuration(predecessor.getLag());
+               if (lag == null)
                {
-                  Duration lag = getDuration(predecessor.getLag());
-                  if (lag == null)
-                  {
-                     lag = Duration.getInstance(0, TimeUnit.HOURS);
-                  }
-                  Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
-                  m_projectFile.fireRelationReadEvent(relation);
+                  lag = Duration.getInstance(0, TimeUnit.HOURS);
                }
+               Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
+               m_projectFile.fireRelationReadEvent(relation);
             }
          }
       }
@@ -688,12 +676,9 @@ public final class PlannerReader extends AbstractProjectReader
       // Process child tasks
       //
       List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
-      if (childTasks != null)
+      for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
       {
-         for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
-         {
-            readPredecessors(childTask);
-         }
+         readPredecessors(childTask);
       }
    }
 

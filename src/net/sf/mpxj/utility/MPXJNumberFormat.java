@@ -27,6 +27,7 @@ package net.sf.mpxj.utility;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
+import java.util.Arrays;
 
 /**
  * This class extends the functionality of the DecimalFormat class
@@ -118,6 +119,56 @@ public final class MPXJNumberFormat extends DecimalFormat
       }
 
       return (result);
+   }
+
+   @Override public int hashCode()
+   {
+      final int prime = 31;
+      int result = super.hashCode();
+      result = prime * result + Arrays.hashCode(m_alternativeFormats);
+      result = prime * result + ((m_symbols == null) ? 0 : m_symbols.hashCode());
+      return result;
+   }
+
+   @Override public boolean equals(Object obj)
+   {
+      if (this == obj)
+      {
+         return true;
+      }
+
+      if (!super.equals(obj))
+      {
+         return false;
+      }
+
+      if (getClass() != obj.getClass())
+      {
+         return false;
+      }
+
+      MPXJNumberFormat other = (MPXJNumberFormat) obj;
+      if (!Arrays.equals(m_alternativeFormats, other.m_alternativeFormats))
+      {
+         return false;
+      }
+
+      if (m_symbols == null)
+      {
+         if (other.m_symbols != null)
+         {
+            return false;
+         }
+      }
+      else
+      {
+         if (!m_symbols.equals(other.m_symbols))
+         {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    /**
