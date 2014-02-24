@@ -1447,8 +1447,8 @@ public class BasicTest extends MPXJTestCase
       // Read the MSPDI file and ensure that the project header fields
       // have the expected values.
       //
-      mpx = new MSPDIReader().read(m_basedir + "/headertest.xml");
-      testHeaderFields(mpx);
+      mpx = new MSPDIReader().read(m_basedir + "/headertest9.xml");
+      testMspdiHeaderFields(mpx);
 
       //
       // Write the file, re-read it and test to ensure that
@@ -1458,7 +1458,7 @@ public class BasicTest extends MPXJTestCase
       new MSPDIWriter().write(mpx, out);
 
       mpx = new MSPDIReader().read(out);
-      testHeaderFields(mpx);
+      testMspdiHeaderFields(mpx);
       out.deleteOnExit();
    }
 
@@ -1475,6 +1475,25 @@ public class BasicTest extends MPXJTestCase
       assertEquals("Comments Text", header.getComments());
       assertEquals("Company Text", header.getCompany());
       assertEquals("Keywords Text", header.getKeywords());
+      assertEquals("Manager Text", header.getManager());
+      assertEquals("Subject Text", header.getSubject());
+   }
+
+   /**
+    * Implements common project header tests.
+    *
+    * @param file target project file
+    */
+   private void testMspdiHeaderFields(ProjectFile file)
+   {
+      ProjectHeader header = file.getProjectHeader();
+      assertEquals("Project Title Text", header.getProjectTitle());
+      assertEquals("Author Text", header.getAuthor());
+      // Looks like an oversight in the schema - the Notes field is present in files, but not in the schema
+      //assertEquals("Comments Text", header.getComments());
+      assertEquals("Company Text", header.getCompany());
+      // Doesn't look like keywords is present in MSPDI files at all
+      //assertEquals("Keywords Text", header.getKeywords());
       assertEquals("Manager Text", header.getManager());
       assertEquals("Subject Text", header.getSubject());
    }
