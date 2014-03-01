@@ -8,7 +8,10 @@
 
    <body> 
 
-	<release version="4.5.0" date="CVS HEAD">
+	<release version="4.6.0" date="Git HEAD">
+	</release>
+
+	<release version="4.5.0" date="01/03/2014">
 		<action dev="joniles" type="add">Added the ability to call the .Net version of MPXJ from COM.</action>
 		<action dev="joniles" type="add">Added support Primavera decimal database columns.</action>
 		<action dev="joniles" type="add">Added support for user defined task fields (contributed by Mario Fuentes).</action>
