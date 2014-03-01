@@ -29,7 +29,7 @@ import net.sf.mpxj.utility.MpxjEnum;
 
 /**
  * This interface is implemented by classes which represent a field
- * in either the Task or Resource entity.
+ * in a Task, Resource or Assignment entity.
  */
 public interface FieldType extends MpxjEnum
 {

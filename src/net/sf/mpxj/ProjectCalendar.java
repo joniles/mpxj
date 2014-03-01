@@ -1166,29 +1166,29 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     */
    private Duration convertFormat(long totalTime, TimeUnit format)
    {
-      double duration = 0;
+      double duration = totalTime;
       double minutesPerDay = getParentFile().getProjectHeader().getMinutesPerDay().doubleValue();
       double minutesPerWeek = getParentFile().getProjectHeader().getMinutesPerWeek().doubleValue();
       double daysPerMonth = getParentFile().getProjectHeader().getDaysPerMonth().doubleValue();
+
       switch (format)
       {
          case MINUTES:
+         case ELAPSED_MINUTES:
          {
-            duration = totalTime;
             duration /= (60 * 1000);
             break;
          }
 
          case HOURS:
+         case ELAPSED_HOURS:
          {
-            duration = totalTime;
             duration /= (60 * 60 * 1000);
             break;
          }
 
          case DAYS:
          {
-            duration = totalTime;
             if (minutesPerDay != 0)
             {
                duration /= (minutesPerDay * 60 * 1000);
@@ -1202,7 +1202,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek
 
          case WEEKS:
          {
-            duration = totalTime;
             if (minutesPerWeek != 0)
             {
                duration /= (minutesPerWeek * 60 * 1000);
@@ -1216,7 +1215,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek
 
          case MONTHS:
          {
-            duration = totalTime;
             if (daysPerMonth != 0 && minutesPerDay != 0)
             {
                duration /= (daysPerMonth * minutesPerDay * 60 * 1000);
@@ -1228,33 +1226,21 @@ public final class ProjectCalendar extends ProjectCalendarWeek
             break;
          }
 
-         case ELAPSED_MINUTES:
-         {
-            duration = totalTime / (60 * 1000);
-            break;
-         }
-
-         case ELAPSED_HOURS:
-         {
-            duration = totalTime / (60 * 60 * 1000);
-            break;
-         }
-
          case ELAPSED_DAYS:
          {
-            duration = totalTime / (24 * 60 * 60 * 1000);
+            duration /= (24 * 60 * 60 * 1000);
             break;
          }
 
          case ELAPSED_WEEKS:
          {
-            duration = totalTime / (7 * 24 * 60 * 60 * 1000);
+            duration /= (7 * 24 * 60 * 60 * 1000);
             break;
          }
 
          case ELAPSED_MONTHS:
          {
-            duration = totalTime / (30 * 24 * 60 * 60 * 1000);
+            duration /= (30 * 24 * 60 * 60 * 1000);
             break;
          }
 

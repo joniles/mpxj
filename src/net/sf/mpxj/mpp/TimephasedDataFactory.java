@@ -319,7 +319,7 @@ final class TimephasedDataFactory
 
          while (index + blockSize <= data.length)
          {
-            double cumulativeWorkInMinutes = ((long) MPPUtility.getDouble(data, index + 20)) / 1000;
+            double cumulativeWorkInMinutes = (double) ((long) MPPUtility.getDouble(data, index + 20)) / 1000;
             if (!Duration.durationValueEquals(cumulativeWorkInMinutes, previousCumulativeWorkPerformedInMinutes))
             {
                //double unknownWorkThisPeriodInMinutes = ((long) MPPUtility.getDouble(data, index + 0)) / 1000;
@@ -394,7 +394,7 @@ final class TimephasedDataFactory
          while (index + blockSize <= data.length)
          {
             Date blockEndDate = MPPUtility.getTimestampFromTenths(data, index + 16);
-            double currentTotalCost = ((long) MPPUtility.getDouble(data, index + 8)) / 100;
+            double currentTotalCost = (double) ((long) MPPUtility.getDouble(data, index + 8)) / 100;
             if (!costEquals(previousTotalCost, currentTotalCost))
             {
                TimephasedCost cost = new TimephasedCost();
