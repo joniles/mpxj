@@ -123,9 +123,23 @@ public class MppAssignmentTest extends MPXJTestCase
     */
    public void testMpdCustomFields() throws Exception
    {
-      MPDDatabaseReader reader = new MPDDatabaseReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentcustom.mpd");
-      testCustomFields(mpp);
+      try
+      {
+         MPDDatabaseReader reader = new MPDDatabaseReader();
+         ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentcustom.mpd");
+         testCustomFields(mpp);
+      }
+
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
    }
 
    /**
@@ -278,9 +292,23 @@ public class MppAssignmentTest extends MPXJTestCase
     */
    public void testMpdFields() throws Exception
    {
-      MPDDatabaseReader reader = new MPDDatabaseReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
-      testFields(mpp, null, null);
+      try
+      {
+         MPDDatabaseReader reader = new MPDDatabaseReader();
+         ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
+         testFields(mpp, null, null);
+      }
+
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
    }
 
    /**
