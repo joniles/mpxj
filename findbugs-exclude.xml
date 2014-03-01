@@ -1,0 +1,105 @@
+<FindBugsFilter>
+
+	<!-- Deal with these using try with resources and Java 7 -->
+	<Match>
+		<Bug pattern="OS_OPEN_STREAM_EXCEPTION_PATH" />
+	</Match>
+ 
+	<!--  Don't check generated code -->
+	<Match>
+		<Class name="~.*\.schema\..*" />
+	</Match>
+
+	<!-- This detector compares our code with generated code in the schema classes, producing spurious warnings -->
+	<Match>
+		<Bug pattern="NM_CONFUSING" />
+	</Match>
+
+	<!--  We'll allow catch (Exception ex) -->
+	<Match>
+		<Bug pattern="REC_CATCH_EXCEPTION" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST" />
+		<Class name="~.*\.ResourceAssignment" />	
+		<Method name="set" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST" />
+		<Class name="~.*\.Resource" />	
+		<Method name="getCurrentValue" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST" />
+		<Class name="~.*\.Resource" />	
+		<Method name="set" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST" />
+		<Class name="~.*\.Task" />	
+		<Method name="getCurrentValue" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST" />
+		<Class name="~.*\.Task" />	
+		<Method name="set" />
+	</Match>
+
+	<!--  Findbugs and Eclipse disagree on this one -->
+	<Match>
+		<Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" />
+		<Class name="~.*\.ProjectCalendar" />	
+	</Match>	
+ 	
+	<!-- Doesn't produce particularly useful results -->
+	<Match>
+		<Bug pattern="SIC_INNER_SHOULD_BE_STATIC_ANON" />
+	</Match>
+	
+	<Match>
+		<Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
+	</Match>
+
+	<Match>
+		<Bug pattern="SE_NO_SERIALVERSIONID" />
+	</Match>
+
+	<Match>
+		<Bug pattern="SR_NOT_CHECKED" />
+	</Match>	  	 
+
+	<Match>
+		<Bug pattern="SF_SWITCH_NO_DEFAULT" />
+	</Match>	  	 
+
+	<Match>
+		<Bug pattern="RR_NOT_CHECKED" />
+	</Match>	 
+
+	<Match>
+		<Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" />
+	</Match>	 
+
+	<Match>
+		<Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS" />
+	</Match>	 
+
+	<Match>
+		<Bug pattern="DE_MIGHT_IGNORE" />
+	</Match>	 
+	
+	<Match>
+		<Bug pattern="NM_CLASS_NOT_EXCEPTION" />
+	</Match>	 
+	 			  	 			  		 
+</FindBugsFilter>
