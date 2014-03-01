@@ -24,6 +24,8 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.NumberUtility;
+
 /**
  * This represents time durations as specified in an MPX file.
  */
@@ -338,7 +340,7 @@ public final class Duration implements Comparable<Duration>
       if (o instanceof Duration)
       {
          Duration rhs = (Duration) o;
-         result = m_duration == rhs.m_duration && m_units == rhs.m_units;
+         result = durationComponentEquals(rhs) && m_units == rhs.m_units;
       }
       return result;
    }
@@ -361,7 +363,31 @@ public final class Duration implements Comparable<Duration>
          rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8 * 60), (5 * 8 * 60), 20);
       }
 
-      return (m_duration < rhs.m_duration ? -1 : (m_duration == rhs.m_duration ? 0 : 1));
+      return durationComponentEquals(rhs) ? 0 : m_duration < rhs.m_duration ? -1 : 1;
+   }
+
+   /**
+    * Equality test for duration component of a Duration instance.
+    * Note that this does not take into account the units - use with care!
+    * 
+    * @param rhs duration to compare
+    * @return true if duration components are equal, within the allowable delta
+    */
+   public boolean durationComponentEquals(Duration rhs)
+   {
+      return durationValueEquals(m_duration, rhs.m_duration);
+   }
+
+   /**
+    * Equality test for two duration values.
+    * 
+    * @param lhs duration value
+    * @param rhs duration value
+    * @return true if duration values are equal, within the allowable delta
+    */
+   public static boolean durationValueEquals(double lhs, double rhs)
+   {
+      return NumberUtility.equals(lhs, rhs, 0.00001);
    }
 
    /**

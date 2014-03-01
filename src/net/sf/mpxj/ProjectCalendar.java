@@ -455,7 +455,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                }
                else
                {
-                  if (remainingMinutes == rangeMinutes)
+                  if (Duration.durationValueEquals(remainingMinutes, rangeMinutes))
                   {
                      endTime = canonicalRangeEnd;
                      if (rangeStartDay.getTime() != rangeEndDay.getTime())
@@ -629,7 +629,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
                }
                else
                {
-                  if (remainingMinutes == rangeMinutes)
+                  if (Duration.durationValueEquals(remainingMinutes, rangeMinutes))
                   {
                      startTime = canonicalRangeStart;
                   }

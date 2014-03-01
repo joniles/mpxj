@@ -37,6 +37,7 @@ import net.sf.mpxj.TimephasedCostNormaliser;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkData;
 import net.sf.mpxj.TimephasedWorkNormaliser;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -319,7 +320,7 @@ final class TimephasedDataFactory
          while (index + blockSize <= data.length)
          {
             double cumulativeWorkInMinutes = ((long) MPPUtility.getDouble(data, index + 20)) / 1000;
-            if (cumulativeWorkInMinutes != previousCumulativeWorkPerformedInMinutes)
+            if (!Duration.durationValueEquals(cumulativeWorkInMinutes, previousCumulativeWorkPerformedInMinutes))
             {
                //double unknownWorkThisPeriodInMinutes = ((long) MPPUtility.getDouble(data, index + 0)) / 1000;
                double normalActualWorkThisPeriodInMinutes = ((double) MPPUtility.getInt(data, index + 8)) / 10;
@@ -394,7 +395,7 @@ final class TimephasedDataFactory
          {
             Date blockEndDate = MPPUtility.getTimestampFromTenths(data, index + 16);
             double currentTotalCost = ((long) MPPUtility.getDouble(data, index + 8)) / 100;
-            if (previousTotalCost != currentTotalCost)
+            if (!costEquals(previousTotalCost, currentTotalCost))
             {
                TimephasedCost cost = new TimephasedCost();
                cost.setStart(blockStartDate);
@@ -423,4 +424,17 @@ final class TimephasedDataFactory
 
       return result;
    }
+
+   /**
+    * Equality test cost values.
+    * 
+    * @param lhs cost value
+    * @param rhs cost value
+    * @return true if costs are equal, within the allowable delta
+    */
+   private boolean costEquals(double lhs, double rhs)
+   {
+      return NumberUtility.equals(lhs, rhs, 0.00001);
+   }
+
 }
