@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="4.5.0" />
+		<property name="current.version" value="4.6.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="windows.tools.dir" value="c:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools" />
 
@@ -80,14 +80,21 @@
 		</exec>
 	</target>
 
-	<target name="compile" depends="init" description="Compile Everything">
+	<target name="compile" depends="init,update-maven-pom" description="Compile Everything">
 		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
 		</javac>
 	</target>
 
-
+	<target name="update-maven-pom" depends="init-props" description="Ensure the version number in the Maven POM is correct">
+		<replaceregexp file="${basedir}/pom.xml"
+		               match="&lt;version&gt;.*-SNAPSHOT&lt;/version&gt;"
+		               replace="&lt;version&gt;${current.version}-SNAPSHOT&lt;/version&gt;"
+		               byline="true"
+		/>		
+	</target>
+		
 	<target name="document" depends="init-props" description="Generate documentation">
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
