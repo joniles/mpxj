@@ -64,6 +64,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
 import net.sf.mpxj.utility.RTFUtility;
 
@@ -2392,10 +2393,13 @@ final class MPP14Reader implements MPPVariantReader
       if (item != null && item.getValue() != null)
       {
          result = MPPUtility.getUnicodeString(item.getValue());
-         String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
-         if (result2 != null && !result2.isEmpty())
+         if (!NumberUtility.equals(id, item.getParent()))
          {
-            result = result2 + "." + result;
+            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+            if (result2 != null && !result2.isEmpty())
+            {
+               result = result2 + "." + result;
+            }
          }
       }
 
