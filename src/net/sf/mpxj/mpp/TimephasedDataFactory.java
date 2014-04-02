@@ -59,7 +59,7 @@ final class TimephasedDataFactory
    {
       LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
-      if (data != null && data.length > 0)
+      if (calendar != null && data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          double previousCumulativeWork = 0;
@@ -148,7 +148,7 @@ final class TimephasedDataFactory
    {
       LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
-      if (data != null && data.length > 0)
+      if (calendar != null && data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
