@@ -3,6 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="junit/junit.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/poi-3.10-PATCHED.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.10-PATCHED.jar" sourcepath="D:/java/poi-3.10-PATCHED/src"/>
+	<classpathentry kind="lib" path="jgoodies/jgoodies-binding-2.10.0.jar" sourcepath="D:/java/jgoodies-binding-2.10.0/jgoodies-binding-2.10.0-sources.jar"/>
+	<classpathentry kind="lib" path="jgoodies/jgoodies-common-1.8.0.jar" sourcepath="D:/java/jgoodies-common-1_8_0/jgoodies-common-1.8.0/jgoodies-common-1.8.0-sources.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

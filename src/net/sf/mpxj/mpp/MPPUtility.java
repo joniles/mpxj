@@ -43,7 +43,7 @@ import net.sf.mpxj.utility.NumberUtility;
  * This class provides common functionality used by each of the classes
  * that read the different sections of the MPP file.
  */
-final class MPPUtility
+public final class MPPUtility
 {
    /**
     * Private constructor to prevent instantiation.
