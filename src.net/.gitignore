@@ -1,6 +1,6 @@
-/bin
-/obj
-/*.user
-/*.suo
+bin/
+obj/
+*.user
+*.suo
 
 
