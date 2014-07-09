@@ -25,18 +25,13 @@ package net.sf.mpxj.explorer;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.text.NumberFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
@@ -93,46 +88,7 @@ public class HexDumpView extends JPanel
       //
       // Table panel
       //
-      JPanel tablePanel = new JPanel();
-      tablePanel.setBorder(null);
-      tablePanel.setLayout(new GridLayout(1, 0, 0, 0));
-
-      final JTableExtra hexTable = new JTableExtra();
-      hexTable.setFillsViewportHeight(true);
-      hexTable.setBorder(null);
-      hexTable.setShowVerticalLines(false);
-      hexTable.setShowHorizontalLines(false);
-      hexTable.setShowGrid(false);
-      hexTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-      hexTable.setCellSelectionEnabled(true);
-      hexTable.setTableHeader(null);
-      hexTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-      JScrollPane hexScroller = new JScrollPane(hexTable);
-      hexScroller.setBorder(null);
-      tablePanel.add(hexScroller);
-
-      final JTableExtra asciiTable = new JTableExtra();
-      asciiTable.setFillsViewportHeight(true);
-      asciiTable.setBorder(null);
-      asciiTable.setShowVerticalLines(false);
-      asciiTable.setShowHorizontalLines(false);
-      asciiTable.setShowGrid(false);
-      asciiTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-      asciiTable.setCellSelectionEnabled(true);
-      asciiTable.setTableHeader(null);
-      asciiTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-      JScrollPane asciiScroller = new JScrollPane(asciiTable);
-      asciiScroller.setBorder(null);
-      tablePanel.add(asciiScroller);
-
-      hexScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-      hexScroller.getVerticalScrollBar().setModel(asciiScroller.getVerticalScrollBar().getModel());
-      hexScroller.getHorizontalScrollBar().setModel(asciiScroller.getHorizontalScrollBar().getModel());
-      hexTable.setSelectionModel(asciiTable.getSelectionModel());
-      hexTable.setColumnModel(asciiTable.getColumnModel());
-
+      JTablePanel tablePanel = new JTablePanel();
       JPanel infoPanel = new JPanel();
       FlowLayout infoPanelLayout = new FlowLayout(FlowLayout.LEFT, 5, 5);
       infoPanel.setLayout(infoPanelLayout);
@@ -264,9 +220,8 @@ public class HexDumpView extends JPanel
       Bindings.bind(timestampValueLabel, "value", modelAdapter.getValueModel("timestampValueLabel"));
       Bindings.bind(workUnitsValueLabel, "value", modelAdapter.getValueModel("workUnitsValueLabel"));
 
-      PropertyConnector.connect(hexTable, "model", model, "hexTableModel");
-      PropertyConnector.connect(asciiTable, "model", model, "asciiTableModel");
-      PropertyConnector.connect(hexTable, "selectedCell", model, "selectedCell");
-      PropertyConnector.connect(asciiTable, "selectedCell", model, "selectedCell");
+      PropertyConnector.connect(tablePanel, "leftTableModel", model, "hexTableModel");
+      PropertyConnector.connect(tablePanel, "rightTableModel", model, "asciiTableModel");
+      PropertyConnector.connect(tablePanel, "selectedCell", model, "selectedCell");
    }
 }
