@@ -67,4 +67,14 @@ public class JLabelledValue extends JPanel
    {
       m_valueLabel.setText(value);
    }
+
+   /**
+    * Retrieve the text displayed in the variable label.
+    * 
+    * @return value
+    */
+   public String getValue()
+   {
+      return m_valueLabel.getText();
+   }
 }
