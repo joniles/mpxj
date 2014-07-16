@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="4.6.0" date="Git HEAD">
+		<action dev="joniles" type="fix">Fixed an issue where the ID and Unique ID resource attributes were being read incorrectly from MPP14 files.</action>	
 	</release>
 
 	<release version="4.5.0" date="01/03/2014">

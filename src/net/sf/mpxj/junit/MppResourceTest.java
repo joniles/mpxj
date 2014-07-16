@@ -489,4 +489,43 @@ public class MppResourceTest extends MPXJTestCase
          }
       }
    }
+
+   /**
+    * In the original MPP14 reader implementation, the ID and Unique ID
+    * resource fields were read the wrong way around. This test validates
+    * that the values are read correctly, especially when the ID != Unique ID.
+    */
+   public void testResourceIdAndUniqueID() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+
+      ProjectFile file = reader.read(m_basedir + "/mpp14-project2013/ResourceIdAndUniqueId.mpp");
+      validateIdValues(file);
+
+      file = reader.read(m_basedir + "/mpp14-project2010/ResourceIdAndUniqueId.mpp");
+      validateIdValues(file);
+   }
+
+   /**
+    * Validate the ID, Unique ID and name attributes.
+    * 
+    * @param file project file
+    */
+   private void validateIdValues(ProjectFile file)
+   {
+      assertEquals(4, file.getAllResources().size());
+
+      Resource resource = file.getResourceByUniqueID(Integer.valueOf(11));
+      assertEquals(1, resource.getID().intValue());
+      assertEquals("Resource One", resource.getName());
+
+      resource = file.getResourceByUniqueID(Integer.valueOf(12));
+      assertEquals(2, resource.getID().intValue());
+      assertEquals("Resource Two", resource.getName());
+
+      resource = file.getResourceByUniqueID(Integer.valueOf(13));
+      assertEquals(3, resource.getID().intValue());
+      assertEquals("Resource Three", resource.getName());
+
+   }
 }

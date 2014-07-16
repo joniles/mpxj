@@ -1006,16 +1006,18 @@ final class MPP14Reader implements MPPVariantReader
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
       int itemCount = rscFixedMeta.getItemCount();
+      int maxFixedDataOffset = fieldMap.getMaxFixedDataOffset(0);
+      int uniqueIdOffset = fieldMap.getFixedDataOffset(ResourceField.UNIQUE_ID);
 
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] data = rscFixedData.getByteArrayValue(loop);
-         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset(0))
+         if (data == null || data.length <= maxFixedDataOffset)
          {
             continue;
          }
 
-         Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, 0));
+         Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, uniqueIdOffset));
          if (resourceMap.containsKey(uniqueID) == false)
          {
             resourceMap.put(uniqueID, Integer.valueOf(loop));
@@ -2107,7 +2109,7 @@ final class MPP14Reader implements MPPVariantReader
 
          processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
 
-         resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         resource.setID(Integer.valueOf(MPPUtility.getInt(data, fieldMap.getFixedDataOffset(ResourceField.ID))));
 
          resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE1_INDEX))), OUTLINECODE_DATA));
          resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE2_INDEX))), OUTLINECODE_DATA));
