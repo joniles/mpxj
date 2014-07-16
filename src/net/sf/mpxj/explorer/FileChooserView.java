@@ -37,7 +37,7 @@ import com.jgoodies.binding.beans.PropertyAdapter;
  */
 public class FileChooserView
 {
-   private final JFileChooser m_fileChooser;
+   protected final JFileChooser m_fileChooser;
    private final Component m_parent;
    private final FileChooserModel m_model;
 
@@ -50,8 +50,6 @@ public class FileChooserView
    public FileChooserView(Component parent, FileChooserModel model)
    {
       m_fileChooser = new JFileChooser();
-      m_fileChooser.setFileFilter(new FileNameExtensionFilter("MPP Files", "mpp"));
-
       m_parent = parent;
       m_model = model;
 
@@ -61,6 +59,15 @@ public class FileChooserView
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
             openFileChooser();
+         }
+      });
+
+      PropertyAdapter<FileChooserModel> extensionsAdaptor = new PropertyAdapter<FileChooserModel>(m_model, "extensions", true);
+      extensionsAdaptor.addValueChangeListener(new PropertyChangeListener()
+      {
+         @Override public void propertyChange(PropertyChangeEvent evt)
+         {
+            setFileFilter();
          }
       });
    }
@@ -79,5 +86,13 @@ public class FileChooserView
          }
          m_model.setShowDialog(false);
       }
+   }
+
+   /**
+    * Update the file chooser's fiter settings.
+    */
+   protected void setFileFilter()
+   {
+      m_fileChooser.setFileFilter(new FileNameExtensionFilter("Project Files", m_model.getExtensions()));
    }
 }

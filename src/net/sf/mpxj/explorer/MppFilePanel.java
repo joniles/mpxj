@@ -1,5 +1,5 @@
 /*
- * file:       FileView.java
+ * file:       MppFilePanel.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
  * date:       06/07/2014
@@ -40,7 +40,7 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 /**
  * Component representing the main view of an MPP file.
  */
-public class FileView extends JPanel
+public class MppFilePanel extends JPanel
 {
    private PoiTreeModel m_treeModel;
    private PoiTreeController m_treeController;
@@ -55,7 +55,7 @@ public class FileView extends JPanel
     * 
     * @param file MPP file to be displayed in this view.
     */
-   public FileView(File file)
+   public MppFilePanel(File file)
    {
       m_treeModel = new PoiTreeModel();
       m_treeController = new PoiTreeController(m_treeModel);

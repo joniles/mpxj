@@ -70,7 +70,7 @@ public class JTablePanel extends JPanel
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
-            firePropertyChange("selectedCell", evt.getOldValue(), evt.getNewValue());
+            firePropertyChange(evt);
          }
       });
 
@@ -78,7 +78,7 @@ public class JTablePanel extends JPanel
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
-            firePropertyChange("selectedCell", evt.getOldValue(), evt.getNewValue());
+            firePropertyChange(evt);
          }
       });
    }
@@ -135,5 +135,15 @@ public class JTablePanel extends JPanel
    public Point getSelectedCell()
    {
       return m_leftTable.getSelectedCell();
+   }
+
+   /**
+    * Fire a property change event in response to a cell selection.
+    * 
+    * @param evt event data
+    */
+   protected void firePropertyChange(PropertyChangeEvent evt)
+   {
+      firePropertyChange("selectedCell", evt.getOldValue(), evt.getNewValue());
    }
 }

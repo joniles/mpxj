@@ -1,8 +1,8 @@
 /*
- * file:       FileChooserModel.java
+ * file:       ObjectPropertiesModel.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
- * date:       06/07/2014
+ * date:       16/07/2014
  */
 
 /*
@@ -25,76 +25,36 @@ package net.sf.mpxj.explorer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
- * Implements the model component of the FileChooser MVC.
+ * Implements the model component of the PropertyTable MVC.
  */
-public class FileChooserModel
+public class ObjectPropertiesModel
 {
-   private PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
-   private boolean m_showDialog;
-   private File m_file;
-   private String[] m_extensions;
+   private final PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
+   private TableModel m_tableModel = new DefaultTableModel();
 
    /**
-    * Retrieves the show dialog flag.
+    * Set the model used by the hex table.
     * 
-    * @return show dialog flag
+    * @param tableModel table model
     */
-   public boolean getShowDialog()
+   public void setTableModel(TableModel tableModel)
    {
-      return m_showDialog;
+      m_changeSupport.firePropertyChange("tableModel", m_tableModel, m_tableModel = tableModel);
    }
 
    /**
-    * Sets the show dialog flag.
+    * Retrieve the model used by the hex table.
     * 
-    * @param showDialog show dialog flag
+    * @return table model
     */
-   public void setShowDialog(boolean showDialog)
+   public TableModel getTableModel()
    {
-      m_changeSupport.firePropertyChange("showDialog", m_showDialog, m_showDialog = showDialog);
-   }
-
-   /**
-    * Retrieves the file selected by the user.
-    * 
-    * @return file selected by the user
-    */
-   public File getFile()
-   {
-      return m_file;
-   }
-
-   /**
-    * Sets the file selected by the user.
-    * 
-    * @param file file selected by the user.
-    */
-   public void setFile(File file)
-   {
-      m_changeSupport.firePropertyChange("file", m_file, m_file = file);
-   }
-
-   /**
-    * Retrieves the file extensions used by the file chooser.
-    * 
-    * @return file extensions
-    */
-   public String[] getExtensions()
-   {
-      return m_extensions;
-   }
-
-   /**
-    * Sets the file extensions used by the file chooser.
-    * 
-    * @param extensions file extensions
-    */
-   public void setExtensions(String... extensions)
-   {
-      m_changeSupport.firePropertyChange("extensions", m_extensions, m_extensions = extensions);
+      return m_tableModel;
    }
 
    /**

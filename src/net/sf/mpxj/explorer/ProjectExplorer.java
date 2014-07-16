@@ -1,8 +1,8 @@
 /*
- * file:       MppExplorer.java
+ * file:       ProjectExplorer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
- * date:       06/07/2014
+ * date:       16/07/2014
  */
 
 /*
@@ -42,9 +42,9 @@ import javax.swing.UIManager;
 import com.jgoodies.binding.beans.PropertyAdapter;
 
 /**
- * MppExplorer is a Swing UI used to examine the contents of an MPP file. 
+ * MppExplorer is a Swing UI used to examine the contents of a project file read by MPXJ. 
  */
-public class MppExplorer
+public class ProjectExplorer
 {
    protected JFrame m_frame;
 
@@ -62,7 +62,7 @@ public class MppExplorer
             try
             {
                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-               MppExplorer window = new MppExplorer();
+               ProjectExplorer window = new ProjectExplorer();
                window.m_frame.setVisible(true);
             }
             catch (Exception e)
@@ -76,7 +76,7 @@ public class MppExplorer
    /**
     * Create the application.
     */
-   public MppExplorer()
+   public ProjectExplorer()
    {
       initialize();
    }
@@ -95,7 +95,7 @@ public class MppExplorer
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
-      fileChooserModel.setExtensions("mpp");
+      fileChooserModel.setExtensions("mpp", "mpx", "xml", "planner");
 
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
@@ -126,7 +126,7 @@ public class MppExplorer
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
             File file = fileChooserModel.getFile();
-            tabbedPane.add(file.getName(), new MppFilePanel(file));
+            tabbedPane.add(file.getName(), new ProjectFilePanel(file));
          }
       });
    }
