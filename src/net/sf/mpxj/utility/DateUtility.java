@@ -157,6 +157,7 @@ public final class DateUtility
 
    /**
     * Compare two dates, handling null values.
+    * TODO: correct the comparison order to align with Date.compareTo 
     * 
     * @param d1 Date instance
     * @param d2 Date instance
