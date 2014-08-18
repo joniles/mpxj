@@ -213,6 +213,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       header.setName(project.getName());
       header.setStartDate(project.getPlannedStartDate());
       header.setStatusDate(project.getDataDate());
+      header.setProjectTitle(project.getId());
 
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
@@ -451,36 +452,45 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          task.setUniqueID(uniqueID);
-         task.setPercentageComplete(row.getPhysicalPercentComplete());
+         task.setPercentageComplete(row.getPercentComplete());
          task.setName(row.getName());
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setActualWork(getDuration(row.getActualDuration()));
          task.setRemainingWork(getDuration(row.getRemainingTotalUnits()));
-         //task.setBaselineWork(row.getDuration("target_work_qty"));
-         task.setBaselineDuration(getDuration(row.getBaselineDuration()));
+         task.setBaselineDuration(getDuration(row.getPlannedDuration()));
+         task.setActualDuration(getDuration(row.getActualDuration()));
+         task.setDuration(getDuration(row.getAtCompletionDuration()));
+
+         // ActualCost and RemainingCost will be set when we resolve the resource assignments
+         task.setActualCost(NumberUtility.DOUBLE_ZERO);
+         task.setRemainingCost(NumberUtility.DOUBLE_ZERO);
+         task.setBaselineCost(NumberUtility.DOUBLE_ZERO);
 
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
-         task.setLateStart(row.getLateStartDate());
-         task.setLateFinish(row.getLateFinishDate());
-         task.setFinish(row.getExpectedFinishDate());
-         task.setEarlyStart(row.getEarlyStartDate());
-         task.setEarlyFinish(row.getEarlyFinishDate());
-         task.setBaselineStart(row.getBaselineStartDate());
-         task.setBaselineFinish(row.getBaselineFinishDate());
-
+         //task.setLateStart(row.getRemainingLateStartDate());
+         //task.setLateFinish(row.getRemainingLateFinishDate());
+         //task.setEarlyStart(row.getRemainingEarlyStartDate());
+         //task.setEarlyFinish(row.getRemainingEarlyFinishDate());
+         //task.setBaselineStart(row.getPlannedStartDate());
+         //task.setBaselineFinish(row.getPlannedFinishDate());
+         
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setText(1, row.getId());
 
+         task.setMilestone(BooleanUtility.getBoolean(MILESTONE_MAP.get(row.getType())));
+         task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
+         
          Integer calId = row.getCalendarObjectId();
          ProjectCalendar cal = m_calMap.get(calId);
          task.setCalendar(cal);
 
-         populateField(task, TaskField.START, TaskField.BASELINE_START, TaskField.ACTUAL_START);
-         populateField(task, TaskField.FINISH, TaskField.BASELINE_FINISH, TaskField.ACTUAL_FINISH);
+         task.setStart(row.getStartDate());
+         task.setFinish(row.getFinishDate());
+
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
 
          m_projectFile.fireTaskReadEvent(task);
@@ -584,12 +594,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             assignment.setRemainingWork(getDuration(row.getRemainingUnits()));
             assignment.setBaselineWork(getDuration(row.getPlannedUnits()));
             assignment.setActualWork(getDuration(row.getActualUnits()));
+            assignment.setRemainingCost(row.getRemainingCost());
             assignment.setBaselineCost(row.getPlannedCost());
             assignment.setActualCost(row.getActualCost());
             assignment.setActualStart(row.getActualStartDate());
             assignment.setActualFinish(row.getActualFinishDate());
             assignment.setBaselineStart(row.getPlannedStartDate());
             assignment.setBaselineFinish(row.getPlannedFinishDate());
+
+            task.setActualCost(Double.valueOf(task.getActualCost().doubleValue() + assignment.getActualCost().doubleValue()));
+            task.setRemainingCost(Double.valueOf(task.getRemainingCost().doubleValue() + assignment.getRemainingCost().doubleValue()));
+            task.setBaselineCost(Double.valueOf(task.getBaselineCost().doubleValue() + assignment.getBaselineCost().doubleValue()));
 
             populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
             populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
@@ -730,4 +745,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       DAY_MAP.put("Sunday", Day.SUNDAY);
    }
 
+   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<String, Boolean>();
+   static
+   {
+      MILESTONE_MAP.put("Task Dependent", Boolean.FALSE);
+      MILESTONE_MAP.put("Resource Dependent", Boolean.FALSE);
+      MILESTONE_MAP.put("Level of Effort", Boolean.FALSE);
+      MILESTONE_MAP.put("Start Milestone", Boolean.TRUE);
+      MILESTONE_MAP.put("Finish Milestone", Boolean.TRUE);
+      MILESTONE_MAP.put("WBS Summary", Boolean.FALSE);
+   }
 }

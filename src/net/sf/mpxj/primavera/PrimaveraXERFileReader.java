@@ -735,6 +735,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("early_end_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("target_start_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("target_end_date", FieldType.DATE);
+      FIELD_TYPE_MAP.put("restart_date", FieldType.DATE);
+      FIELD_TYPE_MAP.put("reend_date", FieldType.DATE);     
       FIELD_TYPE_MAP.put("create_date", FieldType.DATE);
       FIELD_TYPE_MAP.put("pred_task_id", FieldType.INTEGER);
       FIELD_TYPE_MAP.put("lag_hr_cnt", FieldType.DURATION);

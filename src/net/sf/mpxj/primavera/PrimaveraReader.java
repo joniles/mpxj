@@ -81,7 +81,7 @@ final class PrimaveraReader
       m_project.setAutoAssignmentUniqueID(false);
       m_project.setAutoWBS(false);
 
-      // Normal DATEs are aliases in the normal way - not user defined tpes
+      // Normal DATEs are aliases in the normal way - not user defined types
       m_project.setTaskFieldAlias(TaskField.DATE1, "Suspend Date");
       m_project.setTaskFieldAlias(TaskField.DATE2, "Resume Date");
 
@@ -439,7 +439,6 @@ final class PrimaveraReader
          task.setActualFinish(row.getDate("act_end_date"));
          task.setLateStart(row.getDate("late_start_date"));
          task.setLateFinish(row.getDate("late_end_date"));
-         task.setFinish(row.getDate("expect_end_date"));
          task.setEarlyStart(row.getDate("early_start_date"));
          task.setEarlyFinish(row.getDate("early_end_date"));
          task.setBaselineStart(row.getDate("target_start_date"));
@@ -486,8 +485,11 @@ final class PrimaveraReader
          ProjectCalendar cal = m_calMap.get(calId);
          task.setCalendar(cal);
 
-         populateField(task, TaskField.START, TaskField.BASELINE_START, TaskField.ACTUAL_START);
-         populateField(task, TaskField.FINISH, TaskField.BASELINE_FINISH, TaskField.ACTUAL_FINISH);
+         Date startDate = row.getDate("act_start_date") == null ? row.getDate("restart_date") : row.getDate("act_start_date");
+         task.setStart(startDate);
+         Date endDate = row.getDate("act_end_date") == null ? row.getDate("reend_date") : row.getDate("act_start_date");
+         task.setFinish(endDate);
+
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
 
          // Add User Defined Fields
