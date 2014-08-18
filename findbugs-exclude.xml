@@ -101,5 +101,17 @@
 	<Match>
 		<Bug pattern="NM_CLASS_NOT_EXCEPTION" />
 	</Match>	 
+	 			 
+	<!-- Swing UI code containing classes we don't need to serialize -->
+	<Match>
+		<Bug pattern="SE_BAD_FIELD" />
+		<Class name="~net\.sf\.mpxj\.explorer\..*" />	
+	</Match>	
+
+	<!-- Findbugs doesn't read @SuppressWarnings annotation -->
+	<Match>
+		<Bug pattern="DLS_DEAD_LOCAL_STORE " />
+		<Class name="~net\.sf\.mpxj\.explorer\..*" />	
+	</Match>	
 	 			  	 			  		 
 </FindBugsFilter>
