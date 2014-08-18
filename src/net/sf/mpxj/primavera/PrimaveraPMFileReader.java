@@ -470,20 +470,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
-         //task.setLateStart(row.getRemainingLateStartDate());
-         //task.setLateFinish(row.getRemainingLateFinishDate());
-         //task.setEarlyStart(row.getRemainingEarlyStartDate());
-         //task.setEarlyFinish(row.getRemainingEarlyFinishDate());
-         //task.setBaselineStart(row.getPlannedStartDate());
-         //task.setBaselineFinish(row.getPlannedFinishDate());
-         
+         task.setLateStart(row.getRemainingLateStartDate());
+         task.setLateFinish(row.getRemainingLateFinishDate());
+         task.setEarlyStart(row.getRemainingEarlyStartDate());
+         task.setEarlyFinish(row.getRemainingEarlyFinishDate());
+         task.setBaselineStart(row.getPlannedStartDate());
+         task.setBaselineFinish(row.getPlannedFinishDate());
+
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setText(1, row.getId());
 
          task.setMilestone(BooleanUtility.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
-         
+
          Integer calId = row.getCalendarObjectId();
          ProjectCalendar cal = m_calMap.get(calId);
          task.setCalendar(cal);
