@@ -93,12 +93,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\junit.dll</HintPath>
     </Reference>
-    <Reference Include="mpxj-for-csharp">
-      <HintPath>..\..\lib.net\mpxj-for-csharp.dll</HintPath>
+    <Reference Include="mpxj">
+      <HintPath>..\..\lib.net\mpxj.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.7-20101029, Version=4.1.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\poi-3.7-20101029.dll</HintPath>
+    <Reference Include="mpxj-test">
+      <HintPath>..\..\lib.net\mpxj-test.dll</HintPath>
+    </Reference>
+    <Reference Include="poi-3.10-PATCHED">
+      <HintPath>..\..\lib.net\poi-3.10-PATCHED.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

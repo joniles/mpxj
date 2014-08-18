@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="classes.test" path="src.test"/>
 	<classpathentry kind="lib" path="junit/junit.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/poi-3.10-PATCHED.jar" sourcepath="D:/java/poi-3.10-PATCHED/src"/>
