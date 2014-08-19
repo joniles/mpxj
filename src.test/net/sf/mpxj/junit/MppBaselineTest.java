@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.SimpleDateFormat;
 
 import net.sf.mpxj.ProjectFile;
@@ -31,6 +33,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -44,7 +48,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9BaselineFields() throws Exception
+   @Test public void testMpp9BaselineFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baselines.mpp");
       testBaselineFields(mpp);
@@ -55,7 +59,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9BaselineFieldsFrom12() throws Exception
+   @Test public void testMpp9BaselineFieldsFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baselines-from12.mpp");
       testBaselineFields(mpp);
@@ -66,7 +70,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9BaselineFieldsFrom14() throws Exception
+   @Test public void testMpp9BaselineFieldsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baselines-from14.mpp");
       testBaselineFields(mpp);
@@ -77,7 +81,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdiBaselineFields() throws Exception
+   @Test public void testMspdiBaselineFields() throws Exception
    {
       ProjectFile mpp = new MSPDIReader().read(m_basedir + "/baselines.xml");
       testBaselineFields(mpp);
@@ -88,7 +92,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12BaselineFields() throws Exception
+   @Test public void testMpp12BaselineFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baselines.mpp");
       testBaselineFields(mpp);
@@ -99,7 +103,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12BaselineFieldsFrom14() throws Exception
+   @Test public void testMpp12BaselineFieldsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baselines-from14.mpp");
       testBaselineFields(mpp);
@@ -110,7 +114,7 @@ public class MppBaselineTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14BaselineFields() throws Exception
+   @Test public void testMpp14BaselineFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14baselines.mpp");
       testBaselineFields(mpp);

@@ -23,8 +23,11 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertNotNull;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.planner.PlannerReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise Planner file read functionality.
@@ -37,7 +40,7 @@ public class PlannerCalendarTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testPlannerCalendar() throws Exception
+   @Test public void testPlannerCalendar() throws Exception
    {
       ProjectFile mpp = new PlannerReader().read(m_basedir + "/planner-calendar.planner");
       assertNotNull(mpp);

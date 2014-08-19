@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +39,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 
+import org.junit.Test;
+
 /**
  * This class contains tests used to exercise ProjectCalendar functionality.
  */
@@ -46,7 +51,7 @@ public class ProjectCalendarTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testGetWork() throws Exception
+   @Test public void testGetWork() throws Exception
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
       Date startDate;
@@ -227,7 +232,7 @@ public class ProjectCalendarTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testVarianceCalculations9() throws Exception
+   @Test public void testVarianceCalculations9() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile file = reader.read(m_basedir + "/DurationTest9.mpp");
@@ -423,7 +428,7 @@ public class ProjectCalendarTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testVarianceCalculations8() throws Exception
+   @Test public void testVarianceCalculations8() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile file = reader.read(m_basedir + "/DurationTest8.mpp");
@@ -500,7 +505,7 @@ public class ProjectCalendarTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testGetDate() throws Exception
+   @Test public void testGetDate() throws Exception
    {
       ProjectFile file = new ProjectFile();
       Duration duration;
@@ -690,7 +695,7 @@ public class ProjectCalendarTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testStartTime() throws Exception
+   @Test public void testStartTime() throws Exception
    {
       ProjectFile file = new ProjectFile();
       ProjectCalendar cal = file.addDefaultBaseCalendar();

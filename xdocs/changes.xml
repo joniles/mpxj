@@ -21,6 +21,7 @@
 		<action dev="joniles" type="update">Updated Primavera PM XML file reader to set the task Critical attribute (contributed by Nathaniel Marrin, see SourceForge bug 247)</action>
 		<action dev="joniles" type="update">Updated Primavera PM XML file reader to include costs (contributed by Nathaniel Marrin, see SourceForge bug 247)</action>
 		<action dev="joniles" type="update">Updated Primavera XER/Database readers to read task Start and End correctly (contributed by Nathaniel Marrin, see SourceForge bug 247)</action>		
+		<action dev="joniles" type="update">Migrated tests to JUnit 4</action>
 	</release>
 
 	<release version="4.5.0" date="01/03/2014">

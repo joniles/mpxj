@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,6 +36,8 @@ import net.sf.mpxj.View;
 import net.sf.mpxj.ViewType;
 import net.sf.mpxj.mpp.GanttChartView;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * Testsb to exercise MPP file read functionality for various versions of
@@ -46,7 +51,7 @@ public class MppViewTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9View() throws Exception
+   @Test public void testMpp9View() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource.mpp");
       testViews(mpp);
@@ -57,7 +62,7 @@ public class MppViewTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9ViewFrom12() throws Exception
+   @Test public void testMpp9ViewFrom12() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource-from12.mpp");
       //testViews(mpp);
@@ -68,7 +73,7 @@ public class MppViewTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9ViewFrom14() throws Exception
+   @Test public void testMpp9ViewFrom14() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource-from14.mpp");
       //testViews(mpp);
@@ -79,7 +84,7 @@ public class MppViewTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12View() throws Exception
+   @Test public void testMpp12View() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource.mpp");
       testViews(mpp);
@@ -90,7 +95,7 @@ public class MppViewTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12ViewFrom14() throws Exception
+   @Test public void testMpp12ViewFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource-from14.mpp");
       testViews(mpp);
@@ -101,7 +106,7 @@ public class MppViewTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14View() throws Exception
+   @Test public void testMpp14View() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14resource.mpp");
       testViews(mpp);

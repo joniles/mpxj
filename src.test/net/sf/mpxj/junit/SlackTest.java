@@ -23,11 +23,14 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * The tests contained in this class exercise the slack duration functionality.
@@ -39,7 +42,7 @@ public class SlackTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testSlack() throws Exception
+   @Test public void testSlack() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/slack9.mpp");
       Task task = mpp.getTaskByID(Integer.valueOf(1));

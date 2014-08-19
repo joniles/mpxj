@@ -92,9 +92,6 @@
     <Reference Include="mpxj-for-vb">
       <HintPath>..\..\lib.net\mpxj-for-vb.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.7-20101029">
-      <HintPath>..\..\lib.net\poi-3.7-20101029.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />

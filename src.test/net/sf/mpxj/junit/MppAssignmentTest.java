@@ -23,6 +23,10 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -36,6 +40,8 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
+import org.junit.Test;
+
 /**
  * Tests to exercise file read functionality for various MS project file types.
  */
@@ -47,7 +53,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9CustomFields() throws Exception
+   @Test public void testMpp9CustomFields() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentcustom.mpp");
@@ -59,7 +65,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9CustomFieldsFrom12() throws Exception
+   @Test public void testMpp9CustomFieldsFrom12() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentcustom-from12.mpp");
@@ -71,7 +77,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12CustomFields() throws Exception
+   @Test public void testMpp12CustomFields() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentcustom.mpp");
@@ -85,7 +91,7 @@ public class MppAssignmentTest extends MPXJTestCase
     */
    // Sadly this doesn't work, as we just don't understand how a couple of
    // the large var data index values actually work. See FieldMap14 for details
-   //   public void testMpp12CustomFieldsFrom14() throws Exception
+   //   @Test public void testMpp12CustomFieldsFrom14() throws Exception
    //   {
    //      MPPReader reader = new MPPReader();
    //      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentcustom-from14.mpp");
@@ -97,7 +103,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14CustomFields() throws Exception
+   @Test public void testMpp14CustomFields() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp14assignmentcustom.mpp");
@@ -109,7 +115,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdiCustomFields() throws Exception
+   @Test public void testMspdiCustomFields() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
       ProjectFile mpp = reader.read(m_basedir + "/mspdiassignmentcustom.xml");
@@ -121,7 +127,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpdCustomFields() throws Exception
+   @Test public void testMpdCustomFields() throws Exception
    {
       try
       {
@@ -207,10 +213,9 @@ public class MppAssignmentTest extends MPXJTestCase
 
       for (int loop = 0; loop < CUSTOM_FLAG.length; loop++)
       {
-         assertEquals("Assignment 1 flag " + (loop + 1), CUSTOM_FLAG[0][loop], assignment1.getFlag(loop + 1));
-         assertEquals("Assignment 2 flag " + (loop + 1), CUSTOM_FLAG[1][loop], assignment2.getFlag(loop + 1));
+         assertBooleanEquals("Assignment 1 flag " + (loop + 1), CUSTOM_FLAG[0][loop], assignment1.getFlag(loop + 1));
+         assertBooleanEquals("Assignment 2 flag " + (loop + 1), CUSTOM_FLAG[1][loop], assignment2.getFlag(loop + 1));
       }
-
    }
 
    /**
@@ -218,7 +223,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Fields() throws Exception
+   @Test public void testMpp9Fields() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentfields.mpp");
@@ -230,7 +235,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9FieldsFrom14() throws Exception
+   @Test public void testMpp9FieldsFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentfields-from14.mpp");
@@ -242,7 +247,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Fields() throws Exception
+   @Test public void testMpp12Fields() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentfields.mpp");
@@ -254,7 +259,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12FieldsFrom14() throws Exception
+   @Test public void testMpp12FieldsFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentfields-from14.mpp");
@@ -266,7 +271,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Fields() throws Exception
+   @Test public void testMpp14Fields() throws Exception
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(m_basedir + "/mpp14assignmentfields.mpp");
@@ -278,7 +283,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdiFields() throws Exception
+   @Test public void testMspdiFields() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
       ProjectFile mpp = reader.read(m_basedir + "/mspdiassignmentfields.xml");
@@ -290,7 +295,7 @@ public class MppAssignmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpdFields() throws Exception
+   @Test public void testMpdFields() throws Exception
    {
       try
       {
@@ -367,10 +372,10 @@ public class MppAssignmentTest extends MPXJTestCase
       assignment = assignments.get(0);
       assertEquals("Resource One", assignment.getResource().getName());
 
-      assertEquals(2, TimeUnit.HOURS, assignment.getActualWork());
-      assertEquals(71, TimeUnit.HOURS, assignment.getRegularWork());
-      assertEquals(1.1, TimeUnit.HOURS, assignment.getActualOvertimeWork());
-      assertEquals(7.9, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
+      assertDurationEquals(2, TimeUnit.HOURS, assignment.getActualWork());
+      assertDurationEquals(71, TimeUnit.HOURS, assignment.getRegularWork());
+      assertDurationEquals(1.1, TimeUnit.HOURS, assignment.getActualOvertimeWork());
+      assertDurationEquals(7.9, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
       assertEquals(540, assignment.getOvertimeCost().intValue());
 
       //
@@ -391,14 +396,14 @@ public class MppAssignmentTest extends MPXJTestCase
 
       if (mpp.getMppFileType() != 0)
       {
-         assertEquals(true, assignment.getConfirmed());
-         assertEquals(true, assignment.getResponsePending());
-         assertEquals(false, assignment.getTeamStatusPending());
+         assertTrue(assignment.getConfirmed());
+         assertTrue(assignment.getResponsePending());
+         assertFalse(assignment.getTeamStatusPending());
       }
 
-      assertEquals(80, TimeUnit.HOURS, assignment.getWorkVariance());
-      assertEquals(2, TimeUnit.DAYS, assignment.getStartVariance());
-      assertEquals(-2.12, TimeUnit.DAYS, assignment.getFinishVariance());
+      assertDurationEquals(80, TimeUnit.HOURS, assignment.getWorkVariance());
+      assertDurationEquals(2, TimeUnit.DAYS, assignment.getStartVariance());
+      assertDurationEquals(-2.12, TimeUnit.DAYS, assignment.getFinishVariance());
       assertEquals(0, assignment.getCostRateTableIndex());
 
       //
@@ -417,10 +422,10 @@ public class MppAssignmentTest extends MPXJTestCase
       assignment = assignments.get(1);
       assertEquals("Resource Two", assignment.getResource().getName());
 
-      assertEquals(5, TimeUnit.HOURS, assignment.getActualWork());
-      assertEquals(3, TimeUnit.HOURS, assignment.getRegularWork());
-      assertEquals(2, TimeUnit.HOURS, assignment.getActualOvertimeWork());
-      assertEquals(18, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
+      assertDurationEquals(5, TimeUnit.HOURS, assignment.getActualWork());
+      assertDurationEquals(3, TimeUnit.HOURS, assignment.getRegularWork());
+      assertDurationEquals(2, TimeUnit.HOURS, assignment.getActualOvertimeWork());
+      assertDurationEquals(18, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
       assertEquals(860, assignment.getOvertimeCost().intValue());
       assertEquals(774, assignment.getRemainingCost().doubleValue(), 0.005);
       assertEquals(86, assignment.getActualOvertimeCost().doubleValue(), 0.005);
@@ -430,16 +435,16 @@ public class MppAssignmentTest extends MPXJTestCase
       assertEquals(962, assignment.getCostVariance().doubleValue(), 0.001);
       assertEquals(22, assignment.getPercentageWorkComplete().doubleValue(), 0.5);
       assertEquals("", assignment.getNotes());
-      assertEquals(23, TimeUnit.HOURS, assignment.getWorkVariance());
-      assertEquals(1.11, TimeUnit.DAYS, assignment.getStartVariance());
-      assertEquals(-10.39, TimeUnit.DAYS, assignment.getFinishVariance());
+      assertDurationEquals(23, TimeUnit.HOURS, assignment.getWorkVariance());
+      assertDurationEquals(1.11, TimeUnit.DAYS, assignment.getStartVariance());
+      assertDurationEquals(-10.39, TimeUnit.DAYS, assignment.getFinishVariance());
       assertEquals(1, assignment.getCostRateTableIndex());
 
       if (mpp.getMppFileType() != 0)
       {
-         assertEquals(false, assignment.getConfirmed());
-         assertEquals(false, assignment.getResponsePending());
-         assertEquals(true, assignment.getTeamStatusPending());
+         assertFalse(assignment.getConfirmed());
+         assertFalse(assignment.getResponsePending());
+         assertTrue(assignment.getTeamStatusPending());
          assertEquals("Test Hyperlink Screen Tip", assignment.getHyperlinkScreenTip());
       }
 
@@ -456,6 +461,19 @@ public class MppAssignmentTest extends MPXJTestCase
       assertEquals("Test Hyperlink Display Text", assignment.getHyperlink());
       assertEquals("http://news.bbc.co.uk", assignment.getHyperlinkAddress());
       assertEquals("x", assignment.getHyperlinkSubAddress());
+   }
+
+   /**
+    * Assert method used to test durations.
+    * 
+    * @param expectedDuration expected duration size
+    * @param expectedUnits expected duration units
+    * @param duration duration under test
+    */
+   private void assertDurationEquals(double expectedDuration, TimeUnit expectedUnits, Duration duration)
+   {
+      org.junit.Assert.assertEquals(expectedDuration, duration.getDuration(), 0.005);
+      org.junit.Assert.assertEquals(expectedUnits, duration.getUnits());
    }
 
    private static final int[][] BASELINE_COSTS =

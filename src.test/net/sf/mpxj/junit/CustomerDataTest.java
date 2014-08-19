@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.util.Locale;
 
@@ -31,6 +33,8 @@ import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+import org.junit.Test;
 
 /**
  * The tests contained in this class exercise MPXJ
@@ -43,7 +47,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData1() throws Exception
+   @Test public void testCustomerData1() throws Exception
    {
       testCustomerData(1, 10);
    }
@@ -53,7 +57,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData2() throws Exception
+   @Test public void testCustomerData2() throws Exception
    {
       testCustomerData(2, 10);
    }
@@ -63,7 +67,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData3() throws Exception
+   @Test public void testCustomerData3() throws Exception
    {
       testCustomerData(3, 10);
    }
@@ -73,7 +77,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData4() throws Exception
+   @Test public void testCustomerData4() throws Exception
    {
       testCustomerData(4, 10);
    }
@@ -83,7 +87,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData5() throws Exception
+   @Test public void testCustomerData5() throws Exception
    {
       testCustomerData(5, 10);
    }
@@ -93,7 +97,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData6() throws Exception
+   @Test public void testCustomerData6() throws Exception
    {
       testCustomerData(6, 10);
    }
@@ -103,7 +107,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData7() throws Exception
+   @Test public void testCustomerData7() throws Exception
    {
       testCustomerData(7, 10);
    }
@@ -113,7 +117,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData8() throws Exception
+   @Test public void testCustomerData8() throws Exception
    {
       testCustomerData(8, 10);
    }
@@ -123,7 +127,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData9() throws Exception
+   @Test public void testCustomerData9() throws Exception
    {
       testCustomerData(9, 10);
    }
@@ -133,7 +137,7 @@ public class CustomerDataTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testCustomerData10() throws Exception
+   @Test public void testCustomerData10() throws Exception
    {
       testCustomerData(10, 10);
    }

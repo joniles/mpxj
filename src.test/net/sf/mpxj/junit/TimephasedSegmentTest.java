@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +42,8 @@ import net.sf.mpxj.mpp.TimescaleUnits;
 import net.sf.mpxj.utility.TimephasedUtility;
 import net.sf.mpxj.utility.TimescaleUtility;
 
+import org.junit.Test;
+
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
  * task and resource data being extracted.
@@ -51,7 +55,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9() throws Exception
+   @Test public void testMpp9() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments.mpp");
       testSegments(file);
@@ -62,7 +66,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From12() throws Exception
+   @Test public void testMpp9From12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments-from12.mpp");
       testSegments(file);
@@ -73,7 +77,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From14() throws Exception
+   @Test public void testMpp9From14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephasedsegments-from14.mpp");
       testSegments(file);
@@ -84,7 +88,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12() throws Exception
+   @Test public void testMpp12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephasedsegments.mpp");
       testSegments(file);
@@ -95,7 +99,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12From14() throws Exception
+   @Test public void testMpp12From14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephasedsegments-from14.mpp");
       testSegments(file);
@@ -106,7 +110,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14() throws Exception
+   @Test public void testMpp14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp14timephasedsegments.mpp");
       testSegments(file);
@@ -117,7 +121,7 @@ public class TimephasedSegmentTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   //   public void testMspdi () throws Exception
+   //   @Test public void testMspdi () throws Exception
    //   {
    //      ProjectFile file = new MSPDIReader().read(m_basedir + "/mspditimephasedsegments.xml");
    //      testSegments(file);

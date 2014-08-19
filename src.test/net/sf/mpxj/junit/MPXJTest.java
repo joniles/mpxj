@@ -23,64 +23,116 @@
 
 package net.sf.mpxj.junit;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * Test suite to collect together MPXJ tests.
  */
-public class MPXJTest extends TestSuite
+@RunWith(Suite.class) @Suite.SuiteClasses(
 {
-   /**
-    * Constructor.
-    */
-   public MPXJTest()
-   {
-      addTestSuite(BasicTest.class);
-      addTestSuite(LocaleTest.class);
-      addTestSuite(ProjectCalendarTest.class);
-      addTestSuite(SplitTaskTest.class);
-      addTestSuite(MppGraphIndTest.class);
-      addTestSuite(SlackTest.class);
-      addTestSuite(MppProjectHeaderTest.class);
-      addTestSuite(MppTaskTest.class);
-      addTestSuite(MppResourceTest.class);
-      addTestSuite(MppSubprojectTest.class);
-      addTestSuite(MppViewTest.class);
-      addTestSuite(MppFilterTest.class);
-      addTestSuite(MppAutoFilterTest.class);
-      addTestSuite(MppViewStateTest.class);
-      addTestSuite(MppGroupTest.class);
-      addTestSuite(MppCalendarTest.class);
-      addTestSuite(MppEnterpriseTest.class);
-      addTestSuite(MppBaselineTest.class);
-      addTestSuite(MppEmbeddedTest.class);
-      addTestSuite(MppRecurringTest.class);
-      addTestSuite(MppNullTaskTest.class);
-      addTestSuite(ProjectWriterUtilityTest.class);
-      addTestSuite(PlannerCalendarTest.class);
-      addTestSuite(PlannerResourceTest.class);
-      addTestSuite(TimephasedTest.class);
-      addTestSuite(DurationTest.class);
-      addTestSuite(MppFilterLogicTest.class);
-      addTestSuite(CostRateTableTest.class);
-      addTestSuite(AvailabilityTest.class);
-      addTestSuite(MppColumnsTest.class);
-      addTestSuite(MppBarStyleTest.class);
-      addTestSuite(MppGanttTest.class);
-      addTestSuite(TimephasedSegmentTest.class);
-      addTestSuite(MppAssignmentTest.class);
-      addTestSuite(TimephasedSegmentTest2.class);
-      addTestSuite(MppTaskFlags.class);
-      addTestSuite(MppResourceFlags.class);
-      addTestSuite(CustomerDataTest.class);
-   }
+   BasicTest.class,
+   LocaleTest.class,
+   ProjectCalendarTest.class,
+   SplitTaskTest.class,
+   MppGraphIndTest.class,
+   SlackTest.class,
+   MppProjectHeaderTest.class,
+   MppTaskTest.class,
+   MppResourceTest.class,
+   MppSubprojectTest.class,
+   MppViewTest.class,
+   MppFilterTest.class,
+   MppAutoFilterTest.class,
+   MppViewStateTest.class,
+   MppGroupTest.class,
+   MppCalendarTest.class,
+   MppEnterpriseTest.class,
+   MppBaselineTest.class,
+   MppEmbeddedTest.class,
+   MppRecurringTest.class,
+   MppNullTaskTest.class,
+   ProjectWriterUtilityTest.class,
+   PlannerCalendarTest.class,
+   PlannerResourceTest.class,
+   TimephasedTest.class,
+   DurationTest.class,
+   MppFilterLogicTest.class,
+   CostRateTableTest.class,
+   AvailabilityTest.class,
+   MppColumnsTest.class,
+   MppBarStyleTest.class,
+   MppGanttTest.class,
+   TimephasedSegmentTest.class,
+   MppAssignmentTest.class,
+   TimephasedSegmentTest2.class,
+   MppTaskFlags.class,
+   MppResourceFlags.class,
+   CustomerDataTest.class
+}) public class MPXJTest
+{
+   /*   
+      public MPXJTest()
+      {
+         addTestSuite(BasicTest.class);
+         addTestSuite(LocaleTest.class);
+         addTestSuite(ProjectCalendarTest.class);
+         addTestSuite(SplitTaskTest.class);
+         addTestSuite(MppGraphIndTest.class);
+         addTestSuite(SlackTest.class);
+         addTestSuite(MppProjectHeaderTest.class);
+         addTestSuite(MppTaskTest.class);
+         addTestSuite(MppResourceTest.class);
+         addTestSuite(MppSubprojectTest.class);
+         addTestSuite(MppViewTest.class);
+         addTestSuite(MppFilterTest.class);
+         addTestSuite(MppAutoFilterTest.class);
+         addTestSuite(MppViewStateTest.class);
+         addTestSuite(MppGroupTest.class);
+         addTestSuite(MppCalendarTest.class);
+         addTestSuite(MppEnterpriseTest.class);
+         addTestSuite(MppBaselineTest.class);
+         addTestSuite(MppEmbeddedTest.class);
+         addTestSuite(MppRecurringTest.class);
+         addTestSuite(MppNullTaskTest.class);
+         addTestSuite(ProjectWriterUtilityTest.class);
+         addTestSuite(PlannerCalendarTest.class);
+         addTestSuite(PlannerResourceTest.class);
+         addTestSuite(TimephasedTest.class);
+         addTestSuite(DurationTest.class);
+         addTestSuite(MppFilterLogicTest.class);
+         addTestSuite(CostRateTableTest.class);
+         addTestSuite(AvailabilityTest.class);
+         addTestSuite(MppColumnsTest.class);
+         addTestSuite(MppBarStyleTest.class);
+         addTestSuite(MppGanttTest.class);
+         addTestSuite(TimephasedSegmentTest.class);
+         addTestSuite(MppAssignmentTest.class);
+         addTestSuite(TimephasedSegmentTest2.class);
+         addTestSuite(MppTaskFlags.class);
+         addTestSuite(MppResourceFlags.class);
+         addTestSuite(CustomerDataTest.class);
+         
+      }
+   */
 
-   /**
-    * Dummy test used to ensure the test suites added in the constructor
-    * are run.
-    */
-   public void testAll()
-   {
-      // dummy test
-   }
 }
+
+/*
+import org.junit.runners.AllTests;
+import junit.framework.TestSuite;
+import junit.framework.Test;
+
+@RunWith(AllTests.class)
+public final class MasterTester {
+
+  public static TestSuite suite() {
+    TestSuite suite = new TestSuite();
+    for (Test test : findAllTestCasesRuntime()) {
+      suite.addTest(test);
+    }
+    return suite;
+  }
+} 
+ 
+*/

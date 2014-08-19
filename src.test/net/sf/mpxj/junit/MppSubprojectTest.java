@@ -23,14 +23,20 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 
+import org.junit.Test;
+
 /**
- * Testsb to exercise MPP file read functionality for various versions of
+ * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
 public class MppSubprojectTest extends MPXJTestCase
@@ -40,7 +46,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Subproject() throws Exception
+   @Test public void testMpp9Subproject() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9subproject.mpp");
       testSubprojects(mpp, true);
@@ -51,7 +57,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9SubprojectFrom12() throws Exception
+   @Test public void testMpp9SubprojectFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9subproject-from12.mpp");
       testSubprojects(mpp, true);
@@ -62,7 +68,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9SubprojectFrom14() throws Exception
+   @Test public void testMpp9SubprojectFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9subproject-from14.mpp");
       testSubprojects(mpp, true);
@@ -73,7 +79,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Subproject() throws Exception
+   @Test public void testMpp12Subproject() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12subproject.mpp");
       testSubprojects(mpp, true);
@@ -84,7 +90,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12SubprojectFrom14() throws Exception
+   @Test public void testMpp12SubprojectFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12subproject-from14.mpp");
       testSubprojects(mpp, true);
@@ -95,7 +101,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Subproject() throws Exception
+   @Test public void testMpp14Subproject() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14subproject.mpp");
       testSubprojects(mpp, true);
@@ -106,7 +112,7 @@ public class MppSubprojectTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd9Subproject() throws Exception
+   @Test public void testMpd9Subproject() throws Exception
    {
       try
       {
@@ -154,7 +160,7 @@ public class MppSubprojectTest extends MPXJTestCase
       assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());
 
       //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
-      assertEquals(false, taskSubprojectA.getSubprojectReadOnly());
+      assertFalse(taskSubprojectA.getSubprojectReadOnly());
 
       if (isMPP)
       {

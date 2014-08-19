@@ -23,11 +23,17 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -41,7 +47,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9NullTasks() throws Exception
+   @Test public void testMpp9NullTasks() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks.mpp");
       testNullTasks(project);
@@ -52,7 +58,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9NullTasksFrom12() throws Exception
+   @Test public void testMpp9NullTasksFrom12() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks-from12.mpp");
       testNullTasks(project);
@@ -63,7 +69,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9NullTasksFrom14() throws Exception
+   @Test public void testMpp9NullTasksFrom14() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks-from14.mpp");
       testNullTasks(project);
@@ -74,7 +80,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12NullTasks() throws Exception
+   @Test public void testMpp12NullTasks() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks.mpp");
       testNullTasks(project);
@@ -85,7 +91,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12NullTasksFrom14() throws Exception
+   @Test public void testMpp12NullTasksFrom14() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks-from14.mpp");
       testNullTasks(project);
@@ -96,7 +102,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14NullTasks() throws Exception
+   @Test public void testMpp14NullTasks() throws Exception
    {
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp14nulltasks.mpp");
       testNullTasks(project);
@@ -107,7 +113,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd9NullTasks() throws Exception
+   @Test public void testMpd9NullTasks() throws Exception
    {
       try
       {
@@ -132,7 +138,7 @@ public class MppNullTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdiNullTasks() throws Exception
+   @Test public void testMspdiNullTasks() throws Exception
    {
       ProjectFile project = new MSPDIReader().read(m_basedir + "/mspdinulltasks.xml");
       testNullTasks(project);
@@ -152,7 +158,7 @@ public class MppNullTaskTest extends MPXJTestCase
       assertEquals(1, task.getOutlineLevel().intValue());
       assertEquals("1", task.getOutlineNumber());
       assertEquals("1", task.getWBS());
-      assertEquals(true, task.getSummary());
+      assertTrue(task.getSummary());
 
       task = project.getTaskByID(Integer.valueOf(2));
       if (task != null)
@@ -161,7 +167,7 @@ public class MppNullTaskTest extends MPXJTestCase
          assertEquals(null, task.getOutlineLevel());
          assertEquals(null, task.getOutlineNumber());
          assertEquals(null, task.getWBS());
-         assertEquals(false, task.getSummary());
+         assertFalse(task.getSummary());
       }
 
       task = project.getTaskByID(Integer.valueOf(3));
@@ -170,7 +176,7 @@ public class MppNullTaskTest extends MPXJTestCase
       assertEquals(2, task.getOutlineLevel().intValue());
       assertEquals("1.1", task.getOutlineNumber());
       assertEquals("1.1", task.getWBS());
-      assertEquals(false, task.getSummary());
+      assertFalse(task.getSummary());
 
       task = project.getTaskByID(Integer.valueOf(4));
       assertNotNull(task);
@@ -178,7 +184,7 @@ public class MppNullTaskTest extends MPXJTestCase
       assertEquals(2, task.getOutlineLevel().intValue());
       assertEquals("1.2", task.getOutlineNumber());
       assertEquals("1.2", task.getWBS());
-      assertEquals(false, task.getSummary());
+      assertFalse(task.getSummary());
 
       task = project.getTaskByID(Integer.valueOf(5));
       if (task != null)
@@ -187,7 +193,7 @@ public class MppNullTaskTest extends MPXJTestCase
          assertEquals(null, task.getOutlineLevel());
          assertEquals(null, task.getOutlineNumber());
          assertEquals(null, task.getWBS());
-         assertEquals(false, task.getSummary());
+         assertFalse(task.getSummary());
       }
 
       task = project.getTaskByID(Integer.valueOf(6));
@@ -196,7 +202,7 @@ public class MppNullTaskTest extends MPXJTestCase
       assertEquals(1, task.getOutlineLevel().intValue());
       assertEquals("2", task.getOutlineNumber());
       assertEquals("2", task.getWBS());
-      assertEquals(true, task.getSummary());
+      assertTrue(task.getSummary());
 
       task = project.getTaskByID(Integer.valueOf(7));
       if (task != null)
@@ -205,7 +211,7 @@ public class MppNullTaskTest extends MPXJTestCase
          assertEquals(null, task.getOutlineLevel());
          assertEquals(null, task.getOutlineNumber());
          assertEquals(null, task.getWBS());
-         assertEquals(false, task.getSummary());
+         assertFalse(task.getSummary());
       }
 
       task = project.getTaskByID(Integer.valueOf(8));
@@ -214,7 +220,7 @@ public class MppNullTaskTest extends MPXJTestCase
       assertEquals(2, task.getOutlineLevel().intValue());
       assertEquals("2.1", task.getOutlineNumber());
       assertEquals("2.1", task.getWBS());
-      assertEquals(false, task.getSummary());
+      assertFalse(task.getSummary());
 
    }
 }

@@ -23,11 +23,15 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
+
+import org.junit.Test;
 
 /**
  * The tests contained in this class exercise the ProjectWriterUtility class.
@@ -39,7 +43,7 @@ public class ProjectWriterUtilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testGetProjectWriter() throws Exception
+   @Test public void testGetProjectWriter() throws Exception
    {
       ProjectWriter writer;
 
@@ -78,7 +82,7 @@ public class ProjectWriterUtilityTest extends MPXJTestCase
    /**
     * Test to exercise the getSupportedFileExtensions method.
     */
-   public void testGetSupportedFileExtensions()
+   @Test public void testGetSupportedFileExtensions()
    {
       ProjectWriterUtility.getSupportedFileExtensions();
    }

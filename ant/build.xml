@@ -12,7 +12,8 @@
 		<property name="current.version" value="4.6.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="windows.tools.dir" value="c:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools" />
-
+		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
+		
 		<!-- 
 		The following two properties are only required if you want to use the xjc target.
    		From experience, it is best to put the XSD file in the root MPXJ dir rather
@@ -43,7 +44,7 @@
 		</path>
 
 		<path id="junit.path">
-			<pathelement location="${basedir}/junit/junit.jar" />
+			<pathelement location="${junit.jar}" />
 		</path>
 
 		<property name="poi.classpath" refid="poi.path" />
@@ -206,7 +207,7 @@
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${junit.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${basedir}\junit\junit.jar" />
+			<arg line="-nowarn:0003 -out:${junit.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${junit.jar}" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->

@@ -23,6 +23,10 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.awt.Color;
 import java.util.List;
 
@@ -40,6 +44,8 @@ import net.sf.mpxj.mpp.GanttBarStyleException;
 import net.sf.mpxj.mpp.GanttChartView;
 import net.sf.mpxj.mpp.MPPReader;
 
+import org.junit.Test;
+
 /**
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
@@ -52,7 +58,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9DefaultBarStyles() throws Exception
+   @Test public void testMpp9DefaultBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
@@ -63,7 +69,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9DefaultBarStylesFrom12() throws Exception
+   @Test public void testMpp9DefaultBarStylesFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from12.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
@@ -74,7 +80,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9DefaultBarStylesFrom14() throws Exception
+   @Test public void testMpp9DefaultBarStylesFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from14.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES_FROM14);
@@ -85,7 +91,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12DefaultBarStyles() throws Exception
+   @Test public void testMpp12DefaultBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
@@ -96,7 +102,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12DefaultBarStylesFrom14() throws Exception
+   @Test public void testMpp12DefaultBarStylesFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle-from14.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES_FROM14);
@@ -107,7 +113,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp14DefaultBarStyles() throws Exception
+   @Test public void testMpp14DefaultBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14barstyle.mpp");
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES14);
@@ -118,7 +124,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9ExceptionBarStyles() throws Exception
+   @Test public void testMpp9ExceptionBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle.mpp");
       testExceptionBarStyles(mpp);
@@ -129,7 +135,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9ExceptionBarStylesFrom12() throws Exception
+   @Test public void testMpp9ExceptionBarStylesFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from12.mpp");
       testExceptionBarStyles(mpp);
@@ -140,7 +146,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9ExceptionBarStylesFrom14() throws Exception
+   @Test public void testMpp9ExceptionBarStylesFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from14.mpp");
       testExceptionBarStyles(mpp);
@@ -151,7 +157,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12ExceptionBarStyles() throws Exception
+   @Test public void testMpp12ExceptionBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle.mpp");
       testExceptionBarStyles(mpp);
@@ -162,7 +168,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12ExceptionBarStylesFrom14() throws Exception
+   @Test public void testMpp12ExceptionBarStylesFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle-from14.mpp");
       testExceptionBarStyles(mpp);
@@ -173,7 +179,7 @@ public class MppBarStyleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp14ExceptionBarStyles() throws Exception
+   @Test public void testMpp14ExceptionBarStyles() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14barstyle.mpp");
       testExceptionBarStyles(mpp);
@@ -207,7 +213,7 @@ public class MppBarStyleTest extends MPXJTestCase
       GanttBarStyle[] barStyles = view.getBarStyles();
       for (int loop = 0; loop < barStyles.length; loop++)
       {
-         assertEquals(styles[loop], barStyles[loop]);
+         assertStyleEquals(styles[loop], barStyles[loop]);
       }
    }
 
@@ -238,7 +244,7 @@ public class MppBarStyleTest extends MPXJTestCase
       GanttBarStyleException[] exceptionStyles = view.getBarStyleExceptions();
       for (int loop = 0; loop < exceptionStyles.length; loop++)
       {
-         assertEquals(EXCEPTION_STYLES[loop], exceptionStyles[loop]);
+         assertStyleExceptionEquals(EXCEPTION_STYLES[loop], exceptionStyles[loop]);
       }
    }
 
@@ -249,7 +255,7 @@ public class MppBarStyleTest extends MPXJTestCase
     * @param expected reference data
     * @param actual file data
     */
-   private void assertEquals(Object[] expected, GanttBarStyle actual)
+   private void assertStyleEquals(Object[] expected, GanttBarStyle actual)
    {
       assertEquals(expected[14], actual.getName());
       assertEquals(expected[15], Integer.valueOf(actual.getRow()));
@@ -266,7 +272,7 @@ public class MppBarStyleTest extends MPXJTestCase
     * @param expected reference data
     * @param actual file data
     */
-   private void assertEquals(Object[] expected, GanttBarStyleException actual)
+   private void assertStyleExceptionEquals(Object[] expected, GanttBarStyleException actual)
    {
       assertEquals(expected[14], Integer.valueOf(actual.getTaskUniqueID()));
       assertEquals(expected[15], Integer.valueOf(actual.getBarStyleIndex()));
@@ -290,15 +296,15 @@ public class MppBarStyleTest extends MPXJTestCase
 
       assertEquals(expected[5], actual.getStartShape());
       assertEquals(expected[6], actual.getStartType());
-      assertEquals(expected[7], actual.getStartColor());
+      assertColorEquals(expected[7], actual.getStartColor());
 
       assertEquals(expected[8], actual.getMiddleShape());
       assertEquals(expected[9], actual.getMiddlePattern());
-      assertEquals(expected[10], actual.getMiddleColor());
+      assertColorEquals(expected[10], actual.getMiddleColor());
 
       assertEquals(expected[11], actual.getEndShape());
       assertEquals(expected[12], actual.getEndType());
-      assertEquals(expected[13], actual.getEndColor());
+      assertColorEquals(expected[13], actual.getEndColor());
    }
 
    /**
@@ -307,13 +313,13 @@ public class MppBarStyleTest extends MPXJTestCase
     * @param expected expected color
     * @param actual actual color
     */
-   private void assertEquals(Object expected, Color actual)
+   private void assertColorEquals(Object expected, Color actual)
    {
       if (expected instanceof ColorType)
       {
          expected = ((ColorType) expected).getColor();
       }
-      assertEquals(expected, (Object) actual);
+      assertEquals(expected, actual);
    }
 
    private static final Object[][] DEFAULT_BAR_STYLES =

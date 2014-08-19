@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -34,6 +37,8 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
+import org.junit.Test;
+
 /**
  * The tests contained in this class exercise resource availability functionality.
  */
@@ -44,7 +49,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9() throws Exception
+   @Test public void testMpp9() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability.mpp");
       testAvailability(file);
@@ -55,7 +60,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From12() throws Exception
+   @Test public void testMpp9From12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability-from12.mpp");
       testAvailability(file);
@@ -66,7 +71,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From14() throws Exception
+   @Test public void testMpp9From14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability-from14.mpp");
       testAvailability(file);
@@ -77,7 +82,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12() throws Exception
+   @Test public void testMpp12() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12availability.mpp");
       testAvailability(file);
@@ -88,7 +93,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12From14() throws Exception
+   @Test public void testMpp12From14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp12availability-from14.mpp");
       testAvailability(file);
@@ -99,7 +104,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14() throws Exception
+   @Test public void testMpp14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp14availability.mpp");
       testAvailability(file);
@@ -110,7 +115,7 @@ public class AvailabilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdi() throws Exception
+   @Test public void testMspdi() throws Exception
    {
       ProjectFile file = new MSPDIReader().read(m_basedir + "/mspdiavailability.xml");
       testAvailability(file);
@@ -139,9 +144,9 @@ public class AvailabilityTest extends MPXJTestCase
       table = resource.getAvailability();
       assertEquals(3, table.size());
 
-      assertEquals("01/06/2009 00:00", "01/07/2009 23:59", 100.0, table, 0);
-      assertEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
-      assertEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
+      assertAvailabilityEquals("01/06/2009 00:00", "01/07/2009 23:59", 100.0, table, 0);
+      assertAvailabilityEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
+      assertAvailabilityEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
 
       //
       // Validate date-based row selection
@@ -149,11 +154,11 @@ public class AvailabilityTest extends MPXJTestCase
       Availability entry = table.getEntryByDate(m_df.parse("01/05/2009 12:00"));
       assertNull(entry);
       entry = table.getEntryByDate(m_df.parse("03/07/2009 12:00"));
-      assertEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
+      assertAvailabilityEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
       entry = table.getEntryByDate(m_df.parse("02/08/2009 12:00"));
       assertNull(entry);
       entry = table.getEntryByDate(m_df.parse("21/08/2009 12:00"));
-      assertEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
+      assertAvailabilityEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
       entry = table.getEntryByDate(m_df.parse("01/09/2009 12:00"));
       assertNull(entry);
    }
@@ -167,10 +172,10 @@ public class AvailabilityTest extends MPXJTestCase
     * @param table table instance under test
     * @param index index of table row under test
     */
-   private void assertEquals(String startDate, String endDate, double units, AvailabilityTable table, int index)
+   private void assertAvailabilityEquals(String startDate, String endDate, double units, AvailabilityTable table, int index)
    {
       Availability entry = table.get(index);
-      assertEquals(startDate, endDate, units, entry);
+      assertAvailabilityEquals(startDate, endDate, units, entry);
    }
 
    /**
@@ -181,7 +186,7 @@ public class AvailabilityTest extends MPXJTestCase
     * @param units expected units
     * @param entry table entry instance under test
     */
-   private void assertEquals(String startDate, String endDate, double units, Availability entry)
+   private void assertAvailabilityEquals(String startDate, String endDate, double units, Availability entry)
    {
       DateRange range = entry.getRange();
       assertEquals(startDate, m_df.format(range.getStart()));

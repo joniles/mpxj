@@ -1,10 +1,15 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * Tests reading resource field bit flags from MPP files.
@@ -14,7 +19,7 @@ public class MppResourceFlags extends MPXJTestCase
    /**
     * Test MPP14 saved by Project 2010.
     */
-   public void testMpp14FromProject2010() throws Exception
+   @Test public void testMpp14FromProject2010() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/resourceFlags-mpp14Project2010.mpp");
       testFlags(mpp);
@@ -23,7 +28,7 @@ public class MppResourceFlags extends MPXJTestCase
    /**
     * Test MPP14 saved by Project 2013.
     */
-   public void testMpp14FromProject2013() throws Exception
+   @Test public void testMpp14FromProject2013() throws Exception
    {
       // TODO work in progress - fix reading from Project 2013 MPP14
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/resourceFlags-mpp14Project2013.mpp");      
@@ -175,7 +180,7 @@ public class MppResourceFlags extends MPXJTestCase
    {
       for (int loop = 0; loop < 20; loop++)
       {
-         assertEquals("Flag" + (loop + 1), (flag == loop + 1), resource.getFlag(loop + 1));
+         assertBooleanEquals("Flag" + (loop + 1), (flag == loop + 1), resource.getFlag(loop + 1));
       }
    }
 }

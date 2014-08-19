@@ -23,8 +23,8 @@ namespace MpxjSample
                 {
                     java.lang.System.setProperty("mpxj.junit.privatedir", args[1]);
                 }
-                Test suite = new MPXJTest();
-                TestRunner.runAndWait(suite);
+
+                TestRunner.runAndWait(new JUnit4TestAdapter(new MPXJTest().getClass()));
             }
         }
     }

@@ -23,6 +23,10 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +46,8 @@ import net.sf.mpxj.mpp.NonWorkingTimeStyle;
 import net.sf.mpxj.mpp.ProgressLineDay;
 import net.sf.mpxj.mpp.TableFontStyle;
 
+import org.junit.Test;
+
 /**
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
@@ -53,7 +59,7 @@ public class MppGanttTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Gantt() throws Exception
+   @Test public void testMpp9Gantt() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9gantt.mpp");
       testAll(mpp);
@@ -64,7 +70,7 @@ public class MppGanttTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9GanttFrom12() throws Exception
+   @Test public void testMpp9GanttFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9gantt-from12.mpp");
       testAll(mpp);
@@ -75,7 +81,7 @@ public class MppGanttTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9GanttFrom14() throws Exception
+   @Test public void testMpp9GanttFrom14() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9gantt-from14.mpp");
       //testAll(mpp);
@@ -86,7 +92,7 @@ public class MppGanttTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Gantt() throws Exception
+   @Test public void testMpp12Gantt() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12gantt.mpp");
       testAll(mpp);
@@ -97,7 +103,7 @@ public class MppGanttTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12GanttFrom14() throws Exception
+   @Test public void testMpp12GanttFrom14() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12gantt-from14.mpp");
       //testAll(mpp);
@@ -108,7 +114,7 @@ public class MppGanttTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Gantt() throws Exception
+   @Test public void testMpp14Gantt() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14gantt.mpp");
       testAll(mpp);

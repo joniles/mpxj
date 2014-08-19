@@ -23,8 +23,11 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertNotNull;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.planner.PlannerReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise Planner file read functionality.
@@ -37,7 +40,7 @@ public class PlannerResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testPlannerResource() throws Exception
+   @Test public void testPlannerResource() throws Exception
    {
       ProjectFile mpp = new PlannerReader().read(m_basedir + "/planner-resource.planner");
       assertNotNull(mpp);

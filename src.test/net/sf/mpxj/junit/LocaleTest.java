@@ -31,6 +31,8 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
 
+import org.junit.Test;
+
 /**
  * Tests to exercise MPX locales.
  */
@@ -41,7 +43,7 @@ public class LocaleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testLocales() throws Exception
+   @Test public void testLocales() throws Exception
    {
       Locale[] locales = new MPXReader().getSupportedLocales();
       for (Locale locale : locales)
@@ -93,7 +95,7 @@ public class LocaleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testReadGerman() throws Exception
+   @Test public void testReadGerman() throws Exception
    {
       File in = new File(m_basedir + "/sample.de.mpx");
       MPXReader reader = new MPXReader();

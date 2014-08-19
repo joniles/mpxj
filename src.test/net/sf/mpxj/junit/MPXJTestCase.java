@@ -23,14 +23,12 @@
 
 package net.sf.mpxj.junit;
 
-import junit.framework.TestCase;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Base class implementing common test case functionality.
  */
-public abstract class MPXJTestCase extends TestCase
+public abstract class MPXJTestCase
 {
    /**
     * Constructor. Note that the system property mpxj.junit.datadir must
@@ -49,16 +47,26 @@ public abstract class MPXJTestCase extends TestCase
    }
 
    /**
-    * Assert method used to test durations.
+    * Assert equality for booleans. This method allows us to maintain autoboxing warnings for the rest of the code.
     * 
-    * @param expectedDuration expected duration size
-    * @param expectedUnits expected duration units
-    * @param duration duration under test
+    * @param message error message
+    * @param expected expected value
+    * @param actual actual value
     */
-   protected void assertEquals(double expectedDuration, TimeUnit expectedUnits, Duration duration)
+   protected void assertBooleanEquals(String message, boolean expected, boolean actual)
    {
-      assertEquals(expectedDuration, duration.getDuration(), 0.005);
-      assertEquals(expectedUnits, duration.getUnits());
+      org.junit.Assert.assertEquals(message, Boolean.valueOf(expected), Boolean.valueOf(actual));
+   }
+
+   /**
+    * Assert equality for booleans. This method allows us to maintain autoboxing warnings for the rest of the code.
+    * 
+    * @param expected expected value
+    * @param actual actual value
+    */
+   protected void assertBooleanEquals(boolean expected, boolean actual)
+   {
+      org.junit.Assert.assertEquals(Boolean.valueOf(expected), Boolean.valueOf(actual));
    }
 
    protected String m_basedir;

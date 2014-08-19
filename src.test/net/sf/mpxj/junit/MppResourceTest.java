@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -41,6 +44,8 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
+import org.junit.Test;
+
 /**
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
@@ -53,7 +58,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Resource() throws Exception
+   @Test public void testMpp9Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
@@ -69,7 +74,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9ResourceFrom12() throws Exception
+   @Test public void testMpp9ResourceFrom12() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
@@ -85,7 +90,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9ResourceFrom14() throws Exception
+   @Test public void testMpp9ResourceFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
@@ -101,7 +106,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Resource() throws Exception
+   @Test public void testMpp12Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
@@ -117,7 +122,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12ResourceFrom14() throws Exception
+   @Test public void testMpp12ResourceFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
@@ -133,7 +138,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Resource() throws Exception
+   @Test public void testMpp14Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
@@ -149,7 +154,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdiResource() throws Exception
+   @Test public void testMspdiResource() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
       ProjectFile mpp = reader.read(m_basedir + "/mspdiresource.xml");
@@ -164,7 +169,7 @@ public class MppResourceTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd9Resource() throws Exception
+   @Test public void testMpd9Resource() throws Exception
    {
       try
       {
@@ -495,7 +500,7 @@ public class MppResourceTest extends MPXJTestCase
     * resource fields were read the wrong way around. This test validates
     * that the values are read correctly, especially when the ID != Unique ID.
     */
-   public void testResourceIdAndUniqueID() throws Exception
+   @Test public void testResourceIdAndUniqueID() throws Exception
    {
       MPPReader reader = new MPPReader();
 

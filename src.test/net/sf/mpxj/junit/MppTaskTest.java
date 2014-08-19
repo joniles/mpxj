@@ -23,6 +23,11 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -44,6 +49,8 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
+import org.junit.Test;
+
 /**
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
@@ -56,7 +63,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Task() throws Exception
+   @Test public void testMpp9Task() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task.mpp");
       testBasicTask(mpp);
@@ -67,7 +74,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9TaskFrom12() throws Exception
+   @Test public void testMpp9TaskFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task-from12.mpp");
       testBasicTask(mpp);
@@ -78,7 +85,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9TaskFrom14() throws Exception
+   @Test public void testMpp9TaskFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task-from14.mpp");
       testBasicTask(mpp);
@@ -89,7 +96,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Task() throws Exception
+   @Test public void testMpp12Task() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12task.mpp");
       testBasicTask(mpp);
@@ -100,7 +107,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12TaskFrom14() throws Exception
+   @Test public void testMpp12TaskFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12task-from14.mpp");
       testBasicTask(mpp);
@@ -111,7 +118,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Task() throws Exception
+   @Test public void testMpp14Task() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14task.mpp");
       testBasicTask(mpp);
@@ -122,7 +129,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14TaskFromProject2013() throws Exception
+   @Test public void testMpp14TaskFromProject2013() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14task-from2013.mpp");
       testBasicTask(mpp);
@@ -133,7 +140,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd9Task() throws Exception
+   @Test public void testMpd9Task() throws Exception
    {
       try
       {
@@ -158,7 +165,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Baseline() throws Exception
+   @Test public void testMpp9Baseline() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline.mpp");
       testBaselineTasks(mpp);
@@ -169,7 +176,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9BaselineFrom12() throws Exception
+   @Test public void testMpp9BaselineFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline-from12.mpp");
       testBaselineTasks(mpp);
@@ -180,7 +187,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9BaselineFrom14() throws Exception
+   @Test public void testMpp9BaselineFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline-from14.mpp");
       testBaselineTasks(mpp);
@@ -191,7 +198,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Baseline() throws Exception
+   @Test public void testMpp12Baseline() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baseline.mpp");
       testBaselineTasks(mpp);
@@ -202,7 +209,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12BaselineFrom14() throws Exception
+   @Test public void testMpp12BaselineFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baseline-from14.mpp");
       testBaselineTasks(mpp);
@@ -213,7 +220,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Baseline() throws Exception
+   @Test public void testMpp14Baseline() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14baseline.mpp");
       testBaselineTasks(mpp);
@@ -224,7 +231,7 @@ public class MppTaskTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd9Baseline() throws Exception
+   @Test public void testMpd9Baseline() throws Exception
    {
       try
       {
@@ -249,7 +256,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9Splits() throws Exception
+   @Test public void testMpp9Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask.mpp");
       testSplitTasks(mpp);
@@ -260,7 +267,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9SplitsFrom12() throws Exception
+   @Test public void testMpp9SplitsFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask-from12.mpp");
       testSplitTasks(mpp);
@@ -271,7 +278,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9SplitsFrom14() throws Exception
+   @Test public void testMpp9SplitsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask-from14.mpp");
       testSplitTasks(mpp);
@@ -282,7 +289,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12Splits() throws Exception
+   @Test public void testMpp12Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12splittask.mpp");
       testSplitTasks(mpp);
@@ -293,7 +300,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12SplitsFrom14() throws Exception
+   @Test public void testMpp12SplitsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12splittask-from14.mpp");
       testSplitTasks(mpp);
@@ -304,7 +311,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp14Splits() throws Exception
+   @Test public void testMpp14Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14splittask.mpp");
       testSplitTasks(mpp);
@@ -315,7 +322,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMspdiSplits() throws Exception
+   @Test public void testMspdiSplits() throws Exception
    {
       ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdisplittask.xml");
       testSplitTasks(mpp);
@@ -328,7 +335,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpd9Splits() throws Exception
+   @Test public void testMpd9Splits() throws Exception
    {
       //       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9splittask.mpd");
       //       testSplitTasks(mpp);
@@ -339,7 +346,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9Relations() throws Exception
+   @Test public void testMpp9Relations() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations.mpp");
       testRelations(mpp);
@@ -350,7 +357,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9RelationsFrom12() throws Exception
+   @Test public void testMpp9RelationsFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations-from12.mpp");
       testRelations(mpp);
@@ -361,7 +368,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp9RelationsFrom14() throws Exception
+   @Test public void testMpp9RelationsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations-from14.mpp");
       testRelations(mpp);
@@ -372,7 +379,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpd9Relations() throws Exception
+   @Test public void testMpd9Relations() throws Exception
    {
       try
       {
@@ -397,7 +404,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12Relations() throws Exception
+   @Test public void testMpp12Relations() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations.mpp");
       testRelations(mpp);
@@ -408,7 +415,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp12RelationsFrom14() throws Exception
+   @Test public void testMpp12RelationsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations-from14.mpp");
       testRelations(mpp);
@@ -419,7 +426,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMpp14Relations() throws Exception
+   @Test public void testMpp14Relations() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14relations.mpp");
       testRelations(mpp);
@@ -430,7 +437,7 @@ public class MppTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMspdiRelations() throws Exception
+   @Test public void testMspdiRelations() throws Exception
    {
       ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdirelations.xml");
       testRelations(mpp);
@@ -499,7 +506,7 @@ public class MppTaskTest extends MPXJTestCase
     * VAC<br>
     *
     */
-   public void testBasicTask(ProjectFile mpp) throws Exception
+   private void testBasicTask(ProjectFile mpp) throws Exception
    {
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -677,28 +684,28 @@ public class MppTaskTest extends MPXJTestCase
       assertEquals(AccrueType.START, task.getFixedCostAccrual());
       // custom flag columns
       boolean expectedValue = true;
-      assertEquals(expectedValue, task.getFlag(1));
-      assertEquals(expectedValue, task.getFlag(2));
-      assertEquals(expectedValue, task.getFlag(3));
-      assertEquals(expectedValue, task.getFlag(4));
-      assertEquals(expectedValue, task.getFlag(5));
-      assertEquals(expectedValue, task.getFlag(6));
-      assertEquals(expectedValue, task.getFlag(7));
-      assertEquals(expectedValue, task.getFlag(8));
-      assertEquals(expectedValue, task.getFlag(9));
-      assertEquals(expectedValue, task.getFlag(10));
-      assertEquals(expectedValue, task.getFlag(11));
-      assertEquals(expectedValue, task.getFlag(12));
-      assertEquals(expectedValue, task.getFlag(13));
-      assertEquals(expectedValue, task.getFlag(14));
-      assertEquals(expectedValue, task.getFlag(15));
-      assertEquals(expectedValue, task.getFlag(16));
-      assertEquals(expectedValue, task.getFlag(17));
-      assertEquals(expectedValue, task.getFlag(18));
-      assertEquals(expectedValue, task.getFlag(19));
-      assertEquals(expectedValue, task.getFlag(20));
+      assertBooleanEquals(expectedValue, task.getFlag(1));
+      assertBooleanEquals(expectedValue, task.getFlag(2));
+      assertBooleanEquals(expectedValue, task.getFlag(3));
+      assertBooleanEquals(expectedValue, task.getFlag(4));
+      assertBooleanEquals(expectedValue, task.getFlag(5));
+      assertBooleanEquals(expectedValue, task.getFlag(6));
+      assertBooleanEquals(expectedValue, task.getFlag(7));
+      assertBooleanEquals(expectedValue, task.getFlag(8));
+      assertBooleanEquals(expectedValue, task.getFlag(9));
+      assertBooleanEquals(expectedValue, task.getFlag(10));
+      assertBooleanEquals(expectedValue, task.getFlag(11));
+      assertBooleanEquals(expectedValue, task.getFlag(12));
+      assertBooleanEquals(expectedValue, task.getFlag(13));
+      assertBooleanEquals(expectedValue, task.getFlag(14));
+      assertBooleanEquals(expectedValue, task.getFlag(15));
+      assertBooleanEquals(expectedValue, task.getFlag(16));
+      assertBooleanEquals(expectedValue, task.getFlag(17));
+      assertBooleanEquals(expectedValue, task.getFlag(18));
+      assertBooleanEquals(expectedValue, task.getFlag(19));
+      assertBooleanEquals(expectedValue, task.getFlag(20));
       // hide bar
-      assertEquals(expectedValue, task.getHideBar());
+      assertBooleanEquals(expectedValue, task.getHideBar());
       // hyperlink
       final String expectedHyperlink = "http://www.steelray.com";
       assertEquals(expectedHyperlink, (task.getHyperlink()));
@@ -707,13 +714,13 @@ public class MppTaskTest extends MPXJTestCase
       // ignore resource calendar
       // (note that 'false' is the default value, so this isn't really a test of MPXJ -
       // I couldn't change the value in Project, though)
-      assertEquals(false, task.getIgnoreResourceCalendar());
+      assertFalse(task.getIgnoreResourceCalendar());
       // late start and finish
       assertEquals(expectedStart, df.format(task.getLateStart()));
       assertEquals(expectedFinish, df.format(task.getLateFinish()));
       // leveling
-      assertEquals(false, task.getLevelAssignments());
-      assertEquals(false, task.getLevelingCanSplit());
+      assertFalse(task.getLevelAssignments());
+      assertFalse(task.getLevelingCanSplit());
       // leveling delay
       expectedDuration = Duration.getInstance(0, TimeUnit.ELAPSED_DAYS);
       assertEquals(expectedDuration, task.getLevelingDelay());

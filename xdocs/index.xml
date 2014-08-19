@@ -213,16 +213,11 @@ be found in the legal directory of the distribution.</p>
 it requires depends on IKVM. The licenses for IKVM and its associated
 third party libraries can be found in the legal directory of the distribution.</p>
 
-<p>A copy of the JUnit library is provided for your
-convenience to allow you to run the regression tests
-provided with MPXJ. The license for JUnit can be found in
-the legal directory of the distribution.</p>
 </section>
 
 <section name="Acknowledgements"> 
 <p>This product includes software provided by the Apache Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org</a>)</p> 
-<p>This product includes software provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p>
-<p>This product includes software provided by the JUnit Project (<a href="http://www.junit.org/" target="_blank">http://www.junit.org</a>)</p> 
+<p>This product includes software provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p> 
 </section>
 
    </body> 

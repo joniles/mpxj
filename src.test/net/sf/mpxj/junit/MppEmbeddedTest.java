@@ -23,12 +23,18 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.List;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpp.RTFEmbeddedObject;
+
+import org.junit.Test;
 
 /**
  * Test to handle MPP file content embedded in note fields. 
@@ -40,7 +46,7 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Embedded() throws Exception
+   @Test public void testMpp9Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
@@ -53,7 +59,7 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From12Embedded() throws Exception
+   @Test public void testMpp9From12Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
@@ -66,7 +72,7 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From14Embedded() throws Exception
+   @Test public void testMpp9From14Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
@@ -79,7 +85,7 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Embedded() throws Exception
+   @Test public void testMpp12Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
@@ -92,7 +98,7 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12From14Embedded() throws Exception
+   @Test public void testMpp12From14Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
@@ -105,7 +111,7 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Embedded() throws Exception
+   @Test public void testMpp14Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);

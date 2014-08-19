@@ -1,10 +1,15 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * Tests reading task field bit flags from MPP files.
@@ -14,7 +19,7 @@ public class MppTaskFlags extends MPXJTestCase
    /**
     * Test MPP9 saved by Project 2013.
     */
-   public void testMpp9FromProject2013() throws Exception
+   @Test public void testMpp9FromProject2013() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp9Project2013.mpp");
       testFlags(mpp);
@@ -23,7 +28,7 @@ public class MppTaskFlags extends MPXJTestCase
    /**
     * Test MPP12 saved by Project 2013.
     */
-   public void testMpp12FromProject2013() throws Exception
+   @Test public void testMpp12FromProject2013() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp12Project2013.mpp");
       testFlags(mpp);
@@ -32,7 +37,7 @@ public class MppTaskFlags extends MPXJTestCase
    /**
     * Test MPP14 saved by Project 2013.
     */
-   public void testMpp14FromProject2013() throws Exception
+   @Test public void testMpp14FromProject2013() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp14Project2013.mpp");
       testFlags(mpp);
@@ -41,7 +46,7 @@ public class MppTaskFlags extends MPXJTestCase
    /**
     * Test MPP9 saved by Project 2010.
     */
-   public void testMpp9FromProject2010() throws Exception
+   @Test public void testMpp9FromProject2010() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp9Project2010.mpp");
       testFlags(mpp);
@@ -50,7 +55,7 @@ public class MppTaskFlags extends MPXJTestCase
    /**
     * Test MPP12 saved by Project 2010.
     */
-   public void testMpp12FromProject2010() throws Exception
+   @Test public void testMpp12FromProject2010() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp12Project2010.mpp");
       testFlags(mpp);
@@ -59,7 +64,7 @@ public class MppTaskFlags extends MPXJTestCase
    /**
     * Test MPP14 saved by Project 2010.
     */
-   public void testMpp14FromProject2010() throws Exception
+   @Test public void testMpp14FromProject2010() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp14Project2010.mpp");
       testFlags(mpp);
@@ -361,7 +366,7 @@ public class MppTaskFlags extends MPXJTestCase
    {
       for (int loop = 0; loop < 20; loop++)
       {
-         assertEquals("Flag" + (loop + 1), (flag == loop + 1), task.getFlag(loop + 1));
+         assertBooleanEquals("Flag" + (loop + 1), (flag == loop + 1), task.getFlag(loop + 1));
       }
    }
 }

@@ -23,6 +23,10 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.SimpleDateFormat;
 
 import net.sf.mpxj.ProjectFile;
@@ -31,6 +35,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -43,7 +49,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9EnterpriseFields() throws Exception
+   @Test public void testMpp9EnterpriseFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise.mpp");
       testEnterpriseFields(mpp);
@@ -54,7 +60,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9EnterpriseFieldsFrom12() throws Exception
+   @Test public void testMpp9EnterpriseFieldsFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise-from12.mpp");
       testEnterpriseFields(mpp);
@@ -65,7 +71,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9EnterpriseFieldsFrom14() throws Exception
+   @Test public void testMpp9EnterpriseFieldsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise-from14.mpp");
       testEnterpriseFields(mpp);
@@ -76,7 +82,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12EnterpriseFields() throws Exception
+   @Test public void testMpp12EnterpriseFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12enterprise.mpp");
       testEnterpriseFields(mpp);
@@ -87,7 +93,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12EnterpriseFieldsFrom14() throws Exception
+   @Test public void testMpp12EnterpriseFieldsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12enterprise-from14.mpp");
       testEnterpriseFields(mpp);
@@ -98,7 +104,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14EnterpriseFields() throws Exception
+   @Test public void testMpp14EnterpriseFields() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14enterprise.mpp");
       testEnterpriseFields(mpp);
@@ -109,7 +115,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdiEnterpriseFields() throws Exception
+   @Test public void testMspdiEnterpriseFields() throws Exception
    {
       ProjectFile mpp = new MSPDIReader().read(m_basedir + "/enterprise.xml");
       testEnterpriseFields(mpp);
@@ -138,8 +144,8 @@ public class MppEnterpriseTest extends MPXJTestCase
       assertEquals(40, task.getEnterpriseNumber(40).intValue());
       assertEquals("ET1", task.getEnterpriseText(1));
       assertEquals("ET40", task.getEnterpriseText(40));
-      assertEquals(true, task.getEnterpriseFlag(1));
-      assertEquals(false, task.getEnterpriseFlag(20));
+      assertTrue(task.getEnterpriseFlag(1));
+      assertFalse(task.getEnterpriseFlag(20));
 
       Resource resource = mpp.getResourceByID(Integer.valueOf(1));
       assertEquals(1, resource.getEnterpriseCost(1).intValue());
@@ -154,7 +160,7 @@ public class MppEnterpriseTest extends MPXJTestCase
       assertEquals(40, resource.getEnterpriseNumber(40).intValue());
       assertEquals("RET1", resource.getEnterpriseText(1));
       assertEquals("RET40", resource.getEnterpriseText(40));
-      assertEquals(false, resource.getEnterpriseFlag(1));
-      assertEquals(true, resource.getEnterpriseFlag(20));
+      assertFalse(resource.getEnterpriseFlag(1));
+      assertTrue(resource.getEnterpriseFlag(20));
    }
 }

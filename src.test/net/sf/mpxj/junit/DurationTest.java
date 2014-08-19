@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -30,6 +31,8 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise reading duration values. 
@@ -41,7 +44,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9() throws Exception
+   @Test public void testMpp9() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9duration.mpp");
       testDurations(mpp);
@@ -52,7 +55,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From12() throws Exception
+   @Test public void testMpp9From12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9duration-from12.mpp");
       testDurations(mpp);
@@ -63,7 +66,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From14() throws Exception
+   @Test public void testMpp9From14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9duration-from14.mpp");
       testDurations(mpp);
@@ -74,7 +77,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12() throws Exception
+   @Test public void testMpp12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12duration.mpp");
       testDurations(mpp);
@@ -85,7 +88,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12From14() throws Exception
+   @Test public void testMpp12From14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12duration-from14.mpp");
       testDurations(mpp);
@@ -96,7 +99,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14() throws Exception
+   @Test public void testMpp14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14duration.mpp");
       testDurations(mpp);
@@ -107,7 +110,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMspdi() throws Exception
+   @Test public void testMspdi() throws Exception
    {
       ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdiduration.xml");
       testDurations(mpp);
@@ -118,7 +121,7 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd() throws Exception
+   @Test public void testMpd() throws Exception
    {
       try
       {

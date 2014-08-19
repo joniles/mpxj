@@ -23,6 +23,11 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,10 +37,12 @@ import net.sf.mpxj.Group;
 import net.sf.mpxj.GroupClause;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.mpp.BackgroundPattern;
 import net.sf.mpxj.mpp.ColorType;
 import net.sf.mpxj.mpp.FontStyle;
-import net.sf.mpxj.mpp.BackgroundPattern;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -48,7 +55,7 @@ public class MppGroupTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Groups() throws Exception
+   @Test public void testMpp9Groups() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group.mpp");
       testGroups(mpp);
@@ -59,7 +66,7 @@ public class MppGroupTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9GroupsFrom12() throws Exception
+   @Test public void testMpp9GroupsFrom12() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group-from12.mpp");
       //testGroups(mpp);
@@ -70,7 +77,7 @@ public class MppGroupTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9GroupsFrom14() throws Exception
+   @Test public void testMpp9GroupsFrom14() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group-from14.mpp");
       //testGroups(mpp);
@@ -81,7 +88,7 @@ public class MppGroupTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Groups() throws Exception
+   @Test public void testMpp12Groups() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12group.mpp");
       testGroups(mpp);
@@ -92,7 +99,7 @@ public class MppGroupTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12GroupsFrom14() throws Exception
+   @Test public void testMpp12GroupsFrom14() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12group-from14.mpp");
       //testGroups(mpp);
@@ -103,7 +110,7 @@ public class MppGroupTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Groups() throws Exception
+   @Test public void testMpp14Groups() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14group.mpp");
       testGroups(mpp);

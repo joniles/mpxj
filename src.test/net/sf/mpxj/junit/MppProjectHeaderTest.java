@@ -23,6 +23,10 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -34,6 +38,8 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 
+import org.junit.Test;
+
 /**
  * Test reading project header data from MPP files.
  */
@@ -44,7 +50,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9() throws Exception
+   @Test public void testMpp9() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header.mpp");
       testHeader(mpp, true);
@@ -55,7 +61,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From12() throws Exception
+   @Test public void testMpp9From12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header-from12.mpp");
       testHeader(mpp, true);
@@ -66,7 +72,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9From14() throws Exception
+   @Test public void testMpp9From14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header-from14.mpp");
       testHeader(mpp, true);
@@ -77,7 +83,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12() throws Exception
+   @Test public void testMpp12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header.mpp");
       testHeader(mpp, true);
@@ -88,7 +94,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12From14() throws Exception
+   @Test public void testMpp12From14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header-from14.mpp");
       testHeader(mpp, true);
@@ -99,7 +105,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14() throws Exception
+   @Test public void testMpp14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14header.mpp");
       testHeader(mpp, true);
@@ -110,7 +116,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpd9() throws Exception
+   @Test public void testMpd9() throws Exception
    {
       try
       {
@@ -165,8 +171,8 @@ public class MppProjectHeaderTest extends MPXJTestCase
       assertEquals(1.0, ph.getDefaultStandardRate().getAmount(), 0);
       assertEquals(TimeUnit.HOURS, ph.getDefaultStandardRate().getUnits());
       assertEquals(TimeUnit.WEEKS, ph.getDefaultWorkUnits());
-      assertEquals(false, ph.getSplitInProgressTasks());
-      assertEquals(false, ph.getUpdatingTaskStatusUpdatesResourceStatus());
+      assertFalse(ph.getSplitInProgressTasks());
+      assertFalse(ph.getUpdatingTaskStatusUpdatesResourceStatus());
 
       assertEquals(1, ph.getCurrencyDigits().intValue());
       assertEquals("X", ph.getCurrencySymbol());
@@ -184,7 +190,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
       if (isMPP)
       {
          assertEquals("comments", ph.getComments());
-         assertEquals(true, ph.getCalculateMultipleCriticalPaths());
+         assertTrue(ph.getCalculateMultipleCriticalPaths());
       }
    }
 }

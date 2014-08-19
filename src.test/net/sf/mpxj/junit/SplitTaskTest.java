@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -31,6 +34,8 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * The tests contained in this class exercise the split task functionality.
@@ -42,7 +47,7 @@ public class SplitTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testSplits1() throws Exception
+   @Test public void testSplits1() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/splits9a.mpp");
 
@@ -78,7 +83,7 @@ public class SplitTaskTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testSplits2() throws Exception
+   @Test public void testSplits2() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/splits9b.mpp");
       List<DateRange> taskSplits;

@@ -23,6 +23,11 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import net.sf.mpxj.Filter;
@@ -33,6 +38,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -45,7 +52,7 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Filters() throws Exception
+   @Test public void testMpp9Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filter.mpp");
       executeTests(mpp);
@@ -56,7 +63,7 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9FiltersFrom12() throws Exception
+   @Test public void testMpp9FiltersFrom12() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filter-from12.mpp");
       //executeTests(mpp);
@@ -67,7 +74,7 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9FiltersFrom14() throws Exception
+   @Test public void testMpp9FiltersFrom14() throws Exception
    {
       //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filter-from14.mpp");
       //executeTests(mpp);
@@ -78,7 +85,7 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Filters() throws Exception
+   @Test public void testMpp12Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filter.mpp");
       executeTests(mpp);
@@ -89,7 +96,7 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12FiltersFrom14() throws Exception
+   @Test public void testMpp12FiltersFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filter-from14.mpp");
       executeTests(mpp);
@@ -100,7 +107,7 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp14Filters() throws Exception
+   @Test public void testMpp14Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14filter.mpp");
       executeTests(mpp);
@@ -359,7 +366,7 @@ public class MppFilterTest extends MPXJTestCase
    /**
     * Test null value handling.
     */
-   public void testNullValueTestOperators()
+   @Test public void testNullValueTestOperators()
    {
       TestOperator operator = TestOperator.CONTAINS;
       assertFalse(operator.evaluate(null, null));
