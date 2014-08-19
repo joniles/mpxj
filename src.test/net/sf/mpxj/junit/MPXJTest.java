@@ -71,50 +71,6 @@ import org.junit.runners.Suite;
    CustomerDataTest.class
 }) public class MPXJTest
 {
-   /*   
-      public MPXJTest()
-      {
-         addTestSuite(BasicTest.class);
-         addTestSuite(LocaleTest.class);
-         addTestSuite(ProjectCalendarTest.class);
-         addTestSuite(SplitTaskTest.class);
-         addTestSuite(MppGraphIndTest.class);
-         addTestSuite(SlackTest.class);
-         addTestSuite(MppProjectHeaderTest.class);
-         addTestSuite(MppTaskTest.class);
-         addTestSuite(MppResourceTest.class);
-         addTestSuite(MppSubprojectTest.class);
-         addTestSuite(MppViewTest.class);
-         addTestSuite(MppFilterTest.class);
-         addTestSuite(MppAutoFilterTest.class);
-         addTestSuite(MppViewStateTest.class);
-         addTestSuite(MppGroupTest.class);
-         addTestSuite(MppCalendarTest.class);
-         addTestSuite(MppEnterpriseTest.class);
-         addTestSuite(MppBaselineTest.class);
-         addTestSuite(MppEmbeddedTest.class);
-         addTestSuite(MppRecurringTest.class);
-         addTestSuite(MppNullTaskTest.class);
-         addTestSuite(ProjectWriterUtilityTest.class);
-         addTestSuite(PlannerCalendarTest.class);
-         addTestSuite(PlannerResourceTest.class);
-         addTestSuite(TimephasedTest.class);
-         addTestSuite(DurationTest.class);
-         addTestSuite(MppFilterLogicTest.class);
-         addTestSuite(CostRateTableTest.class);
-         addTestSuite(AvailabilityTest.class);
-         addTestSuite(MppColumnsTest.class);
-         addTestSuite(MppBarStyleTest.class);
-         addTestSuite(MppGanttTest.class);
-         addTestSuite(TimephasedSegmentTest.class);
-         addTestSuite(MppAssignmentTest.class);
-         addTestSuite(TimephasedSegmentTest2.class);
-         addTestSuite(MppTaskFlags.class);
-         addTestSuite(MppResourceFlags.class);
-         addTestSuite(CustomerDataTest.class);
-         
-      }
-   */
 
 }
 
