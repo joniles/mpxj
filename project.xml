@@ -23,7 +23,7 @@
 
   <repository>
     <connection>
-      git://git.code.sf.net/p/mpxj/mpxj mpxj-mpxj
+      scm:git://git.code.sf.net/p/mpxj/mpxj mpxj-mpxj
     </connection>
     <url>
       https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/
