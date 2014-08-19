@@ -29,7 +29,7 @@
 		<property name="classes.test.dir" value="${basedir}/classes.test" />
 		<property name="bak.dir" value="${basedir}/bak" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
-		
+		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>		
 
 		<!-- 
 		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
@@ -203,30 +203,30 @@
 		</java>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${basedir}\lib\${poi.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${poi.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${junit.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${junit.jar}" />
+			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${junit.jar}" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -reference:${poi.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -reference:${poi.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
 		
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
