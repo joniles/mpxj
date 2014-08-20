@@ -46,29 +46,6 @@ public abstract class MPXJTestCase
       m_ikvm = (runtime != null && runtime.indexOf("IKVM") != -1);
    }
 
-   /**
-    * Assert equality for booleans. This method allows us to maintain autoboxing warnings for the rest of the code.
-    * 
-    * @param message error message
-    * @param expected expected value
-    * @param actual actual value
-    */
-   protected void assertBooleanEquals(String message, boolean expected, boolean actual)
-   {
-      org.junit.Assert.assertEquals(message, Boolean.valueOf(expected), Boolean.valueOf(actual));
-   }
-
-   /**
-    * Assert equality for booleans. This method allows us to maintain autoboxing warnings for the rest of the code.
-    * 
-    * @param expected expected value
-    * @param actual actual value
-    */
-   protected void assertBooleanEquals(boolean expected, boolean actual)
-   {
-      org.junit.Assert.assertEquals(Boolean.valueOf(expected), Boolean.valueOf(actual));
-   }
-
    protected String m_basedir;
    protected boolean m_ikvm;
 }

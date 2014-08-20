@@ -71,7 +71,7 @@ import org.junit.runners.Suite;
    CustomerDataTest.class
 }) public class MPXJTest
 {
-
+   // TODO: replace with dynamic suite
 }
 
 /*

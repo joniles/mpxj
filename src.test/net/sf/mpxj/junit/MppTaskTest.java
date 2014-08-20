@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import static net.sf.mpxj.junit.MpxjAssert.assertBooleanEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
