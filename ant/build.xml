@@ -13,6 +13,7 @@
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="windows.tools.dir" value="c:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools" />
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
+		<property name="hamcrest.jar" value="${basedir}/../junit-4.11/hamcrest-core-1.3.jar"/>
 		
 		<!-- 
 		The following two properties are only required if you want to use the xjc target.
@@ -213,7 +214,7 @@
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${junit.jar}" />
+			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->

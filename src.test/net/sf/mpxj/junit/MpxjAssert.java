@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.junit;
 
+import org.junit.Assume;
+
 /**
  * MPXJ's own unit test assertion methods.
  */
@@ -34,6 +36,12 @@ public final class MpxjAssert
    private MpxjAssert()
    {
 
+   }
+
+   public static void assumeJvm()
+   {
+      String runtime = System.getProperty("java.runtime.name");
+      Assume.assumeFalse(runtime != null && runtime.indexOf("IKVM") != -1);
    }
 
    /**

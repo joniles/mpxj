@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -114,22 +115,9 @@ public class MppSubprojectTest extends MPXJTestCase
     */
    @Test public void testMpd9Subproject() throws Exception
    {
-      try
-      {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9subproject.mpd");
-         testSubprojects(mpp, false);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9subproject.mpd");
+      testSubprojects(mpp, false);
    }
 
    /**

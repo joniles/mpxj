@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
 import static org.junit.Assert.assertEquals;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
@@ -123,22 +124,9 @@ public class DurationTest extends MPXJTestCase
     */
    @Test public void testMpd() throws Exception
    {
-      try
-      {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpdduration.mpd");
-         testDurations(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpdduration.mpd");
+      testDurations(mpp);
    }
 
    /**

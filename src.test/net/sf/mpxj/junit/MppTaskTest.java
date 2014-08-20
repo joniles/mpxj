@@ -24,6 +24,7 @@
 package net.sf.mpxj.junit;
 
 import static net.sf.mpxj.junit.MpxjAssert.assertBooleanEquals;
+import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -143,22 +144,9 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpd9Task() throws Exception
    {
-      try
-      {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9task.mpd");
-         testBasicTask(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9task.mpd");
+      testBasicTask(mpp);
    }
 
    /**
@@ -234,22 +222,9 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpd9Baseline() throws Exception
    {
-      try
-      {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9baseline.mpd");
-         testBaselineTasks(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9baseline.mpd");
+      testBaselineTasks(mpp);
    }
 
    /**
@@ -382,22 +357,9 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpd9Relations() throws Exception
    {
-      try
-      {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9relations.mpd");
-         testRelations(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9relations.mpd");
+      testRelations(mpp);
    }
 
    /**

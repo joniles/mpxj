@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Base class implementing common test case functionality.
@@ -39,13 +39,9 @@ public abstract class MPXJTestCase
       m_basedir = System.getProperty("mpxj.junit.datadir");
       if (m_basedir == null || m_basedir.length() == 0)
       {
-         assertTrue("missing datadir property", false);
+         fail("missing datadir property");
       }
-
-      String runtime = System.getProperty("java.runtime.name");
-      m_ikvm = (runtime != null && runtime.indexOf("IKVM") != -1);
    }
 
    protected String m_basedir;
-   protected boolean m_ikvm;
 }

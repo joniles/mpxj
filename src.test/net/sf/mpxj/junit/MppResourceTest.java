@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -171,27 +172,14 @@ public class MppResourceTest extends MPXJTestCase
     */
    @Test public void testMpd9Resource() throws Exception
    {
-      try
-      {
-         MPDDatabaseReader reader = new MPDDatabaseReader();
-         reader.setPreserveNoteFormatting(false);
-         ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpd");
-         testResources(mpp);
-         testNotes(mpp);
-         testResourceAssignments(mpp);
-         testResourceOutlineCodes(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      MPDDatabaseReader reader = new MPDDatabaseReader();
+      reader.setPreserveNoteFormatting(false);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpd");
+      testResources(mpp);
+      testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
    }
 
    /**

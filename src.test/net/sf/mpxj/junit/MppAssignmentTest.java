@@ -24,6 +24,7 @@
 package net.sf.mpxj.junit;
 
 import static net.sf.mpxj.junit.MpxjAssert.assertBooleanEquals;
+import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -130,23 +131,10 @@ public class MppAssignmentTest extends MPXJTestCase
     */
    @Test public void testMpdCustomFields() throws Exception
    {
-      try
-      {
-         MPDDatabaseReader reader = new MPDDatabaseReader();
-         ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentcustom.mpd");
-         testCustomFields(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      MPDDatabaseReader reader = new MPDDatabaseReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentcustom.mpd");
+      testCustomFields(mpp);
    }
 
    /**
@@ -298,23 +286,10 @@ public class MppAssignmentTest extends MPXJTestCase
     */
    @Test public void testMpdFields() throws Exception
    {
-      try
-      {
-         MPDDatabaseReader reader = new MPDDatabaseReader();
-         ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
-         testFields(mpp, null, null);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
+      assumeJvm();
+      MPDDatabaseReader reader = new MPDDatabaseReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
+      testFields(mpp, null, null);
    }
 
    /**
