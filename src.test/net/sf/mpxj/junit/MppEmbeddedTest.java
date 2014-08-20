@@ -39,7 +39,7 @@ import org.junit.Test;
 /**
  * Test to handle MPP file content embedded in note fields. 
  */
-public class MppEmbeddedTest extends MPXJTestCase
+public class MppEmbeddedTest
 {
    /**
     * Test MPP9 file.
@@ -50,7 +50,7 @@ public class MppEmbeddedTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9embedded.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9embedded.mpp"));
       testEmbeddedObjects(mpp);
    }
 
@@ -63,7 +63,7 @@ public class MppEmbeddedTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9embedded-from12.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9embedded-from12.mpp"));
       testEmbeddedObjects(mpp);
    }
 
@@ -76,7 +76,7 @@ public class MppEmbeddedTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9embedded-from14.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9embedded-from14.mpp"));
       testEmbeddedObjects(mpp);
    }
 
@@ -89,7 +89,7 @@ public class MppEmbeddedTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12embedded.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12embedded.mpp"));
       testEmbeddedObjects(mpp);
    }
 
@@ -102,7 +102,7 @@ public class MppEmbeddedTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12embedded-from14.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12embedded-from14.mpp"));
       testEmbeddedObjects(mpp);
    }
 
@@ -115,7 +115,7 @@ public class MppEmbeddedTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp14embedded.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14embedded.mpp"));
       testEmbeddedObjects(mpp);
    }
 

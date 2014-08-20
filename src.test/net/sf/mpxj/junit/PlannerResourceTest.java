@@ -32,7 +32,7 @@ import org.junit.Test;
 /**
  * Tests to exercise Planner file read functionality.
  */
-public class PlannerResourceTest extends MPXJTestCase
+public class PlannerResourceTest
 {
 
    /**
@@ -42,7 +42,7 @@ public class PlannerResourceTest extends MPXJTestCase
     */
    @Test public void testPlannerResource() throws Exception
    {
-      ProjectFile mpp = new PlannerReader().read(m_basedir + "/planner-resource.planner");
+      ProjectFile mpp = new PlannerReader().read(MpxjTestData.filePath("planner-resource.planner"));
       assertNotNull(mpp);
    }
 }

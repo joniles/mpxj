@@ -45,7 +45,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of MPP
  * file.
  */
-public class MppRecurringTest extends MPXJTestCase
+public class MppRecurringTest
 {
    /**
     * Test recurring task data read from an MPX file.
@@ -54,7 +54,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpxRecurringTasks() throws Exception
    {
-      ProjectFile mpp = new MPXReader().read(m_basedir + "/mpxrecurring.mpx");
+      ProjectFile mpp = new MPXReader().read(MpxjTestData.filePath("mpxrecurring.mpx"));
       testRecurringTasks(mpp);
    }
 
@@ -65,7 +65,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp8RecurringTasks() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp8recurring.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp8recurring.mpp"));
       testRecurringTasks(mpp);
    }
 
@@ -76,7 +76,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp9RecurringTasks() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9recurring.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9recurring.mpp"));
       testRecurringTasks(mpp);
    }
 
@@ -87,7 +87,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp9RecurringTasksFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9recurring-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9recurring-from12.mpp"));
       testRecurringTasks(mpp);
    }
 
@@ -98,7 +98,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp9RecurringTasksFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9recurring-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9recurring-from14.mpp"));
       testRecurringTasks(mpp);
    }
 
@@ -109,7 +109,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp12RecurringTasks() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12recurring.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12recurring.mpp"));
       testRecurringTasks(mpp);
    }
 
@@ -120,7 +120,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp12RecurringTasksFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12recurring-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12recurring-from14.mpp"));
       testRecurringTasks(mpp);
    }
 
@@ -131,7 +131,7 @@ public class MppRecurringTest extends MPXJTestCase
     */
    @Test public void testMpp14RecurringTasks() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14recurring.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14recurring.mpp"));
       testRecurringTasks(mpp);
    }
 

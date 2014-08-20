@@ -51,7 +51,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppResourceTest extends MPXJTestCase
+public class MppResourceTest
 {
 
    /**
@@ -63,7 +63,7 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -79,7 +79,7 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource-from12.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource-from12.mpp"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -95,7 +95,7 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource-from14.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource-from14.mpp"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -111,7 +111,7 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12resource.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -127,7 +127,7 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12resource-from14.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12resource-from14.mpp"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -143,7 +143,7 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp14resource.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -158,7 +158,7 @@ public class MppResourceTest extends MPXJTestCase
    @Test public void testMspdiResource() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mspdiresource.xml");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mspdiresource.xml"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -175,7 +175,7 @@ public class MppResourceTest extends MPXJTestCase
       assumeJvm();
       MPDDatabaseReader reader = new MPDDatabaseReader();
       reader.setPreserveNoteFormatting(false);
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpd");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpd"));
       testResources(mpp);
       testNotes(mpp);
       testResourceAssignments(mpp);
@@ -492,10 +492,10 @@ public class MppResourceTest extends MPXJTestCase
    {
       MPPReader reader = new MPPReader();
 
-      ProjectFile file = reader.read(m_basedir + "/mpp14-project2013/ResourceIdAndUniqueId.mpp");
+      ProjectFile file = reader.read(MpxjTestData.filePath("mpp14-project2013/ResourceIdAndUniqueId.mpp"));
       validateIdValues(file);
 
-      file = reader.read(m_basedir + "/mpp14-project2010/ResourceIdAndUniqueId.mpp");
+      file = reader.read(MpxjTestData.filePath("mpp14-project2010/ResourceIdAndUniqueId.mpp"));
       validateIdValues(file);
    }
 

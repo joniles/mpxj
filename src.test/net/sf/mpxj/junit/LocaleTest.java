@@ -37,7 +37,7 @@ import org.junit.Test;
 /**
  * Tests to exercise MPX locales.
  */
-public class LocaleTest extends MPXJTestCase
+public class LocaleTest
 {
    /**
     * Test all supported MPX locales.
@@ -65,7 +65,7 @@ public class LocaleTest extends MPXJTestCase
       MPXReader reader = new MPXReader();
       MPXWriter writer = new MPXWriter();
 
-      File in = new File(m_basedir + "/sample.mpx");
+      File in = new File(MpxjTestData.filePath("sample.mpx"));
       ProjectFile mpx = reader.read(in);
       File out = File.createTempFile("junit-" + locale.getLanguage(), ".mpx");
       writer.setLocale(locale);
@@ -83,7 +83,7 @@ public class LocaleTest extends MPXJTestCase
     */
    @Test public void testReadGerman() throws Exception
    {
-      File in = new File(m_basedir + "/sample.de.mpx");
+      File in = new File(MpxjTestData.filePath("sample.de.mpx"));
       MPXReader reader = new MPXReader();
       reader.setLocale(Locale.GERMAN);
       reader.read(in);

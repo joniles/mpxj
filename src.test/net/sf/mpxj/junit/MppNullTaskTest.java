@@ -40,7 +40,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppNullTaskTest extends MPXJTestCase
+public class MppNullTaskTest
 {
 
    /**
@@ -50,7 +50,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9NullTasks() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp9nulltasks.mpp"));
       testNullTasks(project);
    }
 
@@ -61,7 +61,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9NullTasksFrom12() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks-from12.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp9nulltasks-from12.mpp"));
       testNullTasks(project);
    }
 
@@ -72,7 +72,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9NullTasksFrom14() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9nulltasks-from14.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp9nulltasks-from14.mpp"));
       testNullTasks(project);
    }
 
@@ -83,7 +83,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12NullTasks() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp12nulltasks.mpp"));
       testNullTasks(project);
    }
 
@@ -94,7 +94,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12NullTasksFrom14() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12nulltasks-from14.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp12nulltasks-from14.mpp"));
       testNullTasks(project);
    }
 
@@ -105,7 +105,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMpp14NullTasks() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp14nulltasks.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp14nulltasks.mpp"));
       testNullTasks(project);
    }
 
@@ -117,7 +117,7 @@ public class MppNullTaskTest extends MPXJTestCase
    @Test public void testMpd9NullTasks() throws Exception
    {
       assumeJvm();
-      ProjectFile project = new MPDDatabaseReader().read(m_basedir + "/mpp9nulltasks.mpd");
+      ProjectFile project = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9nulltasks.mpd"));
       testNullTasks(project);
    }
 
@@ -128,7 +128,7 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    @Test public void testMspdiNullTasks() throws Exception
    {
-      ProjectFile project = new MSPDIReader().read(m_basedir + "/mspdinulltasks.xml");
+      ProjectFile project = new MSPDIReader().read(MpxjTestData.filePath("mspdinulltasks.xml"));
       testNullTasks(project);
    }
 

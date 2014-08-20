@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * The tests contained in this class exercise the slack duration functionality.
  */
-public class SlackTest extends MPXJTestCase
+public class SlackTest
 {
    /**
     * Exercise slack duration functionality.
@@ -44,7 +44,7 @@ public class SlackTest extends MPXJTestCase
     */
    @Test public void testSlack() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/slack9.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("slack9.mpp"));
       Task task = mpp.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task.getName());
       assertEquals(Duration.getInstance(8, TimeUnit.HOURS), task.getDuration());

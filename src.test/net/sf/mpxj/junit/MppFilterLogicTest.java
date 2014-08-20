@@ -39,7 +39,7 @@ import org.junit.Test;
 /**
  * Tests to exercise filter logic.
  */
-public class MppFilterLogicTest extends MPXJTestCase
+public class MppFilterLogicTest
 {
    /**
     * Exercise an MPP9 file.
@@ -48,7 +48,7 @@ public class MppFilterLogicTest extends MPXJTestCase
     */
    @Test public void testMpp9FilterLogic() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filterlogic.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filterlogic.mpp"));
       testFilterLogic(mpp);
    }
 
@@ -59,7 +59,7 @@ public class MppFilterLogicTest extends MPXJTestCase
     */
    @Test public void testMpp9FilterLogicFrom12() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filterlogic-from12.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filterlogic-from12.mpp"));
       //testFilterLogic(mpp);
    }
 
@@ -70,7 +70,7 @@ public class MppFilterLogicTest extends MPXJTestCase
     */
    @Test public void testMpp9FilterLogicFrom14() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filterlogic-from14.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filterlogic-from14.mpp"));
       //testFilterLogic(mpp);
    }
 
@@ -81,7 +81,7 @@ public class MppFilterLogicTest extends MPXJTestCase
     */
    @Test public void testMpp12FilterLogic() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filterlogic.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12filterlogic.mpp"));
       testFilterLogic(mpp);
    }
 
@@ -92,7 +92,7 @@ public class MppFilterLogicTest extends MPXJTestCase
     */
    @Test public void testMpp12FilterLogicFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filterlogic-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12filterlogic-from14.mpp"));
       testFilterLogic(mpp);
    }
 
@@ -103,7 +103,7 @@ public class MppFilterLogicTest extends MPXJTestCase
     */
    @Test public void testMpp14FilterLogic() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14filterlogic.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14filterlogic.mpp"));
       testFilterLogic(mpp);
    }
 

@@ -38,6 +38,9 @@ public final class MpxjAssert
 
    }
 
+   /**
+    * Allows a test to be ignored if it is running under IKVM (i.e. not a regular JVM)
+    */
    public static void assumeJvm()
    {
       String runtime = System.getProperty("java.runtime.name");

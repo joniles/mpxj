@@ -36,7 +36,7 @@ import org.junit.Test;
 /**
  * The tests contained in this class exercise the ProjectWriterUtility class.
  */
-public class ProjectWriterUtilityTest extends MPXJTestCase
+public class ProjectWriterUtilityTest
 {
    /**
     * Exercise the GetProjectWriter method.

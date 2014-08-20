@@ -43,7 +43,7 @@ import org.junit.Test;
  * Testsb to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppViewTest extends MPXJTestCase
+public class MppViewTest
 {
 
    /**
@@ -53,7 +53,7 @@ public class MppViewTest extends MPXJTestCase
     */
    @Test public void testMpp9View() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource.mpp"));
       testViews(mpp);
    }
 
@@ -64,7 +64,7 @@ public class MppViewTest extends MPXJTestCase
     */
    @Test public void testMpp9ViewFrom12() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource-from12.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource-from12.mpp"));
       //testViews(mpp);
    }
 
@@ -75,7 +75,7 @@ public class MppViewTest extends MPXJTestCase
     */
    @Test public void testMpp9ViewFrom14() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource-from14.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource-from14.mpp"));
       //testViews(mpp);
    }
 
@@ -86,7 +86,7 @@ public class MppViewTest extends MPXJTestCase
     */
    @Test public void testMpp12View() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12resource.mpp"));
       testViews(mpp);
    }
 
@@ -97,7 +97,7 @@ public class MppViewTest extends MPXJTestCase
     */
    @Test public void testMpp12ViewFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12resource-from14.mpp"));
       testViews(mpp);
    }
 
@@ -108,7 +108,7 @@ public class MppViewTest extends MPXJTestCase
     */
    @Test public void testMpp14View() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14resource.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14resource.mpp"));
       testViews(mpp);
    }
 

@@ -15,14 +15,14 @@ import org.junit.Test;
 /**
  * Tests reading resource field bit flags from MPP files.
  */
-public class MppResourceFlags extends MPXJTestCase
+public class MppResourceFlags
 {
    /**
     * Test MPP14 saved by Project 2010.
     */
    @Test public void testMpp14FromProject2010() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/resourceFlags-mpp14Project2010.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("resourceFlags-mpp14Project2010.mpp"));
       testFlags(mpp);
    }
 
@@ -32,7 +32,7 @@ public class MppResourceFlags extends MPXJTestCase
    @Test public void testMpp14FromProject2013() throws Exception
    {
       // TODO work in progress - fix reading from Project 2013 MPP14
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/resourceFlags-mpp14Project2013.mpp");      
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("resourceFlags-mpp14Project2013.mpp");      
       //testFlags(mpp);
    }
 

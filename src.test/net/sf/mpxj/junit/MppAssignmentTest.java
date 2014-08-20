@@ -47,7 +47,7 @@ import org.junit.Test;
 /**
  * Tests to exercise file read functionality for various MS project file types.
  */
-public class MppAssignmentTest extends MPXJTestCase
+public class MppAssignmentTest
 {
 
    /**
@@ -58,7 +58,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp9CustomFields() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentcustom.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9assignmentcustom.mpp"));
       testCustomFields(mpp);
    }
 
@@ -70,7 +70,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp9CustomFieldsFrom12() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentcustom-from12.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9assignmentcustom-from12.mpp"));
       testCustomFields(mpp);
    }
 
@@ -82,7 +82,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp12CustomFields() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentcustom.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12assignmentcustom.mpp"));
       testCustomFields(mpp);
    }
 
@@ -96,7 +96,7 @@ public class MppAssignmentTest extends MPXJTestCase
    //   @Test public void testMpp12CustomFieldsFrom14() throws Exception
    //   {
    //      MPPReader reader = new MPPReader();
-   //      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentcustom-from14.mpp");
+   //      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12assignmentcustom-from14.mpp"));
    //      testCustomFields(mpp);
    //   }
 
@@ -108,7 +108,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp14CustomFields() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp14assignmentcustom.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14assignmentcustom.mpp"));
       testCustomFields(mpp);
    }
 
@@ -120,7 +120,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMspdiCustomFields() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mspdiassignmentcustom.xml");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mspdiassignmentcustom.xml"));
       testCustomFields(mpp);
    }
 
@@ -133,7 +133,7 @@ public class MppAssignmentTest extends MPXJTestCase
    {
       assumeJvm();
       MPDDatabaseReader reader = new MPDDatabaseReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentcustom.mpd");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpdassignmentcustom.mpd"));
       testCustomFields(mpp);
    }
 
@@ -215,7 +215,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp9Fields() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentfields.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9assignmentfields.mpp"));
       testFields(mpp, null, null);
    }
 
@@ -227,7 +227,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp9FieldsFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp9assignmentfields-from14.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9assignmentfields-from14.mpp"));
       testFields(mpp, null, null);
    }
 
@@ -239,7 +239,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp12Fields() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentfields.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12assignmentfields.mpp"));
       testFields(mpp, "230CA12B-3792-4F3B-B69E-89ABAF1C9042", "C3FDB823-3C82-422B-A854-391F7E235EA2");
    }
 
@@ -251,7 +251,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp12FieldsFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp12assignmentfields-from14.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12assignmentfields-from14.mpp"));
       testFields(mpp, "230CA12B-3792-4F3B-B69E-89ABAF1C9042", "C3FDB823-3C82-422B-A854-391F7E235EA2");
    }
 
@@ -263,7 +263,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMpp14Fields() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpp14assignmentfields.mpp");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14assignmentfields.mpp"));
       testFields(mpp, "81DC0978-D218-4D29-A139-EF691CDBF851", "0040EAF6-D0A2-41DF-9F67-A3CAEBCC8C5B");
    }
 
@@ -275,7 +275,7 @@ public class MppAssignmentTest extends MPXJTestCase
    @Test public void testMspdiFields() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mspdiassignmentfields.xml");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mspdiassignmentfields.xml"));
       testFields(mpp, null, null);
    }
 
@@ -288,7 +288,7 @@ public class MppAssignmentTest extends MPXJTestCase
    {
       assumeJvm();
       MPDDatabaseReader reader = new MPDDatabaseReader();
-      ProjectFile mpp = reader.read(m_basedir + "/mpdassignmentfields.mpd");
+      ProjectFile mpp = reader.read(MpxjTestData.filePath("mpdassignmentfields.mpd"));
       testFields(mpp, null, null);
    }
 

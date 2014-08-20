@@ -38,7 +38,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppViewStateTest extends MPXJTestCase
+public class MppViewStateTest
 {
 
    /**
@@ -48,7 +48,7 @@ public class MppViewStateTest extends MPXJTestCase
     */
    @Test public void testMpp9ViewState() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9viewstate.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9viewstate.mpp"));
       testViewState(mpp);
    }
 
@@ -59,7 +59,7 @@ public class MppViewStateTest extends MPXJTestCase
     */
    @Test public void testMpp9ViewStateFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9viewstate-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9viewstate-from12.mpp"));
       testViewState(mpp);
    }
 
@@ -70,7 +70,7 @@ public class MppViewStateTest extends MPXJTestCase
     */
    @Test public void testMpp9ViewStateFrom14() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9viewstate-from14.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9viewstate-from14.mpp"));
       //testViewState(mpp);
    }
 
@@ -81,7 +81,7 @@ public class MppViewStateTest extends MPXJTestCase
     */
    @Test public void testMpp12ViewState() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12viewstate.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12viewstate.mpp"));
       testViewState(mpp);
    }
 
@@ -92,7 +92,7 @@ public class MppViewStateTest extends MPXJTestCase
     */
    @Test public void testMpp12ViewStateFrom14() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12viewstate-from14.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12viewstate-from14.mpp"));
       //testViewState(mpp);
    }
 
@@ -103,7 +103,7 @@ public class MppViewStateTest extends MPXJTestCase
     */
    @Test public void testMpp14ViewState() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14viewstate.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14viewstate.mpp"));
       testViewState(mpp);
    }
 

@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Test columns read from MPP files.
  */
-public class MppColumnsTest extends MPXJTestCase
+public class MppColumnsTest
 {
    /**
     * Test MPP9 file columns.
@@ -43,7 +43,7 @@ public class MppColumnsTest extends MPXJTestCase
     */
    @Test public void testMpp9() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9columns.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9columns.mpp"));
       testTaskColumns(file, TASK_COLUMNS_1, MPP12_TASK_COLUMNS_1);
       testTaskColumns(file, TASK_COLUMNS_2, MPP12_TASK_COLUMNS_2);
       testTaskColumns(file, TASK_COLUMNS_3, MPP14_TASK_COLUMNS_3);
@@ -73,7 +73,7 @@ public class MppColumnsTest extends MPXJTestCase
     */
    @Test public void testMpp12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12columns.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12columns.mpp"));
       testTaskColumns(file, TASK_COLUMNS_1, MPP12_TASK_COLUMNS_1);
       testTaskColumns(file, TASK_COLUMNS_2, MPP12_TASK_COLUMNS_2);
       testTaskColumns(file, TASK_COLUMNS_3, MPP14_TASK_COLUMNS_3);
@@ -103,7 +103,7 @@ public class MppColumnsTest extends MPXJTestCase
     */
    @Test public void testMpp14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14columns.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp14columns.mpp"));
       testTaskColumns(file, TASK_COLUMNS_1, MPP14_TASK_COLUMNS_1);
       testTaskColumns(file, TASK_COLUMNS_2, MPP14_TASK_COLUMNS_2);
       testTaskColumns(file, TASK_COLUMNS_3, MPP14_TASK_COLUMNS_3);

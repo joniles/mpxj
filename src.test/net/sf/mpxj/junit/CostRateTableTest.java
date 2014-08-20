@@ -41,7 +41,7 @@ import org.junit.Test;
 /**
  * The tests contained in this class exercise cost rate table functionality.
  */
-public class CostRateTableTest extends MPXJTestCase
+public class CostRateTableTest
 {
    /**
     * Test MPP9 file cost rate tables.
@@ -50,7 +50,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMpp9() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9costratetable.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9costratetable.mpp"));
       testCostRateTable(file);
    }
 
@@ -61,7 +61,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMpp9From12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9costratetable-from12.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9costratetable-from12.mpp"));
       testCostRateTable(file);
    }
 
@@ -72,7 +72,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMpp9From14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9costratetable-from14.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9costratetable-from14.mpp"));
       testCostRateTable(file);
    }
 
@@ -83,7 +83,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMpp12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12costratetable.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12costratetable.mpp"));
       testCostRateTable(file);
    }
 
@@ -94,7 +94,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMpp12From14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12costratetable-from14.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12costratetable-from14.mpp"));
       testCostRateTable(file);
    }
 
@@ -105,7 +105,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMpp14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14costratetable.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp14costratetable.mpp"));
       testCostRateTable(file);
    }
 
@@ -116,7 +116,7 @@ public class CostRateTableTest extends MPXJTestCase
     */
    @Test public void testMspdi() throws Exception
    {
-      ProjectFile file = new MSPDIReader().read(m_basedir + "/mspdicostratetable.xml");
+      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspdicostratetable.xml"));
       testCostRateTable(file);
    }
 

@@ -41,7 +41,7 @@ import org.junit.Test;
  * The tests contained in this class exercise the graphical indicator
  * evaluation code.
  */
-public class MppGraphIndTest extends MPXJTestCase
+public class MppGraphIndTest
 {
    /**
     * Test the graphical indicator evaluation code for an MPP9 file.
@@ -50,7 +50,7 @@ public class MppGraphIndTest extends MPXJTestCase
     */
    @Test public void testMpp9GraphInd() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9graphind.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp9graphind.mpp"));
       testGraphicalIndicators(project);
    }
 
@@ -61,7 +61,7 @@ public class MppGraphIndTest extends MPXJTestCase
     */
    @Test public void testMpp9GraphIndFrom12() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9graphind-from12.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp9graphind-from12.mpp"));
       testGraphicalIndicators(project);
    }
 
@@ -72,7 +72,7 @@ public class MppGraphIndTest extends MPXJTestCase
     */
    @Test public void testMpp9GraphIndFrom14() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9graphind-from14.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp9graphind-from14.mpp"));
       testGraphicalIndicators(project);
    }
 
@@ -83,7 +83,7 @@ public class MppGraphIndTest extends MPXJTestCase
     */
    @Test public void testMpp12GraphInd() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12graphind.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp12graphind.mpp"));
       testGraphicalIndicators(project);
    }
 
@@ -94,7 +94,7 @@ public class MppGraphIndTest extends MPXJTestCase
     */
    @Test public void testMpp12GraphIndFrom14() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12graphind-from14.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp12graphind-from14.mpp"));
       testGraphicalIndicators(project);
    }
 
@@ -105,7 +105,7 @@ public class MppGraphIndTest extends MPXJTestCase
     */
    @Test public void testMpp14GraphInd() throws Exception
    {
-      ProjectFile project = new MPPReader().read(m_basedir + "/mpp14graphind.mpp");
+      ProjectFile project = new MPPReader().read(MpxjTestData.filePath("mpp14graphind.mpp"));
       testGraphicalIndicators(project);
    }
 

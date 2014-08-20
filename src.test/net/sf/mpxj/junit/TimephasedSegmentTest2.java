@@ -48,7 +48,7 @@ import org.junit.Test;
  * This example shows an MPP, MPX or MSPDI file being read, and basic
  * task and resource data being extracted.
  */
-public class TimephasedSegmentTest2 extends MPXJTestCase
+public class TimephasedSegmentTest2
 {
    /**
     * Timephased segment test for MPP9 files.
@@ -57,7 +57,7 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     */
    @Test public void testMpp9() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased2.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9timephased2.mpp"));
       testSegments(file);
    }
 
@@ -68,7 +68,7 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     */
    @Test public void testMpp9From12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased2-from12.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9timephased2-from12.mpp"));
       testSegments(file);
    }
 
@@ -79,7 +79,7 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     */
    @Test public void testMpp9From14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9timephased2-from14.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9timephased2-from14.mpp"));
       testSegments(file);
    }
 
@@ -90,7 +90,7 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     */
    @Test public void testMpp12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephased2.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12timephased2.mpp"));
       testSegments(file);
    }
 
@@ -101,7 +101,7 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     */
    @Test public void testMpp12From14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12timephased2-from14.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12timephased2-from14.mpp"));
       testSegments(file);
    }
 
@@ -112,7 +112,7 @@ public class TimephasedSegmentTest2 extends MPXJTestCase
     */
    @Test public void testMpp14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14timephased2.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp14timephased2.mpp"));
       testSegments(file);
    }
 

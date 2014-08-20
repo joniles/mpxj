@@ -50,7 +50,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppBarStyleTest extends MPXJTestCase
+public class MppBarStyleTest
 {
 
    /**
@@ -60,7 +60,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp9DefaultBarStyles() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9barstyle.mpp"));
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
    }
 
@@ -71,7 +71,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp9DefaultBarStylesFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9barstyle-from12.mpp"));
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
    }
 
@@ -82,7 +82,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp9DefaultBarStylesFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9barstyle-from14.mpp"));
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES_FROM14);
    }
 
@@ -93,7 +93,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp12DefaultBarStyles() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12barstyle.mpp"));
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES);
    }
 
@@ -104,7 +104,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp12DefaultBarStylesFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12barstyle-from14.mpp"));
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES_FROM14);
    }
 
@@ -115,7 +115,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp14DefaultBarStyles() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14barstyle.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14barstyle.mpp"));
       testDefaultBarStyles(mpp, DEFAULT_BAR_STYLES14);
    }
 
@@ -126,7 +126,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp9ExceptionBarStyles() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9barstyle.mpp"));
       testExceptionBarStyles(mpp);
    }
 
@@ -137,7 +137,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp9ExceptionBarStylesFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9barstyle-from12.mpp"));
       testExceptionBarStyles(mpp);
    }
 
@@ -148,7 +148,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp9ExceptionBarStylesFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9barstyle-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9barstyle-from14.mpp"));
       testExceptionBarStyles(mpp);
    }
 
@@ -159,7 +159,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp12ExceptionBarStyles() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12barstyle.mpp"));
       testExceptionBarStyles(mpp);
    }
 
@@ -170,7 +170,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp12ExceptionBarStylesFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12barstyle-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12barstyle-from14.mpp"));
       testExceptionBarStyles(mpp);
    }
 
@@ -181,7 +181,7 @@ public class MppBarStyleTest extends MPXJTestCase
     */
    @Test public void testMpp14ExceptionBarStyles() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14barstyle.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14barstyle.mpp"));
       testExceptionBarStyles(mpp);
    }
 

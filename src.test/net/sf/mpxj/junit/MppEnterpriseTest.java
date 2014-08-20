@@ -42,7 +42,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppEnterpriseTest extends MPXJTestCase
+public class MppEnterpriseTest
 {
    /**
     * Test enterprise data read from an MPP9 file.
@@ -51,7 +51,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMpp9EnterpriseFields() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9enterprise.mpp"));
       testEnterpriseFields(mpp);
    }
 
@@ -62,7 +62,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMpp9EnterpriseFieldsFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9enterprise-from12.mpp"));
       testEnterpriseFields(mpp);
    }
 
@@ -73,7 +73,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMpp9EnterpriseFieldsFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9enterprise-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9enterprise-from14.mpp"));
       testEnterpriseFields(mpp);
    }
 
@@ -84,7 +84,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMpp12EnterpriseFields() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12enterprise.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12enterprise.mpp"));
       testEnterpriseFields(mpp);
    }
 
@@ -95,7 +95,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMpp12EnterpriseFieldsFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12enterprise-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12enterprise-from14.mpp"));
       testEnterpriseFields(mpp);
    }
 
@@ -106,7 +106,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMpp14EnterpriseFields() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14enterprise.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14enterprise.mpp"));
       testEnterpriseFields(mpp);
    }
 
@@ -117,7 +117,7 @@ public class MppEnterpriseTest extends MPXJTestCase
     */
    @Test public void testMspdiEnterpriseFields() throws Exception
    {
-      ProjectFile mpp = new MSPDIReader().read(m_basedir + "/enterprise.xml");
+      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("enterprise.xml"));
       testEnterpriseFields(mpp);
    }
 

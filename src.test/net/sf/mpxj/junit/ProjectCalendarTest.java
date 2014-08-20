@@ -44,7 +44,7 @@ import org.junit.Test;
 /**
  * This class contains tests used to exercise ProjectCalendar functionality.
  */
-public class ProjectCalendarTest extends MPXJTestCase
+public class ProjectCalendarTest
 {
    /**
     * Test get getWork method.
@@ -235,7 +235,7 @@ public class ProjectCalendarTest extends MPXJTestCase
    @Test public void testVarianceCalculations9() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile file = reader.read(m_basedir + "/DurationTest9.mpp");
+      ProjectFile file = reader.read(MpxjTestData.filePath("DurationTest9.mpp"));
       Task task;
       Duration duration;
 
@@ -431,7 +431,7 @@ public class ProjectCalendarTest extends MPXJTestCase
    @Test public void testVarianceCalculations8() throws Exception
    {
       MPPReader reader = new MPPReader();
-      ProjectFile file = reader.read(m_basedir + "/DurationTest8.mpp");
+      ProjectFile file = reader.read(MpxjTestData.filePath("DurationTest8.mpp"));
       Task task;
       Duration duration;
 

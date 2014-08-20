@@ -40,7 +40,7 @@ import org.junit.Test;
 /**
  * The tests contained in this class exercise the split task functionality.
  */
-public class SplitTaskTest extends MPXJTestCase
+public class SplitTaskTest
 {
    /**
     * Exercise split task functionality.
@@ -49,7 +49,7 @@ public class SplitTaskTest extends MPXJTestCase
     */
    @Test public void testSplits1() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/splits9a.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("splits9a.mpp"));
 
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       assertNull(task.getSplits());
@@ -85,7 +85,7 @@ public class SplitTaskTest extends MPXJTestCase
     */
    @Test public void testSplits2() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/splits9b.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("splits9b.mpp"));
       List<DateRange> taskSplits;
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       taskSplits = task.getSplits();

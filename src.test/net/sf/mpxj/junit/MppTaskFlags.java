@@ -15,14 +15,14 @@ import org.junit.Test;
 /**
  * Tests reading task field bit flags from MPP files.
  */
-public class MppTaskFlags extends MPXJTestCase
+public class MppTaskFlags
 {
    /**
     * Test MPP9 saved by Project 2013.
     */
    @Test public void testMpp9FromProject2013() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp9Project2013.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("taskFlags-mpp9Project2013.mpp"));
       testFlags(mpp);
    }
 
@@ -31,7 +31,7 @@ public class MppTaskFlags extends MPXJTestCase
     */
    @Test public void testMpp12FromProject2013() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp12Project2013.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("taskFlags-mpp12Project2013.mpp"));
       testFlags(mpp);
    }
 
@@ -40,7 +40,7 @@ public class MppTaskFlags extends MPXJTestCase
     */
    @Test public void testMpp14FromProject2013() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp14Project2013.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("taskFlags-mpp14Project2013.mpp"));
       testFlags(mpp);
    }
 
@@ -49,7 +49,7 @@ public class MppTaskFlags extends MPXJTestCase
     */
    @Test public void testMpp9FromProject2010() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp9Project2010.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("taskFlags-mpp9Project2010.mpp"));
       testFlags(mpp);
    }
 
@@ -58,7 +58,7 @@ public class MppTaskFlags extends MPXJTestCase
     */
    @Test public void testMpp12FromProject2010() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp12Project2010.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("taskFlags-mpp12Project2010.mpp"));
       testFlags(mpp);
    }
 
@@ -67,7 +67,7 @@ public class MppTaskFlags extends MPXJTestCase
     */
    @Test public void testMpp14FromProject2010() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/taskFlags-mpp14Project2010.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("taskFlags-mpp14Project2010.mpp"));
       testFlags(mpp);
    }
 

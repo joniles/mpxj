@@ -48,7 +48,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppGroupTest extends MPXJTestCase
+public class MppGroupTest
 {
    /**
     * Test group data read from an MPP9 file.
@@ -57,7 +57,7 @@ public class MppGroupTest extends MPXJTestCase
     */
    @Test public void testMpp9Groups() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9group.mpp"));
       testGroups(mpp);
    }
 
@@ -68,7 +68,7 @@ public class MppGroupTest extends MPXJTestCase
     */
    @Test public void testMpp9GroupsFrom12() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group-from12.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9group-from12.mpp"));
       //testGroups(mpp);
    }
 
@@ -79,7 +79,7 @@ public class MppGroupTest extends MPXJTestCase
     */
    @Test public void testMpp9GroupsFrom14() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9group-from14.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9group-from14.mpp"));
       //testGroups(mpp);
    }
 
@@ -90,7 +90,7 @@ public class MppGroupTest extends MPXJTestCase
     */
    @Test public void testMpp12Groups() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12group.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12group.mpp"));
       testGroups(mpp);
    }
 
@@ -101,7 +101,7 @@ public class MppGroupTest extends MPXJTestCase
     */
    @Test public void testMpp12GroupsFrom14() throws Exception
    {
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12group-from14.mpp");
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12group-from14.mpp"));
       //testGroups(mpp);
    }
 
@@ -112,7 +112,7 @@ public class MppGroupTest extends MPXJTestCase
     */
    @Test public void testMpp14Groups() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14group.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14group.mpp"));
       testGroups(mpp);
    }
 

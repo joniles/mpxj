@@ -57,7 +57,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppTaskTest extends MPXJTestCase
+public class MppTaskTest
 {
 
    /**
@@ -67,7 +67,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9Task() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9task.mpp"));
       testBasicTask(mpp);
    }
 
@@ -78,7 +78,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9TaskFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9task-from12.mpp"));
       testBasicTask(mpp);
    }
 
@@ -89,7 +89,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9TaskFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9task-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9task-from14.mpp"));
       testBasicTask(mpp);
    }
 
@@ -100,7 +100,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12Task() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12task.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12task.mpp"));
       testBasicTask(mpp);
    }
 
@@ -111,7 +111,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12TaskFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12task-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12task-from14.mpp"));
       testBasicTask(mpp);
    }
 
@@ -122,7 +122,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp14Task() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14task.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14task.mpp"));
       testBasicTask(mpp);
    }
 
@@ -133,7 +133,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp14TaskFromProject2013() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14task-from2013.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14task-from2013.mpp"));
       testBasicTask(mpp);
    }
 
@@ -145,7 +145,7 @@ public class MppTaskTest extends MPXJTestCase
    @Test public void testMpd9Task() throws Exception
    {
       assumeJvm();
-      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9task.mpd");
+      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9task.mpd"));
       testBasicTask(mpp);
    }
 
@@ -156,7 +156,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9Baseline() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9baseline.mpp"));
       testBaselineTasks(mpp);
    }
 
@@ -167,7 +167,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9BaselineFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9baseline-from12.mpp"));
       testBaselineTasks(mpp);
    }
 
@@ -178,7 +178,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9BaselineFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9baseline-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9baseline-from14.mpp"));
       testBaselineTasks(mpp);
    }
 
@@ -189,7 +189,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12Baseline() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baseline.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12baseline.mpp"));
       testBaselineTasks(mpp);
    }
 
@@ -200,7 +200,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12BaselineFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12baseline-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12baseline-from14.mpp"));
       testBaselineTasks(mpp);
    }
 
@@ -211,7 +211,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp14Baseline() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14baseline.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14baseline.mpp"));
       testBaselineTasks(mpp);
    }
 
@@ -223,7 +223,7 @@ public class MppTaskTest extends MPXJTestCase
    @Test public void testMpd9Baseline() throws Exception
    {
       assumeJvm();
-      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9baseline.mpd");
+      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9baseline.mpd"));
       testBaselineTasks(mpp);
    }
 
@@ -234,7 +234,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9Splits() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9splittask.mpp"));
       testSplitTasks(mpp);
    }
 
@@ -245,7 +245,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9SplitsFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9splittask-from12.mpp"));
       testSplitTasks(mpp);
    }
 
@@ -256,7 +256,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9SplitsFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9splittask-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9splittask-from14.mpp"));
       testSplitTasks(mpp);
    }
 
@@ -267,7 +267,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12Splits() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12splittask.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12splittask.mpp"));
       testSplitTasks(mpp);
    }
 
@@ -278,7 +278,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12SplitsFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12splittask-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12splittask-from14.mpp"));
       testSplitTasks(mpp);
    }
 
@@ -289,7 +289,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp14Splits() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14splittask.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14splittask.mpp"));
       testSplitTasks(mpp);
    }
 
@@ -300,7 +300,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMspdiSplits() throws Exception
    {
-      ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdisplittask.xml");
+      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("mspdisplittask.xml"));
       testSplitTasks(mpp);
    }
 
@@ -313,7 +313,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpd9Splits() throws Exception
    {
-      //       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9splittask.mpd");
+      //       ProjectFile mpp = new MPDDatabaseReader().read (MpxjTestData.filePath("mpp9splittask.mpd");
       //       testSplitTasks(mpp);
    }
 
@@ -324,7 +324,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9Relations() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9relations.mpp"));
       testRelations(mpp);
    }
 
@@ -335,7 +335,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9RelationsFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9relations-from12.mpp"));
       testRelations(mpp);
    }
 
@@ -346,7 +346,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp9RelationsFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9relations-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9relations-from14.mpp"));
       testRelations(mpp);
    }
 
@@ -358,7 +358,7 @@ public class MppTaskTest extends MPXJTestCase
    @Test public void testMpd9Relations() throws Exception
    {
       assumeJvm();
-      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9relations.mpd");
+      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9relations.mpd"));
       testRelations(mpp);
    }
 
@@ -369,7 +369,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12Relations() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12relations.mpp"));
       testRelations(mpp);
    }
 
@@ -380,7 +380,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp12RelationsFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12relations-from14.mpp"));
       testRelations(mpp);
    }
 
@@ -391,7 +391,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMpp14Relations() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14relations.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14relations.mpp"));
       testRelations(mpp);
    }
 
@@ -402,7 +402,7 @@ public class MppTaskTest extends MPXJTestCase
     */
    @Test public void testMspdiRelations() throws Exception
    {
-      ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdirelations.xml");
+      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("mspdirelations.xml"));
       testRelations(mpp);
    }
 

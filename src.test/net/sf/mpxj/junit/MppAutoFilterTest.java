@@ -36,7 +36,7 @@ import org.junit.Test;
  * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppAutoFilterTest extends MPXJTestCase
+public class MppAutoFilterTest
 {
 
    /**
@@ -46,7 +46,7 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    @Test public void testMpp9Filters() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9autofilter.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9autofilter.mpp"));
       testFilters(mpp);
    }
 
@@ -57,7 +57,7 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    @Test public void testMpp9FiltersFrom12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9autofilter-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9autofilter-from12.mpp"));
       testFilters(mpp);
    }
 
@@ -68,7 +68,7 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    @Test public void testMpp9FiltersFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9autofilter-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9autofilter-from14.mpp"));
       testFilters(mpp);
    }
 
@@ -79,7 +79,7 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    @Test public void testMpp12Filters() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12autofilter.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12autofilter.mpp"));
       testFilters(mpp);
    }
 
@@ -90,7 +90,7 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    @Test public void testMpp12FiltersFrom14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12autofilter-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12autofilter-from14.mpp"));
       testFilters(mpp);
    }
 
@@ -101,7 +101,7 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    @Test public void testMpp14Filters() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14autofilter.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14autofilter.mpp"));
       testFilters(mpp);
    }
 

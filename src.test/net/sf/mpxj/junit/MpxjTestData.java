@@ -1,8 +1,8 @@
 /*
- * file:       MPXJTestCase.java
+ * file:       MpxjTestData.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2006
- * date:       24/02/2006
+ * copyright:  (c) Packwood Software 2014
+ * date:       20/08/2014
  */
 
 /*
@@ -26,22 +26,28 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.fail;
 
 /**
- * Base class implementing common test case functionality.
+ * Simple utility class to provide access to named test data files.
  */
-public abstract class MPXJTestCase
+public class MpxjTestData
 {
-   /**
-    * Constructor. Note that the system property mpxj.junit.datadir must
-    * be defined to allow the test code to find the required sample files.
-    */
-   public MPXJTestCase()
+   private static final String DATA_DIR;
+   static
    {
-      m_basedir = System.getProperty("mpxj.junit.datadir");
-      if (m_basedir == null || m_basedir.length() == 0)
+      DATA_DIR = System.getProperty("mpxj.junit.datadir");
+      if (DATA_DIR == null || DATA_DIR.length() == 0)
       {
          fail("missing datadir property");
       }
    }
 
-   protected String m_basedir;
+   /**
+    * Retrieve the path to a test data file.
+    * 
+    * @param fileName test data file name
+    * @return file path
+    */
+   public static String filePath(String fileName)
+   {
+      return DATA_DIR + "/" + fileName;
+   }
 }

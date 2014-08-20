@@ -42,7 +42,7 @@ import org.junit.Test;
 /**
  * The tests contained in this class exercise resource availability functionality.
  */
-public class AvailabilityTest extends MPXJTestCase
+public class AvailabilityTest
 {
    /**
     * Test MPP9 file cost resource availability.
@@ -51,7 +51,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMpp9() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9availability.mpp"));
       testAvailability(file);
    }
 
@@ -62,7 +62,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMpp9From12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability-from12.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9availability-from12.mpp"));
       testAvailability(file);
    }
 
@@ -73,7 +73,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMpp9From14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp9availability-from14.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp9availability-from14.mpp"));
       testAvailability(file);
    }
 
@@ -84,7 +84,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMpp12() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12availability.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12availability.mpp"));
       testAvailability(file);
    }
 
@@ -95,7 +95,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMpp12From14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp12availability-from14.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp12availability-from14.mpp"));
       testAvailability(file);
    }
 
@@ -106,7 +106,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMpp14() throws Exception
    {
-      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14availability.mpp");
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("mpp14availability.mpp"));
       testAvailability(file);
    }
 
@@ -117,7 +117,7 @@ public class AvailabilityTest extends MPXJTestCase
     */
    @Test public void testMspdi() throws Exception
    {
-      ProjectFile file = new MSPDIReader().read(m_basedir + "/mspdiavailability.xml");
+      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspdiavailability.xml"));
       testAvailability(file);
    }
 

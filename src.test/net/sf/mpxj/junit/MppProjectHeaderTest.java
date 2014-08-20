@@ -44,7 +44,7 @@ import org.junit.Test;
 /**
  * Test reading project header data from MPP files.
  */
-public class MppProjectHeaderTest extends MPXJTestCase
+public class MppProjectHeaderTest
 {
    /**
     * Test project header data read from an MPP9 file.
@@ -53,7 +53,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     */
    @Test public void testMpp9() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9header.mpp"));
       testHeader(mpp, true);
    }
 
@@ -64,7 +64,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     */
    @Test public void testMpp9From12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header-from12.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9header-from12.mpp"));
       testHeader(mpp, true);
    }
 
@@ -75,7 +75,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     */
    @Test public void testMpp9From14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9header-from14.mpp"));
       testHeader(mpp, true);
    }
 
@@ -86,7 +86,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     */
    @Test public void testMpp12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12header.mpp"));
       testHeader(mpp, true);
    }
 
@@ -97,7 +97,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     */
    @Test public void testMpp12From14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header-from14.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12header-from14.mpp"));
       testHeader(mpp, true);
    }
 
@@ -108,7 +108,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
     */
    @Test public void testMpp14() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14header.mpp");
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14header.mpp"));
       testHeader(mpp, true);
    }
 
@@ -120,7 +120,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
    @Test public void testMpd9() throws Exception
    {
       assumeJvm();
-      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9header.mpd");
+      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9header.mpd"));
       testHeader(mpp, false);
    }
 

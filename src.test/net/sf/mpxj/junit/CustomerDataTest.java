@@ -40,7 +40,7 @@ import org.junit.Test;
  * The tests contained in this class exercise MPXJ
  * using customer supplied data.
  */
-public class CustomerDataTest extends MPXJTestCase
+public class CustomerDataTest
 {
    /**
     * Test customer data.
