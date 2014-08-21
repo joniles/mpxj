@@ -6,7 +6,7 @@
   <groupId>net.sourceforge</groupId>
   <artifactId>mpxj</artifactId>
 
-  <!-- Note - keep this in sync with ant/build.xml -->
+  <!-- Note - this is automatically updated by the ant build -->
   <version>4.6.0-SNAPSHOT</version>
   
   <name>MPXJ</name>
@@ -27,11 +27,12 @@
   </organization>
   <inceptionYear>2000</inceptionYear>
 
+  <!-- Note that this is NOT The patched version which MPXJ ships with -->
   <dependencies>
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
-      <version>3.9</version>
+      <version>3.10-FINAL</version>
     </dependency>
 
     <!-- Test dependencies -->
@@ -39,8 +40,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.11</version>
 <!--  <scope>test</scope> -->
+    </dependency>
+    <dependency>
+    	<groupId>com.jgoodies</groupId>
+    	<artifactId>jgoodies-binding</artifactId>
+    	<version>2.10.0</version>
     </dependency>
   </dependencies>
 
@@ -54,11 +60,12 @@
   </mailingLists>
 
   <issueManagement>
+  	<system>SourceForge</system>
     <url>http://sourceforge.net/tracker/?group_id=70649&amp;atid=528541</url>
   </issueManagement>
 
   <scm>
-    <connection>scm:git://git.code.sf.net/p/mpxj/mpxj:src</connection>
+    <connection>scm:git:git://git.code.sf.net/p/mpxj/mpxj</connection>
     <url>http://sourceforge.net/p/mpxj/mpxj/ci/master/tree/</url>
   </scm>
 
@@ -106,14 +113,6 @@
     <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <additionalparam>-top '&lt;a href="http://mpxj.sourceforge.net" target="_blank">MPXJ: Microsoft Project Exchange&lt;/a>'</additionalparam>
-          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-          <docletPath>/Users/maven/umlgraph/lib/UmlGraph.jar</docletPath>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
@@ -128,16 +127,35 @@
   <reporting>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>summary</report>
+              <report>project-team</report>
+              <report>mailing-list</report>
+              <report>issue-tracking</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>          
+      <plugin>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.10</version>
         <configuration>
           <xmlPath>${basedir}/xdocs/changes.xml</xmlPath>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-statcvs-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <additionalparam>-top '&lt;a href="http://mpxj.sourceforge.net" target="_blank">MPXJ: Microsoft Project Exchange&lt;/a>'</additionalparam>
+        </configuration>        
       </plugin>
     </plugins>
   </reporting>
