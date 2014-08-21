@@ -28,6 +28,10 @@ import org.junit.runners.Suite;
 
 /**
  * Test suite to collect together MPXJ tests.
+ * 
+ * Ideally this would be generated dynamically, which is fine when running under
+ * a JVM, but various approaches to this failed when running under IKVM...
+ * so a big list of classes it is! 
  */
 @RunWith(Suite.class) @Suite.SuiteClasses(
 {
@@ -69,26 +73,7 @@ import org.junit.runners.Suite;
    MppTaskFlags.class,
    MppResourceFlags.class,
    CustomerDataTest.class
-}) public class MPXJTest
+}) public class MpxjTestSuite
 {
-   // TODO: replace with dynamic suite
+   // No class body required
 }
-
-/*
-import org.junit.runners.AllTests;
-import junit.framework.TestSuite;
-import junit.framework.Test;
-
-@RunWith(AllTests.class)
-public final class MasterTester {
-
-  public static TestSuite suite() {
-    TestSuite suite = new TestSuite();
-    for (Test test : findAllTestCasesRuntime()) {
-      suite.addTest(test);
-    }
-    return suite;
-  }
-} 
- 
-*/
