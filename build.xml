@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="net.sf.mpxj" default="archive" basedir="..">
+<project name="net.sf.mpxj" default="archive" basedir=".">
 
 	<target name="init" depends="init-props,init-dirs">
 		<tstamp />
