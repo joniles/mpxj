@@ -103,7 +103,7 @@
 	</target>
 
 	<target name="update-maven-pom" depends="init-props" description="Ensure the version number in the Maven POM is correct">
-		<replaceregexp file="${basedir}/pom.xml"
+		<replaceregexp file="${basedir}/maven/pom.xml"
 		               match="&lt;version&gt;.*-SNAPSHOT&lt;/version&gt;"
 		               replace="&lt;version&gt;${current.version}-SNAPSHOT&lt;/version&gt;"
 		               byline="true"
