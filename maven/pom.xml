@@ -140,13 +140,16 @@
 				</configuration>
 			</plugin>
 
-			<!-- Use our own site template to inject Google adsense -->
+			<!-- Use our own site template to inject Google adsense, exclude changes.xml from normal xdoc processing -->
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
 					<templateDirectory>${basedir}</templateDirectory>
 					<template>maven-site.vm</template>
+					<moduleExcludes>
+						<xdoc>changes.xml</xdoc>
+					</moduleExcludes>
 				</configuration>
 			</plugin>
 
