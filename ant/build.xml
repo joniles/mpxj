@@ -339,7 +339,7 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net" description="Clean up all files">
+	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, clean-maven" description="Clean up all files">
 
 		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
@@ -378,4 +378,25 @@
 	</target>
 
 
+	<target name="populate-maven" description="Populates the maven directory ready for use">
+		<mkdir dir="${basedir}/maven/src/main/java" />
+		<mkdir dir="${basedir}/maven/src/main/resources" />
+		<mkdir dir="${basedir}/maven/src/test/java" />
+		<mkdir dir="${basedir}/maven/src/test/resources" />
+		
+		<copy todir="${basedir}/maven/src/main/java" >  
+		        <fileset dir="${basedir}/src" includes="**"/>  
+		</copy>
+		
+		<copy todir="${basedir}/maven/src/test/java" >  
+		        <fileset dir="${basedir}/src.test" includes="**"/>  
+		</copy>		
+	</target>
+	
+	<target name="clean-maven" description="Cleans the maven directory">
+		<delete dir="${basedir}/maven/src/main" />
+		<delete dir="${basedir}/maven/src/test" />
+		<delete dir="${basedir}/maven/target" />		
+	</target>
 </project>
+

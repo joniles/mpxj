@@ -13,4 +13,6 @@
 /src.net/**/obj
 /src.net/**/*.user
 /src.net/*.suo
-/classes/
+/maven/target
+/maven/src/main
+/maven/src/test
