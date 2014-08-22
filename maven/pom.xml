@@ -1,210 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.sourceforge</groupId>
-  <artifactId>mpxj</artifactId>
+	<groupId>net.sourceforge</groupId>
+	<artifactId>mpxj</artifactId>
 
-  <!-- Note - this is automatically updated by the ant build -->
-  <version>4.6.0-SNAPSHOT</version>
-  
-  <name>MPXJ</name>
-  <url>http://mpxj.sourceforge.net/</url>
+	<!-- Note - this is automatically updated by the ant build -->
+	<version>4.6.0-SNAPSHOT</version>
 
-  <description>
-    Library that provides facilities to allow project information to be
-    manipulated in Java and .Net. Supports a range of data formats:
-    Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT),
-    Microsoft Project Data Interchange (MSPDI XML), Microsoft Project
-    Database (MPD), Planner (XML), Primavera (PM XML, XER, and database),
-    Asta Powerproject (PP, MDB), and the Standard Data Exchange Format (SDEF).
-  </description>
+	<name>MPXJ</name>
+	<url>http://mpxj.sourceforge.net/</url>
 
-  <organization>
-    <name>Packwood Software</name>
-    <url>http://mpxj.sf.net/</url>
-  </organization>
-  <inceptionYear>2000</inceptionYear>
+	<description>Library that provides facilities to allow project information to be manipulated in Java and .Net. Supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), Asta Powerproject (PP, MDB), and the Standard Data Exchange Format (SDEF).</description>
 
-  <!-- Note that this is NOT The patched version which MPXJ ships with -->
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>3.10-FINAL</version>
-    </dependency>
+	<organization>
+		<name>Packwood Software</name>
+		<url>http://mpxj.sf.net/</url>
+	</organization>
+	<inceptionYear>2000</inceptionYear>
 
-    <!-- Test dependencies -->
-    <!-- Tests are currently in the same tree, so no test scope -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-<!--  <scope>test</scope> -->
-    </dependency>
-    
-    <dependency>
-    	<groupId>com.jgoodies</groupId>
-    	<artifactId>jgoodies-binding</artifactId>
-    	<version>2.10.0</version>
-    </dependency>
-  </dependencies>
+	<!-- Note that this is NOT The patched version which MPXJ ships with -->
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
 
-  <mailingLists>
-    <mailingList>
-      <name>MPXJ Developers List</name>
-      <subscribe>http://lists.sourceforge.net/lists/listinfo/mpxj-developers</subscribe>
-      <unsubscribe>http://lists.sourceforge.net/lists/listinfo/mpxj-developers</unsubscribe>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum=mpxj-developers</archive>
-    </mailingList>
-  </mailingLists>
+		<!-- Test dependencies -->
+		<!-- Tests are currently in the same tree, so no test scope -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
 
-  <issueManagement>
-  	<system>SourceForge</system>
-    <url>http://sourceforge.net/tracker/?group_id=70649&amp;atid=528541</url>
-  </issueManagement>
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>jgoodies-binding</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+	</dependencies>
 
-  <scm>
-    <connection>scm:git:git://git.code.sf.net/p/mpxj/mpxj</connection>
-    <url>http://sourceforge.net/p/mpxj/mpxj/ci/master/tree/</url>
-  </scm>
+	<mailingLists>
+		<mailingList>
+			<name>MPXJ Developers List</name>
+			<subscribe>http://lists.sourceforge.net/lists/listinfo/mpxj-developers</subscribe>
+			<unsubscribe>http://lists.sourceforge.net/lists/listinfo/mpxj-developers</unsubscribe>
+			<archive>http://sourceforge.net/mailarchive/forum.php?forum=mpxj-developers</archive>
+		</mailingList>
+	</mailingLists>
 
-  <developers>
-    <developer>
-      <id>joniles</id>
-      <name>Jon Iles</name>
-      <email>jon.iles@bcs.org.uk</email>
-      <organization>Packwood Software</organization>
-    </developer>
-  </developers>
+	<issueManagement>
+		<system>SourceForge</system>
+		<url>http://sourceforge.net/tracker/?group_id=70649&amp;atid=528541</url>
+	</issueManagement>
 
-  <contributors>
-    <contributor>
-      <name>Scott Melville</name>
-    </contributor>
-    <contributor>
-      <name>Pasha Ashpak</name>
-    </contributor>
-    <contributor>
-      <name>Pramodh C</name>
-    </contributor>
-    <contributor>
-      <name>Harald Hett</name>
-    </contributor>
-    <contributor>
-      <name>Brian Leach</name>
-    </contributor>
-    <contributor>
-      <name>Claudio Engelsdorff Avila</name>
-    </contributor>
-    <contributor>
-      <name>Frank Illenberger</name>
-    </contributor>
-  </contributors>
+	<scm>
+		<connection>scm:git:git://git.code.sf.net/p/mpxj/mpxj</connection>
+		<url>http://sourceforge.net/p/mpxj/mpxj/ci/master/tree/</url>
+	</scm>
 
-  <licenses>
-    <license>
-      <name>GNU Lesser General Public License v3.0 or later</name>
-      <url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
-    </license>
-  </licenses>
+	<developers>
+		<developer>
+			<id>joniles</id>
+			<name>Jon Iles</name>
+			<email>jon.iles@bcs.org.uk</email>
+			<organization>Packwood Software</organization>
+		</developer>
+	</developers>
 
-  <build>
-    <plugins>
-    
-      <!-- Ensure the compiler is using the correctJava version -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-      
-      <!-- Inject Google analytics into generated Javadoc -->
-       <plugin>
-           <groupId>com.google.code.maven-replacer-plugin</groupId>
-           <artifactId>replacer</artifactId>
-           <version>1.5.3</version>
-           <executions>
-               <execution>
-                   <phase>post-site</phase>
-                   <goals>
-                       <goal>replace</goal>
-                   </goals>                   
-               </execution>
-           </executions>
-           <configuration>
-               <includes>
-                  <include>${basedir}/target/site/apidocs/**/*.html</include>
-               </includes>
-                       <token>&lt;html</token>
-                       <value>&lt;html hello="there"</value>
-           </configuration>
-       </plugin>    
- 
- 	   <!-- Use our own site template to inject Google adsense -->
-       <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <templateDirectory>${basedir}</templateDirectory>
-                    <template>maven-site.vm</template>
-                </configuration>
-            </plugin>     
+	<contributors>
+		<contributor>
+			<name>Scott Melville</name>
+		</contributor>
+		<contributor>
+			<name>Pasha Ashpak</name>
+		</contributor>
+		<contributor>
+			<name>Pramodh C</name>
+		</contributor>
+		<contributor>
+			<name>Harald Hett</name>
+		</contributor>
+		<contributor>
+			<name>Brian Leach</name>
+		</contributor>
+		<contributor>
+			<name>Claudio Engelsdorff Avila</name>
+		</contributor>
+		<contributor>
+			<name>Frank Illenberger</name>
+		</contributor>
+	</contributors>
 
-      <!-- Generate a Google sitemap -->
-           <plugin>
-               <groupId>com.github.s4u.plugins</groupId>
-               <artifactId>sitemapxml-maven-plugin</artifactId>
-               <version>1.0.0</version>
-               <executions>
-                   <execution>
-                       <goals>
-                           <goal>gen</goal>
-                       </goals>
-                   </execution>
-               </executions>
-           </plugin>
-    </plugins>
-  </build>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License v3.0 or later</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+		</license>
+	</licenses>
 
-  <reporting>
-    <plugins>
-    
-      <!-- Define the reports we want to produce -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>summary</report>
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <report>issue-tracking</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>          
-      <plugin>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.10</version>
-        <configuration>
-          <xmlPath>${basedir}/src/site/xdoc/changes.xml</xmlPath>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
-        <configuration>
-          <!-- <additionalparam>-top '&lt;a href="http://mpxj.sourceforge.net" target="_blank">MPXJ: Microsoft Project Exchange&lt;/a>'</additionalparam>  -->
-        </configuration>        
-      </plugin>
-    </plugins>
-  </reporting>
+	<build>
+		<plugins>
+
+			<!-- Ensure the compiler is using the correctJava version -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<!-- Inject Google analytics into generated Javadoc -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<phase>post-site</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includes>
+						<include>${basedir}/target/site/apidocs/**/*.html</include>
+					</includes>
+					<token>&lt;html</token>
+					<value>&lt;html hello="there"</value>
+				</configuration>
+			</plugin>
+
+			<!-- Use our own site template to inject Google adsense -->
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<templateDirectory>${basedir}</templateDirectory>
+					<template>maven-site.vm</template>
+				</configuration>
+			</plugin>
+
+			<!-- Generate a Google sitemap -->
+			<plugin>
+				<groupId>com.github.s4u.plugins</groupId>
+				<artifactId>sitemapxml-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+
+			<!-- Define the reports we want to produce -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.7</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>summary</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>issue-tracking</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<xmlPath>${basedir}/src/site/xdoc/changes.xml</xmlPath>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<!-- <additionalparam>-top '&lt;a href="http://mpxj.sourceforge.net" 
+						target="_blank">MPXJ: Microsoft Project Exchange&lt;/a>'</additionalparam> -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
