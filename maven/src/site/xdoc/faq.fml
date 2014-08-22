@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faqs title="Frequently Asked Questions">
+	<part id="general">
+		<title>General Questions</title>
+
+		<faq id="write-mpp">
+			<question>
+				Can I use MPXJ to write MPP files?
+         </question>
+			<answer>
+				<p>
+					Not at present. Although it is technically feasible to generate
+					an MPP file, the knowledge we have of the file structure is still
+					relatively incomplete, despite the amount of data we are able to
+					correctly extract. It is therefore likely to take a considerable
+					amount of development effort to make this work, and it is
+					conceivable that we will not be able to write the full set of
+					attributes that MPXJ supports back into the MPP file - simply
+					because we don't understand the format well enough. You are
+					therefore probably better off using MSPDI which does support
+					the full range of data items present in an MPP file. 
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="visual-appearance">
+			<question>
+				I'm generating output using MPXJ, and when my end users
+				open the file in Microsoft Project, I want to control the appearance
+				of the project data that they see. Can I do this with MPXJ?
+         </question>
+			<answer>
+				<p>
+					In short, the answer to this question is no. The only file format
+					which allows you to control the appearance of project data
+					when opened in Microsoft Project is MPP. Just to clarify, visual
+					appearance in this context refers to the view that appears when
+					the project opens, the filtering applied to the view, the table
+					data visible, the columns in the table, bar styles, text styles
+					and so on. While MPXJ can read this information from an MPP file,
+					none of the supported output file formats contain these attributes. 
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="double-mpx">
+			<question>
+				When I double click on an MPX file to open it in Microsoft Project,
+				I end up with two copies of the file open. What's happening?
+			</question>
+			<answer>
+				<p>
+					This isn't an issue with MPXJ - but we have an answer for you
+					anyway! The problem is caused by a incorrect setting in Microsoft
+					Windows which controls the way MPX files are opened. To fix the
+					setting, open the Control Panel and click on the "Folder Options"
+					icon. Select the "File Types" tab and scroll down the list of
+					file types until you find an entry for MPX. Once you have found
+					the entry for MPX, click on it to highlight it, then press the
+					"Advanced" button at the bottom right hand side of the dialog.
+					In the list of actions that you are now presented with, click on
+					the word "open" to highlight it, then click the "Edit" button
+					on the right hand side of the dialog. Finally, ensure that the
+					"Use DDE" check box is not checked, and you can now finish by
+					clicking OK on each of the open dialogs to dismiss them. You
+					should now find that double clicking on an MPX file will now
+					only open one copy of the file in Microsoft Project.  
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="retroweaver">
+			<question>
+				I use a Java 1.4 JVM, but MPXJ is built with a later version of 
+				Java, is there anything I can do which will allow me to use it?
+			</question>
+			<answer>
+				Yes there is - try using <a href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
+			</answer>
+		</faq>
+		
+		<faq id="jaxb">
+			<question>
+				I use a Java 1.5 JVM, but MPXJ is built with a later version of 
+				Java, and assumes that JAXB is available as part of the JRE.
+				Can I still use Java 1.5?
+			</question>
+			<answer>
+				Yes, MPXJ doesn't use any Java 1.6 specific features. If you set
+				the target JRE version to 1.5 in the ant build file, you will be
+				able to rebuild MPXJ for Java 1.5. You will also need to provide
+				the JAXB libraries if they are not present in the JRE. The required
+				libraries can be found as part of the MPXJ 3.2.0 distribution. 
+			</answer>
+		</faq>
+		
+	</part>
+
+	<part id="known-issues">
+		<title>Known Issues with MPXJ</title>
+		<faq id="mpp8-flags">
+			<question>
+				I have an MPP file created by MS Project 98, and some of the Flag
+				field values are incorrect.
+         </question>
+			<answer>
+				<p>
+					The MPP8 file format is rather cryptic, and one part of it that
+					I have yet to really understand fully is how the Flag fields
+					are stored. I've spent a lot of time looking at this and have
+					not made a lot of progress, so at the moment no further work is
+					being undertaken to fix this. Contributions of insights,
+					knowledge or fixed code for this problem are welcome. You'll
+					find a bug for this item logged in the
+					<a
+						href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=816347&amp;group_id=70649&amp;atid=528541"
+						target="_blank">SourgeForge bug tracker</a>
+					.
+				</p>
+			</answer>
+		</faq>
+
+		<faq id="corrupt-note-text">
+			<question>
+				My Task/Resource notes field text is corrupt.
+         </question>
+			<answer>
+				<p>
+					Your notes field probably contains characters that are not in
+					Codepage 1252 (Latin 1). The notes text is stored as RTF by
+					MS Project. MPXJ uses Sun's RTF processor to strip the RTF
+					formatting and return the plain text of the notes fields. The
+					RTF processor does not handle characters from other codepages
+					correctly, hence it returns rubbish. See the
+					<a
+						href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1081156&amp;group_id=70649&amp;atid=528541"
+						target="_blank">SourgeForge bug tracker</a>
+					for further details, and a suggested workaround.
+				</p>
+			</answer>
+		</faq>
+
+		<faq id="mpx-record-order">
+			<question>
+				When I create an MPX file, my resources/tasks/calendars aren't visible
+				when I open the file using Microsoft Project.
+         </question>
+			<answer>
+				<p>
+					Microsoft Project is sensitive to the order in which records
+					appear in the MPX file. The correct order is Calendars,
+					Resources, and Tasks. The current MPX implementation provided
+					by MPXJ will add the records to the file in the correct
+					order. Previous versions added the records to the file
+					in the order supplied by the developer.
+					Therefore if you didn't add them in
+					the order expected by Microsoft Project, you wouldn't get the
+					results you expect. As noted above, the most recent versions
+					of MPXJ manage the order of records in the file for you, so
+					you should no longer see this problem.
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="extra-tasks-and-resources">
+			<question>
+				When I read an MPP file I sometimes see an extra task or resource
+				record.
+         </question>
+			<answer>
+				<p>
+					What you are seeing are "hidden" tasks and resources
+					which newer versions of Microsoft Project appear to use as
+					placeholders for summary information about all of the tasks
+					and all of the resources in a project. We're not sure exactly
+					which versions of Project hold data like this, although we
+					think this is only relevant for the MPP9 and MPP12 file formats.
+					We've also noticed that the information in these hidden
+					tasks and resources may not be reliable, so don't place
+					too much emphasis on them in your application.
+            </p>
+				<p>
+					You can ignore the first resource if it has a null
+					value as its name. The attributes of this resource should
+					actually be a summary of all of the resource combined,
+					e.g. utilisation, actual work, remaining work and so on for
+					the complete set of "real" resources. 
+            </p>
+				<p>
+					You can ignore the first task if it has an outline level
+					of zero, this task will be a summary of all the "real"
+					tasks in the project. You may also find that the name of
+					this task matches the name of the project.
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="localised-mpx">
+			<question>
+				My localised version of MS Project won't read the MPX files created by
+				MPXJ, or MPXJ
+				won't read the MPX files written by my localised version of MS Project.
+			</question>
+			<answer>
+				<p>
+					Localised versions of MS Project (i.e. those which have been translated
+					for use in a non-English locale) read and write MPX files which
+					include
+					localised text strings. The end result of this is that an
+					English/International
+					version of MS Project can't read MPX files produced by a localised version
+					of
+					MS Project, and vice versa.
+            </p>
+				<p>
+					MPXJ supports a small number of non-English locales, and can read and
+					write MPX
+					files correctly for those locales. You can also use MPXJ to translate
+					MPX
+					files from one locale to another. The MPXFile.setLocale() method must be
+					called
+					prior to reading or writing an MPX file in order to set the required
+					locale.
+					By default MPXJ will always produce MPX files for the
+					International/English locale,
+					regardless of the locale for which your operating system if configured.
+            </p>
+				<p>
+					Currently supported locales for MPX files include German, Spanish,
+					French, Italian, Portuguese, Swedish, and Simplified Chinese.
+					Producing a translation for you locale is very easy, please
+					contact us for details on how you can help us to do this.
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="mpx-locale-defaults">
+			<question>
+				When I write an MPX file, changes to the project header settings
+				I've made seem to be lost, what's happening?
+         </question>
+			<answer>
+				<p>
+					One of the first things the MPXWriter's write method does is
+					to determine the current locale and update various project
+					settings (for example, currency and date formats) to match
+					the selected locale. This behaviour can be changed so that the
+					settings in the project are left unmodified by setting the
+					useLocaleDefaults parameter to false when calling
+					the write method (for versions of MPXJ up to and including 3.0.0)
+					or by calling the method setUseLocaleDefaults on the MPXWriter
+					instance before calling the write method (for versions of MPXJ
+					after 3.0.0).
+            </p>
+			</answer>
+		</faq>
+
+		<faq id="rtf-net">
+			<question>
+				I'm using the .net version of MPXJ, and I'm seeing RTF parser
+				errors when I read an MPP file. What's happening?
+         </question>
+			<answer>
+				<p>
+					The RTF parser provided by the libraries which support the .net
+					version of MPXJ do not handle RTF as well as Sun's Java RTF
+					implementation. This will hopefully be resolved by a future
+					release of IKVM, but for the moment the workaround is to call the
+					MPPReader method setPreserveNoteFormatting passing in true. This
+					will prevent MPXJ from trying to extract plain text from the RTF
+					and will leave any RTF content untouched. 
+            </p>
+			</answer>
+		</faq>
+	</part>
+
+	<part id="unit-tests">
+		<title>Unit Tests</title>
+		<faq id="jaxb-classloader">
+			<question>
+				I am trying to run the MPXJ unit tests and I'm having problems
+				with failures in JAXB functionality. What's happening?
+         </question>
+			<answer>
+				<p>
+					Older versions of JAXB were known to have issues with the
+					JUnit classloader, so running the JUnit test runner with the
+					-noloading command line option, other taking other steps to
+					disable JUnit classloading was recommended. This problem is
+					not believed to affect the more recent version of JAXB now
+					used by MPXJ.
+            </p>
+			</answer>
+		</faq>
+	</part>
+</faqs>

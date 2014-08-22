@@ -1,0 +1,32 @@
+<project name="MPXJ">
+	<version position="none"/>
+	
+	<googleAnalyticsAccountId>UA-7202224-1</googleAnalyticsAccountId>
+	
+    <poweredBy>
+      <logo name="SourceForge.net Logo" href="http://sourceforge.net/projects/mpxj" img="http://sourceforge.net/sflogo.php?group_id=70649&amp;type=1"/>      
+    </poweredBy>
+	
+	<body>
+    <menu name="MPXJ">
+      <item name="Overview" href="/index.html" />
+      <item name="Changes" href="/changes-report.html" />
+      <item name="How to..." href="/howto.html" collapse="true">
+      <item name="Get started" href="/howto-start.html" />
+      <item name="Build MPXJ" href="/howto-build.html" />      	
+      <item name="Use MPXJ with .Net" href="/howto-dotnet.html" />      	
+      <item name="Convert files" href="/howto-convert.html" />      	
+      <item name="Work with MPX files" href="/howto-mpx.html" />
+      <item name="Work with MPP files" href="/howto-mpp.html" /> 
+      <item name="Work with MSPDI files" href="/howto-mspdi.html" /> 
+      <item name="Work with Planner files" href="/howto-planner.html" />
+      <item name="Work with Powerproject files" href="/howto-powerproject.html" />
+      <item name="Work with a Primavera database" href="/howto-primavera.html" />      	
+      </item>
+      <item name="FAQ" href="/faq.html" />              
+      <item name="Users" href="/users.html" />
+      <item name="Roadmap" href="/roadmap.html" />
+    </menu>	
+    <menu ref="reports" />
+	</body>
+</project>
