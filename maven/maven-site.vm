@@ -512,6 +512,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     </a>
   #end  
 	
+<script type="text/javascript" src="http://www.openhub.net/p/11577/widgets/project_thin_badge.js"></script>	
 #end
 ##
 #macro ( googleAnalytics $accountId )
