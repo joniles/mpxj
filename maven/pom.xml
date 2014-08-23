@@ -147,9 +147,6 @@
 				<configuration>
 					<templateDirectory>${basedir}</templateDirectory>
 					<template>maven-site.vm</template>
-					<moduleExcludes>
-						<xdoc>changes.xml</xdoc>
-					</moduleExcludes>
 				</configuration>
 			</plugin>
 
@@ -192,9 +189,6 @@
 			<plugin>
 				<artifactId>maven-changes-plugin</artifactId>
 				<version>2.10</version>
-				<configuration>
-					<xmlPath>${basedir}/src/site/xdoc/changes.xml</xmlPath>
-				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
