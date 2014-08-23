@@ -55,8 +55,8 @@
 	</mailingLists>
 
 	<issueManagement>
-		<system>SourceForge</system>
-		<url>http://sourceforge.net/tracker/?group_id=70649&amp;atid=528541</url>
+		<system>SourceForge2</system>
+		<url>https://sourceforge.net/p/mpxj/bugs/</url>
 	</issueManagement>
 
 	<scm>
