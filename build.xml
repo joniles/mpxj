@@ -15,14 +15,13 @@
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
 		<property name="hamcrest.jar" value="${basedir}/../junit-4.11/hamcrest-core-1.3.jar"/>
 		
-		<!-- 
-		The following two properties are only required if you want to use the xjc target.
-   		From experience, it is best to put the XSD file in the root MPXJ dir rather
-   		than setting a full path here and in the binding.xjb file 
-   		-->
+		<!-- These properties are only required if rebuilding JAXB generated source -->
 		<property name="mspdi.xsd" value="mspdi_pj14-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 
+		<!-- This property is only required if you want to publish the site to SourceForge -->
+		<property name="maven.dir" value="d:/java/apache-maven-3.2.3"/>
+		
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
@@ -377,8 +376,13 @@
 		</exec>
 	</target>
 
+	<target name="clean-maven" description="Cleans the maven directory">
+		<delete dir="${basedir}/maven/src/main" />
+		<delete dir="${basedir}/maven/src/test" />
+		<delete dir="${basedir}/maven/target" />		
+	</target>
 
-	<target name="populate-maven" description="Populates the maven directory ready for use">
+	<target name="populate-maven" depends="clean-maven" description="Populates the maven directory ready for use">
 		<mkdir dir="${basedir}/maven/src/main/java" />
 		<mkdir dir="${basedir}/maven/src/main/resources" />
 		<mkdir dir="${basedir}/maven/src/test/java" />
@@ -392,11 +396,15 @@
 		        <fileset dir="${basedir}/src.test" includes="**"/>  
 		</copy>		
 	</target>
+		
+	<target name="run-maven" depends="init-props,populate-maven" description="Execute maven to produce the web site">
+		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+			<arg line="post-site" />
+		</exec>		
+	</target>
 	
-	<target name="clean-maven" description="Cleans the maven directory">
-		<delete dir="${basedir}/maven/src/main" />
-		<delete dir="${basedir}/maven/src/test" />
-		<delete dir="${basedir}/maven/target" />		
+	<target name="publish-site" depends="run-maven" description="Publishesthe web site to Sourceforge">
+		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>				
 	</target>
 </project>
 
