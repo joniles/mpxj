@@ -181,18 +181,18 @@
 	</release>
 	
 	<release version="3.1.0" date="20/05/2009">
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2545883: Plan file fails to load.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2540447: Resource Assignment Normaliser rounding problem.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2631492: Column alignment values are incorrect.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2593335: NullPointerException in parseExtendedAttribute() (Contributed by Paul Pogonyshev).</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2568783: .0 at the end of WBS code and outline number (Contributed by Paul Pogonyshev).</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2641840: too strict net.sf.mpxj.mpd.ResultSetRow.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2676474: Generated planner file can't be opened.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2685750: Support for loading global.mpt.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2677836: lowercase table name won't work with db on linux machines.</action>						
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2540422: Standard Calendar localization import problem.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2711415: strange duration conversion from database</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2791977: FilterCriteria not being read in properly (Contributed by James Styles)</action>							 	
+		<action dev="joniles" type="fix" issue="73">Plan file fails to load.</action>		
+		<action dev="joniles" type="fix" issue="72">Resource Assignment Normaliser rounding problem.</action>
+		<action dev="joniles" type="fix" issue="78">Column alignment values are incorrect.</action>		
+		<action dev="joniles" type="fix" issue="76">NullPointerException in parseExtendedAttribute() (Contributed by Paul Pogonyshev).</action>		
+		<action dev="joniles" type="fix" issue="74">.0 at the end of WBS code and outline number (Contributed by Paul Pogonyshev).</action>		
+		<action dev="joniles" type="fix" issue="79">Too strict net.sf.mpxj.mpd.ResultSetRow.</action>		
+		<action dev="joniles" type="fix" issue="80">Generated planner file can't be opened.</action>
+		<action dev="joniles" type="fix" issue="82">Support for loading global.mpt.</action>		
+		<action dev="joniles" type="fix" issue="81">Lowercase table name won't work with db on linux machines.</action>						
+		<action dev="joniles" type="fix" issue="71">Standard Calendar localization import problem.</action>		
+		<action dev="joniles" type="fix" issue="83">Strange duration conversion from database</action>
+		<action dev="joniles" type="fix" issue="86">FilterCriteria not being read in properly (Contributed by James Styles)</action>							 	
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</action>		
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 8469: Subproject flag not set correctly.</action>		
 		<action dev="joniles" type="fix">Updated to fix potential NPEs (Suggested by Steve Jonik).</action>
@@ -205,16 +205,16 @@
 		<action dev="joniles" type="update">Updated to POI 3.2.</action>
 		<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>		
 		<action dev="joniles" type="update">Updated MPX output to prevent Project 2007 complaining.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2201088: Task getNumber*() methods return inaccurate large values.</action>	
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1925264: Duplicate task in file.getChildTasks() when opening MPX.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1928027: Relation.getTask returns null.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1938767: Task.getSplits() not consistent.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1985367: WBS Field not imported Mpp12.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2026607: There are some conflict in TaskField.</action>	
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2100803: MSPDIReader is not setting calendarName in projectHeader.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2105778: Write resource calendar with exceptions only.</action>			
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2209477: File loses predecessors.</action>			
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2490024: Resources not bring read.</action>		
+		<action dev="joniles" type="fix" issue="68">Task getNumber*() methods return inaccurate large values.</action>	
+		<action dev="joniles" type="fix" issue="56">Duplicate task in file.getChildTasks() when opening MPX.</action>
+		<action dev="joniles" type="fix" issue="57">Relation.getTask returns null.</action>
+		<action dev="joniles" type="fix" issue="58">Task.getSplits() not consistent.</action>
+		<action dev="joniles" type="fix" issue="60">WBS Field not imported Mpp12.</action>		
+		<action dev="joniles" type="fix" issue="63">There are some conflict in TaskField.</action>	
+		<action dev="joniles" type="fix" issue="66">MSPDIReader is not setting calendarName in projectHeader.</action>		
+		<action dev="joniles" type="fix" issue="67">Write resource calendar with exceptions only.</action>			
+		<action dev="joniles" type="fix" issue="69">File loses predecessors.</action>			
+		<action dev="joniles" type="fix" issue="70">Resources not bring read.</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</action>
 		<action dev="joniles" type="fix">Updated split task implementation to represent splits as DateRange instances rather than as hours.</action>													
 		<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>				
