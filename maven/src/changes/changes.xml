@@ -114,20 +114,20 @@
 		<action dev="joniles" type="add">Added support for task manual duration attribute for manually scheduled tasks in MPP14 and MSPDI files.</action>		
 		<action dev="joniles" type="add">Added support for resource NT account attribute for MPP9, MPP12, and MPP14 files.</action>				
 		<action dev="joniles" type="add">Added support for physical % complete for MPP9, MPP12, and MPP14 files.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3027020: MPXJ API returns the incorrect start date of a manual task.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3033163: Task id incorrect after importing from MPP14 file.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3040412: MPXJ 4.0 fails to work with Project 2010 format.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3055858: Index was outside the bounds of the array.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3100947: header.getHonorConstraints() is not working in case of MPP.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3151871: Empty notes appear for all tasks when saving in XML format.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3028641: All Extended Attributes always added when using MSPDIWriter.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3231597: Baseline/Actual Work in 2010 MPP missing.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2987295: ResourceAssignment getCalendar not using IgnoreResourceCalendar flag</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3256657: ExternalTaskProject value missing.</action>	
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3148492: Deleted Primavera tasks handling problem.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3198864: Latest CVS version gives wrong values for inactive field.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3043660: Task ID order when creating a project file is not correct.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2935476: Invalid tasks that should not be there.</action>												 									
+		<action dev="joniles" type="fix" issue="120">MPXJ API returns the incorrect start date of a manual task.</action>
+		<action dev="joniles" type="fix" issue="123">Task id incorrect after importing from MPP14 file.</action>		
+		<action dev="joniles" type="fix" issue="124">MPXJ 4.0 fails to work with Project 2010 format.</action>		
+		<action dev="joniles" type="fix" issue="128">Index was outside the bounds of the array.</action>				
+		<action dev="joniles" type="fix" issue="131">header.getHonorConstraints() is not working in case of MPP.</action>		
+		<action dev="joniles" type="fix" issue="139">Empty notes appear for all tasks when saving in XML format.</action>
+		<action dev="joniles" type="fix" issue="122">All Extended Attributes always added when using MSPDIWriter.</action>		
+		<action dev="joniles" type="fix" issue="144">Baseline/Actual Work in 2010 MPP missing.</action>		
+		<action dev="joniles" type="fix" issue="114">ResourceAssignment getCalendar not using IgnoreResourceCalendar flag</action>		
+		<action dev="joniles" type="fix" issue="146">ExternalTaskProject value missing.</action>	
+		<action dev="joniles" type="fix" issue="137">Deleted Primavera tasks handling problem.</action>		
+		<action dev="joniles" type="fix" issue="143">Latest CVS version gives wrong values for inactive field.</action>		
+		<action dev="joniles" type="fix" issue="125">Task ID order when creating a project file is not correct.</action>		
+		<action dev="joniles" type="fix" issue="106">Invalid tasks that should not be there.</action>												 									
 		<action dev="joniles" type="fix">Updated to fix task calendars read incorrectly from MPP14 files.</action>
 		<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>
@@ -148,7 +148,7 @@
 		<action dev="joniles" type="add">Added support for reading Primavera P6 databases.</action>
 		<action dev="joniles" type="update">Updated to target Java 1.6.</action>
 		<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3006364: Relation.getDuration() is always giving result in 'HOUR' fmt.</action>	
+		<action dev="joniles" type="fix" isue="115">Relation.getDuration() is always giving result in 'HOUR' fmt.</action>	
 	</release>
 
 	<release version="3.2.0" date="20/01/2010">
