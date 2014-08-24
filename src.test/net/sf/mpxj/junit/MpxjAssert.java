@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
+
 import org.junit.Assume;
 
 /**
@@ -68,6 +71,19 @@ public final class MpxjAssert
    public static void assertBooleanEquals(boolean expected, boolean actual)
    {
       org.junit.Assert.assertEquals(Boolean.valueOf(expected), Boolean.valueOf(actual));
+   }
+
+   /**
+    * Assert method used to test durations.
+    * 
+    * @param expectedDuration expected duration size
+    * @param expectedUnits expected duration units
+    * @param duration duration under test
+    */
+   public static void assertDurationEquals(double expectedDuration, TimeUnit expectedUnits, Duration duration)
+   {
+      org.junit.Assert.assertEquals(expectedDuration, duration.getDuration(), 0.005);
+      org.junit.Assert.assertEquals(expectedUnits, duration.getUnits());
    }
 
 }
