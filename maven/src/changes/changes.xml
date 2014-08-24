@@ -63,7 +63,7 @@
 	<release version="4.3.0" date="08/02/2012">
 		<action dev="joniles" type="add">Added support for reading Primavera PM XML files.</action>
 		<action dev="joniles" type="add">Added support for reading timephased cost, and timephased baseline cost and baseline work from MPP files.</action>
-		<action dev="joniles" type="add">Added support for Work Weeks in MSPDI files (SourceForge feature request 3429673).</action>
+		<action dev="joniles" type="add">Added support for Work Weeks in MSPDI files (SourceForge feature request 23).</action>
 		<action dev="joniles" type="update">Updated to use IKVM 7.0.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</action>		
 		<action dev="joniles" type="fix" issue="161">ResourceAssignment.getTaskUniqueID() returns null.</action>		
@@ -94,12 +94,12 @@
 		<action dev="joniles" type="add">Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Baseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</action>
 		<action dev="joniles" type="add">Added support for task suspend date, task resume date, and task code read from Primavera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</action>
 		<action dev="joniles" type="add">Added support for retrieving the table associated with any view.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3317333: Error converting Mpp to planner.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316806: MSPDI Linklag for TimeUnit.Percent.</action>			
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3316419: Error reading calendars for 2010 files.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3323027: Duplication of calendar id.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3310996: Wrong task start.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3308542: Wrong start and finish dates for 2010 files.</action>				 		
+		<action dev="joniles" type="fix" issue="158">Error converting Mpp to planner.</action>
+		<action dev="joniles" type="fix" issue="157">MSPDI Linklag for TimeUnit.Percent.</action>			
+		<action dev="joniles" type="fix" issue="156">Error reading calendars for 2010 files.</action>		
+		<action dev="joniles" type="fix" issue="159">Duplication of calendar id.</action>		
+		<action dev="joniles" type="fix" issue="153">Wrong task start.</action>				
+		<action dev="joniles" type="fix" issue="156">Wrong start and finish dates for 2010 files.</action>				 		
 	</release>
 
 	<release version="4.1.0" date="30/05/2011">
