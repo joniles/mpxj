@@ -189,6 +189,9 @@
 			<plugin>
 				<artifactId>maven-changes-plugin</artifactId>
 				<version>2.10</version>
+				<configuration>
+					<feedType>rss_2.0</feedType>
+				</configuration>				
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
