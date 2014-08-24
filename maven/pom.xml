@@ -75,25 +75,94 @@
 
 	<contributors>
 		<contributor>
-			<name>Scott Melville</name>
+			<name>Pasha Ashpak</name>
 		</contributor>
 		<contributor>
-			<name>Pasha Ashpak</name>
+			<name>Benoit Baranne</name>
+		</contributor>
+		<contributor>
+			<name>Agustin Barto</name>
+		</contributor>
+		<contributor>
+			<name>Jonathan Besanceney</name>
+		</contributor>
+		<contributor>
+			<name>Roman Bilous</name>
+		</contributor>
+		<contributor>
+			<name>Todd Brannam</name>
+		</contributor>
+		<contributor>
+			<name>Nick Burch</name>
 		</contributor>
 		<contributor>
 			<name>Pramodh C</name>
 		</contributor>
 		<contributor>
-			<name>Harald Hett</name>
-		</contributor>
-		<contributor>
-			<name>Brian Leach</name>
+			<name>Leslie Damon</name>
 		</contributor>
 		<contributor>
 			<name>Claudio Engelsdorff Avila</name>
 		</contributor>
 		<contributor>
+			<name>Mario Fuentes</name>
+		</contributor>
+		<contributor>
+			<name>Bruno Gasnier</name>
+		</contributor>
+		<contributor>
+			<name>Wade Golden</name>
+		</contributor>
+		<contributor>
+			<name>Harald Hett</name>
+		</contributor>
+		<contributor>
 			<name>Frank Illenberger</name>
+		</contributor>
+		<contributor>
+			<name>William Iverson</name>
+		</contributor>
+		<contributor>
+			<name>Brian Leach</name>
+		</contributor>
+		<contributor>
+			<name>Nathaniel Marrin</name>
+		</contributor>
+		<contributor>
+			<name>Gary McKenney</name>
+		</contributor>
+		<contributor>
+			<name>Scott Melville</name>
+		</contributor>
+		<contributor>
+			<name>Josh Micich</name>
+		</contributor>
+		<contributor>
+			<name>Andrei Missine</name>
+		</contributor>
+		<contributor>
+			<name>Jari Niskala</name>
+		</contributor>
+		<contributor>
+			<name>Kyle Patmore</name>
+		</contributor>
+		<contributor>
+			<name>Paul Pogonyshev</name>
+		</contributor>
+		<contributor>
+			<name>James Styles</name>
+		</contributor>
+		<contributor>
+			<name>Shlomo Swidler</name>
+		</contributor>
+		<contributor>
+			<name>Jonas Tampier</name>
+		</contributor>
+		<contributor>
+			<name>Felix Tian</name>
+		</contributor>
+		<contributor>
+			<name>Elio Zoggia</name>
 		</contributor>
 	</contributors>
 
