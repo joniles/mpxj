@@ -158,16 +158,16 @@
 		<action dev="joniles" type="add">Added support for task and resource GUIDs.</action>		
 		<action dev="joniles" type="add">Added a flag to allow raw timephased data to be retrieved from MPP files.</action>		
 		<action dev="joniles" type="fix">Updated to fix logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2822616: MPXJ Issue: Related to Project Calendar.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2806974: POI License in legal folder of download wrong.</action>		
+		<action dev="joniles" type="fix" issue="94">MPXJ Issue: Related to Project Calendar.</action>				
+		<action dev="joniles" type="fix" issue="90">POI License in legal folder of download wrong.</action>		
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2877136: Planner writer causes Null Pointer exception.</action>				
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2838998: getRecurring() task is not working</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2833075: getStandardRateFormat() is returning 'null'</action>							
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2831387: getWeekStartDay() is not working.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2831386: getDaysPerMonth() is not working.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2855700: Resource.getNotes() not working for MPP12 file.</action>										
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2915426: MPP: getEditableActualCosts() is not behaving correctly.</action>		
+		<action dev="joniles" type="fix" issue="102">Planner writer causes Null Pointer exception.</action>				
+		<action dev="joniles" type="fix" issue="100">getRecurring() task is not working</action>
+		<action dev="joniles" type="fix" issue="98">getStandardRateFormat() is returning 'null'</action>							
+		<action dev="joniles" type="fix" issue="97">getWeekStartDay() is not working.</action>
+		<action dev="joniles" type="fix" issue="96">getDaysPerMonth() is not working.</action>		
+		<action dev="joniles" type="fix" issue="101">Resource.getNotes() not working for MPP12 file.</action>										
+		<action dev="joniles" type="fix" issue="105">MPP: getEditableActualCosts() is not behaving correctly.</action>		
 		<action dev="joniles" type="update">Updated to use POI 3.6.</action>
 		<action dev="joniles" type="update">Updated to use IKVM 0.42.0.3.</action>
 		<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>		
