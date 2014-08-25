@@ -164,6 +164,7 @@ public final class MSPDIReader extends AbstractProjectReader
             });
          }
 
+         DatatypeConverter.setParentFile(m_projectFile);
          Project project = (Project) unmarshaller.unmarshal(doc);
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<BigInteger, ProjectCalendar>();

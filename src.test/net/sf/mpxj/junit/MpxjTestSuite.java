@@ -72,6 +72,7 @@ import org.junit.runners.Suite;
    TimephasedSegmentTest2.class,
    MppTaskFlags.class,
    MppResourceFlags.class,
+   DateUtilityTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

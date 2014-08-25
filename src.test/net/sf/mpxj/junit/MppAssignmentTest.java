@@ -23,11 +23,8 @@
 
 package net.sf.mpxj.junit;
 
-import static net.sf.mpxj.junit.MpxjAssert.assertBooleanEquals;
-import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static net.sf.mpxj.junit.MpxjAssert.*;
+import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -377,9 +374,9 @@ public class MppAssignmentTest
          assertFalse(assignment.getTeamStatusPending());
       }
 
-      assertDurationEquals(80, TimeUnit.HOURS, assignment.getWorkVariance());
-      assertDurationEquals(2, TimeUnit.DAYS, assignment.getStartVariance());
-      assertDurationEquals(-2.12, TimeUnit.DAYS, assignment.getFinishVariance());
+      MpxjAssert.assertDurationEquals(80, TimeUnit.HOURS, assignment.getWorkVariance());
+      MpxjAssert.assertDurationEquals(2, TimeUnit.DAYS, assignment.getStartVariance());
+      MpxjAssert.assertDurationEquals(-2.12, TimeUnit.DAYS, assignment.getFinishVariance());
       assertEquals(0, assignment.getCostRateTableIndex());
 
       //
@@ -398,10 +395,10 @@ public class MppAssignmentTest
       assignment = assignments.get(1);
       assertEquals("Resource Two", assignment.getResource().getName());
 
-      assertDurationEquals(5, TimeUnit.HOURS, assignment.getActualWork());
-      assertDurationEquals(3, TimeUnit.HOURS, assignment.getRegularWork());
-      assertDurationEquals(2, TimeUnit.HOURS, assignment.getActualOvertimeWork());
-      assertDurationEquals(18, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
+      MpxjAssert.assertDurationEquals(5, TimeUnit.HOURS, assignment.getActualWork());
+      MpxjAssert.assertDurationEquals(3, TimeUnit.HOURS, assignment.getRegularWork());
+      MpxjAssert.assertDurationEquals(2, TimeUnit.HOURS, assignment.getActualOvertimeWork());
+      MpxjAssert.assertDurationEquals(18, TimeUnit.HOURS, assignment.getRemainingOvertimeWork());
       assertEquals(860, assignment.getOvertimeCost().intValue());
       assertEquals(774, assignment.getRemainingCost().doubleValue(), 0.005);
       assertEquals(86, assignment.getActualOvertimeCost().doubleValue(), 0.005);
@@ -411,9 +408,9 @@ public class MppAssignmentTest
       assertEquals(962, assignment.getCostVariance().doubleValue(), 0.001);
       assertEquals(22, assignment.getPercentageWorkComplete().doubleValue(), 0.5);
       assertEquals("", assignment.getNotes());
-      assertDurationEquals(23, TimeUnit.HOURS, assignment.getWorkVariance());
-      assertDurationEquals(1.11, TimeUnit.DAYS, assignment.getStartVariance());
-      assertDurationEquals(-10.39, TimeUnit.DAYS, assignment.getFinishVariance());
+      MpxjAssert.assertDurationEquals(23, TimeUnit.HOURS, assignment.getWorkVariance());
+      MpxjAssert.assertDurationEquals(1.11, TimeUnit.DAYS, assignment.getStartVariance());
+      MpxjAssert.assertDurationEquals(-10.39, TimeUnit.DAYS, assignment.getFinishVariance());
       assertEquals(1, assignment.getCostRateTableIndex());
 
       if (mpp.getMppFileType() != 0)
@@ -437,19 +434,6 @@ public class MppAssignmentTest
       assertEquals("Test Hyperlink Display Text", assignment.getHyperlink());
       assertEquals("http://news.bbc.co.uk", assignment.getHyperlinkAddress());
       assertEquals("x", assignment.getHyperlinkSubAddress());
-   }
-
-   /**
-    * Assert method used to test durations.
-    * 
-    * @param expectedDuration expected duration size
-    * @param expectedUnits expected duration units
-    * @param duration duration under test
-    */
-   private void assertDurationEquals(double expectedDuration, TimeUnit expectedUnits, Duration duration)
-   {
-      org.junit.Assert.assertEquals(expectedDuration, duration.getDuration(), 0.005);
-      org.junit.Assert.assertEquals(expectedUnits, duration.getUnits());
    }
 
    private static final int[][] BASELINE_COSTS =

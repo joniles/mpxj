@@ -1179,6 +1179,12 @@ public final class DatatypeConverter
                result = TimeUnit.ELAPSED_PERCENT;
                break;
             }
+
+            default:
+            {
+               result = PARENT_FILE.get().getProjectHeader().getDefaultDurationUnits();
+               break;
+            }
          }
       }
 
