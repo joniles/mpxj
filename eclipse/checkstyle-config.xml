@@ -32,7 +32,9 @@
       <property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
     </module>
     <module name="FinalClass"/>
-    <module name="AvoidStarImport"/>
+    <module name="AvoidStarImport">
+      <property name="allowStaticMemberImports" value="true"/>
+    </module>
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
