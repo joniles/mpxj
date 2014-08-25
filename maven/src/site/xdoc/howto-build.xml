@@ -14,45 +14,39 @@
 the development of the library continues between releases and is driven by
 user requests for new functionality, and bug fixes being applied to existing
 features. Many MPXJ users will work with and ship software based on 
-intermediate versions of MPXJ built from the code in CVS in order to take
+intermediate versions of MPXJ built from the code in Git in order to take
 advantage of these enhancements before they become available in an official 
 release. This approach is supported by the fact that code is only checked into 
-CVS if the suite of JUnit regression tests have been completed successfully: 
-therefore the quality of the code taken from CVS at any point can be guaranteed 
+Git if the suite of JUnit regression tests have been completed successfully: 
+therefore the quality of the code taken from Git at any point can be guaranteed 
 to be as good as that in an official release.</p>
 
-<p>In order to take advantage of MPXJ functionality from CVS, you will need to 
+<p>In order to take advantage of MPXJ functionality from Git, you will need to 
 understand how to build the library, whether you are using it in the form
 of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
 </section>
 
 <section name="Obtaining the source">
 <p>The first step in the process of building your own version of MPXJ is to obtain 
-the latest source from CVS. The MPXJ CVS repository is described <a href="https://sourceforge.net/scm/?type=cvs&amp;group_id=70649" target="_blank">here</a>.
-If you are working with a command line CVS client, you will need to execute the following commands:</p>
+the latest source from Git. The MPXJ Git repository is described <a href="https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/" target="_blank">here</a>.
+If you are working with Git from the command line, you will need to execute the following command to clone the repository:</p>
 
 <source>
-cvs -d:pserver:anonymous@mpxj.cvs.sourceforge.net:/cvsroot/mpxj login 
-cvs -z3 -d:pserver:anonymous@mpxj.cvs.sourceforge.net:/cvsroot/mpxj co -P . 
+git clone git://git.code.sf.net/p/mpxj/mpxj mpxj-mpxj  
 </source>
 
-<p>Note that as part of the "checkout" command the module name given is ".", which means that everything in the root of the repository is retrieved.</p>
-
-<p>There are plenty of freely available CVS clients which you can use to avoid
-having to install and work with the command line version. <a href="http://www.eclipse.org/" target="_blank">Eclipse</a> comes with a CVS client as standard, 
-and for Windows users <a href="http://www.tortoisecvs.org/" target="_blank">Tortoise CVS</a> works well and has nice integration with the Windows Explorer.</p>
 </section>
 
 <section name="Building the Java JAR">
 <p>The MPXJ build process is based on the use of an Ant script. If you aren't 
-familiar with Ant, it is script execution tool similar in concept to 
+familiar with Ant, it is a script execution tool similar in concept to 
 make or nmake. The prerequisites for building MPXJ are:
 <ul>
 	<li>A Java Development Kit (JDK) - at the minimum Java 1.6 is required.  
-	A suitable JDK can be downloaded from <a href="http://java.sun.com/" target="_blank">http://java.sun.com</a></li>
-	<li>Apache Ant. I wrote these instructions using version 1.7.1, but the ant build script will probably 
+	A suitable JDK can be downloaded from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">Oracle</a></li>
+	<li>Apache Ant. I wrote these instructions using version 1.9.2, but the ant build script will probably 
 	work happily with older or newer versions. Ant can be downloaded from <a href="http://ant.apache.org/">http://ant.apache.org</a></li>
-	<li>The latest version of MPXJ from CVS. Details of the MPXJ CVS repository and how to use it can be found <a href="http://sourceforge.net/cvs/?group_id=70649" target="_blank">here</a>.</li>
+	<li>The latest version of MPXJ from Git. Details of the MPXJ Git repository and how to use it can be found <a href="https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/" target="_blank">here</a>.</li>
 </ul>
 </p>
 
@@ -60,7 +54,7 @@ make or nmake. The prerequisites for building MPXJ are:
 Here are the steps required to build MPXJ, they assume that both Java and Ant
 are available on the path.
 <ol>
-	<li>Change directory to the ant subdirectory of the MPXJ folder.</li>
+	<li>Change directory to the the MPXJ folder.</li>
 	<li>At your command prompt, execute the command "ant clean". This will
 	remove any temporary files or previous output from the build process.</li>
 	<li>At your command prompt, execute the command "ant archive". This will
@@ -79,7 +73,7 @@ is available on your system. The steps required are as follows.
 <li>Download IKVM from 
 <a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a> and
 unzip the files into a convenient directory.</li>
-<li>Change directory to the ant subdirectory of the MPXJ folder.</li>
+<li>Change directory to the MPXJ folder.</li>
 <li>Edit the build.xml file and ensure that the property named ikvm.dir is 
 set to point to the location where you have unzipped IKVM.</li>
 <li>Now you can follow the steps described above to build the Java JAR file. 
@@ -87,7 +81,7 @@ The Ant script will recognise that IKVM is present and build the .NET DLL
 in the lib.net folder.</li>
 </ol>
 </p>
-</section>
+</section> 
 
 <section name="Building the Javadoc">
 <p>The most recent Javadocs for MPXJ are always available at 
@@ -98,20 +92,32 @@ to build the MPXJ JAR, then at the command prompt enter the command
 </section>
 
 <section name="Generating the JAXB code">
-<p>The XML schema file from which the JAXB code has been generated is
-supplied by Microsoft as part of the Microsoft Project SDK, which can be
-downloaded from MSDN. 
-Normally you will not need to regenerate this source, but if you are changing 
+<p>In order to read and write various XML file formats, MPXJ relies on code generated by the JAXB tool xjc from
+the XML schemas. Normally you will not need to regenerate this source, but if you are changing 
 the JAXB implementation, or modifying the use of JAXB in some way, then you
-may need to regenerate this code.</p>
+may need to regenerate this code. The following notes detail where the XML schemas used
+by MPXJ can be obtained:</p>
 
-<p>If you obtain a copy of the XML schema file from the SDK, you can rebuild 
+<ul>
+<li><b>Microsoft Project MSPDI</b>: The XML schema file from which the JAXB code has been generated is
+supplied by Microsoft as part of the Microsoft Project SDK, which can be
+downloaded from MSDN.</li>
+<li><b>Planner</b>: The XML schema file for Planner is distributed with MPXJ in the JAXB subdirectory</li>
+<li><b>Primavera PM XML</b>: The XML schema file for PM XML is distributed as part of the Primavera media. 
+The relevant archive can be downloaded from the Oracle E-Delivery web site,</li>
+</ul>
+
+<p>If you obtain a copy of the XML schema file you want to work with,
+you can update  
 the JAXB source using the xjc target found in the ant build.xml file. 
 Note that the xjc target is platform specific, you will need to 
 change the name of xjc tool to be xjc.bat, xjc.exe, or xjc.sh 
 depending on your operating system. You will also need to set 
 the properties indicated in build.xml to tell it where to 
-find xjc and the xsd file.</p>
+find xjc and the XML schema file. If you are only regenerating source for
+one of the XML schemas, you can comment out the others in the Ant script
+to avoid unnecessary work.
+</p>
 </section>
 
 </body>
