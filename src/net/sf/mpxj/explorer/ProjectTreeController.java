@@ -30,6 +30,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskContainer;
 import net.sf.mpxj.reader.ProjectReader;
@@ -94,6 +95,7 @@ public class ProjectTreeController
 
       DefaultMutableTreeNode assignmentsFolder = new DefaultMutableTreeNode("Assignments");
       projectNode.add(assignmentsFolder);
+      addAssignments(assignmentsFolder, projectFile);
 
       DefaultMutableTreeNode calendarsFolder = new DefaultMutableTreeNode("Calendars");
       projectNode.add(calendarsFolder);
@@ -166,6 +168,28 @@ public class ProjectTreeController
             @Override public String toString()
             {
                return g.getName();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add assignments to the tree.
+    * 
+    * @param parentNode parent tree node
+    * @param file assignments container
+    */
+   private void addAssignments(DefaultMutableTreeNode parentNode, ProjectFile file)
+   {
+      for (ResourceAssignment assignment : file.getAllResourceAssignments())
+      {
+         final ResourceAssignment a = assignment;
+         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(a)
+         {
+            @Override public String toString()
+            {
+               return a.getResource().getName() + "->" + a.getTask().getName();
             }
          };
          parentNode.add(childNode);
