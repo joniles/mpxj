@@ -24,7 +24,7 @@ namespace MpxjSample
                     java.lang.System.setProperty("mpxj.junit.privatedir", args[1]);
                 }
 
-                TestRunner.runAndWait(new JUnit4TestAdapter(new MPXJTest().getClass()));
+                TestRunner.runAndWait(new JUnit4TestAdapter(new MpxjTestSuite().getClass()));
             }
         }
     }
