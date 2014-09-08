@@ -144,16 +144,8 @@ library can be found in the lib.net folder of the MPXJ distribution.</p>
 
 
 <section name="Maven">
-<p>MPXJ is available in a 
-<a href="http://search.maven.org/#browse%7C1362266981">Maven repository</a>.
-An example Maven dependency for MPXJ is shown below:
-<source>
-&lt;dependency&gt;            
-	&lt;groupId&gt;net.sourceforge&lt;/groupId&gt;
-	&lt;artifactId&gt;mpxj&lt;/artifactId&gt;
-	&lt;version&gt;4.3.0&lt;/version&gt;
-&lt;/dependency&gt;
-</source>
+<p>MPXJ is available in  
+<a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22mpxj%22">Maven repositories</a>.
 This facility has been provided by a user of MPXJ, so it is not something 
 I can offer any advice or support for.</p>
 </section>
