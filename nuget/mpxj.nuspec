@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>net.sf.mpxj</id>
+        <title>MPXJ</title>
+        <version>0.0.0</version>
+        <authors>Jon Iles</authors>
+        <licenseUrl>https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/legal/licence.txt</licenseUrl>
+        <projectUrl>http://mpxj.sf.net</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>MPXJ is an open source file handling library for Java and .Net to read and write Microsoft Project MPX and MSPDI XML files, Planner files, Primavera XER files and databases, and MPP, MPT, and MPD files for Project 98, 2000, 2002, 2003, 2007 and 2010.</description>
+        <dependencies>
+        	<dependency id="mpxj-ikvm"/>
+        	<dependency id="mpxj-poi"/>        	
+        </dependencies>
+    </metadata>
+    <files>
+    	<file src="..\lib.net\mpxj.*" target="lib"/>  
+    	<file src="..\lib.net\IKVM.*" target="lib"/>
+    	<file src="..\lib.net\poi*.*" target="lib"/>    	  
+    </files>
+</package>

@@ -11,6 +11,7 @@
 
 		<property name="current.version" value="4.6.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
+		<property name="nuget.dir" value="${basedir}/../../nuget" />
 		<property name="windows.tools.dir" value="c:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools" />
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
 		<property name="hamcrest.jar" value="${basedir}/../junit-4.11/hamcrest-core-1.3.jar"/>
@@ -29,7 +30,7 @@
 		<property name="classes.test.dir" value="${basedir}/classes.test" />
 		<property name="bak.dir" value="${basedir}/bak" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
-		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>		
+		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 
 		<!-- 
 		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
@@ -307,7 +308,7 @@
 
 	</target>
 
-	<target name="distribute" depends="archive,clean-java,clean-dot-net" description="Create distribution">
+	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
 			<zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*" />
 		</zip>
@@ -346,6 +347,7 @@
 		<delete file="${mpxj.dll}" />
 		<delete file="${mpxj-for-csharp.dll}" />
 		<delete file="${mpxj-for-vb.dll}" />
+		<delete file="${mpxj-test.dll}" />
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
 		
@@ -406,5 +408,57 @@
 	<target name="publish-site" depends="run-maven" description="Publishesthe web site to Sourceforge">
 		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>				
 	</target>
+
+	<!-- Adapted from http://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
+	<target name="git.revision" description="Store git revision in ${repository.version}">
+	    <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+	        <arg value="rev-parse"/>
+	        <arg value="--short"/>
+	        <arg value="HEAD"/>
+	    </exec>
+	    <condition property="repository.version" value="${git.revision}" else="unknown">
+	        <and>
+	            <isset property="git.revision"/>
+	            <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+	        </and>
+	    </condition>
+	</target>
+
+	<target name="nuget-package" depends="init-props">
+		<exec executable="${nuget.dir}/nuget.exe">
+			<arg value="update"/>
+			<arg value="-self"/>
+		</exec>
+		
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="nuget/mpxj.nuspec"/>
+		</antcall>
+		
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="nuget/mpxj-for-csharp.nuspec"/>
+		</antcall>				
+		
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="nuget/mpxj-for-vb.nuspec"/>
+		</antcall>
+	</target>
+	
+	<target name="nuget-pack">
+		<exec executable="${nuget.dir}/nuget.exe">
+			<arg value="pack"/>
+			<arg value="${nuget.spec}"/>
+			<arg value="-outputdirectory"/>
+			<arg value="${basedir}/.."/>
+			<arg value="-version"/>
+			<arg value="${current.version}"/>
+			<arg value="-verbosity"/>
+			<arg value="quiet"/>
+		</exec>				
+	</target>
+	
+	<target name="nuget-deploy">
+		
+	</target>
+		
 </project>
 
