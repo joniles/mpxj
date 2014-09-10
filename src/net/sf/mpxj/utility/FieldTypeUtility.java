@@ -23,7 +23,10 @@
 
 package net.sf.mpxj.utility;
 
+import java.util.Locale;
+
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPAssignmentField14;
@@ -46,49 +49,6 @@ public final class FieldTypeUtility
     * @param fieldID field ID 
     * @return FieldType instance
     */
-   public static final FieldType getInstanceUnmapped(int fieldID)
-   {
-      FieldType result;
-      int prefix = fieldID & 0xFFFF0000;
-      int index = fieldID & 0x0000FFFF;
-
-      switch (prefix)
-      {
-         case MPPTaskField.TASK_FIELD_BASE:
-         {
-            result = MPPTaskField.getInstance(index);
-            break;
-         }
-
-         case MPPResourceField.RESOURCE_FIELD_BASE:
-         {
-            result = MPPResourceField.getInstance(index);
-            break;
-         }
-
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
-         {
-            result = MPPAssignmentField.getInstance(index);
-            break;
-         }
-
-         default:
-         {
-            result = null;
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
-    * Retrieve a FieldType instance based on an ID value from 
-    * an MPP9 or MPP12 file.
-    * 
-    * @param fieldID field ID 
-    * @return FieldType instance
-    */
    public static final FieldType getInstance(int fieldID)
    {
       FieldType result;
@@ -102,7 +62,7 @@ public final class FieldTypeUtility
             result = MPPTaskField.getInstance(index);
             if (result == null)
             {
-               result = TaskField.UNAVAILABLE;
+               result = getPlaceholder(TaskField.class, index);
             }
             break;
          }
@@ -112,7 +72,7 @@ public final class FieldTypeUtility
             result = MPPResourceField.getInstance(index);
             if (result == null)
             {
-               result = ResourceField.UNAVAILABLE;
+               result = getPlaceholder(ResourceField.class, index);
             }
             break;
          }
@@ -122,57 +82,14 @@ public final class FieldTypeUtility
             result = MPPAssignmentField.getInstance(index);
             if (result == null)
             {
-               result = AssignmentField.UNAVAILABLE;
+               result = getPlaceholder(AssignmentField.class, index);
             }
             break;
          }
 
          default:
          {
-            result = null;
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
-    * Retrieve a FieldType instance based on an ID value from 
-    * an MPP14 field, without any additional mapping.
-    * 
-    * @param fieldID field ID 
-    * @return FieldType instance
-    */
-   public static final FieldType getInstance14Unmapped(int fieldID)
-   {
-      FieldType result;
-      int prefix = fieldID & 0xFFFF0000;
-      int index = fieldID & 0x0000FFFF;
-
-      switch (prefix)
-      {
-         case MPPTaskField.TASK_FIELD_BASE:
-         {
-            result = MPPTaskField14.getInstanceUnmapped(index);
-            break;
-         }
-
-         case MPPResourceField.RESOURCE_FIELD_BASE:
-         {
-            result = MPPResourceField14.getInstance(index);
-            break;
-         }
-
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
-         {
-            result = MPPAssignmentField14.getInstance(index);
-            break;
-         }
-
-         default:
-         {
-            result = null;
+            result = getPlaceholder(null, index);
             break;
          }
       }
@@ -201,7 +118,7 @@ public final class FieldTypeUtility
             result = MPPTaskField14.getInstance(index);
             if (result == null)
             {
-               result = TaskField.UNAVAILABLE;
+               result = getPlaceholder(TaskField.class, index);
             }
             break;
          }
@@ -211,7 +128,7 @@ public final class FieldTypeUtility
             result = MPPResourceField14.getInstance(index);
             if (result == null)
             {
-               result = ResourceField.UNAVAILABLE;
+               result = getPlaceholder(ResourceField.class, index);
             }
             break;
          }
@@ -221,18 +138,62 @@ public final class FieldTypeUtility
             result = MPPAssignmentField14.getInstance(index);
             if (result == null)
             {
-               result = AssignmentField.UNAVAILABLE;
+               result = getPlaceholder(AssignmentField.class, index);
             }
             break;
          }
 
          default:
          {
-            result = null;
+            result = getPlaceholder(null, index);
             break;
          }
       }
 
       return result;
+   }
+
+   /**
+    * Generate a placeholder for an unknown type.
+    * 
+    * @param type expected type
+    * @param fieldID field ID
+    * @return placeholder
+    */
+   private static FieldType getPlaceholder(final Class<?> type, final int fieldID)
+   {
+      return new FieldType()
+      {
+
+         @Override public int getValue()
+         {
+            return fieldID;
+         }
+
+         @Override public String getName()
+         {
+            return "Unknown " + (type == null ? "" : type.getSimpleName() + "(" + fieldID + ")");
+         }
+
+         @Override public String getName(Locale locale)
+         {
+            return getName();
+         }
+
+         @Override public DataType getDataType()
+         {
+            return null;
+         }
+
+         @Override public FieldType getUnitsType()
+         {
+            return null;
+         }
+
+         @Override public String toString()
+         {
+            return getName();
+         }
+      };
    }
 }

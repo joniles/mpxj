@@ -119,7 +119,7 @@ public class ResourceAssignmentFactory
 
          assignment.disableEvents();
 
-         fieldMap.populateContainer(assignment, varDataId, new byte[][]
+         fieldMap.populateContainer(AssignmentField.class, assignment, varDataId, new byte[][]
          {
             data,
             data2
@@ -127,7 +127,7 @@ public class ResourceAssignmentFactory
 
          if (enterpriseCustomFieldMap != null)
          {
-            enterpriseCustomFieldMap.populateContainer(assignment, varDataId, null, assnVarData);
+            enterpriseCustomFieldMap.populateContainer(AssignmentField.class, assignment, varDataId, null, assnVarData);
          }
 
          assignment.enableEvents();

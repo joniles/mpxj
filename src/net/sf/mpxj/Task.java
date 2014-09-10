@@ -4226,7 +4226,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public TaskMode getTaskMode()
    {
-      return (TaskMode) getCachedValue(TaskField.TASK_MODE);
+      return BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.TASK_MODE)) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
    }
 
    /**
@@ -4236,7 +4236,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setTaskMode(TaskMode mode)
    {
-      set(TaskField.TASK_MODE, mode);
+      set(TaskField.TASK_MODE, mode == TaskMode.MANUALLY_SCHEDULED);
    }
 
    /**

@@ -1375,7 +1375,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @param val - value to be set
     */
-   public void setLinkedFields(String val)
+   public void setLinkedFields(boolean val)
    {
       set(ResourceField.LINKED_FIELDS, val);
    }
@@ -1486,9 +1486,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @return value
     */
-   public String getLinkedFields()
+   public boolean getLinkedFields()
    {
-      return ((String) getCachedValue(ResourceField.LINKED_FIELDS));
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.LINKED_FIELDS)));
    }
 
    /**

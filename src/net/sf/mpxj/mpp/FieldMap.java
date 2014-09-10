@@ -72,11 +72,31 @@ abstract class FieldMap
       int index = 0;
       int lastDataBlockOffset = 0;
       int dataBlockIndex = 0;
+
       while (index < data.length)
       {
-         FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
-         int dataBlockOffset = MPPUtility.getShort(data, index + 4);
          int mask = MPPUtility.getInt(data, index + 0);
+         int dataBlockOffset = MPPUtility.getShort(data, index + 4);
+         //int metaFlags = MPPUtility.getByte(data, index + 8);
+         FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
+         int category = MPPUtility.getShort(data, index + 20);
+         //int sizeInBytes = MPPUtility.getShort(data, index + 22);
+         //int metaIndex = MPPUtility.getInt(data, index + 24);
+
+         //
+         // Categories
+         //
+         // 02 - Short values [RATE_UNITS, WORKGROUP, ACCRUE, TIME_UNITS, PRIORITY, TASK_TYPE, CONSTRAINT, ACCRUE, PERCENTAGE, SHORT, WORK_UNITS]  - BOOKING_TYPE, EARNED_VALUE_METHOD, DELIVERABLE_TYPE, RESOURCE_REQUEST_TYPE - we have as string in MPXJ????
+         // 03 - Int values [DURATION, INTEGER] - Recalc outline codes as Boolean?
+         // 05 - rate, number [RATE, NUMERIC]
+         // 08 - String (and some durations!!!) [STRING, DURATION]
+         // 0B - Boolean (meta block 0) - [BOOLEAN]
+         // 13 - Date - [DATE]
+         // 48 - GUID - [GUID]
+         // 64 - Boolean (meta block 1)- [BOOLEAN]
+         // 65 - Work, Currency [WORK, CURRENCY]
+         // 66 - Units [UNITS]
+         // 1D - Raw bytes [BINARY, ASCII_STRING] - Exception: outline code indexes, they are integers, but stored as part of a binary block
 
          int varDataKey;
          if (useTypeAsVarDataKey())
@@ -134,26 +154,21 @@ abstract class FieldMap
             {
                m_maxFixedDataOffset[dataBlockIndex] = dataBlockOffset;
             }
-
-            //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + MPPUtility.getShort(data, index + 12) + " " + type + " " + (type == null ? "unknown" : type.getDataType()) + " " + location + " " + dataBlockIndex + " " + dataBlockOffset + " " + varDataKey);
          }
 
-         //         if (location != FieldLocation.META_DATA)
-         //         {
-         //            System.out.println((type == null ? "?" : type.getClass().getSimpleName() + "." + type) + " " + dataBlockOffset + " " + varDataKey + " " + (MPPUtility.getInt(data, index + 12) & 0x0000FFFF) + " " + Integer.toHexString((MPPUtility.getInt(data, index + 12))));
-         //         }
+         int metaBlock = 0;
 
-         if (type != null)
+         if (location == FieldLocation.META_DATA)
          {
-            //                        if (location != FieldLocation.META_DATA)
-            //                        {               
-            //                           System.out.println("new FieldItem("+type.getClass().getSimpleName()+"."+type + ", FieldLocation." + location +", " +dataBlockIndex+", "+dataBlockOffset + ", " + varDataKey+"),");
-            //                        }
-
-            //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + (type instanceof net.sf.mpxj.TaskField ? "TaskField" : type instanceof net.sf.mpxj.ResourceField ? "ResourceField" : "AssignmentField") + " " + type);
-
-            m_map.put(type, new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey));
+            if (category == 0x64)
+            {
+               metaBlock = 1;
+            }
          }
+
+         FieldItem item = new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey, mask, metaBlock);
+         //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + item + " metaIndex=" + metaIndex + " mpxjDataType=" + item.getType().getDataType());
+         m_map.put(type, item);
 
          index += 28;
       }
@@ -261,7 +276,7 @@ abstract class FieldMap
             if (type != null && type.getClass() == c && type.toString().startsWith("Enterprise Custom Field"))
             {
                int varDataKey = (typeValue & 0xFFFF);
-               m_map.put(type, new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey));
+               m_map.put(type, new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey, 0, 0));
                //System.out.println(type.getClass().getSimpleName() + "." + type + " " + Integer.toHexString(typeValue));
             }
             //System.out.println((type == null ? "?" : type.getClass().getSimpleName() + "." + type) + " " + Integer.toHexString(typeValue));
@@ -344,20 +359,24 @@ abstract class FieldMap
     * Given a container, and a set of raw data blocks, this method extracts
     * the field data and writes it into the container.
     * 
+    * @param type expected type
     * @param container field container
     * @param id entity ID
     * @param fixedData fixed data block
     * @param varData var data block
     */
-   public void populateContainer(FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
+   public void populateContainer(Class<? extends FieldType> type, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       //System.out.println(container.getClass().getSimpleName()+": " + id);
       for (FieldItem item : m_map.values())
       {
-         //System.out.println(item.m_type);
-         Object value = item.read(id, fixedData, varData);
-         //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
-         container.set(item.getType(), value);
+         if (item.getType().getClass().equals(type))
+         {
+            //System.out.println(item.m_type);
+            Object value = item.read(id, fixedData, varData);
+            //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
+            container.set(item.getType(), value);
+         }
       }
    }
 
@@ -447,7 +466,6 @@ abstract class FieldMap
          result = item.getFieldLocation();
       }
       return result;
-
    }
 
    /**
@@ -569,14 +587,18 @@ abstract class FieldMap
        * @param fixedDataBlockIndex identifies which block the data comes from
        * @param fixedDataOffset fixed data block offset
        * @param varDataKey var data block key
+       * @param mask TODO
+       * @param metaBlock TODO
        */
-      FieldItem(FieldType type, FieldLocation location, int fixedDataBlockIndex, int fixedDataOffset, int varDataKey)
+      FieldItem(FieldType type, FieldLocation location, int fixedDataBlockIndex, int fixedDataOffset, int varDataKey, int mask, int metaBlock)
       {
          m_type = type;
          m_location = location;
          m_fixedDataBlockIndex = fixedDataBlockIndex;
          m_fixedDataOffset = fixedDataOffset;
          m_varDataKey = Integer.valueOf(varDataKey);
+         m_mask = mask;
+         m_metaBlock = metaBlock;
       }
 
       /**
@@ -1173,6 +1195,16 @@ abstract class FieldMap
                break;
             }
 
+            case META_DATA:
+            {
+               buffer.append(" mask=");
+               buffer.append(m_mask);
+               buffer.append(" block=");
+               buffer.append(m_metaBlock);
+
+               break;
+            }
+
             default:
             {
                break;
@@ -1183,12 +1215,13 @@ abstract class FieldMap
 
          return buffer.toString();
       }
-
       private FieldType m_type;
       private FieldLocation m_location;
       private int m_fixedDataBlockIndex;
       private int m_fixedDataOffset;
       private Integer m_varDataKey;
+      private int m_mask;
+      private int m_metaBlock;
    }
 
    private ProjectFile m_file;

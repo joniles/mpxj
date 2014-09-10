@@ -1446,13 +1446,13 @@ final class MPP12Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(task, id, new byte[][]
+         fieldMap.populateContainer(TaskField.class, task, id, new byte[][]
          {
             data,
             data2
          }, taskVarData);
 
-         enterpriseCustomFieldMap.populateContainer(task, id, null, taskVarData);
+         enterpriseCustomFieldMap.populateContainer(TaskField.class, task, id, null, taskVarData);
 
          task.enableEvents();
 
@@ -2186,13 +2186,13 @@ final class MPP12Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(resource, id, new byte[][]
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
          {
             data,
             data2
          }, rscVarData);
 
-         enterpriseCustomFieldMap.populateContainer(resource, id, null, rscVarData);
+         enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);
 
          resource.enableEvents();
 

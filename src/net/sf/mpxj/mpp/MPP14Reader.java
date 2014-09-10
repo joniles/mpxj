@@ -1482,13 +1482,13 @@ final class MPP14Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(task, id, new byte[][]
+         fieldMap.populateContainer(TaskField.class, task, id, new byte[][]
          {
             data,
             data2
          }, taskVarData);
 
-         enterpriseCustomFieldMap.populateContainer(task, id, null, taskVarData);
+         enterpriseCustomFieldMap.populateContainer(TaskField.class, task, id, null, taskVarData);
 
          task.enableEvents();
 
@@ -2097,13 +2097,13 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.disableEvents();
 
-         fieldMap.populateContainer(resource, id, new byte[][]
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
          {
             data,
             data2
          }, rscVarData);
 
-         enterpriseCustomFieldMap.populateContainer(resource, id, null, rscVarData);
+         enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);
 
          resource.enableEvents();
 
@@ -2652,13 +2652,13 @@ final class MPP14Reader implements MPPVariantReader
    private static final MppBitFlag[] PROJECT2010_TASK_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x04, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(TaskField.TASK_MODE, 8, 0x08, TaskMode.AUTO_SCHEDULED, TaskMode.MANUALLY_SCHEDULED)
+      new MppBitFlag(TaskField.TASK_MODE, 8, 0x08, Boolean.FALSE, Boolean.TRUE)
    };
 
    private static final MppBitFlag[] PROJECT2013_TASK_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(TaskField.TASK_MODE, 8, 0x80, TaskMode.AUTO_SCHEDULED, TaskMode.MANUALLY_SCHEDULED)
+      new MppBitFlag(TaskField.TASK_MODE, 8, 0x80, Boolean.FALSE, Boolean.TRUE)
    };
 
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS =

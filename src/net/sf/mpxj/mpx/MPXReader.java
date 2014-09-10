@@ -803,6 +803,7 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
+            case LINKED_FIELDS:
             case OVERALLOCATED:
             {
                resource.set(resourceField, record.getBoolean(i, falseText));
