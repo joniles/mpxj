@@ -80,6 +80,16 @@ public class ResourceAssignmentFactory
       //System.out.println(assnVarMeta.toString(fieldMap));
       //System.out.println(assnVarData);
 
+      MppBitFlag[] metaDataBitFlags;
+      if (file.getMppFileType() == 14)
+      {
+         metaDataBitFlags = MPP14_ASSIGNMENT_META_DATA_BIT_FLAGS;
+      }
+      else
+      {
+         metaDataBitFlags = ASSIGNMENT_META_DATA_BIT_FLAGS;
+      }
+
       for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
@@ -132,47 +142,14 @@ public class ResourceAssignmentFactory
 
          assignment.enableEvents();
 
-         if (fieldMap.getFieldLocation(AssignmentField.FLAG1) != FieldMap.FieldLocation.VAR_DATA)
+         for (MppBitFlag flag : metaDataBitFlags)
          {
-            assignment.setFlag(1, (meta[28] & 0x80) != 0);
-
-            assignment.setFlag(2, (meta[29] & 0x01) != 0);
-            assignment.setFlag(3, (meta[29] & 0x02) != 0);
-            assignment.setFlag(4, (meta[29] & 0x04) != 0);
-            assignment.setFlag(5, (meta[29] & 0x08) != 0);
-            assignment.setFlag(6, (meta[29] & 0x10) != 0);
-            assignment.setFlag(7, (meta[29] & 0x20) != 0);
-            assignment.setFlag(8, (meta[29] & 0x40) != 0);
-            assignment.setFlag(9, (meta[29] & 0x80) != 0);
-
-            assignment.setFlag(10, (meta[30] & 0x01) != 0);
-            assignment.setFlag(11, (meta[30] & 0x02) != 0);
-            assignment.setFlag(12, (meta[30] & 0x04) != 0);
-            assignment.setFlag(13, (meta[30] & 0x08) != 0);
-            assignment.setFlag(14, (meta[30] & 0x10) != 0);
-            assignment.setFlag(15, (meta[30] & 0x20) != 0);
-            assignment.setFlag(16, (meta[30] & 0x40) != 0);
-            assignment.setFlag(17, (meta[30] & 0x80) != 0);
-
-            assignment.setFlag(18, (meta[31] & 0x01) != 0);
-            assignment.setFlag(19, (meta[31] & 0x02) != 0);
-            assignment.setFlag(20, (meta[31] & 0x04) != 0);
+            flag.setValue(assignment, meta);
          }
 
-         if (fieldMap.getFieldLocation(AssignmentField.CONFIRMED) != FieldMap.FieldLocation.VAR_DATA)
-         {
-            assignment.setConfirmed((meta[8] & 0x80) != 0);
-         }
-
-         if (fieldMap.getFieldLocation(AssignmentField.RESPONSE_PENDING) != FieldMap.FieldLocation.VAR_DATA)
-         {
-            assignment.setResponsePending((meta[9] & 0x01) != 0);
-         }
-
-         if (fieldMap.getFieldLocation(AssignmentField.TEAM_STATUS_PENDING) != FieldMap.FieldLocation.VAR_DATA)
-         {
-            assignment.setTeamStatusPending((meta[10] & 0x02) != 0);
-         }
+         assignment.setConfirmed((meta[8] & 0x80) != 0);
+         assignment.setResponsePending((meta[9] & 0x01) != 0);
+         assignment.setTeamStatusPending((meta[10] & 0x02) != 0);
 
          processHyperlinkData(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
 
@@ -389,4 +366,52 @@ public class ResourceAssignmentFactory
    }
 
    private static final Integer MPP9_CREATION_DATA = Integer.valueOf(138);
+
+   private static final MppBitFlag[] ASSIGNMENT_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(AssignmentField.FLAG1, 28, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG2, 29, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG3, 29, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG4, 29, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG5, 29, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG6, 29, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG7, 29, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG8, 29, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG9, 29, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG10, 30, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG11, 30, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG12, 30, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG13, 30, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG14, 30, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG15, 30, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG16, 30, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG17, 30, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG18, 31, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG19, 31, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG20, 31, 0x04, Boolean.FALSE, Boolean.TRUE)
+   };
+
+   private static final MppBitFlag[] MPP14_ASSIGNMENT_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(AssignmentField.FLAG1, 28, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG2, 28, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG3, 28, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG4, 28, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG5, 28, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG6, 28, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG7, 29, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG8, 29, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG9, 29, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG10, 28, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG11, 29, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG12, 29, 0x10, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG13, 29, 0x20, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG14, 29, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG15, 29, 0x80, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG16, 30, 0x01, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG17, 30, 0x02, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG18, 30, 0x04, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG19, 30, 0x08, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG20, 30, 0x10, Boolean.FALSE, Boolean.TRUE)
+   };
 }

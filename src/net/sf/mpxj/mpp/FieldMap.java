@@ -75,7 +75,9 @@ abstract class FieldMap
 
       while (index < data.length)
       {
-         int mask = MPPUtility.getInt(data, index + 0);
+         long mask = MPPUtility.getInt(data, index + 0);
+         //mask = mask << 4;
+
          int dataBlockOffset = MPPUtility.getShort(data, index + 4);
          //int metaFlags = MPPUtility.getByte(data, index + 8);
          FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
@@ -88,12 +90,12 @@ abstract class FieldMap
          //
          // 02 - Short values [RATE_UNITS, WORKGROUP, ACCRUE, TIME_UNITS, PRIORITY, TASK_TYPE, CONSTRAINT, ACCRUE, PERCENTAGE, SHORT, WORK_UNITS]  - BOOKING_TYPE, EARNED_VALUE_METHOD, DELIVERABLE_TYPE, RESOURCE_REQUEST_TYPE - we have as string in MPXJ????
          // 03 - Int values [DURATION, INTEGER] - Recalc outline codes as Boolean?
-         // 05 - rate, number [RATE, NUMERIC]
+         // 05 - Rate, Number [RATE, NUMERIC]
          // 08 - String (and some durations!!!) [STRING, DURATION]
-         // 0B - Boolean (meta block 0) - [BOOLEAN]
+         // 0B - Boolean (meta block 0?) - [BOOLEAN]
          // 13 - Date - [DATE]
          // 48 - GUID - [GUID]
-         // 64 - Boolean (meta block 1)- [BOOLEAN]
+         // 64 - Boolean (meta block 1?)- [BOOLEAN]
          // 65 - Work, Currency [WORK, CURRENCY]
          // 66 - Units [UNITS]
          // 1D - Raw bytes [BINARY, ASCII_STRING] - Exception: outline code indexes, they are integers, but stored as part of a binary block
@@ -109,7 +111,7 @@ abstract class FieldMap
             else
             {
                varDataKey = substitute.intValue();
-               mask = 0; // If we've made a substitution, force this to be a var data block
+               //mask = 0; // If we've made a substitution, force this to be a var data block
             }
          }
          else
@@ -118,56 +120,61 @@ abstract class FieldMap
          }
 
          FieldLocation location;
+         int metaBlock;
 
-         if (dataBlockOffset != 65535)
+         switch (category)
          {
-            location = FieldLocation.FIXED_DATA;
-         }
-         else
-         {
-            if (mask != 0)
+            case 0x0B:
             {
                location = FieldLocation.META_DATA;
+               metaBlock = 0;
+               break;
             }
-            else
+
+            case 0x64:
             {
-               if (varDataKey != 0)
+               location = FieldLocation.META_DATA;
+               metaBlock = 1;
+               break;
+            }
+
+            default:
+            {
+               metaBlock = 0;
+               if (dataBlockOffset != 65535)
                {
-                  location = FieldLocation.VAR_DATA;
+                  location = FieldLocation.FIXED_DATA;
+                  if (dataBlockOffset < lastDataBlockOffset)
+                  {
+                     ++dataBlockIndex;
+                  }
+                  lastDataBlockOffset = dataBlockOffset;
+
+                  if (dataBlockOffset > m_maxFixedDataOffset[dataBlockIndex])
+                  {
+                     m_maxFixedDataOffset[dataBlockIndex] = dataBlockOffset;
+                  }
                }
                else
                {
-                  location = FieldLocation.UNKNOWN;
+                  if (varDataKey != 0)
+                  {
+                     location = FieldLocation.VAR_DATA;
+                  }
+                  else
+                  {
+                     location = FieldLocation.UNKNOWN;
+                  }
                }
-            }
-         }
-
-         if (location == FieldLocation.FIXED_DATA)
-         {
-            if (dataBlockOffset < lastDataBlockOffset)
-            {
-               ++dataBlockIndex;
-            }
-            lastDataBlockOffset = dataBlockOffset;
-
-            if (dataBlockOffset > m_maxFixedDataOffset[dataBlockIndex])
-            {
-               m_maxFixedDataOffset[dataBlockIndex] = dataBlockOffset;
-            }
-         }
-
-         int metaBlock = 0;
-
-         if (location == FieldLocation.META_DATA)
-         {
-            if (category == 0x64)
-            {
-               metaBlock = 1;
+               break;
             }
          }
 
          FieldItem item = new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey, mask, metaBlock);
-         //System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + item + " metaIndex=" + metaIndex + " mpxjDataType=" + item.getType().getDataType());
+         //         if (location == FieldLocation.META_DATA)
+         //         {
+         //            System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + item + " mpxjDataType=" + item.getType().getDataType() + " index=" + index);
+         //         }
          m_map.put(type, item);
 
          index += 28;
@@ -590,7 +597,7 @@ abstract class FieldMap
        * @param mask TODO
        * @param metaBlock TODO
        */
-      FieldItem(FieldType type, FieldLocation location, int fixedDataBlockIndex, int fixedDataOffset, int varDataKey, int mask, int metaBlock)
+      FieldItem(FieldType type, FieldLocation location, int fixedDataBlockIndex, int fixedDataOffset, int varDataKey, long mask, int metaBlock)
       {
          m_type = type;
          m_location = location;
@@ -1198,7 +1205,7 @@ abstract class FieldMap
             case META_DATA:
             {
                buffer.append(" mask=");
-               buffer.append(m_mask);
+               buffer.append(Long.toHexString(m_mask));
                buffer.append(" block=");
                buffer.append(m_metaBlock);
 
@@ -1220,7 +1227,7 @@ abstract class FieldMap
       private int m_fixedDataBlockIndex;
       private int m_fixedDataOffset;
       private Integer m_varDataKey;
-      private int m_mask;
+      private long m_mask;
       private int m_metaBlock;
    }
 
