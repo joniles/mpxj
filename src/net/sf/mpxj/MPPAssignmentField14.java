@@ -186,7 +186,6 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[172] = AssignmentField.DATE7;
       FIELD_ARRAY[173] = AssignmentField.DATE8;
       FIELD_ARRAY[174] = AssignmentField.DATE9;
-      FIELD_ARRAY[25] = AssignmentField.DELAY;
       FIELD_ARRAY[113] = AssignmentField.DURATION1;
       FIELD_ARRAY[182] = AssignmentField.DURATION10;
       FIELD_ARRAY[114] = AssignmentField.DURATION2;

@@ -1099,7 +1099,6 @@ class FieldMap14 extends FieldMap
          new FieldItem(AssignmentField.RESOURCE_UNIQUE_ID, FieldLocation.FIXED_DATA, 0, 8, 2, 0, 0),
          new FieldItem(AssignmentField.START, FieldLocation.FIXED_DATA, 0, 12, 20, 0, 0),
          new FieldItem(AssignmentField.FINISH, FieldLocation.FIXED_DATA, 0, 16, 21, 0, 0),
-         new FieldItem(AssignmentField.DELAY, FieldLocation.FIXED_DATA, 0, 24, 25, 0, 0),
          new FieldItem(AssignmentField.LEVELING_DELAY_UNITS, FieldLocation.FIXED_DATA, 0, 28, 55, 0, 0),
          new FieldItem(AssignmentField.LEVELING_DELAY, FieldLocation.FIXED_DATA, 0, 30, 145, 0, 0),
          new FieldItem(AssignmentField.COST_RATE_TABLE, FieldLocation.FIXED_DATA, 0, 34, 80, 0, 0),
