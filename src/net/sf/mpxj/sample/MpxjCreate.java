@@ -123,9 +123,7 @@ public class MpxjCreate
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       //
-      // Create an empty MPX or MSPDI file. The filename is passed to
-      // this method purely to allow it to determine the type of
-      // file to create.
+      // Create a ProjectFile instance
       //
       ProjectFile file = new ProjectFile();
 
