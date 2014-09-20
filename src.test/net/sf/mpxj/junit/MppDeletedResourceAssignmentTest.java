@@ -42,7 +42,7 @@ import org.junit.Test;
 public class MppDeletedResourceAssignmentTest
 {
    /**
-    * Test to exercise th test case provided for SourceForge bug #248.
+    * Test to exercise the test case provided for SourceForge bug #248.
     * https://sourceforge.net/p/mpxj/bugs/248/
     */
    @Test public void testSourceForge248() throws Exception
@@ -108,7 +108,7 @@ public class MppDeletedResourceAssignmentTest
     * @param assignments list of assignments
     * @param index index number of the resource to test
     * @param expectedTaskName expected task name
-    * @param expectedResourceName expectedresource name
+    * @param expectedResourceName expected resource name
     */
    private void testAssignment(List<ResourceAssignment> assignments, int index, String expectedTaskName, String expectedResourceName)
    {
