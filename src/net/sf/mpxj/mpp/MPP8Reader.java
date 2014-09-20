@@ -1059,33 +1059,33 @@ final class MPP8Reader implements MPPVariantReader
 
          byte[] data = assnFixedData.getByteArrayValue(loop);
 
-         Task task = m_file.getTaskByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 16)));
-         Resource resource = m_file.getResourceByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 20)));
-         if (task != null && resource != null)
+         //
+         // Check that the deleted flag isn't set
+         //
+         if (MPPUtility.getByte(data, 168) != 0x02)
          {
-            ResourceAssignment assignment = task.addResourceAssignment(resource);
-            assignment.setActualCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
-            assignment.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 96)) / 100, TimeUnit.HOURS));
-            assignment.setCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
-            //assignment.setDelay(); // Not sure what this field maps on to in MSP
-            assignment.setFinish(MPPUtility.getTimestamp(data, 28));
-            assignment.setOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 90)) / 100, TimeUnit.HOURS));
-            //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
-            //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-            assignment.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 114)) / 100, TimeUnit.HOURS));
-            assignment.setStart(MPPUtility.getTimestamp(data, 24));
-            assignment.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
-            assignment.setUnits(Double.valueOf(((double) MPPUtility.getShort(data, 80)) / 100));
-            assignment.setWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 84)) / 100, TimeUnit.HOURS));
+            Task task = m_file.getTaskByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 16)));
+            Resource resource = m_file.getResourceByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 20)));
 
-            m_file.fireAssignmentReadEvent(assignment);
+            if (task != null && resource != null)
+            {
+               ResourceAssignment assignment = task.addResourceAssignment(resource);
+               assignment.setActualCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
+               assignment.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 96)) / 100, TimeUnit.HOURS));
+               assignment.setCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
+               //assignment.setDelay(); // Not sure what this field maps on to in MSP
+               assignment.setFinish(MPPUtility.getTimestamp(data, 28));
+               assignment.setOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 90)) / 100, TimeUnit.HOURS));
+               //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
+               //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+               assignment.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 114)) / 100, TimeUnit.HOURS));
+               assignment.setStart(MPPUtility.getTimestamp(data, 24));
+               assignment.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
+               assignment.setUnits(Double.valueOf(((double) MPPUtility.getShort(data, 80)) / 100));
+               assignment.setWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 84)) / 100, TimeUnit.HOURS));
 
-            //
-            // Uncommenting the call to this method is useful when trying
-            // to determine the function of unknown assignment data.
-            //
-            //dumpUnknownData (task.getName() + " " + resource.getName(), UNKNOWN_ASSIGNMENT_DATA, data);
-            // data, 24: actual start            
+               m_file.fireAssignmentReadEvent(assignment);
+            }
          }
       }
    }

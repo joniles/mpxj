@@ -91,11 +91,11 @@ final class FixedMeta extends MPPComponent
       readInt(is);
 
       int itemSize = itemSizeProvider.getItemSize(fileSize, m_itemCount);
-      m_itemCount = (fileSize - HEADER_SIZE) / itemSize;
+      m_adjustedItemCount = (fileSize - HEADER_SIZE) / itemSize;
 
-      m_array = new Object[m_itemCount];
+      m_array = new Object[m_adjustedItemCount];
 
-      for (int loop = 0; loop < m_itemCount; loop++)
+      for (int loop = 0; loop < m_adjustedItemCount; loop++)
       {
          m_array[loop] = readByteArray(is, itemSize);
       }
@@ -138,13 +138,26 @@ final class FixedMeta extends MPPComponent
    }
 
    /**
-    * This method retrieves the number of items in the FixedData block.
+    * This method retrieves the number of items in the FixedData block, as reported in the block header.
     *
     * @return number of items in the fixed data block
     */
    public int getItemCount()
    {
       return (m_itemCount);
+   }
+
+   /**
+    * This method retrieves the number of items in the FixedData block.
+    * Where we don't trust the number of items reported by the block header
+    * this value is adjusted based on what we know about the block size
+    * and the size of the individual items.
+    *
+    * @return number of items in the fixed data block
+    */
+   public int getAdjustedItemCount()
+   {
+      return (m_adjustedItemCount);
    }
 
    /**
@@ -179,9 +192,9 @@ final class FixedMeta extends MPPComponent
       PrintWriter pw = new PrintWriter(sw);
 
       pw.println("BEGIN: FixedMeta");
-      pw.println("   Item count: " + m_itemCount);
+      pw.println("   Adjusted Item count: " + m_adjustedItemCount);
 
-      for (int loop = 0; loop < m_itemCount; loop++)
+      for (int loop = 0; loop < m_adjustedItemCount; loop++)
       {
          pw.println("   Data at index: " + loop);
          pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
@@ -195,9 +208,14 @@ final class FixedMeta extends MPPComponent
    }
 
    /**
-    * Number of items in the data block.
+    * Number of items in the data block, as reported in the block header.
     */
    private int m_itemCount;
+
+   /**
+    * Number of items in the data block, adjusted based on block size and item size.
+    */
+   private int m_adjustedItemCount;
 
    /**
     * Unknown data items relating to each entry in the fixed data block.

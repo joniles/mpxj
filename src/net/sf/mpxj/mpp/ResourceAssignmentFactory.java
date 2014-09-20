@@ -63,11 +63,11 @@ public class ResourceAssignmentFactory
     * @param assnFixedMeta fixed meta
     * @param assnFixedData fixed data
     * @param assnFixedData2 fixed data
+    * @param count expected number of assignments
     */
-   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, boolean useRawTimephasedData, boolean preserveNoteFormatting, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, boolean useRawTimephasedData, boolean preserveNoteFormatting, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
-      int count = assnFixedMeta.getItemCount();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
       TimephasedWorkNormaliser normaliser = new MPPTimephasedWorkNormaliser();

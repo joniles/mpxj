@@ -1224,7 +1224,7 @@ final class MPP9Reader implements MPPVariantReader
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
-      int itemCount = taskFixedMeta.getItemCount();
+      int itemCount = taskFixedMeta.getAdjustedItemCount();
       byte[] data;
       int uniqueID;
       Integer key;
@@ -1296,7 +1296,7 @@ final class MPP9Reader implements MPPVariantReader
    private TreeMap<Integer, Integer> createResourceMap(FieldMap fieldMap, FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
-      int itemCount = rscFixedMeta.getItemCount();
+      int itemCount = rscFixedMeta.getAdjustedItemCount();
 
       for (int loop = 0; loop < itemCount; loop++)
       {
@@ -2282,7 +2282,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
          FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
-         int count = consFixedMeta.getItemCount();
+         int count = consFixedMeta.getAdjustedItemCount();
          int lastConstraintID = -1;
 
          for (int loop = 0; loop < count; loop++)
@@ -2471,13 +2471,13 @@ final class MPP9Reader implements MPPVariantReader
 
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
-      if (assnFixedData.getItemCount() != assnFixedMeta.getItemCount())
+      if (assnFixedData.getItemCount() != assnFixedMeta.getAdjustedItemCount())
       {
          assnFixedData = new FixedData(assnFixedMeta, getEncryptableInputStream(assnDir, "FixedData"));
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null);
+      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null, assnFixedMeta.getAdjustedItemCount());
    }
 
    /**
@@ -2504,7 +2504,7 @@ final class MPP9Reader implements MPPVariantReader
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
       FixedData fixedData = new FixedData(122, getEncryptableInputStream(dir, "FixedData"));
 
-      int items = fixedMeta.getItemCount();
+      int items = fixedMeta.getAdjustedItemCount();
       View view;
       ViewFactory factory = new ViewFactory9();
 

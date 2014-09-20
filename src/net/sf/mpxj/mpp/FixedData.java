@@ -99,7 +99,7 @@ final class FixedData extends MPPComponent
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
 
-      int itemCount = meta.getItemCount();
+      int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
 
@@ -182,7 +182,7 @@ final class FixedData extends MPPComponent
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
 
-      int itemCount = meta.getItemCount();
+      int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
 

@@ -942,7 +942,7 @@ final class MPP14Reader implements MPPVariantReader
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
-      int itemCount = taskFixedMeta.getItemCount();
+      int itemCount = taskFixedMeta.getAdjustedItemCount();
       int uniqueID;
       Integer key;
 
@@ -1005,7 +1005,7 @@ final class MPP14Reader implements MPPVariantReader
    private TreeMap<Integer, Integer> createResourceMap(FieldMap fieldMap, FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
-      int itemCount = rscFixedMeta.getItemCount();
+      int itemCount = rscFixedMeta.getAdjustedItemCount();
       int maxFixedDataOffset = fieldMap.getMaxFixedDataOffset(0);
       int uniqueIdOffset = fieldMap.getFixedDataOffset(ResourceField.UNIQUE_ID);
 
@@ -1973,7 +1973,7 @@ final class MPP14Reader implements MPPVariantReader
       {
          FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
          FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
-         int count = consFixedMeta.getItemCount();
+         int count = consFixedMeta.getAdjustedItemCount();
          int lastConstraintID = -1;
 
          for (int loop = 0; loop < count; loop++)
@@ -2194,7 +2194,7 @@ final class MPP14Reader implements MPPVariantReader
       //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2);
+      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
    }
 
    /**
@@ -2221,7 +2221,7 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
       FixedData fixedData = new FixedData(138, getEncryptableInputStream(dir, "FixedData"));
 
-      int items = fixedMeta.getItemCount();
+      int items = fixedMeta.getAdjustedItemCount();
       View view;
       ViewFactory factory = new ViewFactory14();
 
