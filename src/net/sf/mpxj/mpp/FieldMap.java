@@ -111,7 +111,6 @@ abstract class FieldMap
             else
             {
                varDataKey = substitute.intValue();
-               //mask = 0; // If we've made a substitution, force this to be a var data block
             }
          }
          else
