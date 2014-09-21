@@ -12,6 +12,7 @@
 		<action dev="joniles" type="fix">Fixed an issue where the ID and Unique ID resource attributes were being read incorrectly from MPP14 files.</action>
 		<action dev="joniles" type="fix">Fixed an issue where the project's default duration format was not being used</action>		
 		<action dev="joniles" type="fix" issue="248">Reading .MPP file using MPXJ 4.2 reads extra unintentional ResourceAssignment with the task which is not seen in Task Sheet in Microsoft Project</action>		
+		<action dev="joniles" type="fix" issue="235">All resources have "Material" property</action>		
 		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to capture the Project ID to align with data read from XER file/database (contributed by Nathaniel Marrin)</action>
 		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to ensure task percent complete supports Physical Percent, Duration Percent and Units Percent (contributed by Nathaniel Marrin)</action>
 		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to ensure task baseline values match values read from XER file/database (contributed by Nathaniel Marrin)</action>

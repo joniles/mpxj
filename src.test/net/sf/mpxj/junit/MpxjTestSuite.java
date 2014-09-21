@@ -74,6 +74,7 @@ import org.junit.runners.Suite;
    MppResourceFlags.class,
    DateUtilityTest.class,
    MppDeletedResourceAssignmentTest.class,
+   MppResourceTypeTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

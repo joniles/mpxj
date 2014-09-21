@@ -2126,10 +2126,23 @@ final class MPP14Reader implements MPPVariantReader
          readBitFields(metaDataBitFlags, resource, metaData);
          readBitFields(metaData2BitFlags, resource, metaData2);
 
+         ResourceType type;
          if (resource.getWorkGroup() == WorkGroup.DEFAULT)
          {
-            resource.setType(ResourceType.WORK);
+            type = ResourceType.WORK;
          }
+         else
+         {
+            if (resource.getStandardRateUnits() == TimeUnit.ELAPSED_MINUTES)
+            {
+               type = ResourceType.MATERIAL;
+            }
+            else
+            {
+               type = ResourceType.COST;
+            }
+         }
+         resource.setType(type);
 
          resource.setUniqueID(id);
 
