@@ -23,11 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -774,14 +770,14 @@ public class BasicTest
     */
    @Test public void testMPP9Flags2() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("mpp8flags2.mpp"));
+      File in = new File(MpxjTestData.filePath("mpp9flags2.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       int index = 0;
       boolean[] flags;
 
       for (Task task : mpp.getAllTasks())
       {
-         if (task.getName().startsWith("Parent") == false)
+         if (task.getUniqueID().intValue() != 0 && task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
             assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));

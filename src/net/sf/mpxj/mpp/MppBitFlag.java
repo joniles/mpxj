@@ -36,7 +36,7 @@ public class MppBitFlag
     */
    public void setValue(FieldContainer container, byte[] data)
    {
-      container.set(m_type, ((data[m_offset] & m_mask) == 0) ? m_zeroValue : m_nonZeroValue);
+      container.set(m_type, ((MPPUtility.getInt(data, m_offset) & m_mask) == 0) ? m_zeroValue : m_nonZeroValue);
    }
 
    private final FieldType m_type;

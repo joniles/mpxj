@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.junit;
+package net.sf.mpxj.junit.resource;
 
 import static org.junit.Assert.*;
 
@@ -33,6 +33,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
 
 import org.junit.Test;

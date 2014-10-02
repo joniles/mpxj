@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.resource.MppResourceTypeTest;
+import net.sf.mpxj.junit.task.MppTaskCustomFlagsTest;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -75,6 +78,7 @@ import org.junit.runners.Suite;
    DateUtilityTest.class,
    MppDeletedResourceAssignmentTest.class,
    MppResourceTypeTest.class,
+   MppTaskCustomFlagsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
