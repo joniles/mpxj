@@ -9,10 +9,6 @@
         <projectUrl>http://mpxj.sf.net</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>MPXJ is an open source file handling library for Java and .Net to read and write Microsoft Project MPX and MSPDI XML files, Planner files, Primavera XER files and databases, and MPP, MPT, and MPD files for Project 98, 2000, 2002, 2003, 2007 and 2010. This version provides properties and C#-style method names, rather than Java style getters, setters, and method names.</description>
-        <dependencies>
-        	<dependency id="mpxj-ikvm"/>
-        	<dependency id="mpxj-poi"/>        	
-        </dependencies>
     </metadata>
     <files>
     	<file src="..\lib.net\mpxj-for-csharp.*" target="lib"/>

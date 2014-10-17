@@ -10,6 +10,10 @@
 
 	<release version="4.6.X" date="Git HEAD">
 	</release>
+
+	<release version="4.6.1" date="17/10/2014">
+		<action dev="joniles" type="fix">Fixed NuGet metadata</action>	
+	</release>
 	
 	<release version="4.6.0" date="17/10/2014">
 		<action dev="joniles" type="add">Added support for NuGet.</action>	
