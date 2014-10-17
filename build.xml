@@ -405,7 +405,7 @@
 		</exec>		
 	</target>
 	
-	<target name="publish-site" depends="run-maven" description="Publishesthe web site to Sourceforge">
+	<target name="publish-site" depends="run-maven" description="Publishes the web site to Sourceforge">
 		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>				
 	</target>
 
