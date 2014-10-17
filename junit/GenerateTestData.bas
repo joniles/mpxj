@@ -13,13 +13,49 @@ Sub NameThatField(value As Long)
     Debug.Print value & "=" & name
 End Sub
 
-Sub PopulateTaskFields(FieldNamePrefix As String, Vals As Variant)
+'
+' Takes a field name and an array of values for that field
+' Create a task per value and set the named field to that value
+'
+Sub AddTasksWithFieldValues(fieldName As String, Vals As Variant)
 
     Dim index As Integer
+    Dim offset As Integer
+    
+    If LBound(Vals) = 0 Then
+        offset = 1
+    Else
+        offset = 0
+    End If
+    
+    For index = LBound(Vals) To UBound(Vals)
+        
+        Dim taskName As String
+        taskName = fieldName & " - " & "Task " & index
+        
+        Dim task As task
+        Set task = ActiveProject.Tasks.Add(taskName)
+        
+        SetTaskField Field:=fieldName, value:=Vals(index), TaskID:=task.ID
+    Next
+
+End Sub
+
+
+Sub AddTasksWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
+
+    Dim index As Integer
+    Dim offset As Integer
+    
+    If LBound(Vals) = 0 Then
+        offset = 1
+    Else
+        offset = 0
+    End If
     
     For index = LBound(Vals) To UBound(Vals)
         Dim fieldName As String
-        fieldName = FieldNamePrefix & (index + 1)
+        fieldName = FieldNamePrefix & (index + offset)
         
         Dim task As task
         Set task = ActiveProject.Tasks.Add(fieldName)
@@ -69,7 +105,7 @@ Sub GenerateTaskCustomFlags()
     
     FileNew SummaryInfo:=False
     
-    PopulateTaskFields "Flag", Vals
+    AddTasksWithCustomFieldValues "Flag", Vals
     
     SaveFiles "task-flags"
     
@@ -85,7 +121,7 @@ Sub GenerateTaskCustomNumbers()
     
     FileNew SummaryInfo:=False
     
-    PopulateTaskFields "Number", Vals
+    AddTasksWithCustomFieldValues "Number", Vals
     
     SaveFiles "task-numbers"
             
@@ -94,20 +130,39 @@ Sub GenerateTaskCustomNumbers()
 End Sub
 
 Sub GenerateTaskCustomDurations()
-
-    Dim Vals As Variant
-    
-    Vals = Array("1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d")
-    
+                
     FileNew SummaryInfo:=False
     
-    PopulateTaskFields "Duration", Vals
+    Dim Vals As Variant
+
+        '
+        ' Verify that we're reading the duration value correctly for each field
+        '
+    Vals = Array("1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d")
+    AddTasksWithCustomFieldValues "Duration", Vals
+    
+    '
+    ' Verify that we're reading the duration units correctly for each field
+    '
+    If Application.Version = "8.0" Then
+        Vals = Array("1m", "1h", "1d", "1w", "1em", "1eh", "1ed", "1ew")
+    Else
+        Vals = Array("1m", "1h", "1d", "1w", "1mo", "1em", "1eh", "1ed", "1ew", "1emo")
+    End If
+    
+    Dim index As Integer
+    For index = 1 To 10
+        AddTasksWithFieldValues "Duration" & index, Vals
+    Next
+
     
     SaveFiles "task-durations"
     
     FileClose pjDoNotSave
                 
 End Sub
+
+
 Sub GenerateTaskLinks()
 
     FileNew SummaryInfo:=False
@@ -158,16 +213,20 @@ End Sub
 
 Sub SaveFiles(FilenameBase As String)
 
-    If Dir("data", vbDirectory) = "" Then
-        MkDir "data"
+    Dim parentDirectory As String
+    
+    parentDirectory = "generated"
+    
+    If Dir(parentDirectory, vbDirectory) = "" Then
+        MkDir parentDirectory
     End If
 
-    If Dir("data\" & FilenameBase, vbDirectory) = "" Then
-        MkDir "data\" & FilenameBase
+    If Dir(parentDirectory & "\" & FilenameBase, vbDirectory) = "" Then
+        MkDir parentDirectory & "\" & FilenameBase
     End If
 
     Dim Filename As String
-    Filename = "data\" & FilenameBase & "\" & FilenameBase
+    Filename = parentDirectory & "\" & FilenameBase & "\" & FilenameBase
     
     Select Case Application.Version
         ' Project 2013
@@ -220,6 +279,9 @@ Sub SaveFiles(FilenameBase As String)
             CalculateAll
             FileSaveAs name:=Filename & "-project2003-mspdi.xml", FormatID:="MSProject.XML"
                         
+            CalculateAll
+            FileSaveAs name:="<" & Filename & "-project2003-mpd9.mpd>\" & FilenameBase & "-project2003-mpd9", FormatID:="MSProject.MPD.9"
+                        
         ' Project 98
         Case "8.0"
             CalculateAll
@@ -228,8 +290,10 @@ Sub SaveFiles(FilenameBase As String)
             CalculateAll
             FileSaveAs name:=Filename & "-project98.mpx", FormatID:="MSProject.MPX.8"
 
+                        ' Note that MPXJ doesn't currently read MPD8 files, so we prefix the file names with X so the unit tests don't read these files
+                        ' We may add support for MPD8 at a later date - so it is useful to have these files to hand
             CalculateAll
-            FileSaveAs name:="<" & Filename & "-project98.mpd>\" & FilenameBase & "-project98", FormatID:="MSProject.MPD.8"
+            FileSaveAs name:="<" & Filename & "-project98-mpd8.mpd>\" & FilenameBase & "-project98-mpd8", FormatID:="MSProject.MPD.8"
                 
         Case Else
             Debug.Print "Unknown Version"

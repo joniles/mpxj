@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
@@ -56,7 +57,7 @@ public final class ProjectReaderUtility
     * @param name file name
     * @return ProjectReader instance
     */
-   public static ProjectReader getProjectReader(String name) throws InstantiationException, IllegalAccessException
+   public static ProjectReader getProjectReader(String name) throws MPXJException
    {
       int index = name.lastIndexOf('.');
       if (index == -1)
@@ -72,9 +73,16 @@ public final class ProjectReaderUtility
          throw new IllegalArgumentException("Cannot read files of type: " + name);
       }
 
-      ProjectReader file = fileClass.newInstance();
+      try
+      {
+         ProjectReader file = fileClass.newInstance();
+         return (file);
+      }
 
-      return (file);
+      catch (ReflectiveOperationException ex)
+      {
+         throw new MPXJException("Failed to load project reader", ex);
+      }
    }
 
    /**

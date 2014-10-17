@@ -1,21 +1,5 @@
-
-package net.sf.mpxj.junit.task;
-
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.FileFilter;
-
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpp.MPPReader;
-
-import org.junit.Test;
-
 /*
- * file:       MppTaskCustomFlagsTest.java
+ * file:       TaskFlagsTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
  * date:       02/10/2014
@@ -37,17 +21,34 @@ import org.junit.Test;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+package net.sf.mpxj.junit.task;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileFilter;
+
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.junit.MpxjTestData;
+import net.sf.mpxj.mpx.MPXReader;
+import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.ProjectReaderUtility;
+
+import org.junit.Test;
+
 /**
  * Tests to ensure task custom flags are correctly handled.
  */
-public class MppTaskCustomFlagsTest
+public class TaskFlagsTest
 {
    /**
-    * Test to validate the custom flags in an MPP file saved by different versions of MS Project.
+    * Test to validate the custom flags in files saved by different versions of MS Project.
     */
-   @Test public void testCustomTaskFlags() throws MPXJException
+   @Test public void testTaskFlags() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("task-custom-flags"));
+      File testDataDir = new File(MpxjTestData.filePath("generated/task-flags"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
 
@@ -68,26 +69,30 @@ public class MppTaskCustomFlagsTest
     */
    private void testTaskFlags(File file) throws MPXJException
    {
-      ProjectFile project = new MPPReader().read(file);
-      for (int index = 1; index <= 20; index++)
+      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
+      int maxFlags = reader instanceof MPXReader ? 10 : 20;
+
+      ProjectFile project = reader.read(file);
+      for (int index = 1; index <= maxFlags; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
          assertEquals("Flag" + index, task.getName());
-         testTaskFlags(task, index);
+         testTaskFlags(file, task, index);
       }
    }
 
    /**
     * Test the flag values for a task.
     * 
+    * @param file parent file
     * @param task task
     * @param trueFlagIndex index of flag which is expected to be true
     */
-   private void testTaskFlags(Task task, int trueFlagIndex)
+   private void testTaskFlags(File file, Task task, int trueFlagIndex)
    {
       for (int index = 1; index <= 20; index++)
       {
-         assertEquals("Flag" + index, Boolean.valueOf(index == trueFlagIndex), Boolean.valueOf(task.getFlag(index)));
+         assertEquals(file.getName() + " Flag" + index, Boolean.valueOf(index == trueFlagIndex), Boolean.valueOf(task.getFlag(index)));
       }
    }
 }
