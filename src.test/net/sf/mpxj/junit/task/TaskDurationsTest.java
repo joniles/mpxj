@@ -28,9 +28,11 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileFilter;
 
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
@@ -57,21 +59,23 @@ public class TaskDurationsTest
          }
       }))
       {
-         testTaskDurations(file);
+         ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
+         ProjectFile project = reader.read(file);
+         testDurationValues(file, reader, project);
+         testDurationUnits(file, reader, project);
       }
    }
 
    /**
-    * Test an individual project.
+    * Test duration values.
     * 
     * @param file project file
+    * @param reader reader used to parse the file
+    * @param project project file
     */
-   private void testTaskDurations(File file) throws MPXJException
+   private void testDurationValues(File file, ProjectReader reader, ProjectFile project)
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       int maxDurations = reader instanceof MPXReader ? 3 : 10;
-
-      ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxDurations; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
@@ -97,4 +101,56 @@ public class TaskDurationsTest
          assertEquals(file.getName() + " " + task.getName() + " Duration" + index, expectedValue, actualValue);
       }
    }
+
+   /**
+    * Test duration units.
+    * 
+    * @param file project file
+    * @param reader reader used to parse the file
+    * @param project project file
+    */
+   private void testDurationUnits(File file, ProjectReader reader, ProjectFile project)
+   {
+      TimeUnit[] units = (project.getMppFileType() == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
+      int maxDurations = reader instanceof MPXReader ? 3 : 10;
+
+      int taskID = 11;
+      for (int fieldIndex = 1; fieldIndex <= maxDurations; fieldIndex++)
+      {
+         for (int unitsIndex = 0; unitsIndex < units.length; unitsIndex++)
+         {
+            Task task = project.getTaskByID(Integer.valueOf(taskID));
+            String expectedTaskName = "Duration" + fieldIndex + " - Task " + unitsIndex;
+            assertEquals(expectedTaskName, task.getName());
+            Duration duration = task.getDuration(fieldIndex);
+            assertEquals(file.getName() + " " + expectedTaskName, units[unitsIndex], duration.getUnits());
+            ++taskID;
+         }
+      }
+   }
+
+   private static final TimeUnit[] UNITS_PROJECT98 =
+   {
+      TimeUnit.MINUTES,
+      TimeUnit.HOURS,
+      TimeUnit.DAYS,
+      TimeUnit.WEEKS,
+      TimeUnit.ELAPSED_MINUTES,
+      TimeUnit.ELAPSED_HOURS,
+      TimeUnit.ELAPSED_DAYS,
+      TimeUnit.ELAPSED_WEEKS
+   };
+   private static final TimeUnit[] UNITS_PROJECT2000 =
+   {
+      TimeUnit.MINUTES,
+      TimeUnit.HOURS,
+      TimeUnit.DAYS,
+      TimeUnit.WEEKS,
+      TimeUnit.MONTHS,
+      TimeUnit.ELAPSED_MINUTES,
+      TimeUnit.ELAPSED_HOURS,
+      TimeUnit.ELAPSED_DAYS,
+      TimeUnit.ELAPSED_WEEKS,
+      TimeUnit.ELAPSED_MONTHS
+   };
 }

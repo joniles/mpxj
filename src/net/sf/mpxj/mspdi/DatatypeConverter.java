@@ -234,8 +234,9 @@ public final class DatatypeConverter
     * @param mpx parent entity
     * @param value string value
     * @param mpxFieldID field ID
+    * @param durationFormat duration format associated with the extended attribute
     */
-   public static final void parseExtendedAttribute(ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID)
+   public static final void parseExtendedAttribute(ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID, TimeUnit durationFormat)
    {
       if (mpxFieldID != null)
       {
@@ -273,7 +274,7 @@ public final class DatatypeConverter
 
             case DURATION:
             {
-               mpx.set(mpxFieldID, parseDuration(file, null, value));
+               mpx.set(mpxFieldID, parseDuration(file, durationFormat, value));
                break;
             }
 
@@ -1089,7 +1090,22 @@ public final class DatatypeConverter
     */
    public static final TimeUnit parseDurationTimeUnits(BigInteger value)
    {
-      TimeUnit result = TimeUnit.HOURS;
+      return parseDurationTimeUnits(value, TimeUnit.HOURS);
+   }
+
+   /**
+    * Parse duration time units.
+    *
+    * Note that we don't differentiate between confirmed and unconfirmed
+    * durations. Unrecognised duration types are default the supplied default value.
+    *
+    * @param value BigInteger value
+    * @param defaultValue if value is null, use this value as the result 
+    * @return Duration units
+    */
+   public static final TimeUnit parseDurationTimeUnits(BigInteger value, TimeUnit defaultValue)
+   {
+      TimeUnit result = defaultValue;
 
       if (value != null)
       {
