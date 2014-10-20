@@ -135,9 +135,9 @@ Sub GenerateTaskCustomDurations()
     
     Dim Vals As Variant
 
-        '
-        ' Verify that we're reading the duration value correctly for each field
-        '
+    '
+    ' Verify that we're reading the duration value correctly for each field
+    '
     Vals = Array("1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d")
     AddTasksWithCustomFieldValues "Duration", Vals
     
