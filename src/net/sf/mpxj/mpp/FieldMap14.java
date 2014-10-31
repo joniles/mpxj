@@ -1430,6 +1430,14 @@ class FieldMap14 extends FieldMap
    }
 
    /**
+    * {@inheritDoc}
+    */
+   @Override protected FieldItem[] getDefaultRelationData()
+   {
+      return new FieldItem[0];
+   }
+
+   /**
     * The values for these field types as read from the file, don't
     * correspond to the values actually used in the var data blocks.
     * It's not clear why, or whether these values are actually 

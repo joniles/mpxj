@@ -209,6 +209,13 @@ abstract class FieldMap
    protected abstract FieldItem[] getDefaultAssignmentData();
 
    /**
+    * Abstract method used by child classes to supply default data.
+    * 
+    * @return default data
+    */
+   protected abstract FieldItem[] getDefaultRelationData();
+
+   /**
     * Given a field ID, derive the field type.
     * 
     * @param fieldID field ID
@@ -247,6 +254,33 @@ abstract class FieldMap
       if (fieldMapData == null)
       {
          populateDefaultData(getDefaultTaskData());
+      }
+      else
+      {
+         createFieldMap(fieldMapData);
+      }
+   }
+
+   /**
+    * Creates a field map for relations.
+    * 
+    * @param props props data
+    */
+   public void createRelationFieldMap(Props props)
+   {
+      byte[] fieldMapData = null;
+      for (Integer key : RELATION_KEYS)
+      {
+         fieldMapData = props.getByteArray(key);
+         if (fieldMapData != null)
+         {
+            break;
+         }
+      }
+
+      if (fieldMapData == null)
+      {
+         populateDefaultData(getDefaultRelationData());
       }
       else
       {
@@ -1256,6 +1290,11 @@ abstract class FieldMap
    {
       Props.ASSIGNMENT_FIELD_MAP,
       Props.ASSIGNMENT_FIELD_MAP2
+   };
+
+   private static final Integer[] RELATION_KEYS =
+   {
+      Props.RELATION_FIELD_MAP
    };
 
    private static final int VALUE_LIST_MASK = 0x0700;

@@ -56,10 +56,12 @@ public class LocaleData extends ListResourceBundle
    public static final String TASK_COLUMNS = "TASK_COLUMNS";
    public static final String RESOURCE_COLUMNS = "RESOURCE_COLUMNS";
    public static final String ASSIGNMENT_COLUMNS = "ASSIGNMENT_COLUMNS";
+   public static final String CONSTRAINT_COLUMNS = "CONSTRAINT_COLUMNS";
 
    private static final String[] RESOURCE_COLUMNS_ARRAY = new String[ResourceField.MAX_VALUE];
    private static final String[] TASK_COLUMNS_ARRAY = new String[TaskField.MAX_VALUE];
    private static final String[] ASSIGNMENT_COLUMNS_ARRAY = new String[AssignmentField.MAX_VALUE];
+   private static final String[] CONSTRAINT_COLUMNS_ARRAY = new String[ConstraintField.MAX_VALUE];
 
    static
    {
@@ -2165,6 +2167,10 @@ public class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD48.getValue()] = "Enterprise Custom Field 48";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD49.getValue()] = "Enterprise Custom Field 49";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ENTERPRISE_CUSTOM_FIELD50.getValue()] = "Enterprise Custom Field 50";
+
+      CONSTRAINT_COLUMNS_ARRAY[ConstraintField.UNIQUE_ID.getValue()] = "Unique ID";
+      CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK1.getValue()] = "Task 1";
+      CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK2.getValue()] = "Task 2";
    }
 
    private static final Object[][] RESOURCES =
@@ -2180,6 +2186,10 @@ public class LocaleData extends ListResourceBundle
       {
          "ASSIGNMENT_COLUMNS",
          ASSIGNMENT_COLUMNS_ARRAY
+      },
+      {
+         "CONSTRAINT_COLUMNS",
+         CONSTRAINT_COLUMNS_ARRAY
       }
    };
 }

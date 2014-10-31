@@ -26,10 +26,12 @@ package net.sf.mpxj.utility;
 import java.util.Locale;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.ConstraintField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPPAssignmentField;
 import net.sf.mpxj.MPPAssignmentField14;
+import net.sf.mpxj.MPPConstraintField;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField;
@@ -87,6 +89,16 @@ public final class FieldTypeUtility
             break;
          }
 
+         case MPPConstraintField.CONSTRAINT_FIELD_BASE:
+         {
+            result = MPPConstraintField.getInstance(index);
+            if (result == null)
+            {
+               result = getPlaceholder(ConstraintField.class, index);
+            }
+            break;
+         }
+
          default:
          {
             result = getPlaceholder(null, index);
@@ -139,6 +151,16 @@ public final class FieldTypeUtility
             if (result == null)
             {
                result = getPlaceholder(AssignmentField.class, index);
+            }
+            break;
+         }
+
+         case MPPConstraintField.CONSTRAINT_FIELD_BASE:
+         {
+            result = MPPConstraintField.getInstance(index);
+            if (result == null)
+            {
+               result = getPlaceholder(ConstraintField.class, index);
             }
             break;
          }

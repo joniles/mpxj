@@ -330,6 +330,8 @@ class Props extends MPPComponent
    public static final Integer RESOURCE_FIELD_MAP = Integer.valueOf(131093);
    public static final Integer RESOURCE_FIELD_MAP2 = Integer.valueOf(50331669);
 
+   public static final Integer RELATION_FIELD_MAP = Integer.valueOf(131094);
+
    public static final Integer ASSIGNMENT_FIELD_MAP = Integer.valueOf(131095);
    public static final Integer ASSIGNMENT_FIELD_MAP2 = Integer.valueOf(50331671);
 

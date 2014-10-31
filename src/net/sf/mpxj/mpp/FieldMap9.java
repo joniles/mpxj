@@ -648,4 +648,12 @@ class FieldMap9 extends FieldMap
       };
       return result;
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected FieldItem[] getDefaultRelationData()
+   {
+      return new FieldItem[0];
+   }
 }
