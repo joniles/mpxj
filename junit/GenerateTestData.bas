@@ -5,6 +5,7 @@ Sub GenerateAll()
     GenerateTaskCustomNumbers
     GenerateTaskCustomDurations
     GenerateTaskLinks
+    GenerateTaskCustomDates
 End Sub
 
 Sub NameThatField(value As Long)
@@ -160,6 +161,22 @@ Sub GenerateTaskCustomDurations()
     
     FileClose pjDoNotSave
                 
+End Sub
+
+Sub GenerateTaskCustomDates()
+
+    Dim Vals As Variant
+    
+    Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00")
+    
+    FileNew SummaryInfo:=False
+    
+    AddTasksWithCustomFieldValues "Date", Vals
+    
+    SaveFiles "task-dates"
+            
+    FileClose pjDoNotSave
+    
 End Sub
 
 
