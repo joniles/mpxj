@@ -10,6 +10,7 @@
 
 	<release version="4.6.X" date="Git HEAD">
 		<action dev="joniles" type="fix">Fixed issue with custom duration field units not read correctly from MSPDI files</action>
+		<action dev="joniles" type="fix" issue="223">Problems with the lag calculated in the relation</action>
 	</release>
 
 	<release version="4.6.1" date="17/10/2014">
