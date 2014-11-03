@@ -23,7 +23,10 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Simple utility class to provide access to named test data files.
@@ -33,11 +36,30 @@ public class MpxjTestData
    private static final String DATA_DIR;
    static
    {
-      DATA_DIR = System.getProperty("mpxj.junit.datadir");
-      if (DATA_DIR == null || DATA_DIR.length() == 0)
+      String dataDirValue = null;
+      File dataDir = new File("junit/data");
+      if (dataDir.exists() && dataDir.isDirectory())
+      {
+         try
+         {
+            dataDirValue = dataDir.getCanonicalPath();
+         }
+         catch (IOException ex)
+         {
+            // Ignore this
+         }
+      }
+      else
+      {
+         dataDirValue = System.getProperty("mpxj.junit.datadir");
+      }
+
+      if (dataDirValue == null || dataDirValue.length() == 0)
       {
          fail("missing datadir property");
       }
+
+      DATA_DIR = dataDirValue;
    }
 
    /**
