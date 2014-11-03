@@ -1,8 +1,8 @@
 /*
- * file:       TaskDatesTest.java
+ * file:       TaskStartsTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
- * date:       31/10/2014
+ * date:       03/11/2014
  */
 
 /*
@@ -35,31 +35,32 @@ import java.util.Date;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.junit.MpxjTestData;
+import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
 import org.junit.Test;
 
 /**
- * Tests to ensure task custom dates are correctly handled.
+ * Tests to ensure task custom start dates are correctly handled.
  */
-public class TaskDatesTest
+public class TaskStartsTest
 {
    /**
-    * Test to validate the custom dates in files saved by different versions of MS Project.
+    * Test to validate the custom start dates in files saved by different versions of MS Project.
     */
-   @Test public void testTaskDates() throws Exception
+   @Test public void testTaskStartDates() throws Exception
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-dates"));
+      File testDataDir = new File(MpxjTestData.filePath("generated/task-starts"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
          @Override public boolean accept(File pathname)
          {
-            return pathname.getName().startsWith("task-dates");
+            return pathname.getName().startsWith("task-starts");
          }
       }))
       {
-         testTaskDates(file);
+         testTaskStartDates(file);
       }
    }
 
@@ -68,38 +69,43 @@ public class TaskDatesTest
     * 
     * @param file project file
     */
-   private void testTaskDates(File file) throws Exception
+   private void testTaskStartDates(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
+      boolean isMpxFile = reader instanceof MPXReader;
+      int maxIndex = isMpxFile ? 5 : 10;
       ProjectFile project = reader.read(file);
-      for (int index = 1; index <= 10; index++)
+      for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
-         assertEquals("Date" + index, task.getName());
-         testTaskDates(file, task, index);
+         assertEquals("Start" + index, task.getName());
+         testTaskStartDates(file, task, index, maxIndex, isMpxFile);
       }
    }
 
    /**
-    * Test the date values for a task.
+    * Test the start date values for a task.
     * 
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
-    * @throws ParseException 
+    * @param maxIndex highest index to test 
+    * @param useDateFormat true=use date-only format false=use date time format
     */
-   private void testTaskDates(File file, Task task, int testIndex) throws ParseException
+   private void testTaskStartDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat) throws ParseException
    {
-      for (int index = 1; index <= 10; index++)
+      DateFormat format = useDateFormat ? m_dateFormat : m_dateTimeFormat;
+      for (int index = 1; index <= maxIndex; index++)
       {
-         Date expectedValue = testIndex == index ? m_dateFormat.parse(DATES[index - 1]) : null;
-         Date actualValue = task.getDate(index);
+         Date expectedValue = testIndex == index ? format.parse(DATES[index - 1]) : null;
+         Date actualValue = task.getStart(index);
 
-         assertEquals(file.getName() + " Date" + index, expectedValue, actualValue);
+         assertEquals(file.getName() + " Start" + index, expectedValue, actualValue);
       }
    }
 
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private DateFormat m_dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
    private static final String[] DATES = new String[]
    {

@@ -24,10 +24,13 @@
 package net.sf.mpxj.junit;
 
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
+import net.sf.mpxj.junit.task.TaskDatesTest;
 import net.sf.mpxj.junit.task.TaskDurationsTest;
+import net.sf.mpxj.junit.task.TaskFinishesTest;
 import net.sf.mpxj.junit.task.TaskFlagsTest;
 import net.sf.mpxj.junit.task.TaskLinksTest;
 import net.sf.mpxj.junit.task.TaskNumbersTest;
+import net.sf.mpxj.junit.task.TaskStartsTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -86,6 +89,9 @@ import org.junit.runners.Suite;
    TaskDurationsTest.class,
    TaskLinksTest.class,
    TaskDurationsTest.class,
+   TaskDatesTest.class,
+   TaskStartsTest.class,
+   TaskFinishesTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
