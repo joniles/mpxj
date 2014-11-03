@@ -85,6 +85,7 @@ import org.junit.runners.Suite;
    TaskNumbersTest.class,
    TaskDurationsTest.class,
    TaskLinksTest.class,
+   TaskDurationsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
