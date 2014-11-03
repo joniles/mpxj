@@ -49,7 +49,7 @@ public class TaskDatesTest
    /**
     * Test to validate the custom dates in files saved by different versions of MS Project.
     */
-   @Test public void testTaskNumbers() throws Exception
+   @Test public void testTaskDates() throws Exception
    {
       File testDataDir = new File(MpxjTestData.filePath("generated/task-dates"));
       for (File file : testDataDir.listFiles(new FileFilter()

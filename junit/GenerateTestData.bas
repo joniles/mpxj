@@ -163,6 +163,9 @@ Sub GenerateTaskCustomDurations()
                 
 End Sub
 
+'
+' Note that the custom date fields are not supported by the MPXfile format
+'
 Sub GenerateTaskCustomDates()
 
     Dim Vals As Variant
