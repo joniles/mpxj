@@ -75,12 +75,12 @@ public class TaskDurationsTest
     */
    private void testDurationValues(File file, ProjectReader reader, ProjectFile project)
    {
-      int maxDurations = reader instanceof MPXReader ? 3 : 10;
-      for (int index = 1; index <= maxDurations; index++)
+      int maxIndex = reader instanceof MPXReader ? 3 : 10;
+      for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
          assertEquals("Duration" + index, task.getName());
-         testTaskDurations(file, task, index);
+         testTaskDurations(file, task, index, maxIndex);
       }
    }
 
@@ -91,9 +91,9 @@ public class TaskDurationsTest
     * @param task task
     * @param testIndex index of number being tested
     */
-   private void testTaskDurations(File file, Task task, int testIndex)
+   private void testTaskDurations(File file, Task task, int testIndex, int maxIndex)
    {
-      for (int index = 1; index <= 10; index++)
+      for (int index = 1; index <= maxIndex; index++)
       {
          String expectedValue = testIndex == index ? index + ".0d" : "0.0d";
          String actualValue = task.getDuration(index) == null ? "0.0d" : task.getDuration(index).toString();
@@ -112,10 +112,10 @@ public class TaskDurationsTest
    private void testDurationUnits(File file, ProjectReader reader, ProjectFile project)
    {
       TimeUnit[] units = (project.getMppFileType() == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
-      int maxDurations = reader instanceof MPXReader ? 3 : 10;
+      int maxIndex = reader instanceof MPXReader ? 3 : 10;
 
       int taskID = 11;
-      for (int fieldIndex = 1; fieldIndex <= maxDurations; fieldIndex++)
+      for (int fieldIndex = 1; fieldIndex <= maxIndex; fieldIndex++)
       {
          for (int unitsIndex = 0; unitsIndex < units.length; unitsIndex++)
          {

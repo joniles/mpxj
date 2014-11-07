@@ -70,14 +70,14 @@ public class TaskFlagsTest
    private void testTaskFlags(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      int maxFlags = reader instanceof MPXReader ? 10 : 20;
+      int maxIndex = reader instanceof MPXReader ? 10 : 20;
 
       ProjectFile project = reader.read(file);
-      for (int index = 1; index <= maxFlags; index++)
+      for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
          assertEquals("Flag" + index, task.getName());
-         testTaskFlags(file, task, index);
+         testTaskFlags(file, task, index, maxIndex);
       }
    }
 
@@ -88,9 +88,9 @@ public class TaskFlagsTest
     * @param task task
     * @param trueFlagIndex index of flag which is expected to be true
     */
-   private void testTaskFlags(File file, Task task, int trueFlagIndex)
+   private void testTaskFlags(File file, Task task, int trueFlagIndex, int maxIndex)
    {
-      for (int index = 1; index <= 20; index++)
+      for (int index = 1; index <= maxIndex; index++)
       {
          assertEquals(file.getName() + " Flag" + index, Boolean.valueOf(index == trueFlagIndex), Boolean.valueOf(task.getFlag(index)));
       }

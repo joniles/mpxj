@@ -72,11 +72,12 @@ public class TaskDatesTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      for (int index = 1; index <= 10; index++)
+      int maxIndex = 10;
+      for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
          assertEquals("Date" + index, task.getName());
-         testTaskDates(file, task, index);
+         testTaskDates(file, task, index, maxIndex);
       }
    }
 
@@ -88,9 +89,9 @@ public class TaskDatesTest
     * @param testIndex index of number being tested
     * @throws ParseException 
     */
-   private void testTaskDates(File file, Task task, int testIndex) throws ParseException
+   private void testTaskDates(File file, Task task, int testIndex, int maxIndex) throws ParseException
    {
-      for (int index = 1; index <= 10; index++)
+      for (int index = 1; index <= maxIndex; index++)
       {
          Date expectedValue = testIndex == index ? m_dateFormat.parse(DATES[index - 1]) : null;
          Date actualValue = task.getDate(index);
