@@ -8,6 +8,7 @@ Sub GenerateAll()
     GenerateTaskCustomDates
     GenerateTaskCustomStarts
     GenerateTaskCustomFinishes
+    GenerateTaskCustomCosts
 End Sub
 
 Sub NameThatField(value As Long)
@@ -217,6 +218,22 @@ Sub GenerateTaskCustomFinishes()
     
 End Sub
 
+Sub GenerateTaskCustomCosts()
+
+    Dim Vals As Variant
+    
+    Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+    
+    FileNew SummaryInfo:=False
+    
+    AddTasksWithCustomFieldValues "Cost", Vals
+    
+    SaveFiles "task-costs"
+            
+    FileClose pjDoNotSave
+    
+End Sub
+
 Sub GenerateTaskLinks()
 
     FileNew SummaryInfo:=False
@@ -327,8 +344,8 @@ Sub SaveFiles(FilenameBase As String)
             CalculateAll
             FileSaveAs name:=Filename & "-project2003-mpp9.mpp", FormatID:="MSProject.MPP.9"
     
-            CalculateAll
-            FileSaveAs name:=Filename & "-project2003-mpp8.mpp", FormatID:="MSProject.MPP.8"
+            'CalculateAll
+            'FileSaveAs name:=Filename & "-project2003-mpp8.mpp", FormatID:="MSProject.MPP.8"
         
             CalculateAll
             FileSaveAs name:=Filename & "-project2003-mspdi.xml", FormatID:="MSProject.XML"
@@ -341,24 +358,22 @@ Sub SaveFiles(FilenameBase As String)
             CalculateAll
             FileSaveAs name:=Filename & "-project2000-mpp9.mpp", FormatID:="MSProject.MPP.9"
     
-            CalculateAll
-            FileSaveAs name:=Filename & "-project2000-mpp8.mpp", FormatID:="MSProject.MPP.8"
+            'CalculateAll
+            'FileSaveAs name:=Filename & "-project2000-mpp8.mpp", FormatID:="MSProject.MPP.8"
                                 
             CalculateAll
             FileSaveAs name:="<" & Filename & "-project2000-mpd9.mpd>\" & FilenameBase & "-project2000-mpd9", FormatID:="MSProject.MPD.9"
                         
         ' Project 98
         Case "8.0"
-            CalculateAll
-            FileSaveAs name:=Filename & "-project98-mpp8.mpp", FormatID:="MSProject.MPP.8"
+            'CalculateAll
+            'FileSaveAs name:=Filename & "-project98-mpp8.mpp", FormatID:="MSProject.MPP.8"
                 
             CalculateAll
             FileSaveAs name:=Filename & "-project98.mpx", FormatID:="MSProject.MPX.8"
 
-            ' Note that MPXJ doesn't currently read MPD8 files, so we prefix the file names with X so the unit tests don't read these files
-            ' We may add support for MPD8 at a later date - so it is useful to have these files to hand
-            CalculateAll
-            FileSaveAs name:="<" & Filename & "-project98-mpd8.mpd>\" & FilenameBase & "-project98-mpd8", FormatID:="MSProject.MPD.8"
+            'CalculateAll
+            'FileSaveAs name:="<" & Filename & "-project98-mpd8.mpd>\" & FilenameBase & "-project98-mpd8", FormatID:="MSProject.MPD.8"
                 
         Case Else
             Debug.Print "Unknown Version"

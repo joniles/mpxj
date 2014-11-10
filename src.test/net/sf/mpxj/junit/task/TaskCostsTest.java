@@ -1,8 +1,8 @@
 /*
- * file:       TaskNumbersTest.java
+ * file:       TaskCostsTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
- * date:       16/10/2014
+ * date:       10/11/2014
  */
 
 /*
@@ -42,25 +42,25 @@ import net.sf.mpxj.utility.NumberUtility;
 import org.junit.Test;
 
 /**
- * Tests to ensure task custom numbers are correctly handled.
+ * Tests to ensure task custom costs are correctly handled.
  */
-public class TaskNumbersTest
+public class TaskCostsTest
 {
    /**
-    * Test to validate the custom numbers in files saved by different versions of MS Project.
+    * Test to validate the custom costs in files saved by different versions of MS Project.
     */
    @Test public void testTaskNumbers() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-numbers"));
+      File testDataDir = new File(MpxjTestData.filePath("generated/task-costs"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
          @Override public boolean accept(File pathname)
          {
-            return pathname.getName().startsWith("task-numbers");
+            return pathname.getName().startsWith("task-costs");
          }
       }))
       {
-         testTaskNumbers(file);
+         testTaskCosts(file);
       }
    }
 
@@ -69,7 +69,7 @@ public class TaskNumbersTest
     * 
     * @param file project file
     */
-   private void testTaskNumbers(File file) throws MPXJException
+   private void testTaskCosts(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       if (reader instanceof MPDDatabaseReader)
@@ -77,32 +77,32 @@ public class TaskNumbersTest
          assumeJvm();
       }
 
-      int maxIndex = reader instanceof MPXReader ? 5 : 20;
+      int maxIndex = reader instanceof MPXReader ? 3 : 10;
       ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
-         assertEquals("Number" + index, task.getName());
-         testTaskNumbers(file, task, index, maxIndex);
+         assertEquals("Cost" + index, task.getName());
+         testTaskCosts(file, task, index, maxIndex);
       }
    }
 
    /**
-    * Test the number values for a task.
+    * Test the cost values for a task.
     * 
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
     * @param maxIndex maximum number of custom fields to expect in this file
     */
-   private void testTaskNumbers(File file, Task task, int testIndex, int maxIndex)
+   private void testTaskCosts(File file, Task task, int testIndex, int maxIndex)
    {
       for (int index = 1; index <= maxIndex; index++)
       {
          int expectedValue = testIndex == index ? index : 0;
-         int actualValue = NumberUtility.getInt(task.getNumber(index));
+         int actualValue = NumberUtility.getInt(task.getCost(index));
 
-         assertEquals(file.getName() + " Number" + index, expectedValue, actualValue);
+         assertEquals(file.getName() + " Cost" + index, expectedValue, actualValue);
       }
    }
 }
