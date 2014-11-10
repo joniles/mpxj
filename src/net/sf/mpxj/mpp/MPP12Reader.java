@@ -57,6 +57,7 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
 import net.sf.mpxj.utility.RTFUtility;
 
@@ -144,6 +145,8 @@ final class MPP12Reader implements MPPVariantReader
          DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
          m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+         m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+         m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
          m_projectProps = new Props12(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
          //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
@@ -218,6 +221,11 @@ final class MPP12Reader implements MPPVariantReader
          item.setValue(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE));
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
+
+         byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
+         item.setParent(Integer.valueOf(MPPUtility.getShort(b, 8)));
+
+         //byte b2[] = m_outlineCodeFixedData2.getByteArrayValue(loop+3); // contains FieldGUID in first 16 bytes
 
          m_file.addCustomFieldValueItem(item);
       }
@@ -2355,7 +2363,7 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Read group definitions.
     * 
-    * @todo Doesn't work correctly with MPP12 files saved by Propject 2007 and 2010 
+    * @todo Doesn't work correctly with MPP12 files saved by Project 2007 and 2010 
     * @throws IOException
     */
    private void processGroupData() throws IOException
@@ -2401,8 +2409,49 @@ final class MPP12Reader implements MPPVariantReader
          if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getUnicodeString(item.getValue());
+
+            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+            if (result2 != null && !result2.isEmpty())
+            {
+               result = result2 + "." + result;
+            }
          }
       }
+      return result;
+   }
+
+   /**
+    * Retrieve custom field value.
+    * 
+    * @param varData var data block
+    * @param outlineCodeVarData var data block
+    * @param id parent item ID
+    * @return item value
+    */
+   private String getCustomFieldOutlineCodeValue(Var2Data varData, Var2Data outlineCodeVarData, Integer id)
+   {
+      String result = null;
+
+      int uniqueId = id.intValue();
+      if (uniqueId == 0)
+      {
+         return "";
+      }
+
+      CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+      if (item != null && item.getValue() != null)
+      {
+         result = MPPUtility.getUnicodeString(item.getValue());
+         if (!NumberUtility.equals(id, item.getParent()))
+         {
+            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+            if (result2 != null && !result2.isEmpty())
+            {
+               result = result2 + "." + result;
+            }
+         }
+      }
+
       return result;
    }
 
@@ -2412,6 +2461,8 @@ final class MPP12Reader implements MPPVariantReader
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
+   private FixedData m_outlineCodeFixedData;
+   private FixedMeta m_outlineCodeFixedMeta;
    private Props12 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;

@@ -10,6 +10,7 @@ Sub GenerateAll()
     GenerateTaskCustomFinishes
     GenerateTaskCustomCosts
     GenerateTaskCustomText
+    GenerateTaskCustomOutlineCodes
 End Sub
 
 Sub NameThatField(value As Long)
@@ -63,44 +64,21 @@ Sub AddTasksWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
         fieldName = FieldNamePrefix & (index + offset)
         
         Dim task As task
-        Set task = ActiveProject.Tasks.Add(fieldName)
-        
-        'Dim fieldConstant As Long
-        'fieldConstant = FieldNameToFieldConstant(fieldName, pjTask)
-        'task.SetField fieldConstant, Vals(index)
-        
+        Set task = ActiveProject.Tasks.Add(fieldName)        
         SetTaskField Field:=fieldName, value:=Vals(index), TaskID:=task.ID
-        
-        
-        'SelectTaskColumn Column:="Add New Column"
-        'TableEditEx name:="&Entry", TaskTable:=True, NewFieldName:=fieldName
-        'TableApply name:="&Entry"
-                        
-        Dim tableName As String
-        'Dim fields As TableFields
-        'Dim lastColumnIndex As Integer
-        'Dim lastColumnTitle As String
-        
-        'tableName = ActiveProject.TaskTables.Item(1).name
-        tableName = ActiveProject.TaskTableList.Item(1)
-        
-        'Set fields = ActiveProject.TaskTables.Item(1).TableFields
-        'lastColumnIndex = fields.Count - 1
-        'lastColumnTitle = FieldConstantToFieldName(fields.Item(lastColumnIndex).Field)
-        
-                        
-        'SelectTaskColumn Column:=lastColumnTitle
-            
-        SelectTaskColumn Column:="Resource Names"
-            
-        TableEdit name:=tableName, TaskTable:=True, NewFieldName:=fieldName
-        TableApply name:=tableName
-        
+                                      
+        AddTaskColumn fieldName                                        
     Next
 
 End Sub
     
-
+Sub AddTaskColumn (fieldName as String)
+    Dim tableName As String       
+    tableName = ActiveProject.TaskTableList.Item(1)        
+    SelectTaskColumn Column:="Resource Names"            
+    TableEdit name:=tableName, TaskTable:=True, NewFieldName:=fieldName
+    TableApply name:=tableName
+End Sub
 
 Sub GenerateTaskCustomFlags()
 
@@ -251,6 +229,72 @@ Sub GenerateTaskCustomText()
     FileClose pjDoNotSave
     
 End Sub
+
+
+Sub GenerateTaskCustomOutlineCodes()
+        
+    Dim Vals As Variant
+            
+    FileNew SummaryInfo:=False
+
+    '
+    ' Add the values we want to enter to the lookup table
+    '
+    Application.LookUpTableAdd pjCustomTaskOutlineCode1, Level:=1, Code:="OC1A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode1, Level:=2, Code:="OC1B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode2, Level:=1, Code:="OC2A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode2, Level:=2, Code:="OC2B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode3, Level:=1, Code:="OC3A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode3, Level:=2, Code:="OC3B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode4, Level:=1, Code:="OC4A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode4, Level:=2, Code:="OC4B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode5, Level:=1, Code:="OC5A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode5, Level:=2, Code:="OC5B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode6, Level:=1, Code:="OC6A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode6, Level:=2, Code:="OC6B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode7, Level:=1, Code:="OC7A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode7, Level:=2, Code:="OC7B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode8, Level:=1, Code:="OC8A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode8, Level:=2, Code:="OC8B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode9, Level:=1, Code:="OC9A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode9, Level:=2, Code:="OC9B"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=1, Code:="OC10A"
+    Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=2, Code:="OC10B"
+    
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode4, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode5, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode6, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode7, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode8, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode9, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode10, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode4, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode5, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode6, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode7, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode8, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode9, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode10, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+
+    Vals = Array("OC1A", "OC2A", "OC3A", "OC4A", "OC5A", "OC6A", "OC7A", "OC8A", "OC9A", "OC10A")
+    AddTasksWithCustomFieldValues "Outline Code", Vals
+
+    Vals = Array("OC1A.OC1B", "OC2A.OC2B", "OC3A.OC3B", "OC4A.OC4B", "OC5A.OC5B", "OC6A.OC6B", "OC7A.OC7B", "OC8A.OC8B", "OC9A.OC9B", "OC10A.OC10B")
+    AddTasksWithCustomFieldValues "Outline Code", Vals
+    
+    SaveFiles "task-outlinecodes"
+            
+    FileClose pjDoNotSave
+    
+End Sub
+
 
 Sub GenerateTaskLinks()
 
