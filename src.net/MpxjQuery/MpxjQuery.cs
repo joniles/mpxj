@@ -1,6 +1,6 @@
 ﻿using System;
 using net.sf.mpxj;
-using net.sf.mpxj.ExtensionMethods;
+using net.sf.mpxj.MpxjUtilities;
 using net.sf.mpxj.reader;
 
 namespace MpxjQuery

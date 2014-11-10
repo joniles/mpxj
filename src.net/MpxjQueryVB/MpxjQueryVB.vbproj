@@ -148,9 +148,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MpxjExtensionMethods\MpxjExtensionMethods.csproj">
+    <ProjectReference Include="..\MpxjUtilities\MpxjUtilities.csproj">
       <Project>{CDF7E45A-BCBF-48AE-96C7-75D29E592230}</Project>
-      <Name>MpxjExtensionMethods</Name>
+      <Name>MpxjUtilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

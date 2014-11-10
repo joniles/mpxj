@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace net.sf.mpxj.ExtensionMethods
+namespace net.sf.mpxj.MpxjUtilities
 {
     /// <summary>
     /// This class contains extension methods used to make it easier to work with MPXJ

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace net.sf.mpxj.MpxjExtensionMethods
+namespace net.sf.mpxj.MpxjUtilities
 {
     /// <summary>
     /// Implements a wrapper around a .Net stream allowing it to be used with MPXJ

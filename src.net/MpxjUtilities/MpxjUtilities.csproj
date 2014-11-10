@@ -8,8 +8,8 @@
     <ProjectGuid>{CDF7E45A-BCBF-48AE-96C7-75D29E592230}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>net.sf.mpxj.MpxjExtensionMethods</RootNamespace>
-    <AssemblyName>MpxjExtensionMethods</AssemblyName>
+    <RootNamespace>net.sf.mpxj.MpxjUtilities</RootNamespace>
+    <AssemblyName>MpxjUtilities</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

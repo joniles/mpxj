@@ -3,7 +3,7 @@ Imports System.Linq
 Imports System.Text
 Imports net.sf.mpxj
 Imports net.sf.mpxj.reader
-Imports net.sf.mpxj.ExtensionMethods
+Imports net.sf.mpxj.MpxjUtilities
 
 
 Module MpxjQuery

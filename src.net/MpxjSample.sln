@@ -1,12 +1,14 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjQuery", "MpxjQuery\MpxjQuery.csproj", "{669FFFD2-0343-47E2-82B8-3B514A6D971E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjConvert", "MpxjConvert\MpxjConvert.csproj", "{54E90DBB-7A14-4442-97C2-D2130B167EFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjTest", "MpxjTest\MpxjTest.csproj", "{15C569A0-4B30-4E74-BC99-A13788F53244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjExtensionMethods", "MpxjExtensionMethods\MpxjExtensionMethods.csproj", "{CDF7E45A-BCBF-48AE-96C7-75D29E592230}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjUtilities", "MpxjUtilities\MpxjUtilities.csproj", "{CDF7E45A-BCBF-48AE-96C7-75D29E592230}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MpxjQueryVB", "MpxjQueryVB\MpxjQueryVB.vbproj", "{3391E99A-6CB5-407C-B4E7-803338444738}"
 EndProject
