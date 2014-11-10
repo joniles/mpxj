@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;

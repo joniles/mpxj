@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
+import static net.sf.mpxj.junit.MpxjAssert.*;
 
 import java.io.File;
 import java.util.Locale;

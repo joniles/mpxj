@@ -23,16 +23,17 @@
 
 package net.sf.mpxj.sample;
 
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.Entry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.io.InputStream;
 
 /**
  * This is a trivial class used to dump the contents of an MPP file

@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.planner.PlannerReader;
 

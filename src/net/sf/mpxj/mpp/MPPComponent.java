@@ -23,9 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.InputStream;
-import java.io.IOException;
 import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * This class provides common functionality used by each of the classes

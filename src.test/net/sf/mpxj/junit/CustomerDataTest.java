@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.Locale;

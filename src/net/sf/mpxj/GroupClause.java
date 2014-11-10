@@ -25,8 +25,8 @@ package net.sf.mpxj;
 
 import java.awt.Color;
 
-import net.sf.mpxj.mpp.FontStyle;
 import net.sf.mpxj.mpp.BackgroundPattern;
+import net.sf.mpxj.mpp.FontStyle;
 
 /**
  * This class represents a clause from a definition of a group.
