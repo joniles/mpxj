@@ -13,6 +13,7 @@
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
+		<property name="msbuild.dir" value="C:/Windows/Microsoft.NET/Framework/v3.5" />
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
 		<property name="hamcrest.jar" value="${basedir}/../junit-4.11/hamcrest-core-1.3.jar"/>
 		
@@ -57,14 +58,24 @@
 		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
 		<property name="mpxj-for-vb.dll" value="${lib.net.dir}\mpxj-for-vb.dll" />
 		<property name="mpxj-for-csharp.dll" value="${lib.net.dir}\mpxj-for-csharp.dll" />
-
+		<property name="mpxj-utilities.dll" value="${lib.net.dir}\MpxjUtilities.dll" />
+		
 		<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.exe" value="${ikvm.dir}/bin/ikvmstub.exe" />
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
+		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
 		<available file="${ikvmc.exe}" property="ikvm.available" />
 
 		<property name="tlbexp.exe" value="${windows.tools.dir}/tlbexp.exe" />
 		<available file="${tlbexp.exe}" property="tlbexp.available" />
+		
+		<property name="msbuild.exe" value="${msbuild.dir}/msbuild.exe" />	
+		<condition property="msbuild.available">
+		    <and>
+				<available file="${msbuild.exe}" property="msbuild.available" />
+		  		<isset property="ikvm.available"/>
+		    </and>
+		</condition>		
 	</target>
 
 
@@ -91,7 +102,7 @@
 		</delete>		
 	</target>
 
-	<target name="compile" depends="init,update-maven-pom" description="Compile Everything">
+	<target name="compile" depends="init,update-version-numbers" description="Compile Everything">
 		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
@@ -102,12 +113,20 @@
 		</javac>		
 	</target>
 
-	<target name="update-maven-pom" depends="init-props" description="Ensure the version number in the Maven POM is correct">
+	<target name="update-version-numbers" depends="init-props" description="Ensure that version numbers in the code are up-to-date">
 		<replaceregexp file="${basedir}/maven/pom.xml"
 		               match="&lt;version&gt;.*-SNAPSHOT&lt;/version&gt;"
 		               replace="&lt;version&gt;${current.version}-SNAPSHOT&lt;/version&gt;"
 		               byline="true"
-		/>		
+		/>
+		
+		<replaceregexp 
+		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
+		               replace='\1${current.version}.0\3'
+		               byline="true">
+			<fileset dir="${basedir}/src.net" includes="**/*.cs" />			
+		</replaceregexp>
+		
 	</target>
 		
 	<target name="document" depends="init-props" description="Generate documentation">
@@ -122,7 +141,7 @@
 		<jar jarfile="${basedir}/mpxj-test.jar" basedir="${classes.test.dir}"/>
 	</target>
 
-	<target name="ikvm-compile" depends="init" description="Compile everything reday for use with IKVM" if="ikvm.available">
+	<target name="ikvm-compile" depends="init" description="Compile everything ready for use with IKVM" if="ikvm.available">
 
 		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
 		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
@@ -184,7 +203,7 @@
 		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
 	</target>
 
-	<target name="dll" depends="ikvm-compile" description="Build .net DLLs" if="ikvm.available">
+	<target name="ikvm-dll" depends="ikvm-compile" description="Build .net DLLs" if="ikvm.available">
 		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
 			<arg value="${ikvm.working.dir}/mpxj.jar" />
 			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
@@ -304,9 +323,27 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="archive" depends="jar,dll" description="Create library files">
+	<target name="vs-dll" depends="ikvm-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.available">
 
+		<property name="vs.src.dir" value="${vs.working.dir}" />
+
+		<delete dir="${vs.working.dir}" />
+		<mkdir dir="${vs.src.dir}" />
+
+		<copy todir="${vs.src.dir}">
+			<fileset dir="${basedir}/src.net" includes="**" />
+		</copy>
+		
+		<exec executable="${msbuild.exe}" dir="${basedir}">
+			<arg line="${vs.src.dir}/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
+		</exec>
+		
+		<copy file="${vs.src.dir}/MpxjUtilities/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
+		
+		<delete dir="${vs.working.dir}" />
 	</target>
+	
+	<target name="archive" depends="jar,ikvm-dll,vs-dll" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -337,6 +374,7 @@
 		</delete>
 				
 		<delete dir="${ikvm.working.dir}" />
+		<delete dir="${vs.working.dir}" />
 	</target>
 
 	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, clean-maven" description="Clean up all files">
@@ -351,6 +389,7 @@
 		<delete file="${mpxj-test.dll}" />
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
+		<delete file="${mpxj-utilities.dll}" />
 		
 		<delete>
 			<fileset dir="${lib.net.dir}">				

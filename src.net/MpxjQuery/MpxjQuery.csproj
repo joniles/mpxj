@@ -92,6 +92,9 @@
     <Reference Include="mpxj-for-csharp">
       <HintPath>..\..\lib.net\mpxj-for-csharp.dll</HintPath>
     </Reference>
+    <Reference Include="MpxjUtilities">
+      <HintPath>..\..\lib.net\MpxjUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="poi-3.10-PATCHED">
       <HintPath>..\..\lib.net\poi-3.10-PATCHED.dll</HintPath>
     </Reference>
@@ -111,12 +114,6 @@
   <ItemGroup>
     <Compile Include="MpxjQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MpxjUtilities\MpxjUtilities.csproj">
-      <Project>{CDF7E45A-BCBF-48AE-96C7-75D29E592230}</Project>
-      <Name>MpxjUtilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

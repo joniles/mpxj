@@ -92,6 +92,9 @@
     <Reference Include="mpxj-for-vb">
       <HintPath>..\..\lib.net\mpxj-for-vb.dll</HintPath>
     </Reference>
+    <Reference Include="MpxjUtilities">
+      <HintPath>..\..\lib.net\MpxjUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -146,12 +149,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MpxjUtilities\MpxjUtilities.csproj">
-      <Project>{CDF7E45A-BCBF-48AE-96C7-75D29E592230}</Project>
-      <Name>MpxjUtilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

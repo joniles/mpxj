@@ -14,5 +14,6 @@
     	<file src="..\lib.net\mpxj.*" target="lib"/>  
     	<file src="..\lib.net\IKVM.*" target="lib"/>
     	<file src="..\lib.net\poi*.*" target="lib"/>    	  
+    	<file src="..\lib.net\MpxjUtilities.*" target="lib"/>
     </files>
 </package>
