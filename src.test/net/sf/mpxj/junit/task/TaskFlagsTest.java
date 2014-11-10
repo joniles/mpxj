@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit.task;
 
+import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -32,6 +33,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.junit.MpxjTestData;
+import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
@@ -51,7 +53,6 @@ public class TaskFlagsTest
       File testDataDir = new File(MpxjTestData.filePath("generated/task-flags"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
-
          @Override public boolean accept(File pathname)
          {
             return pathname.getName().startsWith("task-flags");
@@ -70,8 +71,12 @@ public class TaskFlagsTest
    private void testTaskFlags(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      int maxIndex = reader instanceof MPXReader ? 10 : 20;
+      if (reader instanceof MPDDatabaseReader)
+      {
+         assumeJvm();
+      }
 
+      int maxIndex = reader instanceof MPXReader ? 10 : 20;
       ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxIndex; index++)
       {

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit.task;
 
+import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -36,6 +37,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.junit.MpxjTestData;
+import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 import net.sf.mpxj.utility.NumberUtility;
@@ -73,6 +75,11 @@ public class TaskLinksTest
    private void testTaskLinks(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
+      if (reader instanceof MPDDatabaseReader)
+      {
+         assumeJvm();
+      }
+
       ProjectFile project = reader.read(file);
 
       //
