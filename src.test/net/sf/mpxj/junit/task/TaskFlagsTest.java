@@ -92,6 +92,7 @@ public class TaskFlagsTest
     * @param file parent file
     * @param task task
     * @param trueFlagIndex index of flag which is expected to be true
+    * @param maxIndex maximum number of custom fields to expect in this file
     */
    private void testTaskFlags(File file, Task task, int trueFlagIndex, int maxIndex)
    {

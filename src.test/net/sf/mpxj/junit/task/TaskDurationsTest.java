@@ -97,6 +97,7 @@ public class TaskDurationsTest
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
+    * @param maxIndex maximum number of custom fields to expect in this file
     */
    private void testTaskDurations(File file, Task task, int testIndex, int maxIndex)
    {

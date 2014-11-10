@@ -94,7 +94,7 @@ public class TaskDatesTest
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
-    * @throws ParseException 
+    * @param maxIndex maximum number of custom fields to expect in this file 
     */
    private void testTaskDates(File file, Task task, int testIndex, int maxIndex) throws ParseException
    {
