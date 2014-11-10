@@ -343,6 +343,7 @@
 
 		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
+		<delete file="${basedir}/mpxj-test.jar" />
 		
 		<delete file="${mpxj.dll}" />
 		<delete file="${mpxj-for-csharp.dll}" />
