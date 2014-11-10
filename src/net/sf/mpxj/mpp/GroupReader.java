@@ -139,45 +139,43 @@ public abstract class GroupReader
             Object startAt = null;
             Object groupInterval = null;
 
-            if (type != null)
+            switch (type.getDataType())
             {
-               switch (type.getDataType())
+               case DURATION:
+               case NUMERIC:
+               case CURRENCY:
                {
-                  case DURATION:
-                  case NUMERIC:
-                  case CURRENCY:
-                  {
-                     startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 24));
-                     groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 40));
-                     break;
-                  }
+                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 24));
+                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 40));
+                  break;
+               }
 
-                  case PERCENTAGE:
-                  {
-                     startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 24));
-                     groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
-                     break;
-                  }
+               case PERCENTAGE:
+               {
+                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 24));
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  break;
+               }
 
-                  case BOOLEAN:
-                  {
-                     startAt = (MPPUtility.getShort(groupVarData, offset + 24) == 1 ? Boolean.TRUE : Boolean.FALSE);
-                     break;
-                  }
+               case BOOLEAN:
+               {
+                  startAt = (MPPUtility.getShort(groupVarData, offset + 24) == 1 ? Boolean.TRUE : Boolean.FALSE);
+                  break;
+               }
 
-                  case DATE:
-                  {
-                     startAt = MPPUtility.getTimestamp(groupVarData, offset + 24);
-                     groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
-                     break;
-                  }
+               case DATE:
+               {
+                  startAt = MPPUtility.getTimestamp(groupVarData, offset + 24);
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  break;
+               }
 
-                  default:
-                  {
-                     break;
-                  }
+               default:
+               {
+                  break;
                }
             }
+
             clause.setStartAt(startAt);
             clause.setGroupInterval(groupInterval);
 

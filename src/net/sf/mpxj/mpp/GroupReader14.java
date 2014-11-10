@@ -130,7 +130,7 @@ public final class GroupReader14
 
             Object startAt = null;
             Object groupInterval = null;
-            if (type != null && type.getDataType() != null)
+            if (type.getDataType() != null)
             {
                switch (type.getDataType())
                {
