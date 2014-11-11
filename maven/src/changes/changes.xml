@@ -12,7 +12,8 @@
 		<action dev="joniles" type="fix">Fixed issue with custom duration field units not read correctly from MSPDI files</action>
 		<action dev="joniles" type="fix" issue="223">Problems with the lag calculated in the relation</action>
 		<action dev="joniles" type="fix">Outline code not read correctly from MPP file written by Project 2013</action>
-		<action dev="joniles" type="fix" issue="239">Defensive changes to avoid exceptions when reading MPP files</action>		
+		<action dev="joniles" type="fix" issue="239">Defensive changes to avoid exceptions when reading MPP files</action>	
+		<action dev="joniles" type="fix" issue="250">Deleted tasks being read from mpp file</action>			
 		<action dev="joniles" type="add">Added DotNetInputStream and DotNetOutputStream classes for ease of use under .Net.</action>
 		<action dev="joniles" type="update">Updated to automatically generate and package MpxjUtilities.dll</action>
 	</release>

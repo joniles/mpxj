@@ -929,20 +929,26 @@ final class MPP12Reader implements MPPVariantReader
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
-      byte[] data;
       int uniqueID;
       Integer key;
 
+      //
       // First three items are not tasks, so let's skip them
+      //
       for (int loop = 3; loop < itemCount; loop++)
       {
-         data = taskFixedData.getByteArrayValue(loop);
+         byte[] data = taskFixedData.getByteArrayValue(loop);
          if (data != null)
          {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
-            int metaDataItemSize = MPPUtility.getInt(metaData, 0);
-            if (metaDataItemSize < 16 && data.length != 16)
+
+            //
+            // Check for the deleted task flag
+            //
+            int flags = MPPUtility.getInt(metaData, 0);
+            if ((flags & 0x02) != 0)
             {
                // Project stores the deleted tasks unique id's into the fixed data as well
                // and at least in one case the deleted task was listed twice in the list
@@ -951,7 +957,8 @@ final class MPP12Reader implements MPPVariantReader
                //
                // So let's add the unique id for the deleted task into the map so we don't
                // accidentally include the task later.
-               uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
+               //
+               uniqueID = MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET); // Only a short stored for deleted tasks?
                key = Integer.valueOf(uniqueID);
                if (taskMap.containsKey(key) == false)
                {
@@ -960,15 +967,33 @@ final class MPP12Reader implements MPPVariantReader
             }
             else
             {
-               uniqueID = MPPUtility.getInt(data, 0);
-
-               //System.out.println(data.length+ " " +MPPUtility.hexdump(data, false));
-               if (data.length == 16 || data.length > fieldMap.getMaxFixedDataOffset(0) || uniqueID == 0)
+               //
+               // Do we have a null task?
+               //
+               if (data.length == NULL_TASK_BLOCK_SIZE)
                {
+                  uniqueID = MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
                   key = Integer.valueOf(uniqueID);
                   if (taskMap.containsKey(key) == false)
                   {
                      taskMap.put(key, Integer.valueOf(loop));
+                  }
+               }
+               else
+               {
+                  //
+                  // We apply a heuristic here - if we have more than 75% of the data, we assume 
+                  // the task is valid.
+                  //                  
+                  int maxOffset = fieldMap.getMaxFixedDataOffset(0);
+                  if (maxOffset == 0 || ((data.length * 100) / maxOffset) > 75)
+                  {
+                     uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
+                     key = Integer.valueOf(uniqueID);
+                     if (taskMap.containsKey(key) == false)
+                     {
+                        taskMap.put(key, Integer.valueOf(loop));
+                     }
                   }
                }
             }
@@ -1361,8 +1386,7 @@ final class MPP12Reader implements MPPVariantReader
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
-      Object[] uniqueid = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
-      Integer id;
+      Object[] uniqueIdArray = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1373,31 +1397,32 @@ final class MPP12Reader implements MPPVariantReader
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (int loop = 0; loop < uniqueIdArray.length; loop++)
       {
-         id = (Integer) uniqueid[loop];
+         Integer uniqueID = (Integer) uniqueIdArray[loop];
 
-         offset = taskMap.get(id);
+         offset = taskMap.get(uniqueID);
          if (taskFixedData.isValidOffset(offset) == false)
          {
             continue;
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
-         if (data.length == 16)
+         Integer id = Integer.valueOf(MPPUtility.getInt(data, fieldMap.getFixedDataOffset(TaskField.ID)));
+
+         if (data.length == NULL_TASK_BLOCK_SIZE)
          {
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(id);
-            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+            task.setUniqueID(Integer.valueOf(MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+            task.setID(Integer.valueOf(MPPUtility.getShort(data, TASK_ID_FIXED_OFFSET)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
-            //System.out.println(task);
             continue;
          }
 
          if (data.length < fieldMap.getMaxFixedDataOffset(0))
          {
-            if (id.intValue() == 0)
+            if (uniqueID.intValue() == 0)
             {
                byte[] newData = new byte[fieldMap.getMaxFixedDataOffset(0) + 8];
                System.arraycopy(data, 0, newData, 0, data.length);
@@ -1423,15 +1448,15 @@ final class MPP12Reader implements MPPVariantReader
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));         
          //System.out.println (MPPUtility.hexdump(data2, false, 16, ""));
 
-         byte[] recurringData = taskVarData.getByteArray(id, fieldMap.getVarDataKey(TaskField.RECURRING_DATA));
+         byte[] recurringData = taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.RECURRING_DATA));
 
-         Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         Task temp = m_file.getTaskByID(id);
          if (temp != null)
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
             // if this task has some var data. This is sort of hokey, but it's the best method i have
             // been able to see.
-            if (!taskVarMeta.getUniqueIdentifierSet().contains(id))
+            if (!taskVarMeta.getUniqueIdentifierSet().contains(uniqueID))
             {
                // Sometimes Project contains phantom tasks that coexist on the same id as a valid
                // task. In this case don't want to include the phantom task. Seems to be a very rare case.
@@ -1449,13 +1474,13 @@ final class MPP12Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(TaskField.class, task, id, new byte[][]
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
          {
             data,
             data2
          }, taskVarData);
 
-         enterpriseCustomFieldMap.populateContainer(TaskField.class, task, id, null, taskVarData);
+         enterpriseCustomFieldMap.populateContainer(TaskField.class, task, uniqueID, null, taskVarData);
 
          task.enableEvents();
 
@@ -1492,9 +1517,9 @@ final class MPP12Reader implements MPPVariantReader
          task.setFlag(20, (metaData[40] & 0x01) != 0);
          task.setHideBar((metaData[10] & 0x80) != 0);
 
-         processHyperlinkData(task, taskVarData.getByteArray(id, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
+         processHyperlinkData(task, taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
 
-         task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         task.setID(id);
 
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
@@ -1502,19 +1527,19 @@ final class MPP12Reader implements MPPVariantReader
          task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
 
-         task.setOutlineCode(1, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE1_INDEX)));
-         task.setOutlineCode(2, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE2_INDEX)));
-         task.setOutlineCode(3, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE3_INDEX)));
-         task.setOutlineCode(4, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE4_INDEX)));
-         task.setOutlineCode(5, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE5_INDEX)));
-         task.setOutlineCode(6, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE6_INDEX)));
-         task.setOutlineCode(7, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE7_INDEX)));
-         task.setOutlineCode(8, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE8_INDEX)));
-         task.setOutlineCode(9, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE9_INDEX)));
-         task.setOutlineCode(10, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE10_INDEX)));
+         task.setOutlineCode(1, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE1_INDEX)));
+         task.setOutlineCode(2, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE2_INDEX)));
+         task.setOutlineCode(3, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE3_INDEX)));
+         task.setOutlineCode(4, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE4_INDEX)));
+         task.setOutlineCode(5, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE5_INDEX)));
+         task.setOutlineCode(6, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE6_INDEX)));
+         task.setOutlineCode(7, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE7_INDEX)));
+         task.setOutlineCode(8, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE8_INDEX)));
+         task.setOutlineCode(9, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE9_INDEX)));
+         task.setOutlineCode(10, getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, uniqueID, fieldMap.getVarDataKey(TaskField.OUTLINE_CODE10_INDEX)));
 
          task.setRollup((metaData[10] & 0x08) != 0);
-         task.setUniqueID(id);
+         task.setUniqueID(uniqueID);
 
          switch (task.getConstraintType())
          {
@@ -1628,7 +1653,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Process any enterprise columns
          //
-         processTaskEnterpriseColumns(id, task, taskVarData, metaData2);
+         processTaskEnterpriseColumns(uniqueID, task, taskVarData, metaData2);
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
@@ -1639,14 +1664,14 @@ final class MPP12Reader implements MPPVariantReader
 
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(id);
-            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+            task.setUniqueID(uniqueID);
+            task.setID(id);
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             //System.out.println(task);
             continue;
          }
 
-         if (data2.length < 24)
+         if (data2 == null || data2.length < 24)
          {
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
          }
@@ -1702,12 +1727,16 @@ final class MPP12Reader implements MPPVariantReader
       int insertionCount = 0;
       for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
-         int targetIDValue = entry.getKey().intValue();
-         targetIDValue = (targetIDValue - insertionCount) * nextIDIncrement;
+         int idValue = entry.getKey().intValue();
+         int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
+         int targetIDValue = baseTargetIdValue;
+         int attempt = 1;
          ++insertionCount;
+
          while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
          {
-            --targetIDValue;
+            ++attempt;
+            targetIDValue = baseTargetIdValue - (nextIDIncrement / attempt);
          }
 
          taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
@@ -2513,6 +2542,13 @@ final class MPP12Reader implements MPPVariantReader
     * Mask used to isolate confirmed flag from the duration units field.
     */
    private static final int DURATION_CONFIRMED_MASK = 0x20;
+
+   /**
+    * Deleted and null tasks have their ID and UniqueID attributes at fixed offsets.
+    */
+   private static final int TASK_UNIQUE_ID_FIXED_OFFSET = 0;
+   private static final int TASK_ID_FIXED_OFFSET = 4;
+   private static final int NULL_TASK_BLOCK_SIZE = 16;
 
    /**
     * Alias data types.

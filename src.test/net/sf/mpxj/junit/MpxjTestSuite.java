@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
 import net.sf.mpxj.junit.task.TaskDatesTest;
+import net.sf.mpxj.junit.task.TaskDeletionTest;
 import net.sf.mpxj.junit.task.TaskDurationsTest;
 import net.sf.mpxj.junit.task.TaskFinishesTest;
 import net.sf.mpxj.junit.task.TaskFlagsTest;
@@ -98,6 +99,7 @@ import org.junit.runners.Suite;
    TaskCostsTest.class,
    TaskTextTest.class,
    TaskOutlineCodesTest.class,
+   TaskDeletionTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
