@@ -520,20 +520,22 @@ public final class MPPUtility
    public static final String getUnicodeString(byte[] data, int offset)
    {
       StringBuilder buffer = new StringBuilder();
-      char c;
-
-      for (int loop = offset; loop < (data.length - 1); loop += 2)
+      if (data != null)
       {
-         c = (char) getShort(data, loop);
+         char c;
 
-         if (c == 0)
+         for (int loop = offset; loop < (data.length - 1); loop += 2)
          {
-            break;
+            c = (char) getShort(data, loop);
+
+            if (c == 0)
+            {
+               break;
+            }
+
+            buffer.append(c);
          }
-
-         buffer.append(c);
       }
-
       return (buffer.toString());
    }
 

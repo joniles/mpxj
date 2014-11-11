@@ -129,6 +129,14 @@ public final class CustomFieldValueItem
       return m_parentId;
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      return String.format("[CustomFieldValueItem uniqueID=%d parentId=%d value=%s (%s)", m_uniqueID, m_parentId, MPPUtility.hexdump(m_value, false), MPPUtility.getUnicodeString(m_value));
+   }
+
    private Integer m_uniqueID;
    private byte[] m_value;
    private String m_description;
