@@ -9,6 +9,9 @@
    <body> 
 
 	<release version="4.6.X" date="Git HEAD">
+	</release>
+	
+	<release version="4.6.2" date="11/11/2014">
 		<action dev="joniles" type="fix">Fixed issue with custom duration field units not read correctly from MSPDI files</action>
 		<action dev="joniles" type="fix" issue="223">Problems with the lag calculated in the relation</action>
 		<action dev="joniles" type="fix">Outline code not read correctly from MPP file written by Project 2013</action>
