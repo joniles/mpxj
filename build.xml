@@ -22,7 +22,7 @@
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 
 		<!-- This property is only required if you want to publish the site to SourceForge -->
-		<property name="maven.dir" value="d:/java/apache-maven-3.2.3"/>
+		<property name="maven.dir" value="c:/java/apache-maven-3.2.3"/>
 		
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />
@@ -437,6 +437,8 @@
 		<copy todir="${basedir}/maven/src/test/java" >  
 		        <fileset dir="${basedir}/src.test" includes="**"/>  
 		</copy>		
+		
+		<mkdir dir="${basedir}/maven/target" />
 	</target>
 		
 	<target name="run-maven" depends="init-props,populate-maven" description="Execute maven to produce the web site">
