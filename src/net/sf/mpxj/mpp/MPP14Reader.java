@@ -220,20 +220,19 @@ final class MPP14Reader implements MPPVariantReader
    private void processCustomValueLists()
    {
       Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-      Integer id;
-      CustomFieldValueItem item;
+      int parentOffset = m_file.getApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
 
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
-         id = uniqueid[loop];
+         Integer id = uniqueid[loop];
 
-         item = new CustomFieldValueItem(id);
+         CustomFieldValueItem item = new CustomFieldValueItem(id);
          item.setValue(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE));
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
 
          byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         item.setParent(Integer.valueOf(MPPUtility.getShort(b, 8)));
+         item.setParent(Integer.valueOf(MPPUtility.getShort(b, parentOffset)));
 
          //byte b2[] = m_outlineCodeFixedData2.getByteArrayValue(loop+3); // contains FieldGUID in first 16 bytes
 
