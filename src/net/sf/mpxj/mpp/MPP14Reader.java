@@ -232,7 +232,10 @@ final class MPP14Reader implements MPPVariantReader
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
 
          byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         item.setParent(Integer.valueOf(MPPUtility.getShort(b, parentOffset)));
+         if (b != null)
+         {
+            item.setParent(Integer.valueOf(MPPUtility.getShort(b, parentOffset)));
+         }
 
          //byte b2[] = m_outlineCodeFixedData2.getByteArrayValue(loop+3); // contains FieldGUID in first 16 bytes
 

@@ -2105,7 +2105,10 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * Retrieves the default calendar for this project.
+    * Retrieves the default calendar for this project based on the calendar name
+    * given in the project header. If a calendar of this name cannot be found, then
+    * the first calendar listed for the project will be returned. If the
+    * project contains no calendars, then a default calendar is added. 
     * 
     * @return default projectCalendar instance
     */
@@ -2113,6 +2116,17 @@ public final class ProjectFile implements TaskContainer
    {
       String calendarName = m_projectHeader.getCalendarName();
       ProjectCalendar calendar = getCalendarByName(calendarName);
+      if (calendar == null)
+      {
+         if (m_calendars.isEmpty())
+         {
+            calendar = addDefaultBaseCalendar();
+         }
+         else
+         {
+            calendar = m_calendars.get(0);
+         }
+      }
       return calendar;
    }
 
