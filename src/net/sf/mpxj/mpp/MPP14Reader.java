@@ -1734,7 +1734,12 @@ final class MPP14Reader implements MPPVariantReader
     * This method uses ordering data embedded in the file to reconstruct
     * the correct ID order of the tasks.
     */
-   private void fixTaskOrder()
+   /**
+    * This method uses ordering data embedded in the file to reconstruct
+    * the correct ID order of the tasks.
+    * @throws MPXJException 
+    */
+   private void fixTaskOrder() throws MPXJException
    {
       //
       // Renumber ID values using a large increment to allow
@@ -1758,13 +1763,17 @@ final class MPP14Reader implements MPPVariantReader
          int idValue = entry.getKey().intValue();
          int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
          int targetIDValue = baseTargetIdValue;
-         int attempt = 1;
+         int offset = 0;
          ++insertionCount;
 
          while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
          {
-            ++attempt;
-            targetIDValue = baseTargetIdValue - (nextIDIncrement / attempt);
+            ++offset;
+            if (offset == nextIDIncrement)
+            {
+               throw new MPXJException("Unable to fix task order");
+            }
+            targetIDValue = baseTargetIdValue - (nextIDIncrement - offset);
          }
 
          taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
