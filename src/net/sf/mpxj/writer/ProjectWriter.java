@@ -54,7 +54,7 @@ public interface ProjectWriter
    public void write(ProjectFile projectFile, File file) throws IOException;
 
    /**
-    * Create a project file using the supplied OutputStream instance.
+    * Write a project file's content to the supplied OutputStream instance.
     *
     * @param projectFile project file instance
     * @param outputStream OutputStream instance
