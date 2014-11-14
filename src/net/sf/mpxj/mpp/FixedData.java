@@ -110,6 +110,11 @@ final class FixedData extends MPPComponent
          byte[] metaData = meta.getByteArrayValue(loop);
          int itemOffset = MPPUtility.getInt(metaData, 4);
 
+         if (itemOffset < 0 || itemOffset > buffer.length)
+         {
+            continue;
+         }
+
          int itemSize;
          if (loop + 1 == itemCount)
          {
@@ -125,11 +130,6 @@ final class FixedData extends MPPComponent
          if (itemSize == 0)
          {
             itemSize = minSize;
-         }
-
-         if (itemOffset > buffer.length)
-         {
-            continue;
          }
 
          available = buffer.length - itemOffset;

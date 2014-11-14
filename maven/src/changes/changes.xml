@@ -10,6 +10,7 @@
 
 	<release version="4.6.X" date="Git HEAD">
 		<action dev="joniles" type="fix">Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks</action>
+		<action dev="joniles" type="fix">Improved resilience of MPP file reading to unknown data structures</action>
 	</release>
 	
 	<release version="4.6.2" date="11/11/2014">
