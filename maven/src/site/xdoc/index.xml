@@ -208,8 +208,9 @@ third party libraries can be found in the legal directory of the distribution.</
 </section>
 
 <section name="Acknowledgements"> 
-<p>This product includes software provided by the Apache Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org</a>)</p> 
-<p>This product includes software provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p> 
+<p>This product includes functionality provided by POI (<a href="http://poi.apache.org/" target="_blank">http://poi.apache.org</a>)</p> 
+<p>This product includes functionality provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p> 
+<p>This product includes functionality provided by RTF Parser Kit (<a href="https://github.com/joniles/rtfparserkit" target="_blank">https://github.com/joniles/rtfparserkit</a>)</p>
 </section>
 
    </body> 

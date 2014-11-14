@@ -95,6 +95,9 @@
     <Reference Include="MpxjUtilities">
       <HintPath>..\..\lib.net\MpxjUtilities.dll</HintPath>
     </Reference>
+    <Reference Include="rtfparserkit-1.0.0">
+      <HintPath>..\..\lib.net\rtfparserkit-1.0.0.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />

@@ -39,20 +39,26 @@
 		-->
 		<property name="target-jvm-version" value="1.6" />
 
-		<property name="poi.jar" value="poi-3.10-PATCHED" />
-
+		<property name="poi.jar" value="poi-3.10-PATCHED" />		
 		<path id="poi.path">
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
 
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.0.0" />
+		<path id="rtfparserkit.path">
+			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
+		</path>
+		
 		<path id="junit.path">
 			<pathelement location="${junit.jar}" />
 		</path>
 
 		<property name="poi.classpath" refid="poi.path" />
+		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
 		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
+		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
 		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
 		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
 		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
@@ -103,11 +109,11 @@
 	</target>
 
 	<target name="compile" depends="init,update-version-numbers" description="Compile Everything">
-		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
 		</javac>
-		<javac srcdir="${basedir}/src.test" destdir="${classes.test.dir}" classpath="${classpath}:${classes.dir}:${poi.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${basedir}/src.test" destdir="${classes.test.dir}" classpath="${classpath}:${classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
 		</javac>		
@@ -132,7 +138,7 @@
 	<target name="document" depends="init-props" description="Generate documentation">
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
-		<javadoc sourcepath="${basedir}/src" classpath="${classpath}:${poi.classpath}:${junit.classpath}" packagenames="net.sf.mpxj.*" destdir="${doc.dir}" verbose="no" access="public">
+		<javadoc sourcepath="${basedir}/src" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${junit.classpath}" packagenames="net.sf.mpxj.*" destdir="${doc.dir}" verbose="no" access="public">
 		</javadoc>
 	</target>
 
@@ -191,11 +197,11 @@
 			<include name="**/*.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 		
@@ -213,6 +219,7 @@
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
+				<pathelement location="${rtfparserkit.classpath}" />
 			</classpath>
 		</java>
 
@@ -225,6 +232,7 @@
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
+				<pathelement location="${rtfparserkit.classpath}" />
 			</classpath>
 		</java>
 
@@ -233,26 +241,30 @@
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
+		</exec>
+		
+		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
 		
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
@@ -389,6 +401,7 @@
 		<delete file="${mpxj-test.dll}" />
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
+		<delete file="${rtfparserkit.dll}" />
 		<delete file="${mpxj-utilities.dll}" />
 		
 		<delete>
@@ -405,6 +418,7 @@
 
 		<path id="emmarun.path">
 			<path refid="poi.path" />
+			<path refid="rtfparserkit.path" />
 			<path refid="junit.path" />
 			<pathelement location="${basedir}/mpxj.jar" />
 		</path>
