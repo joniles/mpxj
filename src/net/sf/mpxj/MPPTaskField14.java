@@ -46,35 +46,6 @@ public class MPPTaskField14
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
-
-         if (result != null)
-         {
-            switch (result)
-            {
-               case START_TEXT:
-               {
-                  result = TaskField.START;
-                  break;
-               }
-
-               case FINISH_TEXT:
-               {
-                  result = TaskField.FINISH;
-                  break;
-               }
-
-               case DURATION_TEXT:
-               {
-                  result = TaskField.DURATION;
-                  break;
-               }
-
-               default:
-               {
-                  break;
-               }
-            }
-         }
       }
       else
       {

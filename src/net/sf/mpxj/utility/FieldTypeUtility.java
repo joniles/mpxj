@@ -218,4 +218,46 @@ public final class FieldTypeUtility
          }
       };
    }
+
+   /**
+    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Star) when we 
+    * actually need to process the non-text version of the field. This method performs that mapping. 
+    * 
+    * @param field field to mapped
+    * @return mapped field
+    */
+   public static FieldType mapTextFields(FieldType field)
+   {
+      if (field != null && field instanceof TaskField)
+      {
+         TaskField taskField = (TaskField) field;
+         switch (taskField)
+         {
+            case START_TEXT:
+            {
+               field = TaskField.START;
+               break;
+            }
+
+            case FINISH_TEXT:
+            {
+               field = TaskField.FINISH;
+               break;
+            }
+
+            case DURATION_TEXT:
+            {
+               field = TaskField.DURATION;
+               break;
+            }
+
+            default:
+            {
+               break;
+            }
+         }
+      }
+
+      return field;
+   }
 }

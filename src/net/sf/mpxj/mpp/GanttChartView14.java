@@ -127,7 +127,7 @@ public final class GanttChartView14 extends GanttChartView
    private FieldType getFieldType(byte[] data, int offset)
    {
       int fieldIndex = MPPUtility.getInt(data, offset);
-      return FieldTypeUtility.getInstance14(fieldIndex);
+      return FieldTypeUtility.mapTextFields(FieldTypeUtility.getInstance14(fieldIndex));
    }
 
    /**

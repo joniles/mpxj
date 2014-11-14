@@ -11,6 +11,7 @@ Sub GenerateAll()
     GenerateTaskCustomCosts
     GenerateTaskCustomText
     GenerateTaskCustomOutlineCodes
+    GenerateTaskTextValues
 End Sub
 
 Sub NameThatField(value As Long)
@@ -343,6 +344,30 @@ Sub GenerateTaskLinks()
 End Sub
 
 
+Sub GenerateTaskTextValues()
+
+    FileNew SummaryInfo:=False
+
+    Dim task As Task
+    
+    Set task = ActiveProject.Tasks.Add("Start is text")
+    SetTaskField Field:="Task Mode", Value:="Yes", TaskID:=task.ID
+    SetTaskField Field:="Start", value:="AAA", TaskID:=task.ID    
+    
+    Set task = ActiveProject.Tasks.Add("Finish is text")
+    SetTaskField Field:="Task Mode", Value:="Yes", TaskID:=task.ID
+    SetTaskField Field:="Finish", value:="BBB", TaskID:=task.ID
+    
+    Set task = ActiveProject.Tasks.Add("Duration is text")
+    SetTaskField Field:="Task Mode", Value:="Yes", TaskID:=task.ID
+    SetTaskField Field:="Duration", value:="CCC", TaskID:=task.ID
+    
+    SaveFiles "task-textvalues"
+    
+    FileClose pjDoNotSave
+
+End Sub
+
 
 Sub SaveFiles(FilenameBase As String)
 
@@ -365,77 +390,77 @@ Sub SaveFiles(FilenameBase As String)
         ' Project 2013
         Case "15.0"
             CalculateAll
-            FileSaveAs name:=Filename & "-project2013-mpp14.mpp", FormatID:="MSProject.MPP"
+            FileSaveAs name:=Filename & "-project2013-mpp14.mpp"
+        
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2013-mspdi.xml", FormatID:="MSProject.XML"
         
             CalculateAll
             FileSaveAs name:=Filename & "-project2013-mpp12.mpp", FormatID:="MSProject.MPP.12"
         
             CalculateAll
             FileSaveAs name:=Filename & "-project2013-mpp9.mpp", FormatID:="MSProject.MPP.9"
-            
-            CalculateAll
-            FileSaveAs name:=Filename & "-project2013-mspdi.xml", FormatID:="MSProject.XML"
-                        
+                                    
         ' Project 2010
         Case "14.0"
             CalculateAll
-            FileSaveAs name:=Filename & "-project2010-mpp14.mpp", FormatID:="MSProject.MPP"
+            FileSaveAs name:=Filename & "-project2010-mpp14.mpp"
+
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2010-mspdi.xml", FormatID:="MSProject.XML"
         
             CalculateAll
             FileSaveAs name:=Filename & "-project2010-mpp12.mpp", FormatID:="MSProject.MPP.12"
         
             CalculateAll
             FileSaveAs name:=Filename & "-project2010-mpp9.mpp", FormatID:="MSProject.MPP.9"
-
-            CalculateAll
-            FileSaveAs name:=Filename & "-project2010-mspdi.xml", FormatID:="MSProject.XML"
                         
         ' Project 2007
         Case "12.0"
             CalculateAll
-            FileSaveAs name:=Filename & "-project2007-mpp12.mpp", FormatID:="MSProject.MPP.12"
+            FileSaveAs name:=Filename & "-project2007-mpp12.mpp"
+
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2007-mspdi.xml", FormatID:="MSProject.XML"
     
             CalculateAll
             FileSaveAs name:=Filename & "-project2007-mpp9.mpp", FormatID:="MSProject.MPP.9"
         
-            CalculateAll
-            FileSaveAs name:=Filename & "-project2007-mspdi.xml", FormatID:="MSProject.XML"
-
         ' Project 2003
         Case "11.0"
             CalculateAll
-            FileSaveAs name:=Filename & "-project2003-mpp9.mpp", FormatID:="MSProject.MPP.9"
-    
-            'CalculateAll
-            'FileSaveAs name:=Filename & "-project2003-mpp8.mpp", FormatID:="MSProject.MPP.8"
-        
+            FileSaveAs name:=Filename & "-project2003-mpp9.mpp"
+            
             CalculateAll
             FileSaveAs name:=Filename & "-project2003-mspdi.xml", FormatID:="MSProject.XML"
                         
             CalculateAll
             FileSaveAs name:="<" & Filename & "-project2003-mpd9.mpd>\" & FilenameBase & "-project2003-mpd9", FormatID:="MSProject.MPD.9"
 
+            'CalculateAll
+            'FileSaveAs name:=Filename & "-project2003-mpp8.mpp", FormatID:="MSProject.MPP.8"
+
         ' Project 2000
         Case "9.0"
             CalculateAll
-            FileSaveAs name:=Filename & "-project2000-mpp9.mpp", FormatID:="MSProject.MPP.9"
+            FileSaveAs name:=Filename & "-project2000-mpp9.mpp"
+    
+            CalculateAll
+            FileSaveAs name:="<" & Filename & "-project2000-mpd9.mpd>\" & FilenameBase & "-project2000-mpd9", FormatID:="MSProject.MPD.9"
     
             'CalculateAll
             'FileSaveAs name:=Filename & "-project2000-mpp8.mpp", FormatID:="MSProject.MPP.8"
-                                
-            CalculateAll
-            FileSaveAs name:="<" & Filename & "-project2000-mpd9.mpd>\" & FilenameBase & "-project2000-mpd9", FormatID:="MSProject.MPD.9"
-                        
+                                                        
         ' Project 98
         Case "8.0"
             'CalculateAll
-            'FileSaveAs name:=Filename & "-project98-mpp8.mpp", FormatID:="MSProject.MPP.8"
-                
-            CalculateAll
-            FileSaveAs name:=Filename & "-project98.mpx", FormatID:="MSProject.MPX.8"
+            'FileSaveAs name:=Filename & "-project98-mpp8.mpp"
 
             'CalculateAll
             'FileSaveAs name:="<" & Filename & "-project98-mpd8.mpd>\" & FilenameBase & "-project98-mpd8", FormatID:="MSProject.MPD.8"
+                
+            CalculateAll
+            FileSaveAs name:=Filename & "-project98.mpx", FormatID:="MSProject.MPX.8"
                 
         Case Else
             Debug.Print "Unknown Version"

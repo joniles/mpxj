@@ -154,13 +154,16 @@ public class MpxjQuery
       for (Task task : file.getAllTasks())
       {
          Date date = task.getStart();
-         String startDate = date != null ? df.format(date) : "(no start date supplied)";
+         String text = task.getStartText();
+         String startDate = text != null ? text : (date != null ? df.format(date) : "(no start date supplied)");
 
          date = task.getFinish();
-         String finishDate = date != null ? df.format(date) : "(no finish date supplied)";
+         text = task.getFinishText();
+         String finishDate = text != null ? text : (date != null ? df.format(date) : "(no finish date supplied)");
 
          Duration dur = task.getDuration();
-         String duration = dur != null ? dur.toString() : "(no duration supplied)";
+         text = task.getDurationText();
+         String duration = text != null ? text : (dur != null ? dur.toString() : "(no duration supplied)");
 
          dur = task.getActualDuration();
          String actualDuration = dur != null ? dur.toString() : "(no actual duration supplied)";

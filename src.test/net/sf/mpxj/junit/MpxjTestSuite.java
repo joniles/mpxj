@@ -35,6 +35,7 @@ import net.sf.mpxj.junit.task.TaskNumbersTest;
 import net.sf.mpxj.junit.task.TaskOutlineCodesTest;
 import net.sf.mpxj.junit.task.TaskStartsTest;
 import net.sf.mpxj.junit.task.TaskTextTest;
+import net.sf.mpxj.junit.task.TaskTextValuesTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -100,6 +101,7 @@ import org.junit.runners.Suite;
    TaskTextTest.class,
    TaskOutlineCodesTest.class,
    TaskDeletionTest.class,
+   TaskTextValuesTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
