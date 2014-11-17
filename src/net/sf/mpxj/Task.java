@@ -33,6 +33,7 @@ import java.util.UUID;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
 /**
@@ -805,7 +806,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setCost(int index, Number value)
    {
-      set(selectField(CUSTOM_COST, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_COST, index), value);
    }
 
    /**
@@ -816,7 +817,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getCost(int index)
    {
-      return (Number) getCachedValue(selectField(CUSTOM_COST, index));
+      return (Number) getCachedValue(selectField(TaskFieldLists.CUSTOM_COST, index));
    }
 
    /**
@@ -1921,7 +1922,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setDuration(int index, Duration value)
    {
-      set(selectField(CUSTOM_DURATION, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -1932,7 +1933,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getDuration(int index)
    {
-      return (Duration) getCachedValue(selectField(CUSTOM_DURATION, index));
+      return (Duration) getCachedValue(selectField(TaskFieldLists.CUSTOM_DURATION, index));
    }
 
    /**
@@ -2014,7 +2015,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setFinish(int index, Date value)
    {
-      set(selectField(CUSTOM_FINISH, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_FINISH, index), value);
    }
 
    /**
@@ -2025,7 +2026,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getFinish(int index)
    {
-      return (Date) getCachedValue(selectField(CUSTOM_FINISH, index));
+      return (Date) getCachedValue(selectField(TaskFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -2064,7 +2065,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setFlag(int index, boolean value)
    {
-      set(selectField(CUSTOM_FLAG, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -2075,7 +2076,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(TaskFieldLists.CUSTOM_FLAG, index)));
    }
 
    /**
@@ -2207,7 +2208,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setNumber(int index, Number value)
    {
-      set(selectField(CUSTOM_NUMBER, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -2218,7 +2219,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getNumber(int index)
    {
-      return (Number) getCachedValue(selectField(CUSTOM_NUMBER, index));
+      return (Number) getCachedValue(selectField(TaskFieldLists.CUSTOM_NUMBER, index));
    }
 
    /**
@@ -2446,7 +2447,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setStart(int index, Date value)
    {
-      set(selectField(CUSTOM_START, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_START, index), value);
    }
 
    /**
@@ -2457,7 +2458,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getStart(int index)
    {
-      return (Date) getCachedValue(selectField(CUSTOM_START, index));
+      return (Date) getCachedValue(selectField(TaskFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -2542,7 +2543,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setText(int index, String value)
    {
-      set(selectField(CUSTOM_TEXT, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_TEXT, index), value);
    }
 
    /**
@@ -2553,7 +2554,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getText(int index)
    {
-      return (String) getCachedValue(selectField(CUSTOM_TEXT, index));
+      return (String) getCachedValue(selectField(TaskFieldLists.CUSTOM_TEXT, index));
    }
 
    /**
@@ -2564,7 +2565,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setOutlineCode(int index, String value)
    {
-      set(selectField(CUSTOM_OUTLINE_CODE, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_OUTLINE_CODE, index), value);
    }
 
    /**
@@ -2575,7 +2576,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getOutlineCode(int index)
    {
-      return (String) getCachedValue(selectField(CUSTOM_OUTLINE_CODE, index));
+      return (String) getCachedValue(selectField(TaskFieldLists.CUSTOM_OUTLINE_CODE, index));
    }
 
    /**
@@ -3248,7 +3249,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setDate(int index, Date value)
    {
-      set(selectField(CUSTOM_DATE, index), value);
+      set(selectField(TaskFieldLists.CUSTOM_DATE, index), value);
    }
 
    /**
@@ -3259,7 +3260,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getDate(int index)
    {
-      return (Date) getCachedValue(selectField(CUSTOM_DATE, index));
+      return (Date) getCachedValue(selectField(TaskFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -3752,7 +3753,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getEnterpriseCost(int index)
    {
-      return ((Number) getCachedValue(selectField(ENTERPRISE_COST, index)));
+      return ((Number) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_COST, index)));
    }
 
    /**
@@ -3763,7 +3764,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(ENTERPRISE_COST, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_COST, index), value);
    }
 
    /**
@@ -3774,7 +3775,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getEnterpriseDate(int index)
    {
-      return ((Date) getCachedValue(selectField(ENTERPRISE_DATE, index)));
+      return ((Date) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_DATE, index)));
    }
 
    /**
@@ -3785,7 +3786,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(ENTERPRISE_DATE, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_DATE, index), value);
    }
 
    /**
@@ -3796,7 +3797,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return ((Duration) getCachedValue(selectField(ENTERPRISE_DURATION, index)));
+      return ((Duration) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_DURATION, index)));
    }
 
    /**
@@ -3807,7 +3808,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(ENTERPRISE_DURATION, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_DURATION, index), value);
    }
 
    /**
@@ -3818,7 +3819,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_FLAG, index))));
    }
 
    /**
@@ -3829,7 +3830,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(ENTERPRISE_FLAG, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_FLAG, index), value);
    }
 
    /**
@@ -3840,7 +3841,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getEnterpriseNumber(int index)
    {
-      return ((Number) getCachedValue(selectField(ENTERPRISE_NUMBER, index)));
+      return ((Number) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_NUMBER, index)));
    }
 
    /**
@@ -3851,7 +3852,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(ENTERPRISE_NUMBER, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_NUMBER, index), value);
    }
 
    /**
@@ -3862,7 +3863,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getEnterpriseText(int index)
    {
-      return ((String) getCachedValue(selectField(ENTERPRISE_TEXT, index)));
+      return ((String) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_TEXT, index)));
    }
 
    /**
@@ -3873,7 +3874,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(ENTERPRISE_TEXT, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_TEXT, index), value);
    }
 
    /**
@@ -3884,7 +3885,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getEnterpriseCustomField(int index)
    {
-      return ((String) getCachedValue(selectField(ENTERPRISE_CUSTOM_FIELD, index)));
+      return ((String) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
    }
 
    /**
@@ -3895,7 +3896,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setEnterpriseCustomField(int index, String value)
    {
-      set(selectField(ENTERPRISE_CUSTOM_FIELD, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
    }
 
    /**
@@ -3906,7 +3907,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineCost(int baselineNumber, Number value)
    {
-      set(selectField(BASELINE_COSTS, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_COSTS, baselineNumber), value);
    }
 
    /**
@@ -3917,7 +3918,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineDuration(int baselineNumber, Duration value)
    {
-      set(selectField(BASELINE_DURATIONS, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_DURATIONS, baselineNumber), value);
    }
 
    /**
@@ -3928,7 +3929,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineFinish(int baselineNumber, Date value)
    {
-      set(selectField(BASELINE_FINISHES, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber), value);
    }
 
    /**
@@ -3939,7 +3940,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineStart(int baselineNumber, Date value)
    {
-      set(selectField(BASELINE_STARTS, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber), value);
    }
 
    /**
@@ -3950,7 +3951,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineWork(int baselineNumber, Duration value)
    {
-      set(selectField(BASELINE_WORKS, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_WORKS, baselineNumber), value);
    }
 
    /**
@@ -3961,7 +3962,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Number getBaselineCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectField(BASELINE_COSTS, baselineNumber)));
+      return ((Number) getCachedValue(selectField(TaskFieldLists.BASELINE_COSTS, baselineNumber)));
    }
 
    /**
@@ -3972,10 +3973,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineDuration(int baselineNumber)
    {
-      Object result = getCachedValue(selectField(BASELINE_DURATIONS, baselineNumber));
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_DURATIONS, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_DURATIONS, baselineNumber));
       }
 
       if (!(result instanceof Duration))
@@ -3993,10 +3994,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getBaselineDurationText(int baselineNumber)
    {
-      Object result = getCachedValue(selectField(BASELINE_DURATIONS, baselineNumber));
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_DURATIONS, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectField(BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_DURATIONS, baselineNumber));
       }
 
       if (!(result instanceof String))
@@ -4014,7 +4015,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineDurationText(int baselineNumber, String value)
    {
-      set(selectField(BASELINE_DURATIONS, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_DURATIONS, baselineNumber), value);
    }
 
    /**
@@ -4025,10 +4026,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineFinish(int baselineNumber)
    {
-      Object result = getCachedValue(selectField(BASELINE_FINISHES, baselineNumber));
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
+         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber));
       }
 
       if (!(result instanceof Date))
@@ -4046,10 +4047,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getBaselineFinishText(int baselineNumber)
    {
-      Object result = getCachedValue(selectField(BASELINE_FINISHES, baselineNumber));
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectField(BASELINE_ESTIMATED_FINISHES, baselineNumber));
+         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber));
       }
 
       if (!(result instanceof String))
@@ -4067,7 +4068,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineFinishText(int baselineNumber, String value)
    {
-      set(selectField(BASELINE_FINISHES, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber), value);
    }
 
    /**
@@ -4078,10 +4079,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getBaselineStart(int baselineNumber)
    {
-      Object result = getCachedValue(selectField(BASELINE_STARTS, baselineNumber));
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectField(BASELINE_ESTIMATED_STARTS, baselineNumber));
+         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber));
       }
 
       if (!(result instanceof Date))
@@ -4099,10 +4100,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public String getBaselineStartText(int baselineNumber)
    {
-      Object result = getCachedValue(selectField(BASELINE_STARTS, baselineNumber));
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber));
       if (result == null)
       {
-         result = getCachedValue(selectField(BASELINE_ESTIMATED_STARTS, baselineNumber));
+         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber));
       }
 
       if (!(result instanceof String))
@@ -4120,7 +4121,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setBaselineStartText(int baselineNumber, String value)
    {
-      set(selectField(BASELINE_STARTS, baselineNumber), value);
+      set(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber), value);
    }
 
    /**
@@ -4131,7 +4132,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getBaselineWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectField(BASELINE_WORKS, baselineNumber)));
+      return ((Duration) getCachedValue(selectField(TaskFieldLists.BASELINE_WORKS, baselineNumber)));
    }
 
    /**
@@ -4714,512 +4715,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
-
-   private static final TaskField[] CUSTOM_COST =
-   {
-      TaskField.COST1,
-      TaskField.COST2,
-      TaskField.COST3,
-      TaskField.COST4,
-      TaskField.COST5,
-      TaskField.COST6,
-      TaskField.COST7,
-      TaskField.COST8,
-      TaskField.COST9,
-      TaskField.COST10
-   };
-
-   private static final TaskField[] CUSTOM_DATE =
-   {
-      TaskField.DATE1,
-      TaskField.DATE2,
-      TaskField.DATE3,
-      TaskField.DATE4,
-      TaskField.DATE5,
-      TaskField.DATE6,
-      TaskField.DATE7,
-      TaskField.DATE8,
-      TaskField.DATE9,
-      TaskField.DATE10
-   };
-
-   private static final TaskField[] CUSTOM_DURATION =
-   {
-      TaskField.DURATION1,
-      TaskField.DURATION2,
-      TaskField.DURATION3,
-      TaskField.DURATION4,
-      TaskField.DURATION5,
-      TaskField.DURATION6,
-      TaskField.DURATION7,
-      TaskField.DURATION8,
-      TaskField.DURATION9,
-      TaskField.DURATION10
-   };
-
-   private static final TaskField[] CUSTOM_FLAG =
-   {
-      TaskField.FLAG1,
-      TaskField.FLAG2,
-      TaskField.FLAG3,
-      TaskField.FLAG4,
-      TaskField.FLAG5,
-      TaskField.FLAG6,
-      TaskField.FLAG7,
-      TaskField.FLAG8,
-      TaskField.FLAG9,
-      TaskField.FLAG10,
-      TaskField.FLAG11,
-      TaskField.FLAG12,
-      TaskField.FLAG13,
-      TaskField.FLAG14,
-      TaskField.FLAG15,
-      TaskField.FLAG16,
-      TaskField.FLAG17,
-      TaskField.FLAG18,
-      TaskField.FLAG19,
-      TaskField.FLAG20
-   };
-
-   private static final TaskField[] CUSTOM_FINISH =
-   {
-      TaskField.FINISH1,
-      TaskField.FINISH2,
-      TaskField.FINISH3,
-      TaskField.FINISH4,
-      TaskField.FINISH5,
-      TaskField.FINISH6,
-      TaskField.FINISH7,
-      TaskField.FINISH8,
-      TaskField.FINISH9,
-      TaskField.FINISH10
-   };
-
-   private static final TaskField[] CUSTOM_NUMBER =
-   {
-      TaskField.NUMBER1,
-      TaskField.NUMBER2,
-      TaskField.NUMBER3,
-      TaskField.NUMBER4,
-      TaskField.NUMBER5,
-      TaskField.NUMBER6,
-      TaskField.NUMBER7,
-      TaskField.NUMBER8,
-      TaskField.NUMBER9,
-      TaskField.NUMBER10,
-      TaskField.NUMBER11,
-      TaskField.NUMBER12,
-      TaskField.NUMBER13,
-      TaskField.NUMBER14,
-      TaskField.NUMBER15,
-      TaskField.NUMBER16,
-      TaskField.NUMBER17,
-      TaskField.NUMBER18,
-      TaskField.NUMBER19,
-      TaskField.NUMBER20
-   };
-
-   private static final TaskField[] CUSTOM_START =
-   {
-      TaskField.START1,
-      TaskField.START2,
-      TaskField.START3,
-      TaskField.START4,
-      TaskField.START5,
-      TaskField.START6,
-      TaskField.START7,
-      TaskField.START8,
-      TaskField.START9,
-      TaskField.START10
-   };
-
-   private static final TaskField[] CUSTOM_TEXT =
-   {
-      TaskField.TEXT1,
-      TaskField.TEXT2,
-      TaskField.TEXT3,
-      TaskField.TEXT4,
-      TaskField.TEXT5,
-      TaskField.TEXT6,
-      TaskField.TEXT7,
-      TaskField.TEXT8,
-      TaskField.TEXT9,
-      TaskField.TEXT10,
-      TaskField.TEXT11,
-      TaskField.TEXT12,
-      TaskField.TEXT13,
-      TaskField.TEXT14,
-      TaskField.TEXT15,
-      TaskField.TEXT16,
-      TaskField.TEXT17,
-      TaskField.TEXT18,
-      TaskField.TEXT19,
-      TaskField.TEXT20,
-      TaskField.TEXT21,
-      TaskField.TEXT22,
-      TaskField.TEXT23,
-      TaskField.TEXT24,
-      TaskField.TEXT25,
-      TaskField.TEXT26,
-      TaskField.TEXT27,
-      TaskField.TEXT28,
-      TaskField.TEXT29,
-      TaskField.TEXT30
-   };
-
-   private static final TaskField[] CUSTOM_OUTLINE_CODE =
-   {
-      TaskField.OUTLINE_CODE1,
-      TaskField.OUTLINE_CODE2,
-      TaskField.OUTLINE_CODE3,
-      TaskField.OUTLINE_CODE4,
-      TaskField.OUTLINE_CODE5,
-      TaskField.OUTLINE_CODE6,
-      TaskField.OUTLINE_CODE7,
-      TaskField.OUTLINE_CODE8,
-      TaskField.OUTLINE_CODE9,
-      TaskField.OUTLINE_CODE10
-   };
-
-   private static final TaskField[] ENTERPRISE_COST =
-   {
-      TaskField.ENTERPRISE_COST1,
-      TaskField.ENTERPRISE_COST2,
-      TaskField.ENTERPRISE_COST3,
-      TaskField.ENTERPRISE_COST4,
-      TaskField.ENTERPRISE_COST5,
-      TaskField.ENTERPRISE_COST6,
-      TaskField.ENTERPRISE_COST7,
-      TaskField.ENTERPRISE_COST8,
-      TaskField.ENTERPRISE_COST9,
-      TaskField.ENTERPRISE_COST10
-   };
-
-   private static final TaskField[] ENTERPRISE_DATE =
-   {
-      TaskField.ENTERPRISE_DATE1,
-      TaskField.ENTERPRISE_DATE2,
-      TaskField.ENTERPRISE_DATE3,
-      TaskField.ENTERPRISE_DATE4,
-      TaskField.ENTERPRISE_DATE5,
-      TaskField.ENTERPRISE_DATE6,
-      TaskField.ENTERPRISE_DATE7,
-      TaskField.ENTERPRISE_DATE8,
-      TaskField.ENTERPRISE_DATE9,
-      TaskField.ENTERPRISE_DATE10,
-      TaskField.ENTERPRISE_DATE11,
-      TaskField.ENTERPRISE_DATE12,
-      TaskField.ENTERPRISE_DATE13,
-      TaskField.ENTERPRISE_DATE14,
-      TaskField.ENTERPRISE_DATE15,
-      TaskField.ENTERPRISE_DATE16,
-      TaskField.ENTERPRISE_DATE17,
-      TaskField.ENTERPRISE_DATE18,
-      TaskField.ENTERPRISE_DATE19,
-      TaskField.ENTERPRISE_DATE20,
-      TaskField.ENTERPRISE_DATE21,
-      TaskField.ENTERPRISE_DATE22,
-      TaskField.ENTERPRISE_DATE23,
-      TaskField.ENTERPRISE_DATE24,
-      TaskField.ENTERPRISE_DATE25,
-      TaskField.ENTERPRISE_DATE26,
-      TaskField.ENTERPRISE_DATE27,
-      TaskField.ENTERPRISE_DATE28,
-      TaskField.ENTERPRISE_DATE29,
-      TaskField.ENTERPRISE_DATE30
-   };
-
-   private static final TaskField[] ENTERPRISE_DURATION =
-   {
-      TaskField.ENTERPRISE_DURATION1,
-      TaskField.ENTERPRISE_DURATION2,
-      TaskField.ENTERPRISE_DURATION3,
-      TaskField.ENTERPRISE_DURATION4,
-      TaskField.ENTERPRISE_DURATION5,
-      TaskField.ENTERPRISE_DURATION6,
-      TaskField.ENTERPRISE_DURATION7,
-      TaskField.ENTERPRISE_DURATION8,
-      TaskField.ENTERPRISE_DURATION9,
-      TaskField.ENTERPRISE_DURATION10
-   };
-
-   private static final TaskField[] ENTERPRISE_FLAG =
-   {
-      TaskField.ENTERPRISE_FLAG1,
-      TaskField.ENTERPRISE_FLAG2,
-      TaskField.ENTERPRISE_FLAG3,
-      TaskField.ENTERPRISE_FLAG4,
-      TaskField.ENTERPRISE_FLAG5,
-      TaskField.ENTERPRISE_FLAG6,
-      TaskField.ENTERPRISE_FLAG7,
-      TaskField.ENTERPRISE_FLAG8,
-      TaskField.ENTERPRISE_FLAG9,
-      TaskField.ENTERPRISE_FLAG10,
-      TaskField.ENTERPRISE_FLAG11,
-      TaskField.ENTERPRISE_FLAG12,
-      TaskField.ENTERPRISE_FLAG13,
-      TaskField.ENTERPRISE_FLAG14,
-      TaskField.ENTERPRISE_FLAG15,
-      TaskField.ENTERPRISE_FLAG16,
-      TaskField.ENTERPRISE_FLAG17,
-      TaskField.ENTERPRISE_FLAG18,
-      TaskField.ENTERPRISE_FLAG19,
-      TaskField.ENTERPRISE_FLAG20
-   };
-
-   private static final TaskField[] ENTERPRISE_NUMBER =
-   {
-      TaskField.ENTERPRISE_NUMBER1,
-      TaskField.ENTERPRISE_NUMBER2,
-      TaskField.ENTERPRISE_NUMBER3,
-      TaskField.ENTERPRISE_NUMBER4,
-      TaskField.ENTERPRISE_NUMBER5,
-      TaskField.ENTERPRISE_NUMBER6,
-      TaskField.ENTERPRISE_NUMBER7,
-      TaskField.ENTERPRISE_NUMBER8,
-      TaskField.ENTERPRISE_NUMBER9,
-      TaskField.ENTERPRISE_NUMBER10,
-      TaskField.ENTERPRISE_NUMBER11,
-      TaskField.ENTERPRISE_NUMBER12,
-      TaskField.ENTERPRISE_NUMBER13,
-      TaskField.ENTERPRISE_NUMBER14,
-      TaskField.ENTERPRISE_NUMBER15,
-      TaskField.ENTERPRISE_NUMBER16,
-      TaskField.ENTERPRISE_NUMBER17,
-      TaskField.ENTERPRISE_NUMBER18,
-      TaskField.ENTERPRISE_NUMBER19,
-      TaskField.ENTERPRISE_NUMBER20,
-      TaskField.ENTERPRISE_NUMBER21,
-      TaskField.ENTERPRISE_NUMBER22,
-      TaskField.ENTERPRISE_NUMBER23,
-      TaskField.ENTERPRISE_NUMBER24,
-      TaskField.ENTERPRISE_NUMBER25,
-      TaskField.ENTERPRISE_NUMBER26,
-      TaskField.ENTERPRISE_NUMBER27,
-      TaskField.ENTERPRISE_NUMBER28,
-      TaskField.ENTERPRISE_NUMBER29,
-      TaskField.ENTERPRISE_NUMBER30,
-      TaskField.ENTERPRISE_NUMBER31,
-      TaskField.ENTERPRISE_NUMBER32,
-      TaskField.ENTERPRISE_NUMBER33,
-      TaskField.ENTERPRISE_NUMBER34,
-      TaskField.ENTERPRISE_NUMBER35,
-      TaskField.ENTERPRISE_NUMBER36,
-      TaskField.ENTERPRISE_NUMBER37,
-      TaskField.ENTERPRISE_NUMBER38,
-      TaskField.ENTERPRISE_NUMBER39,
-      TaskField.ENTERPRISE_NUMBER40
-   };
-
-   private static final TaskField[] ENTERPRISE_TEXT =
-   {
-      TaskField.ENTERPRISE_TEXT1,
-      TaskField.ENTERPRISE_TEXT2,
-      TaskField.ENTERPRISE_TEXT3,
-      TaskField.ENTERPRISE_TEXT4,
-      TaskField.ENTERPRISE_TEXT5,
-      TaskField.ENTERPRISE_TEXT6,
-      TaskField.ENTERPRISE_TEXT7,
-      TaskField.ENTERPRISE_TEXT8,
-      TaskField.ENTERPRISE_TEXT9,
-      TaskField.ENTERPRISE_TEXT10,
-      TaskField.ENTERPRISE_TEXT11,
-      TaskField.ENTERPRISE_TEXT12,
-      TaskField.ENTERPRISE_TEXT13,
-      TaskField.ENTERPRISE_TEXT14,
-      TaskField.ENTERPRISE_TEXT15,
-      TaskField.ENTERPRISE_TEXT16,
-      TaskField.ENTERPRISE_TEXT17,
-      TaskField.ENTERPRISE_TEXT18,
-      TaskField.ENTERPRISE_TEXT19,
-      TaskField.ENTERPRISE_TEXT20,
-      TaskField.ENTERPRISE_TEXT21,
-      TaskField.ENTERPRISE_TEXT22,
-      TaskField.ENTERPRISE_TEXT23,
-      TaskField.ENTERPRISE_TEXT24,
-      TaskField.ENTERPRISE_TEXT25,
-      TaskField.ENTERPRISE_TEXT26,
-      TaskField.ENTERPRISE_TEXT27,
-      TaskField.ENTERPRISE_TEXT28,
-      TaskField.ENTERPRISE_TEXT29,
-      TaskField.ENTERPRISE_TEXT30,
-      TaskField.ENTERPRISE_TEXT31,
-      TaskField.ENTERPRISE_TEXT32,
-      TaskField.ENTERPRISE_TEXT33,
-      TaskField.ENTERPRISE_TEXT34,
-      TaskField.ENTERPRISE_TEXT35,
-      TaskField.ENTERPRISE_TEXT36,
-      TaskField.ENTERPRISE_TEXT37,
-      TaskField.ENTERPRISE_TEXT38,
-      TaskField.ENTERPRISE_TEXT39,
-      TaskField.ENTERPRISE_TEXT40
-   };
-
-   private static final TaskField[] ENTERPRISE_CUSTOM_FIELD =
-   {
-      TaskField.ENTERPRISE_CUSTOM_FIELD1,
-      TaskField.ENTERPRISE_CUSTOM_FIELD2,
-      TaskField.ENTERPRISE_CUSTOM_FIELD3,
-      TaskField.ENTERPRISE_CUSTOM_FIELD4,
-      TaskField.ENTERPRISE_CUSTOM_FIELD5,
-      TaskField.ENTERPRISE_CUSTOM_FIELD6,
-      TaskField.ENTERPRISE_CUSTOM_FIELD7,
-      TaskField.ENTERPRISE_CUSTOM_FIELD8,
-      TaskField.ENTERPRISE_CUSTOM_FIELD9,
-      TaskField.ENTERPRISE_CUSTOM_FIELD10,
-      TaskField.ENTERPRISE_CUSTOM_FIELD11,
-      TaskField.ENTERPRISE_CUSTOM_FIELD12,
-      TaskField.ENTERPRISE_CUSTOM_FIELD13,
-      TaskField.ENTERPRISE_CUSTOM_FIELD14,
-      TaskField.ENTERPRISE_CUSTOM_FIELD15,
-      TaskField.ENTERPRISE_CUSTOM_FIELD16,
-      TaskField.ENTERPRISE_CUSTOM_FIELD17,
-      TaskField.ENTERPRISE_CUSTOM_FIELD18,
-      TaskField.ENTERPRISE_CUSTOM_FIELD19,
-      TaskField.ENTERPRISE_CUSTOM_FIELD20,
-      TaskField.ENTERPRISE_CUSTOM_FIELD21,
-      TaskField.ENTERPRISE_CUSTOM_FIELD22,
-      TaskField.ENTERPRISE_CUSTOM_FIELD23,
-      TaskField.ENTERPRISE_CUSTOM_FIELD24,
-      TaskField.ENTERPRISE_CUSTOM_FIELD25,
-      TaskField.ENTERPRISE_CUSTOM_FIELD26,
-      TaskField.ENTERPRISE_CUSTOM_FIELD27,
-      TaskField.ENTERPRISE_CUSTOM_FIELD28,
-      TaskField.ENTERPRISE_CUSTOM_FIELD29,
-      TaskField.ENTERPRISE_CUSTOM_FIELD30,
-      TaskField.ENTERPRISE_CUSTOM_FIELD31,
-      TaskField.ENTERPRISE_CUSTOM_FIELD32,
-      TaskField.ENTERPRISE_CUSTOM_FIELD33,
-      TaskField.ENTERPRISE_CUSTOM_FIELD34,
-      TaskField.ENTERPRISE_CUSTOM_FIELD35,
-      TaskField.ENTERPRISE_CUSTOM_FIELD36,
-      TaskField.ENTERPRISE_CUSTOM_FIELD37,
-      TaskField.ENTERPRISE_CUSTOM_FIELD38,
-      TaskField.ENTERPRISE_CUSTOM_FIELD39,
-      TaskField.ENTERPRISE_CUSTOM_FIELD40,
-      TaskField.ENTERPRISE_CUSTOM_FIELD41,
-      TaskField.ENTERPRISE_CUSTOM_FIELD42,
-      TaskField.ENTERPRISE_CUSTOM_FIELD43,
-      TaskField.ENTERPRISE_CUSTOM_FIELD44,
-      TaskField.ENTERPRISE_CUSTOM_FIELD45,
-      TaskField.ENTERPRISE_CUSTOM_FIELD46,
-      TaskField.ENTERPRISE_CUSTOM_FIELD47,
-      TaskField.ENTERPRISE_CUSTOM_FIELD48,
-      TaskField.ENTERPRISE_CUSTOM_FIELD49,
-      TaskField.ENTERPRISE_CUSTOM_FIELD50
-   };
-
-   private static final TaskField[] BASELINE_COSTS =
-   {
-      TaskField.BASELINE1_COST,
-      TaskField.BASELINE2_COST,
-      TaskField.BASELINE3_COST,
-      TaskField.BASELINE4_COST,
-      TaskField.BASELINE5_COST,
-      TaskField.BASELINE6_COST,
-      TaskField.BASELINE7_COST,
-      TaskField.BASELINE8_COST,
-      TaskField.BASELINE9_COST,
-      TaskField.BASELINE10_COST
-   };
-
-   private static final TaskField[] BASELINE_DURATIONS =
-   {
-      TaskField.BASELINE1_DURATION,
-      TaskField.BASELINE2_DURATION,
-      TaskField.BASELINE3_DURATION,
-      TaskField.BASELINE4_DURATION,
-      TaskField.BASELINE5_DURATION,
-      TaskField.BASELINE6_DURATION,
-      TaskField.BASELINE7_DURATION,
-      TaskField.BASELINE8_DURATION,
-      TaskField.BASELINE9_DURATION,
-      TaskField.BASELINE10_DURATION
-   };
-
-   private static final TaskField[] BASELINE_ESTIMATED_DURATIONS =
-   {
-      TaskField.BASELINE1_ESTIMATED_DURATION,
-      TaskField.BASELINE2_ESTIMATED_DURATION,
-      TaskField.BASELINE3_ESTIMATED_DURATION,
-      TaskField.BASELINE4_ESTIMATED_DURATION,
-      TaskField.BASELINE5_ESTIMATED_DURATION,
-      TaskField.BASELINE6_ESTIMATED_DURATION,
-      TaskField.BASELINE7_ESTIMATED_DURATION,
-      TaskField.BASELINE8_ESTIMATED_DURATION,
-      TaskField.BASELINE9_ESTIMATED_DURATION,
-      TaskField.BASELINE10_ESTIMATED_DURATION
-   };
-
-   private static final TaskField[] BASELINE_STARTS =
-   {
-      TaskField.BASELINE1_START,
-      TaskField.BASELINE2_START,
-      TaskField.BASELINE3_START,
-      TaskField.BASELINE4_START,
-      TaskField.BASELINE5_START,
-      TaskField.BASELINE6_START,
-      TaskField.BASELINE7_START,
-      TaskField.BASELINE8_START,
-      TaskField.BASELINE9_START,
-      TaskField.BASELINE10_START
-   };
-
-   private static final TaskField[] BASELINE_ESTIMATED_STARTS =
-   {
-      TaskField.BASELINE1_ESTIMATED_START,
-      TaskField.BASELINE2_ESTIMATED_START,
-      TaskField.BASELINE3_ESTIMATED_START,
-      TaskField.BASELINE4_ESTIMATED_START,
-      TaskField.BASELINE5_ESTIMATED_START,
-      TaskField.BASELINE6_ESTIMATED_START,
-      TaskField.BASELINE7_ESTIMATED_START,
-      TaskField.BASELINE8_ESTIMATED_START,
-      TaskField.BASELINE9_ESTIMATED_START,
-      TaskField.BASELINE10_ESTIMATED_START
-   };
-
-   private static final TaskField[] BASELINE_FINISHES =
-   {
-      TaskField.BASELINE1_FINISH,
-      TaskField.BASELINE2_FINISH,
-      TaskField.BASELINE3_FINISH,
-      TaskField.BASELINE4_FINISH,
-      TaskField.BASELINE5_FINISH,
-      TaskField.BASELINE6_FINISH,
-      TaskField.BASELINE7_FINISH,
-      TaskField.BASELINE8_FINISH,
-      TaskField.BASELINE9_FINISH,
-      TaskField.BASELINE10_FINISH
-   };
-
-   private static final TaskField[] BASELINE_ESTIMATED_FINISHES =
-   {
-      TaskField.BASELINE1_ESTIMATED_FINISH,
-      TaskField.BASELINE2_ESTIMATED_FINISH,
-      TaskField.BASELINE3_ESTIMATED_FINISH,
-      TaskField.BASELINE4_ESTIMATED_FINISH,
-      TaskField.BASELINE5_ESTIMATED_FINISH,
-      TaskField.BASELINE6_ESTIMATED_FINISH,
-      TaskField.BASELINE7_ESTIMATED_FINISH,
-      TaskField.BASELINE8_ESTIMATED_FINISH,
-      TaskField.BASELINE9_ESTIMATED_FINISH,
-      TaskField.BASELINE10_ESTIMATED_FINISH
-   };
-
-   private static final TaskField[] BASELINE_WORKS =
-   {
-      TaskField.BASELINE1_WORK,
-      TaskField.BASELINE2_WORK,
-      TaskField.BASELINE3_WORK,
-      TaskField.BASELINE4_WORK,
-      TaskField.BASELINE5_WORK,
-      TaskField.BASELINE6_WORK,
-      TaskField.BASELINE7_WORK,
-      TaskField.BASELINE8_WORK,
-      TaskField.BASELINE9_WORK,
-      TaskField.BASELINE10_WORK
-   };
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;

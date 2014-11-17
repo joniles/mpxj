@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -50,9 +51,6 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.ExtendedAttributeAssignmentFields;
-import net.sf.mpxj.ExtendedAttributeResourceFields;
-import net.sf.mpxj.ExtendedAttributeTaskFields;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -72,11 +70,14 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ResourceFieldLists;
+import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
@@ -308,9 +309,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Map<TaskField, String> fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
 
-      for (int loop = 0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
+      for (TaskField key : getAllTaskExtendedAttributes())
       {
-         TaskField key = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
          Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
@@ -335,9 +335,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Map<ResourceField, String> fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
 
-      for (int loop = 0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
+      for (ResourceField key : getAllResourceExtendedAttributes())
       {
-         ResourceField key = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
          Integer fieldID = Integer.valueOf(MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
@@ -840,9 +839,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Resources.Resource.ExtendedAttribute attrib;
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
-      for (int loop = 0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
+      for (ResourceField mpxFieldID : getAllResourceExtendedAttributes())
       {
-         ResourceField mpxFieldID = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (writeExtendedAttribute(value, mpxFieldID))
@@ -1290,9 +1288,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Tasks.Task.ExtendedAttribute attrib;
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
-      for (int loop = 0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
+      for (TaskField mpxFieldID : getAllTaskExtendedAttributes())
       {
-         TaskField mpxFieldID = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (writeExtendedAttribute(value, mpxFieldID))
@@ -1638,9 +1635,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Assignments.Assignment.ExtendedAttribute attrib;
       List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
-      for (int loop = 0; loop < ExtendedAttributeAssignmentFields.FIELD_ARRAY.length; loop++)
+      for (AssignmentField mpxFieldID : getAllAssignmentExtendedAttributes())
       {
-         AssignmentField mpxFieldID = ExtendedAttributeAssignmentFields.FIELD_ARRAY[loop];
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (writeExtendedAttribute(value, mpxFieldID))
@@ -1854,6 +1850,85 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalAmount(), false));
          xml.setValue(DatatypeConverter.printDuration(this, mpx.getTotalAmount()));
       }
+   }
+
+   /**
+    * Retrieve list of assignment extended attributes.
+    * 
+    * @return list of extended attributes
+    */
+   private List<AssignmentField> getAllAssignmentExtendedAttributes()
+   {
+      ArrayList<AssignmentField> result = new ArrayList<AssignmentField>();
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
+      return result;
+   }
+
+   /**
+    * Retrieve list of task extended attributes.
+    * 
+    * @return list of extended attributes
+    */
+   private List<TaskField> getAllTaskExtendedAttributes()
+   {
+      ArrayList<TaskField> result = new ArrayList<TaskField>();
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_TEXT));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
+      return result;
+   }
+
+   /**
+    * Retrieve list of resource extended attributes.
+    * 
+    * @return list of extended attributes
+    */
+   private List<ResourceField> getAllResourceExtendedAttributes()
+   {
+      ArrayList<ResourceField> result = new ArrayList<ResourceField>();
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_TEXT));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
+      return result;
    }
 
    /**

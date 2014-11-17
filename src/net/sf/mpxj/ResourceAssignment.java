@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
@@ -1399,7 +1400,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineCost(int baselineNumber, Number value)
    {
-      set(selectField(BASELINE_COSTS, baselineNumber), value);
+      set(selectField(AssignmentFieldLists.BASELINE_COSTS, baselineNumber), value);
    }
 
    /**
@@ -1410,7 +1411,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineWork(int baselineNumber, Duration value)
    {
-      set(selectField(BASELINE_WORKS, baselineNumber), value);
+      set(selectField(AssignmentFieldLists.BASELINE_WORKS, baselineNumber), value);
    }
 
    /**
@@ -1421,7 +1422,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getBaselineWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectField(BASELINE_WORKS, baselineNumber)));
+      return ((Duration) getCachedValue(selectField(AssignmentFieldLists.BASELINE_WORKS, baselineNumber)));
    }
 
    /**
@@ -1432,7 +1433,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getBaselineCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectField(BASELINE_COSTS, baselineNumber)));
+      return ((Number) getCachedValue(selectField(AssignmentFieldLists.BASELINE_COSTS, baselineNumber)));
    }
 
    /**
@@ -1443,7 +1444,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineStart(int baselineNumber, Date value)
    {
-      set(selectField(BASELINE_STARTS, baselineNumber), value);
+      set(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber), value);
    }
 
    /**
@@ -1454,7 +1455,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getBaselineStart(int baselineNumber)
    {
-      return (Date) getCachedValue(selectField(BASELINE_STARTS, baselineNumber));
+      return (Date) getCachedValue(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber));
    }
 
    /**
@@ -1465,7 +1466,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineFinish(int baselineNumber, Date value)
    {
-      set(selectField(BASELINE_FINISHES, baselineNumber), value);
+      set(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber), value);
    }
 
    /**
@@ -1476,7 +1477,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getBaselineFinish(int baselineNumber)
    {
-      return (Date) getCachedValue(selectField(BASELINE_FINISHES, baselineNumber));
+      return (Date) getCachedValue(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber));
    }
 
    /**
@@ -1487,7 +1488,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineBudgetCost(int baselineNumber, Number value)
    {
-      set(selectField(BASELINE_BUDGET_COSTS, baselineNumber), value);
+      set(selectField(AssignmentFieldLists.BASELINE_BUDGET_COSTS, baselineNumber), value);
    }
 
    /**
@@ -1498,7 +1499,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setBaselineBudgetWork(int baselineNumber, Duration value)
    {
-      set(selectField(BASELINE_BUDGET_WORKS, baselineNumber), value);
+      set(selectField(AssignmentFieldLists.BASELINE_BUDGET_WORKS, baselineNumber), value);
    }
 
    /**
@@ -1509,7 +1510,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getBaselineBudgetWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectField(BASELINE_BUDGET_WORKS, baselineNumber)));
+      return ((Duration) getCachedValue(selectField(AssignmentFieldLists.BASELINE_BUDGET_WORKS, baselineNumber)));
    }
 
    /**
@@ -1520,7 +1521,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getBaselineBudgetCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectField(BASELINE_BUDGET_COSTS, baselineNumber)));
+      return ((Number) getCachedValue(selectField(AssignmentFieldLists.BASELINE_BUDGET_COSTS, baselineNumber)));
    }
 
    /**
@@ -1531,7 +1532,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setText(int index, String value)
    {
-      set(selectField(CUSTOM_TEXT, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_TEXT, index), value);
    }
 
    /**
@@ -1542,7 +1543,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public String getText(int index)
    {
-      return (String) getCachedValue(selectField(CUSTOM_TEXT, index));
+      return (String) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_TEXT, index));
    }
 
    /**
@@ -1553,7 +1554,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setStart(int index, Date value)
    {
-      set(selectField(CUSTOM_START, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_START, index), value);
    }
 
    /**
@@ -1564,7 +1565,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getStart(int index)
    {
-      return (Date) getCachedValue(selectField(CUSTOM_START, index));
+      return (Date) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -1575,7 +1576,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setFinish(int index, Date value)
    {
-      set(selectField(CUSTOM_FINISH, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_FINISH, index), value);
    }
 
    /**
@@ -1586,7 +1587,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getFinish(int index)
    {
-      return (Date) getCachedValue(selectField(CUSTOM_FINISH, index));
+      return (Date) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -1597,7 +1598,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setDate(int index, Date value)
    {
-      set(selectField(CUSTOM_DATE, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_DATE, index), value);
    }
 
    /**
@@ -1608,7 +1609,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getDate(int index)
    {
-      return (Date) getCachedValue(selectField(CUSTOM_DATE, index));
+      return (Date) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -1619,7 +1620,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setNumber(int index, Number value)
    {
-      set(selectField(CUSTOM_NUMBER, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -1630,7 +1631,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getNumber(int index)
    {
-      return (Number) getCachedValue(selectField(CUSTOM_NUMBER, index));
+      return (Number) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_NUMBER, index));
    }
 
    /**
@@ -1641,7 +1642,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setDuration(int index, Duration value)
    {
-      set(selectField(CUSTOM_DURATION, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -1652,7 +1653,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getDuration(int index)
    {
-      return (Duration) getCachedValue(selectField(CUSTOM_DURATION, index));
+      return (Duration) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_DURATION, index));
    }
 
    /**
@@ -1663,7 +1664,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setCost(int index, Number value)
    {
-      set(selectField(CUSTOM_COST, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_COST, index), value);
    }
 
    /**
@@ -1674,7 +1675,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getCost(int index)
    {
-      return (Number) getCachedValue(selectField(CUSTOM_COST, index));
+      return (Number) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_COST, index));
    }
 
    /**
@@ -1685,7 +1686,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setFlag(int index, boolean value)
    {
-      set(selectField(CUSTOM_FLAG, index), value);
+      set(selectField(AssignmentFieldLists.CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -1696,7 +1697,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_FLAG, index)));
    }
 
    /**
@@ -1707,7 +1708,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(ENTERPRISE_COST, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_COST, index), value);
    }
 
    /**
@@ -1718,7 +1719,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) getCachedValue(selectField(ENTERPRISE_COST, index));
+      return (Number) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_COST, index));
    }
 
    /**
@@ -1729,7 +1730,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(ENTERPRISE_DATE, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index), value);
    }
 
    /**
@@ -1740,7 +1741,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) getCachedValue(selectField(ENTERPRISE_DATE, index));
+      return (Date) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index));
    }
 
    /**
@@ -1751,7 +1752,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(ENTERPRISE_DURATION, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index), value);
    }
 
    /**
@@ -1762,7 +1763,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) getCachedValue(selectField(ENTERPRISE_DURATION, index));
+      return (Duration) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index));
    }
 
    /**
@@ -1773,7 +1774,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(ENTERPRISE_FLAG, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index), value);
    }
 
    /**
@@ -1784,7 +1785,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index)));
    }
 
    /**
@@ -1795,7 +1796,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(ENTERPRISE_NUMBER, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index), value);
    }
 
    /**
@@ -1806,7 +1807,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) getCachedValue(selectField(ENTERPRISE_NUMBER, index));
+      return (Number) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index));
    }
 
    /**
@@ -1817,7 +1818,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(ENTERPRISE_TEXT, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index), value);
    }
 
    /**
@@ -1828,7 +1829,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public String getEnterpriseText(int index)
    {
-      return (String) getCachedValue(selectField(ENTERPRISE_TEXT, index));
+      return (String) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index));
    }
 
    /**
@@ -1839,7 +1840,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public String getEnterpriseCustomField(int index)
    {
-      return ((String) getCachedValue(selectField(ENTERPRISE_CUSTOM_FIELD, index)));
+      return ((String) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
    }
 
    /**
@@ -1850,7 +1851,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public void setEnterpriseCustomField(int index, String value)
    {
-      set(selectField(ENTERPRISE_CUSTOM_FIELD, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
    }
 
    /**
@@ -2853,469 +2854,5 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
-
-   private static final AssignmentField[] BASELINE_COSTS =
-   {
-      AssignmentField.BASELINE1_COST,
-      AssignmentField.BASELINE2_COST,
-      AssignmentField.BASELINE3_COST,
-      AssignmentField.BASELINE4_COST,
-      AssignmentField.BASELINE5_COST,
-      AssignmentField.BASELINE6_COST,
-      AssignmentField.BASELINE7_COST,
-      AssignmentField.BASELINE8_COST,
-      AssignmentField.BASELINE9_COST,
-      AssignmentField.BASELINE10_COST
-   };
-
-   private static final AssignmentField[] BASELINE_WORKS =
-   {
-      AssignmentField.BASELINE1_WORK,
-      AssignmentField.BASELINE2_WORK,
-      AssignmentField.BASELINE3_WORK,
-      AssignmentField.BASELINE4_WORK,
-      AssignmentField.BASELINE5_WORK,
-      AssignmentField.BASELINE6_WORK,
-      AssignmentField.BASELINE7_WORK,
-      AssignmentField.BASELINE8_WORK,
-      AssignmentField.BASELINE9_WORK,
-      AssignmentField.BASELINE10_WORK
-   };
-
-   private static final AssignmentField[] BASELINE_STARTS =
-   {
-      AssignmentField.BASELINE1_START,
-      AssignmentField.BASELINE2_START,
-      AssignmentField.BASELINE3_START,
-      AssignmentField.BASELINE4_START,
-      AssignmentField.BASELINE5_START,
-      AssignmentField.BASELINE6_START,
-      AssignmentField.BASELINE7_START,
-      AssignmentField.BASELINE8_START,
-      AssignmentField.BASELINE9_START,
-      AssignmentField.BASELINE10_START
-   };
-
-   private static final AssignmentField[] BASELINE_FINISHES =
-   {
-      AssignmentField.BASELINE1_FINISH,
-      AssignmentField.BASELINE2_FINISH,
-      AssignmentField.BASELINE3_FINISH,
-      AssignmentField.BASELINE4_FINISH,
-      AssignmentField.BASELINE5_FINISH,
-      AssignmentField.BASELINE6_FINISH,
-      AssignmentField.BASELINE7_FINISH,
-      AssignmentField.BASELINE8_FINISH,
-      AssignmentField.BASELINE9_FINISH,
-      AssignmentField.BASELINE10_FINISH
-   };
-
-   private static final AssignmentField[] BASELINE_BUDGET_COSTS =
-   {
-      AssignmentField.BASELINE1_BUDGET_COST,
-      AssignmentField.BASELINE2_BUDGET_COST,
-      AssignmentField.BASELINE3_BUDGET_COST,
-      AssignmentField.BASELINE4_BUDGET_COST,
-      AssignmentField.BASELINE5_BUDGET_COST,
-      AssignmentField.BASELINE6_BUDGET_COST,
-      AssignmentField.BASELINE7_BUDGET_COST,
-      AssignmentField.BASELINE8_BUDGET_COST,
-      AssignmentField.BASELINE9_BUDGET_COST,
-      AssignmentField.BASELINE10_BUDGET_COST
-   };
-
-   private static final AssignmentField[] BASELINE_BUDGET_WORKS =
-   {
-      AssignmentField.BASELINE1_BUDGET_WORK,
-      AssignmentField.BASELINE2_BUDGET_WORK,
-      AssignmentField.BASELINE3_BUDGET_WORK,
-      AssignmentField.BASELINE4_BUDGET_WORK,
-      AssignmentField.BASELINE5_BUDGET_WORK,
-      AssignmentField.BASELINE6_BUDGET_WORK,
-      AssignmentField.BASELINE7_BUDGET_WORK,
-      AssignmentField.BASELINE8_BUDGET_WORK,
-      AssignmentField.BASELINE9_BUDGET_WORK,
-      AssignmentField.BASELINE10_BUDGET_WORK
-   };
-
-   private static final AssignmentField[] CUSTOM_TEXT =
-   {
-      AssignmentField.TEXT1,
-      AssignmentField.TEXT2,
-      AssignmentField.TEXT3,
-      AssignmentField.TEXT4,
-      AssignmentField.TEXT5,
-      AssignmentField.TEXT6,
-      AssignmentField.TEXT7,
-      AssignmentField.TEXT8,
-      AssignmentField.TEXT9,
-      AssignmentField.TEXT10,
-      AssignmentField.TEXT11,
-      AssignmentField.TEXT12,
-      AssignmentField.TEXT13,
-      AssignmentField.TEXT14,
-      AssignmentField.TEXT15,
-      AssignmentField.TEXT16,
-      AssignmentField.TEXT17,
-      AssignmentField.TEXT18,
-      AssignmentField.TEXT19,
-      AssignmentField.TEXT20,
-      AssignmentField.TEXT21,
-      AssignmentField.TEXT22,
-      AssignmentField.TEXT23,
-      AssignmentField.TEXT24,
-      AssignmentField.TEXT25,
-      AssignmentField.TEXT26,
-      AssignmentField.TEXT27,
-      AssignmentField.TEXT28,
-      AssignmentField.TEXT29,
-      AssignmentField.TEXT30
-   };
-
-   private static final AssignmentField[] CUSTOM_START =
-   {
-      AssignmentField.START1,
-      AssignmentField.START2,
-      AssignmentField.START3,
-      AssignmentField.START4,
-      AssignmentField.START5,
-      AssignmentField.START6,
-      AssignmentField.START7,
-      AssignmentField.START8,
-      AssignmentField.START9,
-      AssignmentField.START10
-   };
-
-   private static final AssignmentField[] CUSTOM_FINISH =
-   {
-      AssignmentField.FINISH1,
-      AssignmentField.FINISH2,
-      AssignmentField.FINISH3,
-      AssignmentField.FINISH4,
-      AssignmentField.FINISH5,
-      AssignmentField.FINISH6,
-      AssignmentField.FINISH7,
-      AssignmentField.FINISH8,
-      AssignmentField.FINISH9,
-      AssignmentField.FINISH10
-   };
-
-   private static final AssignmentField[] CUSTOM_DATE =
-   {
-      AssignmentField.DATE1,
-      AssignmentField.DATE2,
-      AssignmentField.DATE3,
-      AssignmentField.DATE4,
-      AssignmentField.DATE5,
-      AssignmentField.DATE6,
-      AssignmentField.DATE7,
-      AssignmentField.DATE8,
-      AssignmentField.DATE9,
-      AssignmentField.DATE10
-   };
-
-   private static final AssignmentField[] CUSTOM_NUMBER =
-   {
-      AssignmentField.NUMBER1,
-      AssignmentField.NUMBER2,
-      AssignmentField.NUMBER3,
-      AssignmentField.NUMBER4,
-      AssignmentField.NUMBER5,
-      AssignmentField.NUMBER6,
-      AssignmentField.NUMBER7,
-      AssignmentField.NUMBER8,
-      AssignmentField.NUMBER9,
-      AssignmentField.NUMBER10,
-      AssignmentField.NUMBER11,
-      AssignmentField.NUMBER12,
-      AssignmentField.NUMBER13,
-      AssignmentField.NUMBER14,
-      AssignmentField.NUMBER15,
-      AssignmentField.NUMBER16,
-      AssignmentField.NUMBER17,
-      AssignmentField.NUMBER18,
-      AssignmentField.NUMBER19,
-      AssignmentField.NUMBER20
-   };
-
-   private static final AssignmentField[] CUSTOM_DURATION =
-   {
-      AssignmentField.DURATION1,
-      AssignmentField.DURATION2,
-      AssignmentField.DURATION3,
-      AssignmentField.DURATION4,
-      AssignmentField.DURATION5,
-      AssignmentField.DURATION6,
-      AssignmentField.DURATION7,
-      AssignmentField.DURATION8,
-      AssignmentField.DURATION9,
-      AssignmentField.DURATION10
-   };
-
-   private static final AssignmentField[] CUSTOM_COST =
-   {
-      AssignmentField.COST1,
-      AssignmentField.COST2,
-      AssignmentField.COST3,
-      AssignmentField.COST4,
-      AssignmentField.COST5,
-      AssignmentField.COST6,
-      AssignmentField.COST7,
-      AssignmentField.COST8,
-      AssignmentField.COST9,
-      AssignmentField.COST10
-   };
-
-   private static final AssignmentField[] CUSTOM_FLAG =
-   {
-      AssignmentField.FLAG1,
-      AssignmentField.FLAG2,
-      AssignmentField.FLAG3,
-      AssignmentField.FLAG4,
-      AssignmentField.FLAG5,
-      AssignmentField.FLAG6,
-      AssignmentField.FLAG7,
-      AssignmentField.FLAG8,
-      AssignmentField.FLAG9,
-      AssignmentField.FLAG10,
-      AssignmentField.FLAG11,
-      AssignmentField.FLAG12,
-      AssignmentField.FLAG13,
-      AssignmentField.FLAG14,
-      AssignmentField.FLAG15,
-      AssignmentField.FLAG16,
-      AssignmentField.FLAG17,
-      AssignmentField.FLAG18,
-      AssignmentField.FLAG19,
-      AssignmentField.FLAG20
-   };
-
-   private static final AssignmentField[] ENTERPRISE_COST =
-   {
-      AssignmentField.ENTERPRISE_COST1,
-      AssignmentField.ENTERPRISE_COST2,
-      AssignmentField.ENTERPRISE_COST3,
-      AssignmentField.ENTERPRISE_COST4,
-      AssignmentField.ENTERPRISE_COST5,
-      AssignmentField.ENTERPRISE_COST6,
-      AssignmentField.ENTERPRISE_COST7,
-      AssignmentField.ENTERPRISE_COST8,
-      AssignmentField.ENTERPRISE_COST9,
-      AssignmentField.ENTERPRISE_COST10
-   };
-
-   private static final AssignmentField[] ENTERPRISE_DATE =
-   {
-      AssignmentField.ENTERPRISE_DATE1,
-      AssignmentField.ENTERPRISE_DATE2,
-      AssignmentField.ENTERPRISE_DATE3,
-      AssignmentField.ENTERPRISE_DATE4,
-      AssignmentField.ENTERPRISE_DATE5,
-      AssignmentField.ENTERPRISE_DATE6,
-      AssignmentField.ENTERPRISE_DATE7,
-      AssignmentField.ENTERPRISE_DATE8,
-      AssignmentField.ENTERPRISE_DATE9,
-      AssignmentField.ENTERPRISE_DATE10,
-      AssignmentField.ENTERPRISE_DATE11,
-      AssignmentField.ENTERPRISE_DATE12,
-      AssignmentField.ENTERPRISE_DATE13,
-      AssignmentField.ENTERPRISE_DATE14,
-      AssignmentField.ENTERPRISE_DATE15,
-      AssignmentField.ENTERPRISE_DATE16,
-      AssignmentField.ENTERPRISE_DATE17,
-      AssignmentField.ENTERPRISE_DATE18,
-      AssignmentField.ENTERPRISE_DATE19,
-      AssignmentField.ENTERPRISE_DATE20,
-      AssignmentField.ENTERPRISE_DATE21,
-      AssignmentField.ENTERPRISE_DATE22,
-      AssignmentField.ENTERPRISE_DATE23,
-      AssignmentField.ENTERPRISE_DATE24,
-      AssignmentField.ENTERPRISE_DATE25,
-      AssignmentField.ENTERPRISE_DATE26,
-      AssignmentField.ENTERPRISE_DATE27,
-      AssignmentField.ENTERPRISE_DATE28,
-      AssignmentField.ENTERPRISE_DATE29,
-      AssignmentField.ENTERPRISE_DATE30
-   };
-
-   private static final AssignmentField[] ENTERPRISE_DURATION =
-   {
-      AssignmentField.ENTERPRISE_DURATION1,
-      AssignmentField.ENTERPRISE_DURATION2,
-      AssignmentField.ENTERPRISE_DURATION3,
-      AssignmentField.ENTERPRISE_DURATION4,
-      AssignmentField.ENTERPRISE_DURATION5,
-      AssignmentField.ENTERPRISE_DURATION6,
-      AssignmentField.ENTERPRISE_DURATION7,
-      AssignmentField.ENTERPRISE_DURATION8,
-      AssignmentField.ENTERPRISE_DURATION9,
-      AssignmentField.ENTERPRISE_DURATION10
-   };
-
-   private static final AssignmentField[] ENTERPRISE_FLAG =
-   {
-      AssignmentField.ENTERPRISE_FLAG1,
-      AssignmentField.ENTERPRISE_FLAG2,
-      AssignmentField.ENTERPRISE_FLAG3,
-      AssignmentField.ENTERPRISE_FLAG4,
-      AssignmentField.ENTERPRISE_FLAG5,
-      AssignmentField.ENTERPRISE_FLAG6,
-      AssignmentField.ENTERPRISE_FLAG7,
-      AssignmentField.ENTERPRISE_FLAG8,
-      AssignmentField.ENTERPRISE_FLAG9,
-      AssignmentField.ENTERPRISE_FLAG10,
-      AssignmentField.ENTERPRISE_FLAG11,
-      AssignmentField.ENTERPRISE_FLAG12,
-      AssignmentField.ENTERPRISE_FLAG13,
-      AssignmentField.ENTERPRISE_FLAG14,
-      AssignmentField.ENTERPRISE_FLAG15,
-      AssignmentField.ENTERPRISE_FLAG16,
-      AssignmentField.ENTERPRISE_FLAG17,
-      AssignmentField.ENTERPRISE_FLAG18,
-      AssignmentField.ENTERPRISE_FLAG19,
-      AssignmentField.ENTERPRISE_FLAG20
-   };
-
-   private static final AssignmentField[] ENTERPRISE_NUMBER =
-   {
-      AssignmentField.ENTERPRISE_NUMBER1,
-      AssignmentField.ENTERPRISE_NUMBER2,
-      AssignmentField.ENTERPRISE_NUMBER3,
-      AssignmentField.ENTERPRISE_NUMBER4,
-      AssignmentField.ENTERPRISE_NUMBER5,
-      AssignmentField.ENTERPRISE_NUMBER6,
-      AssignmentField.ENTERPRISE_NUMBER7,
-      AssignmentField.ENTERPRISE_NUMBER8,
-      AssignmentField.ENTERPRISE_NUMBER9,
-      AssignmentField.ENTERPRISE_NUMBER10,
-      AssignmentField.ENTERPRISE_NUMBER11,
-      AssignmentField.ENTERPRISE_NUMBER12,
-      AssignmentField.ENTERPRISE_NUMBER13,
-      AssignmentField.ENTERPRISE_NUMBER14,
-      AssignmentField.ENTERPRISE_NUMBER15,
-      AssignmentField.ENTERPRISE_NUMBER16,
-      AssignmentField.ENTERPRISE_NUMBER17,
-      AssignmentField.ENTERPRISE_NUMBER18,
-      AssignmentField.ENTERPRISE_NUMBER19,
-      AssignmentField.ENTERPRISE_NUMBER20,
-      AssignmentField.ENTERPRISE_NUMBER21,
-      AssignmentField.ENTERPRISE_NUMBER22,
-      AssignmentField.ENTERPRISE_NUMBER23,
-      AssignmentField.ENTERPRISE_NUMBER24,
-      AssignmentField.ENTERPRISE_NUMBER25,
-      AssignmentField.ENTERPRISE_NUMBER26,
-      AssignmentField.ENTERPRISE_NUMBER27,
-      AssignmentField.ENTERPRISE_NUMBER28,
-      AssignmentField.ENTERPRISE_NUMBER29,
-      AssignmentField.ENTERPRISE_NUMBER30,
-      AssignmentField.ENTERPRISE_NUMBER31,
-      AssignmentField.ENTERPRISE_NUMBER32,
-      AssignmentField.ENTERPRISE_NUMBER33,
-      AssignmentField.ENTERPRISE_NUMBER34,
-      AssignmentField.ENTERPRISE_NUMBER35,
-      AssignmentField.ENTERPRISE_NUMBER36,
-      AssignmentField.ENTERPRISE_NUMBER37,
-      AssignmentField.ENTERPRISE_NUMBER38,
-      AssignmentField.ENTERPRISE_NUMBER39,
-      AssignmentField.ENTERPRISE_NUMBER40
-   };
-
-   private static final AssignmentField[] ENTERPRISE_TEXT =
-   {
-      AssignmentField.ENTERPRISE_TEXT1,
-      AssignmentField.ENTERPRISE_TEXT2,
-      AssignmentField.ENTERPRISE_TEXT3,
-      AssignmentField.ENTERPRISE_TEXT4,
-      AssignmentField.ENTERPRISE_TEXT5,
-      AssignmentField.ENTERPRISE_TEXT6,
-      AssignmentField.ENTERPRISE_TEXT7,
-      AssignmentField.ENTERPRISE_TEXT8,
-      AssignmentField.ENTERPRISE_TEXT9,
-      AssignmentField.ENTERPRISE_TEXT10,
-      AssignmentField.ENTERPRISE_TEXT11,
-      AssignmentField.ENTERPRISE_TEXT12,
-      AssignmentField.ENTERPRISE_TEXT13,
-      AssignmentField.ENTERPRISE_TEXT14,
-      AssignmentField.ENTERPRISE_TEXT15,
-      AssignmentField.ENTERPRISE_TEXT16,
-      AssignmentField.ENTERPRISE_TEXT17,
-      AssignmentField.ENTERPRISE_TEXT18,
-      AssignmentField.ENTERPRISE_TEXT19,
-      AssignmentField.ENTERPRISE_TEXT20,
-      AssignmentField.ENTERPRISE_TEXT21,
-      AssignmentField.ENTERPRISE_TEXT22,
-      AssignmentField.ENTERPRISE_TEXT23,
-      AssignmentField.ENTERPRISE_TEXT24,
-      AssignmentField.ENTERPRISE_TEXT25,
-      AssignmentField.ENTERPRISE_TEXT26,
-      AssignmentField.ENTERPRISE_TEXT27,
-      AssignmentField.ENTERPRISE_TEXT28,
-      AssignmentField.ENTERPRISE_TEXT29,
-      AssignmentField.ENTERPRISE_TEXT30,
-      AssignmentField.ENTERPRISE_TEXT31,
-      AssignmentField.ENTERPRISE_TEXT32,
-      AssignmentField.ENTERPRISE_TEXT33,
-      AssignmentField.ENTERPRISE_TEXT34,
-      AssignmentField.ENTERPRISE_TEXT35,
-      AssignmentField.ENTERPRISE_TEXT36,
-      AssignmentField.ENTERPRISE_TEXT37,
-      AssignmentField.ENTERPRISE_TEXT38,
-      AssignmentField.ENTERPRISE_TEXT39,
-      AssignmentField.ENTERPRISE_TEXT40
-   };
-
-   private static final AssignmentField[] ENTERPRISE_CUSTOM_FIELD =
-   {
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD1,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD2,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD3,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD4,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD5,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD6,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD7,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD8,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD9,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD10,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD11,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD12,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD13,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD14,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD15,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD16,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD17,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD18,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD19,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD20,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD21,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD22,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD23,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD24,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD25,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD26,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD27,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD28,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD29,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD30,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD31,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD32,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD33,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD34,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD35,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD36,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD37,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD38,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD39,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD40,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD41,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD42,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD43,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD44,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD45,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD46,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD47,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD48,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD49,
-      AssignmentField.ENTERPRISE_CUSTOM_FIELD50
-   };
 
 }

@@ -10,9 +10,10 @@
 
 	<release version="4.6.X" date="Git HEAD">
 		<action dev="joniles" type="add">Implemented new RTF parser for stripping RTF to improve performance and accuracy</action>
-		<action dev="joniles" type="fix">Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks</action>
-		<action dev="joniles" type="fix">Fixed issue where free text versions of task start, finish, and duration fields were not being read correctly from MPP14 files</action>
+		<action dev="joniles" type="add">Removed non-API code from the top level package</action>
 		<action dev="joniles" type="fix">Improved resilience of MPP file reading to unknown data structures</action>
+		<action dev="joniles" type="fix">Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks</action>
+		<action dev="joniles" type="fix">Fixed issue where free text versions of task start, finish, and duration fields were not being read correctly from MPP14 files</action>		
 	</release>
 	
 	<release version="4.6.2" date="11/11/2014">
