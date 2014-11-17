@@ -1,8 +1,8 @@
 /*
- * file:       BooleanUtility.java
+ * file:       InputStreamTokenizer.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       Mar 30, 2005
+ * copyright:  (c) Packwood Software 2002-2003
+ * date:       15/02/2005
  */
 
 /*
@@ -21,22 +21,34 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
+package net.sf.mpxj.common;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * This class contains utility methods related to Boolean objects and
- * boolean primitives.
+ * This class implements a tokenizer as per the underlying Tokenizer class,
+ * with characters being read from an InputStream instance.
  */
-public final class BooleanUtility
+public class InputStreamTokenizer extends Tokenizer
 {
    /**
-    * Retrieve a boolean value from a Boolean object. Handles null values.
+    * Constructor.
     *
-    * @param value Boolean instance
-    * @return boolean value
+    * @param is InputStream instance
     */
-   public static final boolean getBoolean(Boolean value)
+   public InputStreamTokenizer(InputStream is)
    {
-      return ((value == null ? false : value.booleanValue()));
+      m_stream = is;
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int read() throws IOException
+   {
+      return (m_stream.read());
+   }
+
+   private InputStream m_stream;
 }

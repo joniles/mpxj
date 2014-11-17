@@ -23,9 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Represents the criteria used to define when a Gantt bar is displayed.
@@ -188,7 +188,7 @@ public enum GanttBarShowForTasks implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -226,7 +226,7 @@ public enum GanttBarShowForTasks implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarShowForTasks[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarShowForTasks.class, 26);
+   private static final GanttBarShowForTasks[] TYPE_VALUES = EnumHelper.createTypeArray(GanttBarShowForTasks.class, 26);
    static
    {
       //

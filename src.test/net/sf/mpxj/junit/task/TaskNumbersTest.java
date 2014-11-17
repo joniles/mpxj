@@ -37,7 +37,7 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.junit.Test;
 
@@ -100,7 +100,7 @@ public class TaskNumbersTest
       for (int index = 1; index <= maxIndex; index++)
       {
          int expectedValue = testIndex == index ? index : 0;
-         int actualValue = NumberUtility.getInt(task.getNumber(index));
+         int actualValue = NumberHelper.getInt(task.getNumber(index));
 
          assertEquals(file.getName() + " Number" + index, expectedValue, actualValue);
       }

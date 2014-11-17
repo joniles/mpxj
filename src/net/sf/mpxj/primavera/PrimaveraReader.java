@@ -57,8 +57,8 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.DateHelper;
 
 /**
  * This class provides a generic front end to read project data from
@@ -448,7 +448,7 @@ final class PrimaveraReader
          task.setCreateDate(row.getDate("create_date"));
          task.setType(TASK_TYPE_MAP.get(row.getString("duration_type")));
          //task.setNotes(getNotes(taskmemos, "task_id", uniqueID.intValue(), "task_memo"));
-         task.setMilestone(BooleanUtility.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
+         task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setFreeSlack(row.getDuration("free_float_hr_cnt"));
          task.setTotalSlack(row.getDuration("total_float_hr_cnt"));
          task.setText(1, row.getString("task_code"));
@@ -751,22 +751,22 @@ final class PrimaveraReader
       {
          updateDates(task);
 
-         if (plannedStartDate == null || DateUtility.compare(plannedStartDate, task.getStart()) > 0)
+         if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
          {
             plannedStartDate = task.getStart();
          }
 
-         if (actualStartDate == null || DateUtility.compare(actualStartDate, task.getActualStart()) > 0)
+         if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
          {
             actualStartDate = task.getActualStart();
          }
 
-         if (plannedFinishDate == null || DateUtility.compare(plannedFinishDate, task.getFinish()) < 0)
+         if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
          {
             plannedFinishDate = task.getFinish();
          }
 
-         if (actualFinishDate == null || DateUtility.compare(actualFinishDate, task.getActualFinish()) < 0)
+         if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
          {
             actualFinishDate = task.getFinish();
          }

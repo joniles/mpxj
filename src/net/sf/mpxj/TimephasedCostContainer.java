@@ -1,8 +1,8 @@
 /*
- * file:       TimephasedWorkNormaliser.java
+ * file:       TimephasedCostContainer.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2009
- * date:       09/01/2009
+ * copyright:  (c) Packwood Software 2014
+ * date:       2014-11-17
  */
 
 /*
@@ -23,24 +23,25 @@
 
 package net.sf.mpxj;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Classes implementing this interface are used to normalise timephased 
- * resource assignment data.
+ * Timephased data container.
  */
-public interface TimephasedWorkNormaliser
+public interface TimephasedCostContainer
 {
+   /**
+    * Retrieves the timephased data.
+    * 
+    * @return timephased data
+    */
+   public List<TimephasedCost> getData();
 
    /**
-    * This method converts the internal representation of timephased 
-    * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
+    * Indicates if any timephased data is present.
     * 
-    * @param calendar current calendar
-    * @param list list of assignment data
+    * @return boolean flag
     */
-   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
+   public boolean hasData();
 
-   public static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

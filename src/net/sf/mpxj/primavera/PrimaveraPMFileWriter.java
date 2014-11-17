@@ -74,7 +74,7 @@ import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -170,7 +170,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getCalendar()));
       m_project.setActivityDefaultDurationType("Fixed Duration and Units");
       m_project.setActivityDefaultPercentCompleteType("Duration");
-      m_project.setActivityDefaultPricePerUnit(NumberUtility.DOUBLE_ZERO);
+      m_project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
       m_project.setActivityIdBasedOnSelectedActivity(Boolean.TRUE);
       m_project.setActivityIdIncrement(Integer.valueOf(10));
       m_project.setActivityIdPrefix("A");
@@ -183,7 +183,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setCheckOutStatus(Boolean.FALSE);
       m_project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       m_project.setCreateDate(mpxj.getCreationDate());
-      m_project.setCriticalActivityFloatLimit(NumberUtility.DOUBLE_ZERO);
+      m_project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
       m_project.setCriticalActivityPathType("Critical Float");
       m_project.setDefaultPriceTimeUnits("Hour");
       m_project.setDiscountApplicationPeriod("Month");
@@ -445,10 +445,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
       xml.setRemainingEarlyFinishDate(mpxj.getEarlyFinish());
       xml.setRemainingEarlyStartDate(mpxj.getResume());
-      xml.setRemainingLaborCost(NumberUtility.DOUBLE_ZERO);
-      xml.setRemainingLaborUnits(NumberUtility.DOUBLE_ZERO);
-      xml.setRemainingNonLaborCost(NumberUtility.DOUBLE_ZERO);
-      xml.setRemainingNonLaborUnits(NumberUtility.DOUBLE_ZERO);
+      xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
+      xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
+      xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
+      xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
       xml.setType("Resource Dependent");

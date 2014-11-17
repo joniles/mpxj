@@ -54,7 +54,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -89,7 +89,7 @@ public final class DatatypeConverter
       }
       else
       {
-         result = NumberUtility.getDouble(Double.parseDouble(value) / 100);
+         result = NumberHelper.getDouble(Double.parseDouble(value) / 100);
       }
       return result;
    }
@@ -337,7 +337,7 @@ public final class DatatypeConverter
    {
       CurrencySymbolPosition result = CurrencySymbolPosition.BEFORE;
 
-      switch (NumberUtility.getInt(value))
+      switch (NumberHelper.getInt(value))
       {
          case 0:
          {
@@ -386,7 +386,7 @@ public final class DatatypeConverter
     */
    public static final AccrueType parseAccrueType(String value)
    {
-      return (AccrueType.getInstance(NumberUtility.getInt(value)));
+      return (AccrueType.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -408,7 +408,7 @@ public final class DatatypeConverter
     */
    public static final ResourceType parseResourceType(String value)
    {
-      return (ResourceType.getInstance(NumberUtility.getInt(value)));
+      return (ResourceType.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -430,7 +430,7 @@ public final class DatatypeConverter
     */
    public static final WorkGroup parseWorkGroup(String value)
    {
-      return (WorkGroup.getInstance(NumberUtility.getInt(value)));
+      return (WorkGroup.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -452,7 +452,7 @@ public final class DatatypeConverter
     */
    public static final WorkContour parseWorkContour(String value)
    {
-      return (WorkContour.getInstance(NumberUtility.getInt(value)));
+      return (WorkContour.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -474,7 +474,7 @@ public final class DatatypeConverter
     */
    public static final BookingType parseBookingType(String value)
    {
-      return (BookingType.getInstance(NumberUtility.getInt(value)));
+      return (BookingType.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -496,7 +496,7 @@ public final class DatatypeConverter
     */
    public static final TaskType parseTaskType(String value)
    {
-      return (TaskType.getInstance(NumberUtility.getInt(value)));
+      return (TaskType.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -518,7 +518,7 @@ public final class DatatypeConverter
     */
    public static final EarnedValueMethod parseEarnedValueMethod(Number value)
    {
-      return (EarnedValueMethod.getInstance(NumberUtility.getInt(value)));
+      return (EarnedValueMethod.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
@@ -540,7 +540,7 @@ public final class DatatypeConverter
     */
    public static final Number parseUnits(Number value)
    {
-      return (value == null ? null : NumberUtility.getDouble(value.doubleValue() * 100));
+      return (value == null ? null : NumberHelper.getDouble(value.doubleValue() * 100));
    }
 
    /**
@@ -562,7 +562,7 @@ public final class DatatypeConverter
     */
    public static final TimeUnit parseTimeUnit(Number value)
    {
-      return (TimeUnit.getInstance(NumberUtility.getInt(value) - 1));
+      return (TimeUnit.getInstance(NumberHelper.getInt(value) - 1));
    }
 
    /**
@@ -1065,7 +1065,7 @@ public final class DatatypeConverter
     */
    public static final Double parseCurrency(Number value)
    {
-      return (value == null ? null : NumberUtility.getDouble(value.doubleValue() / 100));
+      return (value == null ? null : NumberHelper.getDouble(value.doubleValue() / 100));
    }
 
    /**
@@ -1595,7 +1595,7 @@ public final class DatatypeConverter
     */
    public static final Day parseDay(Number value)
    {
-      return (Day.getInstance(NumberUtility.getInt(value) + 1));
+      return (Day.getInstance(NumberHelper.getInt(value) + 1));
    }
 
    /**

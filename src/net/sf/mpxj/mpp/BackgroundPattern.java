@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
 
 /**
  * Represents the pattern used to fill a group.
@@ -106,7 +106,7 @@ public enum BackgroundPattern implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final BackgroundPattern[] TYPE_VALUES = EnumUtility.createTypeArray(BackgroundPattern.class);
+   private static final BackgroundPattern[] TYPE_VALUES = EnumHelper.createTypeArray(BackgroundPattern.class);
 
    /**
     * Internal representation of the enum int type.

@@ -24,7 +24,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a currency rate per period of time (for example $10/h)
@@ -109,7 +109,7 @@ public final class Rate
     */
    public boolean amountComponentEquals(Rate rhs)
    {
-      return NumberUtility.equals(m_amount, rhs.m_amount, 0.00001);
+      return NumberHelper.equals(m_amount, rhs.m_amount, 0.00001);
    }
 
    /**

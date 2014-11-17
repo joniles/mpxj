@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.apache.poi.hpsf.Property;
 import org.apache.poi.hpsf.PropertySet;
@@ -63,7 +63,7 @@ final class SummaryInformation
          m_author = (String) map.get(AUTHOR);
          m_keywords = (String) map.get(KEYWORDS);
          m_comments = (String) map.get(COMMENTS);
-         m_revision = NumberUtility.parseInteger((String) map.get(REVISION_NUMBER));
+         m_revision = NumberHelper.parseInteger((String) map.get(REVISION_NUMBER));
          m_creationDate = (Date) map.get(CREATION_DATE);
          m_lastSaved = (Date) map.get(LAST_SAVED);
 

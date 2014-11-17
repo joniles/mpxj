@@ -53,9 +53,6 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPAssignmentField;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -71,15 +68,19 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
-import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.TimephasedWorkData;
-import net.sf.mpxj.TimephasedWorkNormaliser;
+import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.MPPAssignmentField;
+import net.sf.mpxj.common.MPPResourceField;
+import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.common.SplitTaskFactory;
+import net.sf.mpxj.common.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
@@ -91,9 +92,8 @@ import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.A
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.Pair;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -223,22 +223,22 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       ProjectHeader header = m_projectFile.getProjectHeader();
 
-      header.setActualsInSync(BooleanUtility.getBoolean(project.isActualsInSync()));
-      header.setAdminProject(BooleanUtility.getBoolean(project.isAdminProject()));
+      header.setActualsInSync(BooleanHelper.getBoolean(project.isActualsInSync()));
+      header.setAdminProject(BooleanHelper.getBoolean(project.isAdminProject()));
       header.setAuthor(project.getAuthor());
-      header.setAutoAddNewResourcesAndTasks(BooleanUtility.getBoolean(project.isAutoAddNewResourcesAndTasks()));
-      header.setAutolink(BooleanUtility.getBoolean(project.isAutolink()));
-      header.setBaselineForEarnedValue(NumberUtility.getInteger(project.getBaselineForEarnedValue()));
+      header.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
+      header.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
+      header.setBaselineForEarnedValue(NumberHelper.getInteger(project.getBaselineForEarnedValue()));
       header.setCalendarName(project.getCalendarUID() == null ? null : project.getCalendarUID().toString());
       header.setCategory(project.getCategory());
       header.setCompany(project.getCompany());
       header.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
-      header.setCriticalSlackLimit(NumberUtility.getInteger(project.getCriticalSlackLimit()));
-      header.setCurrencyDigits(NumberUtility.getInteger(project.getCurrencyDigits()));
+      header.setCriticalSlackLimit(NumberHelper.getInteger(project.getCriticalSlackLimit()));
+      header.setCurrencyDigits(NumberHelper.getInteger(project.getCurrencyDigits()));
       header.setCurrencyCode(project.getCurrencyCode());
       header.setCurrencySymbol(project.getCurrencySymbol());
       header.setCurrentDate(DatatypeConverter.parseDate(project.getCurrentDate()));
-      header.setDaysPerMonth(NumberUtility.getInteger(project.getDaysPerMonth()));
+      header.setDaysPerMonth(NumberHelper.getInteger(project.getDaysPerMonth()));
       header.setDefaultDurationUnits(DatatypeConverter.parseDurationTimeUnits(project.getDurationFormat()));
       header.setDefaultEndTime(DatatypeConverter.parseTime(project.getDefaultFinishTime()));
       header.setDefaultFixedCostAccrual(project.getDefaultFixedCostAccrual());
@@ -249,41 +249,41 @@ public final class MSPDIReader extends AbstractProjectReader
       header.setDefaultTaskType(project.getDefaultTaskType());
       header.setDefaultWorkUnits(DatatypeConverter.parseWorkUnits(project.getWorkFormat()));
       header.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getEarnedValueMethod()));
-      header.setEditableActualCosts(BooleanUtility.getBoolean(project.isEditableActualCosts()));
+      header.setEditableActualCosts(BooleanHelper.getBoolean(project.isEditableActualCosts()));
       header.setExtendedCreationDate(DatatypeConverter.parseDate(project.getExtendedCreationDate()));
       header.setFinishDate(DatatypeConverter.parseDate(project.getFinishDate()));
-      header.setFiscalYearStart(BooleanUtility.getBoolean(project.isFiscalYearStart()));
-      header.setFiscalYearStartMonth(NumberUtility.getInteger(project.getFYStartDate()));
-      header.setHonorConstraints(BooleanUtility.getBoolean(project.isHonorConstraints()));
-      header.setInsertedProjectsLikeSummary(BooleanUtility.getBoolean(project.isInsertedProjectsLikeSummary()));
+      header.setFiscalYearStart(BooleanHelper.getBoolean(project.isFiscalYearStart()));
+      header.setFiscalYearStartMonth(NumberHelper.getInteger(project.getFYStartDate()));
+      header.setHonorConstraints(BooleanHelper.getBoolean(project.isHonorConstraints()));
+      header.setInsertedProjectsLikeSummary(BooleanHelper.getBoolean(project.isInsertedProjectsLikeSummary()));
       header.setLastSaved(DatatypeConverter.parseDate(project.getLastSaved()));
       header.setManager(project.getManager());
-      header.setMicrosoftProjectServerURL(BooleanUtility.getBoolean(project.isMicrosoftProjectServerURL()));
-      header.setMinutesPerDay(NumberUtility.getInteger(project.getMinutesPerDay()));
-      header.setMinutesPerWeek(NumberUtility.getInteger(project.getMinutesPerWeek()));
-      header.setMoveCompletedEndsBack(BooleanUtility.getBoolean(project.isMoveCompletedEndsBack()));
-      header.setMoveCompletedEndsForward(BooleanUtility.getBoolean(project.isMoveCompletedEndsForward()));
-      header.setMoveRemainingStartsBack(BooleanUtility.getBoolean(project.isMoveRemainingStartsBack()));
-      header.setMoveRemainingStartsForward(BooleanUtility.getBoolean(project.isMoveRemainingStartsForward()));
-      header.setMultipleCriticalPaths(BooleanUtility.getBoolean(project.isMultipleCriticalPaths()));
+      header.setMicrosoftProjectServerURL(BooleanHelper.getBoolean(project.isMicrosoftProjectServerURL()));
+      header.setMinutesPerDay(NumberHelper.getInteger(project.getMinutesPerDay()));
+      header.setMinutesPerWeek(NumberHelper.getInteger(project.getMinutesPerWeek()));
+      header.setMoveCompletedEndsBack(BooleanHelper.getBoolean(project.isMoveCompletedEndsBack()));
+      header.setMoveCompletedEndsForward(BooleanHelper.getBoolean(project.isMoveCompletedEndsForward()));
+      header.setMoveRemainingStartsBack(BooleanHelper.getBoolean(project.isMoveRemainingStartsBack()));
+      header.setMoveRemainingStartsForward(BooleanHelper.getBoolean(project.isMoveRemainingStartsForward()));
+      header.setMultipleCriticalPaths(BooleanHelper.getBoolean(project.isMultipleCriticalPaths()));
       header.setName(project.getName());
-      header.setNewTasksEffortDriven(BooleanUtility.getBoolean(project.isNewTasksEffortDriven()));
-      header.setNewTasksEstimated(BooleanUtility.getBoolean(project.isNewTasksEstimated()));
-      header.setNewTaskStartIsProjectStart(NumberUtility.getInt(project.getNewTaskStartDate()) == 0);
-      header.setProjectExternallyEdited(BooleanUtility.getBoolean(project.isProjectExternallyEdited()));
+      header.setNewTasksEffortDriven(BooleanHelper.getBoolean(project.isNewTasksEffortDriven()));
+      header.setNewTasksEstimated(BooleanHelper.getBoolean(project.isNewTasksEstimated()));
+      header.setNewTaskStartIsProjectStart(NumberHelper.getInt(project.getNewTaskStartDate()) == 0);
+      header.setProjectExternallyEdited(BooleanHelper.getBoolean(project.isProjectExternallyEdited()));
       header.setProjectTitle(project.getTitle());
-      header.setRemoveFileProperties(BooleanUtility.getBoolean(project.isRemoveFileProperties()));
-      header.setRevision(NumberUtility.getInteger(project.getRevision()));
-      header.setScheduleFrom(BooleanUtility.getBoolean(project.isScheduleFromStart()) ? ScheduleFrom.START : ScheduleFrom.FINISH);
+      header.setRemoveFileProperties(BooleanHelper.getBoolean(project.isRemoveFileProperties()));
+      header.setRevision(NumberHelper.getInteger(project.getRevision()));
+      header.setScheduleFrom(BooleanHelper.getBoolean(project.isScheduleFromStart()) ? ScheduleFrom.START : ScheduleFrom.FINISH);
       header.setSubject(project.getSubject());
-      header.setSplitInProgressTasks(BooleanUtility.getBoolean(project.isSplitsInProgressTasks()));
-      header.setSpreadActualCost(BooleanUtility.getBoolean(project.isSpreadActualCost()));
-      header.setSpreadPercentComplete(BooleanUtility.getBoolean(project.isSpreadPercentComplete()));
+      header.setSplitInProgressTasks(BooleanHelper.getBoolean(project.isSplitsInProgressTasks()));
+      header.setSpreadActualCost(BooleanHelper.getBoolean(project.isSpreadActualCost()));
+      header.setSpreadPercentComplete(BooleanHelper.getBoolean(project.isSpreadPercentComplete()));
       header.setStartDate(DatatypeConverter.parseDate(project.getStartDate()));
       header.setStatusDate(DatatypeConverter.parseDate(project.getStatusDate()));
       header.setSymbolPosition(project.getCurrencySymbolPosition());
       header.setUniqueID(project.getUID());
-      header.setUpdatingTaskStatusUpdatesResourceStatus(BooleanUtility.getBoolean(project.isTaskUpdatesResource()));
+      header.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       header.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
    }
 
@@ -356,7 +356,7 @@ public final class MSPDIReader extends AbstractProjectReader
    private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars)
    {
       ProjectCalendar bc = m_projectFile.addCalendar();
-      bc.setUniqueID(NumberUtility.getInteger(calendar.getUID()));
+      bc.setUniqueID(NumberHelper.getInteger(calendar.getUID()));
       bc.setName(calendar.getName());
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
@@ -424,7 +424,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       int dayNumber = weekDay.getDayType().intValue();
       Day day = Day.getInstance(dayNumber);
-      calendar.setWorkingDay(day, BooleanUtility.getBoolean(weekDay.isDayWorking()));
+      calendar.setWorkingDay(day, BooleanHelper.getBoolean(weekDay.isDayWorking()));
       ProjectCalendarHours hours = calendar.addCalendarHours(day);
 
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = weekDay.getWorkingTimes();
@@ -560,7 +560,7 @@ public final class MSPDIReader extends AbstractProjectReader
                {
                   int dayNumber = xmlWeekDay.getDayType().intValue();
                   Day day = Day.getInstance(dayNumber);
-                  week.setWorkingDay(day, BooleanUtility.getBoolean(xmlWeekDay.isDayWorking()));
+                  week.setWorkingDay(day, BooleanHelper.getBoolean(xmlWeekDay.isDayWorking()));
                   ProjectCalendarHours hours = week.addCalendarHours(day);
 
                   Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes times = xmlWeekDay.getWorkingTimes();
@@ -693,8 +693,8 @@ public final class MSPDIReader extends AbstractProjectReader
       //mpx.setBaseCalendar ();
       //mpx.setBaselineCost();
       //mpx.setBaselineWork();
-      mpx.setBudget(BooleanUtility.getBoolean(xml.isIsBudget()));
-      mpx.setCanLevel(BooleanUtility.getBoolean(xml.isCanLevel()));
+      mpx.setBudget(BooleanHelper.getBoolean(xml.isIsBudget()));
+      mpx.setCanLevel(BooleanHelper.getBoolean(xml.isCanLevel()));
       mpx.setCode(xml.getCode());
       mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
       mpx.setCostPerUse(DatatypeConverter.parseCurrency(xml.getCostPerUse()));
@@ -706,12 +706,12 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setHyperlink(xml.getHyperlink());
       mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
-      mpx.setID(NumberUtility.getInteger(xml.getID()));
+      mpx.setID(NumberHelper.getInteger(xml.getID()));
       mpx.setInitials(xml.getInitials());
-      mpx.setIsEnterprise(BooleanUtility.getBoolean(xml.isIsEnterprise()));
-      mpx.setIsGeneric(BooleanUtility.getBoolean(xml.isIsGeneric()));
-      mpx.setIsInactive(BooleanUtility.getBoolean(xml.isIsInactive()));
-      mpx.setIsNull(BooleanUtility.getBoolean(xml.isIsNull()));
+      mpx.setIsEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
+      mpx.setIsGeneric(BooleanHelper.getBoolean(xml.isIsGeneric()));
+      mpx.setIsInactive(BooleanHelper.getBoolean(xml.isIsInactive()));
+      mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
       mpx.setMaterialLabel(xml.getMaterialLabel());
       mpx.setMaxUnits(DatatypeConverter.parseUnits(xml.getMaxUnits()));
@@ -738,12 +738,12 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setStandardRateUnits(DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
-      mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
+      mpx.setUniqueID(NumberHelper.getInteger(xml.getUID()));
       mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getWork()));
       mpx.setWorkGroup(xml.getWorkGroup());
       mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getWorkVariance()));
 
-      if (mpx.getType() == ResourceType.MATERIAL && BooleanUtility.getBoolean(xml.isIsCostResource()))
+      if (mpx.getType() == ResourceType.MATERIAL && BooleanHelper.getBoolean(xml.isIsCostResource()))
       {
          mpx.setType(ResourceType.COST);
       }
@@ -755,7 +755,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setResourceCalendar(calendarMap.get(xml.getCalendarUID()));
 
       // ensure that we cache this value
-      mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
+      mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
 
       readCostRateTables(mpx, xml.getRates());
 
@@ -774,7 +774,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       for (Project.Resources.Resource.Baseline baseline : xmlResource.getBaseline())
       {
-         int number = NumberUtility.getInt(baseline.getNumber());
+         int number = NumberHelper.getInt(baseline.getNumber());
 
          Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
@@ -928,9 +928,9 @@ public final class MSPDIReader extends AbstractProjectReader
    private void readTask(Project.Tasks.Task xml)
    {
       Task mpx = m_projectFile.addTask();
-      mpx.setNull(BooleanUtility.getBoolean(xml.isIsNull()));
-      mpx.setID(NumberUtility.getInteger(xml.getID()));
-      mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
+      mpx.setNull(BooleanHelper.getBoolean(xml.isIsNull()));
+      mpx.setID(NumberHelper.getInteger(xml.getID()));
+      mpx.setUniqueID(NumberHelper.getInteger(xml.getUID()));
 
       if (!mpx.getNull())
       {
@@ -939,7 +939,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
-         mpx.setActive(xml.isActive() == null ? true : BooleanUtility.getBoolean(xml.isActive()));
+         mpx.setActive(xml.isActive() == null ? true : BooleanHelper.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
          mpx.setActualFinish(DatatypeConverter.parseDate(xml.getActualFinish()));
@@ -980,9 +980,9 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setEarlyFinish(DatatypeConverter.parseDate(xml.getEarlyFinish()));
          mpx.setEarlyStart(DatatypeConverter.parseDate(xml.getEarlyStart()));
          mpx.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(xml.getEarnedValueMethod()));
-         mpx.setEffortDriven(BooleanUtility.getBoolean(xml.isEffortDriven()));
-         mpx.setEstimated(BooleanUtility.getBoolean(xml.isEstimated()));
-         mpx.setExternalTask(BooleanUtility.getBoolean(xml.isExternalTask()));
+         mpx.setEffortDriven(BooleanHelper.getBoolean(xml.isEffortDriven()));
+         mpx.setEstimated(BooleanHelper.getBoolean(xml.isEstimated()));
+         mpx.setExternalTask(BooleanHelper.getBoolean(xml.isExternalTask()));
          mpx.setProject(xml.getExternalTaskProject());
          mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
          mpx.setFinishText(xml.getFinishText());
@@ -1007,16 +1007,16 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFlag10();
          // This is not correct?
          mpx.setFreeSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFreeSlack()));
-         mpx.setHideBar(BooleanUtility.getBoolean(xml.isHideBar()));
+         mpx.setHideBar(BooleanHelper.getBoolean(xml.isHideBar()));
          mpx.setHyperlink(xml.getHyperlink());
          mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
          mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
 
-         mpx.setIgnoreResourceCalendar(BooleanUtility.getBoolean(xml.isIgnoreResourceCalendar()));
+         mpx.setIgnoreResourceCalendar(BooleanHelper.getBoolean(xml.isIgnoreResourceCalendar()));
          mpx.setLateFinish(DatatypeConverter.parseDate(xml.getLateFinish()));
          mpx.setLateStart(DatatypeConverter.parseDate(xml.getLateStart()));
-         mpx.setLevelAssignments(BooleanUtility.getBoolean(xml.isLevelAssignments()));
-         mpx.setLevelingCanSplit(BooleanUtility.getBoolean(xml.isLevelingCanSplit()));
+         mpx.setLevelAssignments(BooleanHelper.getBoolean(xml.isLevelAssignments()));
+         mpx.setLevelingCanSplit(BooleanHelper.getBoolean(xml.isLevelingCanSplit()));
          mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
          if (xml.getLevelingDelay() != null && mpx.getLevelingDelayFormat() != null)
          {
@@ -1029,7 +1029,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          //mpx.setLinkedFields();
          //mpx.setMarked();
-         mpx.setMilestone(BooleanUtility.getBoolean(xml.isMilestone()));
+         mpx.setMilestone(BooleanHelper.getBoolean(xml.isMilestone()));
          mpx.setName(xml.getName());
          if (xml.getNotes() != null && xml.getNotes().length() != 0)
          {
@@ -1041,19 +1041,19 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setNumber4();
          //mpx.setNumber5();
          //mpx.setObjects();      
-         mpx.setOutlineLevel(NumberUtility.getInteger(xml.getOutlineLevel()));
+         mpx.setOutlineLevel(NumberHelper.getInteger(xml.getOutlineLevel()));
          mpx.setOutlineNumber(xml.getOutlineNumber());
-         mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
+         mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
          mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
          mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getOvertimeWork()));
          mpx.setPercentageComplete(xml.getPercentComplete());
          mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
-         mpx.setPhysicalPercentComplete(NumberUtility.getInteger(xml.getPhysicalPercentComplete()));
+         mpx.setPhysicalPercentComplete(NumberHelper.getInteger(xml.getPhysicalPercentComplete()));
          mpx.setPreleveledFinish(DatatypeConverter.parseDate(xml.getPreLeveledFinish()));
          mpx.setPreleveledStart(DatatypeConverter.parseDate(xml.getPreLeveledStart()));
          mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
          //mpx.setProject();
-         mpx.setRecurring(BooleanUtility.getBoolean(xml.isRecurring()));
+         mpx.setRecurring(BooleanHelper.getBoolean(xml.isRecurring()));
          mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getRegularWork()));
          mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
          mpx.setRemainingDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getRemainingDuration()));
@@ -1064,9 +1064,9 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setResourceInitials();
          //mpx.setResourceNames();
          mpx.setResume(DatatypeConverter.parseDate(xml.getResume()));
-         mpx.setResumeValid(BooleanUtility.getBoolean(xml.isResumeValid()));
+         mpx.setResumeValid(BooleanHelper.getBoolean(xml.isResumeValid()));
          //mpx.setResumeNoEarlierThan();
-         mpx.setRollup(BooleanUtility.getBoolean(xml.isRollup()));
+         mpx.setRollup(BooleanHelper.getBoolean(xml.isRollup()));
          mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
          mpx.setStartText(xml.getStartText());
          //mpx.setStart1();
@@ -1076,11 +1076,11 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setStart5();
          mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
          mpx.setStop(DatatypeConverter.parseDate(xml.getStop()));
-         mpx.setSubProject(BooleanUtility.getBoolean(xml.isIsSubproject()) ? new SubProject() : null);
+         mpx.setSubProject(BooleanHelper.getBoolean(xml.isIsSubproject()) ? new SubProject() : null);
          mpx.setSubprojectName(xml.getSubprojectName());
-         mpx.setSubprojectReadOnly(BooleanUtility.getBoolean(xml.isIsSubprojectReadOnly()));
+         mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
          //mpx.setSuccessors();
-         mpx.setSummary(BooleanUtility.getBoolean(xml.isSummary()));
+         mpx.setSummary(BooleanHelper.getBoolean(xml.isSummary()));
          //mpx.setSV();
          //mpx.setText1();
          //mpx.setText2();
@@ -1092,17 +1092,17 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setText8();
          //mpx.setText9();
          //mpx.setText10();
-         mpx.setTaskMode(BooleanUtility.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+         mpx.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
          mpx.setType(xml.getType());
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
          mpx.setWBSLevel(xml.getWBSLevel());
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
-         mpx.setWorkVariance(Duration.getInstance(NumberUtility.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
+         mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
 
          // read last to ensure correct caching
          mpx.setTotalSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getTotalSlack()));
-         mpx.setCritical(BooleanUtility.getBoolean(xml.isCritical()));
+         mpx.setCritical(BooleanHelper.getBoolean(xml.isCritical()));
 
          readTaskExtendedAttributes(xml, mpx);
 
@@ -1128,7 +1128,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       for (Project.Tasks.Task.Baseline baseline : xmlTask.getBaseline())
       {
-         int number = NumberUtility.getInt(baseline.getNumber());
+         int number = NumberHelper.getInt(baseline.getNumber());
 
          Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
          Duration duration = DatatypeConverter.parseDuration(m_projectFile, durationFormat, baseline.getDuration());
@@ -1323,8 +1323,8 @@ public final class MSPDIReader extends AbstractProjectReader
             raw = false;
          }
 
-         TimephasedWorkData timephasedCompleteData = new TimephasedWorkData(calendar, normaliser, timephasedComplete, raw);
-         TimephasedWorkData timephasedPlannedData = new TimephasedWorkData(calendar, normaliser, timephasedPlanned, raw);
+         DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedComplete, raw);
+         DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedPlanned, raw);
 
          if (task != null)
          {
@@ -1345,12 +1345,12 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setBudgetCost(DatatypeConverter.parseCurrency(assignment.getBudgetCost()));
             mpx.setBudgetWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getBudgetWork()));
             mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
-            mpx.setCostRateTableIndex(NumberUtility.getInt(assignment.getCostRateTable()));
+            mpx.setCostRateTableIndex(NumberHelper.getInt(assignment.getCostRateTable()));
             mpx.setCreateDate(DatatypeConverter.parseDate(assignment.getCreationDate()));
             mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
             mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
             mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
-            mpx.setVariableRateUnits(BooleanUtility.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
+            mpx.setVariableRateUnits(BooleanHelper.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
             mpx.setHyperlink(assignment.getHyperlink());
             mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
             mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());
@@ -1370,7 +1370,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
             //assignment.getStop()
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
-            mpx.setUniqueID(NumberUtility.getInteger(assignment.getUID()));
+            mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
             mpx.setVAC(DatatypeConverter.parseCurrency(assignment.getVAC()));
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
@@ -1404,7 +1404,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       for (Project.Assignments.Assignment.Baseline baseline : assignment.getBaseline())
       {
-         int number = NumberUtility.getInt(baseline.getNumber());
+         int number = NumberHelper.getInt(baseline.getNumber());
 
          //baseline.getBCWP()
          //baseline.getBCWS()         
@@ -1488,7 +1488,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       for (TimephasedDataType item : assignment.getTimephasedData())
       {
-         if (NumberUtility.getInt(item.getType()) != type)
+         if (NumberHelper.getInt(item.getType()) != type)
          {
             continue;
          }
@@ -1502,7 +1502,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
          else
          {
-            work = Duration.getInstance(NumberUtility.truncate(work.getDuration(), 2), TimeUnit.MINUTES);
+            work = Duration.getInstance(NumberHelper.truncate(work.getDuration(), 2), TimeUnit.MINUTES);
          }
 
          TimephasedWork tra = new TimephasedWork();

@@ -30,10 +30,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.listener.FieldListener;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a resource assignment record from an MPX file.
@@ -559,7 +560,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param data timephased data
     */
-   public void setTimephasedActualWork(TimephasedWorkData data)
+   public void setTimephasedActualWork(TimephasedWorkContainer data)
    {
       m_timephasedActualWork = data;
    }
@@ -581,7 +582,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param data timephased data 
     */
-   public void setTimephasedWork(TimephasedWorkData data)
+   public void setTimephasedWork(DefaultTimephasedWorkContainer data)
    {
       m_timephasedWork = data;
    }
@@ -602,7 +603,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
          totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
 
-         m_timephasedOvertimeWork = new TimephasedWorkData(m_timephasedWork, perDayFactor, totalFactor);
+         m_timephasedOvertimeWork = new DefaultTimephasedWorkContainer(m_timephasedWork, perDayFactor, totalFactor);
       }
       return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
    }
@@ -613,7 +614,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param data timephased work
     */
-   public void setTimephasedActualOvertimeWork(TimephasedWorkData data)
+   public void setTimephasedActualOvertimeWork(TimephasedWorkContainer data)
    {
       m_timephasedActualOvertimeWork = data;
    }
@@ -1201,7 +1202,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param index baseline index
     * @param data timephased data
     */
-   public void setTimephasedBaselineWork(int index, TimephasedWorkData data)
+   public void setTimephasedBaselineWork(int index, TimephasedWorkContainer data)
    {
       m_timephasedBaselineWork[index] = data;
    }
@@ -1213,7 +1214,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * @param index baseline index
     * @param data timephased data
     */
-   public void setTimephasedBaselineCost(int index, TimephasedCostData data)
+   public void setTimephasedBaselineCost(int index, TimephasedCostContainer data)
    {
       m_timephasedBaselineCost[index] = data;
    }
@@ -1695,7 +1696,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getFlag(int index)
    {
-      return BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
    }
 
    /**
@@ -1783,7 +1784,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index)));
    }
 
    /**
@@ -1926,7 +1927,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          Number remaining = getRemainingOvertimeCost();
          if (actual != null && remaining != null)
          {
-            cost = NumberUtility.getDouble(actual.doubleValue() + remaining.doubleValue());
+            cost = NumberHelper.getDouble(actual.doubleValue() + remaining.doubleValue());
             set(AssignmentField.OVERTIME_COST, cost);
          }
       }
@@ -2104,7 +2105,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          Number bcws = getBCWS();
          if (bcwp != null && bcws != null)
          {
-            variance = NumberUtility.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
             set(AssignmentField.SV, variance);
          }
       }
@@ -2141,7 +2142,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       Number variance = (Number) getCachedValue(AssignmentField.CV);
       if (variance == null)
       {
-         variance = Double.valueOf(NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
          set(AssignmentField.CV, variance);
       }
       return (variance);
@@ -2177,7 +2178,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          Number baselineCost = getBaselineCost();
          if (cost != null && baselineCost != null)
          {
-            variance = NumberUtility.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
             set(AssignmentField.COST_VARIANCE, variance);
          }
       }
@@ -2267,7 +2268,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getConfirmed()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(AssignmentField.CONFIRMED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.CONFIRMED)));
    }
 
    /**
@@ -2291,7 +2292,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getUpdateNeeded()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(AssignmentField.UPDATE_NEEDED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.UPDATE_NEEDED)));
    }
 
    /**
@@ -2315,7 +2316,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getLinkedFields()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(AssignmentField.LINKED_FIELDS)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.LINKED_FIELDS)));
    }
 
    /**
@@ -2434,7 +2435,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       if (variance == null)
       {
          TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
-         variance = DateUtility.getVariance(getTask(), getBaselineStart(), getStart(), format);
+         variance = DateHelper.getVariance(getTask(), getBaselineStart(), getStart(), format);
          set(AssignmentField.START_VARIANCE, variance);
       }
       return (variance);
@@ -2463,7 +2464,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       if (variance == null)
       {
          TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
-         variance = DateUtility.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
+         variance = DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
          set(AssignmentField.FINISH_VARIANCE, variance);
       }
       return (variance);
@@ -2530,7 +2531,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getResponsePending()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(AssignmentField.RESPONSE_PENDING)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.RESPONSE_PENDING)));
    }
 
    /**
@@ -2552,7 +2553,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     */
    public boolean getTeamStatusPending()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(AssignmentField.TEAM_STATUS_PENDING)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.TEAM_STATUS_PENDING)));
    }
 
    /**
@@ -2825,18 +2826,18 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
 
    private boolean m_eventsEnabled = true;
 
-   private TimephasedWorkData m_timephasedWork;
+   private DefaultTimephasedWorkContainer m_timephasedWork;
    private List<TimephasedCost> m_timephasedCost;
 
-   private TimephasedWorkData m_timephasedActualWork;
+   private TimephasedWorkContainer m_timephasedActualWork;
    private List<TimephasedCost> m_timephasedActualCost;
 
-   private TimephasedWorkData m_timephasedOvertimeWork;
-   private TimephasedWorkData m_timephasedActualOvertimeWork;
+   private TimephasedWorkContainer m_timephasedOvertimeWork;
+   private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
    private List<FieldListener> m_listeners;
-   private TimephasedWorkData[] m_timephasedBaselineWork = new TimephasedWorkData[11];
-   private TimephasedCostData[] m_timephasedBaselineCost = new TimephasedCostData[11];
+   private TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
+   private TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
    /**
     * Reference to the parent task of this assignment.

@@ -39,10 +39,10 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.InputStreamTokenizer;
-import net.sf.mpxj.utility.Tokenizer;
 
 /**
  * This class provides a generic front end to read project data from

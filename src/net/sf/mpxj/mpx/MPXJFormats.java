@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
+package net.sf.mpxj.mpx;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -31,6 +31,9 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.ProjectTimeFormat;
+import net.sf.mpxj.utility.MPXJDateFormat;
+import net.sf.mpxj.utility.MPXJNumberFormat;
+import net.sf.mpxj.utility.MPXJTimeFormat;
 
 /**
  * This class manages the various objects required to parse and format

@@ -21,9 +21,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.common;
 
 import java.util.Arrays;
+
+import net.sf.mpxj.TaskField;
 
 /**
  * Utility class used to map between the integer values held in MS Project

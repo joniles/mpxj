@@ -24,7 +24,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This represents time durations as specified in an MPX file.
@@ -387,7 +387,7 @@ public final class Duration implements Comparable<Duration>
     */
    public static boolean durationValueEquals(double lhs, double rhs)
    {
-      return NumberUtility.equals(lhs, rhs, 0.00001);
+      return NumberHelper.equals(lhs, rhs, 0.00001);
    }
 
    /**

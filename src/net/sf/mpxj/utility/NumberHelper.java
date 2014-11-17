@@ -1,5 +1,5 @@
 /*
- * file:       NumberUtility.java
+ * file:       NumberHelper.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
  * date:       25/03/2005
@@ -29,7 +29,7 @@ import java.math.BigInteger;
  * This class contains utility methods for handling Number objects and
  * numeric primitives.
  */
-public final class NumberUtility
+public final class NumberHelper
 {
    /**
     * This method retrieves an int value from a Number instance. It

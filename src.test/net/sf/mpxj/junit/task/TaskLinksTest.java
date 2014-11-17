@@ -40,7 +40,7 @@ import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.junit.Test;
 
@@ -126,6 +126,6 @@ public class TaskLinksTest
       assertEquals(task1, relation.getTargetTask());
       assertEquals(type, relation.getType());
       assertEquals(lagUnits, relation.getLag().getUnits());
-      assertTrue(NumberUtility.equals(lagDuration, relation.getLag().getDuration(), 0.0001));
+      assertTrue(NumberHelper.equals(lagDuration, relation.getLag().getDuration(), 0.0001));
    }
 }

@@ -27,13 +27,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.sf.mpxj.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Normalise timephased resource assignment data from an MSPDI file.
@@ -88,8 +88,8 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       {
          while (assignment != null)
          {
-            Date startDay = DateUtility.getDayStartDate(assignment.getStart());
-            Date finishDay = DateUtility.getDayStartDate(assignment.getFinish());
+            Date startDay = DateHelper.getDayStartDate(assignment.getStart());
+            Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...                 
             if (assignment.getFinish().getTime() == finishDay.getTime())
@@ -148,12 +148,12 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          {
             Date splitStart = assignmentStart;
             Date splitFinishTime = calendar.getFinishTime(splitStart);
-            splitFinish = DateUtility.setTime(splitStart, splitFinishTime);
+            splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
             splitMinutes = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES).getDuration();
 
             splitMinutes *= assignmentWork.getDuration();
             splitMinutes /= calendarWork.getDuration();
-            splitMinutes = NumberUtility.truncate(splitMinutes, 2);
+            splitMinutes = NumberHelper.truncate(splitMinutes, 2);
 
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
@@ -217,9 +217,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          else
          {
             Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateUtility.getDayStartDate(previousAssignmentStart);
+            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
             Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateUtility.getDayStartDate(assignmentStart);
+            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {
@@ -287,17 +287,17 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       {
          Date assignmentStart = assignment.getStart();
          Date calendarStartTime = calendar.getStartTime(assignmentStart);
-         Date assignmentStartTime = DateUtility.getCanonicalTime(assignmentStart);
+         Date assignmentStartTime = DateHelper.getCanonicalTime(assignmentStart);
          Date assignmentFinish = assignment.getFinish();
          Date calendarFinishTime = calendar.getFinishTime(assignmentFinish);
-         Date assignmentFinishTime = DateUtility.getCanonicalTime(assignmentFinish);
+         Date assignmentFinishTime = DateHelper.getCanonicalTime(assignmentFinish);
          double totalWork = assignment.getTotalAmount().getDuration();
 
          if (assignmentStartTime != null && calendarStartTime != null)
          {
             if ((totalWork == 0 && assignmentStartTime.getTime() != calendarStartTime.getTime()) || (assignmentStartTime.getTime() < calendarStartTime.getTime()))
             {
-               assignmentStart = DateUtility.setTime(assignmentStart, calendarStartTime);
+               assignmentStart = DateHelper.setTime(assignmentStart, calendarStartTime);
                assignment.setStart(assignmentStart);
             }
          }
@@ -306,7 +306,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          {
             if ((totalWork == 0 && assignmentFinishTime.getTime() != calendarFinishTime.getTime()) || (assignmentFinishTime.getTime() > calendarFinishTime.getTime()))
             {
-               assignmentFinish = DateUtility.setTime(assignmentFinish, calendarFinishTime);
+               assignmentFinish = DateHelper.setTime(assignmentFinish, calendarFinishTime);
                assignment.setFinish(assignmentFinish);
             }
          }

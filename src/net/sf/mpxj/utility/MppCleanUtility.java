@@ -1,5 +1,5 @@
 /*
- * file:       MppClean.java
+ * file:       MppCleanUtility.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2008
  * date:       07/02/2008
@@ -65,7 +65,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
  * - Resource Initials
  * - Project Summary Data
  */
-public class MppClean
+public class MppCleanUtility
 {
    /**
     * Main method.
@@ -84,7 +84,7 @@ public class MppClean
          {
             System.out.println("Clean started.");
             long start = System.currentTimeMillis();
-            MppClean clean = new MppClean();
+            MppCleanUtility clean = new MppCleanUtility();
             clean.process(args[0], args[1]);
             long elapsed = System.currentTimeMillis() - start;
             System.out.println("Clean completed in " + elapsed + "ms");

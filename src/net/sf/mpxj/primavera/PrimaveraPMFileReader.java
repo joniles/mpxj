@@ -80,9 +80,9 @@ import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -148,7 +148,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          ProjectType project = null;
          for (ProjectType currentProject : projects)
          {
-            if (!BooleanUtility.getBoolean(currentProject.isExternal()))
+            if (!BooleanHelper.getBoolean(currentProject.isExternal()))
             {
                project = currentProject;
                break;
@@ -222,9 +222,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          header.setCreationDate(prefs.getCreateDate());
          header.setLastSaved(prefs.getLastUpdateDate());
-         header.setMinutesPerDay(Integer.valueOf((int) (NumberUtility.getDouble(prefs.getHoursPerDay()) * 60)));
-         header.setMinutesPerWeek(Integer.valueOf((int) (NumberUtility.getDouble(prefs.getHoursPerWeek()) * 60)));
-         header.setWeekStartDay(Day.getInstance(NumberUtility.getInt(prefs.getStartDayOfWeek())));
+         header.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerDay()) * 60)));
+         header.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
+         header.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
 
          List<CurrencyType> currencyList = apibo.getCurrency();
          for (CurrencyType currency : currencyList)
@@ -285,8 +285,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             for (HolidayOrException ex : hoe.getHolidayOrException())
             {
-               Date startDate = DateUtility.getDayStartDate(ex.getDate());
-               Date endDate = DateUtility.getDayEndDate(ex.getDate());
+               Date startDate = DateHelper.getDayStartDate(ex.getDate());
+               Date endDate = DateHelper.getDayEndDate(ex.getDate());
                ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
 
                List<WorkTimeType> workTime = ex.getWorkTime();
@@ -462,9 +462,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setDuration(getDuration(row.getAtCompletionDuration()));
 
          // ActualCost and RemainingCost will be set when we resolve the resource assignments
-         task.setActualCost(NumberUtility.DOUBLE_ZERO);
-         task.setRemainingCost(NumberUtility.DOUBLE_ZERO);
-         task.setBaselineCost(NumberUtility.DOUBLE_ZERO);
+         task.setActualCost(NumberHelper.DOUBLE_ZERO);
+         task.setRemainingCost(NumberHelper.DOUBLE_ZERO);
+         task.setBaselineCost(NumberHelper.DOUBLE_ZERO);
 
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
@@ -481,7 +481,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setCreateDate(row.getCreateDate());
          task.setText(1, row.getId());
 
-         task.setMilestone(BooleanUtility.getBoolean(MILESTONE_MAP.get(row.getType())));
+         task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
 
          Integer calId = row.getCalendarObjectId();
@@ -628,7 +628,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
       if (duration != null)
       {
-         result = Duration.getInstance(NumberUtility.getDouble(duration), TimeUnit.HOURS);
+         result = Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
       }
 
       return result;

@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class is used to represent a relation type. It provides a mapping
@@ -82,7 +81,7 @@ public enum RelationType implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -108,7 +107,7 @@ public enum RelationType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final RelationType[] TYPE_VALUES = EnumUtility.createTypeArray(RelationType.class);
+   private static final RelationType[] TYPE_VALUES = EnumHelper.createTypeArray(RelationType.class);
 
    /**
     * Internal representation of the enum int type.

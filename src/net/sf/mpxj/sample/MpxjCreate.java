@@ -36,7 +36,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 import net.sf.mpxj.writer.ProjectWriter;
 
 /**
@@ -193,7 +193,7 @@ public class MpxjCreate
       // correct values in order for MS project to mark the task as complete
       // or partially complete.
       //
-      task2.setPercentageComplete(NumberUtility.getDouble(50.0));
+      task2.setPercentageComplete(NumberHelper.getDouble(50.0));
       task2.setActualStart(df.parse("01/01/2003"));
 
       //
@@ -227,7 +227,7 @@ public class MpxjCreate
       task4.setName("Next Task");
       task4.setDuration(Duration.getInstance(8, TimeUnit.DAYS));
       task4.setStart(df.parse("01/01/2003"));
-      task4.setPercentageComplete(NumberUtility.getDouble(70.0));
+      task4.setPercentageComplete(NumberHelper.getDouble(70.0));
       task4.setActualStart(df.parse("01/01/2003"));
 
       //
@@ -264,7 +264,7 @@ public class MpxjCreate
       task5.setName("Last Task");
       task5.setDuration(Duration.getInstance(3, TimeUnit.DAYS));
       task5.setStart(df.parse("01/01/2003"));
-      task5.setPercentageComplete(NumberUtility.getDouble(100.0));
+      task5.setPercentageComplete(NumberHelper.getDouble(100.0));
       task5.setActualStart(df.parse("01/01/2003"));
 
       //

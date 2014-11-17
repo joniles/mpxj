@@ -1,5 +1,5 @@
 /*
- * file:       RTFUtility.java
+ * file:       RtfHelper.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2003
  * date:       24/05/2003
@@ -32,7 +32,7 @@ import com.rtfparserkit.parser.RtfStringSource;
  * This class is used to collect together utility functions for manipulating
  * RTF encoded text.
  */
-public final class RTFUtility
+public final class RtfHelper
 {
    /**
     * Simple heuristic to determine if the string contains formal RTF.

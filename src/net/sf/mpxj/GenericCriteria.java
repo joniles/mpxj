@@ -28,7 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.DateHelper;
 
 /**
  * This class represents the criteria used as part of an evaluation.
@@ -153,7 +153,7 @@ public class GenericCriteria
             {
                if (lhs != null)
                {
-                  lhs = DateUtility.getDayStartDate((Date) lhs);
+                  lhs = DateHelper.getDayStartDate((Date) lhs);
                }
                break;
             }
@@ -284,7 +284,7 @@ public class GenericCriteria
                {
                   if (value != null)
                   {
-                     value = DateUtility.getDayStartDate((Date) value);
+                     value = DateHelper.getDayStartDate((Date) value);
                   }
                   break;
                }

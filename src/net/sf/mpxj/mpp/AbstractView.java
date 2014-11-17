@@ -21,7 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.mpp;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Table;
+import net.sf.mpxj.View;
+import net.sf.mpxj.ViewType;
 
 /**
  * This abstract class implements functionality common to all views.

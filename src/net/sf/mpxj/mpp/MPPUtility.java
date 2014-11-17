@@ -36,8 +36,8 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class provides common functionality used by each of the classes
@@ -386,7 +386,7 @@ public final class MPPUtility
       }
       else
       {
-         result = DateUtility.getDateFromLong(EPOCH + (days * MS_PER_DAY));
+         result = DateHelper.getDateFromLong(EPOCH + (days * MS_PER_DAY));
       }
 
       return (result);
@@ -461,7 +461,7 @@ public final class MPPUtility
          {
             time = 0;
          }
-         result = DateUtility.getTimestampFromLong((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)));
+         result = DateHelper.getTimestampFromLong((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)));
       }
 
       return (result);
@@ -477,7 +477,7 @@ public final class MPPUtility
    public static final Date getTimestampFromTenths(byte[] data, int offset)
    {
       long ms = ((long) getInt(data, offset)) * 6000;
-      return (DateUtility.getTimestampFromLong(EPOCH + ms));
+      return (DateHelper.getTimestampFromLong(EPOCH + ms));
    }
 
    /**
@@ -1032,7 +1032,7 @@ public final class MPPUtility
       Double result = null;
       if (value >= 0 && value <= 100)
       {
-         result = NumberUtility.getDouble(value);
+         result = NumberHelper.getDouble(value);
       }
       return result;
    }
@@ -1542,7 +1542,7 @@ public final class MPPUtility
    /**
     * Epoch Date as a Date instance.
     */
-   private static Date EPOCH_DATE = DateUtility.getTimestampFromLong(EPOCH);
+   private static Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
 
    /**
     * Number of milliseconds per day.

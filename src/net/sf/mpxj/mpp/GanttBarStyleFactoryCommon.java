@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.MPPTaskField;
+import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * Reads Gantt bar styles from a MPP9 and MPP12 files.

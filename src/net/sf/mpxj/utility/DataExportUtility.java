@@ -1,5 +1,5 @@
 /*
- * file:       DataExport.java
+ * file:       DataExportUtility.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
  * date:       05/04/2011
@@ -43,7 +43,7 @@ import java.util.Locale;
  * Simple utility to export data to an XML file from an arbitrary database
  * schema.
  */
-public final class DataExport
+public final class DataExportUtility
 {
    /**
     * Command line entry point.
@@ -66,7 +66,7 @@ public final class DataExport
             String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + argv[0];
             connection = DriverManager.getConnection(url);
 
-            DataExport dx = new DataExport();
+            DataExportUtility dx = new DataExportUtility();
             dx.process(connection, argv[1]);
          }
 

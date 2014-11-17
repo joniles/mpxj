@@ -24,8 +24,8 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Day;
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
 
 /**
  * Instances of this class represent enumerated day values used as to
@@ -117,7 +117,7 @@ public enum ProgressLineDay implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ProgressLineDay[] TYPE_VALUES = EnumUtility.createTypeArray(ProgressLineDay.class, 1);
+   private static final ProgressLineDay[] TYPE_VALUES = EnumHelper.createTypeArray(ProgressLineDay.class, 1);
 
    private int m_value;
    private Day m_day;

@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Implementation of the Row interface, wrapping a Map.
@@ -99,7 +99,7 @@ final class ResultSetRow extends MapRow
             case Types.DOUBLE:
             case Types.NUMERIC:
             {
-               value = NumberUtility.getDouble(rs.getDouble(name));
+               value = NumberHelper.getDouble(rs.getDouble(name));
                break;
             }
 

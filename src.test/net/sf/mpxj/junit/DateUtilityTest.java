@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.DateHelper;
 
 import org.junit.Test;
 
@@ -30,8 +30,8 @@ public class DateUtilityTest
       assertEquals(1, date2.compareTo(date1));
       assertEquals(0, date1.compareTo(date1));
 
-      assertEquals(-1, DateUtility.compare(date1, date2));
-      assertEquals(1, DateUtility.compare(date2, date1));
-      assertEquals(0, DateUtility.compare(date1, date1));
+      assertEquals(-1, DateHelper.compare(date1, date2));
+      assertEquals(1, DateHelper.compare(date2, date1));
+      assertEquals(0, DateHelper.compare(date1, date1));
    }
 }

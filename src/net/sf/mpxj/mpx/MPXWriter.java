@@ -58,8 +58,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.utility.MPXJFormats;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -191,9 +190,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(Integer.valueOf(record.getDefaultWorkUnits().getValue())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerDay()) / 60)));
+      m_buffer.append(format(formatDecimal(NumberHelper.getDouble(record.getMinutesPerDay()) / 60)));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerWeek()) / 60)));
+      m_buffer.append(format(formatDecimal(NumberHelper.getDouble(record.getMinutesPerWeek()) / 60)));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatRate(record.getDefaultStandardRate())));
       m_buffer.append(m_delimiter);

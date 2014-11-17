@@ -25,8 +25,8 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /** 
  * This class represents a row from a resource's cost rate table.
@@ -41,12 +41,12 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    private CostRateTableEntry()
    {
-      m_endDate = DateUtility.LAST_DATE;
+      m_endDate = DateHelper.LAST_DATE;
       m_standardRate = new Rate(0, TimeUnit.HOURS);
       m_standardRateFormat = TimeUnit.HOURS;
       m_overtimeRate = m_standardRate;
       m_overtimeRateFormat = TimeUnit.HOURS;
-      m_costPerUse = NumberUtility.getDouble(0);
+      m_costPerUse = NumberHelper.getDouble(0);
    }
 
    /**
@@ -134,7 +134,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    @Override public int compareTo(CostRateTableEntry o)
    {
-      return DateUtility.compare(m_endDate, o.m_endDate);
+      return DateHelper.compare(m_endDate, o.m_endDate);
    }
 
    /**

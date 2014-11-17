@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents the set of operators used to perform a test
@@ -246,7 +245,7 @@ public enum TestOperator implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -417,7 +416,7 @@ public enum TestOperator implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final TestOperator[] TYPE_VALUES = EnumUtility.createTypeArray(TestOperator.class);
+   private static final TestOperator[] TYPE_VALUES = EnumHelper.createTypeArray(TestOperator.class);
 
    /**
     * Internal representation of the enum int type.

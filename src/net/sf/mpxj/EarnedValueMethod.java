@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Instances of this class represent enumerated earned value method values.
@@ -75,7 +74,7 @@ public enum EarnedValueMethod implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -93,7 +92,7 @@ public enum EarnedValueMethod implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final EarnedValueMethod[] TYPE_VALUES = EnumUtility.createTypeArray(EarnedValueMethod.class);
+   private static final EarnedValueMethod[] TYPE_VALUES = EnumHelper.createTypeArray(EarnedValueMethod.class);
 
    /**
     * Internal representation of the enum int type.

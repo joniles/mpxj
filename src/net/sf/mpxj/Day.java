@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
 
 /**
  * Instances of this class represent enumerated day values.
@@ -100,7 +99,7 @@ public enum Day implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final Day[] TYPE_VALUES = EnumUtility.createTypeArray(Day.class, 1);
+   private static final Day[] TYPE_VALUES = EnumHelper.createTypeArray(Day.class, 1);
 
    private int m_value;
 }

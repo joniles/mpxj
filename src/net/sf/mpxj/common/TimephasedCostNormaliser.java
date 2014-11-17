@@ -1,8 +1,8 @@
 /*
- * file:       MpxjEnum.java
+ * file:       TimephasedCostNormaliser.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2007
- * date:       2007-11-09
+ * copyright:  (c) Packwood Software 2009
+ * date:       09/01/2009
  */
 
 /*
@@ -21,18 +21,27 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
+package net.sf.mpxj.common;
+
+import java.util.LinkedList;
+
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.TimephasedCost;
 
 /**
- * This interface defines the common features of enums used by MPXJ.
+ * Classes implementing this interface are used to normalise timephased 
+ * resource assignment data.
  */
-public interface MpxjEnum
+public interface TimephasedCostNormaliser
 {
+
    /**
-    * This method is used to retrieve the int value (not the ordinal)
-    * associated with an enum instance.
+    * This method converts the internal representation of timephased 
+    * resource assignment data used by MS Project into a standardised
+    * format to make it easy to work with. 
     * 
-    * @return enum value
+    * @param calendar current calendar
+    * @param list list of assignment data
     */
-   public int getValue();
+   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedCost> list);
 }

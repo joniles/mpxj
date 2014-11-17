@@ -1,8 +1,8 @@
 /*
- * file:       ReaderTokenizer.java
+ * file:       Pair.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2003
- * date:       15/02/2005
+ * copyright:  (c) Packwood Software 2002-2005
+ * date:       14/11/2005
  */
 
 /*
@@ -21,34 +21,48 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
-
-import java.io.IOException;
-import java.io.Reader;
+package net.sf.mpxj.common;
 
 /**
- * This class implements a tokenizer as per the underlying Tokenizer class,
- * with characters being read from a Reader instance.
+ * Represents a pair of values.
+ * 
+ * @param <L> first value type
+ * @param <R> second value type
  */
-public class ReaderTokenizer extends Tokenizer
+public final class Pair<L, R>
 {
    /**
     * Constructor.
     *
-    * @param r Reader instance
+    * @param first first object
+    * @param second second object
     */
-   public ReaderTokenizer(Reader r)
+   public Pair(L first, R second)
    {
-      m_reader = r;
+      m_first = first;
+      m_second = second;
    }
 
    /**
-    * {@inheritDoc}
+    * Retrieve the the first object.
+    *
+    * @return first object
     */
-   @Override protected int read() throws IOException
+   public L getFirst()
    {
-      return (m_reader.read());
+      return (m_first);
    }
 
-   private Reader m_reader;
+   /**
+    * Retrieve the second object.
+    *
+    * @return second object
+    */
+   public R getSecond()
+   {
+      return (m_second);
+   }
+
+   private L m_first;
+   private R m_second;
 }

@@ -1,5 +1,5 @@
 /*
- * file:       EnumUtility.java
+ * file:       EnumHelper.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2010
  * date:       31/03/2010
@@ -26,10 +26,12 @@ package net.sf.mpxj.utility;
 import java.lang.reflect.Array;
 import java.util.EnumSet;
 
+import net.sf.mpxj.MpxjEnum;
+
 /**
  * Utility method for working with enumerations.
  */
-public final class EnumUtility
+public final class EnumHelper
 {
    /**
     * Creates a lookup array based on the "value" associated with an MpxjEnum.

@@ -40,12 +40,12 @@ import java.util.Set;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.InputStreamTokenizer;
 import net.sf.mpxj.utility.MPXJNumberFormat;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.Tokenizer;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera XER file.
@@ -636,7 +636,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             result = new LinkedList<Row>();
             for (Row row : table)
             {
-               if (NumberUtility.equals(id, row.getInteger(columnName)))
+               if (NumberHelper.equals(id, row.getInteger(columnName)))
                {
                   result.add(row);
                }

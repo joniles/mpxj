@@ -36,8 +36,8 @@ import java.util.Map;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * This class represents the set of properties used to define the appearance

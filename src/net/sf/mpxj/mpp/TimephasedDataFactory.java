@@ -32,12 +32,14 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
-import net.sf.mpxj.TimephasedCostData;
-import net.sf.mpxj.TimephasedCostNormaliser;
+import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.TimephasedWorkData;
-import net.sf.mpxj.TimephasedWorkNormaliser;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.TimephasedWorkContainer;
+import net.sf.mpxj.common.DefaultTimephasedCostContainer;
+import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.TimephasedCostNormaliser;
+import net.sf.mpxj.common.TimephasedWorkNormaliser;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -300,9 +302,9 @@ final class TimephasedDataFactory
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedWorkData getBaselineWork(ResourceAssignment assignment, ProjectCalendar calendar, TimephasedWorkNormaliser normaliser, byte[] data, boolean raw)
+   public TimephasedWorkContainer getBaselineWork(ResourceAssignment assignment, ProjectCalendar calendar, TimephasedWorkNormaliser normaliser, byte[] data, boolean raw)
    {
-      TimephasedWorkData result = null;
+      TimephasedWorkContainer result = null;
 
       if (data != null && data.length > 0)
       {
@@ -357,7 +359,7 @@ final class TimephasedDataFactory
             {
                work.setFinish(assignment.getFinish());
             }
-            result = new TimephasedWorkData(calendar, normaliser, list, raw);
+            result = new DefaultTimephasedWorkContainer(calendar, normaliser, list, raw);
          }
       }
 
@@ -375,9 +377,9 @@ final class TimephasedDataFactory
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedCostData getBaselineCost(ProjectCalendar calendar, TimephasedCostNormaliser normaliser, byte[] data, boolean raw)
+   public TimephasedCostContainer getBaselineCost(ProjectCalendar calendar, TimephasedCostNormaliser normaliser, byte[] data, boolean raw)
    {
-      TimephasedCostData result = null;
+      TimephasedCostContainer result = null;
 
       if (data != null && data.length > 0)
       {
@@ -418,7 +420,7 @@ final class TimephasedDataFactory
 
          if (list != null)
          {
-            result = new TimephasedCostData(calendar, normaliser, list, raw);
+            result = new DefaultTimephasedCostContainer(calendar, normaliser, list, raw);
          }
       }
 
@@ -434,7 +436,7 @@ final class TimephasedDataFactory
     */
    private boolean costEquals(double lhs, double rhs)
    {
-      return NumberUtility.equals(lhs, rhs, 0.00001);
+      return NumberHelper.equals(lhs, rhs, 0.00001);
    }
 
 }

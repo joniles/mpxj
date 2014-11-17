@@ -81,7 +81,7 @@ import net.sf.mpxj.planner.schema.Project;
 import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -705,7 +705,7 @@ public final class PlannerReader extends AbstractProjectReader
          if (task != null && resource != null)
          {
             Duration work = task.getWork();
-            int percentComplete = NumberUtility.getInt(task.getPercentageComplete());
+            int percentComplete = NumberHelper.getInt(task.getPercentageComplete());
 
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             assignment.setUnits(units);
@@ -882,7 +882,7 @@ public final class PlannerReader extends AbstractProjectReader
     */
    private Integer getInteger(String value)
    {
-      return (NumberUtility.getInteger(value));
+      return (NumberHelper.getInteger(value));
    }
 
    /**

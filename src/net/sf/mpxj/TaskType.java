@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Instances of this class represent enumerated task type values.
@@ -76,7 +75,7 @@ public enum TaskType implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -94,7 +93,7 @@ public enum TaskType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final TaskType[] TYPE_VALUES = EnumUtility.createTypeArray(TaskType.class);
+   private static final TaskType[] TYPE_VALUES = EnumHelper.createTypeArray(TaskType.class);
 
    /**
     * Internal representation of the enum int type.

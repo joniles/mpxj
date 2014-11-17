@@ -21,12 +21,16 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.common;
 
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Common implementation detail for normalisation.
@@ -66,7 +70,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
             Duration previousAssignmentWork = previousAssignment.getAmountPerDay();
             Duration assignmentWork = assignment.getTotalAmount();
 
-            if (NumberUtility.equals(previousAssignmentWork.getDuration(), assignmentWork.getDuration(), 0.01))
+            if (NumberHelper.equals(previousAssignmentWork.getDuration(), assignmentWork.getDuration(), 0.01))
             {
                Date assignmentStart = previousAssignment.getStart();
                Date assignmentFinish = assignment.getFinish();

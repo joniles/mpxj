@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.UUID;
 
 import net.sf.mpxj.listener.FieldListener;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a resource used in a project.
@@ -403,7 +403,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       {
          Number peakUnits = getPeakUnits();
          Number maxUnits = getMaxUnits();
-         overallocated = Boolean.valueOf(NumberUtility.getDouble(peakUnits) > NumberUtility.getDouble(maxUnits));
+         overallocated = Boolean.valueOf(NumberHelper.getDouble(peakUnits) > NumberHelper.getDouble(maxUnits));
          set(ResourceField.OVERALLOCATED, overallocated);
       }
       return (overallocated.booleanValue());
@@ -459,7 +459,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       Date result = null;
       for (ResourceAssignment assignment : m_assignments)
       {
-         if (result == null || DateUtility.compare(result, assignment.getStart()) > 0)
+         if (result == null || DateHelper.compare(result, assignment.getStart()) > 0)
          {
             result = assignment.getStart();
          }
@@ -477,7 +477,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       Date result = null;
       for (ResourceAssignment assignment : m_assignments)
       {
-         if (result == null || DateUtility.compare(result, assignment.getFinish()) < 0)
+         if (result == null || DateHelper.compare(result, assignment.getFinish()) < 0)
          {
             result = assignment.getFinish();
          }
@@ -504,7 +504,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getCanLevel()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.CAN_LEVEL)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.CAN_LEVEL)));
    }
 
    /**
@@ -970,7 +970,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          Number baselineCost = getBaselineCost();
          if (cost != null && baselineCost != null)
          {
-            variance = NumberUtility.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
             set(ResourceField.COST_VARIANCE, variance);
          }
       }
@@ -1001,7 +1001,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          Number bcws = getBCWS();
          if (bcwp != null && bcws != null)
          {
-            variance = NumberUtility.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
             set(ResourceField.SV, variance);
          }
       }
@@ -1028,7 +1028,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       Number variance = (Number) getCachedValue(ResourceField.CV);
       if (variance == null)
       {
-         variance = Double.valueOf(NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
          set(ResourceField.CV, variance);
       }
       return (variance);
@@ -1488,7 +1488,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getLinkedFields()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.LINKED_FIELDS)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.LINKED_FIELDS)));
    }
 
    /**
@@ -1662,7 +1662,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getFlag(int index)
    {
-      return BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
    }
 
    /**
@@ -2030,7 +2030,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
    }
 
    /**
@@ -2161,7 +2161,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getBudget()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.BUDGET)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.BUDGET)));
    }
 
    /**
@@ -2458,8 +2458,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Override public int compareTo(Resource o)
    {
-      int id1 = NumberUtility.getInt(getID());
-      int id2 = NumberUtility.getInt(o.getID());
+      int id1 = NumberHelper.getInt(getID());
+      int id2 = NumberHelper.getInt(o.getID());
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
@@ -2481,7 +2481,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Override public int hashCode()
    {
-      return (NumberUtility.getInt(getID()));
+      return (NumberHelper.getInt(getID()));
    }
 
    /**

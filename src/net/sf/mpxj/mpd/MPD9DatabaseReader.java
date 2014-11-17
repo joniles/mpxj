@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class reads project data from an MPD9 format database.
@@ -509,7 +509,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          List<ResultSetRow> result = new LinkedList<ResultSetRow>();
 
          m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberUtility.getInt(var));
+         m_ps.setInt(1, NumberHelper.getInt(var));
          m_rs = m_ps.executeQuery();
          populateMetaData();
          while (m_rs.next())
@@ -545,8 +545,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          List<ResultSetRow> result = new LinkedList<ResultSetRow>();
 
          m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberUtility.getInt(var1));
-         m_ps.setInt(2, NumberUtility.getInt(var2));
+         m_ps.setInt(1, NumberHelper.getInt(var1));
+         m_ps.setInt(2, NumberHelper.getInt(var2));
          m_rs = m_ps.executeQuery();
          populateMetaData();
          while (m_rs.next())

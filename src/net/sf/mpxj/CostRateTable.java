@@ -26,7 +26,7 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.DateHelper;
 
 /** 
  * This class represents a resource's cost rate table.
@@ -45,7 +45,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
 
       for (CostRateTableEntry entry : this)
       {
-         if (DateUtility.compare(date, entry.getEndDate()) < 0)
+         if (DateHelper.compare(date, entry.getEndDate()) < 0)
          {
             result = entry;
             break;
@@ -68,7 +68,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
 
       for (CostRateTableEntry entry : this)
       {
-         if (DateUtility.compare(date, entry.getEndDate()) < 0)
+         if (DateHelper.compare(date, entry.getEndDate()) < 0)
          {
             result = index;
             break;

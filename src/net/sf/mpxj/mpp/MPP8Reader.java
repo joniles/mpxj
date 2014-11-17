@@ -38,8 +38,6 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -57,9 +55,11 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.Pair;
-import net.sf.mpxj.utility.RTFUtility;
+import net.sf.mpxj.common.MPPResourceField;
+import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.utility.RtfHelper;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -447,10 +447,10 @@ final class MPP8Reader implements MPPVariantReader
 
          task = m_file.addTask();
 
-         task.setActualCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 234)) / 100));
+         task.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 234)) / 100));
          task.setActualDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
          task.setActualFinish(MPPUtility.getTimestamp(data, 108));
-         task.setActualOvertimeCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 210)) / 100));
+         task.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 210)) / 100));
          task.setActualOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 192)) / 100, TimeUnit.HOURS));
          task.setActualStart(MPPUtility.getTimestamp(data, 104));
          task.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 180)) / 100, TimeUnit.HOURS));
@@ -458,7 +458,7 @@ final class MPP8Reader implements MPPVariantReader
          //task.setAssignment(); // Calculated value
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
-         task.setBaselineCost(NumberUtility.getDouble((double) MPPUtility.getLong6(data, 246) / 100));
+         task.setBaselineCost(NumberHelper.getDouble((double) MPPUtility.getLong6(data, 246) / 100));
          task.setBaselineDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 82), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
          task.setBaselineFinish(MPPUtility.getTimestamp(data, 116));
          task.setBaselineStart(MPPUtility.getTimestamp(data, 112));
@@ -469,17 +469,17 @@ final class MPP8Reader implements MPPVariantReader
          task.setConstraintDate(MPPUtility.getTimestamp(data, 120));
          task.setConstraintType(ConstraintType.getInstance(MPPUtility.getShort(data, 88)));
          task.setContact(taskExtData.getUnicodeString(TASK_CONTACT));
-         task.setCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 222)) / 100));
-         task.setCost(1, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST1)) / 100));
-         task.setCost(2, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST2)) / 100));
-         task.setCost(3, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST3)) / 100));
-         task.setCost(4, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST4)) / 100));
-         task.setCost(5, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST5)) / 100));
-         task.setCost(6, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST6)) / 100));
-         task.setCost(7, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST7)) / 100));
-         task.setCost(8, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST8)) / 100));
-         task.setCost(9, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST9)) / 100));
-         task.setCost(10, NumberUtility.getDouble(((double) taskExtData.getLong(TASK_COST10)) / 100));
+         task.setCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 222)) / 100));
+         task.setCost(1, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST1)) / 100));
+         task.setCost(2, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST2)) / 100));
+         task.setCost(3, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST3)) / 100));
+         task.setCost(4, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST4)) / 100));
+         task.setCost(5, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST5)) / 100));
+         task.setCost(6, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST6)) / 100));
+         task.setCost(7, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST7)) / 100));
+         task.setCost(8, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST8)) / 100));
+         task.setCost(9, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST9)) / 100));
+         task.setCost(10, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST10)) / 100));
          //task.setCostRateTable(); // Calculated value
          //task.setCostVariance(); // Populated below
          task.setCreateDate(MPPUtility.getTimestamp(data, 138));
@@ -524,7 +524,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setFinish(9, taskExtData.getTimestamp(TASK_FINISH9));
          task.setFinish(10, taskExtData.getTimestamp(TASK_FINISH10));
          //task.setFinishVariance(); // Calculated value
-         task.setFixedCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 228)) / 100));
+         task.setFixedCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 228)) / 100));
          task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 136)));
          task.setFlag(1, (flags[0] & 0x02) != 0);
          task.setFlag(2, (flags[0] & 0x04) != 0);
@@ -560,31 +560,31 @@ final class MPP8Reader implements MPPVariantReader
          task.setMarked((data[13] & 0x02) != 0);
          task.setMilestone((data[12] & 0x01) != 0);
          task.setName(taskVarData.getUnicodeString(getOffset(data, 264)));
-         task.setNumber(1, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER1)));
-         task.setNumber(2, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER2)));
-         task.setNumber(3, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER3)));
-         task.setNumber(4, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER4)));
-         task.setNumber(5, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER5)));
-         task.setNumber(6, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER6)));
-         task.setNumber(7, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER7)));
-         task.setNumber(8, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER8)));
-         task.setNumber(9, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER9)));
-         task.setNumber(10, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER10)));
-         task.setNumber(11, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER11)));
-         task.setNumber(12, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER12)));
-         task.setNumber(13, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER13)));
-         task.setNumber(14, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER14)));
-         task.setNumber(15, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER15)));
-         task.setNumber(16, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER16)));
-         task.setNumber(17, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER17)));
-         task.setNumber(18, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER18)));
-         task.setNumber(19, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER19)));
-         task.setNumber(20, NumberUtility.getDouble(taskExtData.getDouble(TASK_NUMBER20)));
+         task.setNumber(1, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER1)));
+         task.setNumber(2, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER2)));
+         task.setNumber(3, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER3)));
+         task.setNumber(4, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER4)));
+         task.setNumber(5, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER5)));
+         task.setNumber(6, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER6)));
+         task.setNumber(7, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER7)));
+         task.setNumber(8, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER8)));
+         task.setNumber(9, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER9)));
+         task.setNumber(10, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER10)));
+         task.setNumber(11, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER11)));
+         task.setNumber(12, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER12)));
+         task.setNumber(13, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER13)));
+         task.setNumber(14, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER14)));
+         task.setNumber(15, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER15)));
+         task.setNumber(16, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER16)));
+         task.setNumber(17, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER17)));
+         task.setNumber(18, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER18)));
+         task.setNumber(19, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER19)));
+         task.setNumber(20, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
          task.setOutlineLevel(Integer.valueOf(MPPUtility.getShort(data, 48)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
-         task.setOvertimeCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 204)) / 100));
+         task.setOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 204)) / 100));
          //task.setOvertimeWork(); // Calculated value
          //task.getPredecessors(); // Calculated value
          task.setPercentageComplete(MPPUtility.getPercentage(data, 130));
@@ -595,9 +595,9 @@ final class MPP8Reader implements MPPVariantReader
          //task.setProject(); // Calculated value
          task.setRecurring(MPPUtility.getShort(data, 142) != 0);
          //task.setRegularWork(); // Calculated value
-         task.setRemainingCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 240)) / 100));
+         task.setRemainingCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 240)) / 100));
          task.setRemainingDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
-         task.setRemainingOvertimeCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 216)) / 100));
+         task.setRemainingOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 216)) / 100));
          task.setRemainingOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 198)) / 100, TimeUnit.HOURS));
          task.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 186)) / 100, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
@@ -688,7 +688,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
 
             task.setNotes(notes);
@@ -876,27 +876,27 @@ final class MPP8Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.setAccrueAt(AccrueType.getInstance(MPPUtility.getShort(data, 20)));
-         resource.setActualCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 114)) / 100));
-         resource.setActualOvertimeCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 144)) / 100));
+         resource.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 114)) / 100));
+         resource.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 144)) / 100));
          resource.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 62)) / 100, TimeUnit.HOURS));
          resource.setAvailableFrom(MPPUtility.getTimestamp(data, 28));
          resource.setAvailableTo(MPPUtility.getTimestamp(data, 32));
          //resource.setBaseCalendar();
-         resource.setBaselineCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 126)) / 100));
+         resource.setBaselineCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 126)) / 100));
          resource.setBaselineWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 68)) / 100, TimeUnit.HOURS));
          resource.setCode(rscExtData.getUnicodeString(RESOURCE_CODE));
-         resource.setCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 120)) / 100));
-         resource.setCost(1, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST1)) / 100));
-         resource.setCost(2, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST2)) / 100));
-         resource.setCost(3, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST3)) / 100));
-         resource.setCost(4, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST4)) / 100));
-         resource.setCost(5, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST5)) / 100));
-         resource.setCost(6, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST6)) / 100));
-         resource.setCost(7, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST7)) / 100));
-         resource.setCost(8, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST8)) / 100));
-         resource.setCost(9, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST9)) / 100));
-         resource.setCost(10, NumberUtility.getDouble(((double) rscExtData.getLong(RESOURCE_COST10)) / 100));
-         resource.setCostPerUse(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 80)) / 100));
+         resource.setCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 120)) / 100));
+         resource.setCost(1, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST1)) / 100));
+         resource.setCost(2, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST2)) / 100));
+         resource.setCost(3, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST3)) / 100));
+         resource.setCost(4, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST4)) / 100));
+         resource.setCost(5, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST5)) / 100));
+         resource.setCost(6, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST6)) / 100));
+         resource.setCost(7, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST7)) / 100));
+         resource.setCost(8, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST8)) / 100));
+         resource.setCost(9, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST9)) / 100));
+         resource.setCost(10, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST10)) / 100));
+         resource.setCostPerUse(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 80)) / 100));
          resource.setDate(1, rscExtData.getTimestamp(RESOURCE_DATE1));
          resource.setDate(2, rscExtData.getTimestamp(RESOURCE_DATE2));
          resource.setDate(3, rscExtData.getTimestamp(RESOURCE_DATE3));
@@ -932,38 +932,38 @@ final class MPP8Reader implements MPPVariantReader
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          resource.setInitials(rscVarData.getUnicodeString(getOffset(data, 160)));
          //resource.setLinkedFields(); // Calculated value
-         resource.setMaxUnits(NumberUtility.getDouble(((double) MPPUtility.getInt(data, 52)) / 100));
+         resource.setMaxUnits(NumberHelper.getDouble(((double) MPPUtility.getInt(data, 52)) / 100));
          resource.setName(rscVarData.getUnicodeString(getOffset(data, 156)));
-         resource.setNumber(1, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER1)));
-         resource.setNumber(2, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER2)));
-         resource.setNumber(3, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER3)));
-         resource.setNumber(4, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER4)));
-         resource.setNumber(5, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER5)));
-         resource.setNumber(6, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER6)));
-         resource.setNumber(7, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER7)));
-         resource.setNumber(8, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER8)));
-         resource.setNumber(9, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER9)));
-         resource.setNumber(10, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER10)));
-         resource.setNumber(11, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER11)));
-         resource.setNumber(12, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER12)));
-         resource.setNumber(13, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER13)));
-         resource.setNumber(14, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER14)));
-         resource.setNumber(15, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER15)));
-         resource.setNumber(16, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER16)));
-         resource.setNumber(17, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER17)));
-         resource.setNumber(18, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER18)));
-         resource.setNumber(19, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER19)));
-         resource.setNumber(20, NumberUtility.getDouble(rscExtData.getDouble(RESOURCE_NUMBER20)));
+         resource.setNumber(1, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER1)));
+         resource.setNumber(2, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER2)));
+         resource.setNumber(3, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER3)));
+         resource.setNumber(4, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER4)));
+         resource.setNumber(5, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER5)));
+         resource.setNumber(6, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER6)));
+         resource.setNumber(7, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER7)));
+         resource.setNumber(8, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER8)));
+         resource.setNumber(9, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER9)));
+         resource.setNumber(10, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER10)));
+         resource.setNumber(11, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER11)));
+         resource.setNumber(12, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER12)));
+         resource.setNumber(13, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER13)));
+         resource.setNumber(14, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER14)));
+         resource.setNumber(15, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER15)));
+         resource.setNumber(16, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER16)));
+         resource.setNumber(17, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER17)));
+         resource.setNumber(18, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER18)));
+         resource.setNumber(19, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER19)));
+         resource.setNumber(20, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER20)));
          //resource.setObjects(); // Calculated value
          //resource.setOverallocated(); // Calculated value
-         resource.setOvertimeCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
+         resource.setOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
          resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 44), TimeUnit.HOURS));
          resource.setOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 74)) / 100, TimeUnit.HOURS));
-         resource.setPeakUnits(NumberUtility.getDouble(((double) MPPUtility.getInt(data, 110)) / 100));
+         resource.setPeakUnits(NumberHelper.getDouble(((double) MPPUtility.getInt(data, 110)) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
          resource.setRegularWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 92)) / 100, TimeUnit.HOURS));
-         resource.setRemainingCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
-         resource.setRemainingOvertimeCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 150)) / 100));
+         resource.setRemainingCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
+         resource.setRemainingOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 150)) / 100));
          resource.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 86)) / 100, TimeUnit.HOURS));
          resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
          resource.setStart(1, rscExtData.getTimestamp(RESOURCE_START1));
@@ -1023,7 +1023,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
 
             resource.setNotes(notes);
@@ -1070,9 +1070,9 @@ final class MPP8Reader implements MPPVariantReader
             if (task != null && resource != null)
             {
                ResourceAssignment assignment = task.addResourceAssignment(resource);
-               assignment.setActualCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
+               assignment.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
                assignment.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 96)) / 100, TimeUnit.HOURS));
-               assignment.setCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
+               assignment.setCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
                //assignment.setDelay(); // Not sure what this field maps on to in MSP
                assignment.setFinish(MPPUtility.getTimestamp(data, 28));
                assignment.setOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 90)) / 100, TimeUnit.HOURS));

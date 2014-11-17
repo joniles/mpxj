@@ -34,7 +34,7 @@ import java.util.Map;
 
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a project plan.
@@ -156,7 +156,7 @@ public final class ProjectFile implements TaskContainer
       {
          Collections.sort(m_allTasks);
          Task firstTask = m_allTasks.get(0);
-         int id = NumberUtility.getInt(firstTask.getID());
+         int id = NumberHelper.getInt(firstTask.getID());
          if (id != 0)
          {
             id = 1;
@@ -256,7 +256,7 @@ public final class ProjectFile implements TaskContainer
       {
          for (Task task : m_allTasks)
          {
-            if (NumberUtility.getInt(task.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            if (NumberHelper.getInt(task.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
             {
                renumberTaskUniqueIDs();
                break;
@@ -268,7 +268,7 @@ public final class ProjectFile implements TaskContainer
       {
          for (Resource resource : m_allResources)
          {
-            if (NumberUtility.getInt(resource.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            if (NumberHelper.getInt(resource.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
             {
                renumberResourceUniqueIDs();
                break;
@@ -280,7 +280,7 @@ public final class ProjectFile implements TaskContainer
       {
          for (ResourceAssignment assignment : m_allResourceAssignments)
          {
-            if (NumberUtility.getInt(assignment.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            if (NumberHelper.getInt(assignment.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
             {
                renumberAssignmentUniqueIDs();
                break;
@@ -292,7 +292,7 @@ public final class ProjectFile implements TaskContainer
       {
          for (ProjectCalendar calendar : m_calendars)
          {
-            if (NumberUtility.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            if (NumberHelper.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
             {
                renumberCalendarUniqueIDs();
                break;
@@ -750,7 +750,7 @@ public final class ProjectFile implements TaskContainer
       while (iter.hasNext() == true)
       {
          ResourceAssignment assignment = iter.next();
-         if (NumberUtility.equals(assignment.getResourceUniqueID(), resourceUniqueID))
+         if (NumberHelper.equals(assignment.getResourceUniqueID(), resourceUniqueID))
          {
             assignment.getTask().removeResourceAssignment(assignment);
             iter.remove();
@@ -977,7 +977,7 @@ public final class ProjectFile implements TaskContainer
             Task parent = null;
             if (!task.getNull())
             {
-               int level = NumberUtility.getInt(task.getOutlineLevel());
+               int level = NumberHelper.getInt(task.getOutlineLevel());
 
                if (lastTask != null)
                {
@@ -1003,7 +1003,7 @@ public final class ProjectFile implements TaskContainer
                               break;
                            }
 
-                           lastLevel = NumberUtility.getInt(parent.getOutlineLevel());
+                           lastLevel = NumberHelper.getInt(parent.getOutlineLevel());
                            lastTask = parent;
                         }
                      }
@@ -1048,7 +1048,7 @@ public final class ProjectFile implements TaskContainer
       //
       for (Task task : m_allTasks)
       {
-         int uniqueID = NumberUtility.getInt(task.getUniqueID());
+         int uniqueID = NumberHelper.getInt(task.getUniqueID());
          if (uniqueID > m_taskUniqueID)
          {
             m_taskUniqueID = uniqueID;
@@ -1060,7 +1060,7 @@ public final class ProjectFile implements TaskContainer
       //
       for (Resource resource : m_allResources)
       {
-         int uniqueID = NumberUtility.getInt(resource.getUniqueID());
+         int uniqueID = NumberHelper.getInt(resource.getUniqueID());
          if (uniqueID > m_resourceUniqueID)
          {
             m_resourceUniqueID = uniqueID;
@@ -1072,7 +1072,7 @@ public final class ProjectFile implements TaskContainer
       //
       for (ProjectCalendar calendar : m_calendars)
       {
-         int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
+         int uniqueID = NumberHelper.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
          {
             m_calendarUniqueID = uniqueID;
@@ -1084,7 +1084,7 @@ public final class ProjectFile implements TaskContainer
       //
       for (ResourceAssignment assignment : m_allResourceAssignments)
       {
-         int uniqueID = NumberUtility.getInt(assignment.getUniqueID());
+         int uniqueID = NumberHelper.getInt(assignment.getUniqueID());
          if (uniqueID > m_assignmentUniqueID)
          {
             m_assignmentUniqueID = uniqueID;
@@ -1107,7 +1107,7 @@ public final class ProjectFile implements TaskContainer
          //
          // If a hidden "summary" task is present we ignore it
          //
-         if (NumberUtility.getInt(task.getUniqueID()) == 0)
+         if (NumberHelper.getInt(task.getUniqueID()) == 0)
          {
             continue;
          }
@@ -1170,7 +1170,7 @@ public final class ProjectFile implements TaskContainer
          //
          // If a hidden "summary" task is present we ignore it
          //
-         if (NumberUtility.getInt(task.getUniqueID()) == 0)
+         if (NumberHelper.getInt(task.getUniqueID()) == 0)
          {
             continue;
          }

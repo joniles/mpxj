@@ -14,7 +14,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * The purpose of this class is to allow the contents of an MSPDI file
@@ -61,7 +61,7 @@ public final class MppXmlCompare
       for (Task xmlTask : xmlTasks)
       {
          // too much variability
-         if (NumberUtility.getInt(xmlTask.getUniqueID()) == 0)
+         if (NumberHelper.getInt(xmlTask.getUniqueID()) == 0)
          {
             continue;
          }
@@ -295,7 +295,7 @@ public final class MppXmlCompare
       for (Resource xmlResource : xmlResources)
       {
          // too much variability
-         if (NumberUtility.getInt(xmlResource.getUniqueID()) == 0)
+         if (NumberHelper.getInt(xmlResource.getUniqueID()) == 0)
          {
             continue;
          }

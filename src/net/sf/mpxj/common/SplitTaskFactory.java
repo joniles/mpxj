@@ -21,11 +21,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.common;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.TimephasedWork;
 
 /**
  * This class contains methods to create lists of Dates representing

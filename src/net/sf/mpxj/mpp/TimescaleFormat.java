@@ -23,9 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Enumeration representing the formats which may be shown on a Gantt chart timescale.
@@ -260,7 +260,7 @@ public enum TimescaleFormat implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -299,7 +299,7 @@ public enum TimescaleFormat implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final TimescaleFormat[] TYPE_VALUES = EnumUtility.createTypeArray(TimescaleFormat.class, 3);
+   private static final TimescaleFormat[] TYPE_VALUES = EnumHelper.createTypeArray(TimescaleFormat.class, 3);
 
    /**
     * Internal representation of the enum int type.

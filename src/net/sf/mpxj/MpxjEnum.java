@@ -1,8 +1,8 @@
 /*
- * file:       Pair.java
+ * file:       MpxjEnum.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2005
- * date:       14/11/2005
+ * copyright:  (c) Packwood Software 2007
+ * date:       2007-11-09
  */
 
 /*
@@ -21,48 +21,18 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
+package net.sf.mpxj;
 
 /**
- * Represents a pair of values.
- * 
- * @param <L> first value type
- * @param <R> second value type
+ * This interface defines the common features of enums used by MPXJ.
  */
-public final class Pair<L, R>
+public interface MpxjEnum
 {
    /**
-    * Constructor.
-    *
-    * @param first first object
-    * @param second second object
+    * This method is used to retrieve the int value (not the ordinal)
+    * associated with an enum instance.
+    * 
+    * @return enum value
     */
-   public Pair(L first, R second)
-   {
-      m_first = first;
-      m_second = second;
-   }
-
-   /**
-    * Retrieve the the first object.
-    *
-    * @return first object
-    */
-   public L getFirst()
-   {
-      return (m_first);
-   }
-
-   /**
-    * Retrieve the second object.
-    *
-    * @return second object
-    */
-   public R getSecond()
-   {
-      return (m_second);
-   }
-
-   private L m_first;
-   private R m_second;
+   public int getValue();
 }

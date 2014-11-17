@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Instances of this class represent enumerated schedule from values.
@@ -75,7 +74,7 @@ public enum ScheduleFrom implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -104,7 +103,7 @@ public enum ScheduleFrom implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ScheduleFrom[] TYPE_VALUES = EnumUtility.createTypeArray(ScheduleFrom.class);
+   private static final ScheduleFrom[] TYPE_VALUES = EnumHelper.createTypeArray(ScheduleFrom.class);
 
    /**
     * Internal representation of the enum int type.

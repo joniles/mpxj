@@ -70,8 +70,7 @@ import net.sf.mpxj.planner.schema.Predecessors;
 import net.sf.mpxj.planner.schema.Project;
 import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.Sequence;
+import net.sf.mpxj.utility.DateHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -331,7 +330,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          Date rangeStartDay = mpxjCalendarException.getFromDate();
          Date rangeEndDay = mpxjCalendarException.getToDate();
-         if (DateUtility.getDayStartDate(rangeStartDay).getTime() == DateUtility.getDayEndDate(rangeEndDay).getTime())
+         if (DateHelper.getDayStartDate(rangeStartDay).getTime() == DateHelper.getDayEndDate(rangeEndDay).getTime())
          {
             //
             // Exception covers a single day
@@ -442,7 +441,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setPercentComplete(getIntegerString(mpxjTask.getPercentageWorkComplete()));
       plannerTask.setPriority(mpxjTask.getPriority() == null ? null : getIntegerString(mpxjTask.getPriority().getValue() * 10));
       plannerTask.setScheduling(getScheduling(mpxjTask.getType()));
-      plannerTask.setStart(getDateTimeString(DateUtility.getDayStartDate(mpxjTask.getStart())));
+      plannerTask.setStart(getDateTimeString(DateHelper.getDayStartDate(mpxjTask.getStart())));
       if (mpxjTask.getMilestone())
       {
          plannerTask.setType("milestone");

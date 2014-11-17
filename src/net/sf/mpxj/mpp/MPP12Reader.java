@@ -38,8 +38,6 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -56,10 +54,12 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.Pair;
-import net.sf.mpxj.utility.RTFUtility;
+import net.sf.mpxj.common.MPPResourceField;
+import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.utility.RtfHelper;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -1549,11 +1549,11 @@ final class MPP12Reader implements MPPVariantReader
          //            
             case AS_LATE_AS_POSSIBLE:
             {
-               if (DateUtility.compare(task.getStart(), task.getLateStart()) < 0)
+               if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
                {
                   task.setStart(task.getLateStart());
                }
-               if (DateUtility.compare(task.getFinish(), task.getLateFinish()) < 0)
+               if (DateHelper.compare(task.getFinish(), task.getLateFinish()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
@@ -1563,7 +1563,7 @@ final class MPP12Reader implements MPPVariantReader
             case START_NO_LATER_THAN:
             case FINISH_NO_LATER_THAN:
             {
-               if (DateUtility.compare(task.getFinish(), task.getStart()) < 0)
+               if (DateHelper.compare(task.getFinish(), task.getStart()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
@@ -1597,7 +1597,7 @@ final class MPP12Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
 
             task.setNotes(notes);
@@ -2217,7 +2217,7 @@ final class MPP12Reader implements MPPVariantReader
          notes = resource.getNotes();
          if (m_reader.getPreserveNoteFormatting() == false)
          {
-            notes = RTFUtility.strip(notes);
+            notes = RtfHelper.strip(notes);
          }
          resource.setNotes(notes);
 
@@ -2476,7 +2476,7 @@ final class MPP12Reader implements MPPVariantReader
       if (item != null && item.getValue() != null)
       {
          result = MPPUtility.getUnicodeString(item.getValue());
-         if (!NumberUtility.equals(id, item.getParent()))
+         if (!NumberHelper.equals(id, item.getParent()))
          {
             String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
             if (result2 != null && !result2.isEmpty())

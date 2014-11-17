@@ -30,7 +30,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.DateHelper;
 
 /**
  * Normalise timephased resource assignment data from an MPP file. 
@@ -58,9 +58,9 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
          else
          {
             Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateUtility.getDayStartDate(previousAssignmentStart);
+            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
             Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateUtility.getDayStartDate(assignmentStart);
+            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {

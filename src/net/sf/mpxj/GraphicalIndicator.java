@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents the set of information which defines how
@@ -54,7 +54,7 @@ public class GraphicalIndicator
       if (container instanceof Task)
       {
          Task task = (Task) container;
-         if (NumberUtility.getInt(task.getUniqueID()) == 0)
+         if (NumberHelper.getInt(task.getUniqueID()) == 0)
          {
             if (m_projectSummaryInheritsFromSummaryRows == false)
             {

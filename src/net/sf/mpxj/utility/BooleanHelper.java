@@ -1,8 +1,8 @@
 /*
- * file:       FieldType.java
+ * file:       BooleanHelper.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
- * date:       16/04/2005
+ * date:       Mar 30, 2005
  */
 
 /*
@@ -21,42 +21,22 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
-
-import java.util.Locale;
+package net.sf.mpxj.utility;
 
 /**
- * This interface is implemented by classes which represent a field
- * in a Task, Resource or Assignment entity.
+ * This class contains utility methods related to Boolean objects and
+ * boolean primitives.
  */
-public interface FieldType extends MpxjEnum
+public final class BooleanHelper
 {
    /**
-    * Retrieve the name of this field using the default locale.
+    * Retrieve a boolean value from a Boolean object. Handles null values.
     *
-    * @return field name
+    * @param value Boolean instance
+    * @return boolean value
     */
-   public String getName();
-
-   /**
-    * Retrieve the name of this field using the supplied locale.
-    *
-    * @param locale target locale
-    * @return field name
-    */
-   public String getName(Locale locale);
-
-   /**
-    * Retrieve the data type of this field.
-    * 
-    * @return data type
-    */
-   public DataType getDataType();
-
-   /**
-    * Retrieve the associated units field, if any.
-    * 
-    * @return units field
-    */
-   public FieldType getUnitsType();
+   public static final boolean getBoolean(Boolean value)
+   {
+      return ((value == null ? false : value.booleanValue()));
+   }
 }

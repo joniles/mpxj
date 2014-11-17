@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Instances of this class represent enumerated work group values.
@@ -77,7 +76,7 @@ public enum WorkGroup implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -95,7 +94,7 @@ public enum WorkGroup implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final WorkGroup[] TYPE_VALUES = EnumUtility.createTypeArray(WorkGroup.class);
+   private static final WorkGroup[] TYPE_VALUES = EnumHelper.createTypeArray(WorkGroup.class);
 
    /**
     * Internal representation of the enum int type.

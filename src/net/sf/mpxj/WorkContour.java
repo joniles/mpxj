@@ -23,9 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Instances of this class represent enumerated work contour values.
@@ -82,7 +81,7 @@ public enum WorkContour implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -100,7 +99,7 @@ public enum WorkContour implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final WorkContour[] TYPE_VALUES = EnumUtility.createTypeArray(WorkContour.class);
+   private static final WorkContour[] TYPE_VALUES = EnumHelper.createTypeArray(WorkContour.class);
 
    /**
     * Internal representation of the enum int type.

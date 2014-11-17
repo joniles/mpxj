@@ -1,5 +1,5 @@
 /*
- * file:       InputStreamTokenizer.java
+ * file:       ReaderTokenizer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2003
  * date:       15/02/2005
@@ -21,25 +21,25 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
+package net.sf.mpxj.common;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
- * with characters being read from an InputStream instance.
+ * with characters being read from a Reader instance.
  */
-public class InputStreamTokenizer extends Tokenizer
+public class ReaderTokenizer extends Tokenizer
 {
    /**
     * Constructor.
     *
-    * @param is InputStream instance
+    * @param r Reader instance
     */
-   public InputStreamTokenizer(InputStream is)
+   public ReaderTokenizer(Reader r)
    {
-      m_stream = is;
+      m_reader = r;
    }
 
    /**
@@ -47,8 +47,8 @@ public class InputStreamTokenizer extends Tokenizer
     */
    @Override protected int read() throws IOException
    {
-      return (m_stream.read());
+      return (m_reader.read());
    }
 
-   private InputStream m_stream;
+   private Reader m_reader;
 }

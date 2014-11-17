@@ -33,16 +33,16 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
-import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedCostNormaliser;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.TimephasedWorkData;
-import net.sf.mpxj.TimephasedWorkNormaliser;
 import net.sf.mpxj.WorkContour;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.RTFUtility;
+import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.SplitTaskFactory;
+import net.sf.mpxj.common.TimephasedCostNormaliser;
+import net.sf.mpxj.common.TimephasedWorkNormaliser;
+import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.utility.RtfHelper;
 
 /**
  * Common implementation detail to extract resource assignment data from 
@@ -170,7 +170,7 @@ public class ResourceAssignmentFactory
          {
             if (!preserveNoteFormatting)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
 
             assignment.setNotes(notes);
@@ -241,9 +241,9 @@ public class ResourceAssignmentFactory
 
             createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-            assignment.setTimephasedWork(new TimephasedWorkData(calendar, normaliser, timephasedWork, !useRawTimephasedData));
-            assignment.setTimephasedActualWork(new TimephasedWorkData(calendar, normaliser, timephasedActualWork, !useRawTimephasedData));
-            assignment.setTimephasedActualOvertimeWork(new TimephasedWorkData(calendar, normaliser, timephasedActualOvertimeWork, !useRawTimephasedData));
+            assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedWork, !useRawTimephasedData));
+            assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedActualWork, !useRawTimephasedData));
+            assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedActualOvertimeWork, !useRawTimephasedData));
 
             if (timephasedWorkData != null)
             {
@@ -321,8 +321,8 @@ public class ResourceAssignmentFactory
 
          if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
          {
-            workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : TimephasedWorkNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
-            int units = NumberUtility.getInt(assignment.getUnits());
+            workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
+            int units = NumberHelper.getInt(assignment.getUnits());
             if (units != 100)
             {
                workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
@@ -333,14 +333,14 @@ public class ResourceAssignmentFactory
             if (assignment.getVariableRateUnits() == null)
             {
                Duration workingDays = assignment.getCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
-               double units = NumberUtility.getDouble(assignment.getUnits());
+               double units = NumberHelper.getDouble(assignment.getUnits());
                double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
                workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
             }
             else
             {
-               double unitsPerHour = NumberUtility.getDouble(assignment.getUnits());
-               workPerDay = TimephasedWorkNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
+               double unitsPerHour = NumberHelper.getDouble(assignment.getUnits());
+               workPerDay = ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
                Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectHeader());
                double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
                double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
@@ -414,4 +414,6 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG19, 28, 0x080000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG20, 28, 0x100000, Boolean.FALSE, Boolean.TRUE)
    };
+
+   private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

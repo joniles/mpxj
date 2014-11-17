@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
 
 /**
  * Represents the recurrence type.
@@ -84,7 +83,7 @@ public enum RecurrenceType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final RecurrenceType[] TYPE_VALUES = EnumUtility.createTypeArray(RecurrenceType.class, 13);
+   private static final RecurrenceType[] TYPE_VALUES = EnumHelper.createTypeArray(RecurrenceType.class, 13);
 
    /**
     * Internal representation of the enum int type.

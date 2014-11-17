@@ -56,13 +56,12 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.ReaderTokenizer;
+import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.InputStreamTokenizer;
-import net.sf.mpxj.utility.MPXJFormats;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.ReaderTokenizer;
-import net.sf.mpxj.utility.Tokenizer;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPX file.
@@ -392,7 +391,7 @@ public final class MPXReader extends AbstractProjectReader
             m_lastTask = m_projectFile.addTask();
             populateTask(record, m_lastTask);
 
-            int outlineLevel = NumberUtility.getInt(m_lastTask.getOutlineLevel());
+            int outlineLevel = NumberHelper.getInt(m_lastTask.getOutlineLevel());
 
             if (m_baseOutlineLevel == -1)
             {
@@ -507,8 +506,8 @@ public final class MPXReader extends AbstractProjectReader
       projectHeader.setDefaultDurationUnits(record.getTimeUnit(0));
       projectHeader.setDefaultDurationIsFixed(record.getNumericBoolean(1));
       projectHeader.setDefaultWorkUnits(record.getTimeUnit(2));
-      projectHeader.setMinutesPerDay(Double.valueOf(NumberUtility.getDouble(record.getFloat(3)) * 60));
-      projectHeader.setMinutesPerWeek(Double.valueOf(NumberUtility.getDouble(record.getFloat(4)) * 60));
+      projectHeader.setMinutesPerDay(Double.valueOf(NumberHelper.getDouble(record.getFloat(3)) * 60));
+      projectHeader.setMinutesPerWeek(Double.valueOf(NumberHelper.getDouble(record.getFloat(4)) * 60));
       projectHeader.setDefaultStandardRate(record.getRate(5));
       projectHeader.setDefaultOvertimeRate(record.getRate(6));
       projectHeader.setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
@@ -622,7 +621,7 @@ public final class MPXReader extends AbstractProjectReader
     */
    private void populateCalendarHours(Record record, ProjectCalendarHours hours) throws MPXJException
    {
-      hours.setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
+      hours.setDay(Day.getInstance(NumberHelper.getInt(record.getInteger(0))));
       addDateRange(hours, record.getTime(1), record.getTime(2));
       addDateRange(hours, record.getTime(3), record.getTime(4));
       addDateRange(hours, record.getTime(5), record.getTime(6));
@@ -1282,11 +1281,11 @@ public final class MPXReader extends AbstractProjectReader
       task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectHeader(), record.getInteger(3), record.getInteger(4)));
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
-      task.setUseEndDate(NumberUtility.getInt(record.getInteger(8)) == 1);
-      task.setDailyWorkday(NumberUtility.getInt(record.getInteger(9)) == 1);
+      task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
+      task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
       task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
-      task.setMonthlyRelative(NumberUtility.getInt(record.getInteger(11)) == 1);
-      task.setYearlyAbsolute(NumberUtility.getInt(record.getInteger(12)) == 1);
+      task.setMonthlyRelative(NumberHelper.getInt(record.getInteger(11)) == 1);
+      task.setYearlyAbsolute(NumberHelper.getInt(record.getInteger(12)) == 1);
       task.setDailyFrequency(record.getInteger(13));
       task.setWeeklyFrequency(record.getInteger(14));
       task.setMonthlyRelativeOrdinal(record.getInteger(15));
@@ -1366,8 +1365,8 @@ public final class MPXReader extends AbstractProjectReader
    private void populateResourceAssignmentWorkgroupFields(Record record, ResourceAssignmentWorkgroupFields workgroup) throws MPXJException
    {
       workgroup.setMessageUniqueID(record.getString(0));
-      workgroup.setConfirmed(NumberUtility.getInt(record.getInteger(1)) == 1);
-      workgroup.setResponsePending(NumberUtility.getInt(record.getInteger(1)) == 1);
+      workgroup.setConfirmed(NumberHelper.getInt(record.getInteger(1)) == 1);
+      workgroup.setResponsePending(NumberHelper.getInt(record.getInteger(1)) == 1);
       workgroup.setUpdateStart(record.getDateTime(3));
       workgroup.setUpdateFinish(record.getDateTime(4));
       workgroup.setScheduleID(record.getString(5));

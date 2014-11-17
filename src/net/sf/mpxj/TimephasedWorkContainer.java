@@ -1,8 +1,8 @@
 /*
- * file:       FieldType.java
+ * file:       TimephasedWorkContainer.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       16/04/2005
+ * copyright:  (c) Packwood Software 2014
+ * date:       2014-11-17
  */
 
 /*
@@ -23,40 +23,25 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
+import java.util.List;
 
 /**
- * This interface is implemented by classes which represent a field
- * in a Task, Resource or Assignment entity.
+ * Timephased data container.
  */
-public interface FieldType extends MpxjEnum
+public interface TimephasedWorkContainer
 {
    /**
-    * Retrieve the name of this field using the default locale.
-    *
-    * @return field name
-    */
-   public String getName();
-
-   /**
-    * Retrieve the name of this field using the supplied locale.
-    *
-    * @param locale target locale
-    * @return field name
-    */
-   public String getName(Locale locale);
-
-   /**
-    * Retrieve the data type of this field.
+    * Retrieves the timephased data.
     * 
-    * @return data type
+    * @return timephased data
     */
-   public DataType getDataType();
+   public List<TimephasedWork> getData();
 
    /**
-    * Retrieve the associated units field, if any.
+    * Indicates if any timephased data is present.
     * 
-    * @return units field
+    * @return boolean flag
     */
-   public FieldType getUnitsType();
+   public boolean hasData();
+
 }

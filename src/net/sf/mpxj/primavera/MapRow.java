@@ -28,8 +28,8 @@ import java.util.Map;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Implementation of the Row interface, wrapping a Map.
@@ -120,7 +120,7 @@ class MapRow implements Row
       {
          if (value instanceof Boolean)
          {
-            result = BooleanUtility.getBoolean((Boolean) value);
+            result = BooleanHelper.getBoolean((Boolean) value);
          }
          else
          {
@@ -135,7 +135,7 @@ class MapRow implements Row
     */
    @Override public final int getInt(String name)
    {
-      return (NumberUtility.getInt((Number) getObject(name)));
+      return (NumberHelper.getInt((Number) getObject(name)));
    }
 
    /**
@@ -151,7 +151,7 @@ class MapRow implements Row
     */
    @Override public final Duration getDuration(String name)
    {
-      return (Duration.getInstance(NumberUtility.getDouble(getDouble(name)), TimeUnit.HOURS));
+      return (Duration.getInstance(NumberHelper.getDouble(getDouble(name)), TimeUnit.HOURS));
    }
 
    /**

@@ -52,7 +52,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 import org.junit.Test;
 
@@ -321,7 +321,7 @@ public class BasicTest
 
       for (ResourceAssignment assignment : assignments)
       {
-         switch (NumberUtility.getInt(assignment.getResource().getID()))
+         switch (NumberHelper.getInt(assignment.getResource().getID()))
          {
             case 1:
             {

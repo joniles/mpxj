@@ -38,8 +38,6 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -56,10 +54,12 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.Pair;
-import net.sf.mpxj.utility.RTFUtility;
+import net.sf.mpxj.common.MPPResourceField;
+import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.utility.RtfHelper;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -1013,7 +1013,7 @@ final class MPP9Reader implements MPPVariantReader
          case CURRENCY:
             while (offset + 8 <= data.length)
             {
-               Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
+               Double number = NumberHelper.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
                list.add(number);
                offset += 8;
             }
@@ -1021,7 +1021,7 @@ final class MPP9Reader implements MPPVariantReader
          case NUMERIC:
             while (offset + 8 <= data.length)
             {
-               Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset));
+               Double number = NumberHelper.getDouble(MPPUtility.getDouble(data, offset));
                list.add(number);
                offset += 8;
             }
@@ -1757,11 +1757,11 @@ final class MPP9Reader implements MPPVariantReader
          //            
             case AS_LATE_AS_POSSIBLE:
             {
-               if (DateUtility.compare(task.getStart(), task.getLateStart()) < 0)
+               if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
                {
                   task.setStart(task.getLateStart());
                }
-               if (DateUtility.compare(task.getFinish(), task.getLateFinish()) < 0)
+               if (DateHelper.compare(task.getFinish(), task.getLateFinish()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
@@ -1771,7 +1771,7 @@ final class MPP9Reader implements MPPVariantReader
             case START_NO_LATER_THAN:
             case FINISH_NO_LATER_THAN:
             {
-               if (DateUtility.compare(task.getFinish(), task.getStart()) < 0)
+               if (DateHelper.compare(task.getFinish(), task.getStart()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
@@ -1806,7 +1806,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             if (m_reader.getPreserveNoteFormatting() == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
 
             task.setNotes(notes);
@@ -2374,7 +2374,7 @@ final class MPP9Reader implements MPPVariantReader
          notes = resource.getNotes();
          if (m_reader.getPreserveNoteFormatting() == false)
          {
-            notes = RTFUtility.strip(notes);
+            notes = RtfHelper.strip(notes);
          }
 
          resource.setNotes(notes);
@@ -2594,7 +2594,7 @@ final class MPP9Reader implements MPPVariantReader
          for (int i = 0; i < allTasks.size(); i++)
          {
             Task task = allTasks.get(i);
-            taskID = NumberUtility.getInt(task.getID());
+            taskID = NumberHelper.getInt(task.getID());
             // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
             // IDs are represented.
             if (!task.getNull() && lastTaskID != -1 && taskID > lastTaskID + 1)

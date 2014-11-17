@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.AbstractView;
 import net.sf.mpxj.ProjectFile;
 
 /**

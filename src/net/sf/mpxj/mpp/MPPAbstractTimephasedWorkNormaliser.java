@@ -27,12 +27,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.sf.mpxj.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
+import net.sf.mpxj.utility.DateHelper;
 
 /**
  * Normalise timephased resource assignment data from an MPP file. 
@@ -88,8 +88,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
          while (assignment != null)
          {
-            Date startDay = DateUtility.getDayStartDate(assignment.getStart());
-            Date finishDay = DateUtility.getDayStartDate(assignment.getFinish());
+            Date startDay = DateHelper.getDayStartDate(assignment.getStart());
+            Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...                 
             if (assignment.getFinish().getTime() == finishDay.getTime())
@@ -179,7 +179,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          {
             Date splitStart = assignmentStart;
             Date splitFinishTime = calendar.getFinishTime(splitStart);
-            splitFinish = DateUtility.setTime(splitStart, splitFinishTime);
+            splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
 
             Duration calendarSplitWork = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES);
             Duration calendarWorkPerDay = calendar.getWork(splitStart, TimeUnit.MINUTES);
@@ -272,7 +272,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
       Date splitStart = assignmentStart;
       Date splitFinishTime = calendar.getFinishTime(splitStart);
-      Date splitFinish = DateUtility.setTime(splitStart, splitFinishTime);
+      Date splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
 
       Duration calendarSplitWork = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES);
       Duration assignmentWorkPerDay = assignment.getAmountPerDay();

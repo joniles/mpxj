@@ -36,9 +36,6 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPAssignmentField;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -59,9 +56,12 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.utility.NumberUtility;
-import net.sf.mpxj.utility.Pair;
-import net.sf.mpxj.utility.RTFUtility;
+import net.sf.mpxj.common.MPPAssignmentField;
+import net.sf.mpxj.common.MPPResourceField;
+import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.utility.RtfHelper;
 
 /**
  * This class implements retrieval of data from a project database 
@@ -238,7 +238,7 @@ abstract class MPD9AbstractReader
    protected void processCalendar(Row row)
    {
       Integer uniqueID = row.getInteger("CAL_UID");
-      if (NumberUtility.getInt(uniqueID) > 0)
+      if (NumberHelper.getInt(uniqueID) > 0)
       {
          boolean baseCalendar = row.getBoolean("CAL_IS_BASE_CAL");
          ProjectCalendar cal;
@@ -389,7 +389,7 @@ abstract class MPD9AbstractReader
       {
          Resource resource = m_project.addResource();
          resource.setAccrueAt(AccrueType.getInstance(row.getInt("RES_ACCRUE_AT")));
-         resource.setActualCost(getDefaultOnNull(row.getCurrency("RES_ACT_COST"), NumberUtility.DOUBLE_ZERO));
+         resource.setActualCost(getDefaultOnNull(row.getCurrency("RES_ACT_COST"), NumberHelper.DOUBLE_ZERO));
          resource.setActualOvertimeCost(row.getCurrency("RES_ACT_OVT_COST"));
          resource.setActualOvertimeWork(row.getDuration("RES_ACT_OVT_WORK"));
          //resource.setActualOvertimeWorkProtected();
@@ -400,14 +400,14 @@ abstract class MPD9AbstractReader
          resource.setAvailableFrom(row.getDate("RES_AVAIL_FROM"));
          resource.setAvailableTo(row.getDate("RES_AVAIL_TO"));
          //resource.setBaseCalendar();
-         resource.setBaselineCost(getDefaultOnNull(row.getCurrency("RES_BASE_COST"), NumberUtility.DOUBLE_ZERO));
+         resource.setBaselineCost(getDefaultOnNull(row.getCurrency("RES_BASE_COST"), NumberHelper.DOUBLE_ZERO));
          resource.setBaselineWork(row.getDuration("RES_BASE_WORK"));
          resource.setBCWP(row.getCurrency("RES_BCWP"));
          resource.setBCWS(row.getCurrency("RES_BCWS"));
          //resource.setBookingType();      
          resource.setCanLevel(row.getBoolean("RES_CAN_LEVEL"));
          //resource.setCode();
-         resource.setCost(getDefaultOnNull(row.getCurrency("RES_COST"), NumberUtility.DOUBLE_ZERO));
+         resource.setCost(getDefaultOnNull(row.getCurrency("RES_COST"), NumberHelper.DOUBLE_ZERO));
          //resource.setCost1();
          //resource.setCost2();
          //resource.setCost3();
@@ -485,7 +485,7 @@ abstract class MPD9AbstractReader
          //resource.setIsNull();
          //resource.setLinkedFields();RES_HAS_LINKED_FIELDS = false ( java.lang.Boolean)
          resource.setMaterialLabel(row.getString("RES_MATERIAL_LABEL"));
-         resource.setMaxUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_MAX_UNITS")) * 100));
+         resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_MAX_UNITS")) * 100));
          resource.setName(row.getString("RES_NAME"));
          //resource.setNtAccount();
          //resource.setNumber1();
@@ -524,11 +524,11 @@ abstract class MPD9AbstractReader
          resource.setOvertimeRate(new Rate(row.getDouble("RES_OVT_RATE"), TimeUnit.HOURS));
          resource.setOvertimeRateUnits(TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
          resource.setOvertimeWork(row.getDuration("RES_OVT_WORK"));
-         resource.setPeakUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_PEAK")) * 100));
+         resource.setPeakUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_PEAK")) * 100));
          //resource.setPercentWorkComplete();
          resource.setPhonetics(row.getString("RES_PHONETICS"));
          resource.setRegularWork(row.getDuration("RES_REG_WORK"));
-         resource.setRemainingCost(getDefaultOnNull(row.getCurrency("RES_REM_COST"), NumberUtility.DOUBLE_ZERO));
+         resource.setRemainingCost(getDefaultOnNull(row.getCurrency("RES_REM_COST"), NumberHelper.DOUBLE_ZERO));
          resource.setRemainingOvertimeCost(row.getCurrency("RES_REM_OVT_COST"));
          resource.setRemainingOvertimeWork(row.getDuration("RES_REM_OVT_WORK"));
          resource.setRemainingWork(row.getDuration("RES_REM_WORK"));
@@ -586,7 +586,7 @@ abstract class MPD9AbstractReader
          {
             if (m_preserveNoteFormatting == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
             resource.setNotes(notes);
          }
@@ -598,7 +598,7 @@ abstract class MPD9AbstractReader
          //
          if (resource.getCost() != null && resource.getBaselineCost() != null)
          {
-            resource.setCostVariance(NumberUtility.getDouble(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue()));
+            resource.setCostVariance(NumberHelper.getDouble(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue()));
          }
 
          //
@@ -612,7 +612,7 @@ abstract class MPD9AbstractReader
          //
          // Set the overallocated flag
          //
-         resource.setOverAllocated(NumberUtility.getDouble(resource.getPeakUnits()) > NumberUtility.getDouble(resource.getMaxUnits()));
+         resource.setOverAllocated(NumberHelper.getDouble(resource.getPeakUnits()) > NumberHelper.getDouble(resource.getMaxUnits()));
 
          m_project.fireResourceReadEvent(resource);
 
@@ -1043,7 +1043,7 @@ abstract class MPD9AbstractReader
          {
             if (m_preserveNoteFormatting == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
             task.setNotes(notes);
          }
@@ -1053,7 +1053,7 @@ abstract class MPD9AbstractReader
          //
          if (task.getCost() != null && task.getBaselineCost() != null)
          {
-            task.setCostVariance(NumberUtility.getDouble(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
+            task.setCostVariance(NumberHelper.getDouble(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
          }
 
          //
@@ -1197,7 +1197,7 @@ abstract class MPD9AbstractReader
          {
             if (m_preserveNoteFormatting == false)
             {
-               notes = RTFUtility.strip(notes);
+               notes = RtfHelper.strip(notes);
             }
             assignment.setNotes(notes);
          }
@@ -1278,7 +1278,7 @@ abstract class MPD9AbstractReader
     */
    private Integer getNullOnValue(Integer value, int nullValue)
    {
-      return (NumberUtility.getInt(value) == nullValue ? null : value);
+      return (NumberHelper.getInt(value) == nullValue ? null : value);
    }
 
    /**

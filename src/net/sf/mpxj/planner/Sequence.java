@@ -1,8 +1,8 @@
 /*
- * file:       TimephasedCostNormaliser.java
+ * file:       Sequence.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2009
- * date:       09/01/2009
+ * copyright:  (c) Packwood Software 2006
+ * date:       May 22, 2007
  */
 
 /*
@@ -21,24 +21,32 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
-
-import java.util.LinkedList;
+package net.sf.mpxj.planner;
 
 /**
- * Classes implementing this interface are used to normalise timephased 
- * resource assignment data.
+ * Trivial class implementing sequence generation.
  */
-public interface TimephasedCostNormaliser
+public class Sequence
 {
+   /**
+    * Constructor. Defines the starting value of the seqence.
+    * 
+    * @param initialValue initial sequence value
+    */
+   public Sequence(int initialValue)
+   {
+      m_sequence = initialValue;
+   }
 
    /**
-    * This method converts the internal representation of timephased 
-    * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
+    * Retrieve the next value in the sequence.
     * 
-    * @param calendar current calendar
-    * @param list list of assignment data
+    * @return next sequence value
     */
-   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedCost> list);
+   public int next()
+   {
+      return (m_sequence++);
+   }
+
+   private int m_sequence;
 }

@@ -29,11 +29,11 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
+import net.sf.mpxj.common.MPPResourceField;
+import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * This class allows graphical indicator definitions to be read from an MPP

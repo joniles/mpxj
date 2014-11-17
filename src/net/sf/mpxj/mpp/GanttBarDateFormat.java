@@ -23,9 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Enumeration representing the formats which may be shown on a Gantt chart timescale.
@@ -97,7 +97,7 @@ public enum GanttBarDateFormat implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -136,7 +136,7 @@ public enum GanttBarDateFormat implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarDateFormat[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarDateFormat.class);
+   private static final GanttBarDateFormat[] TYPE_VALUES = EnumHelper.createTypeArray(GanttBarDateFormat.class);
 
    /**
     * Internal representation of the enum int type.

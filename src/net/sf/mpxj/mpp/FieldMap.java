@@ -43,7 +43,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class is used to represent the mapping present in the MPP file
@@ -772,7 +772,7 @@ abstract class FieldMap
                   case CURRENCY:
                   case UNITS:
                   {
-                     result = NumberUtility.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
+                     result = NumberHelper.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
                      break;
                   }
 
@@ -876,7 +876,7 @@ abstract class FieldMap
 
             case CURRENCY:
             {
-               result = NumberUtility.getDouble(varData.getDouble(id, m_varDataKey) / 100);
+               result = NumberHelper.getDouble(varData.getDouble(id, m_varDataKey) / 100);
                break;
             }
 
@@ -1085,7 +1085,7 @@ abstract class FieldMap
                result = MPPUtility.getDouble(item.getValue());
             }
          }
-         return NumberUtility.getDouble(result);
+         return NumberHelper.getDouble(result);
       }
 
       /**

@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.UUID;
 
 import net.sf.mpxj.listener.FieldListener;
-import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.BooleanHelper;
+import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a task record from an project file.
@@ -85,7 +85,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
          else
          {
-            setOutlineLevel(Integer.valueOf(NumberUtility.getInt(parent.getOutlineLevel()) + 1));
+            setOutlineLevel(Integer.valueOf(NumberHelper.getInt(parent.getOutlineLevel()) + 1));
          }
       }
    }
@@ -102,7 +102,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (parent == null)
       {
-         if (NumberUtility.getInt(getUniqueID()) == 0)
+         if (NumberHelper.getInt(getUniqueID()) == 0)
          {
             wbs = "0";
          }
@@ -153,7 +153,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (parent == null)
       {
-         if (NumberUtility.getInt(getUniqueID()) == 0)
+         if (NumberHelper.getInt(getUniqueID()) == 0)
          {
             outline = "0";
          }
@@ -229,7 +229,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void addChildTask(Task child, int childOutlineLevel)
    {
-      int outlineLevel = NumberUtility.getInt(getOutlineLevel());
+      int outlineLevel = NumberHelper.getInt(getOutlineLevel());
 
       if ((outlineLevel + 1) == childOutlineLevel)
       {
@@ -261,7 +261,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (getParentFile().getAutoOutlineLevel() == true)
       {
-         child.setOutlineLevel(Integer.valueOf(NumberUtility.getInt(getOutlineLevel()) + 1));
+         child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
    }
 
@@ -288,7 +288,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (getParentFile().getAutoOutlineLevel() == true)
       {
-         child.setOutlineLevel(Integer.valueOf(NumberUtility.getInt(getOutlineLevel()) + 1));
+         child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
    }
 
@@ -1754,7 +1754,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getConfirmed()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.CONFIRMED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.CONFIRMED)));
    }
 
    /**
@@ -1821,7 +1821,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          Number baselineCost = getBaselineCost();
          if (cost != null && baselineCost != null)
          {
-            variance = NumberUtility.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
             set(TaskField.COST_VARIANCE, variance);
          }
       }
@@ -1852,10 +1852,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (critical == null)
       {
          Duration totalSlack = getTotalSlack();
-         critical = Boolean.valueOf(totalSlack.getDuration() <= 0 && NumberUtility.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
+         critical = Boolean.valueOf(totalSlack.getDuration() <= 0 && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
          set(TaskField.CRITICAL, critical);
       }
-      return (BooleanUtility.getBoolean(critical));
+      return (BooleanHelper.getBoolean(critical));
    }
 
    /**
@@ -1875,7 +1875,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Number variance = (Number) getCachedValue(TaskField.CV);
       if (variance == null)
       {
-         variance = Double.valueOf(NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
          set(TaskField.CV, variance);
       }
       return (variance);
@@ -2039,7 +2039,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (variance == null)
       {
          TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
-         variance = DateUtility.getVariance(this, getBaselineFinish(), getFinish(), format);
+         variance = DateHelper.getVariance(this, getBaselineFinish(), getFinish(), format);
          set(TaskField.FINISH_VARIANCE, variance);
       }
       return (variance);
@@ -2075,7 +2075,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getFlag(int index)
    {
-      return BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(CUSTOM_FLAG, index)));
    }
 
    /**
@@ -2101,7 +2101,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getHideBar()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.HIDE_BAR)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.HIDE_BAR)));
    }
 
    /**
@@ -2152,7 +2152,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getLinkedFields()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.LINKED_FIELDS)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.LINKED_FIELDS)));
    }
 
    /**
@@ -2164,7 +2164,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getMarked()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.MARKED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.MARKED)));
    }
 
    /**
@@ -2174,7 +2174,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getMilestone()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.MILESTONE)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.MILESTONE)));
    }
 
    /**
@@ -2413,7 +2413,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getRollup()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.ROLLUP)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.ROLLUP)));
    }
 
    /**
@@ -2471,7 +2471,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (variance == null)
       {
          TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
-         variance = DateUtility.getVariance(this, getBaselineStart(), getStart(), format);
+         variance = DateHelper.getVariance(this, getBaselineStart(), getStart(), format);
          set(TaskField.START_VARIANCE, variance);
       }
       return (variance);
@@ -2507,7 +2507,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getSummary()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.SUMMARY)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.SUMMARY)));
    }
 
    /**
@@ -2527,7 +2527,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          Number bcws = getBCWS();
          if (bcwp != null && bcws != null)
          {
-            variance = NumberUtility.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
             set(TaskField.SV, variance);
          }
       }
@@ -2677,7 +2677,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getUpdateNeeded()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.UPDATE_NEEDED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.UPDATE_NEEDED)));
    }
 
    /**
@@ -2764,8 +2764,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    @Override public int compareTo(Task o)
    {
-      int id1 = NumberUtility.getInt(getID());
-      int id2 = NumberUtility.getInt(o.getID());
+      int id1 = NumberHelper.getInt(getID());
+      int id2 = NumberHelper.getInt(o.getID());
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
@@ -2777,7 +2777,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getEstimated()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.ESTIMATED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.ESTIMATED)));
    }
 
    /**
@@ -2898,7 +2898,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getRecurring()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.RECURRING)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.RECURRING)));
    }
 
    /**
@@ -2918,7 +2918,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getOverAllocated()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.OVERALLOCATED)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.OVERALLOCATED)));
    }
 
    /**
@@ -3007,7 +3007,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getSubprojectReadOnly()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.SUBPROJECT_READ_ONLY)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.SUBPROJECT_READ_ONLY)));
    }
 
    /**
@@ -3027,7 +3027,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getExternalTask()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.EXTERNAL_TASK)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.EXTERNAL_TASK)));
    }
 
    /**
@@ -3107,7 +3107,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getIgnoreResourceCalendar()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.IGNORE_RESOURCE_CALENDAR)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.IGNORE_RESOURCE_CALENDAR)));
    }
 
    /**
@@ -3237,7 +3237,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getEffortDriven()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.EFFORT_DRIVEN)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.EFFORT_DRIVEN)));
    }
 
    /**
@@ -3409,7 +3409,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getLevelAssignments()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.LEVEL_ASSIGNMENTS)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.LEVEL_ASSIGNMENTS)));
    }
 
    /**
@@ -3429,7 +3429,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getLevelingCanSplit()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.LEVELING_CAN_SPLIT)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.LEVELING_CAN_SPLIT)));
    }
 
    /**
@@ -3623,7 +3623,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          Duration duration = getDuration();
          if (duration != null)
          {
-            startSlack = DateUtility.getVariance(this, getLateStart(), getEarlyStart(), duration.getUnits());
+            startSlack = DateHelper.getVariance(this, getLateStart(), getEarlyStart(), duration.getUnits());
             set(TaskField.START_SLACK, startSlack);
          }
       }
@@ -3643,7 +3643,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          Duration duration = getDuration();
          if (duration != null)
          {
-            finishSlack = DateUtility.getVariance(this, getLateFinish(), getEarlyFinish(), duration.getUnits());
+            finishSlack = DateHelper.getVariance(this, getLateFinish(), getEarlyFinish(), duration.getUnits());
             set(TaskField.FINISH_SLACK, finishSlack);
          }
       }
@@ -3818,7 +3818,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ENTERPRISE_FLAG, index))));
    }
 
    /**
@@ -4144,7 +4144,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Date value = (Date) getCachedValue(TaskField.COMPLETE_THROUGH);
       if (value == null)
       {
-         int percentComplete = NumberUtility.getInt(getPercentageComplete());
+         int percentComplete = NumberHelper.getInt(getPercentageComplete());
          switch (percentComplete)
          {
             case 0:
@@ -4226,7 +4226,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public TaskMode getTaskMode()
    {
-      return BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.TASK_MODE)) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.TASK_MODE)) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
    }
 
    /**
@@ -4246,7 +4246,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getActive()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.ACTIVE)));
+      return (BooleanHelper.getBoolean((Boolean) getCachedValue(TaskField.ACTIVE)));
    }
 
    /**

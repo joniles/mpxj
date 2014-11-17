@@ -29,7 +29,7 @@ import java.util.Date;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Common code to read resource availability tables from MPP files.
@@ -60,7 +60,7 @@ final class AvailabilityFactory
                cal.setTime(endDate);
                cal.add(Calendar.MINUTE, -1);
                endDate = cal.getTime();
-               Double units = NumberUtility.getDouble(unitsValue / 100);
+               Double units = NumberHelper.getDouble(unitsValue / 100);
                Availability item = new Availability(startDate, endDate, units);
                table.add(item);
             }

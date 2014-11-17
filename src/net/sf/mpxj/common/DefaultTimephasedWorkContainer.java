@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedCostData.java
+ * file:       DefaultTimephasedWorkContainer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
  * date:       2011-12-03
@@ -21,15 +21,19 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.common;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.TimephasedWorkContainer;
+
 /**
  * Class used to manage timephased data.
  */
-public class TimephasedCostData
+public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
 {
    /**
     * Constructor.
@@ -39,15 +43,15 @@ public class TimephasedCostData
     * @param data timephased data
     * @param raw flag indicating if this data is raw
     */
-   public TimephasedCostData(ProjectCalendar calendar, TimephasedCostNormaliser normaliser, List<TimephasedCost> data, boolean raw)
+   public DefaultTimephasedWorkContainer(ProjectCalendar calendar, TimephasedWorkNormaliser normaliser, List<TimephasedWork> data, boolean raw)
    {
       if (data instanceof LinkedList<?>)
       {
-         m_data = (LinkedList<TimephasedCost>) data;
+         m_data = (LinkedList<TimephasedWork>) data;
       }
       else
       {
-         m_data = new LinkedList<TimephasedCost>(data);
+         m_data = new LinkedList<TimephasedWork>(data);
       }
       m_raw = raw;
       m_calendar = calendar;
@@ -55,11 +59,30 @@ public class TimephasedCostData
    }
 
    /**
-    * Retrieves the timephased data.
+    * Copy constructor which can be used to scale the data it is copying
+    * by a given factor.
     * 
-    * @return timephased data
+    * @param source source data
+    * @param perDayFactor per day scaling factor
+    * @param totalFactor total scaling factor
     */
-   public List<TimephasedCost> getData()
+   public DefaultTimephasedWorkContainer(DefaultTimephasedWorkContainer source, double perDayFactor, double totalFactor)
+   {
+      m_data = new LinkedList<TimephasedWork>();
+      m_raw = source.m_raw;
+      m_calendar = source.m_calendar;
+      m_normaliser = source.m_normaliser;
+
+      for (TimephasedWork sourceItem : source.m_data)
+      {
+         m_data.add(new TimephasedWork(sourceItem, totalFactor, perDayFactor));
+      }
+   }
+
+   /* (non-Javadoc)
+    * @see net.sf.mpxj.TimephasedWorkContainer#getData()
+    */
+   @Override public List<TimephasedWork> getData()
    {
       if (m_raw)
       {
@@ -74,13 +97,13 @@ public class TimephasedCostData
     * 
     * @return boolean flag
     */
-   boolean hasData()
+   @Override public boolean hasData()
    {
       return !m_data.isEmpty();
    }
 
-   private LinkedList<TimephasedCost> m_data;
+   private LinkedList<TimephasedWork> m_data;
    private boolean m_raw;
-   private TimephasedCostNormaliser m_normaliser;
+   private TimephasedWorkNormaliser m_normaliser;
    private ProjectCalendar m_calendar;
 }

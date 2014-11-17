@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class provides a generic front end to read project data from
@@ -403,7 +403,7 @@ public final class AstaDatabaseReader implements ProjectReader
          List<Row> result = new LinkedList<Row>();
 
          m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberUtility.getInt(var));
+         m_ps.setInt(1, NumberHelper.getInt(var));
          m_rs = m_ps.executeQuery();
          populateMetaData();
          while (m_rs.next())

@@ -23,9 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.utility.EnumUtility;
-import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.MpxjEnum;
+import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Class representing how non-working time is shown on a Gantt chart.
@@ -78,7 +78,7 @@ public enum NonWorkingTimeStyle implements MpxjEnum
       }
       else
       {
-         value = NumberUtility.getInt(type);
+         value = NumberHelper.getInt(type);
       }
       return (getInstance(value));
    }
@@ -117,7 +117,7 @@ public enum NonWorkingTimeStyle implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final NonWorkingTimeStyle[] TYPE_VALUES = EnumUtility.createTypeArray(NonWorkingTimeStyle.class);
+   private static final NonWorkingTimeStyle[] TYPE_VALUES = EnumHelper.createTypeArray(NonWorkingTimeStyle.class);
 
    /**
     * Internal representation of the enum int type.

@@ -23,7 +23,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.DateHelper;
 
 /**
  * This class represents a basic working week, with no exceptions. 
@@ -352,6 +352,6 @@ public class ProjectCalendarWeek
    /**
     * Constants representing the default working morning and afternoon hours.
     */
-   public static final DateRange DEFAULT_WORKING_MORNING = new DateRange(DateUtility.getTime(8, 0), DateUtility.getTime(12, 0));
-   public static final DateRange DEFAULT_WORKING_AFTERNOON = new DateRange(DateUtility.getTime(13, 0), DateUtility.getTime(17, 0));
+   public static final DateRange DEFAULT_WORKING_MORNING = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(12, 0));
+   public static final DateRange DEFAULT_WORKING_AFTERNOON = new DateRange(DateHelper.getTime(13, 0), DateHelper.getTime(17, 0));
 }

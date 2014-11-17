@@ -1,5 +1,5 @@
 /*
- * file:       DateUtility.java
+ * file:       DateHelper.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2006
  * date:       Jan 18, 2006
@@ -35,12 +35,12 @@ import net.sf.mpxj.TimeUnit;
 /**
  * Utility methods for manipulating dates.
  */
-public final class DateUtility
+public final class DateHelper
 {
    /**
     * Constructor.
     */
-   private DateUtility()
+   private DateHelper()
    {
       // private constructor to prevent instantiation
    }
@@ -311,7 +311,7 @@ public final class DateUtility
       }
       else
       {
-         result = DateUtility.getDayStartDate(date);
+         result = DateHelper.getDayStartDate(date);
          long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
          result = new Date(result.getTime() + offset);
       }
@@ -321,12 +321,12 @@ public final class DateUtility
    /** 
     * First date supported by Microsoft Project: January 01 00:00:00 1984. 
     */
-   public static final Date FIRST_DATE = DateUtility.getTimestampFromLong(441763200000L);
+   public static final Date FIRST_DATE = DateHelper.getTimestampFromLong(441763200000L);
 
    /** 
     * Last date supported by Microsoft Project: Friday December 31 23:59:00 2049. 
     */
-   public static final Date LAST_DATE = DateUtility.getTimestampFromLong(2524607946000L);
+   public static final Date LAST_DATE = DateHelper.getTimestampFromLong(2524607946000L);
 
    /**
     * Default value to use for DST savings if we are using a version
