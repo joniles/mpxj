@@ -31,9 +31,6 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.ProjectTimeFormat;
-import net.sf.mpxj.utility.MPXJDateFormat;
-import net.sf.mpxj.utility.MPXJNumberFormat;
-import net.sf.mpxj.utility.MPXJTimeFormat;
 
 /**
  * This class manages the various objects required to parse and format

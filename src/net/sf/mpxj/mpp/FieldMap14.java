@@ -31,7 +31,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.utility.FieldTypeUtility;
+import net.sf.mpxj.utility.FieldTypeHelper;
 
 /**
  * MPP14 field map.
@@ -53,7 +53,7 @@ class FieldMap14 extends FieldMap
     */
    @Override protected FieldType getFieldType(int fieldID)
    {
-      return FieldTypeUtility.getInstance14(fieldID);
+      return FieldTypeHelper.getInstance14(fieldID);
    }
 
    /**

@@ -34,7 +34,7 @@ import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.MPPTaskField14;
-import net.sf.mpxj.utility.FieldTypeUtility;
+import net.sf.mpxj.utility.FieldTypeHelper;
 
 /**
  * This class represents the set of properties used to define the appearance
@@ -127,7 +127,7 @@ public final class GanttChartView14 extends GanttChartView
    private FieldType getFieldType(byte[] data, int offset)
    {
       int fieldIndex = MPPUtility.getInt(data, offset);
-      return FieldTypeUtility.mapTextFields(FieldTypeUtility.getInstance14(fieldIndex));
+      return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance14(fieldIndex));
    }
 
    /**

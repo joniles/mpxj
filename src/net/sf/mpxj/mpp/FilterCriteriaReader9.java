@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.utility.FieldTypeUtility;
+import net.sf.mpxj.utility.FieldTypeHelper;
 
 /**
  * This class allows filter criteria definitions to be read from an MPP9 file.
@@ -71,7 +71,7 @@ public class FilterCriteriaReader9 extends CriteriaReader
    @Override protected FieldType getFieldType(byte[] block)
    {
       int fieldIndex = MPPUtility.getInt(block, 40);
-      return FieldTypeUtility.getInstance(fieldIndex);
+      return FieldTypeHelper.getInstance(fieldIndex);
    }
 
    /**

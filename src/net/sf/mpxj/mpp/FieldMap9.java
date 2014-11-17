@@ -28,7 +28,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.utility.FieldTypeUtility;
+import net.sf.mpxj.utility.FieldTypeHelper;
 
 /**
  * MPP9 field map.
@@ -50,7 +50,7 @@ class FieldMap9 extends FieldMap
     */
    @Override protected FieldType getFieldType(int fieldID)
    {
-      return FieldTypeUtility.getInstance(fieldID);
+      return FieldTypeHelper.getInstance(fieldID);
    }
 
    /**

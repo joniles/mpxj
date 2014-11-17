@@ -1,5 +1,5 @@
 /*
- * file:       FieldTypeUtility.java
+ * file:       FieldTypeHelper.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
  * date:       2011-05-17
@@ -42,7 +42,7 @@ import net.sf.mpxj.common.MPPTaskField14;
 /**
  * Utility class containing methods relating to the FieldType class. 
  */
-public final class FieldTypeUtility
+public final class FieldTypeHelper
 {
    /**
     * Retrieve a FieldType instance based on an ID value from 

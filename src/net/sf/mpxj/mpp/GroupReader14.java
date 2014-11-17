@@ -30,7 +30,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.GroupClause;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.utility.FieldTypeUtility;
+import net.sf.mpxj.utility.FieldTypeHelper;
 
 /**
  * This class allows filter definitions to be read from an MPP file.
@@ -95,7 +95,7 @@ public final class GroupReader14
             group.addGroupClause(clause);
 
             int fieldID = MPPUtility.getInt(groupVarData, offset);
-            FieldType type = FieldTypeUtility.getInstance14(fieldID);
+            FieldType type = FieldTypeHelper.getInstance14(fieldID);
             clause.setField(type);
 
             // from byte 0 2 byte short int - field type

@@ -27,6 +27,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +46,6 @@ import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.MPXJNumberFormat;
 import net.sf.mpxj.utility.NumberHelper;
 
 /**
@@ -82,7 +83,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       try
       {
          m_tables = new HashMap<String, List<Row>>();
-         m_numberFormat = new MPXJNumberFormat();
+         m_numberFormat = new DecimalFormat();
 
          processFile(is);
 
@@ -133,7 +134,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       {
          List<ProjectFile> result = new LinkedList<ProjectFile>();
          m_tables = new HashMap<String, List<Row>>();
-         m_numberFormat = new MPXJNumberFormat();
+         m_numberFormat = new DecimalFormat();
 
          processFile(is);
 
@@ -255,8 +256,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processCurrency(Row row)
    {
       String currencyName = row.getString("curr_short_name");
-      MPXJNumberFormat nf = new MPXJNumberFormat();
-      nf.applyPattern("#.#", null, row.getString("decimal_symbol").charAt(0), row.getString("digit_group_symbol").charAt(0));
+      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+      symbols.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
+      symbols.setGroupingSeparator(row.getString("digit_group_symbol").charAt(0));
+      DecimalFormat nf = new DecimalFormat();
+      nf.setDecimalFormatSymbols(symbols);
+      nf.applyPattern("#.#");
       m_currencyMap.put(currencyName, nf);
 
       if (currencyName.equalsIgnoreCase(m_defaultCurrencyName))
@@ -653,8 +658,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
-   private Map<String, MPXJNumberFormat> m_currencyMap = new HashMap<String, MPXJNumberFormat>();
-   private MPXJNumberFormat m_numberFormat;
+   private Map<String, DecimalFormat> m_currencyMap = new HashMap<String, DecimalFormat>();
+   private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
