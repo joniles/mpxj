@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents the a Calendar Definition record. Both base calendars

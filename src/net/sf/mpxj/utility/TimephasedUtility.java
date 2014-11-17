@@ -36,6 +36,8 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedItem;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**

@@ -32,8 +32,8 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Normalise timephased resource assignment data from an MSPDI file.

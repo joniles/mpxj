@@ -24,8 +24,8 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.MpxjEnum;
-import net.sf.mpxj.utility.EnumHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.EnumHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Represents the pattern used to fill the middle section of a Gantt bar.

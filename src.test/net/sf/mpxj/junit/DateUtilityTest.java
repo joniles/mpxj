@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.DateHelper;
 
 import org.junit.Test;
 

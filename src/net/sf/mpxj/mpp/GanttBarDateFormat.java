@@ -24,8 +24,8 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.MpxjEnum;
-import net.sf.mpxj.utility.EnumHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.EnumHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Enumeration representing the formats which may be shown on a Gantt chart timescale.

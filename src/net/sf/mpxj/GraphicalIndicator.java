@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents the set of information which defines how

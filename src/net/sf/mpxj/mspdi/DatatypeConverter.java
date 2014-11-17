@@ -54,7 +54,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions

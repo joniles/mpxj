@@ -43,10 +43,10 @@ import java.util.Set;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera XER file.

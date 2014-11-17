@@ -38,11 +38,11 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.RtfHelper;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedCostNormaliser;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
-import net.sf.mpxj.utility.NumberHelper;
-import net.sf.mpxj.utility.RtfHelper;
 
 /**
  * Common implementation detail to extract resource assignment data from 

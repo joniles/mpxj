@@ -72,9 +72,11 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
@@ -86,8 +88,6 @@ import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**

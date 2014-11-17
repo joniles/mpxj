@@ -26,8 +26,8 @@ package net.sf.mpxj.mpp;
 import java.awt.Color;
 
 import net.sf.mpxj.MpxjEnum;
-import net.sf.mpxj.utility.EnumHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.EnumHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This enum represents the colors used by Microsoft Project.

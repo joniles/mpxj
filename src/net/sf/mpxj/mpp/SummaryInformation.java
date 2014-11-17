@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 import org.apache.poi.hpsf.Property;
 import org.apache.poi.hpsf.PropertySet;

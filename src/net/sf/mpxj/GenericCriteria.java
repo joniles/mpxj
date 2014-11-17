@@ -28,7 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class represents the criteria used as part of an evaluation.

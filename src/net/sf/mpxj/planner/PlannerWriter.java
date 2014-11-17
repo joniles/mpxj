@@ -53,6 +53,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -70,7 +71,6 @@ import net.sf.mpxj.planner.schema.Predecessors;
 import net.sf.mpxj.planner.schema.Project;
 import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
-import net.sf.mpxj.utility.DateHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**

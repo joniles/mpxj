@@ -24,7 +24,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This represents time durations as specified in an MPX file.

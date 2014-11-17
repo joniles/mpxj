@@ -30,10 +30,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.FieldListener;
-import net.sf.mpxj.utility.BooleanHelper;
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a task record from an project file.

@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Day;
 import net.sf.mpxj.MpxjEnum;
-import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.common.EnumHelper;
 
 /**
  * Instances of this class represent enumerated day values used as to

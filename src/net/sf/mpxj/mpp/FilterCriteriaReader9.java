@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.utility.FieldTypeHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
  * This class allows filter criteria definitions to be read from an MPP9 file.

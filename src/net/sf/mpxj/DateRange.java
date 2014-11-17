@@ -25,7 +25,7 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class represents a period of time.
@@ -83,10 +83,10 @@ public final class DateRange implements Comparable<DateRange>
     */
    @Override public int compareTo(DateRange o)
    {
-      int result = net.sf.mpxj.utility.DateHelper.compare(m_start, o.m_start);
+      int result = net.sf.mpxj.common.DateHelper.compare(m_start, o.m_start);
       if (result == 0)
       {
-         result = net.sf.mpxj.utility.DateHelper.compare(m_end, o.m_end);
+         result = net.sf.mpxj.common.DateHelper.compare(m_end, o.m_end);
       }
       return result;
    }

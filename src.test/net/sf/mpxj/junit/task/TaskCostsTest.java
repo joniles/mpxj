@@ -32,12 +32,12 @@ import java.io.FileFilter;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-import net.sf.mpxj.utility.NumberHelper;
 
 import org.junit.Test;
 

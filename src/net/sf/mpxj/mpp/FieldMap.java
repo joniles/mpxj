@@ -43,7 +43,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class is used to represent the mapping present in the MPP file

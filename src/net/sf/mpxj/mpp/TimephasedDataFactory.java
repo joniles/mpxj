@@ -37,9 +37,9 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TimephasedCostNormaliser;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class contains methods to create lists of TimephasedWork

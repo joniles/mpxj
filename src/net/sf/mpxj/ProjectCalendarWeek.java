@@ -23,7 +23,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class represents a basic working week, with no exceptions. 

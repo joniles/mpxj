@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.MpxjEnum;
-import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.common.EnumHelper;
 
 /**
  * Represents the pattern used to fill a group.

@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.utility;
+package net.sf.mpxj.common;
 
 import java.util.Locale;
 
@@ -31,13 +31,6 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.common.MPPAssignmentField;
-import net.sf.mpxj.common.MPPAssignmentField14;
-import net.sf.mpxj.common.MPPConstraintField;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPResourceField14;
-import net.sf.mpxj.common.MPPTaskField;
-import net.sf.mpxj.common.MPPTaskField14;
 
 /**
  * Utility class containing methods relating to the FieldType class. 

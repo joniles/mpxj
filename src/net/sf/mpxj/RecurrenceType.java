@@ -23,7 +23,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumHelper;
+import net.sf.mpxj.common.EnumHelper;
 
 /**
  * Represents the recurrence type.

@@ -65,6 +65,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
@@ -81,7 +82,6 @@ import net.sf.mpxj.planner.schema.Project;
 import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.NumberHelper;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

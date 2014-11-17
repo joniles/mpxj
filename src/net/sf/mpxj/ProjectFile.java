@@ -32,9 +32,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class represents a project plan.

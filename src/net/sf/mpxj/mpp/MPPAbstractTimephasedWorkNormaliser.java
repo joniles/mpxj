@@ -32,7 +32,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * Normalise timephased resource assignment data from an MPP file. 

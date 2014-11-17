@@ -23,8 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.EnumHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class contains utility functions allowing time unit specifications

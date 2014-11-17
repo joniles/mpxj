@@ -14,7 +14,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * The purpose of this class is to allow the contents of an MSPDI file

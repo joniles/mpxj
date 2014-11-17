@@ -57,9 +57,9 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.utility.NumberHelper;
-import net.sf.mpxj.utility.RtfHelper;
+import net.sf.mpxj.common.RtfHelper;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;

@@ -31,7 +31,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Common code to read resource cost rate tables from MPP files.

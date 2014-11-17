@@ -57,8 +57,8 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.utility.BooleanHelper;
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class provides a generic front end to read project data from

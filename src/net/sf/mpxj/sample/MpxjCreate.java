@@ -34,9 +34,9 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
-import net.sf.mpxj.utility.NumberHelper;
 import net.sf.mpxj.writer.ProjectWriter;
 
 /**

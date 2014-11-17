@@ -25,8 +25,8 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /** 
  * This class represents a row from a resource's cost rate table.

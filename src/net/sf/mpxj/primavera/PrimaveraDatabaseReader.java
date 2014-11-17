@@ -41,9 +41,9 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class provides a generic front end to read project data from

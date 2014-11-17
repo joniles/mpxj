@@ -31,7 +31,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.utility.FieldTypeHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
  * MPP14 field map.

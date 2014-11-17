@@ -29,7 +29,7 @@ import java.util.Date;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Common code to read resource availability tables from MPP files.

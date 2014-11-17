@@ -23,8 +23,8 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.EnumHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.EnumHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents the enumeration of the valid types of view.

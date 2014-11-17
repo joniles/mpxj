@@ -36,8 +36,8 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class provides common functionality used by each of the classes

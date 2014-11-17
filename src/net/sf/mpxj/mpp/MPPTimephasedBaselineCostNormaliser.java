@@ -31,9 +31,9 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TimephasedCostNormaliser;
-import net.sf.mpxj.utility.DateHelper;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * Common implementation detail for normalisation.

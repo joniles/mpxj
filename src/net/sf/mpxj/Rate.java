@@ -24,7 +24,7 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents a currency rate per period of time (for example $10/h)

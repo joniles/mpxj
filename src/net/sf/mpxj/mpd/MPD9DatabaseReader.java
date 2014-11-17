@@ -43,8 +43,8 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.utility.NumberHelper;
 
 /**
  * This class reads project data from an MPD9 format database.

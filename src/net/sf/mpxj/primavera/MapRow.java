@@ -28,8 +28,8 @@ import java.util.Map;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.utility.BooleanHelper;
-import net.sf.mpxj.utility.NumberHelper;
+import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Implementation of the Row interface, wrapping a Map.

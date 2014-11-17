@@ -25,7 +25,7 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateHelper;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class represents instances of Calendar Exception records from

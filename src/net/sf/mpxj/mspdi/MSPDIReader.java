@@ -74,10 +74,12 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
@@ -92,8 +94,6 @@ import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.A
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.reader.AbstractProjectReader;
-import net.sf.mpxj.utility.BooleanHelper;
-import net.sf.mpxj.utility.NumberHelper;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
