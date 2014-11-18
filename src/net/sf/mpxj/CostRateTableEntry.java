@@ -34,7 +34,7 @@ import net.sf.mpxj.common.NumberHelper;
  * it holds an additional field to indicate the format used when 
  * displaying the rate.
  */
-public class CostRateTableEntry implements Comparable<CostRateTableEntry>
+public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 {
    /**
     * Constructor. Used to construct singleton default table entry. 

@@ -28,7 +28,7 @@ import java.util.Date;
 /** 
  * This class represents a row from a resource's availability table.
  */
-public class Availability implements Comparable<Availability>
+public final class Availability implements Comparable<Availability>
 {
    /**
     * Constructor.

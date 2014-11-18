@@ -30,7 +30,7 @@ import java.util.Map;
  * This class represents a filter which may be applied to a 
  * task or resource view.
  */
-public class Filter
+public final class Filter
 {
    /**
     * Sets the filter's unique ID.

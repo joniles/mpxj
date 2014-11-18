@@ -29,7 +29,7 @@ import java.util.Date;
 /** 
  * This class represents a resource's availability table.
  */
-public class AvailabilityTable extends ArrayList<Availability>
+public final class AvailabilityTable extends ArrayList<Availability>
 {
    /**
     * Retrieve the table entry valid for the supplied date. 

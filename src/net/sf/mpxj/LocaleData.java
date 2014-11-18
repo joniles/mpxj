@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 /**
  * Locale data for MPXJ.
  */
-public class LocaleData extends ListResourceBundle
+public final class LocaleData extends ListResourceBundle
 {
    /**
     * {@inheritDoc}
