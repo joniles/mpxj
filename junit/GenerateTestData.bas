@@ -12,6 +12,7 @@ Sub GenerateAll()
     GenerateTaskCustomText
     GenerateTaskCustomOutlineCodes
     GenerateTaskTextValues
+    GenerateProjectProperties
 End Sub
 
 Sub NameThatField(value As Long)
@@ -368,6 +369,57 @@ Sub GenerateTaskTextValues()
 
 End Sub
 
+Sub GenerateProjectProperties
+
+    FileNew SummaryInfo:=False
+
+    '
+    ' Populate the built in document properties
+    '
+    ActiveProject.BuiltinDocumentProperties("Title").Value = "Title"
+    ActiveProject.BuiltinDocumentProperties("Subject").Value = "Subject"
+    ActiveProject.BuiltinDocumentProperties("Author").Value = "Author"
+    ActiveProject.BuiltinDocumentProperties("Keywords").Value = "Keywords"
+    ActiveProject.BuiltinDocumentProperties("Comments").Value = "Comments"
+    ActiveProject.BuiltinDocumentProperties("Template").Value = "Template"
+    ActiveProject.BuiltinDocumentProperties("Category").Value = "Category"
+    ActiveProject.BuiltinDocumentProperties("Format").Value = "Format"
+    ActiveProject.BuiltinDocumentProperties("Manager").Value = "Manager"
+    ActiveProject.BuiltinDocumentProperties("Company").Value = "Company"  
+
+    If (Application.Version > 11) Then
+        ActiveProject.BuiltinDocumentProperties("Content type").value = "Content type"
+        ActiveProject.BuiltinDocumentProperties("Content status").value = "Content status"
+        ActiveProject.BuiltinDocumentProperties("Language").value = "Language"
+        ActiveProject.BuiltinDocumentProperties("Document version").value = "Document version"
+    End If
+
+    '
+    ' Populate custom document properties
+    '    
+    ActiveProject.CustomDocumentProperties.Add Name:="CustomNumber", _
+            LinkToContent:=False, _
+            Type:=msoPropertyTypeNumber, _
+            Value:=1000
+    ActiveProject.CustomDocumentProperties.Add Name:="CustomFloat", _
+            LinkToContent:=False, _
+            Type:=msoPropertyTypeFloat, _
+            Value:=1.5
+    ActiveProject.CustomDocumentProperties.Add Name:="CustomString", _
+            LinkToContent:=False, _
+            Type:=msoPropertyTypeString, _
+            Value:="This is a custom property."
+    ActiveProject.CustomDocumentProperties.Add Name:="CustomDate", _
+            LinkToContent:=False, _
+            Type:=msoPropertyTypeDate, _
+            Value:="01/01/2014"
+
+    SaveFiles "project-properties"
+    
+    FileClose pjDoNotSave
+
+
+End Sub
 
 Sub SaveFiles(FilenameBase As String)
 

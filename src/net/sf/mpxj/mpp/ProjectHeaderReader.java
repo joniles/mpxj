@@ -93,7 +93,18 @@ public final class ProjectHeaderReader
       ph.setRevision(summary.getRevision());
       ph.setCreationDate(summary.getCreationDate());
       ph.setLastSaved(summary.getLastSaved());
-      ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
+      ph.setTemplate(summary.getTemplate());
+      ph.setProjectUser(summary.getProjectUser());
+      ph.setLastPrinted(summary.getLastPrinted());
+      ph.setApplication(summary.getApplication());
+      ph.setEditingTime(summary.getEditingTime());
+      ph.setFormat(summary.getFormat());
+      ph.setContentType(summary.getContentType());
+      ph.setContentStatus(summary.getContentStatus());
+      ph.setLanguage(summary.getLanguage());
+      ph.setDocumentVersion(summary.getDocumentVersion());
+
+      ph.setCustomProperties(summary.getCustomProperties());
 
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
 

@@ -2090,25 +2090,23 @@ public final class ProjectHeader extends ProjectEntity
    }
 
    /**
-    * Set the Document Summary Information.
+    * Sets a map of custom document properties.
     *
-    * @param documentSummaryInformation The Document Summary Information Map
+    * @param customProperties The Document Summary Information Map
     */
-   public void setDocumentSummaryInformation(Map<Integer, Object> documentSummaryInformation)
+   public void setCustomProperties(Map<String, Object> customProperties)
    {
-      m_documentSummaryInformation = documentSummaryInformation;
+      m_customProperties = customProperties;
    }
 
    /**
-    * Retrieve the Document Summary Information. This allows the caller
-    * to examine custom document summary fields which may be present in
-    * the project.
+    * Retrieve a map of custom document properties.
     *
     * @return the Document Summary Information Map
     */
-   public Map<Integer, Object> getDocumentSummaryInformation()
+   public Map<String, Object> getCustomProperties()
    {
-      return (m_documentSummaryInformation);
+      return m_customProperties;
    }
 
    /**
@@ -2173,6 +2171,206 @@ public final class ProjectHeader extends ProjectEntity
    public void setBaselineDate(int index, Date date)
    {
       m_baselineDate[index] = date;
+   }
+
+   /**
+    * Retrieve the template property.
+    * 
+    * @return template property
+    */
+   public String getTemplate()
+   {
+      return m_template;
+   }
+
+   /**
+    * Set the template property.
+    * 
+    * @param template property value
+    */
+   public void setTemplate(String template)
+   {
+      m_template = template;
+   }
+
+   /**
+    * Retrieve the project user property.
+    * 
+    * @return project user property
+    */
+   public String getProjectUser()
+   {
+      return m_projectUser;
+   }
+
+   /**
+    * Set the project user property.
+    * 
+    * @param projectUser project user property
+    */
+   public void setProjectUser(String projectUser)
+   {
+      m_projectUser = projectUser;
+   }
+
+   /**
+    * Retrieve the last printed property.
+    * 
+    * @return last printed property
+    */
+   public Date getLastPrinted()
+   {
+      return m_lastPrinted;
+   }
+
+   /**
+    * Set the last printed property.
+    * 
+    * @param lastPrinted property value
+    */
+   public void setLastPrinted(Date lastPrinted)
+   {
+      m_lastPrinted = lastPrinted;
+   }
+
+   /**
+    * Retrieve the application property.
+    * 
+    * @return property value
+    */
+   public String getApplication()
+   {
+      return m_application;
+   }
+
+   /**
+    * Set the application property.
+    * 
+    * @param application property value
+    */
+   public void setApplication(String application)
+   {
+      m_application = application;
+   }
+
+   /**
+    * Retrieve the editing time property.
+    * 
+    * @return property value
+    */
+   public Integer getEditingTime()
+   {
+      return m_editingTime;
+   }
+
+   /**
+    * Set the editing time property.
+    * 
+    * @param editingTime editing time property
+    */
+   public void setEditingTime(Integer editingTime)
+   {
+      m_editingTime = editingTime;
+   }
+
+   /**
+    * Retrieve the format property.
+    * 
+    * @return property value
+    */
+   public String getFormat()
+   {
+      return m_format;
+   }
+
+   /**
+    * Set the format property.
+    * 
+    * @param format property value
+    */
+   public void setFormat(String format)
+   {
+      m_format = format;
+   }
+
+   /**
+    * Retrieve the content type property.
+    * 
+    * @return content type property
+    */
+   public String getContentType()
+   {
+      return m_contentType;
+   }
+
+   /**
+    * Set the content type property.
+    * 
+    * @param contentType property value
+    */
+   public void setContentType(String contentType)
+   {
+      m_contentType = contentType;
+   }
+
+   /**
+    * Retrieve the content status property.
+    * 
+    * @return property value
+    */
+   public String getContentStatus()
+   {
+      return m_contentStatus;
+   }
+
+   /**
+    * Set the content status property.
+    * 
+    * @param contentStatus property value
+    */
+   public void setContentStatus(String contentStatus)
+   {
+      m_contentStatus = contentStatus;
+   }
+
+   /**
+    * Retrieve the language property.
+    * 
+    * @return property value
+    */
+   public String getLanguage()
+   {
+      return m_language;
+   }
+
+   /**
+    * Set the language property.
+    * 
+    * @param language property value
+    */
+   public void setLanguage(String language)
+   {
+      m_language = language;
+   }
+
+   /**
+    * Retrieve the document version property.
+    * 
+    * @return property value
+    */
+   public String getDocumentVersion()
+   {
+      return m_documentVersion;
+   }
+
+   /**
+    * Set the document version property.
+    * 
+    * @param documentVersion property value
+    */
+   public void setDocumentVersion(String documentVersion)
+   {
+      m_documentVersion = documentVersion;
    }
 
    private String m_currencySymbol;
@@ -2289,10 +2487,20 @@ public final class ProjectHeader extends ProjectEntity
    private boolean m_newTaskStartIsProjectStart;
    private Day m_weekStartDay;
    private boolean m_calculateMultipleCriticalPaths;
-   private Map<Integer, Object> m_documentSummaryInformation;
+   private Map<String, Object> m_customProperties;
    private String m_currencyCode;
    private boolean m_showProjectSummaryTask;
    private Date[] m_baselineDate = new Date[11];
+   private String m_template;
+   private String m_projectUser;
+   private Date m_lastPrinted;
+   private String m_application;
+   private Integer m_editingTime;
+   private String m_format;
+   private String m_contentType;
+   private String m_contentStatus;
+   private String m_language;
+   private String m_documentVersion;
 
    /*
     * Missing MSPDI attributes

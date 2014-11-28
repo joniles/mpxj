@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.project.ProjectPropertiesTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
 import net.sf.mpxj.junit.task.TaskDatesTest;
@@ -102,6 +103,7 @@ import org.junit.runners.Suite;
    TaskOutlineCodesTest.class,
    TaskDeletionTest.class,
    TaskTextValuesTest.class,
+   ProjectPropertiesTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
