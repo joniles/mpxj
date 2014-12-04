@@ -97,7 +97,7 @@ public class ProjectPropertiesTest
       assertEquals("Comments", header.getComments());
       assertEquals("Template", header.getTemplate());
       assertEquals("Category", header.getCategory());
-      assertEquals("Format", header.getFormat());
+      assertEquals("Format", header.getPresentationFormat());
       assertEquals("Manager", header.getManager());
       assertEquals("Company", header.getCompany());
 

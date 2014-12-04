@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -30,8 +33,16 @@ import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 
+import org.apache.poi.hpsf.CustomProperties;
+import org.apache.poi.hpsf.CustomProperty;
+import org.apache.poi.hpsf.DocumentSummaryInformation;
+import org.apache.poi.hpsf.PropertySet;
+import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
  * This class reads project header data from MPP8, MPP9, and MPP12 files.
@@ -47,77 +58,98 @@ public final class ProjectHeaderReader
     */
    public void process(ProjectFile file, Props props, DirectoryEntry rootDir) throws MPXJException
    {
-      //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-      ProjectHeader ph = file.getProjectHeader();
-      ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
-      ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
-      ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));
-      ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
-      ph.setDefaultStartTime(props.getTime(Props.START_TIME));
-      ph.setDefaultEndTime(props.getTime(Props.END_TIME));
-      ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));
-      ph.setHyperlinkBase(props.getUnicodeString(Props.HYPERLINK_BASE));
+      try
+      {
+         //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+         ProjectHeader ph = file.getProjectHeader();
+         ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
+         ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
+         ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));
+         ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
+         ph.setDefaultStartTime(props.getTime(Props.START_TIME));
+         ph.setDefaultEndTime(props.getTime(Props.END_TIME));
+         ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));
+         ph.setHyperlinkBase(props.getUnicodeString(Props.HYPERLINK_BASE));
 
-      //ph.setDefaultDurationIsFixed();
-      ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
-      ph.setMinutesPerDay(Integer.valueOf(props.getInt(Props.MINUTES_PER_DAY)));
-      ph.setMinutesPerWeek(Integer.valueOf(props.getInt(Props.MINUTES_PER_WEEK)));
-      ph.setDefaultOvertimeRate(new Rate(props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
-      ph.setDefaultStandardRate(new Rate(props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
-      ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
-      ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
-      ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
+         //ph.setDefaultDurationIsFixed();
+         ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
+         ph.setMinutesPerDay(Integer.valueOf(props.getInt(Props.MINUTES_PER_DAY)));
+         ph.setMinutesPerWeek(Integer.valueOf(props.getInt(Props.MINUTES_PER_WEEK)));
+         ph.setDefaultOvertimeRate(new Rate(props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
+         ph.setDefaultStandardRate(new Rate(props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
+         ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
+         ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
+         ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
-      ph.setCurrencyDigits(Integer.valueOf(props.getShort(Props.CURRENCY_DIGITS)));
-      ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
-      ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE));
-      //ph.setDecimalSeparator();
-      ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
-      //ph.setThousandsSeparator();
-      ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
-      ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));
-      ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
-      ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
-      ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
-      ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
+         ph.setCurrencyDigits(Integer.valueOf(props.getShort(Props.CURRENCY_DIGITS)));
+         ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
+         ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE));
+         //ph.setDecimalSeparator();
+         ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
+         //ph.setThousandsSeparator();
+         ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
+         ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));
+         ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
+         ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
+         ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
+         ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
 
-      SummaryInformation summary = new SummaryInformation(rootDir);
-      ph.setProjectTitle(summary.getProjectTitle());
-      ph.setSubject(summary.getSubject());
-      ph.setAuthor(summary.getAuthor());
-      ph.setKeywords(summary.getKeywords());
-      ph.setComments(summary.getComments());
-      ph.setCompany(summary.getCompany());
-      ph.setManager(summary.getManager());
-      ph.setCategory(summary.getCategory());
-      ph.setRevision(summary.getRevision());
-      ph.setCreationDate(summary.getCreationDate());
-      ph.setLastSaved(summary.getLastSaved());
-      ph.setTemplate(summary.getTemplate());
-      ph.setProjectUser(summary.getProjectUser());
-      ph.setLastPrinted(summary.getLastPrinted());
-      ph.setApplication(summary.getApplication());
-      ph.setEditingTime(summary.getEditingTime());
-      ph.setFormat(summary.getFormat());
-      ph.setContentType(summary.getContentType());
-      ph.setContentStatus(summary.getContentStatus());
-      ph.setLanguage(summary.getLanguage());
-      ph.setDocumentVersion(summary.getDocumentVersion());
+         PropertySet ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
+         SummaryInformation summaryInformation = new SummaryInformation(ps);
+         ph.setProjectTitle(summaryInformation.getTitle());
+         ph.setSubject(summaryInformation.getSubject());
+         ph.setAuthor(summaryInformation.getAuthor());
+         ph.setKeywords(summaryInformation.getKeywords());
+         ph.setComments(summaryInformation.getComments());
+         ph.setTemplate(summaryInformation.getTemplate());
+         ph.setLastAuthor(summaryInformation.getLastAuthor());
+         ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
+         ph.setCreationDate(summaryInformation.getCreateDateTime());
+         ph.setLastSaved(summaryInformation.getLastSaveDateTime());
+         ph.setApplicationName(summaryInformation.getApplicationName());
+         ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
+         ph.setLastPrinted(summaryInformation.getLastPrinted());
 
-      ph.setCustomProperties(summary.getCustomProperties());
+         ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
+         ExtendedDocumentSummaryInformation documentSummaryInformation = new ExtendedDocumentSummaryInformation(ps);
+         ph.setCategory(documentSummaryInformation.getCategory());
+         ph.setPresentationFormat(documentSummaryInformation.getPresentationFormat());
+         ph.setManager(documentSummaryInformation.getManager());
+         ph.setCompany(documentSummaryInformation.getCompany());
+         ph.setContentType(documentSummaryInformation.getContentType());
+         ph.setContentStatus(documentSummaryInformation.getContentStatus());
+         ph.setLanguage(documentSummaryInformation.getLanguage());
+         ph.setDocumentVersion(documentSummaryInformation.getDocumentVersion());
 
-      ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
+         Map<String, Object> customPropertiesMap = new HashMap<String, Object>();
+         CustomProperties customProperties = documentSummaryInformation.getCustomProperties();
+         if (customProperties != null)
+         {
+            for (CustomProperty property : customProperties.values())
+            {
+               customPropertiesMap.put(property.getName(), property.getValue());
+            }
+         }
+         ph.setCustomProperties(customPropertiesMap);
 
-      ph.setBaselineDate(0, props.getTimestamp(Props.BASELINE_DATE));
-      ph.setBaselineDate(1, props.getTimestamp(Props.BASELINE1_DATE));
-      ph.setBaselineDate(2, props.getTimestamp(Props.BASELINE2_DATE));
-      ph.setBaselineDate(3, props.getTimestamp(Props.BASELINE3_DATE));
-      ph.setBaselineDate(4, props.getTimestamp(Props.BASELINE4_DATE));
-      ph.setBaselineDate(5, props.getTimestamp(Props.BASELINE5_DATE));
-      ph.setBaselineDate(6, props.getTimestamp(Props.BASELINE6_DATE));
-      ph.setBaselineDate(7, props.getTimestamp(Props.BASELINE7_DATE));
-      ph.setBaselineDate(8, props.getTimestamp(Props.BASELINE8_DATE));
-      ph.setBaselineDate(9, props.getTimestamp(Props.BASELINE9_DATE));
-      ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
+         ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
+
+         ph.setBaselineDate(0, props.getTimestamp(Props.BASELINE_DATE));
+         ph.setBaselineDate(1, props.getTimestamp(Props.BASELINE1_DATE));
+         ph.setBaselineDate(2, props.getTimestamp(Props.BASELINE2_DATE));
+         ph.setBaselineDate(3, props.getTimestamp(Props.BASELINE3_DATE));
+         ph.setBaselineDate(4, props.getTimestamp(Props.BASELINE4_DATE));
+         ph.setBaselineDate(5, props.getTimestamp(Props.BASELINE5_DATE));
+         ph.setBaselineDate(6, props.getTimestamp(Props.BASELINE6_DATE));
+         ph.setBaselineDate(7, props.getTimestamp(Props.BASELINE7_DATE));
+         ph.setBaselineDate(8, props.getTimestamp(Props.BASELINE8_DATE));
+         ph.setBaselineDate(9, props.getTimestamp(Props.BASELINE9_DATE));
+         ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
+      }
+
+      catch (Exception ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
    }
 }

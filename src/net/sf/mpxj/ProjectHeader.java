@@ -2198,9 +2198,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @return project user property
     */
-   public String getProjectUser()
+   public String getLastAuthor()
    {
-      return m_projectUser;
+      return m_lastAuthor;
    }
 
    /**
@@ -2208,9 +2208,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @param projectUser project user property
     */
-   public void setProjectUser(String projectUser)
+   public void setLastAuthor(String projectUser)
    {
-      m_projectUser = projectUser;
+      m_lastAuthor = projectUser;
    }
 
    /**
@@ -2238,9 +2238,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @return property value
     */
-   public String getApplication()
+   public String getApplicationName()
    {
-      return m_application;
+      return m_applicationName;
    }
 
    /**
@@ -2248,9 +2248,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @param application property value
     */
-   public void setApplication(String application)
+   public void setApplicationName(String application)
    {
-      m_application = application;
+      m_applicationName = application;
    }
 
    /**
@@ -2278,9 +2278,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @return property value
     */
-   public String getFormat()
+   public String getPresentationFormat()
    {
-      return m_format;
+      return m_presentationFormat;
    }
 
    /**
@@ -2288,9 +2288,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @param format property value
     */
-   public void setFormat(String format)
+   public void setPresentationFormat(String format)
    {
-      m_format = format;
+      m_presentationFormat = format;
    }
 
    /**
@@ -2492,11 +2492,11 @@ public final class ProjectHeader extends ProjectEntity
    private boolean m_showProjectSummaryTask;
    private Date[] m_baselineDate = new Date[11];
    private String m_template;
-   private String m_projectUser;
+   private String m_lastAuthor;
    private Date m_lastPrinted;
-   private String m_application;
+   private String m_applicationName;
    private Integer m_editingTime;
-   private String m_format;
+   private String m_presentationFormat;
    private String m_contentType;
    private String m_contentStatus;
    private String m_language;
