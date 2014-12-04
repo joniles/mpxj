@@ -9,6 +9,9 @@
    <body> 
 
 	<release version="4.7.X" date="Git HEAD">
+	</release>
+
+	<release version="4.7.0" date="04/12/2014">
 		<action dev="joniles" type="add">Implemented new RTF parser for stripping RTF to improve performance and accuracy</action>
 		<action dev="joniles" type="add">Removed non-API code from the top level package</action>
 		<action dev="joniles" type="add">Improved support for reading built-in and custom project properties from MPP files.</action>
