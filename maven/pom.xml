@@ -8,7 +8,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build -->
-	<version>4.6.2-SNAPSHOT</version>
+	<version>4.7.0-SNAPSHOT</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.sourceforge.net/</url>
@@ -43,6 +43,16 @@
 			<artifactId>jgoodies-binding</artifactId>
 			<version>2.10.0</version>
 		</dependency>
+		
+		<!-- Local dependency -->
+		<dependency>
+			<groupId>rtfparserkit</groupId>  
+       		<artifactId>rtfparserkit</artifactId>  
+       		<version>1.0.0</version> 
+      		<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/rtfparserkit-1.0.0.jar</systemPath>
+		</dependency>
+		
 	</dependencies>
 
 	<mailingLists>

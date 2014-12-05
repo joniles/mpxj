@@ -452,6 +452,10 @@
 		        <fileset dir="${basedir}/src.test" includes="**"/>  
 		</copy>		
 		
+		<copy todir="${basedir}/maven/src/main/resources" >  
+		        <fileset dir="${lib.dir}" includes="${rtfparserkit.jar}.jar"/>  
+		</copy>		
+		
 		<mkdir dir="${basedir}/maven/target" />
 	</target>
 		
