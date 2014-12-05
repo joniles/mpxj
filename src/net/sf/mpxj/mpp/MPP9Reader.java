@@ -85,68 +85,17 @@ final class MPP9Reader implements MPPVariantReader
    {
       try
       {
-         //
-         // Retrieve the high level document properties (never encoded)
-         //
-         Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
-         //System.out.println(props9);
-
-         file.setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
-         file.setEncoded(props9.getByte(Props.PASSWORD_FLAG) != 0);
-         file.setEncryptionCode(props9.getByte(Props.ENCRYPTION_CODE));
-
-         //
-         // Test for password protection. In the single byte retrieved here:
-         //
-         // 0x00 = no password
-         // 0x01 = protection password has been supplied
-         // 0x02 = write reservation password has been supplied
-         // 0x03 = both passwords have been supplied
-         //  
-         if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
-         {
-            // File is password protected for reading, let's read the password
-            // and see if the correct read password was given to us.
-            String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), file.getEncryptionCode());
-            // It looks like it is possible for a project file to have the password protection flag on without a password. In
-            // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
-            // correct the problem if the file is re-saved (at least it did for me).
-            if (readPassword != null && readPassword.length() > 0)
-            {
-               // See if the correct read password was given
-               if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
-               {
-                  // Passwords don't match
-                  throw new MPXJException(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
-               }
-            }
-            // Passwords matched so let's allow the reading to continue.
-         }
-         m_reader = reader;
-         m_file = file;
-         m_root = root;
-         m_resourceMap = new HashMap<Integer, ProjectCalendar>();
-         m_projectDir = (DirectoryEntry) root.getEntry("   19");
-         m_viewDir = (DirectoryEntry) root.getEntry("   29");
-         DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
-         VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
-         m_outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-         m_projectProps = new Props9(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
-         //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
-
-         m_fontBases = new HashMap<Integer, FontBase>();
-         m_taskSubProjects = new HashMap<Integer, SubProject>();
-
-         m_file.setMppFileType(9);
-         m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
-
-         processPropertyData();
+         populateMemberData(reader, file, root);
+         processProjectHeader();
+         processSubProjectData();
+         processGraphicalIndicators();
+         processCustomValueLists();
          processCalendarData();
          processResourceData();
          processTaskData();
          processConstraintData();
          processAssignmentData();
-         validateTaskIDs();
+         postProcessTasks();
 
          if (reader.getReadPresentationData())
          {
@@ -161,50 +110,109 @@ final class MPP9Reader implements MPPVariantReader
 
       finally
       {
-         m_reader = null;
-         m_file = null;
-         m_root = null;
-         m_resourceMap = null;
-         m_projectDir = null;
-         m_viewDir = null;
-         m_outlineCodeVarData = null;
-         m_fontBases = null;
-         m_taskSubProjects = null;
+         clearMemberData();
       }
    }
 
    /**
-    * This method extracts and collates global property data.
-    *
-    * @throws IOException
+    * Populate member data used by the rest of the reader.
+    * 
+    * @param reader parent file reader
+    * @param file parent MPP file
+    * @param root Root of the POI file system.
     */
-   private void processPropertyData() throws IOException, MPXJException
+   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
    {
+      m_reader = reader;
+      m_file = file;
+      m_root = root;
+
       //
-      // Process the project header
+      // Retrieve the high level document properties (never encoded)
       //
+      Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
+      //System.out.println(props9);
+
+      file.setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.setEncoded(props9.getByte(Props.PASSWORD_FLAG) != 0);
+      file.setEncryptionCode(props9.getByte(Props.ENCRYPTION_CODE));
+
+      //
+      // Test for password protection. In the single byte retrieved here:
+      //
+      // 0x00 = no password
+      // 0x01 = protection password has been supplied
+      // 0x02 = write reservation password has been supplied
+      // 0x03 = both passwords have been supplied
+      //  
+      if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      {
+         // File is password protected for reading, let's read the password
+         // and see if the correct read password was given to us.
+         String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), file.getEncryptionCode());
+         // It looks like it is possible for a project file to have the password protection flag on without a password. In
+         // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
+         // correct the problem if the file is re-saved (at least it did for me).
+         if (readPassword != null && readPassword.length() > 0)
+         {
+            // See if the correct read password was given
+            if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
+            {
+               // Passwords don't match
+               throw new MPXJException(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
+            }
+         }
+         // Passwords matched so let's allow the reading to continue.
+      }
+
+      m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+      m_projectDir = (DirectoryEntry) root.getEntry("   19");
+      m_viewDir = (DirectoryEntry) root.getEntry("   29");
+      DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
+      VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
+      m_outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+      m_projectProps = new Props9(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
+      //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
+
+      m_fontBases = new HashMap<Integer, FontBase>();
+      m_taskSubProjects = new HashMap<Integer, SubProject>();
+
+      m_file.setMppFileType(9);
+      m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+   }
+
+   /**
+    * Clear transient member data.
+    */
+   private void clearMemberData()
+   {
+      m_reader = null;
+      m_file = null;
+      m_root = null;
+      m_resourceMap = null;
+      m_projectDir = null;
+      m_viewDir = null;
+      m_outlineCodeVarData = null;
+      m_fontBases = null;
+      m_taskSubProjects = null;
+   }
+
+   /**
+    * Process the project header data.
+    */
+   private void processProjectHeader() throws MPXJException
+   {
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
       projectHeaderReader.process(m_file, m_projectProps, m_root);
+   }
 
-      //
-      // Process aliases
-      //
-      processTaskFieldNameAliases(m_projectProps.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
-      processResourceFieldNameAliases(m_projectProps.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
-
-      // Process custom field value lists
-      processTaskFieldCustomValueLists(m_file, m_projectProps.getByteArray(Props.TASK_FIELD_ATTRIBUTES));
-
-      //
-      // Process subproject data
-      //
-      processSubProjectData();
-
-      //
-      // Process graphical indicators
-      //
-      GraphicalIndicatorReader reader = new GraphicalIndicatorReader();
-      reader.process(m_file, m_projectProps);
+   /**
+    * Process the graphical indicator data.
+    */
+   private void processGraphicalIndicators()
+   {
+      GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
+      graphicalIndicatorReader.process(m_file, m_projectProps);
    }
 
    /**
@@ -888,12 +896,10 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Retrieve any task field value lists defined in the MPP file.
-    *
-    * @param file Parent MPX file
-    * @param data task field name alias data
     */
-   private void processTaskFieldCustomValueLists(ProjectFile file, byte[] data)
+   private void processCustomValueLists()
    {
+      byte[] data = m_projectProps.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
       if (data != null)
       {
          int index = 0;
@@ -939,14 +945,14 @@ final class MPP9Reader implements MPPVariantReader
                int valuesLength = endDataOffset - dataOffset;
                byte[] values = new byte[valuesLength];
                MPPUtility.getByteArray(data, dataOffset, valuesLength, values, 0);
-               file.setTaskFieldValueList(field, getTaskFieldValues(file, field, values));
+               m_file.setTaskFieldValueList(field, getTaskFieldValues(m_file, field, values));
                //System.out.println(MPPUtility.hexdump(values, true));
 
                // Get the descriptions
                int descriptionsLength = endDescriptionOffset - endDataOffset;
                byte[] descriptions = new byte[descriptionsLength];
                MPPUtility.getByteArray(data, endDataOffset, descriptionsLength, descriptions, 0);
-               file.setTaskFieldDescriptionList(field, getTaskFieldDescriptions(descriptions));
+               m_file.setTaskFieldDescriptionList(field, getTaskFieldDescriptions(descriptions));
                //System.out.println(MPPUtility.hexdump(descriptions, true));        		
             }
             index++;
@@ -1608,6 +1614,8 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
+
+      processTaskFieldNameAliases(m_projectProps.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
 
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
@@ -2301,6 +2309,8 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
 
+      processResourceFieldNameAliases(m_projectProps.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
+
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -2581,7 +2591,7 @@ final class MPP9Reader implements MPPVariantReader
     * This method is called to try to catch any invalid tasks that may have sneaked past all our other checks.
     * This is done by validating the tasks by task ID.
     */
-   private void validateTaskIDs()
+   private void postProcessTasks()
    {
       List<Task> allTasks = m_file.getAllTasks();
       if (allTasks.size() > 1)

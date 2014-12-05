@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -89,99 +90,17 @@ final class MPP14Reader implements MPPVariantReader
    {
       try
       {
-         //
-         // Retrieve the high level document properties
-         //
-         Props14 props14 = new Props14(new DocumentInputStream(((DocumentEntry) root.getEntry("Props14"))));
-         //System.out.println(props14);
-
-         file.setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
-         file.setEncoded(props14.getByte(Props.PASSWORD_FLAG) != 0);
-         file.setEncryptionCode(props14.getByte(Props.ENCRYPTION_CODE));
-
-         //
-         // Test for password protection. In the single byte retrieved here:
-         //
-         // 0x00 = no password
-         // 0x01 = protection password has been supplied
-         // 0x02 = write reservation password has been supplied
-         // 0x03 = both passwords have been supplied
-         //  
-         if ((props14.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
-         {
-            // Couldn't figure out how to get the password for MPP14 files so for now we just need to block the reading
-
-            // File is password protected for reading, let's read the password
-            // and see if the correct read password was given to us.
-            //byte[] data = props14.getByteArray(Props.READ_PASSWORD);
-            //MPPUtility.decodeBuffer(data, file.getEncryptionCode());
-            //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
-
-            //System.out.println();
-            //data = props14.getByteArray(Props.WRITE_PASSWORD);
-            //MPPUtility.decodeBuffer(data, file.getEncryptionCode());
-            //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
-
-            //String readPassword = MPPUtility.decodePassword(props14.getByteArray(Props.READ_PASSWORD), file.getEncryptionCode());
-            //System.out.println(readPassword);
-            //String writePassword = MPPUtility.decodePassword(props14.getByteArray(Props.WRITE_PASSWORD), file.getEncryptionCode());
-            //System.out.println(writePassword);
-            // See if the correct read password was given
-            //if (readPassword == null)
-            //{
-            // Couldn't read password, so no chance to ask the user
-            throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
-            //}
-            //if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
-            //{    	      	
-            // Passwords don't match
-            //	  throw new MPXJException (MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
-            //}
-            // Passwords matched so let's allow the reading to continue.
-         }
-
-         m_reader = reader;
-         m_file = file;
-         m_root = root;
-         m_resourceMap = new HashMap<Integer, ProjectCalendar>();
-         m_projectDir = (DirectoryEntry) root.getEntry("   114");
-         m_viewDir = (DirectoryEntry) root.getEntry("   214");
-         DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
-         m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
-         m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-         m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
-         m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-         //m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
-         //m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
-         m_projectProps = new Props14(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
-         //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
-         //FieldMap fm = new FieldMap14(m_file);
-         //fm.dumpKnownFieldMaps(m_projectProps);
-
-         m_fontBases = new HashMap<Integer, FontBase>();
-         m_taskSubProjects = new HashMap<Integer, SubProject>();
-         m_parentTasks = new HashMap<Integer, Integer>();
-         m_taskOrder = new TreeMap<Long, Integer>();
-         m_nullTaskOrder = new TreeMap<Integer, Integer>();
-
-         m_file.setMppFileType(14);
-         m_file.setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
-
+         populateMemberData(reader, file, root);
+         processProjectHeader();
+         processSubProjectData();
+         processGraphicalIndicators();
          processCustomValueLists();
-         processPropertyData();
          processCalendarData();
          processResourceData();
          processTaskData();
          processConstraintData();
          processAssignmentData();
-
-         //
-         // MPP14 files seem to exhibit some occasional weirdness
-         // with duplicate ID values which leads to the task structure
-         // being reported incorrectly. The following method
-         // attempts to correct this.
-         //
-         fixTaskOrder();
+         postProcessTasks();
 
          if (reader.getReadPresentationData())
          {
@@ -196,21 +115,91 @@ final class MPP14Reader implements MPPVariantReader
 
       finally
       {
-         m_reader = null;
-         m_file = null;
-         m_root = null;
-         m_resourceMap = null;
-         m_projectDir = null;
-         m_viewDir = null;
-         m_outlineCodeVarData = null;
-         m_outlineCodeVarMeta = null;
-         m_projectProps = null;
-         m_fontBases = null;
-         m_taskSubProjects = null;
-         m_parentTasks = null;
-         m_taskOrder = null;
-         m_nullTaskOrder = null;
+         clearMemberData();
       }
+   }
+
+   /**
+    * Populate member data used by the rest of the reader.
+    * 
+    * @param reader parent file reader
+    * @param file parent MPP file
+    * @param root Root of the POI file system.
+    */
+   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws FileNotFoundException, IOException, MPXJException
+   {
+      m_reader = reader;
+      m_file = file;
+      m_root = root;
+
+      //
+      // Retrieve the high level document properties
+      //
+      Props14 props14 = new Props14(new DocumentInputStream(((DocumentEntry) root.getEntry("Props14"))));
+      //System.out.println(props14);
+
+      file.setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.setEncoded(props14.getByte(Props.PASSWORD_FLAG) != 0);
+      file.setEncryptionCode(props14.getByte(Props.ENCRYPTION_CODE));
+
+      //
+      // Test for password protection. In the single byte retrieved here:
+      //
+      // 0x00 = no password
+      // 0x01 = protection password has been supplied
+      // 0x02 = write reservation password has been supplied
+      // 0x03 = both passwords have been supplied
+      //  
+      if ((props14.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      {
+         // Couldn't figure out how to get the password for MPP14 files so for now we just need to block the reading
+         throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
+      }
+
+      m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+      m_projectDir = (DirectoryEntry) root.getEntry("   114");
+      m_viewDir = (DirectoryEntry) root.getEntry("   214");
+      DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
+      m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
+      m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+      m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+      m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
+      //m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
+      //m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
+      m_projectProps = new Props14(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
+      //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
+      //FieldMap fm = new FieldMap14(m_file);
+      //fm.dumpKnownFieldMaps(m_projectProps);
+
+      m_fontBases = new HashMap<Integer, FontBase>();
+      m_taskSubProjects = new HashMap<Integer, SubProject>();
+      m_parentTasks = new HashMap<Integer, Integer>();
+      m_taskOrder = new TreeMap<Long, Integer>();
+      m_nullTaskOrder = new TreeMap<Integer, Integer>();
+
+      m_file.setMppFileType(14);
+      m_file.setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
+   }
+
+   /**
+    * Clear transient member data.
+    */
+   private void clearMemberData()
+   {
+      m_reader = null;
+      m_file = null;
+      m_root = null;
+      m_resourceMap = null;
+      m_projectDir = null;
+      m_viewDir = null;
+      m_outlineCodeVarData = null;
+      m_outlineCodeVarMeta = null;
+      m_projectProps = null;
+      m_fontBases = null;
+      m_taskSubProjects = null;
+      m_parentTasks = null;
+      m_taskOrder = null;
+      m_nullTaskOrder = null;
    }
 
    /**
@@ -244,28 +233,21 @@ final class MPP14Reader implements MPPVariantReader
    }
 
    /**
-    * This method extracts and collates global property data.
-    *
-    * @throws java.io.IOException
+    * Process the project header data.
     */
-   private void processPropertyData() throws IOException, MPXJException
+   private void processProjectHeader() throws MPXJException
    {
-      //
-      // Process the project header
-      //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
       projectHeaderReader.process(m_file, m_projectProps, m_root);
+   }
 
-      //
-      // Process subproject data
-      //
-      processSubProjectData();
-
-      //
-      // Process graphical indicators
-      //
-      GraphicalIndicatorReader reader = new GraphicalIndicatorReader();
-      reader.process(m_file, m_projectProps);
+   /**
+    * Process the graphical indicator data.
+    */
+   private void processGraphicalIndicators()
+   {
+      GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
+      graphicalIndicatorReader.process(m_file, m_projectProps);
    }
 
    /**
@@ -1731,15 +1713,13 @@ final class MPP14Reader implements MPPVariantReader
    }
 
    /**
-    * This method uses ordering data embedded in the file to reconstruct
-    * the correct ID order of the tasks.
+    * MPP14 files seem to exhibit some occasional weirdness
+    * with duplicate ID values which leads to the task structure
+    * being reported incorrectly. The following method attempts to correct this. 
+    * The method uses ordering data embedded in the file to reconstruct
+    * the correct ID order of the tasks. 
     */
-   /**
-    * This method uses ordering data embedded in the file to reconstruct
-    * the correct ID order of the tasks.
-    * @throws MPXJException 
-    */
-   private void fixTaskOrder() throws MPXJException
+   private void postProcessTasks() throws MPXJException
    {
       //
       // Renumber ID values using a large increment to allow

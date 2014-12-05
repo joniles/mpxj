@@ -87,16 +87,8 @@ final class MPP8Reader implements MPPVariantReader
    {
       try
       {
-         m_reader = reader;
-         m_root = root;
-         m_file = file;
-         m_calendarMap = new HashMap<Integer, ProjectCalendar>();
-         m_projectDir = (DirectoryEntry) root.getEntry("   1");
-         m_viewDir = (DirectoryEntry) root.getEntry("   2");
-
-         m_file.setMppFileType(8);
-
-         processPropertyData();
+         populateMemberData(reader, file, root);
+         processProjectHeader();
          processCalendarData();
          processResourceData();
          processTaskData();
@@ -113,28 +105,49 @@ final class MPP8Reader implements MPPVariantReader
 
       finally
       {
-         m_reader = null;
-         m_root = null;
-         m_file = null;
-         m_calendarMap = null;
-         m_projectDir = null;
-         m_viewDir = null;
+         clearMemberData();
       }
    }
 
    /**
-    * This method extracts and collates global property data.
-    *
-    * @throws IOException
+    * Populate member data used by the rest of the reader.
+    * 
+    * @param reader parent file reader
+    * @param file parent MPP file
+    * @param root Root of the POI file system.
     */
-   private void processPropertyData() throws MPXJException, IOException
+   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws IOException
+   {
+      m_reader = reader;
+      m_root = root;
+      m_file = file;
+
+      m_calendarMap = new HashMap<Integer, ProjectCalendar>();
+      m_projectDir = (DirectoryEntry) root.getEntry("   1");
+      m_viewDir = (DirectoryEntry) root.getEntry("   2");
+
+      m_file.setMppFileType(8);
+   }
+
+   /**
+    * Clear transient member data.
+    */
+   private void clearMemberData()
+   {
+      m_reader = null;
+      m_root = null;
+      m_file = null;
+      m_calendarMap = null;
+      m_projectDir = null;
+      m_viewDir = null;
+   }
+
+   /**
+    * Process the project header data.
+    */
+   private void processProjectHeader() throws MPXJException, IOException
    {
       Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
-      //System.out.println(props);
-
-      //
-      // Process the project header
-      //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
       projectHeaderReader.process(m_file, props, m_root);
    }
