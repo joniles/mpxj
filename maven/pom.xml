@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.sourceforge</groupId>
+	<groupId>net.sf.mpxj</groupId>
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build -->
@@ -20,22 +20,14 @@
 		<url>http://mpxj.sf.net/</url>
 	</organization>
 	<inceptionYear>2000</inceptionYear>
-
-	<!-- Note that this is NOT The patched version which MPXJ ships with -->
+	
 	<dependencies>
+	
+		<!-- Note that this is NOT The patched version which MPXJ ships with -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.10-FINAL</version>
-		</dependency>
-
-		<!-- Test dependencies -->
-		<!-- Tests are currently in the same tree, so no test scope -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<!-- <scope>test</scope> -->
 		</dependency>
 
 		<dependency>
@@ -43,7 +35,7 @@
 			<artifactId>jgoodies-binding</artifactId>
 			<version>2.10.0</version>
 		</dependency>
-		
+
 		<!-- Local dependency -->
 		<dependency>
 			<groupId>rtfparserkit</groupId>  
@@ -52,7 +44,15 @@
       		<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/resources/rtfparserkit-1.0.0.jar</systemPath>
 		</dependency>
-		
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+			
 	</dependencies>
 
 	<mailingLists>
@@ -219,7 +219,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Use our own site template to inject Google adsense, exclude changes.xml from normal xdoc processing -->
+			<!-- Use our own site template to inject Google adsense -->
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.3</version>
