@@ -8,7 +8,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build -->
-	<version>4.7.0-SNAPSHOT</version>
+	<version>4.7.1-SNAPSHOT</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.sourceforge.net/</url>

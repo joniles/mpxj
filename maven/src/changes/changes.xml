@@ -8,7 +8,10 @@
 
    <body> 
 
-	<release version="4.7.X" date="Git HEAD">
+	<release version="4.7.X" date="Git HEAD">		
+	</release>
+
+	<release version="4.7.1" date="08/12/2014">
 		<action dev="joniles" type="add">Added a flag to MPPReader to indicate that only the project header should be read.</action>
 	</release>
 
