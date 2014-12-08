@@ -280,6 +280,30 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
+    * Flag to determine if the reader should only read the project header data.
+    * This allows for rapid access to the document properties, without the
+    * cost of reading the entire contents of the project file.
+    *    
+    * @return true if the reader should only read the project header 
+    */
+   public boolean getReadHeaderOnly()
+   {
+      return m_readHeaderOnly;
+   }
+
+   /**
+    * Flag to determine if the reader should only read the project header data.
+    * This allows for rapid access to the document properties, without the
+    * cost of reading the entire contents of the project file.
+    * 
+    * @param readHeaderOnly true if the reader should only read the project header
+    */
+   public void setReadHeaderOnly(boolean readHeaderOnly)
+   {
+      m_readHeaderOnly = readHeaderOnly;
+   }
+
+   /**
     * Set the read password for this Project file. This is needed in order to
     * be allowed to read a read-protected Project file.
     * 
@@ -342,6 +366,7 @@ public final class MPPReader extends AbstractProjectReader
     * presentation data from the MPP file.
     */
    private boolean m_readPresentationData = true;
+   private boolean m_readHeaderOnly;
 
    private String m_readPassword;
    private String m_writePassword;

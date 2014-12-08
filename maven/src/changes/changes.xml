@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="4.7.X" date="Git HEAD">
+		<action dev="joniles" type="add">Added a flag to MPPReader to indicate that only the project header should be read.</action>
 	</release>
 
 	<release version="4.7.0" date="04/12/2014">

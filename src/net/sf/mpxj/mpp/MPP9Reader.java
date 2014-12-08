@@ -87,24 +87,28 @@ final class MPP9Reader implements MPPVariantReader
       {
          populateMemberData(reader, file, root);
          processProjectHeader();
-         processSubProjectData();
-         processGraphicalIndicators();
-         processCustomValueLists();
-         processCalendarData();
-         processResourceData();
-         processTaskData();
-         processConstraintData();
-         processAssignmentData();
-         postProcessTasks();
 
-         if (reader.getReadPresentationData())
+         if (!reader.getReadHeaderOnly())
          {
-            processViewPropertyData();
-            processTableData();
-            processViewData();
-            processFilterData();
-            processGroupData();
-            processSavedViewState();
+            processSubProjectData();
+            processGraphicalIndicators();
+            processCustomValueLists();
+            processCalendarData();
+            processResourceData();
+            processTaskData();
+            processConstraintData();
+            processAssignmentData();
+            postProcessTasks();
+
+            if (reader.getReadPresentationData())
+            {
+               processViewPropertyData();
+               processTableData();
+               processViewData();
+               processFilterData();
+               processGroupData();
+               processSavedViewState();
+            }
          }
       }
 

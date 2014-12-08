@@ -89,17 +89,21 @@ final class MPP8Reader implements MPPVariantReader
       {
          populateMemberData(reader, file, root);
          processProjectHeader();
-         processCalendarData();
-         processResourceData();
-         processTaskData();
-         processConstraintData();
-         processAssignmentData();
 
-         if (reader.getReadPresentationData())
+         if (!reader.getReadHeaderOnly())
          {
-            processViewPropertyData();
-            processViewData();
-            processTableData();
+            processCalendarData();
+            processResourceData();
+            processTaskData();
+            processConstraintData();
+            processAssignmentData();
+
+            if (reader.getReadPresentationData())
+            {
+               processViewPropertyData();
+               processViewData();
+               processTableData();
+            }
          }
       }
 

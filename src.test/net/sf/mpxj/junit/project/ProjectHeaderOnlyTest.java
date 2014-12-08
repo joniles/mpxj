@@ -1,0 +1,80 @@
+/*
+ * file:       ProjectHeaderOnlyTest.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2014
+ * date:       08/12/2014
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.junit.project;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileFilter;
+
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.junit.MpxjTestData;
+import net.sf.mpxj.mpp.MPPReader;
+
+import org.junit.Test;
+
+/**
+ * Validate the behaviour of the "header only" MPPReader flag.
+ */
+public class ProjectHeaderOnlyTest
+{
+   /**
+    * Test to validate that we only read the project header when the "header only" flag is set on the reader.
+    * We'll hijack the existing generated task text sample files.
+    */
+   @Test public void testHeaderOnly() throws MPXJException
+   {
+      File testDataDir = new File(MpxjTestData.filePath("generated/task-text"));
+      for (File file : testDataDir.listFiles(new FileFilter()
+      {
+         @Override public boolean accept(File pathname)
+         {
+            return pathname.getName().startsWith("task-text") && pathname.getName().endsWith(".mpp");
+         }
+      }))
+      {
+         testHeaderOnly(file);
+      }
+   }
+
+   /**
+    * Test a single file to ensure that tasks are read by default, and are not read
+    * when the header only flag is set.
+    * 
+    * @param file file to test
+    */
+   private void testHeaderOnly(File file) throws MPXJException
+   {
+      MPPReader reader = new MPPReader();
+      ProjectFile project = reader.read(file);
+      assertTrue(project.getAllTasks().size() > 0);
+      assertEquals("Project User", project.getProjectHeader().getAuthor());
+
+      reader.setReadHeaderOnly(true);
+      project = reader.read(file);
+      assertTrue(project.getAllTasks().size() == 0);
+      assertEquals("Project User", project.getProjectHeader().getAuthor());
+   }
+}
