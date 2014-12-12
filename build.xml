@@ -21,7 +21,7 @@
 		<property name="mspdi.xsd" value="mspdi_pj14-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 
-		<!-- This property is only required if you want to publish the site to SourceForge -->
+		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
 		<property name="maven.dir" value="c:/java/apache-maven-3.2.3"/>
 		
 		<property name="lib.dir" value="${basedir}/lib" />
@@ -121,8 +121,8 @@
 
 	<target name="update-version-numbers" depends="init-props" description="Ensure that version numbers in the code are up-to-date">
 		<replaceregexp file="${basedir}/maven/pom.xml"
-		               match="&lt;version&gt;.*-SNAPSHOT&lt;/version&gt;"
-		               replace="&lt;version&gt;${current.version}-SNAPSHOT&lt;/version&gt;"
+		               match="&lt;!-- MPXJ --&gt;&lt;version&gt;.*&lt;/version&gt;"
+		               replace="&lt;!-- MPXJ --&gt;&lt;version&gt;${current.version}&lt;/version&gt;"
 		               byline="true"
 		/>
 		
@@ -389,7 +389,7 @@
 		<delete dir="${vs.working.dir}" />
 	</target>
 
-	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, clean-maven" description="Clean up all files">
+	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, maven-clean" description="Clean up all files">
 
 		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
@@ -432,13 +432,13 @@
 		</exec>
 	</target>
 
-	<target name="clean-maven" description="Cleans the maven directory">
+	<target name="maven-clean" description="Cleans the maven directory">
 		<delete dir="${basedir}/maven/src/main" />
 		<delete dir="${basedir}/maven/src/test" />
 		<delete dir="${basedir}/maven/target" />		
 	</target>
 
-	<target name="populate-maven" depends="clean-maven" description="Populates the maven directory ready for use">
+	<target name="maven-populate" depends="maven-clean" description="Populates the maven directory ready for use">
 		<mkdir dir="${basedir}/maven/src/main/java" />
 		<mkdir dir="${basedir}/maven/src/main/resources" />
 		<mkdir dir="${basedir}/maven/src/test/java" />
@@ -459,15 +459,27 @@
 		<mkdir dir="${basedir}/maven/target" />
 	</target>
 		
-	<target name="run-maven" depends="init-props,populate-maven" description="Execute maven to produce the web site">
+	<target name="maven-site" depends="init-props,maven-populate" description="Execute maven to produce the web site">
 		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
 			<arg line="post-site" />
 		</exec>		
 	</target>
-	
-	<target name="publish-site" depends="run-maven" description="Publishes the web site to Sourceforge">
+
+	<target name="maven-publish" depends="maven-site" description="Publishes the web site to Sourceforge">
 		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>				
 	</target>
+
+	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and deploy to OSSRH">
+		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
+		</exec>		
+	</target>	
+	
+	<target name="maven-deploy" depends="init-props,maven-populate" description="Execute maven and deploy to OSSRH">
+		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+			<arg line="-DskipTests=true clean deploy" />
+		</exec>		
+	</target>	
 
 	<!-- Adapted from http://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
 	<target name="git.revision" description="Store git revision in ${repository.version}">

@@ -7,8 +7,8 @@
 	<groupId>net.sf.mpxj</groupId>
 	<artifactId>mpxj</artifactId>
 
-	<!-- Note - this is automatically updated by the ant build -->
-	<version>4.7.1-SNAPSHOT</version>
+	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
+	<!-- MPXJ --><version>4.7.1</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.sourceforge.net/</url>
@@ -183,6 +183,14 @@
 		</license>
 	</licenses>
 
+	<!-- Supports deployment to Maven Central -->
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 
@@ -242,6 +250,80 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir> to allow unit tests to run -->
+			<plugin>
+     			<groupId>org.apache.maven.plugins</groupId>
+     			<artifactId>maven-surefire-plugin</artifactId>
+     			<configuration>
+        			<systemProperties>
+          				<property>
+             				<name>mpxj.junit.datadir</name>
+             				<value>${mpxj.junit.datadir}</value>
+          				</property>
+        			</systemProperties>
+     			</configuration>
+			</plugin>
+			
+			<!-- Supports deployment to Maven Central -->
+			<plugin>
+      			<groupId>org.sonatype.plugins</groupId>
+      			<artifactId>nexus-staging-maven-plugin</artifactId>
+      			<version>1.6.3</version>
+      			<extensions>true</extensions>
+      			<configuration>
+        			<serverId>ossrh</serverId>
+        			<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        			<autoReleaseAfterClose>true</autoReleaseAfterClose>
+      			</configuration>
+    		</plugin>
+
+			<!-- Supports deployment to Maven Central -->
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-source-plugin</artifactId>
+		      <version>2.2.1</version>
+		      <executions>
+		        <execution>
+		          <id>attach-sources</id>
+		          <goals>
+		            <goal>jar-no-fork</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
+		    
+		    <!-- Supports deployment to Maven Central -->
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-javadoc-plugin</artifactId>
+		      <version>2.9.1</version>
+		      <executions>
+		        <execution>
+		          <id>attach-javadocs</id>
+		          <goals>
+		            <goal>jar</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>			
+    		
+			<!-- Supports deployment to Maven Central -->
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-gpg-plugin</artifactId>
+		      <version>1.5</version>
+		      <executions>
+		        <execution>
+		          <id>sign-artifacts</id>
+		          <phase>verify</phase>
+		          <goals>
+		            <goal>sign</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
+    		
 		</plugins>
 	</build>
 
@@ -265,6 +347,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
+			
 			<plugin>
 				<artifactId>maven-changes-plugin</artifactId>
 				<version>2.10</version>
@@ -272,10 +355,12 @@
 					<feedType>rss_2.0</feedType>
 				</configuration>				
 			</plugin>
+ 			
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
 			</plugin>
+			
 		</plugins>
 	</reporting>
 </project>
