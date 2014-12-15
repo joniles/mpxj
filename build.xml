@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="4.7.1" />
+		<property name="current.version" value="4.7.2" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
@@ -455,6 +455,15 @@
 		<copy todir="${basedir}/maven/src/main/resources" >  
 		        <fileset dir="${lib.dir}" includes="${rtfparserkit.jar}.jar"/>  
 		</copy>		
+		
+		<!-- This is horrible... but I don't want the hassle of having to put rtfparserkit into Maven too -->
+		<unzip src="../${rtfparserkit.jar}/${rtfparserkit.jar}.zip" dest="${basedir}/maven/src/main/java">
+			 <patternset>
+			    <include name="/${rtfparserkit.jar}/RTF Parser Kit/src/**/*.java"/>
+			 	<exclude name="**/RtfDump.*"/>
+			  </patternset>
+			<regexpmapper from=".*/src/(.*)" to="\1"/>
+		</unzip>
 		
 		<mkdir dir="${basedir}/maven/target" />
 	</target>
