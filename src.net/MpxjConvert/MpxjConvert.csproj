@@ -92,11 +92,11 @@
     <Reference Include="mpxj-for-csharp">
       <HintPath>..\..\lib.net\mpxj-for-csharp.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.10-PATCHED">
-      <HintPath>..\..\lib.net\poi-3.10-PATCHED.dll</HintPath>
+    <Reference Include="poi-3.11-20141221">
+      <HintPath>..\..\lib.net\poi-3.11-20141221.dll</HintPath>
     </Reference>
-    <Reference Include="rtfparserkit-1.0.0">
-      <HintPath>..\..\lib.net\rtfparserkit-1.0.0.dll</HintPath>
+    <Reference Include="rtfparserkit-1.1.0">
+      <HintPath>..\..\lib.net\rtfparserkit-1.1.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
