@@ -23,11 +23,10 @@
 	
 	<dependencies>
 	
-		<!-- Note that this is NOT The patched version which MPXJ ships with -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.10-FINAL</version>
+			<version>3.11</version>
 		</dependency>
 
 		<dependency>

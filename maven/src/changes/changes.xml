@@ -11,8 +11,9 @@
 	<release version="4.7.X" date="Git HEAD">		
 	</release>
 
-	<release version="4.7.3" date="Git HEAD">		
-		<action dev="joniles" type="fix">Updated rtfparserkit to 1.1.0 for complete Java 6 compatibility.</action>
+	<release version="4.7.3" date="23/12/2014">
+		<action dev="joniles" type="update">Updated to use POI 3.11.</action>		
+		<action dev="joniles" type="update">Updated to use rtfparserkit 1.1.0 for Java 6 compatibility.</action>		
 	</release>
 
 	<release version="4.7.2" date="15/12/2014">

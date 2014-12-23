@@ -39,7 +39,7 @@
 		-->
 		<property name="target-jvm-version" value="1.6" />
 
-		<property name="poi.jar" value="poi-3.10-PATCHED" />		
+		<property name="poi.jar" value="poi-3.11-20141221" />		
 		<path id="poi.path">
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
