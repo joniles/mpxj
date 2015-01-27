@@ -8,7 +8,8 @@
 
    <body> 
 
-	<release version="4.7.X" date="Git HEAD">		
+	<release version="4.7.X" date="Git HEAD">
+		<action dev="joniles" type="fix" issue="257">Failed to read project containing CodePage 1250 text.</action>		
 	</release>
 
 	<release version="4.7.3" date="23/12/2014">
