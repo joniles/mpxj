@@ -11,7 +11,8 @@
 
 <section name="How To: Use MPXJ with Maven">
 <p>MPXJ is developed using Eclipse, with an ant build script to automate various build and deployment tasks. 
-MPXJ does however use Maven to generate its web site. It does this by creating a version of the project using 
+MPXJ does however use Maven to generate its web site and generate artifacts which are uploaded to a public Maven repository. 
+It does this by creating a version of the project using 
 the skeleton Maven directory structure found in the maven directory of the distribution.</p>
 
 <p>In order to populate this skeleton structure, execute the following ant target:</p>

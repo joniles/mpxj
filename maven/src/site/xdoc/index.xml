@@ -144,12 +144,16 @@ library can be found in the lib.net folder of the MPXJ distribution.</p>
 
 
 <section name="Maven">
-<p>MPXJ is available in  
-<a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22mpxj%22">Maven repositories</a>.
-This facility has been provided by a user of MPXJ, so it is not something 
-I can offer any advice or support for.</p>
+<p>MPXJ is available from  
+<a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22net.sf.mpxj%22%20AND%20a%3A%22mpxj%22" target="_blank">Maven repositories</a>.
+</p>
 </section>
 
+<section name="NuGet">
+<p>MPXJ is available from  
+<a href="http://www.nuget.org/packages?q=mpxj" target="_blank">NuGet</a>.
+</p>
+</section>
 
 <section name="Keep in touch">
 

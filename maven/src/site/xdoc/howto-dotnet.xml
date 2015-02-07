@@ -11,7 +11,7 @@
 
 <section name="MPXJ assemblies">
 <p>MPXJ ships with both a Java library (mpxj.jar) and a set of .Net assemblies, 
-which can be found in the lib.net folder of the distribution.</p> 
+which can be found in the lib.net folder of the distribution. MPXJ is also available through <a href="http://www.nuget.org/packages?q=mpxj" target="_blank">NuGet</a>.</p> 
 
 <p>There are actually three different .Net DLLs shipped with MPXJ - you only need one of these:</p>
 
@@ -97,7 +97,7 @@ examples of their use can be seen in the samples provided in the src.net folder.
 <section name="MPXJ and the GAC">
 <p>For your convenience two batch files are provided in the lib.net directory: mpxj-gac-install.bat and mpxj-gac-uninstall.bat.
 These batch files install the MPXJ assemblies into the GAC and uninstall the MPXJ assemblies from the GAC 
-using the <a href="http://msdn.microsoft.com/en-us/library/ex0ss12c(v=vs.110).aspx">gacutil global assembly cache tool.</a>
+using the <a href="http://msdn.microsoft.com/en-us/library/ex0ss12c(v=vs.110).aspx" target="_blank">gacutil global assembly cache tool.</a>
 Note that these batch files assume that gacutil is available on the path.
 </p>
 </section>
