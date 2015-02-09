@@ -1723,6 +1723,26 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
+    * Retrieves the version of the application used to create this project.
+    * 
+    * @return application name
+    */
+   public int getApplicationVersion()
+   {
+      return m_applicationVersion;
+   }
+
+   /**
+    * Sets the version of the application used to create this project.
+    * 
+    * @param version application version
+    */
+   public void setApplicationVersion(int version)
+   {
+      m_applicationVersion = version;
+   }
+
+   /**
     * Package-private method used to add views to this MPP file.
     *
     * @param view view data
@@ -2372,6 +2392,13 @@ public final class ProjectFile implements TaskContainer
     * populates this attribute.
     */
    private String m_applicationName;
+
+   /**
+    * This field can be used to record the version of the application
+    * used to produce the project data. At present only MppReader
+    * populates this attribute.
+    */
+   private int m_applicationVersion;
 
    /**
     * List of views defined in this file.
