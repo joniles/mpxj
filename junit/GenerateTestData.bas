@@ -13,6 +13,7 @@ Sub GenerateAll()
     GenerateTaskCustomOutlineCodes
     GenerateTaskTextValues
     GenerateProjectProperties
+    GenerateBaselines
 End Sub
 
 Sub NameThatField(value As Long)
@@ -70,6 +71,38 @@ Sub AddTasksWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
         SetTaskField Field:=fieldName, value:=Vals(index), TaskID:=task.ID
                                       
         AddTaskColumn fieldName                                        
+    Next
+
+End Sub
+    
+Sub AddTasksWithBaselineFieldValues(fieldName As String, Vals As Variant)
+
+    Dim index As Integer
+    Dim offset As Integer
+    
+    If LBound(Vals) = 0 Then
+        offset = 1
+    Else
+        offset = 0
+    End If
+    
+    For index = LBound(Vals) To UBound(Vals)
+
+        Dim actualFieldName As String
+        if index = LBound(Vals) Then
+        	actualFieldName = "Baseline " & fieldName
+        Else
+        	actualFieldName = "Baseline" & (index+offset-1) & " " & fieldName
+        End If
+        
+        Dim taskName As String
+        taskName = actualFieldName & " - " & "Task"
+        
+        Dim task As task
+        Set task = ActiveProject.Tasks.Add(taskName)
+        
+        
+        SetTaskField Field:=actualFieldName, value:=Vals(index), TaskID:=task.ID
     Next
 
 End Sub
@@ -421,6 +454,69 @@ Sub GenerateProjectProperties
 
 End Sub
 
+
+Sub GenerateBaselines()
+
+    FileNew SummaryInfo:=False
+    
+    Dim Vals As Variant
+    
+    If CDbl(Application.Version) < 10.0 Then
+	    Vals = Array("1")
+	    AddTasksWithBaselineFieldValues "Cost", Vals
+
+	    Vals = Array("11d")
+	    AddTasksWithBaselineFieldValues "Duration", Vals
+	
+		Vals = Array("01/03/2014 09:00")
+		AddTasksWithBaselineFieldValues "Finish", Vals
+	
+		Vals = Array("01/04/2014 09:00")
+		AddTasksWithBaselineFieldValues "Start", Vals
+
+	    Vals = Array("51h")
+	    AddTasksWithBaselineFieldValues "Work", Vals
+	Else
+	    Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
+	    AddTasksWithBaselineFieldValues "Cost", Vals
+
+	    Vals = Array("11d", "12d", "13d", "14d", "15d", "16d", "17d", "18d", "19d", "20d", "21d")
+	    AddTasksWithBaselineFieldValues "Duration", Vals
+	
+		Vals = Array("01/03/2014 09:00", "02/03/2014 10:00", "03/03/2014 11:00", "04/03/2014 12:00", "05/03/2014 13:00", "06/03/2014 14:00", "07/03/2014 15:00", "08/03/2014 16:00", "09/03/2014 17:00", "10/03/2014 18:00", "10/03/2014 19:00")
+		AddTasksWithBaselineFieldValues "Finish", Vals
+	
+		Vals = Array("01/04/2014 09:00", "02/04/2014 10:00", "03/04/2014 11:00", "04/04/2014 12:00", "05/04/2014 13:00", "06/04/2014 14:00", "07/04/2014 15:00", "08/04/2014 16:00", "09/04/2014 17:00", "10/04/2014 18:00", "10/04/2014 19:00")
+		AddTasksWithBaselineFieldValues "Start", Vals
+
+	    Vals = Array("51h", "52h", "53h", "54h", "55h", "56h", "57h", "58h", "59h", "60h", "61h")
+	    AddTasksWithBaselineFieldValues "Work", Vals
+	
+	End If
+	
+	If CDbl(Application.Version) >= 14.0 Then
+    	Vals = Array("31d", "32d", "33d", "34d", "35d", "36d", "37d", "38d", "39d", "40d", "41d")
+    	AddTasksWithBaselineFieldValues "Estimated Duration", Vals
+
+		Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00", "10/01/2014 19:00")
+		AddTasksWithBaselineFieldValues "Estimated Finish", Vals
+	
+		Vals = Array("01/02/2014 09:00", "02/02/2014 10:00", "03/02/2014 11:00", "04/02/2014 12:00", "05/02/2014 13:00", "06/02/2014 14:00", "07/02/2014 15:00", "08/02/2014 16:00", "09/02/2014 17:00", "10/02/2014 18:00", "10/02/2014 19:00")
+		AddTasksWithBaselineFieldValues "Estimated Start", Vals
+
+    	Vals = Array("11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21")
+    	AddTasksWithBaselineFieldValues "Fixed Cost", Vals
+
+    	Vals = Array("Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated")
+    	AddTasksWithBaselineFieldValues "Fixed Cost Accrual", Vals
+	End If
+	     
+    SaveFiles "task-baselines"
+    
+    FileClose pjDoNotSave
+
+End Sub
+
 Sub SaveFiles(FilenameBase As String)
 
     Dim parentDirectory As String
@@ -491,6 +587,20 @@ Sub SaveFiles(FilenameBase As String)
 
             'CalculateAll
             'FileSaveAs name:=Filename & "-project2003-mpp8.mpp", FormatID:="MSProject.MPP.8"
+
+        ' Project 2002
+        Case "10.0"
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2002-mpp9.mpp"
+            
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2002-mspdi.xml", FormatID:="MSProject.XML"
+                        
+            CalculateAll
+            FileSaveAs name:="<" & Filename & "-project2002-mpd9.mpd>\" & FilenameBase & "-project2002-mpd9", FormatID:="MSProject.MPD.9"
+
+            'CalculateAll
+            'FileSaveAs name:=Filename & "-project2002-mpp8.mpp", FormatID:="MSProject.MPP.8"
 
         ' Project 2000
         Case "9.0"
