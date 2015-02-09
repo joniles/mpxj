@@ -105,9 +105,9 @@ public class ResourceAssignmentFactory
             continue;
          }
 
-         if (data.length <= fieldMap.getMaxFixedDataOffset(0))
+         if (data.length < fieldMap.getMaxFixedDataSize(0))
          {
-            byte[] newData = new byte[fieldMap.getMaxFixedDataOffset(0) + 8];
+            byte[] newData = new byte[fieldMap.getMaxFixedDataSize(0)];
             System.arraycopy(data, 0, newData, 0, data.length);
             data = newData;
          }

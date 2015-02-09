@@ -983,8 +983,8 @@ final class MPP14Reader implements MPPVariantReader
                   // We apply a heuristic here - if we have more than 75% of the data, we assume 
                   // the task is valid.
                   //                  
-                  int maxOffset = fieldMap.getMaxFixedDataOffset(0);
-                  if (maxOffset == 0 || ((data.length * 100) / maxOffset) > 75)
+                  int maxSize = fieldMap.getMaxFixedDataSize(0);
+                  if (maxSize == 0 || ((data.length * 100) / maxSize) > 75)
                   {
                      uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
@@ -1014,13 +1014,13 @@ final class MPP14Reader implements MPPVariantReader
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
       int itemCount = rscFixedMeta.getAdjustedItemCount();
-      int maxFixedDataOffset = fieldMap.getMaxFixedDataOffset(0);
+      int maxFixedDataSize = fieldMap.getMaxFixedDataSize(0);
       int uniqueIdOffset = fieldMap.getFixedDataOffset(ResourceField.UNIQUE_ID);
 
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] data = rscFixedData.getByteArrayValue(loop);
-         if (data == null || data.length <= maxFixedDataOffset)
+         if (data == null || data.length < maxFixedDataSize)
          {
             continue;
          }
@@ -1370,7 +1370,7 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), fieldMap.getMaxFixedDataOffset(0));
+      FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), fieldMap.getMaxFixedDataSize(0));
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 92, 93);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
@@ -1444,9 +1444,9 @@ final class MPP14Reader implements MPPVariantReader
             continue;
          }
 
-         if (data.length < fieldMap.getMaxFixedDataOffset(0))
+         if (data.length < fieldMap.getMaxFixedDataSize(0))
          {
-            byte[] newData = new byte[fieldMap.getMaxFixedDataOffset(0) + 8];
+            byte[] newData = new byte[fieldMap.getMaxFixedDataSize(0) + 8];
             System.arraycopy(data, 0, newData, 0, data.length);
             data = newData;
          }

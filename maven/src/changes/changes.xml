@@ -10,6 +10,7 @@
 
 	<release version="4.7.X" date="Git HEAD">
 		<action dev="joniles" type="fix" issue="257">Failed to read project containing CodePage 1250 text.</action>
+		<action dev="joniles" type="fix">Failed to read fields held at the end of a fixed data block</action>
 		<action dev="joniles" type="add">Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</action>		
 	</release>
 

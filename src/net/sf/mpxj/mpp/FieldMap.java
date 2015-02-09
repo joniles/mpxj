@@ -34,6 +34,7 @@ import java.util.Map.Entry;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -148,10 +149,11 @@ abstract class FieldMap
                      ++dataBlockIndex;
                   }
                   lastDataBlockOffset = dataBlockOffset;
+                  int typeSize = getFixedDataFieldSize(type);
 
-                  if (dataBlockOffset > m_maxFixedDataOffset[dataBlockIndex])
+                  if (dataBlockOffset + typeSize > m_maxFixedDataSize[dataBlockIndex])
                   {
-                     m_maxFixedDataOffset[dataBlockIndex] = dataBlockOffset;
+                     m_maxFixedDataSize[dataBlockIndex] = dataBlockOffset + typeSize;
                   }
                }
                else
@@ -426,9 +428,9 @@ abstract class FieldMap
     * @param blockIndex required block index
     * @return maximum offset
     */
-   public int getMaxFixedDataOffset(int blockIndex)
+   public int getMaxFixedDataSize(int blockIndex)
    {
-      return m_maxFixedDataOffset[blockIndex];
+      return m_maxFixedDataSize[blockIndex];
    }
 
    /**
@@ -546,7 +548,7 @@ abstract class FieldMap
    public void clear()
    {
       m_map.clear();
-      Arrays.fill(m_maxFixedDataOffset, 0);
+      Arrays.fill(m_maxFixedDataSize, 0);
    }
 
    /**
@@ -571,6 +573,76 @@ abstract class FieldMap
    }
 
    /**
+    * Determine the size of a field in a fixed data block.
+    * 
+    * @param type field data type
+    * @return field size in bytes
+    */
+   private int getFixedDataFieldSize(FieldType type)
+   {
+      int result = 0;
+      DataType dataType = type.getDataType();
+      if (dataType != null)
+      {
+         switch (dataType)
+         {
+            case DATE:
+            case INTEGER:
+            case DURATION:
+            {
+               result = 4;
+               break;
+            }
+
+            case TIME_UNITS:
+            case CONSTRAINT:
+            case PRIORITY:
+            case PERCENTAGE:
+            case TASK_TYPE:
+            case ACCRUE:
+            case SHORT:
+            case BOOLEAN:
+            case DELAY:
+            case WORKGROUP:
+            case RATE_UNITS:
+            {
+               result = 2;
+               break;
+            }
+
+            case CURRENCY:
+            case UNITS:
+            case RATE:
+            case WORK:
+            {
+               result = 8;
+               break;
+            }
+
+            case WORK_UNITS:
+            {
+               result = 1;
+               break;
+            }
+
+            case GUID:
+            {
+               result = 16;
+               break;
+            }
+
+            default:
+            {
+               result = 0;
+               break;
+            }
+         }
+      }
+
+      return result;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
@@ -583,12 +655,12 @@ abstract class FieldMap
 
       pw.println("[FieldMap");
 
-      for (int loop = 0; loop < m_maxFixedDataOffset.length; loop++)
+      for (int loop = 0; loop < m_maxFixedDataSize.length; loop++)
       {
          pw.print(" MaxFixedOffset (block ");
          pw.print(loop);
          pw.print(")=");
-         pw.println(m_maxFixedDataOffset[loop]);
+         pw.println(m_maxFixedDataSize[loop]);
       }
 
       for (FieldItem item : items)
@@ -1267,7 +1339,7 @@ abstract class FieldMap
    private ProjectFile m_file;
    protected TimeUnit m_defaultProjectTimeUnits;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
-   private int[] m_maxFixedDataOffset = new int[MAX_FIXED_DATA_BLOCKS];
+   private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
 
    private static final Integer[] TASK_KEYS =
    {

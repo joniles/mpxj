@@ -1287,8 +1287,8 @@ final class MPP9Reader implements MPPVariantReader
                   // We apply a heuristic here - if we have more than 75% of the data, we assume 
                   // the task is valid.
                   //                  
-                  int maxOffset = fieldMap.getMaxFixedDataOffset(0);
-                  if (maxOffset == 0 || ((data.length * 100) / maxOffset) > 75)
+                  int maxSize = fieldMap.getMaxFixedDataSize(0);
+                  if (maxSize == 0 || ((data.length * 100) / maxSize) > 75)
                   {
                      uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
@@ -1322,7 +1322,7 @@ final class MPP9Reader implements MPPVariantReader
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] data = rscFixedData.getByteArrayValue(loop);
-         if (data == null || data.length <= fieldMap.getMaxFixedDataOffset(0))
+         if (data == null || data.length < fieldMap.getMaxFixedDataSize(0))
          {
             continue;
          }
@@ -1613,7 +1613,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataOffset(0));
+      FixedData taskFixedData = new FixedData(taskFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
@@ -1656,7 +1656,7 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
-         if (data.length < fieldMap.getMaxFixedDataOffset(0))
+         if (data.length < fieldMap.getMaxFixedDataSize(0))
          {
             continue;
          }
