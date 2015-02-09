@@ -49,7 +49,7 @@ public class TaskCostsTest
    /**
     * Test to validate the custom costs in files saved by different versions of MS Project.
     */
-   @Test public void testTaskNumbers() throws MPXJException
+   @Test public void testTaskCosts() throws MPXJException
    {
       File testDataDir = new File(MpxjTestData.filePath("generated/task-costs"));
       for (File file : testDataDir.listFiles(new FileFilter()
