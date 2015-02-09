@@ -4261,6 +4261,233 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Retrieve the baseline estimated duration.
+    * 
+    * @return baseline estimated duration
+    */
+   public Duration getBaselineEstimatedDuration()
+   {
+      return (Duration) getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
+   }
+
+   /**
+    * Set the baseline estimated duration.
+    * 
+    * @param duration baseline estimated duration
+    */
+   public void setBaselineEstimatedDuration(Duration duration)
+   {
+      set(TaskField.BASELINE_ESTIMATED_DURATION, duration);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineEstimatedDuration(int baselineNumber, Duration value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_ESTIMATED_DURATIONS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Duration getBaselineEstimatedDuration(int baselineNumber)
+   {
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_DURATIONS, baselineNumber));
+      if (!(result instanceof Duration))
+      {
+         result = null;
+      }
+      return (Duration) result;
+   }
+
+   /**
+    * Retrieve the baseline estimated start.
+    * 
+    * @return baseline estimated start
+    */
+   public Date getBaselineEstimatedStart()
+   {
+      return (Date) getCachedValue(TaskField.BASELINE_ESTIMATED_START);
+   }
+
+   /**
+    * Set the baseline estimated start.
+    * 
+    * @param date baseline estimated start
+    */
+   public void setBaselineEstimatedStart(Date date)
+   {
+      set(TaskField.BASELINE_ESTIMATED_START, date);
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Date getBaselineEstimatedStart(int baselineNumber)
+   {
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber));
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
+      return (Date) result;
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineEstimatedStart(int baselineNumber, Date value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve the baseline estimated finish.
+    * 
+    * @return baseline estimated finish
+    */
+   public Date getBaselineEstimatedFinish()
+   {
+      return (Date) getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
+   }
+
+   /**
+    * Set the baseline estimated finish.
+    * 
+    * @param date baseline estimated finish
+    */
+   public void setBaselineEstimatedFinish(Date date)
+   {
+      set(TaskField.BASELINE_ESTIMATED_FINISH, date);
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Date getBaselineEstimatedFinish(int baselineNumber)
+   {
+      Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber));
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
+      return (Date) result;
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineEstimatedFinish(int baselineNumber, Date value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber), value);
+   }
+
+   /**
+    * The Fixed Cost field shows any task expense that is not associated
+    * with a resource cost.
+    *
+    * @param val amount
+    */
+   public void setBaselineFixedCost(Number val)
+   {
+      set(TaskField.BASELINE_FIXED_COST, val);
+   }
+
+   /**
+    * The Fixed Cost field shows any task expense that is not associated
+    * with a resource cost.
+    *
+    * @return currency amount
+    */
+   public Number getBaselineFixedCost()
+   {
+      return ((Number) getCachedValue(TaskField.BASELINE_FIXED_COST));
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineFixedCost(int baselineNumber, Number value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_FIXED_COSTS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Number getBaselineFixedCost(int baselineNumber)
+   {
+      return ((Number) getCachedValue(selectField(TaskFieldLists.BASELINE_FIXED_COSTS, baselineNumber)));
+   }
+
+   /**
+    * Retrieves the baseline fixed cost accrual.
+    *
+    * @return fixed cost accrual flag
+    */
+   public AccrueType getBaselineFixedCostAccrual()
+   {
+      return ((AccrueType) getCachedValue(TaskField.BASELINE_FIXED_COST_ACCRUAL));
+   }
+
+   /**
+    * Sets the baseline fixed cost accrual.
+    *
+    * @param type fixed cost accrual type
+    */
+   public void setBaselineFixedCostAccrual(AccrueType type)
+   {
+      set(TaskField.BASELINE_FIXED_COST_ACCRUAL, type);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineFixedCostAccrual(int baselineNumber, AccrueType value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public AccrueType getBaselineFixedCostAccrual(int baselineNumber)
+   {
+      return ((AccrueType) getCachedValue(selectField(TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS, baselineNumber)));
+   }
+
+   /**
     * This method allows a predecessor relationship to be removed from this
     * task instance.  It will only delete relationships that exactly match the 
     * given targetTask, type and lag time.
