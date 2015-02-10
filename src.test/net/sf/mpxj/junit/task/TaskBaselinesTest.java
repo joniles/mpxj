@@ -49,6 +49,25 @@ import org.junit.Test;
  */
 public class TaskBaselinesTest
 {
+
+   /**
+    * Test to verify SourceForeg issue is fixed.
+    * 
+    * @throws MPXJException
+    */
+   @Test public void testSourceForgeIssue259() throws MPXJException
+   {
+      File file = new File(MpxjTestData.filePath("generated/task-baselines"), "sf259.mpp");
+      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
+      ProjectFile project = reader.read(file);
+      for (int index = 0; index < SF259_BASELINE_STARTS.length; index++)
+      {
+         Task task = project.getTaskByID(Integer.valueOf(index + 1));
+         assertEquals(SF259_BASELINE_STARTS[index], m_dateFormat.format(task.getBaselineStart()));
+         assertEquals(SF259_BASELINE_FINISHES[index], m_dateFormat.format(task.getBaselineFinish()));
+      }
+   }
+
    /**
     * Test to validate the baseline values saved by different versions of MS Project.
     */
@@ -583,6 +602,60 @@ public class TaskBaselinesTest
       "59.0h",
       "60.0h",
       "61.0h"
+   };
+
+   private static final String[] SF259_BASELINE_STARTS = new String[]
+   {
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 01:00",
+      "01/03/2015 01:00",
+      "01/03/2015 01:00",
+      "01/03/2015 01:00",
+      "01/03/2015 01:00",
+      "01/03/2015 01:00",
+      "01/03/2015 03:00"
+   };
+
+   private static final String[] SF259_BASELINE_FINISHES = new String[]
+   {
+      "01/03/2015 04:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 00:00",
+      "01/03/2015 04:00",
+      "01/03/2015 04:00",
+      "01/03/2015 00:00",
+      "01/03/2015 01:00",
+      "01/03/2015 03:00",
+      "01/03/2015 03:00",
+      "01/03/2015 02:30",
+      "01/03/2015 02:30",
+      "01/03/2015 03:00",
+      "01/03/2015 03:00",
+      "01/03/2015 04:00"
    };
 
 }

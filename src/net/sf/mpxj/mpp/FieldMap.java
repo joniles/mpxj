@@ -1065,25 +1065,13 @@ abstract class FieldMap
       {
          Object result = null;
 
+         //
+         // Note that this simplistic approach could produce false positives
+         //
          int mask = varData.getShort(id, type);
          if ((mask & 0xFF00) != VALUE_LIST_MASK)
          {
-            byte[] data = varData.getByteArray(id, type);
-
-            if (data != null)
-            {
-               if (data.length == 512)
-               {
-                  result = MPPUtility.getUnicodeString(data);
-               }
-               else
-               {
-                  if (data.length >= 4)
-                  {
-                     result = MPPUtility.getTimestamp(data);
-                  }
-               }
-            }
+            result = getRawTimestampValue(varData, id, type);
          }
          else
          {
@@ -1092,6 +1080,43 @@ abstract class FieldMap
             if (item != null && item.getValue() != null)
             {
                result = MPPUtility.getTimestamp(item.getValue());
+            }
+
+            //
+            // If we can't find a custom field value with this ID, fall back to treating this as a normal value 
+            //
+            if (result == null)
+            {
+               result = getRawTimestampValue(varData, id, type);
+            }
+         }
+         return result;
+      }
+
+      /**
+       * Retrieve a timestamp value.
+       * 
+       * @param varData var data block
+       * @param id item ID
+       * @param type item type
+       * @return item value
+       */
+      private Object getRawTimestampValue(Var2Data varData, Integer id, Integer type)
+      {
+         Object result = null;
+         byte[] data = varData.getByteArray(id, type);
+         if (data != null)
+         {
+            if (data.length == 512)
+            {
+               result = MPPUtility.getUnicodeString(data);
+            }
+            else
+            {
+               if (data.length >= 4)
+               {
+                  result = MPPUtility.getTimestamp(data);
+               }
             }
          }
          return result;
@@ -1143,6 +1168,9 @@ abstract class FieldMap
       {
          double result = 0;
 
+         //
+         // Note that this simplistic approach could produce false positives
+         //
          int mask = varData.getShort(id, type);
          if ((mask & 0xFF00) != VALUE_LIST_MASK)
          {
@@ -1172,6 +1200,9 @@ abstract class FieldMap
       {
          String result = null;
 
+         //
+         // Note that this simplistic approach could produce false positives
+         //
          int mask = varData.getShort(id, type);
          if ((mask & 0xFF00) != VALUE_LIST_MASK)
          {
