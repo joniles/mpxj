@@ -99,19 +99,6 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public final Double getCurrency(String name)
-   {
-      Double value = getDouble(name);
-      if (value != null)
-      {
-         value = Double.valueOf(value.doubleValue() / 100);
-      }
-      return (value);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
    @Override public final boolean getBoolean(String name)
    {
       boolean result = false;

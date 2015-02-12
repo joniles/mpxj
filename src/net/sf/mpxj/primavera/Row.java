@@ -62,14 +62,6 @@ interface Row
    public Double getDouble(String name);
 
    /**
-    * Retrieve a currency attribute.
-    * 
-    * @param name attribute name
-    * @return attribute value
-    */
-   public Double getCurrency(String name);
-
-   /**
     * Retrieve a boolean attribute.
     * 
     * @param name attribute name
