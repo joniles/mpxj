@@ -38,6 +38,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
@@ -103,7 +104,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_udfCounters);
+         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases);
          ProjectFile project = m_reader.getProject();
          project.addProjectListeners(m_projectListeners);
 
@@ -479,6 +480,56 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       m_udfCounters.setFieldNameForType(type, fieldName);
    }
 
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    * 
+    * @return Primavera field name to MPXJ field type map
+    */
+   public Map<FieldType, String> getResourceFieldMap()
+   {
+      return m_resourceFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    * 
+    * @return Primavera field name to MPXJ field type map
+    */
+   public Map<FieldType, String> getWbsFieldMap()
+   {
+      return m_wbsFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    * 
+    * @return Primavera field name to MPXJ field type map
+    */
+   public Map<FieldType, String> getTaskFieldMap()
+   {
+      return m_taskFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    * 
+    * @return Primavera field name to MPXJ field type map
+    */
+   public Map<FieldType, String> getAssignmentFields()
+   {
+      return m_assignmentFields;
+   }
+
+   /**
+    * Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.
+    * 
+    * @return Primavera field name to MPXJ field type map
+    */
+   public Map<FieldType, String> getAliases()
+   {
+      return m_aliases;
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
@@ -490,4 +541,10 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_udfCounters = new UserFieldCounters();
+
+   private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
+   private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
+   private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
+   private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
+   private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
 }

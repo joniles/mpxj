@@ -12,7 +12,8 @@
 		<action dev="joniles" type="fix" issue="257">Failed to read project containing CodePage 1250 text.</action>
 		<action dev="joniles" type="fix" issue="259">MS Project 2010: tasks with null baseline dates</action>
 		<action dev="joniles" type="fix">Failed to read fields held at the end of a fixed data block</action>
-		<action dev="joniles" type="add">Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</action>		
+		<action dev="joniles" type="add">Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</action>
+		<action dev="joniles" type="add">Added the ability to customise the fields read from a Primavera database or XER file.</action>		
 	</release>
 
 	<release version="4.7.3" date="23/12/2014">
