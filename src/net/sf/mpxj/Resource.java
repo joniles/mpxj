@@ -1420,23 +1420,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setUniqueID(Integer val)
    {
-      ProjectFile parent = getParentFile();
-      Integer previous = getUniqueID();
-      if (previous != null)
-      {
-         parent.unmapResourceUniqueID(previous);
-      }
-      parent.mapResourceUniqueID(val, this);
-
       set(ResourceField.UNIQUE_ID, val);
-
-      if (m_assignments.isEmpty() == false)
-      {
-         for (ResourceAssignment assignment : m_assignments)
-         {
-            assignment.setResourceUniqueID(val);
-         }
-      }
    }
 
    /**
@@ -2343,6 +2327,25 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       //
       switch (field)
       {
+         case UNIQUE_ID:
+         {
+            ProjectFile parent = getParentFile();
+            if (oldValue != null)
+            {
+               parent.unmapResourceUniqueID((Integer) oldValue);
+            }
+            parent.mapResourceUniqueID((Integer) newValue, this);
+
+            if (m_assignments.isEmpty() == false)
+            {
+               for (ResourceAssignment assignment : m_assignments)
+               {
+                  assignment.setResourceUniqueID((Integer) newValue);
+               }
+            }
+            break;
+         }
+
          case COST:
          case BASELINE_COST:
          {

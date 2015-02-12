@@ -1393,16 +1393,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setUniqueID(Integer val)
    {
-      ProjectFile parent = getParentFile();
-      Integer previous = getUniqueID();
-
-      if (previous != null)
-      {
-         parent.unmapTaskUniqueID(previous);
-      }
-
-      parent.mapTaskUniqueID(val, this);
-
       set(TaskField.UNIQUE_ID, val);
    }
 
@@ -4703,6 +4693,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       //
       switch (field)
       {
+         case UNIQUE_ID:
+         {
+            ProjectFile parent = getParentFile();
+            if (oldValue != null)
+            {
+               parent.unmapTaskUniqueID((Integer) oldValue);
+            }
+            parent.mapTaskUniqueID((Integer) newValue, this);
+            break;
+         }
+
          case START:
          case BASELINE_START:
          {
