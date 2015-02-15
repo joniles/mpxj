@@ -993,6 +993,8 @@ final class PrimaveraReader
       map.put(TaskField.FREE_SLACK, "free_float_hr_cnt");
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
       map.put(TaskField.TEXT1, "task_code");
+      map.put(TaskField.TEXT2, "task_type");
+      map.put(TaskField.TEXT3, "status_code");
 
       return map;
    }
@@ -1034,6 +1036,8 @@ final class PrimaveraReader
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
       map.put(TaskField.TEXT1, "Code");
+      map.put(TaskField.TEXT2, "Activity Type");
+      map.put(TaskField.TEXT3, "Status");
 
       return map;
    }
