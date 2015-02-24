@@ -412,7 +412,7 @@ final class PrimaveraReader
 
          Date startDate = row.getDate("act_start_date") == null ? row.getDate("restart_date") : row.getDate("act_start_date");
          task.setStart(startDate);
-         Date endDate = row.getDate("act_end_date") == null ? row.getDate("reend_date") : row.getDate("act_start_date");
+         Date endDate = row.getDate("act_end_date") == null ? row.getDate("reend_date") : row.getDate("act_end_date");
          task.setFinish(endDate);
 
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
