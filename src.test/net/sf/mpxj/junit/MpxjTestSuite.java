@@ -36,6 +36,7 @@ import net.sf.mpxj.junit.task.TaskFlagsTest;
 import net.sf.mpxj.junit.task.TaskLinksTest;
 import net.sf.mpxj.junit.task.TaskNumbersTest;
 import net.sf.mpxj.junit.task.TaskOutlineCodesTest;
+import net.sf.mpxj.junit.task.TaskPercentCompleteTest;
 import net.sf.mpxj.junit.task.TaskStartsTest;
 import net.sf.mpxj.junit.task.TaskTextTest;
 import net.sf.mpxj.junit.task.TaskTextValuesTest;
@@ -108,6 +109,7 @@ import org.junit.runners.Suite;
    ProjectPropertiesTest.class,
    ProjectHeaderOnlyTest.class,
    TaskBaselinesTest.class,
+   TaskPercentCompleteTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

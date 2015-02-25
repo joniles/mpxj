@@ -1,0 +1,49 @@
+ERMHDR	8.4	2015-02-25	Project	admin	admin	dbxDatabaseNoName	Project Management	USD
+%T	CURRTYPE
+%F	curr_id	decimal_digit_cnt	curr_symbol	decimal_symbol	digit_group_symbol	pos_curr_fmt_type	neg_curr_fmt_type	curr_type	curr_short_name	group_digit_cnt	base_exch_rate
+%R	1	2	$	.	,	#1.1	(#1.1)	US Dollar	USD	3	1
+%R	13	2	£	.	,	#1.1	(#1.1)	Pound Sterling	GBP	3	0.618603
+%R	14	2	¥	.	,	#1.1	(#1.1)	Japanese Yen	JPY	3	91.2708
+%R	15	2	€	.	,	#1.1	(#1.1)	Euro	EUR	3	0.689711
+%R	16	2	¥	.	,	#1.1	(#1.1)	Chinese Yuan Renminbi	CNY	3	6.82502
+%R	17	2	$	.	,	#1.1	(#1.1)	Canadian Dollar	CAD	3	1.03757
+%R	18	2	RUB	.	,	#1.1	(#1.1)	Russian Ruble	RUB	3	0.033948
+%R	19	2	$	.	,	#1.1	(#1.1)	Argentine Peso	ARS	3	3.79109
+%R	20	2	$b	.	,	#1.1	(#1.1)	Bolivian Boliviano	BOB	3	7.5708
+%R	21	2	R$	.	,	#1.1	(#1.1)	Brazilian Real	BRL	3	1.7665
+%R	22	2	$	.	,	#1.1	(#1.1)	Chilean Peso	CLP	3	507.58
+%R	23	2	$	.	,	#1.1	(#1.1)	Columbian Peso	COP	3	1957.74
+%R	24	2	$	.	,	#1.1	(#1.1)	Guyanese Dollar	GYD	3	202.95
+%R	25	2	Gs	.	,	#1.1	(#1.1)	Paraguayan Guarani	PYG	3	4640
+%R	26	2	S/.	.	,	#1.1	(#1.1)	Peruvian Nuevo Sol	PEN	3	2.7244
+%R	27	2	$	.	,	#1.1	(#1.1)	Surinamese Dollar	SRD	3	2.8
+%R	28	2	Bs	.	,	#1.1	(#1.1)	Venezuelan Bolivar Fuerto	VEF	3	2.1446
+%R	29	2	$U	.	,	#1.1	(#1.1)	Uruguayan Peso	UYU	3	21.247
+%T	OBS
+%F	obs_id	parent_obs_id	guid	seq_num	obs_name	obs_descr
+%R	540			0	Enterprise	<html>  <head>      </head>  <body bgcolor=""#ffffff"">    Enterprise  </body></html>
+%R	636	540	/vImPk4L1hGwBAAGKXDliR	0	E&C	<html>  <head>      </head>  <body>    Engineering and Construction  </body></html>
+%T	PROJECT
+%F	proj_id	fy_start_month_num	rsrc_self_add_flag	allow_complete_flag	rsrc_multi_assign_flag	checkout_flag	project_flag	step_complete_flag	cost_qty_recalc_flag	batch_sum_flag	name_sep_char	def_complete_pct_type	proj_short_name	acct_id	orig_proj_id	source_proj_id	base_type_id	clndr_id	sum_base_proj_id	task_code_base	task_code_step	priority_num	wbs_max_sum_level	strgy_priority_num	last_checksum	critical_drtn_hr_cnt	def_cost_per_qty	last_recalc_date	plan_start_date	plan_end_date	scd_end_date	add_date	last_tasksum_date	fcst_start_date	def_duration_type	task_code_prefix	guid	def_qty_type	add_by_name	web_local_root_path	proj_url	def_rate_type	add_act_remain_flag	act_this_per_link_flag	def_task_type	act_pct_link_flag	critical_path_type	task_code_prefix_flag	def_rollup_dates_flag	use_project_baseline_flag	rem_target_link_flag	reset_planned_flag	allow_neg_act_flag	sum_assign_level	last_fin_dates_id	last_baseline_update_date	cr_external_key	apply_actuals_date	location_id	loaded_scope_level	export_flag	new_fin_dates_id	next_data_date	close_period_flag	sum_refresh_date	trsrcsum_loaded
+%R	4507	1	Y	Y	Y	N	Y	N	N	Y	.	CP_Drtn	EC00640					178		1000	10	10	2	500		0	0.0000	2015-02-24 00:00	2015-02-24 00:00			2015-02-24 00:00			DT_FixedDUR2	A	CFaGQJjaNUe8oPgT8ZvCBg	QT_Hour	admin			COST_PER_QTY	N	Y	TT_Task	Y	CT_TotFloat	Y	Y	Y	Y	N	N	SL_Taskrsrc						7	Y					
+%T	CALENDAR
+%F	clndr_id	default_flag	clndr_name	proj_id	base_clndr_id	last_chng_date	clndr_type	day_hr_cnt	week_hr_cnt	month_hr_cnt	year_hr_cnt	rsrc_private	clndr_data
+%R	178	Y	Corporate - Standard Full Time			2000-05-23 16:14	CA_Base	8	40	172	2000	N	(0||CalendarData()((0||DaysOfWeek()((0||1()())(0||2()((0||0(f|16:00|s|08:00)())))(0||3()((0||0(f|16:00|s|08:00)())))(0||4()((0||0(f|16:00|s|08:00)())))(0||5()((0||0(f|16:00|s|08:00)())))(0||6()((0||0(f|16:00|s|08:00)())))(0||7()())))(0||Exceptions()((0||0(d|41519)())(0||1(d|41155)())(0||2(d|40364)())(0||3(d|40910)())(0||4(d|41633)())(0||5(d|41094)())(0||6(d|40427)())(0||7(d|40536)())(0||8(d|41235)())(0||9(d|40179)())(0||10(d|40903)())(0||11(d|40543)())(0||12(d|40791)())(0||13(d|41421)())(0||14(d|40728)())(0||15(d|41275)())(0||16(d|41606)())(0||17(d|40329)())(0||18(d|41459)())(0||19(d|40871)())(0||20(d|40507)())(0||21(d|41057)())(0||22(d|40693)())(0||23(d|41268)())))))
+%T	PROJWBS
+%F	wbs_id	proj_id	obs_id	seq_num	est_wt	proj_node_flag	sum_data_flag	status_code	wbs_short_name	wbs_name	phase_id	parent_wbs_id	ev_user_pct	ev_etc_user_value	orig_cost	indep_remain_total_cost	ann_dscnt_rate_pct	dscnt_period_type	indep_remain_work_qty	anticip_start_date	anticip_end_date	ev_compute_type	ev_etc_compute_type	guid	tmpl_guid	plan_open_state
+%R	26010	4507	636	400	1	Y	N	WS_Open	EC00640	Percent Complete Test		22417	6	0.88	0.0000	0.0000						EC_Cmp_pct	EE_PF_cpi	46fl2eA+SEOwyxx47XXYGQ		
+%T	TASK
+%F	task_id	proj_id	wbs_id	clndr_id	phys_complete_pct	rev_fdbk_flag	est_wt	lock_plan_flag	auto_compute_act_flag	complete_pct_type	task_type	duration_type	status_code	task_code	task_name	rsrc_id	total_float_hr_cnt	free_float_hr_cnt	remain_drtn_hr_cnt	act_work_qty	remain_work_qty	target_work_qty	target_drtn_hr_cnt	target_equip_qty	act_equip_qty	remain_equip_qty	cstr_date	act_start_date	act_end_date	late_start_date	late_end_date	expect_end_date	early_start_date	early_end_date	restart_date	reend_date	target_start_date	target_end_date	rem_late_start_date	rem_late_end_date	cstr_type	priority_type	suspend_date	resume_date	float_path	float_path_order	guid	tmpl_guid	cstr_date2	cstr_type2	driving_path_flag	act_this_per_work_qty	act_this_per_equip_qty	external_early_start_date	external_late_end_date	create_date	update_date	create_user	update_user	location_id
+%R	101717	4507	26010	178	0	N	1	N	N	CP_Drtn	TT_Task	DT_FixedDUR2	TK_NotStart	A1000	Duration 0%				800	0	0	0	800	0	0	0									2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					ofc18xRJJUWf4JiamauDdA				N	0	0			2015-02-24 17:24	2015-02-24 17:25	admin	admin	
+%R	101718	4507	26010	178	0	N	1	N	N	CP_Drtn	TT_Task	DT_FixedDUR2	TK_Active	A1010	Duration 25%				600	0	0	0	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-06-08 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					wk0bSQ2lEUqHg4BIOaYGlw				N	0	0			2015-02-24 17:25	2015-02-24 17:25	admin	admin	
+%R	101719	4507	26010	178	0	N	1	N	N	CP_Drtn	TT_Task	DT_FixedDUR2	TK_Active	A1020	Duration 75%				200	0	0	0	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-03-30 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					suJpTP26uUyupff1FBqLmg				N	0	0			2015-02-24 17:27	2015-02-24 17:27	admin	admin	
+%R	101720	4507	26010	178	0	N	1	N	N	CP_Drtn	TT_Task	DT_FixedDUR2	TK_Active	A1030	Duration 100%				0	0	0	0	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-02-24 08:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					vJtUmmGKv0KKc/J62vjwsA				N	0	0			2015-02-24 17:28	2015-02-24 17:28	admin	admin	
+%R	101721	4507	26010	178	0	N	1	N	N	CP_Phys	TT_Task	DT_FixedDUR2	TK_NotStart	A1040	Physical 0%				800	0	0	0	800	0	0	0									2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					HNCUJLesYEeqmPOLQ8cWsQ				N	0	0			2015-02-24 17:29	2015-02-24 17:29	admin	admin	
+%R	101722	4507	26010	178	25	N	1	N	N	CP_Phys	TT_Task	DT_FixedDUR2	TK_Active	A1050	Physical 25%				800	0	0	0	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					SHCH1PrBSU+/QDnLjvWlyw				N	0	0			2015-02-24 17:29	2015-02-24 17:29	admin	admin	
+%R	101723	4507	26010	178	75	N	1	N	N	CP_Phys	TT_Task	DT_FixedDUR2	TK_Active	A1060	Physical 75%				800	0	0	0	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					bxPFP4SWaU2Vt1JEsHP30g				N	0	0			2015-02-24 17:32	2015-02-24 17:32	admin	admin	
+%R	101724	4507	26010	178	100	N	1	N	N	CP_Phys	TT_Task	DT_FixedDUR2	TK_Active	A1070	Physical 100%				800	0	0	0	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					Pwg2M6hFCECeXL2JvqX+kg				N	0	0			2015-02-24 17:32	2015-02-24 17:32	admin	admin	
+%R	101725	4507	26010	178	0	N	1	N	N	CP_Units	TT_Task	DT_FixedDUR2	TK_NotStart	A1080	Units 0%				800	0	100	100	800	0	0	0									2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					n8xV0++xuUOAI8BEkuKcwQ				N	0	0			2015-02-24 17:33	2015-02-24 17:33	admin	admin	
+%R	101726	4507	26010	178	0	N	1	N	N	CP_Units	TT_Task	DT_FixedDUR2	TK_Active	A1090	Units 25%				800	25	75	100	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					n6Net7Ri20+q21GSJhydqQ				N	25	0			2015-02-24 17:34	2015-02-24 17:34	admin	admin	
+%R	101727	4507	26010	178	0	N	1	N	N	CP_Units	TT_Task	DT_FixedDUR2	TK_Active	A1100	Units 75%				800	75	25	100	800	0	0	0		2015-02-24 08:00							2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					ozjdfDOozUuXT2u3jYiMOw				N	75	0			2015-02-24 17:35	2015-02-24 17:35	admin	admin	
+%R	101728	4507	26010	178	0	N	1	N	N	CP_Units	TT_Task	DT_FixedDUR2	TK_Active	A1110	Units 100%				800	100	0	100	800	0	0	0		2015-02-24 00:00							2015-02-24 08:00	2015-07-13 16:00	2015-02-24 08:00	2015-07-13 16:00				PT_Normal					bTH+Ce/jfEyGBfUH24ai5Q				N	200	0			2015-02-24 17:36	2015-02-24 17:36	admin	admin	
+%E

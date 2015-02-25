@@ -61,6 +61,7 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class provides a generic front end to read project data from
@@ -329,7 +330,6 @@ final class PrimaveraReader
       //
       // Read WBS entries and create tasks
       //
-
       for (Row row : wbs)
       {
          Task task = m_project.addTask();
@@ -380,6 +380,7 @@ final class PrimaveraReader
          processFields(m_taskFields, row, task);
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
+         task.setPercentageComplete(calculatePercentComplete(row));
 
          Integer uniqueID = task.getUniqueID();
          if (uniqueIDs.contains(uniqueID))
@@ -915,6 +916,99 @@ final class PrimaveraReader
    }
 
    /**
+    * Determine which type of percent complete is used on on this task,
+    * and calculate the required value.
+    * 
+    * @param row task data
+    * @return percent complete value
+    */
+   private Number calculatePercentComplete(Row row)
+   {
+      Number result;
+      switch (PercentCompleteType.getInstance(row.getString("complete_pct_type")))
+      {
+         case UNITS:
+         {
+            result = calculateUnitsPercentComplete(row);
+            break;
+         }
+
+         case DURATION:
+         {
+            result = calculateDurationPercentComplete(row);
+            break;
+         }
+
+         default:
+         {
+            result = calculatePhysicalPercentComplete(row);
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Calculate the physical percent complete.
+    * 
+    * @param row task data
+    * @return percent complete
+    */
+   private Number calculatePhysicalPercentComplete(Row row)
+   {
+      return row.getDouble("phys_complete_pct");
+   }
+
+   /**
+    * Calculate the units percent complete.
+    * 
+    * @param row task data
+    * @return percent complete
+    */
+   private Number calculateUnitsPercentComplete(Row row)
+   {
+      double result = 0;
+
+      double actualWorkQuantity = NumberHelper.getDouble(row.getDouble("act_work_qty"));
+      double actualEquipmentQuantity = NumberHelper.getDouble(row.getDouble("act_equip_qty"));
+      double numerator = actualWorkQuantity + actualEquipmentQuantity;
+
+      if (numerator != 0)
+      {
+         double remainingWorkQuantity = NumberHelper.getDouble(row.getDouble("remain_work_qty"));
+         double remainingEquipmentQuantity = NumberHelper.getDouble(row.getDouble("remain_equip_qty"));
+         double denominator = remainingWorkQuantity + actualWorkQuantity + remainingEquipmentQuantity + actualEquipmentQuantity;
+         result = denominator == 0 ? 0 : ((numerator * 100) / denominator);
+      }
+
+      return NumberHelper.getDouble(result);
+   }
+
+   /**
+    * Calculate the duration percent complete.
+    * 
+    * @param row task data
+    * @return percent complete
+    */
+   private Number calculateDurationPercentComplete(Row row)
+   {
+      double result = 0;
+
+      double targetDuration = row.getDuration("target_drtn_hr_cnt").getDuration();
+      if (targetDuration != 0)
+      {
+         double remainingDuration = row.getDuration("remain_drtn_hr_cnt").getDuration();
+         if (remainingDuration < targetDuration)
+         {
+            result = ((targetDuration - remainingDuration) * 100) / targetDuration;
+         }
+      }
+
+      return NumberHelper.getDouble(result);
+   }
+
+   /**
     * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
     * 
     * @return mapping
@@ -970,7 +1064,6 @@ final class PrimaveraReader
       Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
 
       map.put(TaskField.UNIQUE_ID, "task_id");
-      map.put(TaskField.PERCENT_COMPLETE, "phys_complete_pct");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
