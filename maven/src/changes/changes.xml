@@ -17,6 +17,7 @@
 		<action dev="joniles" type="add">Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</action>
 		<action dev="joniles" type="add">Added the ability to customise the fields read from a Primavera database or XER file.</action>		
 		<action dev="joniles" type="add">Added Task Activity Type and Task Status as additional fields read from Primavera database and XER and files</action>
+		<action dev="joniles" type="update">Changed Task physical percent complete methods for consistency to use Number rather than Integer</action>
 	</release>
 
 	<release version="4.7.3" date="23/12/2014">

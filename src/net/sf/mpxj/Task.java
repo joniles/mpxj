@@ -3116,17 +3116,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return physical percent complete value
     */
-   public Integer getPhysicalPercentComplete()
+   public Number getPhysicalPercentComplete()
    {
-      return (Integer) getCachedValue(TaskField.PHYSICAL_PERCENT_COMPLETE);
+      return (Number) getCachedValue(TaskField.PHYSICAL_PERCENT_COMPLETE);
    }
 
    /**
-    * Srts the physical percent complete value.
+    * Sets the physical percent complete value.
     *
     * @param physicalPercentComplete physical percent complete value
     */
-   public void setPhysicalPercentComplete(Integer physicalPercentComplete)
+   public void setPhysicalPercentComplete(Number physicalPercentComplete)
    {
       set(TaskField.PHYSICAL_PERCENT_COMPLETE, physicalPercentComplete);
    }
