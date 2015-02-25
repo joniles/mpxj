@@ -468,17 +468,17 @@
 		<mkdir dir="${basedir}/maven/target" />
 	</target>
 		
-	<target name="maven-site" depends="init-props,maven-populate" description="Execute maven to produce the web site">
+	<target name="maven-site-build" depends="init-props,maven-populate" description="Execute maven to produce the web site">
 		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
 			<arg line="post-site" />
 		</exec>		
 	</target>
 
-	<target name="maven-publish" depends="maven-site" description="Publishes the web site to Sourceforge">
+	<target name="maven-site-publish" depends="maven-site-build" description="Publishes the web site to SourceForge">
 		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>				
 	</target>
 
-	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and deploy to OSSRH">
+	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and run tests">
 		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
 			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
 		</exec>		
@@ -537,8 +537,21 @@
 		</exec>				
 	</target>
 	
-	<target name="nuget-deploy">
+	<target name="nuget-deploy" depends="init-props">		
+		<exec executable="${nuget.dir}/nuget.exe">
+			<arg value="push"/>
+			<arg value="${basedir}/../net.sf.mpxj.${current.version}.nupkg"/>
+		</exec>						
 		
+		<exec executable="${nuget.dir}/nuget.exe">
+			<arg value="push"/>
+			<arg value="${basedir}/../net.sf.mpxj-for-csharp.${current.version}.nupkg"/>
+		</exec>
+		
+		<exec executable="${nuget.dir}/nuget.exe">
+			<arg value="push"/>
+			<arg value="${basedir}/../net.sf.mpxj-for-vb.${current.version}.nupkg"/>
+		</exec>		
 	</target>
 		
 </project>
