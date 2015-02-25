@@ -9,6 +9,9 @@
    <body> 
 
 	<release version="4.7.X" date="Git HEAD">
+	</release>
+
+	<release version="4.7.4" date="25/02/2015">
 		<action dev="joniles" type="fix" issue="257">Failed to read project containing CodePage 1250 text.</action>
 		<action dev="joniles" type="fix" issue="259">MS Project 2010: tasks with null baseline dates</action>
 		<action dev="joniles" type="fix">Incorrect task end date read from Primavera XER and database</action>
