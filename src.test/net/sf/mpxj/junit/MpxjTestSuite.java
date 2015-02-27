@@ -25,6 +25,7 @@ package net.sf.mpxj.junit;
 
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
+import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectHeaderOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;

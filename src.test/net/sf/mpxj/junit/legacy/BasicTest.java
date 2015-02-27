@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.junit;
+package net.sf.mpxj.junit.legacy;
 
 import static org.junit.Assert.*;
 
@@ -47,6 +47,8 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.junit.FileUtility;
+import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -69,7 +71,7 @@ public class BasicTest
     */
    @Test public void testRewrite1() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample.mpx"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       MPXWriter writer = new MPXWriter();
@@ -88,7 +90,7 @@ public class BasicTest
     */
    @Test public void testRewrite2() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample1.xml"));
+      File in = new File(MpxjTestData.filePath("legacy/sample1.xml"));
       ProjectFile xml = new MSPDIReader().read(in);
       File out = File.createTempFile("junit", ".xml");
       new MSPDIWriter().write(xml, out);
@@ -105,7 +107,7 @@ public class BasicTest
     */
    @Test public void testRewrite3() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample1.mpx"));
+      File in = new File(MpxjTestData.filePath("legacy/sample1.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       MPXWriter writer = new MPXWriter();
@@ -124,7 +126,7 @@ public class BasicTest
     */
    @Test public void testRewrite4() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("empty.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/empty.mpp"));
       ProjectFile mpx = new MPPReader().read(in);
       mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
       File out = File.createTempFile("junit", ".mpx");
@@ -143,7 +145,7 @@ public class BasicTest
     */
    @Test public void testRewrite5() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample.mpx"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
       File out = File.createTempFile("junit", ".planner");
       new PlannerWriter().write(mpx, out);
@@ -268,7 +270,7 @@ public class BasicTest
     */
    @Test public void testConversion1() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample98.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/sample98.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(mpp, out);
@@ -281,7 +283,7 @@ public class BasicTest
     */
    @Test public void testConversion2() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(mpp, out);
@@ -294,7 +296,7 @@ public class BasicTest
     */
    @Test public void testConversion3() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample.xml"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.xml"));
       ProjectFile xml = new MSPDIReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(xml, out);
@@ -356,7 +358,7 @@ public class BasicTest
     */
    @Test public void testConversion4() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(mpp, out);
@@ -375,7 +377,7 @@ public class BasicTest
     */
    @Test public void testRelationList() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("sample.mpx"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
 
       for (Task task : mpx.getAllTasks())
@@ -533,7 +535,7 @@ public class BasicTest
     */
    @Test public void testBug1() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("bug1.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/bug1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(mpp, out);
@@ -545,7 +547,7 @@ public class BasicTest
     */
    @Test public void testBug2() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("bug2.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/bug2.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(mpp, out);
@@ -558,7 +560,7 @@ public class BasicTest
     */
    @Test public void testBug3() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("bug3.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/bug3.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
 
       for (Task task : mpp.getAllTasks())
@@ -572,7 +574,7 @@ public class BasicTest
     */
    @Test public void testBug4() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("bug4.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/bug4.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       new MPXWriter().write(mpp, out.getAbsolutePath());
@@ -609,7 +611,7 @@ public class BasicTest
     */
    @Test public void testMPP8Flags1() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("mpp8flags1.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/mpp8flags1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       List<Task> tasks = mpp.getAllTasks();
       assertTrue("Not enough tasks", (tasks.size() > 0));
@@ -674,7 +676,7 @@ public class BasicTest
     */
    @Test public void testMPP8Flags2() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("mpp8flags2.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/mpp8flags2.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       int index = 0;
       boolean[] flags;
@@ -703,7 +705,7 @@ public class BasicTest
     */
    @Test public void testMPP9Flags1() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("mpp9flags1.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/mpp9flags1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       Task parentTask = mpp.getTaskByID(Integer.valueOf(0));
       assertNotNull("Parent task missing", parentTask);
@@ -770,7 +772,7 @@ public class BasicTest
     */
    @Test public void testMPP9Flags2() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("mpp9flags2.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/mpp9flags2.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       int index = 0;
       boolean[] flags;
@@ -857,11 +859,11 @@ public class BasicTest
     */
    @Test public void testViews() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("sample98.mpp"));
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample98.mpp"));
       List<View> views = mpp.getViews();
       assertEquals("Incorrect number of views", 1, views.size());
 
-      mpp = new MPPReader().read(MpxjTestData.filePath("sample.mpp"));
+      mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample.mpp"));
       views = mpp.getViews();
       assertEquals("Incorrect number of views", 3, views.size());
    }
@@ -873,7 +875,7 @@ public class BasicTest
     */
    @Test public void testTables() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("sample98.mpp"));
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample98.mpp"));
       List<Table> tables = mpp.getTables();
       //      Iterator iter = tables.iterator();
       //      while (iter.hasNext() == true)
@@ -883,7 +885,7 @@ public class BasicTest
 
       assertEquals("Incorrect number of tables", 1, tables.size());
 
-      mpp = new MPPReader().read(MpxjTestData.filePath("sample.mpp"));
+      mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample.mpp"));
       tables = mpp.getTables();
       //      iter = tables.iterator();
       //      while (iter.hasNext() == true)
@@ -905,7 +907,7 @@ public class BasicTest
       // Read in the MPP file. The task names should
       // match the calendar names.
       //
-      File in = new File(MpxjTestData.filePath("sample1.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/sample1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       ProjectCalendar cal;
 
@@ -950,7 +952,7 @@ public class BasicTest
       MSPDIReader reader = new MSPDIReader();
       MSPDIWriter writer = new MSPDIWriter();
 
-      File in = new File(MpxjTestData.filePath("alias.xml"));
+      File in = new File(MpxjTestData.filePath("legacy/alias.xml"));
       ProjectFile xml = reader.read(in);
       validateAliases(xml);
 
@@ -969,7 +971,7 @@ public class BasicTest
     */
    @Test public void testMPP9Aliases() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("alias.mpp"));
+      File in = new File(MpxjTestData.filePath("legacy/alias.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       validateAliases(mpp);
    }
@@ -1313,7 +1315,7 @@ public class BasicTest
       //
       try
       {
-         in = new File(MpxjTestData.filePath("readpassword9.mpp"));
+         in = new File(MpxjTestData.filePath("legacy/readpassword9.mpp"));
          new MPPReader().read(in);
          assertTrue(false);
       }
@@ -1326,7 +1328,7 @@ public class BasicTest
       //
       // Write password (password2)
       //
-      in = new File(MpxjTestData.filePath("writepassword9.mpp"));
+      in = new File(MpxjTestData.filePath("legacy/writepassword9.mpp"));
       new MPPReader().read(in);
 
       //
@@ -1334,7 +1336,7 @@ public class BasicTest
       //
       try
       {
-         in = new File(MpxjTestData.filePath("bothpassword9.mpp"));
+         in = new File(MpxjTestData.filePath("legacy/bothpassword9.mpp"));
          new MPPReader().read(in);
          assertTrue(false);
       }
@@ -1356,7 +1358,7 @@ public class BasicTest
       MSPDIReader reader = new MSPDIReader();
       MSPDIWriter writer = new MSPDIWriter();
 
-      ProjectFile xml = reader.read(MpxjTestData.filePath("mspextattr.xml"));
+      ProjectFile xml = reader.read(MpxjTestData.filePath("legacy/mspextattr.xml"));
       commonMspdiExtendedAttributeTests(xml);
 
       File out = File.createTempFile("junit", ".xml");
@@ -1420,7 +1422,7 @@ public class BasicTest
       // Read the MPX file and ensure that the project header fields
       // have the expected values.
       //
-      ProjectFile mpx = reader.read(MpxjTestData.filePath("headertest.mpx"));
+      ProjectFile mpx = reader.read(MpxjTestData.filePath("legacy/headertest.mpx"));
       testHeaderFields(mpx);
 
       //
@@ -1437,21 +1439,21 @@ public class BasicTest
       // Read the MPP8 file and ensure that the project header fields
       // have the expected values.
       //
-      mpx = new MPPReader().read(MpxjTestData.filePath("headertest8.mpp"));
+      mpx = new MPPReader().read(MpxjTestData.filePath("legacy/headertest8.mpp"));
       testHeaderFields(mpx);
 
       //
       // Read the MPP9 file and ensure that the project header fields
       // have the expected values.
       //
-      mpx = new MPPReader().read(MpxjTestData.filePath("headertest9.mpp"));
+      mpx = new MPPReader().read(MpxjTestData.filePath("legacy/headertest9.mpp"));
       testHeaderFields(mpx);
 
       //
       // Read the MSPDI file and ensure that the project header fields
       // have the expected values.
       //
-      mpx = new MSPDIReader().read(MpxjTestData.filePath("headertest9.xml"));
+      mpx = new MSPDIReader().read(MpxjTestData.filePath("legacy/headertest9.xml"));
       testMspdiHeaderFields(mpx);
 
       //
@@ -1509,12 +1511,12 @@ public class BasicTest
     */
    @Test public void testWBS() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("sample98.mpp"));
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample98.mpp"));
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(2));
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
 
-      mpp = new MPPReader().read(MpxjTestData.filePath("sample.mpp"));
+      mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample.mpp"));
       task = mpp.getTaskByUniqueID(Integer.valueOf(2));
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
@@ -1527,16 +1529,16 @@ public class BasicTest
     */
    @Test public void testPriority() throws Exception
    {
-      ProjectFile mpx = new MPXReader().read(MpxjTestData.filePath("mpxpriority.mpx"));
+      ProjectFile mpx = new MPXReader().read(MpxjTestData.filePath("legacy/mpxpriority.mpx"));
       validatePriority(mpx);
 
-      ProjectFile mpp8 = new MPPReader().read(MpxjTestData.filePath("mpp8priority.mpp"));
+      ProjectFile mpp8 = new MPPReader().read(MpxjTestData.filePath("legacy/mpp8priority.mpp"));
       validatePriority(mpp8);
 
-      ProjectFile mpp9 = new MPPReader().read(MpxjTestData.filePath("mpp9priority.mpp"));
+      ProjectFile mpp9 = new MPPReader().read(MpxjTestData.filePath("legacy/mpp9priority.mpp"));
       validatePriority(mpp9);
 
-      ProjectFile xml = new MSPDIReader().read(MpxjTestData.filePath("mspdipriority.xml"));
+      ProjectFile xml = new MSPDIReader().read(MpxjTestData.filePath("legacy/mspdipriority.xml"));
       validatePriority(xml);
 
       File out = File.createTempFile("junit", ".mpx");
@@ -1578,17 +1580,17 @@ public class BasicTest
     */
    @Test public void testCalendars() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("caltest98.mpp"));
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/caltest98.mpp"));
       validateResourceCalendars(mpp);
 
-      ProjectFile mpx = new MPXReader().read(MpxjTestData.filePath("caltest98.mpx"));
+      ProjectFile mpx = new MPXReader().read(MpxjTestData.filePath("legacy/caltest98.mpx"));
       validateResourceCalendars(mpx);
 
-      ProjectFile mpp9 = new MPPReader().read(MpxjTestData.filePath("caltest.mpp"));
+      ProjectFile mpp9 = new MPPReader().read(MpxjTestData.filePath("legacy/caltest.mpp"));
       validateResourceCalendars(mpp9);
       validateTaskCalendars(mpp9);
 
-      ProjectFile xml = new MSPDIReader().read(MpxjTestData.filePath("caltest.xml"));
+      ProjectFile xml = new MSPDIReader().read(MpxjTestData.filePath("legacy/caltest.xml"));
       validateResourceCalendars(xml);
       validateTaskCalendars(xml);
    }
@@ -1664,7 +1666,7 @@ public class BasicTest
       // Load the file and validate the number of
       // tasks, resources, and assignments.
       //
-      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("remove.mpp"));
+      ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/remove.mpp"));
       assertEquals(10, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(8, mpp.getAllResourceAssignments().size());
@@ -1768,7 +1770,7 @@ public class BasicTest
     */
    @Test public void testProjectCalendarExceptions() throws Exception
    {
-      File in = new File(MpxjTestData.filePath("calendarExceptions.mpx"));
+      File in = new File(MpxjTestData.filePath("legacy/calendarExceptions.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
       File out = File.createTempFile("junit", ".mpx");
       MPXWriter writer = new MPXWriter();

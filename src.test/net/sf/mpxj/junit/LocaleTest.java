@@ -65,7 +65,7 @@ public class LocaleTest
       MPXReader reader = new MPXReader();
       MPXWriter writer = new MPXWriter();
 
-      File in = new File(MpxjTestData.filePath("sample.mpx"));
+      File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = reader.read(in);
       File out = File.createTempFile("junit-" + locale.getLanguage(), ".mpx");
       writer.setLocale(locale);
