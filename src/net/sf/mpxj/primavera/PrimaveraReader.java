@@ -156,78 +156,149 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         ProjectCalendar calendar = m_project.addCalendar();
+         processCalendar(row);
+      }
+   }
 
-         Integer id = row.getInteger("clndr_id");
-         m_calMap.put(id, calendar);
-         calendar.setName(row.getString("clndr_name"));
+   /**
+    * Process data for an individual calendar.
+    * 
+    * @param row calendar data
+    */
+   public void processCalendar(Row row)
+   {
+      ProjectCalendar calendar = m_project.addCalendar();
 
-         // Process data
-         String calendarData = row.getString("clndr_data");
-         if (calendarData != null && !calendarData.isEmpty())
+      Integer id = row.getInteger("clndr_id");
+      m_calMap.put(id, calendar);
+      calendar.setName(row.getString("clndr_name"));
+
+      // Process data
+      String calendarData = row.getString("clndr_data");
+      if (calendarData != null && !calendarData.isEmpty())
+      {
+         Record root = getCalendarDataRecord(calendarData);
+         if (root != null)
          {
-            Record root = new Record(calendarData);
-            // Retrieve working hours ...
-            Record daysOfWeek = root.getChild("DaysOfWeek");
-            if (daysOfWeek != null)
+            processCalendarDays(calendar, root);
+            processCalendarExceptions(calendar, root);
+         }
+      }
+
+      m_project.fireCalendarReadEvent(calendar);
+   }
+
+   /**
+    * Create a structured calendar Record instance from the flat calendar data.
+    * 
+    * @param calendarData flat calendar data
+    * @return calendar Record instance
+    */
+   private Record getCalendarDataRecord(String calendarData)
+   {
+      Record root;
+
+      try
+      {
+         root = new Record(calendarData);
+      }
+
+      //
+      // I've come across invalid calendar data in an otherwise fine Primavera
+      // database belonging to a customer. We deal with this gracefully here
+      // rather than propagating an exception.
+      //
+      catch (Exception ex)
+      {
+         root = null;
+      }
+
+      return root;
+   }
+
+   /**
+    * Process calendar days of the week.
+    * 
+    * @param calendar project calendar
+    * @param root calendar data
+    */
+   private void processCalendarDays(ProjectCalendar calendar, Record root)
+   {
+      // Retrieve working hours ...
+      Record daysOfWeek = root.getChild("DaysOfWeek");
+      if (daysOfWeek != null)
+      {
+         for (Record dayRecord : daysOfWeek.getChildren())
+         {
+            processCalendarHours(calendar, dayRecord);
+         }
+      }
+   }
+
+   /**
+    * Process hours in a working day.
+    * 
+    * @param calendar project calendar
+    * @param dayRecord working day data
+    */
+   private void processCalendarHours(ProjectCalendar calendar, Record dayRecord)
+   {
+      // ... for each day of the week
+      Day day = Day.getInstance(Integer.parseInt(dayRecord.getField()));
+      // Get hours
+      List<Record> recHours = dayRecord.getChildren();
+      if (recHours.size() == 0)
+      {
+         // No data -> not working
+         calendar.setWorkingDay(day, false);
+      }
+      else
+      {
+         calendar.setWorkingDay(day, true);
+         // Read hours
+         ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         for (Record recWorkingHours : recHours)
+         {
+            if (recWorkingHours.getValue() != null)
             {
-               for (Record recDay : daysOfWeek.getChildren())
+               String[] wh = recWorkingHours.getValue().split("\\|");
+               try
                {
-                  // ... for each day of the week
-                  Day day = Day.getInstance(Integer.parseInt(recDay.getField()));
-                  // Get hours
-                  List<Record> recHours = recDay.getChildren();
-                  if (recHours.size() == 0)
-                  {
-                     // No data -> not working
-                     calendar.setWorkingDay(day, false);
-                  }
-                  else
-                  {
-                     calendar.setWorkingDay(day, true);
-                     // Read hours
-                     ProjectCalendarHours hours = calendar.addCalendarHours(day);
-                     for (Record recWorkingHours : recHours)
-                     {
-                        if (recWorkingHours.getValue() != null)
-                        {
-                           String[] wh = recWorkingHours.getValue().split("\\|");
-                           try
-                           {
-                              Date start = m_calendarTimeFormat.parse(wh[1]);
-                              Date end = m_calendarTimeFormat.parse(wh[3]);
-                              hours.addRange(new DateRange(start, end));
-                           }
-                           catch (ParseException e)
-                           {
-                              // silently ignore date parse exceptions
-                           }
-                        }
-                     }
-                  }
+                  Date start = m_calendarTimeFormat.parse(wh[1]);
+                  Date end = m_calendarTimeFormat.parse(wh[3]);
+                  hours.addRange(new DateRange(start, end));
+               }
+               catch (ParseException e)
+               {
+                  // silently ignore date parse exceptions
                }
             }
-
-            // Retrieve exceptions
-            Record exceptions = root.getChild("Exceptions");
-            if (exceptions == null)
-            {
-               continue;
-            }
-
-            for (Record exception : exceptions.getChildren())
-            {
-               int daysFrom1900 = Integer.parseInt(exception.getValue().split("\\|")[1]);
-               int daysFrom1970 = daysFrom1900 - 25567 - 2;
-               // 25567 -> Number of days between 1900 and 1970.
-               // During tests a 2 days offset was necessary to obtain good dates
-               // However I didn't figured out why there is such a difference.
-               Date startEx = new Date(daysFrom1970 * 24l * 60l * 60l * 1000);
-               calendar.addCalendarException(startEx, startEx);
-            }
          }
+      }
+   }
 
-         m_project.fireCalendarReadEvent(calendar);
+   /**
+    * Process calendar exceptions.
+    * 
+    * @param calendar project calendar
+    * @param root calendar data
+    */
+   private void processCalendarExceptions(ProjectCalendar calendar, Record root)
+   {
+      // Retrieve exceptions
+      Record exceptions = root.getChild("Exceptions");
+      if (exceptions != null)
+      {
+         for (Record exception : exceptions.getChildren())
+         {
+            int daysFrom1900 = Integer.parseInt(exception.getValue().split("\\|")[1]);
+            int daysFrom1970 = daysFrom1900 - 25567 - 2;
+            // 25567 -> Number of days between 1900 and 1970.
+            // During tests a 2 days offset was necessary to obtain good dates
+            // However I didn't figured out why there is such a difference.
+            Date startEx = new Date(daysFrom1970 * 24l * 60l * 60l * 1000);
+            calendar.addCalendarException(startEx, startEx);
+         }
       }
    }
 

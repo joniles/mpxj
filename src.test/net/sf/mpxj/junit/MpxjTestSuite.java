@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
 import net.sf.mpxj.junit.project.ProjectHeaderOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
@@ -110,6 +111,7 @@ import org.junit.runners.Suite;
    ProjectHeaderOnlyTest.class,
    TaskBaselinesTest.class,
    TaskPercentCompleteTest.class,
+   InvalidCalendarTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

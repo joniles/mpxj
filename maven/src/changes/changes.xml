@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="4.7.X" date="Git HEAD">
+		<action dev="joniles" type="fix">Handle invalid Primavera calendar data gracefully</action>
 	</release>
 
 	<release version="4.7.4" date="25/02/2015">
