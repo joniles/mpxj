@@ -81,13 +81,26 @@ public final class PrimaveraConvert
    public void process(String driverClass, String connectionString, String projectID, String outputFile) throws Exception
    {
       System.out.println("Reading Primavera database started.");
-      long start = System.currentTimeMillis();
 
       Class.forName(driverClass);
       Connection c = DriverManager.getConnection(connectionString);
       PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
       reader.setConnection(c);
-      reader.setProjectID(Integer.parseInt(projectID));
+
+      processProject(reader, Integer.parseInt(projectID), outputFile);
+   }
+
+   /**
+    * Process a single project.
+    * 
+    * @param reader Primavera reader
+    * @param projectID required project ID
+    * @param outputFile output file name
+    */
+   private void processProject(PrimaveraDatabaseReader reader, int projectID, String outputFile) throws Exception
+   {
+      long start = System.currentTimeMillis();
+      reader.setProjectID(projectID);
       ProjectFile projectFile = reader.read();
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading database completed in " + elapsed + "ms.");
