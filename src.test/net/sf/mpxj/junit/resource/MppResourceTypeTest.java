@@ -49,7 +49,7 @@ public class MppResourceTypeTest
     */
    @Test public void testSourceForge235() throws MPXJException
    {
-      File file = new File(MpxjTestData.filePath("resource-type/sf235.mpp"));
+      File file = new File(MpxjTestData.filePath("resource/resource-type/sf235.mpp"));
       ProjectFile project = new MPPReader().read(file);
       testResource(file, project, 1, "Programmer 1", ResourceType.WORK);
       testResource(file, project, 2, "Programmer 2", ResourceType.WORK);
@@ -60,10 +60,9 @@ public class MppResourceTypeTest
     */
    @Test public void testResourceType() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("resource-type"));
+      File testDataDir = new File(MpxjTestData.filePath("resource/resource-type"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
-
          @Override public boolean accept(File pathname)
          {
             return pathname.getName().startsWith("resource-type");

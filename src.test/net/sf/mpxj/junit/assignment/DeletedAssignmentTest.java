@@ -1,5 +1,5 @@
 /*
- * file:       MppDeletedResourceAssignmentTest.java
+ * file:       DeletedAssignmentTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
  * date:       20/09/2014
@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.junit;
+package net.sf.mpxj.junit.assignment;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +32,7 @@ import java.util.List;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
 
 import org.junit.Test;
@@ -39,7 +40,7 @@ import org.junit.Test;
 /**
  * Tests to ensure delete resource assignments are correctly handled.
  */
-public class MppDeletedResourceAssignmentTest
+public class DeletedAssignmentTest
 {
    /**
     * Test to exercise the test case provided for SourceForge bug #248.
@@ -47,7 +48,7 @@ public class MppDeletedResourceAssignmentTest
     */
    @Test public void testSourceForge248() throws Exception
    {
-      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("deleted-resource-assignments/sf248.mpp"));
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("assignment/assignment-deletion/sf248.mpp"));
 
       List<ResourceAssignment> assignments = file.getAllResourceAssignments();
       assertEquals(2, assignments.size());
@@ -69,7 +70,7 @@ public class MppDeletedResourceAssignmentTest
     */
    @Test public void testDeletedResourceAssignments() throws Exception
    {
-      File testDataDir = new File(MpxjTestData.filePath("deleted-resource-assignments"));
+      File testDataDir = new File(MpxjTestData.filePath("assignment/assignment-deletion"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
 

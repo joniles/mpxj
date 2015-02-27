@@ -63,7 +63,7 @@ public class TaskDeletionTest
     */
    @Test public void testTasksPreDeletion() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("task-deletion"));
+      File testDataDir = new File(MpxjTestData.filePath("task/task-deletion"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
          @Override public boolean accept(File pathname)
@@ -81,7 +81,7 @@ public class TaskDeletionTest
     */
    @Test public void testTasksPostDeletion() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("task-deletion"));
+      File testDataDir = new File(MpxjTestData.filePath("task/task-deletion"));
       for (File file : testDataDir.listFiles(new FileFilter()
       {
          @Override public boolean accept(File pathname)

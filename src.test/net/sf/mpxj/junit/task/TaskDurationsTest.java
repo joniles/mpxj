@@ -50,7 +50,7 @@ public class TaskDurationsTest
    /**
     * Test to validate the custom durations in files saved by different versions of MS Project.
     */
-   @Test public void testTaskNumbers() throws MPXJException
+   @Test public void testTaskDurations() throws MPXJException
    {
       File testDataDir = new File(MpxjTestData.filePath("generated/task-durations"));
       for (File file : testDataDir.listFiles(new FileFilter()

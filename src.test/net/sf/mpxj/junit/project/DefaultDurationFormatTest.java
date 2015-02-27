@@ -1,5 +1,5 @@
 /*
- * file:       MspdiTest.java
+ * file:       DefaultDurationFormatTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
  * date:       25/08/2014
@@ -21,20 +21,21 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.junit;
+package net.sf.mpxj.junit.project;
 
 import static net.sf.mpxj.junit.MpxjAssert.*;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
 import org.junit.Test;
 
 /**
- * Class to collect together general MSPDI tests.
+ * Default duration format test.
  */
-public class MspdiTest
+public class DefaultDurationFormatTest
 {
    /**
     * Ensure that where the duration format is listed as "21" in the MSPDI file, we use the default duration format,
@@ -42,7 +43,7 @@ public class MspdiTest
     */
    @Test public void testDefaultDateFormat() throws Exception
    {
-      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspdi/DefaultDurationFormat.xml"));
+      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("project/default-duration-format/DefaultDurationFormat.xml"));
       Task task = file.getTaskByID(Integer.valueOf(1));
       assertDurationEquals(2, TimeUnit.WEEKS, task.getDuration());
    }

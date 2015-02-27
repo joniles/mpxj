@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
+import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectHeaderOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
@@ -92,7 +94,7 @@ import org.junit.runners.Suite;
    MppTaskFlags.class,
    MppResourceFlags.class,
    DateUtilityTest.class,
-   MppDeletedResourceAssignmentTest.class,
+   DeletedAssignmentTest.class,
    MppResourceTypeTest.class,
    TaskFlagsTest.class,
    TaskNumbersTest.class,
@@ -112,6 +114,7 @@ import org.junit.runners.Suite;
    TaskBaselinesTest.class,
    TaskPercentCompleteTest.class,
    InvalidCalendarTest.class,
+   DefaultDurationFormatTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

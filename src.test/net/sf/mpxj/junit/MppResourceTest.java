@@ -491,10 +491,10 @@ public class MppResourceTest
    {
       MPPReader reader = new MPPReader();
 
-      ProjectFile file = reader.read(MpxjTestData.filePath("mpp14-project2013/ResourceIdAndUniqueId.mpp"));
+      ProjectFile file = reader.read(MpxjTestData.filePath("ResourceIdAndUniqueId-project2013-mpp14.mpp"));
       validateIdValues(file);
 
-      file = reader.read(MpxjTestData.filePath("mpp14-project2010/ResourceIdAndUniqueId.mpp"));
+      file = reader.read(MpxjTestData.filePath("ResourceIdAndUniqueId-project2010-mpp14.mpp"));
       validateIdValues(file);
    }
 
