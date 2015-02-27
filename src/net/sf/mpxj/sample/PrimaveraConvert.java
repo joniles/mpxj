@@ -74,7 +74,7 @@ public final class PrimaveraConvert
     *
     * @param driverClass JDBC driver class name
     * @param connectionString JDBC connection string
-    * @param projectID projet ID
+    * @param projectID project ID
     * @param outputFile output file
     * @throws Exception
     */
