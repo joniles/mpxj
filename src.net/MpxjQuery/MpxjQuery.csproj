@@ -98,8 +98,8 @@
     <Reference Include="poi-3.11-20141221">
       <HintPath>..\..\lib.net\poi-3.11-20141221.dll</HintPath>
     </Reference>
-    <Reference Include="rtfparserkit-1.1.0">
-      <HintPath>..\..\lib.net\rtfparserkit-1.1.0.dll</HintPath>
+    <Reference Include="rtfparserkit-1.2.0">
+      <HintPath>..\..\lib.net\rtfparserkit-1.2.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
