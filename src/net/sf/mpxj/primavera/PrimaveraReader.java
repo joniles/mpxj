@@ -78,8 +78,9 @@ final class PrimaveraReader
     * @param taskFields task field mapping
     * @param assignmentFields assignment field mapping
     * @param aliases alias mapping
+    * @param matchPrimaveraWBS determine WBS behaviour
     */
-   public PrimaveraReader(UserFieldCounters udfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases)
+   public PrimaveraReader(UserFieldCounters udfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS)
    {
       m_project = new ProjectFile();
 
@@ -98,6 +99,8 @@ final class PrimaveraReader
 
       m_udfCounters = udfCounters;
       m_udfCounters.reset();
+
+      m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
 
    /**
@@ -452,6 +455,11 @@ final class PrimaveraReader
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setPercentageComplete(calculatePercentComplete(row));
+
+         if (m_matchPrimaveraWBS && parentTask != null)
+         {
+            task.setWBS(parentTask.getWBS());
+         }
 
          Integer uniqueID = task.getUniqueID();
          if (uniqueIDs.contains(uniqueID))
@@ -1216,6 +1224,7 @@ final class PrimaveraReader
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
    private Map<FieldType, String> m_assignmentFields;
+   private final boolean m_matchPrimaveraWBS;
 
    private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
    static

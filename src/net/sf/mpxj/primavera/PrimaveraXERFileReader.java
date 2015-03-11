@@ -88,7 +88,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          processFile(is);
 
-         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases);
+         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
          project.addProjectListeners(m_projectListeners);
 
@@ -144,7 +144,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          {
             setProjectID(row.getInt("proj_id"));
 
-            m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases);
+            m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
             ProjectFile project = m_reader.getProject();
             project.addProjectListeners(m_projectListeners);
 
@@ -701,6 +701,31 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       }
       return result;
    }
+
+   /**
+    * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
+    * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
+    * Defaults to true. 
+    * 
+    * @return flag value
+    */
+   public boolean getMatchPrimaveraWBS()
+   {
+      return m_matchPrimaveraWBS;
+   }
+
+   /**
+    * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
+    * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
+    * Defaults to true. 
+    * 
+    * @param matchPrimaveraWBS flag value
+    */
+   public void setMatchPrimaveraWBS(boolean matchPrimaveraWBS)
+   {
+      m_matchPrimaveraWBS = matchPrimaveraWBS;
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    boolean m_skipTable;
@@ -721,6 +746,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
    private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
+   private boolean m_matchPrimaveraWBS = true;
 
    /**
     * Represents expected record types.

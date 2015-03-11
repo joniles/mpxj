@@ -104,7 +104,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases);
+         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
          project.addProjectListeners(m_projectListeners);
 
@@ -530,6 +530,30 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       return m_aliases;
    }
 
+   /**
+    * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
+    * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
+    * Defaults to true.
+    * 
+    * @return flag value
+    */
+   public boolean getMatchPrimaveraWBS()
+   {
+      return m_matchPrimaveraWBS;
+   }
+
+   /**
+    * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
+    * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
+    * Defaults to true. 
+    * 
+    * @param matchPrimaveraWBS flag value
+    */
+   public void setMatchPrimaveraWBS(boolean matchPrimaveraWBS)
+   {
+      m_matchPrimaveraWBS = matchPrimaveraWBS;
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
@@ -541,6 +565,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_udfCounters = new UserFieldCounters();
+   private boolean m_matchPrimaveraWBS = true;
 
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
