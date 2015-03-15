@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="4.7.X" date="Git HEAD">
+		<action dev="joniles" type="add">Added the ability to export project data as JSON, to make it easier to work with in languages other than Java</action>
 		<action dev="joniles" type="update">Primavera database and XER readers updated to match WBS visible in Primavera for each task. Previous behaviour of generating a unique WBS for each task can be restored using a flag set on the readers.</action>
 	</release>
 

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
@@ -89,5 +90,6 @@ public final class ProjectWriterUtility
       WRITER_MAP.put("MPX", MPXWriter.class);
       WRITER_MAP.put("XML", MSPDIWriter.class);
       WRITER_MAP.put("PLANNER", PlannerWriter.class);
+      WRITER_MAP.put("JSON", JsonWriter.class);
    }
 }
