@@ -32,6 +32,13 @@ import java.util.Locale;
 public interface FieldType extends MpxjEnum
 {
    /**
+    * Retrieve the enum name.
+    * 
+    * @return enum name
+    */
+   public String name();
+
+   /**
     * Retrieve the name of this field using the default locale.
     *
     * @return field name

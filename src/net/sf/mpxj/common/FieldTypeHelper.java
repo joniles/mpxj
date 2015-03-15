@@ -179,6 +179,10 @@ public final class FieldTypeHelper
    {
       return new FieldType()
       {
+         @Override public String name()
+         {
+            return null;
+         }
 
          @Override public int getValue()
          {
