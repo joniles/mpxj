@@ -55,11 +55,14 @@ public final class MpxjConvert
             MpxjConvert convert = new MpxjConvert();
             convert.process(args[0], args[1]);
          }
+
+         System.exit(0);
       }
 
       catch (Exception ex)
       {
          ex.printStackTrace(System.out);
+         System.exit(1);
       }
    }
 
