@@ -45,7 +45,7 @@ public class JsonStreamWriter
    public JsonStreamWriter(OutputStream stream)
    {
       m_writer = new OutputStreamWriter(stream);
-      m_firstNameValuePair.clear();
+      m_firstNameValuePair.push(Boolean.TRUE);
    }
 
    /**
@@ -81,6 +81,7 @@ public class JsonStreamWriter
     */
    public void writeStartObject() throws IOException
    {
+      writeComma();
       writeNewLineIndent();
       m_writer.write("{");
       increaseIndent();
@@ -96,7 +97,9 @@ public class JsonStreamWriter
       writeComma();
       writeNewLineIndent();
       writeName(name);
-      writeStartObject();
+      writeNewLineIndent();
+      m_writer.write("{");
+      increaseIndent();
    }
 
    /**

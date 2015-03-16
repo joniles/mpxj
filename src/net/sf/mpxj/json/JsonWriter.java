@@ -102,12 +102,12 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       writeAttributeTypes("resource_types", ResourceField.values());
 
-      m_writer.writeStartObject("resources");
+      m_writer.writeStartList("resources");
       for (Resource resource : m_projectFile.getAllResources())
       {
-         writeFields(resource, resource.getUniqueID(), ResourceField.values());
+         writeFields(resource, ResourceField.values());
       }
-      m_writer.writeEndObject();
+      m_writer.writeEndList();
    }
 
    /**
@@ -118,12 +118,12 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       writeAttributeTypes("task_types", TaskField.values());
 
-      m_writer.writeStartObject("tasks");
+      m_writer.writeStartList("tasks");
       for (Task task : m_projectFile.getChildTasks())
       {
          writeTask(task);
       }
-      m_writer.writeEndObject();
+      m_writer.writeEndList();
    }
 
    /**
@@ -134,7 +134,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTask(Task task) throws IOException
    {
-      writeFields(task, task.getUniqueID(), TaskField.values());
+      writeFields(task, TaskField.values());
       for (Task child : task.getChildTasks())
       {
          writeTask(child);
@@ -148,12 +148,12 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       writeAttributeTypes("assignment_types", AssignmentField.values());
 
-      m_writer.writeStartObject("assignments");
+      m_writer.writeStartList("assignments");
       for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
       {
-         writeFields(assignment, assignment.getUniqueID(), AssignmentField.values());
+         writeFields(assignment, AssignmentField.values());
       }
-      m_writer.writeEndObject();
+      m_writer.writeEndList();
 
    }
 
@@ -177,12 +177,11 @@ public final class JsonWriter extends AbstractProjectWriter
     * Write a set of fields from a field container to a JSON file.
     * 
     * @param container field container
-    * @param uniqueID unique ID for the field container
     * @param fields fields to write
     */
-   private void writeFields(FieldContainer container, Integer uniqueID, FieldType[] fields) throws IOException
+   private void writeFields(FieldContainer container, FieldType[] fields) throws IOException
    {
-      m_writer.writeStartObject(uniqueID.toString());
+      m_writer.writeStartObject();
       for (FieldType field : fields)
       {
          Object value = container.getCurrentValue(field);
