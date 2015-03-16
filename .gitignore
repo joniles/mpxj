@@ -18,3 +18,4 @@
 /maven/target
 /maven/src/main
 /maven/src/test
+/src.ruby/mpxj/lib/mpxj/*.jar

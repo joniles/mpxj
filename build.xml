@@ -132,7 +132,12 @@
 		               byline="true">
 			<fileset dir="${basedir}/src.net" includes="**/*.cs" />			
 		</replaceregexp>
-		
+
+		<replaceregexp file="${basedir}/src.ruby/mpxj/lib/mpxj/version.rb"
+		               match='VERSION = ".*"'
+		               replace='VERSION = "${current.version}"'
+		               byline="true"
+		/>		
 	</target>
 		
 	<target name="document" depends="init-props" description="Generate documentation">
@@ -554,5 +559,11 @@
 		</exec>		
 	</target>
 		
+	<target name="gem-setup" depends="jar">
+		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
+		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
+			<fileset dir="${basedir}/lib" includes="*.jar" />
+		</copy>
+	</target>
 </project>
 
