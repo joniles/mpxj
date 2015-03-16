@@ -111,18 +111,34 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes task data to a JSON file. 
+    * This method writes task data to a JSON file.
+    * Note that we write the task hierarchy in order to make rebuilding the hierarchy easier. 
     */
    private void writeTasks() throws IOException
    {
       writeAttributeTypes("task_types", TaskField.values());
 
       m_writer.writeStartObject("tasks");
-      for (Task task : m_projectFile.getAllTasks())
+      for (Task task : m_projectFile.getChildTasks())
       {
-         writeFields(task, task.getUniqueID(), TaskField.values());
+         writeTask(task);
       }
       m_writer.writeEndObject();
+   }
+
+   /**
+    * This method is called recursively to write a task and its child tasks
+    * to the JSON file.
+    * 
+    * @param task task to write
+    */
+   private void writeTask(Task task) throws IOException
+   {
+      writeFields(task, task.getUniqueID(), TaskField.values());
+      for (Task child : task.getChildTasks())
+      {
+         writeTask(child);
+      }
    }
 
    /**
@@ -379,8 +395,9 @@ public final class JsonWriter extends AbstractProjectWriter
       for (Relation relation : list)
       {
          m_writer.writeStartObject();
-         writeIntegerField("task", relation.getTargetTask().getUniqueID());
+         writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
          writeDurationField("lag", relation.getLag());
+         writeStringField("type", relation.getType());
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
