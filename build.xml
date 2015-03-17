@@ -565,5 +565,11 @@
 			<fileset dir="${basedir}/lib" includes="*.jar" />
 		</copy>
 	</target>
+	
+	<target name="gem-deploy" depends="gem-setup">
+		<exec executable="bundle" dir="${basedir}/src.ruby/mpxj">
+			<arg line="exec rake build release:rubygem_push" />
+		</exec>
+	</target>
 </project>
 
