@@ -42,6 +42,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
@@ -607,6 +608,7 @@ abstract class FieldMap
             case WORKGROUP:
             case RATE_UNITS:
             case EARNED_VALUE_METHOD:
+            case RESOURCE_REQUEST_TYPE:
             {
                result = 2;
                break;
@@ -905,6 +907,12 @@ abstract class FieldMap
                      break;
                   }
 
+                  case RESOURCE_REQUEST_TYPE:
+                  {
+                     result = ResourceRequestType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
                   case GUID:
                   {
                      result = MPPUtility.getGUID(data, m_fixedDataOffset);
@@ -1018,6 +1026,12 @@ abstract class FieldMap
             case EARNED_VALUE_METHOD:
             {
                result = EarnedValueMethod.getInstance(varData.getShort(id, m_varDataKey));
+               break;
+            }
+
+            case RESOURCE_REQUEST_TYPE:
+            {
+               result = ResourceRequestType.getInstance(varData.getShort(id, m_varDataKey));
                break;
             }
 

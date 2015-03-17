@@ -1,8 +1,8 @@
 /*
- * file:       DataType.java
+ * file:       ResourceRequestType.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       Jan 18, 2006
+ * copyright:  (c) Packwood Software 2002-2015
+ * date:       17/03/2015
  */
 
 /*
@@ -27,45 +27,20 @@ import net.sf.mpxj.common.EnumHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
- * This class represents the data type of an attribute.
+ * Instances of this class represent enumerated resource request type values.
  */
-public enum DataType implements MpxjEnum
+public enum ResourceRequestType implements MpxjEnum
 {
-   STRING(1),
-   DATE(2),
-   CURRENCY(3),
-   BOOLEAN(4),
-   NUMERIC(5),
-   DURATION(6),
-   UNITS(7),
-   PERCENTAGE(8),
-   ACCRUE(9),
-   CONSTRAINT(10),
-   RATE(11),
-   PRIORITY(12),
-   RELATION_LIST(13),
-   TASK_TYPE(14),
-   RESOURCE_TYPE(15),
-   TIME_UNITS(15),
-   WORK(16),
-   INTEGER(17),
-   ASCII_STRING(18),
-   SHORT(19),
-   BINARY(20),
-   DELAY(21),
-   WORK_UNITS(22),
-   WORKGROUP(23),
-   GUID(24),
-   RATE_UNITS(25),
-   EARNED_VALUE_METHOD(26),
-   RESOURCE_REQUEST_TYPE(27);
+   NONE(0),
+   REQUEST(1),
+   DEMAND(2);
 
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private DataType(int type)
+   private ResourceRequestType(int type)
    {
       m_value = type;
    }
@@ -76,11 +51,11 @@ public enum DataType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static DataType getInstance(int type)
+   public static ResourceRequestType getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = STRING.getValue();
+         type = NONE.getValue();
       }
       return (TYPE_VALUES[type]);
    }
@@ -91,7 +66,7 @@ public enum DataType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static DataType getInstance(Number type)
+   public static ResourceRequestType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -118,7 +93,7 @@ public enum DataType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final DataType[] TYPE_VALUES = EnumHelper.createTypeArray(DataType.class, 1);
+   private static final ResourceRequestType[] TYPE_VALUES = EnumHelper.createTypeArray(ResourceRequestType.class);
 
    /**
     * Internal representation of the enum int type.

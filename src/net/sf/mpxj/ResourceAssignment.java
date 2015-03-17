@@ -2629,6 +2629,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    }
 
    /**
+    * Retrieves the resource request type attribute.
+    * 
+    * @return resource request type
+    */
+   public ResourceRequestType getResourceRequestType()
+   {
+      return (ResourceRequestType) getCachedValue(AssignmentField.RESOURCE_REQUEST_TYPE);
+   }
+
+   /**
+    * Sets the resource request type attribute.
+    * 
+    * @param type resource request type
+    */
+   public void setResourceRequestType(ResourceRequestType type)
+   {
+      set(AssignmentField.RESOURCE_REQUEST_TYPE, type);
+   }
+
+   /**
     * Maps a field index to an AssignmentField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
