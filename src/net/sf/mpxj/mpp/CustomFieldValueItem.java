@@ -134,7 +134,7 @@ public final class CustomFieldValueItem
     */
    @Override public String toString()
    {
-      return String.format("[CustomFieldValueItem uniqueID=%d parentId=%d value=%s (%s)", m_uniqueID, m_parentId, MPPUtility.hexdump(m_value, false), MPPUtility.getUnicodeString(m_value));
+      return String.format("[CustomFieldValueItem uniqueID=%d parentId=%d value=%s (%s)", m_uniqueID, m_parentId, MPPUtility.hexdump(m_value, false), MPPUtility.getUnicodeString(m_value, 0));
    }
 
    private Integer m_uniqueID;

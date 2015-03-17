@@ -118,7 +118,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getShort(item);
+         result = MPPUtility.getShort(item, 0);
       }
 
       return (result);
@@ -137,7 +137,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getInt(item);
+         result = MPPUtility.getInt(item, 0);
       }
 
       return (result);
@@ -156,7 +156,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getLong6(item);
+         result = MPPUtility.getLong6(item, 0);
       }
 
       return (result);
@@ -175,7 +175,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getDouble(item);
+         result = MPPUtility.getDouble(item, 0);
       }
 
       return (result);
@@ -194,7 +194,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getTimestamp(item);
+         result = MPPUtility.getTimestamp(item, 0);
       }
 
       return (result);
@@ -219,7 +219,7 @@ final class ExtendedData
     */
    private int getOffset(byte[] data)
    {
-      return (-1 - MPPUtility.getInt(data));
+      return (-1 - MPPUtility.getInt(data, 0));
    }
 
    /**

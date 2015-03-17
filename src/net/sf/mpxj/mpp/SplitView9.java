@@ -56,13 +56,13 @@ public class SplitView9 extends GenericView9
          byte[] upperViewName = props.getByteArray(UPPER_VIEW_NAME);
          if (upperViewName != null)
          {
-            m_upperViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(upperViewName));
+            m_upperViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(upperViewName, 0));
          }
 
          byte[] lowerViewName = props.getByteArray(LOWER_VIEW_NAME);
          if (lowerViewName != null)
          {
-            m_lowerViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(lowerViewName));
+            m_lowerViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(lowerViewName, 0));
          }
       }
    }

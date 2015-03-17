@@ -2430,7 +2430,7 @@ final class MPP12Reader implements MPPVariantReader
          CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
          if (item != null && item.getValue() != null)
          {
-            result = MPPUtility.getUnicodeString(item.getValue());
+            result = MPPUtility.getUnicodeString(item.getValue(), 0);
 
             String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
             if (result2 != null && !result2.isEmpty())
@@ -2463,7 +2463,7 @@ final class MPP12Reader implements MPPVariantReader
       CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
       if (item != null && item.getValue() != null)
       {
-         result = MPPUtility.getUnicodeString(item.getValue());
+         result = MPPUtility.getUnicodeString(item.getValue(), 0);
          if (!NumberHelper.equals(id, item.getParent()))
          {
             String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());

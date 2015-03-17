@@ -66,7 +66,7 @@ final class Props8 extends Props
             int attrib1 = readInt(is);
 
             is.read(attrib);
-            int attrib2 = MPPUtility.getInt(attrib);
+            int attrib2 = MPPUtility.getInt(attrib, 0);
             int attrib3 = MPPUtility.getByte(attrib, 2);
             //is.read(); // attrib4
             int attrib5 = readInt(is);

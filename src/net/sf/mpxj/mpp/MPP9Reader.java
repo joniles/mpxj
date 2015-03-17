@@ -1962,7 +1962,7 @@ final class MPP9Reader implements MPPVariantReader
 
                   case WORK:
                   {
-                     double durationValueInHours = MPPUtility.getDouble(props.getByteArray(key)) / 60000;
+                     double durationValueInHours = MPPUtility.getDouble(props.getByteArray(key), 0) / 60000;
                      value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
                      break;
                   }

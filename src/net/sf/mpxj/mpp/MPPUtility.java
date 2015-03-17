@@ -170,18 +170,6 @@ public final class MPPUtility
    }
 
    /**
-    * This method reads a single byte from the input array.
-    * The byte is assumed to be at the start of the array.
-    *
-    * @param data byte array of data
-    * @return byte value
-    */
-   public static final int getByte(byte[] data)
-   {
-      return (getByte(data, 0));
-   }
-
-   /**
     * This method reads a two byte integer from the input array.
     *
     * @param data the input array
@@ -201,18 +189,6 @@ public final class MPPUtility
    }
 
    /**
-    * This method reads a two byte integer from the input array.
-    * The integer is assumed to be at the start of the array.
-    *
-    * @param data the input array
-    * @return integer value
-    */
-   public static final int getShort(byte[] data)
-   {
-      return (getShort(data, 0));
-   }
-
-   /**
     * This method reads a four byte integer from the input array.
     *
     * @param data the input array
@@ -229,18 +205,6 @@ public final class MPPUtility
          ++i;
       }
       return result;
-   }
-
-   /**
-    * This method reads a four byte integer from the input array.
-    * The integer is assumed to be at the start of the array.
-    *
-    * @param data the input array
-    * @return integer value
-    */
-   public static final int getInt(byte[] data)
-   {
-      return (getInt(data, 0));
    }
 
    /**
@@ -282,30 +246,6 @@ public final class MPPUtility
    }
 
    /**
-    * This method reads a six byte long from the input array.
-    * The integer is assumed to be at the start of the array.
-    *
-    * @param data the input array
-    * @return integer value
-    */
-   public static final long getLong6(byte[] data)
-   {
-      return (getLong6(data, 0));
-   }
-
-   /**
-    * This method reads a eight byte integer from the input array.
-    * The integer is assumed to be at the start of the array.
-    *
-    * @param data the input array
-    * @return integer value
-    */
-   public static final long getLong(byte[] data)
-   {
-      return (getLong(data, 0));
-   }
-
-   /**
     * This method reads an eight byte double from the input array.
     *
     * @param data the input array
@@ -314,19 +254,12 @@ public final class MPPUtility
     */
    public static final double getDouble(byte[] data, int offset)
    {
-      return (Double.longBitsToDouble(getLong(data, offset)));
-   }
-
-   /**
-    * This method reads an eight byte double from the input array.
-    * The double is assumed to be at the start of the array.
-    *
-    * @param data the input array
-    * @return double value
-    */
-   public static final double getDouble(byte[] data)
-   {
-      return (Double.longBitsToDouble(getLong(data, 0)));
+      double result = Double.longBitsToDouble(getLong(data, offset));
+      if (Double.isNaN(result))
+      {
+         result = 0;
+      }
+      return result;
    }
 
    /**
@@ -413,18 +346,6 @@ public final class MPPUtility
    }
 
    /**
-    * Reads a time value. The time is represented as tenths of a
-    * minute since midnight.
-    *
-    * @param data byte array of data
-    * @return time value
-    */
-   public static final Date getTime(byte[] data)
-   {
-      return (getTime(data, 0));
-   }
-
-   /**
     * Reads a duration value in milliseconds. The time is represented as
     * tenths of a minute since midnight.
     *
@@ -478,32 +399,6 @@ public final class MPPUtility
    {
       long ms = ((long) getInt(data, offset)) * 6000;
       return (DateHelper.getTimestampFromLong(EPOCH + ms));
-   }
-
-   /**
-    * Reads a combined date and time value.
-    * The value is assumed to be at the start of the array.
-    *
-    * @param data byte array of data
-    * @return time value
-    */
-   public static final Date getTimestamp(byte[] data)
-   {
-      return (getTimestamp(data, 0));
-   }
-
-   /**
-    * Reads a string of two byte characters from the input array.
-    * This method assumes that the string finishes either at the
-    * end of the array, or when char zero is encountered.
-    * The value is assumed to be at the start of the array.
-    *
-    * @param data byte array of data
-    * @return string value
-    */
-   public static final String getUnicodeString(byte[] data)
-   {
-      return (getUnicodeString(data, 0));
    }
 
    /**
@@ -575,20 +470,6 @@ public final class MPPUtility
       }
 
       return (buffer.toString());
-   }
-
-   /**
-    * Reads a string of single byte characters from the input array.
-    * This method assumes that the string finishes either at the
-    * end of the array, or when char zero is encountered.
-    * The value is assumed to be at the start of the array.
-    *
-    * @param data byte array of data
-    * @return string value
-    */
-   public static final String getString(byte[] data)
-   {
-      return (getString(data, 0));
    }
 
    /**

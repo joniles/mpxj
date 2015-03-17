@@ -1116,7 +1116,7 @@ abstract class FieldMap
             CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
             if (item != null && item.getValue() != null)
             {
-               result = MPPUtility.getTimestamp(item.getValue());
+               result = MPPUtility.getTimestamp(item.getValue(), 0);
             }
 
             //
@@ -1146,13 +1146,13 @@ abstract class FieldMap
          {
             if (data.length == 512)
             {
-               result = MPPUtility.getUnicodeString(data);
+               result = MPPUtility.getUnicodeString(data, 0);
             }
             else
             {
                if (data.length >= 4)
                {
-                  result = MPPUtility.getTimestamp(data);
+                  result = MPPUtility.getTimestamp(data, 0);
                }
             }
          }
@@ -1178,13 +1178,13 @@ abstract class FieldMap
          {
             if (data.length == 512)
             {
-               result = MPPUtility.getUnicodeString(data);
+               result = MPPUtility.getUnicodeString(data, 0);
             }
             else
             {
                if (data.length >= 4)
                {
-                  int duration = MPPUtility.getInt(data);
+                  int duration = MPPUtility.getInt(data, 0);
                   result = MPPUtility.getAdjustedDuration(getProjectFile(), duration, units);
                }
             }
@@ -1219,7 +1219,7 @@ abstract class FieldMap
             CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
             if (item != null && item.getValue() != null)
             {
-               result = MPPUtility.getDouble(item.getValue());
+               result = MPPUtility.getDouble(item.getValue(), 0);
             }
          }
          return NumberHelper.getDouble(result);
@@ -1251,7 +1251,7 @@ abstract class FieldMap
             CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
             if (item != null && item.getValue() != null)
             {
-               result = MPPUtility.getUnicodeString(item.getValue());
+               result = MPPUtility.getUnicodeString(item.getValue(), 0);
             }
          }
          return result;

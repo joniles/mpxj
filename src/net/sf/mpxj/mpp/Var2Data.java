@@ -121,7 +121,7 @@ final class Var2Data extends MPPComponent
          byte[] value = m_map.get(offset);
          if (value != null)
          {
-            result = MPPUtility.getUnicodeString(value);
+            result = MPPUtility.getUnicodeString(value, 0);
          }
       }
 
@@ -160,7 +160,7 @@ final class Var2Data extends MPPComponent
          byte[] value = m_map.get(offset);
          if (value != null && value.length >= 4)
          {
-            result = MPPUtility.getTimestamp(value);
+            result = MPPUtility.getTimestamp(value, 0);
          }
       }
 
@@ -184,7 +184,7 @@ final class Var2Data extends MPPComponent
          byte[] value = m_map.get(offset);
          if (value != null)
          {
-            result = MPPUtility.getString(value);
+            result = MPPUtility.getString(value, 0);
          }
       }
 
@@ -224,7 +224,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= 2)
          {
-            result = MPPUtility.getShort(value);
+            result = MPPUtility.getShort(value, 0);
          }
       }
 
@@ -251,7 +251,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null)
          {
-            result = MPPUtility.getByte(value);
+            result = MPPUtility.getByte(value, 0);
          }
       }
 
@@ -278,7 +278,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= 4)
          {
-            result = MPPUtility.getInt(value);
+            result = MPPUtility.getInt(value, 0);
          }
       }
 
@@ -335,7 +335,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= 8)
          {
-            result = MPPUtility.getLong(value);
+            result = MPPUtility.getLong(value, 0);
          }
       }
 
@@ -352,7 +352,12 @@ final class Var2Data extends MPPComponent
     */
    public double getDouble(Integer id, Integer type)
    {
-      return (Double.longBitsToDouble(getLong(id, type)));
+      double result = Double.longBitsToDouble(getLong(id, type));
+      if (Double.isNaN(result))
+      {
+         result = 0;
+      }
+      return result;
    }
 
    /**

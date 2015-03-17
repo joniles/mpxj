@@ -56,7 +56,7 @@ class MPPComponent
          throw new EOFException();
       }
 
-      return (MPPUtility.getByte(data));
+      return (MPPUtility.getByte(data, 0));
    }
 
    /**
@@ -74,7 +74,7 @@ class MPPComponent
          throw new EOFException();
       }
 
-      return (MPPUtility.getShort(data));
+      return (MPPUtility.getShort(data, 0));
    }
 
    /**
@@ -92,7 +92,7 @@ class MPPComponent
          throw new EOFException();
       }
 
-      return (MPPUtility.getInt(data));
+      return (MPPUtility.getInt(data, 0));
    }
 
    /**

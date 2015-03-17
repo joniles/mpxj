@@ -126,13 +126,13 @@ public abstract class GanttChartView extends GenericView
          byte[] filterName = props.getByteArray(FILTER_NAME);
          if (filterName != null)
          {
-            m_defaultFilterName = MPPUtility.getUnicodeString(filterName);
+            m_defaultFilterName = MPPUtility.getUnicodeString(filterName, 0);
          }
 
          byte[] groupName = props.getByteArray(GROUP_NAME);
          if (groupName != null)
          {
-            m_groupName = MPPUtility.getUnicodeString(groupName);
+            m_groupName = MPPUtility.getUnicodeString(groupName, 0);
          }
 
          processViewProperties(fontBases, props);

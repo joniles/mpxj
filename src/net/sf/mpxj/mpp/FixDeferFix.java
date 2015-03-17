@@ -133,7 +133,7 @@ final class FixDeferFix extends MPPComponent
       byte[] data = getByteArray(offset);
       if (data != null)
       {
-         result = MPPUtility.getUnicodeString(data);
+         result = MPPUtility.getUnicodeString(data, 0);
       }
 
       return (result);

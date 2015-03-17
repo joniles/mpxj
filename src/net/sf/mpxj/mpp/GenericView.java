@@ -64,7 +64,7 @@ public abstract class GenericView extends AbstractMppView
          byte[] tableName = props.getByteArray(TABLE_NAME);
          if (tableName != null)
          {
-            m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName));
+            m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName, 0));
          }
       }
    }

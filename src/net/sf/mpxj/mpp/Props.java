@@ -81,7 +81,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getShort(item);
+         result = MPPUtility.getShort(item, 0);
       }
 
       return (result);
@@ -100,7 +100,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getInt(item);
+         result = MPPUtility.getInt(item, 0);
       }
 
       return (result);
@@ -119,7 +119,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getDouble(item);
+         result = MPPUtility.getDouble(item, 0);
       }
 
       return (result);
@@ -138,7 +138,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getTime(item);
+         result = MPPUtility.getTime(item, 0);
       }
 
       return (result);
@@ -157,7 +157,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getTimestamp(item);
+         result = MPPUtility.getTimestamp(item, 0);
       }
 
       return (result);
@@ -176,7 +176,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = !(MPPUtility.getShort(item) == 0);
+         result = !(MPPUtility.getShort(item, 0) == 0);
       }
 
       return (result);
@@ -195,7 +195,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getUnicodeString(item);
+         result = MPPUtility.getUnicodeString(item, 0);
       }
 
       return (result);
