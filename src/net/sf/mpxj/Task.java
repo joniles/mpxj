@@ -4151,15 +4151,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
             default:
             {
+               Date actualStart = getActualStart();
                Duration duration = getDuration();
-               double durationValue = (duration.getDuration() * percentComplete) / 100d;
-               duration = Duration.getInstance(durationValue, duration.getUnits());
-               ProjectCalendar calendar = getCalendar();
-               if (calendar == null)
+               if (actualStart != null && duration != null)
                {
-                  calendar = getParentFile().getCalendar();
+                  double durationValue = (duration.getDuration() * percentComplete) / 100d;
+                  duration = Duration.getInstance(durationValue, duration.getUnits());
+                  ProjectCalendar calendar = getCalendar();
+                  if (calendar == null)
+                  {
+                     calendar = getParentFile().getCalendar();
+                  }
+                  value = calendar.getDate(actualStart, duration, true);
                }
-               value = calendar.getDate(getActualStart(), duration, true);
                break;
             }
          }
