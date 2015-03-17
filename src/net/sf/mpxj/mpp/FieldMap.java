@@ -315,13 +315,16 @@ abstract class FieldMap
          int index = 4;
          while (index < fieldMapData.length)
          {
+            //Looks like the custom fields have varying types, it may be that the last byte of the four represents the type?
+            //System.out.println(MPPUtility.hexdump(fieldMapData, index, 4, false));
             int typeValue = MPPUtility.getInt(fieldMapData, index);
             FieldType type = getFieldType(typeValue);
             if (type != null && type.getClass() == c && type.toString().startsWith("Enterprise Custom Field"))
             {
                int varDataKey = (typeValue & 0xFFFF);
-               m_map.put(type, new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey, 0, 0));
-               //System.out.println(type.getClass().getSimpleName() + "." + type + " " + Integer.toHexString(typeValue));
+               FieldItem item = new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey, 0, 0);
+               m_map.put(type, item);
+               //System.out.println(item);
             }
             //System.out.println((type == null ? "?" : type.getClass().getSimpleName() + "." + type) + " " + Integer.toHexString(typeValue));
 
@@ -916,6 +919,12 @@ abstract class FieldMap
                   case GUID:
                   {
                      result = MPPUtility.getGUID(data, m_fixedDataOffset);
+                     break;
+                  }
+
+                  case BINARY:
+                  {
+                     // Do nothing for binary data
                      break;
                   }
 
