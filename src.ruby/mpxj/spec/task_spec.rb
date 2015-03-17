@@ -60,6 +60,6 @@ describe MPXJ::Task do
     it 'returns Task3 for Task2' do
       expect(@project.get_task_by_id(2).child_tasks.size).to eq(1)
       expect(@project.get_task_by_id(2).child_tasks[0].unique_id).to eq(3)
-    end        
+    end
   end
 end
