@@ -36,6 +36,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
@@ -605,6 +606,7 @@ abstract class FieldMap
             case DELAY:
             case WORKGROUP:
             case RATE_UNITS:
+            case EARNED_VALUE_METHOD:
             {
                result = 2;
                break;
@@ -897,6 +899,12 @@ abstract class FieldMap
                      break;
                   }
 
+                  case EARNED_VALUE_METHOD:
+                  {
+                     result = EarnedValueMethod.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     break;
+                  }
+
                   case GUID:
                   {
                      result = MPPUtility.getGUID(data, m_fixedDataOffset);
@@ -1004,6 +1012,12 @@ abstract class FieldMap
             case RATE_UNITS:
             {
                result = TimeUnit.getInstance(varData.getShort(id, m_varDataKey) - 1);
+               break;
+            }
+
+            case EARNED_VALUE_METHOD:
+            {
+               result = EarnedValueMethod.getInstance(varData.getShort(id, m_varDataKey));
                break;
             }
 

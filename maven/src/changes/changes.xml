@@ -12,6 +12,8 @@
 		<action dev="joniles" type="add">Added a Ruby wrapper for MPXJ</action>
 		<action dev="joniles" type="add">Added the ability to export project data as JSON, to make it easier to work with in languages other than Java</action>
 		<action dev="joniles" type="update">Primavera database and XER readers updated to match WBS visible in Primavera for each task. Previous behaviour of generating a unique WBS for each task can be restored using a flag set on the readers.</action>
+		<action dev="joniles" type="fix">Avoid NPE when calculating Task Completed Through</action>
+		<action dev="joniles" type="fix">Read Task Earned Value Method correctly from MPP files</action>
 	</release>
 
 	<release version="4.7.5" date="27/02/2015">

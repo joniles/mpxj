@@ -636,7 +636,7 @@ public enum TaskField implements FieldType
    DELIVERABLE_TYPE(DataType.STRING), // Check data type
 
    EAC(DataType.STRING), // Check data type
-   EARNED_VALUE_METHOD(DataType.STRING), // Check data type
+   EARNED_VALUE_METHOD(DataType.EARNED_VALUE_METHOD),
    ERROR_MESSAGE(DataType.STRING),
 
    IGNORE_WARNINGS(DataType.BOOLEAN),

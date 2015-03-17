@@ -609,7 +609,7 @@ class FieldMap12 extends FieldMap
          new FieldItem(TaskField.ENTERPRISE_PROJECT_TEXT39, FieldLocation.VAR_DATA, 1, 65535, 1087, 0, 0),
          new FieldItem(TaskField.ENTERPRISE_PROJECT_TEXT40, FieldLocation.VAR_DATA, 1, 65535, 1088, 0, 0),
          new FieldItem(TaskField.PHYSICAL_PERCENT_COMPLETE, FieldLocation.VAR_DATA, 1, 65535, 1119, 0, 0),
-         new FieldItem(TaskField.EARNED_VALUE_METHOD, FieldLocation.VAR_DATA, 1, 65535, 1122, 0, 0),
+         new FieldItem(TaskField.EARNED_VALUE_METHOD, FieldLocation.VAR_DATA, 26, 65535, 1122, 0, 0),
          new FieldItem(TaskField.ACTUAL_WORK_PROTECTED, FieldLocation.VAR_DATA, 1, 65535, 1139, 0, 0),
          new FieldItem(TaskField.ACTUAL_OVERTIME_WORK_PROTECTED, FieldLocation.VAR_DATA, 1, 65535, 1140, 0, 0),
          new FieldItem(TaskField.BUDGET_WORK, FieldLocation.VAR_DATA, 1, 65535, 1171, 0, 0),
