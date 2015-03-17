@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "The MPXJ gem allows Ruby applications to work with schedule data from project management applications including Microsoft Project, Primavera, Asta Powerproject and Gnome Planner amongst others. The gem provides a Ruby wrapper around the MPXJ Java JAR."
   spec.homepage      = "http://mpxj.sf.net"
+  spec.licenses      = ['LGPL']
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
