@@ -79,7 +79,7 @@ public final class ProjectReaderUtility
          return (file);
       }
 
-      catch (ReflectiveOperationException ex)
+      catch (Exception ex)
       {
          throw new MPXJException("Failed to load project reader", ex);
       }
