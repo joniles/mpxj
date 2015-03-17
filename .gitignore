@@ -20,3 +20,4 @@
 /maven/src/test
 /src.ruby/mpxj/lib/mpxj/*.jar
 /src.ruby/mpxj/pkg/*
+/src.ruby/mpxj/Gemfile.lock
