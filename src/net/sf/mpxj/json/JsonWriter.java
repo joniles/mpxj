@@ -317,12 +317,19 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDurationField(String fieldName, Object value) throws IOException
    {
-      Duration val = (Duration) value;
-      if (val.getDuration() != 0)
+      if (value instanceof String)
       {
-         Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectHeader());
-         long seconds = (long) (minutes.getDuration() * 60.0);
-         m_writer.writeNameValuePair(fieldName, seconds);
+         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+      }
+      else
+      {
+         Duration val = (Duration) value;
+         if (val.getDuration() != 0)
+         {
+            Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectHeader());
+            long seconds = (long) (minutes.getDuration() * 60.0);
+            m_writer.writeNameValuePair(fieldName, seconds);
+         }
       }
    }
 
@@ -334,8 +341,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDateField(String fieldName, Object value) throws IOException
    {
-      Date val = (Date) value;
-      m_writer.writeNameValuePair(fieldName, val);
+      if (value instanceof String)
+      {
+         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+      }
+      else
+      {
+         Date val = (Date) value;
+         m_writer.writeNameValuePair(fieldName, val);
+      }
    }
 
    /**

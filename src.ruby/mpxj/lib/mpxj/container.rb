@@ -13,11 +13,15 @@ module MPXJ
     def method_missing(name, *args, &block)
       attribute_name = name.to_s
       attribute_type = @attribute_types[attribute_name]
-
-      if attribute_type.nil?
+      attribute_value = @attribute_values[attribute_name]
+      
+      if attribute_type.nil? && attribute_value.nil? 
         super
       else
-        get_attribute_value(attribute_type, @attribute_values[attribute_name])
+        if attribute_type.nil?
+          attribute_type = 1
+        end
+        get_attribute_value(attribute_type, attribute_value)
       end
     end
 
