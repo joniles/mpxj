@@ -14,8 +14,8 @@ module MPXJ
       attribute_name = name.to_s
       attribute_type = @attribute_types[attribute_name]
       attribute_value = @attribute_values[attribute_name]
-      
-      if attribute_type.nil? && attribute_value.nil? 
+
+      if attribute_type.nil? && attribute_value.nil?
         super
       else
         if attribute_type.nil?
