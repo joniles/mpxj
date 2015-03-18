@@ -19,6 +19,9 @@ Or install it yourself as:
 
     $ gem install mpxj
 
+## Changelog
+You'll find details of what has changed in this version [here](http://mpxj.sourceforge.net/changes-report.html).
+
 ## Supported File Types
 
 This gem uses the file name extension to determine what kind of project data it is reading. The list below shows the supported file extensions:
@@ -63,7 +66,7 @@ The gem represents the project plan using the following classes, all of which re
 * Assignment
 * Relation
 
-A **Project** contains **Resource**s and **Task**s. Each **Resource** can be **Assigned** to one ore more **Task**s. 
+A **Project** contains **Resource**s and **Task**s. Each **Resource** can be **Assigned** to one or more **Task**s. 
 **Task**s can have dependencies between them which are represented as **Relation**s.
 
  
