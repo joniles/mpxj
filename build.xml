@@ -566,6 +566,12 @@
 		</copy>
 	</target>
 	
+	<target name="gem-test" depends="gem-setup">
+		<exec executable="bundle" dir="${basedir}/src.ruby/mpxj">
+			<arg line="exec rspec spec" />
+		</exec>
+	</target>
+		
 	<target name="gem-deploy" depends="gem-setup">
 		<exec executable="bundle" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rake build release:rubygem_push" />
