@@ -83,7 +83,7 @@ a project schedule up into the QCS (Quality Control System) software from USACE.
 </ul>
 </section>
 
-<section name="Java, .Net, PHP...">
+<section name="Java, .Net, Ruby, PHP...">
 <p>MPXJ is written and maintained in Java, however this is no barrier to
 using its functionality in .Net or PHP applications.</p>
 
@@ -97,6 +97,9 @@ are both exercised using the same set of regression tests to ensure that their
 behaviour is identical. Both the Java and .Net versions of the library
 are used in production commercial applications - so you can confident
 that the code will work for you!</p>
+
+<p>There is also now a <a href="https://rubygems.org/gems/mpxj" target="_blank">Ruby gem</a>
+which provides native Ruby access to data read using MPXJ</p>
 
 <p>One option for working with the functionality offered by MPXJ in your
 PHP application is to use a library like 
@@ -142,6 +145,10 @@ POI DLL file must be available to your application. A copy of this
 library can be found in the lib.net folder of the MPXJ distribution.</p>
 </section>
 
+<section name="Getting started with MPXJ and Ruby">
+<p>All the information you need to get started with using MPXJ in Ruby can be found
+<a href="https://rubygems.org/gems/mpxj" target="_blank">here</a>.</p>
+</section>
 
 <section name="Maven">
 <p>MPXJ is available from  
@@ -152,6 +159,12 @@ library can be found in the lib.net folder of the MPXJ distribution.</p>
 <section name="NuGet">
 <p>MPXJ is available from  
 <a href="http://www.nuget.org/packages?q=mpxj" target="_blank">NuGet</a>.
+</p>
+</section>
+
+<section name="RubyGems">
+<p>MPXJ is available from  
+<a href="https://rubygems.org/gems/mpxj" target="_blank">RubyGems</a>.
 </p>
 </section>
 
