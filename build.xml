@@ -394,7 +394,14 @@
 		<delete dir="${vs.working.dir}" />
 	</target>
 
-	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, maven-clean" description="Clean up all files">
+	<target name="clean-ruby" depends="init-props" description="Clean up Ruby files">
+		<delete dir="${basedir}/src.ruby/mpxj/doc" />
+		<delete dir="${basedir}/src.ruby/mpxj/legal" />
+		<delete dir="${basedir}/src.ruby/mpxj/pkg" />		
+		<delete dir="${basedir}/src.ruby/mpxj/Gemfile.lock" />
+	</target>
+	
+	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, maven-clean, clean-ruby" description="Clean up all files">
 
 		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
@@ -563,6 +570,9 @@
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
 		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
 			<fileset dir="${basedir}/lib" includes="*.jar" />
+		</copy>
+		<copy todir="${basedir}/src.ruby/mpxj/legal">
+			<fileset dir="${basedir}/legal" includes="*" />
 		</copy>
 	</target>
 	
