@@ -9,6 +9,9 @@
    <body> 
 
 	<release version="4.7.X" date="Git HEAD">
+	</release>
+	
+	<release version="4.7.6" date="18/03/2015">
 		<action dev="joniles" type="add">Added a Ruby wrapper for MPXJ</action>
 		<action dev="joniles" type="add">Added the ability to export project data as JSON, to make it easier to work with in languages other than Java</action>
 		<action dev="joniles" type="add">Added support for the Assignment attribute Resource Request Type</action>
