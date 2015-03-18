@@ -12,6 +12,7 @@
 		<property name="current.version" value="4.7.6" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
+		<property name="ruby.dir" value="C:/Ruby21"/>
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
 		<property name="msbuild.dir" value="C:/Windows/Microsoft.NET/Framework/v3.5" />
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
@@ -577,13 +578,13 @@
 	</target>
 	
 	<target name="gem-test" depends="gem-setup">
-		<exec executable="bundle" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rspec spec" />
 		</exec>
 	</target>
 		
 	<target name="gem-deploy" depends="gem-setup">
-		<exec executable="bundle" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
