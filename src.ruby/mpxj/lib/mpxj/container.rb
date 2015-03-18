@@ -2,6 +2,7 @@ require 'duration'
 require 'time'
 
 module MPXJ
+  # Base class from which all project entities are derived
   class Container
     attr_reader :parent_project
     def initialize(parent_project, attribute_types, attribute_values)
@@ -10,6 +11,7 @@ module MPXJ
       @attribute_values = attribute_values
     end
 
+    
     def method_missing(name, *args, &block)
       attribute_name = name.to_s
       attribute_type = @attribute_types[attribute_name]

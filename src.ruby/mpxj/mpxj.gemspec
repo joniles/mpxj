@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://mpxj.sf.net"
   spec.licenses      = ['LGPL']
 
-  spec.files         = Dir.glob("{bin,lib}/**/*")
+  spec.files         = Dir.glob("{bin,lib,docs}/**/*").concat(["README.md"])
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

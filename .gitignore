@@ -18,6 +18,8 @@
 /maven/target
 /maven/src/main
 /maven/src/test
-/src.ruby/mpxj/lib/mpxj/*.jar
-/src.ruby/mpxj/pkg/*
+/src.ruby/mpxj/pkg
+/src.ruby/mpxj/doc
 /src.ruby/mpxj/Gemfile.lock
+/src.ruby/mpxj/.yardoc
+/src.ruby/mpxj/lib/mpxj/*.jar

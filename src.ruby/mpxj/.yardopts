@@ -1,0 +1,6 @@
+--no-private
+-
+docs/TaskAttributes.md
+docs/ResourceAttributes.md
+docs/AssignmentAttributes.md
+docs/RelationAttributes.md

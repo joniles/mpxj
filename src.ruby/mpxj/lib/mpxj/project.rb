@@ -1,6 +1,7 @@
 require 'json'
 
 module MPXJ
+  # Represents a project plan
   class Project
     attr_reader :all_resources
     attr_reader :all_tasks
@@ -25,18 +26,38 @@ module MPXJ
       process_assignments(json_data)
     end
 
+    # Retrieves the resource with the matching unique_id attribute
+    #
+    # @param unique_id [Integer] resource unique ID
+    # @return [Resource] if the requested resource is found
+    # @return [nil] if the requested resource is not found
     def get_resource_by_unique_id(unique_id)
       @resources_by_unique_id[unique_id]
     end
 
+    # Retrieves the task with the matching unique_id attribute
+    #
+    # @param unique_id [Integer] task unique ID
+    # @return [Task] if the requested task is found
+    # @return [nil] if the requested task is not found
     def get_task_by_unique_id(unique_id)
       @tasks_by_unique_id[unique_id]
     end
 
+    # Retrieves the resource with the matching id attribute
+    #
+    # @param id [Integer] resource ID
+    # @return [Resource] if the requested resource is found
+    # @return [nil] if the requested resource is not found
     def get_resource_by_id(id)
       @resources_by_id[id]
     end
 
+    # Retrieves the task with the matching id attribute
+    #
+    # @param id [Integer] task ID
+    # @return [Task] if the requested task is found
+    # @return [nil] if the requested task is not found
     def get_task_by_id(id)
       @tasks_by_unique_id[id]
     end
