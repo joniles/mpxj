@@ -58,10 +58,12 @@ abstract class FieldMap
     * Constructor.
     * 
     * @param file parent project file 
+    * @param customFieldValues custom field values
     */
-   public FieldMap(ProjectFile file)
+   public FieldMap(ProjectFile file, CustomFieldValues customFieldValues)
    {
       m_file = file;
+      m_customFieldValues = customFieldValues;
       m_defaultProjectTimeUnits = m_file.getProjectHeader().getDefaultDurationUnits();
    }
 
@@ -1113,7 +1115,7 @@ abstract class FieldMap
          else
          {
             int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
             if (item != null && item.getValue() != null)
             {
                result = MPPUtility.getTimestamp(item.getValue(), 0);
@@ -1216,7 +1218,7 @@ abstract class FieldMap
          else
          {
             int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
             if (item != null && item.getValue() != null)
             {
                result = MPPUtility.getDouble(item.getValue(), 0);
@@ -1248,7 +1250,7 @@ abstract class FieldMap
          else
          {
             int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = getProjectFile().getCustomFieldValueItem(Integer.valueOf(uniqueId));
+            CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
             if (item != null && item.getValue() != null)
             {
                result = MPPUtility.getUnicodeString(item.getValue(), 0);
@@ -1405,6 +1407,7 @@ abstract class FieldMap
    }
 
    private ProjectFile m_file;
+   protected CustomFieldValues m_customFieldValues;
    protected TimeUnit m_defaultProjectTimeUnits;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];

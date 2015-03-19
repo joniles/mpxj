@@ -34,7 +34,6 @@ import java.util.Map;
 
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
  * This class represents a project plan.
@@ -2084,27 +2083,6 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * Add a custom field value list item.
-    * 
-    * @param item CustomFieldValueItem instance
-    */
-   public void addCustomFieldValueItem(CustomFieldValueItem item)
-   {
-      m_customFieldValueItems.put(item.getUniqueID(), item);
-   }
-
-   /**
-    * Get the custom field value list item with the given unique ID.
-    * 
-    * @param uniqueID unique ID
-    * @return CustomFieldValueItem instance
-    */
-   public CustomFieldValueItem getCustomFieldValueItem(Integer uniqueID)
-   {
-      return m_customFieldValueItems.get(uniqueID);
-   }
-
-   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project header. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -2450,11 +2428,6 @@ public final class ProjectFile implements TaskContainer
     * Saved view state.
     */
    private ViewState m_viewState;
-
-   /***
-    * Custom field value list items.
-    */
-   private Map<Integer, CustomFieldValueItem> m_customFieldValueItems = new HashMap<Integer, CustomFieldValueItem>();
 
    /**
     * Maximum unique ID value MS Project will accept.

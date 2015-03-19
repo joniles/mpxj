@@ -183,6 +183,8 @@ final class MPP14Reader implements MPPVariantReader
 
       m_file.setMppFileType(14);
       m_file.setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
+
+      m_customFieldValues = new CustomFieldValues();
    }
 
    /**
@@ -204,6 +206,7 @@ final class MPP14Reader implements MPPVariantReader
       m_parentTasks = null;
       m_taskOrder = null;
       m_nullTaskOrder = null;
+      m_customFieldValues = null;
    }
 
    /**
@@ -232,7 +235,7 @@ final class MPP14Reader implements MPPVariantReader
 
          //byte b2[] = m_outlineCodeFixedData2.getByteArrayValue(loop+3); // contains FieldGUID in first 16 bytes
 
-         m_file.addCustomFieldValueItem(item);
+         m_customFieldValues.addItem(item);
       }
    }
 
@@ -1360,10 +1363,10 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap14(m_file);
+      FieldMap fieldMap = new FieldMap14(m_file, m_customFieldValues);
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file, m_customFieldValues);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -1988,10 +1991,10 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap14(m_file);
+      FieldMap fieldMap = new FieldMap14(m_file, m_customFieldValues);
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file, m_customFieldValues);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
@@ -2154,10 +2157,10 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap14(m_file);
+      FieldMap fieldMap = new FieldMap14(m_file, m_customFieldValues);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file, m_customFieldValues);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -2334,7 +2337,7 @@ final class MPP14Reader implements MPPVariantReader
       else
       {
          int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+         CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
          if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getUnicodeString(item.getValue(), 0);
@@ -2367,7 +2370,7 @@ final class MPP14Reader implements MPPVariantReader
          return "";
       }
 
-      CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+      CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
       if (item != null && item.getValue() != null)
       {
          result = MPPUtility.getUnicodeString(item.getValue(), 0);
@@ -2451,6 +2454,7 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Integer, Integer> m_parentTasks;
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
+   private CustomFieldValues m_customFieldValues;
 
    //   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
    //   {

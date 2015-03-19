@@ -42,10 +42,11 @@ class FieldMap14 extends FieldMap
     * Constructor.
     * 
     * @param file parent file
+    * @param customFieldValues custom field values 
     */
-   public FieldMap14(ProjectFile file)
+   public FieldMap14(ProjectFile file, CustomFieldValues customFieldValues)
    {
-      super(file);
+      super(file, customFieldValues);
    }
 
    /**

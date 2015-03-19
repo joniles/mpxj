@@ -42,7 +42,7 @@ class FieldMap9 extends FieldMap
     */
    public FieldMap9(ProjectFile file)
    {
-      super(file);
+      super(file, new CustomFieldValues());
    }
 
    /**
