@@ -122,7 +122,7 @@ public final class MPXReader extends AbstractProjectReader
 
          LocaleUtility.setLocale(m_projectFile, m_locale);
          m_delimiter = (char) data[3];
-         m_projectFile.setDelimiter(m_delimiter);
+         m_projectFile.getFileCreationRecord().setDelimiter(m_delimiter);
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_taskModel.setLocale(m_locale);
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);

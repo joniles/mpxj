@@ -56,7 +56,7 @@ final class LocaleUtility
     */
    public static void setLocale(ProjectFile file, Locale locale)
    {
-      file.setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
+      file.getFileCreationRecord().setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
       setLocale(file.getFileCreationRecord(), locale);
       setLocale(file.getProjectHeader(), locale);
    }

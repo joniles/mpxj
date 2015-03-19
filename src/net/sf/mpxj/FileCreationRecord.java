@@ -54,7 +54,6 @@ public final class FileCreationRecord extends ProjectEntity
    public void setDelimiter(char delimiter)
    {
       m_delimiter = delimiter;
-      getParentFile().setDelimiter(m_delimiter);
    }
 
    /**

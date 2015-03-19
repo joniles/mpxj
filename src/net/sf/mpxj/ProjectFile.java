@@ -42,26 +42,6 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
 public final class ProjectFile implements TaskContainer
 {
    /**
-    * Accessor method to retrieve the current file delimiter character.
-    *
-    * @return delimiter character
-    */
-   public char getDelimiter()
-   {
-      return (m_delimiter);
-   }
-
-   /**
-    * Modifier method used to set the delimiter character.
-    *
-    * @param delimiter delimiter character
-    */
-   public void setDelimiter(char delimiter)
-   {
-      m_delimiter = delimiter;
-   }
-
-   /**
     * This method is provided to allow child tasks that have been created
     * programmatically to be added as a record to the main file.
     *
@@ -2250,11 +2230,6 @@ public final class ProjectFile implements TaskContainer
     * Project header record.
     */
    private ProjectHeader m_projectHeader = new ProjectHeader(this);
-
-   /**
-    * Character to be used as delimiter throughout this file.
-    */
-   private char m_delimiter = ',';
 
    /**
     * Key with which this data is encrypted (can be decrypted) with.

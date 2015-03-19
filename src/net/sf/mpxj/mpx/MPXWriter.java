@@ -78,7 +78,7 @@ public final class MPXWriter extends AbstractProjectWriter
          LocaleUtility.setLocale(m_projectFile, m_locale);
       }
 
-      m_delimiter = projectFile.getDelimiter();
+      m_delimiter = projectFile.getFileCreationRecord().getDelimiter();
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
       m_buffer = new StringBuilder();
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
