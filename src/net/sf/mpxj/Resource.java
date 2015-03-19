@@ -53,12 +53,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
       if (file.getAutoResourceUniqueID() == true)
       {
-         setUniqueID(Integer.valueOf(file.getResourceUniqueID()));
+         setUniqueID(Integer.valueOf(file.getNextResourceUniqueID()));
       }
 
       if (file.getAutoResourceID() == true)
       {
-         setID(Integer.valueOf(file.getResourceID()));
+         setID(Integer.valueOf(file.getNextResourceID()));
       }
    }
 
@@ -1866,7 +1866,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Object getFieldByAlias(String alias)
    {
-      return (getCachedValue(getParentFile().getAliasResourceField(alias)));
+      return (getCachedValue(getParentFile().getResourceFieldByAlias(alias)));
    }
 
    /**
@@ -1877,7 +1877,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getAliasResourceField(alias), value);
+      set(getParentFile().getResourceFieldByAlias(alias), value);
    }
 
    /**

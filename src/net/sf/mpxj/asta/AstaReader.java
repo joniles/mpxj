@@ -164,7 +164,7 @@ final class AstaReader
    private ProjectCalendar deriveResourceCalendar(Integer parentCalendarID)
    {
       ProjectCalendar calendar = m_project.addDefaultDerivedCalendar();
-      calendar.setUniqueID(Integer.valueOf(m_project.getCalendarUniqueID()));
+      calendar.setUniqueID(Integer.valueOf(m_project.getNextCalendarUniqueID()));
       calendar.setParent(m_project.getCalendarByUniqueID(parentCalendarID));
       return calendar;
    }

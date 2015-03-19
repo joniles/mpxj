@@ -599,7 +599,7 @@ final class PrimaveraReader
       String fieldName = m_udfMap.get(fieldId);
       Object value = null;
 
-      TaskField field = m_project.getAliasTaskField(fieldName);
+      TaskField field = m_project.getTaskFieldByAlias(fieldName);
       if (field != null)
       {
          DataType fieldType = field.getDataType();

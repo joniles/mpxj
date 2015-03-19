@@ -494,7 +494,7 @@ public final class ProjectFile implements TaskContainer
     *
     * @return next unique ID
     */
-   public int getTaskUniqueID()
+   public int getNextTaskUniqueID()
    {
       return (++m_taskUniqueID);
    }
@@ -504,7 +504,7 @@ public final class ProjectFile implements TaskContainer
     *
     * @return next unique ID
     */
-   public int getCalendarUniqueID()
+   public int getNextCalendarUniqueID()
    {
       return (++m_calendarUniqueID);
    }
@@ -514,7 +514,7 @@ public final class ProjectFile implements TaskContainer
     *
     * @return next unique ID
     */
-   int getAssignmentUniqueID()
+   int getNextAssignmentUniqueID()
    {
       return (++m_assignmentUniqueID);
    }
@@ -524,7 +524,7 @@ public final class ProjectFile implements TaskContainer
     *
     * @return next ID
     */
-   public int getTaskID()
+   public int getNextTaskID()
    {
       return (++m_taskID);
    }
@@ -576,7 +576,7 @@ public final class ProjectFile implements TaskContainer
     *
     * @return next unique ID
     */
-   public int getResourceUniqueID()
+   public int getNextResourceUniqueID()
    {
       return (++m_resourceUniqueID);
    }
@@ -586,7 +586,7 @@ public final class ProjectFile implements TaskContainer
     *
     * @return next ID
     */
-   public int getResourceID()
+   public int getNextResourceID()
    {
       return (++m_resourceID);
    }
@@ -1432,7 +1432,7 @@ public final class ProjectFile implements TaskContainer
     * @param alias alias text
     * @return task field instance
     */
-   public TaskField getAliasTaskField(String alias)
+   public TaskField getTaskFieldByAlias(String alias)
    {
       return (m_aliasTaskField.get(alias));
    }
@@ -1526,7 +1526,7 @@ public final class ProjectFile implements TaskContainer
     * @param alias alias text
     * @return resource field instance
     */
-   public ResourceField getAliasResourceField(String alias)
+   public ResourceField getResourceFieldByAlias(String alias)
    {
       return (m_aliasResourceField.get(alias));
    }

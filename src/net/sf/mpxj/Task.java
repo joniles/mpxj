@@ -60,12 +60,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (file.getAutoTaskUniqueID() == true)
       {
-         setUniqueID(Integer.valueOf(file.getTaskUniqueID()));
+         setUniqueID(Integer.valueOf(file.getNextTaskUniqueID()));
       }
 
       if (file.getAutoTaskID() == true)
       {
-         setID(Integer.valueOf(file.getTaskID()));
+         setID(Integer.valueOf(file.getNextTaskID()));
       }
 
       if (file.getAutoWBS() == true)
@@ -3649,7 +3649,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Object getFieldByAlias(String alias)
    {
-      return (getCachedValue(getParentFile().getAliasTaskField(alias)));
+      return (getCachedValue(getParentFile().getTaskFieldByAlias(alias)));
    }
 
    /**
@@ -3660,7 +3660,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getAliasTaskField(alias), value);
+      set(getParentFile().getTaskFieldByAlias(alias), value);
    }
 
    /**
