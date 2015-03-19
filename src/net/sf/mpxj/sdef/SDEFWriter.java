@@ -45,7 +45,6 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -107,7 +106,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
    private void write() throws IOException
    {
       // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
-      writeFileCreationRecord(m_projectFile.getFileCreationRecord()); // VOLM
+      writeFileCreationRecord(); // VOLM
       writeProjectHeader(m_projectFile.getProjectHeader()); // PROJ
       writeCalendars(m_projectFile.getCalendars()); // CLDR
       writeExceptions(m_projectFile.getCalendars()); // HOLI
@@ -121,10 +120,9 @@ public final class SDEFWriter // extends AbstractProjectWriter
    /**
     * Write file creation record.
     *
-    * @param record file creation record
     * @throws IOException
     */
-   private void writeFileCreationRecord(FileCreationRecord record) throws IOException
+   private void writeFileCreationRecord() throws IOException
    {
       m_writer.println("VOLM 1"); // first line in file
    }
