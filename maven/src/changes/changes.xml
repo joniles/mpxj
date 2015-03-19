@@ -8,7 +8,15 @@
 
    <body> 
 
-	<release version="4.7.X" date="Git HEAD">
+	<release version="4.8.0" date="Git HEAD">
+		<action dev="joniles" type="update">Renamed Project.getCalendarUniqueID to getNextCalendarUniqueID</action>
+		<action dev="joniles" type="update">Renamed Project.getResourceUniqueID to getNextResourceUniqueID</action>		
+		<action dev="joniles" type="update">Renamed Project.getTaskUniqueID to getNextTaskUniqueID</action>
+		<action dev="joniles" type="update">Renamed Project.getAssignmentUniqueID to getNextAssignmentUniqueID</action>
+		<action dev="joniles" type="update">Renamed Project.getResourceID to getNextResourceID</action>		
+		<action dev="joniles" type="update">Renamed Project.getTaskID to getNextTaskID</action>
+		<action dev="joniles" type="update">Renamed Project.getAliasTaskField to getTaskFieldByAlias</action>
+		<action dev="joniles" type="update">Renamed Project.getAliasResourceField to getResourceFieldByAlias</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">
