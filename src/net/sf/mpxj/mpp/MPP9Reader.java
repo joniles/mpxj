@@ -138,8 +138,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(props9);
 
       file.getProjectHeader().setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
-      file.setEncrypted(props9.getByte(Props.PASSWORD_FLAG) != 0);
-      file.setEncryptionCode(props9.getByte(Props.ENCRYPTION_CODE));
+      m_inputStreamFactory = new DocumentInputStreamFactory(props9);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -153,7 +152,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          // File is password protected for reading, let's read the password
          // and see if the correct read password was given to us.
-         String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), file.getEncryptionCode());
+         String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), m_inputStreamFactory.getEncryptionCode());
          // It looks like it is possible for a project file to have the password protection flag on without a password. In
          // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
          // correct the problem if the file is re-saved (at least it did for me).
@@ -175,7 +174,7 @@ final class MPP9Reader implements MPPVariantReader
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
       VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
       m_outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      m_projectProps = new Props9(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
+      m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_file, m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<Integer, FontBase>();
@@ -701,7 +700,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props9 props = new Props9(EncryptedDocumentInputStream.getInstance(m_file, m_viewDir, "Props"));
+      Props9 props = new Props9(m_inputStreamFactory.getInstance(m_file, m_viewDir, "Props"));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -1346,7 +1345,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta calVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
       Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream(((DocumentEntry) calDir.getEntry("Var2Data"))));
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(m_file, calDir, "FixedData"), 12);
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
@@ -1613,7 +1612,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
+      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance(m_file, taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
@@ -2290,7 +2289,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processConstraintData() throws IOException
    {
       ConstraintFactory factory = new ConstraintFactory();
-      factory.process(m_projectDir, m_file);
+      factory.process(m_projectDir, m_file, m_inputStreamFactory);
    }
 
    /**
@@ -2307,7 +2306,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta rscVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, rscDir, "FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_file, rscDir, "FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -2438,10 +2437,10 @@ final class MPP9Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
 
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(142, EncryptedDocumentInputStream.getInstance(m_file, assnDir, "FixedData"));
+      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
       if (assnFixedData.getItemCount() != assnFixedMeta.getAdjustedItemCount())
       {
-         assnFixedData = new FixedData(assnFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, assnDir, "FixedData"));
+         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
@@ -2470,7 +2469,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(122, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
 
       int items = fixedMeta.getAdjustedItemCount();
       View view;
@@ -2507,7 +2506,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
       //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
-      FixedData fixedData = new FixedData(110, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2533,7 +2532,7 @@ final class MPP9Reader implements MPPVariantReader
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
       //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
       //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
-      FixedData fixedData = new FixedData(110, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"), true);
+      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"), true);
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2556,7 +2555,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
       //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);      
-      FixedData fixedData = new FixedData(110, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2582,7 +2581,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(varMeta);
       //System.out.println(varData);
 
-      InputStream is = EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData");
+      InputStream is = m_inputStreamFactory.getInstance(m_file, dir, "FixedData");
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
       //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
@@ -2663,6 +2662,7 @@ final class MPP9Reader implements MPPVariantReader
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
+   private DocumentInputStreamFactory m_inputStreamFactory;
 
    // Signals the end of the list of subproject task unique ids
    private static final int SUBPROJECT_LISTEND = 0x00000303;

@@ -2006,53 +2006,6 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * Set whether the data in this file is encoded.
-    * 
-    * @param encoded True if the data is encoded in the file
-    */
-   public void setEncrypted(boolean encoded)
-   {
-      m_encrypted = encoded;
-   }
-
-   /**
-    * Get whether the data in this file is encoded.
-    * 
-    * @return encoded
-    */
-   public boolean isEncrypted()
-   {
-      return (m_encrypted);
-   }
-
-   /**
-    * Set the key with which this data is encrypted (can be decrypted) with.
-    * 
-    * @param encryptionKey Encryption key
-    */
-   public void setEncryptionCode(byte encryptionKey)
-   {
-      if (encryptionKey != 0x00)
-      {
-         m_encryptionKey = (byte) (0xFF - encryptionKey);
-      }
-      else
-      {
-         m_encryptionKey = (byte) 0x00;
-      }
-   }
-
-   /**
-    * Get the key with which this data is encrypted (can be decrypted) with.
-    * 
-    * @return m_encryptionKey
-    */
-   public byte getEncryptionCode()
-   {
-      return (m_encryptionKey);
-   }
-
-   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project header. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -2171,16 +2124,6 @@ public final class ProjectFile implements TaskContainer
     * Project header record.
     */
    private ProjectHeader m_projectHeader = new ProjectHeader(this);
-
-   /**
-    * Key with which this data is encrypted (can be decrypted) with.
-    */
-   private byte m_encryptionKey;
-
-   /**
-    * Indicating whether the project data is encrypted with password protection.
-    */
-   private boolean m_encrypted;
 
    /**
     * Indicating whether WBS value should be calculated on creation, or will

@@ -143,8 +143,7 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(props14);
 
       file.getProjectHeader().setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
-      file.setEncrypted(props14.getByte(Props.PASSWORD_FLAG) != 0);
-      file.setEncryptionCode(props14.getByte(Props.ENCRYPTION_CODE));
+      m_inputStreamFactory = new DocumentInputStreamFactory(props14);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -170,7 +169,7 @@ final class MPP14Reader implements MPPVariantReader
       m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
       //m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
       //m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
-      m_projectProps = new Props14(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
+      m_projectProps = new Props14(m_inputStreamFactory.getInstance(m_file, m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
       //FieldMap fm = new FieldMap14(m_file);
       //fm.dumpKnownFieldMaps(m_projectProps);
@@ -777,7 +776,7 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props14 props = new Props14(EncryptedDocumentInputStream.getInstance(m_file, m_viewDir, "Props"));
+      Props14 props = new Props14(m_inputStreamFactory.getInstance(m_file, m_viewDir, "Props"));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -1057,7 +1056,7 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(calVarData);
 
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(m_file, calDir, "FixedData"), 12);
 
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
@@ -1377,7 +1376,7 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 92, 93);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
-      Props14 props = new Props14(EncryptedDocumentInputStream.getInstance(m_file, taskDir, "Props"));
+      Props14 props = new Props14(m_inputStreamFactory.getInstance(m_file, taskDir, "Props"));
       //      System.out.println(taskFixedMeta);
       //      System.out.println(taskFixedData);
       //      System.out.println(taskVarMeta);
@@ -1981,7 +1980,7 @@ final class MPP14Reader implements MPPVariantReader
    private void processConstraintData() throws IOException
    {
       ConstraintFactory factory = new ConstraintFactory();
-      factory.process(m_projectDir, m_file);
+      factory.process(m_projectDir, m_file, m_inputStreamFactory);
    }
 
    /**
@@ -2001,10 +2000,10 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, rscDir, "FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_file, rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 50);
-      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, EncryptedDocumentInputStream.getInstance(m_file, rscDir, "Fixed2Data"));
-      Props14 props = new Props14(EncryptedDocumentInputStream.getInstance(m_file, rscDir, "Props"));
+      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(m_file, rscDir, "Fixed2Data"));
+      Props14 props = new Props14(m_inputStreamFactory.getInstance(m_file, rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -2167,8 +2166,8 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(110, EncryptedDocumentInputStream.getInstance(m_file, assnDir, "FixedData"));
-      FixedData assnFixedData2 = new FixedData(48, EncryptedDocumentInputStream.getInstance(m_file, assnDir, "Fixed2Data"));
+      FixedData assnFixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
+      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(m_file, assnDir, "Fixed2Data"));
       //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
       //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
 
@@ -2198,7 +2197,7 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(138, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
 
       int items = fixedMeta.getAdjustedItemCount();
       View view;
@@ -2258,7 +2257,7 @@ final class MPP14Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2303,7 +2302,7 @@ final class MPP14Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2455,6 +2454,7 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
    private CustomFieldValues m_customFieldValues;
+   private DocumentInputStreamFactory m_inputStreamFactory;
 
    //   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
    //   {

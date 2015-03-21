@@ -26,8 +26,9 @@ public class ConstraintFactory
     * 
     * @param projectDir project directory
     * @param file parent project file
+    * @param inputStreamFactory factory to create input stream
     */
-   public void process(DirectoryEntry projectDir, ProjectFile file) throws IOException
+   public void process(DirectoryEntry projectDir, ProjectFile file, DocumentInputStreamFactory inputStreamFactory) throws IOException
    {
       DirectoryEntry consDir;
       try
@@ -43,7 +44,7 @@ public class ConstraintFactory
       if (consDir != null)
       {
          FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
-         FixedData consFixedData = new FixedData(consFixedMeta, 20, EncryptedDocumentInputStream.getInstance(file, consDir, "FixedData"));
+         FixedData consFixedData = new FixedData(consFixedMeta, 20, inputStreamFactory.getInstance(file, consDir, "FixedData"));
          //         FixedMeta consFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("Fixed2Meta"))), 9);
          //         FixedData consFixed2Data = new FixedData(consFixed2Meta, 48, getEncryptableInputStream(consDir, "Fixed2Data"));
 

@@ -116,6 +116,7 @@ import org.junit.runners.Suite;
    TaskPercentCompleteTest.class,
    InvalidCalendarTest.class,
    DefaultDurationFormatTest.class,
+   MppPasswordTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

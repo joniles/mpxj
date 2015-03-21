@@ -138,8 +138,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(props12);
 
       file.getProjectHeader().setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
-      file.setEncrypted(props12.getByte(Props.PASSWORD_FLAG) != 0);
-      file.setEncryptionCode(props12.getByte(Props.ENCRYPTION_CODE));
+      m_inputStreamFactory = new DocumentInputStreamFactory(props12);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -163,7 +162,7 @@ final class MPP12Reader implements MPPVariantReader
       m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
       m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
       m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      m_projectProps = new Props12(EncryptedDocumentInputStream.getInstance(m_file, m_projectDir, "Props"));
+      m_projectProps = new Props12(m_inputStreamFactory.getInstance(m_file, m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<Integer, FontBase>();
@@ -196,6 +195,7 @@ final class MPP12Reader implements MPPVariantReader
       m_taskOrder = null;
       m_nullTaskOrder = null;
       m_customFieldValues = null;
+      m_inputStreamFactory = null;
    }
 
    /**
@@ -764,7 +764,7 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props12 props = new Props12(EncryptedDocumentInputStream.getInstance(m_file, m_viewDir, "Props"));
+      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_file, m_viewDir, "Props"));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -1042,7 +1042,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(calVarData);
 
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(m_file, calDir, "FixedData"), 12);
 
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
@@ -1357,7 +1357,7 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 86);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
-      Props12 props = new Props12(EncryptedDocumentInputStream.getInstance(m_file, taskDir, "Props"));
+      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_file, taskDir, "Props"));
       //System.out.println(taskFixedMeta);
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
@@ -2085,7 +2085,7 @@ final class MPP12Reader implements MPPVariantReader
    private void processConstraintData() throws IOException
    {
       ConstraintFactory factory = new ConstraintFactory();
-      factory.process(m_projectDir, m_file);
+      factory.process(m_projectDir, m_file, m_inputStreamFactory);
    }
 
    /**
@@ -2105,10 +2105,10 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, rscDir, "FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_file, rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
-      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, EncryptedDocumentInputStream.getInstance(m_file, rscDir, "Fixed2Data"));
-      Props12 props = new Props12(EncryptedDocumentInputStream.getInstance(m_file, rscDir, "Props"));
+      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(m_file, rscDir, "Fixed2Data"));
+      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_file, rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -2260,8 +2260,8 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       // MSP 20007 seems to write 142 byte blocks, MSP 2010 writes 110 byte blocks
       // We need to identify any cases where the meta data count does not correctly identify the block size
-      FixedData assnFixedData = new FixedData(assnFixedMeta, EncryptedDocumentInputStream.getInstance(m_file, assnDir, "FixedData"));
-      FixedData assnFixedData2 = new FixedData(48, EncryptedDocumentInputStream.getInstance(m_file, assnDir, "Fixed2Data"));
+      FixedData assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
+      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(m_file, assnDir, "Fixed2Data"));
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
       factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getAdjustedItemCount());
    }
@@ -2288,7 +2288,7 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(138, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
 
       int items = fixedMeta.getAdjustedItemCount();
       View view;
@@ -2348,7 +2348,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2394,7 +2394,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, EncryptedDocumentInputStream.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2495,6 +2495,7 @@ final class MPP12Reader implements MPPVariantReader
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
    private CustomFieldValues m_customFieldValues;
+   private DocumentInputStreamFactory m_inputStreamFactory;
 
    // Signals the end of the list of subproject task unique ids
    //private static final int SUBPROJECT_LISTEND = 0x00000303;

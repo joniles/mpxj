@@ -26,9 +26,6 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.mpxj.ProjectFile;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
@@ -39,33 +36,6 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
  */
 final class EncryptedDocumentInputStream extends InputStream
 {
-
-   /**
-    * Method used to instantiate the appropriate input stream reader,
-    * a standard one, or one which can deal with "encrypted" data.
-    * 
-    * @param file parent project file
-    * @param directory directory entry
-    * @param name file name
-    * @return new input stream
-    * @throws IOException
-    */
-   public static InputStream getInstance(ProjectFile file, DirectoryEntry directory, String name) throws IOException
-   {
-      DocumentEntry entry = (DocumentEntry) directory.getEntry(name);
-      InputStream stream;
-      if (file.isEncrypted())
-      {
-         stream = new EncryptedDocumentInputStream(entry, file.getEncryptionCode());
-      }
-      else
-      {
-         stream = new DocumentInputStream(entry);
-      }
-
-      return stream;
-   }
-
    /**
     * Constructor.
     * 
@@ -73,7 +43,7 @@ final class EncryptedDocumentInputStream extends InputStream
     * @param mask the mask used to decrypt the stream.
     * @throws IOException
     */
-   private EncryptedDocumentInputStream(DocumentEntry entry, int mask)
+   public EncryptedDocumentInputStream(DocumentEntry entry, int mask)
       throws IOException
    {
       m_dis = new DocumentInputStream(entry);
