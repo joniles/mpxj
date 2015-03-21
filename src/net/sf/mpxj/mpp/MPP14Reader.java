@@ -142,8 +142,8 @@ final class MPP14Reader implements MPPVariantReader
       Props14 props14 = new Props14(new DocumentInputStream(((DocumentEntry) root.getEntry("Props14"))));
       //System.out.println(props14);
 
-      file.setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
-      file.setEncoded(props14.getByte(Props.PASSWORD_FLAG) != 0);
+      file.getProjectHeader().setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.setEncrypted(props14.getByte(Props.PASSWORD_FLAG) != 0);
       file.setEncryptionCode(props14.getByte(Props.ENCRYPTION_CODE));
 
       //

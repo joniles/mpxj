@@ -2458,6 +2458,26 @@ public final class ProjectHeader extends ProjectEntity
       return (m_mpxCodePage);
    }
 
+   /**
+    * Sets the project file path.
+    *
+    * @param projectFilePath project file path
+    */
+   public void setProjectFilePath(String projectFilePath)
+   {
+      m_projectFilePath = projectFilePath;
+   }
+
+   /**
+    * Gets the project file path.
+    *
+    * @return project file path
+    */
+   public String getProjectFilePath()
+   {
+      return (m_projectFilePath);
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2590,6 +2610,7 @@ public final class ProjectHeader extends ProjectEntity
    private String m_mpxProgramName;
    private FileVersion m_mpxFileVersion;
    private CodePage m_mpxCodePage;
+   private String m_projectFilePath;
 
    /**
     * Default time separator character.

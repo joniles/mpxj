@@ -137,8 +137,8 @@ final class MPP9Reader implements MPPVariantReader
       Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
       //System.out.println(props9);
 
-      file.setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
-      file.setEncoded(props9.getByte(Props.PASSWORD_FLAG) != 0);
+      file.getProjectHeader().setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.setEncrypted(props9.getByte(Props.PASSWORD_FLAG) != 0);
       file.setEncryptionCode(props9.getByte(Props.ENCRYPTION_CODE));
 
       //

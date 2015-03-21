@@ -137,8 +137,8 @@ final class MPP12Reader implements MPPVariantReader
       Props12 props12 = new Props12(new DocumentInputStream(((DocumentEntry) root.getEntry("Props12"))));
       //System.out.println(props12);
 
-      file.setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
-      file.setEncoded(props12.getByte(Props.PASSWORD_FLAG) != 0);
+      file.getProjectHeader().setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.setEncrypted(props12.getByte(Props.PASSWORD_FLAG) != 0);
       file.setEncryptionCode(props12.getByte(Props.ENCRYPTION_CODE));
 
       //

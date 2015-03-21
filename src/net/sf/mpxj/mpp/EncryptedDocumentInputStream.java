@@ -54,7 +54,7 @@ final class EncryptedDocumentInputStream extends InputStream
    {
       DocumentEntry entry = (DocumentEntry) directory.getEntry(name);
       InputStream stream;
-      if (file.getEncoded())
+      if (file.isEncrypted())
       {
          stream = new EncryptedDocumentInputStream(entry, file.getEncryptionCode());
       }

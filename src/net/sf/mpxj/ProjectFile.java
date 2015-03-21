@@ -2010,9 +2010,9 @@ public final class ProjectFile implements TaskContainer
     * 
     * @param encoded True if the data is encoded in the file
     */
-   public void setEncoded(boolean encoded)
+   public void setEncrypted(boolean encoded)
    {
-      m_encoded = encoded;
+      m_encrypted = encoded;
    }
 
    /**
@@ -2020,9 +2020,9 @@ public final class ProjectFile implements TaskContainer
     * 
     * @return encoded
     */
-   public boolean getEncoded()
+   public boolean isEncrypted()
    {
-      return (m_encoded);
+      return (m_encrypted);
    }
 
    /**
@@ -2050,26 +2050,6 @@ public final class ProjectFile implements TaskContainer
    public byte getEncryptionCode()
    {
       return (m_encryptionKey);
-   }
-
-   /**
-    * Sets the project file path.
-    *
-    * @param projectFilePath project file path
-    */
-   public void setProjectFilePath(String projectFilePath)
-   {
-      m_projectFilePath = projectFilePath;
-   }
-
-   /**
-    * Gets the project file path.
-    *
-    * @return project file path
-    */
-   public String getProjectFilePath()
-   {
-      return (m_projectFilePath);
    }
 
    /**
@@ -2127,8 +2107,6 @@ public final class ProjectFile implements TaskContainer
       }
       return result;
    }
-
-   private String m_projectFilePath;
 
    /**
     * Counter used to populate the unique ID field of a task.
@@ -2200,9 +2178,9 @@ public final class ProjectFile implements TaskContainer
    private byte m_encryptionKey;
 
    /**
-    * Indicating whether the project data is encoded due to password protection.
+    * Indicating whether the project data is encrypted with password protection.
     */
-   private boolean m_encoded;
+   private boolean m_encrypted;
 
    /**
     * Indicating whether WBS value should be calculated on creation, or will
