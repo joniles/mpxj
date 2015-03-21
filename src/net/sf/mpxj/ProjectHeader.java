@@ -45,6 +45,11 @@ public final class ProjectHeader extends ProjectEntity
    {
       super(file);
 
+      setMpxDelimiter(',');
+      setMpxProgramName("Microsoft Project for Windows");
+      setMpxFileVersion(FileVersion.VERSION_4_0);
+      setMpxCodePage(CodePage.ANSI);
+
       //
       // Configure Date Time Settings and Currency Settings Records
       //
@@ -2373,6 +2378,86 @@ public final class ProjectHeader extends ProjectEntity
       m_documentVersion = documentVersion;
    }
 
+   /**
+    * Sets the delimiter character, "," by default.
+    *
+    * @param delimiter delimiter character
+    */
+   public void setMpxDelimiter(char delimiter)
+   {
+      m_mpxDelimiter = delimiter;
+   }
+
+   /**
+    * Retrieves the delimiter character, "," by default.
+    *
+    * @return delimiter character
+    */
+   public char getMpxDelimiter()
+   {
+      return (m_mpxDelimiter);
+   }
+
+   /**
+    * Program name file created by.
+    *
+    * @param programName system name
+    */
+   public void setMpxProgramName(String programName)
+   {
+      m_mpxProgramName = programName;
+   }
+
+   /**
+    * Program name file created by.
+    *
+    * @return program name
+    */
+   public String getMpxProgramName()
+   {
+      return (m_mpxProgramName);
+   }
+
+   /**
+    * Version of the MPX file.
+    *
+    * @param version MPX file version
+    */
+   public void setMpxFileVersion(FileVersion version)
+   {
+      m_mpxFileVersion = version;
+   }
+
+   /**
+    * Version of the MPX file.
+    *
+    * @return MPX file version
+    */
+   public FileVersion getMpxFileVersion()
+   {
+      return (m_mpxFileVersion);
+   }
+
+   /**
+    * Sets the codepage.
+    *
+    * @param codePage code page type
+    */
+   public void setMpxCodePage(CodePage codePage)
+   {
+      m_mpxCodePage = codePage;
+   }
+
+   /**
+    * Retrieves the codepage.
+    *
+    * @return code page type
+    */
+   public CodePage getMpxCodePage()
+   {
+      return (m_mpxCodePage);
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2501,15 +2586,10 @@ public final class ProjectHeader extends ProjectEntity
    private String m_contentStatus;
    private String m_language;
    private String m_documentVersion;
-
-   /*
-    * Missing MSPDI attributes
-    *
-       // this is probably the schedule from value, we could remove
-       // the ScheduleFrom type, and replace it with a boolean
-       // we just need to ensure that the MPX read/write works OK
-       void setScheduleFromStart(boolean value);
-    */
+   private char m_mpxDelimiter;
+   private String m_mpxProgramName;
+   private FileVersion m_mpxFileVersion;
+   private CodePage m_mpxCodePage;
 
    /**
     * Default time separator character.

@@ -591,16 +591,6 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * Retrieves the file creation record.
-    *
-    * @return file creation record.
-    */
-   public FileCreationRecord getFileCreationRecord()
-   {
-      return (m_fileCreationRecord);
-   }
-
-   /**
     * This method is used to add a new calendar to the file.
     *
     * @return new calendar object
@@ -2198,11 +2188,6 @@ public final class ProjectFile implements TaskContainer
     * List holding references to all calendars.
     */
    private List<ProjectCalendar> m_calendars = new LinkedList<ProjectCalendar>();
-
-   /**
-    * File creation record.
-    */
-   private FileCreationRecord m_fileCreationRecord = new FileCreationRecord(this);
 
    /**
     * Project header record.

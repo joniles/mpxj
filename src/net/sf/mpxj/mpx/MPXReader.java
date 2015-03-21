@@ -37,7 +37,6 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.FileVersion;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -120,9 +119,9 @@ public final class MPXReader extends AbstractProjectReader
          m_projectFile.setAutoOutlineNumber(false);
          m_projectFile.setAutoWBS(false);
 
-         LocaleUtility.setLocale(m_projectFile, m_locale);
+         LocaleUtility.setLocale(m_projectFile.getProjectHeader(), m_locale);
          m_delimiter = (char) data[3];
-         m_projectFile.getFileCreationRecord().setDelimiter(m_delimiter);
+         m_projectFile.getProjectHeader().setMpxDelimiter(m_delimiter);
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_taskModel.setLocale(m_locale);
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
@@ -158,7 +157,7 @@ public final class MPXReader extends AbstractProjectReader
          // an input stream reader using the appropriate character set, and
          // create a new tokenizer to read from this Reader instance.
          //
-         InputStreamReader reader = new InputStreamReader(bis, m_projectFile.getFileCreationRecord().getCodePage().getCharset());
+         InputStreamReader reader = new InputStreamReader(bis, m_projectFile.getProjectHeader().getMpxCodePage().getCharset());
          tk = new ReaderTokenizer(reader);
          tk.setDelimiter(m_delimiter);
 
@@ -458,7 +457,7 @@ public final class MPXReader extends AbstractProjectReader
 
          case MPXConstants.FILE_CREATION_RECORD_NUMBER:
          {
-            populateFileCreationRecord(record, m_projectFile.getFileCreationRecord());
+            populateFileCreationRecord(record, m_projectFile.getProjectHeader());
             break;
          }
 
@@ -1376,13 +1375,13 @@ public final class MPXReader extends AbstractProjectReader
     * Populate a file creation record.
     *
     * @param record MPX record
-    * @param fcr file creation record instance
+    * @param header project header
     */
-   static void populateFileCreationRecord(Record record, FileCreationRecord fcr)
+   static void populateFileCreationRecord(Record record, ProjectHeader header)
    {
-      fcr.setProgramName(record.getString(0));
-      fcr.setFileVersion(FileVersion.getInstance(record.getString(1)));
-      fcr.setCodePage(record.getCodePage(2));
+      header.setMpxProgramName(record.getString(0));
+      header.setMpxFileVersion(FileVersion.getInstance(record.getString(1)));
+      header.setMpxCodePage(record.getCodePage(2));
    }
 
    /**

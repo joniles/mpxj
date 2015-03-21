@@ -157,7 +157,7 @@ final class ResourceModel
       populateModel();
 
       int number;
-      char delimiter = m_parentFile.getFileCreationRecord().getDelimiter();
+      char delimiter = m_parentFile.getProjectHeader().getMpxDelimiter();
 
       StringBuilder textual = new StringBuilder();
       StringBuilder numeric = new StringBuilder();

@@ -39,7 +39,6 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -75,11 +74,11 @@ public final class MPXWriter extends AbstractProjectWriter
       m_projectFile = projectFile;
       if (m_useLocaleDefaults == true)
       {
-         LocaleUtility.setLocale(m_projectFile, m_locale);
+         LocaleUtility.setLocale(m_projectFile.getProjectHeader(), m_locale);
       }
 
-      m_delimiter = projectFile.getFileCreationRecord().getDelimiter();
-      m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
+      m_delimiter = projectFile.getProjectHeader().getMpxDelimiter();
+      m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getProjectHeader().getMpxCodePage().getCharset());
       m_buffer = new StringBuilder();
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
 
@@ -109,7 +108,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       m_projectFile.validateUniqueIDsForMicrosoftProject();
 
-      writeFileCreationRecord(m_projectFile.getFileCreationRecord());
+      writeFileCreationRecord();
       writeProjectHeader(m_projectFile.getProjectHeader());
 
       if (m_projectFile.getAllResources().isEmpty() == false)
@@ -135,19 +134,20 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * Write file creation record.
     *
-    * @param record file creation record
     * @throws IOException
     */
-   private void writeFileCreationRecord(FileCreationRecord record) throws IOException
+   private void writeFileCreationRecord() throws IOException
    {
+      ProjectHeader header = m_projectFile.getProjectHeader();
+
       m_buffer.setLength(0);
       m_buffer.append("MPX");
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getProgramName());
+      m_buffer.append(header.getMpxProgramName());
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getFileVersion());
+      m_buffer.append(header.getMpxFileVersion());
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getCodePage());
+      m_buffer.append(header.getMpxCodePage());
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
    }

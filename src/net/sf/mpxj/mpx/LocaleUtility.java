@@ -28,9 +28,7 @@ import java.util.Locale;
 import net.sf.mpxj.CodePage;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DateOrder;
-import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.ProjectDateFormat;
-import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.ProjectTimeFormat;
 
@@ -49,34 +47,6 @@ final class LocaleUtility
    }
 
    /**
-    * This method sets the locale to be used by an MPX file.
-    *
-    * @param file project file
-    * @param locale locale to be used
-    */
-   public static void setLocale(ProjectFile file, Locale locale)
-   {
-      file.getFileCreationRecord().setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
-      setLocale(file.getFileCreationRecord(), locale);
-      setLocale(file.getProjectHeader(), locale);
-   }
-
-   /**
-    * This method is called when the locale of the parent file is updated.
-    * It resets the locale specific currency attributes to the default values
-    * for the new locale.
-    *
-    * @param fcr file creation record instance
-    * @param locale new locale
-    */
-   private static void setLocale(FileCreationRecord fcr, Locale locale)
-   {
-      fcr.setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
-      fcr.setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
-      fcr.setCodePage((CodePage) LocaleData.getObject(locale, LocaleData.CODE_PAGE));
-   }
-
-   /**
     * This method is called when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
     * for the new locale.
@@ -84,8 +54,12 @@ final class LocaleUtility
     * @param header project header instance
     * @param locale new locale
     */
-   private static void setLocale(ProjectHeader header, Locale locale)
+   public static void setLocale(ProjectHeader header, Locale locale)
    {
+      header.setMpxDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
+      header.setMpxProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
+      header.setMpxCodePage((CodePage) LocaleData.getObject(locale, LocaleData.CODE_PAGE));
+
       header.setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
       header.setSymbolPosition((CurrencySymbolPosition) LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
       header.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
