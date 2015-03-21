@@ -2478,6 +2478,26 @@ public final class ProjectHeader extends ProjectEntity
       return (m_projectFilePath);
    }
 
+   /**
+    * Retrieves the name of the application used to create this project data.
+    * 
+    * @return application name
+    */
+   public String getFullApplicationName()
+   {
+      return m_fullApplicationName;
+   }
+
+   /**
+    * Sets the name of the application used to create this project data.
+    * 
+    * @param name application name
+    */
+   public void setFullApplicationName(String name)
+   {
+      m_fullApplicationName = name;
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2611,6 +2631,7 @@ public final class ProjectHeader extends ProjectEntity
    private FileVersion m_mpxFileVersion;
    private CodePage m_mpxCodePage;
    private String m_projectFilePath;
+   private String m_fullApplicationName;
 
    /**
     * Default time separator character.

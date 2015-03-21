@@ -1672,26 +1672,6 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * Retrieves the name of the application used to create this project data.
-    * 
-    * @return application name
-    */
-   public String getApplicationName()
-   {
-      return m_applicationName;
-   }
-
-   /**
-    * Sets the name of the application used to create this projectdata.
-    * 
-    * @param name application name
-    */
-   public void setApplicationName(String name)
-   {
-      m_applicationName = name;
-   }
-
-   /**
     * Retrieves the version of the application used to create this project.
     * 
     * @return application name
@@ -2244,13 +2224,6 @@ public final class ProjectFile implements TaskContainer
     * has been read.
     */
    private int m_mppFileType;
-
-   /**
-    * This field can be used to record the name of the application
-    * used to produce the project data. At present only MppReader
-    * populates this attribute.
-    */
-   private String m_applicationName;
 
    /**
     * This field can be used to record the version of the application

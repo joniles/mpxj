@@ -215,7 +215,7 @@ final class MPP14Reader implements MPPVariantReader
    private void processCustomValueLists()
    {
       Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-      int parentOffset = m_file.getApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
+      int parentOffset = m_file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
 
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
@@ -1411,7 +1411,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
-      if (m_file.getApplicationName().equals("Microsoft.Project 15.0"))
+      if (m_file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0"))
       {
          metaDataBitFlags = PROJECT2013_TASK_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_TASK_META_DATA2_BIT_FLAGS;
@@ -2030,7 +2030,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
-      if (m_file.getApplicationName().equals("Microsoft.Project 15.0"))
+      if (m_file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0"))
       {
          metaDataBitFlags = PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS;

@@ -121,7 +121,7 @@ public final class MPPReader extends AbstractProjectReader
          // Retrieve the CompObj data, validate the file format and process
          //
          CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
-         projectFile.setApplicationName(compObj.getApplicationName());
+         projectFile.getProjectHeader().setFullApplicationName(compObj.getApplicationName());
          projectFile.setApplicationVersion(compObj.getApplicationVersion());
          String format = compObj.getFileFormat();
          Class<? extends MPPVariantReader> readerClass = FILE_CLASS_MAP.get(format);
