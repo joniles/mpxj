@@ -2243,9 +2243,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @return property value
     */
-   public String getApplicationName()
+   public String getShortApplicationName()
    {
-      return m_applicationName;
+      return m_shortApplicationName;
    }
 
    /**
@@ -2253,9 +2253,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @param application property value
     */
-   public void setApplicationName(String application)
+   public void setShortApplicationName(String application)
    {
-      m_applicationName = application;
+      m_shortApplicationName = application;
    }
 
    /**
@@ -2599,7 +2599,7 @@ public final class ProjectHeader extends ProjectEntity
    private String m_template;
    private String m_lastAuthor;
    private Date m_lastPrinted;
-   private String m_applicationName;
+   private String m_shortApplicationName;
    private Integer m_editingTime;
    private String m_presentationFormat;
    private String m_contentType;

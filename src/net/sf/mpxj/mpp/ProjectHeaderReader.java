@@ -106,7 +106,7 @@ public final class ProjectHeaderReader
          ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
          ph.setCreationDate(summaryInformation.getCreateDateTime());
          ph.setLastSaved(summaryInformation.getLastSaveDateTime());
-         ph.setApplicationName(summaryInformation.getApplicationName());
+         ph.setShortApplicationName(summaryInformation.getApplicationName());
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
          ph.setLastPrinted(summaryInformation.getLastPrinted());
 
