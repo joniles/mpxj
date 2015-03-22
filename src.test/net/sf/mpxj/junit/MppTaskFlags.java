@@ -313,7 +313,7 @@ public class MppTaskFlags
       assertEquals("Flag20", task.getName());
       testFlag(task, 20);
 
-      if (mpp.getMppFileType() == 14)
+      if (mpp.getProjectHeader().getMppFileType() == 14)
       {
          //
          // Active

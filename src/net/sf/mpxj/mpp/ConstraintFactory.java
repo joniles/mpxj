@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
@@ -51,7 +52,8 @@ public class ConstraintFactory
          int count = consFixedMeta.getAdjustedItemCount();
          int lastConstraintID = -1;
 
-         boolean project15 = file.getMppFileType() == 14 && file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0");
+         ProjectHeader header = file.getProjectHeader();
+         boolean project15 = header.getMppFileType() == 14 && header.getFullApplicationName().equals("Microsoft.Project 15.0");
          int durationUnitsOffset = project15 ? 18 : 14;
          int durationOffset = project15 ? 14 : 16;
 

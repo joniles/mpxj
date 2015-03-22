@@ -101,7 +101,7 @@ public class ProjectPropertiesTest
       assertEquals("Manager", header.getManager());
       assertEquals("Company", header.getCompany());
 
-      if (project.getMppFileType() > 9)
+      if (project.getProjectHeader().getMppFileType() > 9)
       {
          assertEquals("Content type", header.getContentType());
          assertEquals("Content status", header.getContentStatus());

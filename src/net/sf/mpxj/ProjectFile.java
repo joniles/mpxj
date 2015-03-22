@@ -1648,50 +1648,6 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * This method retrieves a value representing the type of MPP file
-    * that has been read. Currently this method will return the value 8 for
-    * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
-    * Project 2002), 12 for an MPP12 file (Project 2003, Project 2007) and 14 for an
-    * MPP14 file (Project 2010 and Project 2013).
-    *
-    * @return integer representing the file type
-    */
-   public int getMppFileType()
-   {
-      return (m_mppFileType);
-   }
-
-   /**
-    * Used internally to set the file type.
-    *
-    * @param fileType file type
-    */
-   public void setMppFileType(int fileType)
-   {
-      m_mppFileType = fileType;
-   }
-
-   /**
-    * Retrieves the version of the application used to create this project.
-    * 
-    * @return application name
-    */
-   public int getApplicationVersion()
-   {
-      return m_applicationVersion;
-   }
-
-   /**
-    * Sets the version of the application used to create this project.
-    * 
-    * @param version application version
-    */
-   public void setApplicationVersion(int version)
-   {
-      m_applicationVersion = version;
-   }
-
-   /**
     * Package-private method used to add views to this MPP file.
     *
     * @param view view data
@@ -2218,19 +2174,6 @@ public final class ProjectFile implements TaskContainer
     * List of project event listeners.
     */
    private List<ProjectListener> m_projectListeners;
-
-   /**
-    * This value is used to represent the type of MPP file that
-    * has been read.
-    */
-   private int m_mppFileType;
-
-   /**
-    * This field can be used to record the version of the application
-    * used to produce the project data. At present only MppReader
-    * populates this attribute.
-    */
-   private int m_applicationVersion;
 
    /**
     * List of views defined in this file.

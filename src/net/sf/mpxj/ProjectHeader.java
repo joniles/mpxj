@@ -2498,6 +2498,50 @@ public final class ProjectHeader extends ProjectEntity
       m_fullApplicationName = name;
    }
 
+   /**
+    * Retrieves the version of the application used to create this project.
+    * 
+    * @return application name
+    */
+   public int getApplicationVersion()
+   {
+      return m_applicationVersion;
+   }
+
+   /**
+    * Sets the version of the application used to create this project.
+    * 
+    * @param version application version
+    */
+   public void setApplicationVersion(int version)
+   {
+      m_applicationVersion = version;
+   }
+
+   /**
+    * This method retrieves a value representing the type of MPP file
+    * that has been read. Currently this method will return the value 8 for
+    * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
+    * Project 2002), 12 for an MPP12 file (Project 2003, Project 2007) and 14 for an
+    * MPP14 file (Project 2010 and Project 2013).
+    *
+    * @return integer representing the file type
+    */
+   public int getMppFileType()
+   {
+      return (m_mppFileType);
+   }
+
+   /**
+    * Used internally to set the file type.
+    *
+    * @param fileType file type
+    */
+   public void setMppFileType(int fileType)
+   {
+      m_mppFileType = fileType;
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2632,6 +2676,8 @@ public final class ProjectHeader extends ProjectEntity
    private CodePage m_mpxCodePage;
    private String m_projectFilePath;
    private String m_fullApplicationName;
+   private int m_applicationVersion;
+   private int m_mppFileType;
 
    /**
     * Default time separator character.

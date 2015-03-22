@@ -122,7 +122,7 @@ public final class MPPReader extends AbstractProjectReader
          //
          CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
          projectFile.getProjectHeader().setFullApplicationName(compObj.getApplicationName());
-         projectFile.setApplicationVersion(compObj.getApplicationVersion());
+         projectFile.getProjectHeader().setApplicationVersion(compObj.getApplicationVersion());
          String format = compObj.getFileFormat();
          Class<? extends MPPVariantReader> readerClass = FILE_CLASS_MAP.get(format);
          if (readerClass == null)

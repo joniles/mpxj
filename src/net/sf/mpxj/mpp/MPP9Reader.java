@@ -180,7 +180,7 @@ final class MPP9Reader implements MPPVariantReader
       m_fontBases = new HashMap<Integer, FontBase>();
       m_taskSubProjects = new HashMap<Integer, SubProject>();
 
-      m_file.setMppFileType(9);
+      m_file.getProjectHeader().setMppFileType(9);
       m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
    }
 

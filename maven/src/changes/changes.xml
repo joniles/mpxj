@@ -30,7 +30,11 @@
 		<action dev="joniles" type="update">Moved FileCreationRecord.setFileVersion to ProjectHeader.setMpxFileVersion</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.getFileVersion to ProjectHeader.getMpxFileVersion</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.setCodePage to ProjectHeader.setMpxCodePage</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.getCodePage to ProjectHeader.getMpxCodePage</action>
+		<action dev="joniles" type="update">Moved FileCreationRecord.getCodePage to ProjectHeader.getMpxCodePage</action>		
+		<action dev="joniles" type="update">Moved Project.getMppFileType to ProjectHeader.getMppFileType</action>
+		<action dev="joniles" type="update">Moved Project.setMppFileType to ProjectHeader.setMppFileType</action>
+		<action dev="joniles" type="update">Moved Project.getApplicationVersion to ProjectHeader.getApplicationVersion</action>
+		<action dev="joniles" type="update">Moved Project.setApplicationVersion to ProjectHeader.setApplicationVersion</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

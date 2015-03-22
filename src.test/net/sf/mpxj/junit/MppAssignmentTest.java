@@ -306,8 +306,9 @@ public class MppAssignmentTest
       Task task;
       List<ResourceAssignment> assignments;
       ResourceAssignment assignment;
+      int mppFileType = mpp.getProjectHeader().getMppFileType();
 
-      if (mpp.getMppFileType() > 9)
+      if (mppFileType > 9)
       {
          task = mpp.getTaskByID(Integer.valueOf(0));
 
@@ -354,7 +355,7 @@ public class MppAssignmentTest
       //
       // Bizarre MPP12 bug? - shows as zero in MS Project
       //
-      if (mpp.getMppFileType() != 12)
+      if (mppFileType != 12)
       {
          assertEquals(3978.92, assignment.getRemainingCost().doubleValue(), 0.005);
       }
@@ -367,7 +368,7 @@ public class MppAssignmentTest
       assertEquals(3.0, assignment.getPercentageWorkComplete().doubleValue(), 0.5);
       assertEquals("Assignment Notes", assignment.getNotes().trim());
 
-      if (mpp.getMppFileType() != 0)
+      if (mppFileType != 0)
       {
          assertTrue(assignment.getConfirmed());
          assertTrue(assignment.getResponsePending());
@@ -382,7 +383,7 @@ public class MppAssignmentTest
       //
       // Can't reliably find the create date in MPP9
       //
-      if (mpp.getMppFileType() > 9)
+      if (mppFileType > 9)
       {
          assertEquals("06/07/11 12:09", df.format(assignment.getCreateDate()));
       }
@@ -413,7 +414,7 @@ public class MppAssignmentTest
       MpxjAssert.assertDurationEquals(-10.39, TimeUnit.DAYS, assignment.getFinishVariance());
       assertEquals(1, assignment.getCostRateTableIndex());
 
-      if (mpp.getMppFileType() != 0)
+      if (mppFileType != 0)
       {
          assertFalse(assignment.getConfirmed());
          assertFalse(assignment.getResponsePending());
@@ -421,7 +422,7 @@ public class MppAssignmentTest
          assertEquals("Test Hyperlink Screen Tip", assignment.getHyperlinkScreenTip());
       }
 
-      if (mpp.getMppFileType() > 9)
+      if (mppFileType > 9)
       {
          assertEquals("06/07/11 15:31", df.format(assignment.getCreateDate()));
       }

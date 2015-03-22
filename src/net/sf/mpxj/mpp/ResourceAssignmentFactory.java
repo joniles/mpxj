@@ -81,7 +81,7 @@ public class ResourceAssignmentFactory
       //System.out.println(assnVarData);
 
       MppBitFlag[] metaDataBitFlags;
-      if (file.getMppFileType() == 14)
+      if (file.getProjectHeader().getMppFileType() == 14)
       {
          metaDataBitFlags = MPP14_ASSIGNMENT_META_DATA_BIT_FLAGS;
       }
@@ -156,7 +156,7 @@ public class ResourceAssignmentFactory
          //
          // Post processing
          //
-         if (file.getMppFileType() == 9 && assignment.getCreateDate() == null)
+         if (file.getProjectHeader().getMppFileType() == 9 && assignment.getCreateDate() == null)
          {
             byte[] creationData = assnVarData.getByteArray(varDataId, MPP9_CREATION_DATA);
             if (creationData != null && creationData.length >= 28)

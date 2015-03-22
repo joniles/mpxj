@@ -82,8 +82,6 @@ public class MpxjQuery
       ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
       ProjectFile mpx = reader.read(filename);
 
-      System.out.println("MPP file type: " + mpx.getMppFileType());
-
       listProjectHeader(mpx);
 
       listResources(mpx);
@@ -124,6 +122,7 @@ public class MpxjQuery
       String formattedStartDate = startDate == null ? "(none)" : df.format(startDate);
       String formattedFinishDate = finishDate == null ? "(none)" : df.format(finishDate);
 
+      System.out.println("MPP file type: " + header.getMppFileType());
       System.out.println("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
       System.out.println();
    }

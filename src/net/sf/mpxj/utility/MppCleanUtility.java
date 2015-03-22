@@ -114,8 +114,8 @@ public class MppCleanUtility
 
       String varDataFileName;
       String projectDirName;
-
-      switch (m_project.getMppFileType())
+      int mppFileType = m_project.getProjectHeader().getMppFileType();
+      switch (mppFileType)
       {
          case 8:
          {
@@ -140,7 +140,7 @@ public class MppCleanUtility
 
          default:
          {
-            throw new IllegalArgumentException("Unsupported file type " + m_project.getMppFileType());
+            throw new IllegalArgumentException("Unsupported file type " + mppFileType);
          }
       }
 
