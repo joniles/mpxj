@@ -1902,26 +1902,6 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * Retrieve a flag indicating if auto filter is enabled.
-    * 
-    * @return auto filter flag
-    */
-   public boolean getAutoFilter()
-   {
-      return (m_autoFilter);
-   }
-
-   /**
-    * Sets a flag indicating if auto filter is enabled.
-    * 
-    * @param autoFilter boolean flag
-    */
-   public void setAutoFilter(boolean autoFilter)
-   {
-      m_autoFilter = autoFilter;
-   }
-
-   /**
     * Set the saved view state associated with this file.
     * 
     * @param viewState view state
@@ -2240,11 +2220,6 @@ public final class ProjectFile implements TaskContainer
     * MPX file.
     */
    private List<SubProject> m_allSubProjects = new LinkedList<SubProject>();
-
-   /**
-    * Flag indicating if auto filter is enabled.
-    */
-   private boolean m_autoFilter;
 
    /**
     * Saved view state.

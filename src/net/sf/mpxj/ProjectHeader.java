@@ -2542,6 +2542,26 @@ public final class ProjectHeader extends ProjectEntity
       m_mppFileType = fileType;
    }
 
+   /**
+    * Retrieve a flag indicating if auto filter is enabled.
+    * 
+    * @return auto filter flag
+    */
+   public boolean getAutoFilter()
+   {
+      return (m_autoFilter);
+   }
+
+   /**
+    * Sets a flag indicating if auto filter is enabled.
+    * 
+    * @param autoFilter boolean flag
+    */
+   public void setAutoFilter(boolean autoFilter)
+   {
+      m_autoFilter = autoFilter;
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2678,6 +2698,7 @@ public final class ProjectHeader extends ProjectEntity
    private String m_fullApplicationName;
    private int m_applicationVersion;
    private int m_mppFileType;
+   private boolean m_autoFilter;
 
    /**
     * Default time separator character.

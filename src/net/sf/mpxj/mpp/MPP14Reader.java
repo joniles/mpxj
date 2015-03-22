@@ -181,7 +181,7 @@ final class MPP14Reader implements MPPVariantReader
       m_nullTaskOrder = new TreeMap<Integer, Integer>();
 
       m_file.getProjectHeader().setMppFileType(14);
-      m_file.setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectHeader().setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
 
       m_customFieldValues = new CustomFieldValues();
    }

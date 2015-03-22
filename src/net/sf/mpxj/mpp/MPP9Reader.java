@@ -181,7 +181,7 @@ final class MPP9Reader implements MPPVariantReader
       m_taskSubProjects = new HashMap<Integer, SubProject>();
 
       m_file.getProjectHeader().setMppFileType(9);
-      m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectHeader().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
    }
 
    /**
