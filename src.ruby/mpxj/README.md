@@ -114,3 +114,8 @@ The attributes supported by each class are listed here:
 * [Assignment Attributes](docs/AssignmentAttributes.md)
 * [Relation Attributes](docs/RelationAttributes.md)
 
+## Acknowledgements 
+This gem includes functionality provided by POI [http://poi.apache.org](http://poi.apache.org/)
+ 
+This gem includes functionality provided by RTF Parser Kit [https://github.com/joniles/rtfparserkit](https://github.com/joniles/rtfparserkit/)
+
