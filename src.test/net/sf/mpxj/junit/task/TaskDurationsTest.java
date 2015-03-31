@@ -34,6 +34,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpx.MPXReader;
@@ -119,7 +120,7 @@ public class TaskDurationsTest
     */
    private void testDurationUnits(File file, ProjectReader reader, ProjectFile project)
    {
-      TimeUnit[] units = (project.getProjectHeader().getMppFileType() == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
+      TimeUnit[] units = (NumberHelper.getInt(project.getProjectHeader().getMppFileType()) == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
       int maxIndex = reader instanceof MPXReader ? 3 : 10;
 
       int taskID = 11;

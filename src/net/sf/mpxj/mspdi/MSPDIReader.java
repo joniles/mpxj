@@ -187,7 +187,7 @@ public final class MSPDIReader extends AbstractProjectReader
          ProjectCalendar defaultCalendar = calendarMap.get(project.getCalendarUID());
          if (defaultCalendar != null)
          {
-            m_projectFile.getProjectHeader().setCalendarName(defaultCalendar.getName());
+            m_projectFile.getProjectHeader().setDefaultCalendarName(defaultCalendar.getName());
          }
 
          return (m_projectFile);
@@ -229,7 +229,7 @@ public final class MSPDIReader extends AbstractProjectReader
       header.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       header.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
       header.setBaselineForEarnedValue(NumberHelper.getInteger(project.getBaselineForEarnedValue()));
-      header.setCalendarName(project.getCalendarUID() == null ? null : project.getCalendarUID().toString());
+      header.setDefaultCalendarName(project.getCalendarUID() == null ? null : project.getCalendarUID().toString());
       header.setCategory(project.getCategory());
       header.setCompany(project.getCompany());
       header.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
@@ -309,7 +309,7 @@ public final class MSPDIReader extends AbstractProjectReader
       try
       {
          ProjectHeader header = m_projectFile.getProjectHeader();
-         BigInteger calendarID = new BigInteger(header.getCalendarName());
+         BigInteger calendarID = new BigInteger(header.getDefaultCalendarName());
          ProjectCalendar calendar = map.get(calendarID);
          m_projectFile.setCalendar(calendar);
       }

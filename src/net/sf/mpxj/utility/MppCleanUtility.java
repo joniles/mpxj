@@ -40,6 +40,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.MPPReader;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -114,7 +115,7 @@ public class MppCleanUtility
 
       String varDataFileName;
       String projectDirName;
-      int mppFileType = m_project.getProjectHeader().getMppFileType();
+      int mppFileType = NumberHelper.getInt(m_project.getProjectHeader().getMppFileType());
       switch (mppFileType)
       {
          case 8:

@@ -31,6 +31,7 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.ProjectTimeFormat;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class contains methods used to configure the locale of an MPX file,
@@ -68,7 +69,7 @@ final class LocaleUtility
 
       header.setDateOrder((DateOrder) LocaleData.getObject(locale, LocaleData.DATE_ORDER));
       header.setTimeFormat((ProjectTimeFormat) LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
-      header.setIntegerDefaultStartTime(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
+      header.setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
       header.setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
       header.setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
       header.setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));

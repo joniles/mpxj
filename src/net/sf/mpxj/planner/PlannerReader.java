@@ -205,7 +205,7 @@ public final class PlannerReader extends AbstractProjectReader
          m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
          if (m_defaultCalendar != null)
          {
-            m_projectFile.getProjectHeader().setCalendarName(m_defaultCalendar.getName());
+            m_projectFile.getProjectHeader().setDefaultCalendarName(m_defaultCalendar.getName());
          }
       }
    }

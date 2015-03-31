@@ -250,7 +250,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getManager()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getCalendarName()));
+      m_buffer.append(format(record.getDefaultCalendarName()));
       m_buffer.append(m_delimiter);
 
       m_buffer.append(format(formatDateTime(record.getStartDate())));

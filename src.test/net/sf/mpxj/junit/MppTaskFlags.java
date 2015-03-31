@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.MPPReader;
 
 import org.junit.Test;
@@ -313,7 +314,7 @@ public class MppTaskFlags
       assertEquals("Flag20", task.getName());
       testFlag(task, 20);
 
-      if (mpp.getProjectHeader().getMppFileType() == 14)
+      if (NumberHelper.getInt(mpp.getProjectHeader().getMppFileType()) == 14)
       {
          //
          // Active

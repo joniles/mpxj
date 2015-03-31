@@ -35,6 +35,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
@@ -306,7 +307,7 @@ public class MppAssignmentTest
       Task task;
       List<ResourceAssignment> assignments;
       ResourceAssignment assignment;
-      int mppFileType = mpp.getProjectHeader().getMppFileType();
+      int mppFileType = NumberHelper.getInt(mpp.getProjectHeader().getMppFileType());
 
       if (mppFileType > 9)
       {

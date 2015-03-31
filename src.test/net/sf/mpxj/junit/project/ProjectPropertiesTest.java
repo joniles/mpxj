@@ -36,6 +36,7 @@ import java.util.Map;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.reader.ProjectReader;
@@ -101,7 +102,7 @@ public class ProjectPropertiesTest
       assertEquals("Manager", header.getManager());
       assertEquals("Company", header.getCompany());
 
-      if (project.getProjectHeader().getMppFileType() > 9)
+      if (NumberHelper.getInt(project.getProjectHeader().getMppFileType()) > 9)
       {
          assertEquals("Content type", header.getContentType());
          assertEquals("Content status", header.getContentStatus());

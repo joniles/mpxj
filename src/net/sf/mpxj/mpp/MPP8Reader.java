@@ -130,7 +130,7 @@ final class MPP8Reader implements MPPVariantReader
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
       m_viewDir = (DirectoryEntry) root.getEntry("   2");
 
-      m_file.getProjectHeader().setMppFileType(8);
+      m_file.getProjectHeader().setMppFileType(Integer.valueOf(8));
    }
 
    /**

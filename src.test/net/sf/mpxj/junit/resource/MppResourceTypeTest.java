@@ -33,6 +33,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -94,7 +95,7 @@ public class MppResourceTypeTest
       //
       // The cost resource type was introduced in MPP12
       //
-      ResourceType expectedType = project.getProjectHeader().getMppFileType() > 9 ? ResourceType.COST : ResourceType.MATERIAL;
+      ResourceType expectedType = NumberHelper.getInt(project.getProjectHeader().getMppFileType()) > 9 ? ResourceType.COST : ResourceType.MATERIAL;
       testResource(file, project, 7, "Cost 1", expectedType);
       testResource(file, project, 8, "Cost 2", expectedType);
       testResource(file, project, 9, "Cost 3", expectedType);

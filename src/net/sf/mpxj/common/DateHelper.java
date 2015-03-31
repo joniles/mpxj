@@ -318,6 +318,36 @@ public final class DateHelper
       return result;
    }
 
+   /**
+    * This internal method is used to convert from an integer representing
+    * minutes past midnight into a Date instance whose time component
+    * represents the start time.
+    *
+    * @param time integer representing the start time in minutes past midnight
+    * @return Date instance
+    */
+   public static Date getTimeFromMinutesPastMidnight(Integer time)
+   {
+      Date result = null;
+
+      if (time != null)
+      {
+         int minutes = time.intValue();
+         int hours = minutes / 60;
+         minutes -= (hours * 60);
+
+         Calendar cal = Calendar.getInstance();
+         cal.set(Calendar.MILLISECOND, 0);
+         cal.set(Calendar.SECOND, 0);
+         cal.set(Calendar.MINUTE, minutes);
+         cal.set(Calendar.HOUR_OF_DAY, hours);
+
+         result = cal.getTime();
+      }
+
+      return result;
+   }
+
    /** 
     * First date supported by Microsoft Project: January 01 00:00:00 1984. 
     */

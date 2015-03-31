@@ -170,7 +170,7 @@ final class MPP12Reader implements MPPVariantReader
       m_taskOrder = new TreeMap<Long, Integer>();
       m_nullTaskOrder = new TreeMap<Integer, Integer>();
 
-      m_file.getProjectHeader().setMppFileType(12);
+      m_file.getProjectHeader().setMppFileType(Integer.valueOf(12));
       m_file.getProjectHeader().setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
 
       m_customFieldValues = new CustomFieldValues();

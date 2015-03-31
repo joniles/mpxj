@@ -144,7 +144,7 @@ public class MppProjectHeaderTest
       //
       ProjectHeader ph = mpp.getProjectHeader();
       assertEquals(ScheduleFrom.FINISH, ph.getScheduleFrom());
-      assertEquals("24 Hours", ph.getCalendarName());
+      assertEquals("24 Hours", ph.getDefaultCalendarName());
       assertEquals("08:35", tf.format(ph.getDefaultStartTime()));
       assertEquals("17:35", tf.format(ph.getDefaultEndTime()));
       assertEquals("01/08/2006", df.format(ph.getStatusDate()));

@@ -18,7 +18,9 @@
 		<action dev="joniles" type="update">Renamed Project.getAliasTaskField to getTaskFieldByAlias</action>
 		<action dev="joniles" type="update">Renamed Project.getAliasResourceField to getResourceFieldByAlias</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.getApplicationName to getShortApplicationName</action>
-		<action dev="joniles" type="update">Renamed ProjectHeader.setApplicationName to setShortApplicationName</action>
+		<action dev="joniles" type="update">Renamed ProjectHeader.setApplicationName to setShortApplicationName</action>		
+		<action dev="joniles" type="update">Renamed ProjectHeader.setCalendarName to setDefaultCalendarName</action>
+		<action dev="joniles" type="update">Renamed ProjectHeader.getCalendarName to getDefaultCalendarName</action>				
 		<action dev="joniles" type="update">Moved Project.getProjectFilePath to ProjectHeader.getProjectFilePath</action>
 		<action dev="joniles" type="update">Moved Project.setProjectFilePath to ProjectHeader.setProjectFilePath</action>
 		<action dev="joniles" type="update">Moved Project.getApplicationName to ProjectHeader.getFullApplicationName</action>

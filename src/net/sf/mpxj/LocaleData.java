@@ -57,11 +57,13 @@ public final class LocaleData extends ListResourceBundle
    public static final String RESOURCE_COLUMNS = "RESOURCE_COLUMNS";
    public static final String ASSIGNMENT_COLUMNS = "ASSIGNMENT_COLUMNS";
    public static final String CONSTRAINT_COLUMNS = "CONSTRAINT_COLUMNS";
+   public static final String PROJECT_COLUMNS = "PROJECT_COLUMNS";
 
    private static final String[] RESOURCE_COLUMNS_ARRAY = new String[ResourceField.MAX_VALUE];
    private static final String[] TASK_COLUMNS_ARRAY = new String[TaskField.MAX_VALUE];
    private static final String[] ASSIGNMENT_COLUMNS_ARRAY = new String[AssignmentField.MAX_VALUE];
    private static final String[] CONSTRAINT_COLUMNS_ARRAY = new String[ConstraintField.MAX_VALUE];
+   private static final String[] PROJECT_COLUMNS_ARRAY = new String[ProjectField.MAX_VALUE];
 
    static
    {
@@ -2190,6 +2192,11 @@ public final class LocaleData extends ListResourceBundle
       {
          "CONSTRAINT_COLUMNS",
          CONSTRAINT_COLUMNS_ARRAY
+      },
+      {
+         "PROJECT_COLUMNS",
+         PROJECT_COLUMNS_ARRAY
       }
+
    };
 }

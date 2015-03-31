@@ -53,7 +53,7 @@ final class CompObj extends MPPComponent
       Matcher matcher = PATTERN.matcher(m_applicationName);
       if (matcher.matches())
       {
-         m_applicationVersion = Integer.parseInt(matcher.group(1));
+         m_applicationVersion = Integer.valueOf(matcher.group(1));
       }
 
       if (m_applicationName.equals("Microsoft Project 4.0"))
@@ -88,7 +88,7 @@ final class CompObj extends MPPComponent
     *
     * @return application version
     */
-   public int getApplicationVersion()
+   public Integer getApplicationVersion()
    {
       return (m_applicationVersion);
    }
@@ -129,7 +129,7 @@ final class CompObj extends MPPComponent
    /**
     * Application version.
     */
-   private int m_applicationVersion;
+   private Integer m_applicationVersion;
 
    /**
     * Application identifier.

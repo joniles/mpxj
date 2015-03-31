@@ -24,9 +24,15 @@
 
 package net.sf.mpxj;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+
+import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.ProjectFieldLists;
+import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents the ProjectHeader record as found in an MPX
@@ -34,7 +40,7 @@ import java.util.Map;
  * project plan. Note that a number of the fields in this record are
  * calculated by Microsoft Project, and will therefore be ignored on import.
  */
-public final class ProjectHeader extends ProjectEntity
+public final class ProjectHeader extends ProjectEntity implements FieldContainer
 {
    /**
     * Default constructor.
@@ -45,7 +51,10 @@ public final class ProjectHeader extends ProjectEntity
    {
       super(file);
 
-      setMpxDelimiter(',');
+      //
+      // Configure File Creation Record Settings
+      //
+      setMpxDelimiter(DEFAULT_MPX_DELIMITER);
       setMpxProgramName("Microsoft Project for Windows");
       setMpxFileVersion(FileVersion.VERSION_4_0);
       setMpxCodePage(CodePage.ANSI);
@@ -53,17 +62,17 @@ public final class ProjectHeader extends ProjectEntity
       //
       // Configure Date Time Settings and Currency Settings Records
       //
-      setCurrencySymbol("$");
+      setCurrencySymbol(DEFAULT_CURRENCY_SYMBOL);
       setSymbolPosition(CurrencySymbolPosition.BEFORE);
       setCurrencyDigits(Integer.valueOf(2));
-      setThousandsSeparator(',');
-      setDecimalSeparator('.');
+      setThousandsSeparator(DEFAULT_THOUSANDS_SEPARATOR);
+      setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
 
       setDateOrder(DateOrder.DMY);
       setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setIntegerDefaultStartTime(Integer.valueOf(480));
-      setDateSeparator('/');
-      setTimeSeparator(':');
+      setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(480)));
+      setDateSeparator(DEFAULT_DATE_SEPARATOR);
+      setTimeSeparator(DEFAULT_TIME_SEPARATOR);
       setAMText("am");
       setPMText("pm");
       setDateFormat(ProjectDateFormat.DD_MM_YYYY);
@@ -88,7 +97,7 @@ public final class ProjectHeader extends ProjectEntity
       setProjectTitle("Project1");
       setCompany(null);
       setManager(null);
-      setCalendarName(DEFAULT_CALENDAR_NAME);
+      setDefaultCalendarName(DEFAULT_CALENDAR_NAME);
       setStartDate(null);
       setFinishDate(null);
       setScheduleFrom(DEFAULT_SCHEDULE_FROM);
@@ -141,24 +150,24 @@ public final class ProjectHeader extends ProjectEntity
     * Gets Default Duration units. The constants used to define the
     * duration units are defined by the <code>TimeUnit</code> class.
     *
-    * @return int constant
+    * @return default duration units
     * @see TimeUnit
     */
    public TimeUnit getDefaultDurationUnits()
    {
-      return (m_defaultDurationUnits);
+      return (TimeUnit) getCachedValue(ProjectField.DEFAULT_DURATION_UNITS);
    }
 
    /**
     * Default duration units. The constants used to define the
     * duration units are defined by the <code>TimeUnit</code> class.
     *
-    * @param units default time units
+    * @param units default duration units
     * @see TimeUnit
     */
    public void setDefaultDurationUnits(TimeUnit units)
    {
-      m_defaultDurationUnits = units;
+      set(ProjectField.DEFAULT_DURATION_UNITS, units);
    }
 
    /**
@@ -168,7 +177,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getDefaultDurationIsFixed()
    {
-      return (m_defaultDurationIsFixed);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.DEFAULT_DURATION_IS_FIXED));
    }
 
    /**
@@ -178,31 +187,31 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultDurationIsFixed(boolean fixed)
    {
-      m_defaultDurationIsFixed = fixed;
+      set(ProjectField.DEFAULT_DURATION_IS_FIXED, fixed);
    }
 
    /**
     * Default work units. The constants used to define the
     * work units are defined by the <code>TimeUnit</code> class.
     *
-    * @return int representing default
+    * @return default work units
     * @see TimeUnit
     */
    public TimeUnit getDefaultWorkUnits()
    {
-      return (m_defaultWorkUnits);
+      return (TimeUnit) getCachedValue(ProjectField.DEFAULT_WORK_UNITS);
    }
 
    /**
     * Default work units. The constants used to define the
     * work units are defined by the <code>TimeUnit</code> class.
     *
-    * @param units  int representing default
+    * @param units  default work units
     * @see TimeUnit
     */
    public void setDefaultWorkUnits(TimeUnit units)
    {
-      m_defaultWorkUnits = units;
+      set(ProjectField.DEFAULT_WORK_UNITS, units);
    }
 
    /**
@@ -212,7 +221,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Rate getDefaultStandardRate()
    {
-      return (m_defaultStandardRate);
+      return (Rate) getCachedValue(ProjectField.DEFAULT_STANDARD_RATE);
    }
 
    /**
@@ -222,7 +231,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultStandardRate(Rate rate)
    {
-      m_defaultStandardRate = rate;
+      set(ProjectField.DEFAULT_STANDARD_RATE, rate);
    }
 
    /**
@@ -232,7 +241,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Rate getDefaultOvertimeRate()
    {
-      return (m_defaultOvertimeRate);
+      return (Rate) getCachedValue(ProjectField.DEFAULT_OVERTIME_RATE);
    }
 
    /**
@@ -242,7 +251,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultOvertimeRate(Rate rate)
    {
-      m_defaultOvertimeRate = rate;
+      set(ProjectField.DEFAULT_OVERTIME_RATE, rate);
    }
 
    /**
@@ -252,7 +261,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getUpdatingTaskStatusUpdatesResourceStatus()
    {
-      return (m_updatingTaskStatusUpdatesResourceStatus);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.UPDATING_TASK_STATUS_UPDATES_RESOURCE_STATUS));
    }
 
    /**
@@ -262,7 +271,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setUpdatingTaskStatusUpdatesResourceStatus(boolean flag)
    {
-      m_updatingTaskStatusUpdatesResourceStatus = flag;
+      set(ProjectField.UPDATING_TASK_STATUS_UPDATES_RESOURCE_STATUS, flag);
    }
 
    /**
@@ -272,7 +281,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getSplitInProgressTasks()
    {
-      return (m_splitInProgressTasks);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SPLIT_IN_PROGRESS_TASKS));
    }
 
    /**
@@ -282,7 +291,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setSplitInProgressTasks(boolean flag)
    {
-      m_splitInProgressTasks = flag;
+      set(ProjectField.SPLIT_IN_PROGRESS_TASKS, flag);
    }
 
    /**
@@ -292,7 +301,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public DateOrder getDateOrder()
    {
-      return (m_dateOrder);
+      return (DateOrder) getCachedValue(ProjectField.DATE_ORDER);
    }
 
    /**
@@ -302,7 +311,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDateOrder(DateOrder dateOrder)
    {
-      m_dateOrder = dateOrder;
+      set(ProjectField.DATE_ORDER, dateOrder);
    }
 
    /**
@@ -312,7 +321,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public ProjectTimeFormat getTimeFormat()
    {
-      return (m_timeFormat);
+      return (ProjectTimeFormat) getCachedValue(ProjectField.TIME_FORMAT);
    }
 
    /**
@@ -322,33 +331,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setTimeFormat(ProjectTimeFormat timeFormat)
    {
-      m_timeFormat = timeFormat;
-   }
-
-   /**
-    * This internal method is used to convert from an integer representing
-    * minutes past midnight into a Date instance whose time component
-    * represents the start time.
-    *
-    * @param time integer representing the start time in minutes past midnight
-    */
-   public void setIntegerDefaultStartTime(Integer time)
-   {
-      if (time != null)
-      {
-         int minutes = time.intValue();
-         int hours = minutes / 60;
-         minutes -= (hours * 60);
-
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MINUTE, minutes);
-         cal.set(Calendar.HOUR_OF_DAY, hours);
-
-         Date date = cal.getTime();
-         setDefaultStartTime(date);
-      }
+      set(ProjectField.TIME_FORMAT, timeFormat);
    }
 
    /**
@@ -361,7 +344,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getDefaultStartTime()
    {
-      return (m_defaultStartTime);
+      return (Date) getCachedValue(ProjectField.DEFAULT_START_TIME);
    }
 
    /**
@@ -374,7 +357,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultStartTime(Date defaultStartTime)
    {
-      m_defaultStartTime = defaultStartTime;
+      set(ProjectField.DEFAULT_START_TIME, defaultStartTime);
    }
 
    /**
@@ -384,7 +367,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public char getDateSeparator()
    {
-      return (m_dateSeparator);
+      return getCachedCharValue(ProjectField.DATE_SEPARATOR, DEFAULT_DATE_SEPARATOR);
    }
 
    /**
@@ -394,7 +377,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDateSeparator(char dateSeparator)
    {
-      m_dateSeparator = dateSeparator;
+      set(ProjectField.DATE_SEPARATOR, Character.valueOf(dateSeparator));
    }
 
    /**
@@ -404,7 +387,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public char getTimeSeparator()
    {
-      return (m_timeSeparator);
+      return getCachedCharValue(ProjectField.TIME_SEPARATOR, DEFAULT_TIME_SEPARATOR);
    }
 
    /**
@@ -414,17 +397,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setTimeSeparator(char timeSeparator)
    {
-      m_timeSeparator = timeSeparator;
-   }
-
-   /**
-    * Sets the time separator.
-    *
-    * @param timeSeparator time separator
-    */
-   public void setTimeSeparator(Character timeSeparator)
-   {
-      setTimeSeparator((timeSeparator == null ? DEFAULT_TIME_SEPARATOR : timeSeparator.charValue()));
+      set(ProjectField.TIME_SEPARATOR, Character.valueOf(timeSeparator));
    }
 
    /**
@@ -434,7 +407,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getAMText()
    {
-      return (m_amText);
+      return (String) getCachedValue(ProjectField.AM_TEXT);
    }
 
    /**
@@ -444,7 +417,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setAMText(String amText)
    {
-      m_amText = amText;
+      set(ProjectField.AM_TEXT, amText);
    }
 
    /**
@@ -454,7 +427,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getPMText()
    {
-      return (m_pmText);
+      return (String) getCachedValue(ProjectField.PM_TEXT);
    }
 
    /**
@@ -464,17 +437,17 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setPMText(String pmText)
    {
-      m_pmText = pmText;
+      set(ProjectField.PM_TEXT, pmText);
    }
 
    /**
     * Gets the set Date Format.
     *
-    * @return int representing Date Format
+    * @return project date format
     */
    public ProjectDateFormat getDateFormat()
    {
-      return (m_dateFormat);
+      return (ProjectDateFormat) getCachedValue(ProjectField.DATE_FORMAT);
    }
 
    /**
@@ -484,7 +457,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDateFormat(ProjectDateFormat dateFormat)
    {
-      m_dateFormat = dateFormat;
+      set(ProjectField.DATE_FORMAT, dateFormat);
    }
 
    /**
@@ -494,7 +467,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public ProjectDateFormat getBarTextDateFormat()
    {
-      return (m_barTextDateFormat);
+      return (ProjectDateFormat) getCachedValue(ProjectField.BAR_TEXT_DATE_FORMAT);
    }
 
    /**
@@ -504,7 +477,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBarTextDateFormat(ProjectDateFormat dateFormat)
    {
-      m_barTextDateFormat = dateFormat;
+      set(ProjectField.BAR_TEXT_DATE_FORMAT, dateFormat);
    }
 
    /**
@@ -514,7 +487,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getDefaultEndTime()
    {
-      return (m_defaultEndTime);
+      return (Date) getCachedValue(ProjectField.DEFAULT_END_TIME);
    }
 
    /**
@@ -524,7 +497,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultEndTime(Date date)
    {
-      m_defaultEndTime = date;
+      set(ProjectField.DEFAULT_END_TIME, date);
    }
 
    /**
@@ -534,7 +507,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setProjectTitle(String projectTitle)
    {
-      m_projectTitle = projectTitle;
+      set(ProjectField.PROJECT_TITLE, projectTitle);
    }
 
    /**
@@ -544,7 +517,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getProjectTitle()
    {
-      return (m_projectTitle);
+      return (String) getCachedValue(ProjectField.PROJECT_TITLE);
    }
 
    /**
@@ -554,7 +527,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCompany(String company)
    {
-      m_company = company;
+      set(ProjectField.COMPANY, company);
    }
 
    /**
@@ -564,7 +537,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getCompany()
    {
-      return (m_company);
+      return (String) getCachedValue(ProjectField.COMPANY);
    }
 
    /**
@@ -574,7 +547,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setManager(String manager)
    {
-      m_manager = manager;
+      set(ProjectField.MANAGER, manager);
    }
 
    /**
@@ -584,7 +557,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getManager()
    {
-      return (m_manager);
+      return (String) getCachedValue(ProjectField.MANAGER);
    }
 
    /**
@@ -592,14 +565,14 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param calendarName Calendar name
     */
-   public void setCalendarName(String calendarName)
+   public void setDefaultCalendarName(String calendarName)
    {
       if (calendarName == null || calendarName.length() == 0)
       {
          calendarName = DEFAULT_CALENDAR_NAME;
       }
 
-      m_calendarName = calendarName;
+      set(ProjectField.DEFAULT_CALENDAR_NAME, calendarName);
    }
 
    /**
@@ -607,9 +580,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Calendar name
     */
-   public String getCalendarName()
+   public String getDefaultCalendarName()
    {
-      return (m_calendarName);
+      return (String) getCachedValue(ProjectField.DEFAULT_CALENDAR_NAME);
    }
 
    /**
@@ -619,7 +592,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setStartDate(Date startDate)
    {
-      m_startDate = startDate;
+      set(ProjectField.START_DATE, startDate);
    }
 
    /**
@@ -631,7 +604,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getStartDate()
    {
-      Date result = m_startDate;
+      Date result = (Date) getCachedValue(ProjectField.START_DATE);
       if (result == null)
       {
          result = getParentFile().getStartDate();
@@ -648,7 +621,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getFinishDate()
    {
-      Date result = m_finishDate;
+      Date result = (Date) getCachedValue(ProjectField.FINISH_DATE);
       if (result == null)
       {
          result = getParentFile().getFinishDate();
@@ -663,7 +636,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setFinishDate(Date finishDate)
    {
-      m_finishDate = finishDate;
+      set(ProjectField.FINISH_DATE, finishDate);
    }
 
    /**
@@ -674,7 +647,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public ScheduleFrom getScheduleFrom()
    {
-      return (m_scheduleFrom);
+      return (ScheduleFrom) getCachedValue(ProjectField.SCHEDULE_FROM);
    }
 
    /**
@@ -685,7 +658,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setScheduleFrom(ScheduleFrom scheduleFrom)
    {
-      m_scheduleFrom = scheduleFrom;
+      set(ProjectField.SCHEDULE_FROM, scheduleFrom);
    }
 
    /**
@@ -695,7 +668,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getCurrentDate()
    {
-      return (m_currentDate);
+      return (Date) getCachedValue(ProjectField.CURRENT_DATE);
    }
 
    /**
@@ -705,7 +678,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCurrentDate(Date currentDate)
    {
-      m_currentDate = currentDate;
+      set(ProjectField.CURRENT_DATE, currentDate);
    }
 
    /**
@@ -715,7 +688,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getComments()
    {
-      return (m_comments);
+      return (String) getCachedValue(ProjectField.COMMENTS);
    }
 
    /**
@@ -725,7 +698,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setComments(String comments)
    {
-      m_comments = comments;
+      set(ProjectField.COMMENTS, comments);
    }
 
    /**
@@ -735,7 +708,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getCost()
    {
-      return (m_cost);
+      return (Number) getCachedValue(ProjectField.COST);
    }
 
    /**
@@ -745,7 +718,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCost(Number cost)
    {
-      m_cost = cost;
+      set(ProjectField.COST, cost);
    }
 
    /**
@@ -755,7 +728,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBaselineCost(Number baselineCost)
    {
-      m_baselineCost = baselineCost;
+      set(ProjectField.BASELINE_COST, baselineCost);
    }
 
    /**
@@ -765,7 +738,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getBaselineCost()
    {
-      return (m_baselineCost);
+      return (Number) getCachedValue(ProjectField.BASELINE_COST);
    }
 
    /**
@@ -775,7 +748,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setActualCost(Number actualCost)
    {
-      m_actualCost = actualCost;
+      set(ProjectField.ACTUAL_COST, actualCost);
    }
 
    /**
@@ -785,7 +758,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getActualCost()
    {
-      return (m_actualCost);
+      return (Number) getCachedValue(ProjectField.ACTUAL_COST);
    }
 
    /**
@@ -795,7 +768,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setWork(Duration work)
    {
-      m_work = work;
+      set(ProjectField.WORK, work);
    }
 
    /**
@@ -805,7 +778,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getWork()
    {
-      return (m_work);
+      return (Duration) getCachedValue(ProjectField.WORK);
    }
 
    /**
@@ -815,7 +788,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBaselineWork(Duration baselineWork)
    {
-      m_baselineWork = baselineWork;
+      set(ProjectField.BASELINE_WORK, baselineWork);
    }
 
    /**
@@ -825,7 +798,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getBaselineWork()
    {
-      return (m_baselineWork);
+      return (Duration) getCachedValue(ProjectField.BASELINE_WORK);
    }
 
    /**
@@ -835,7 +808,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setActualWork(Duration actualWork)
    {
-      m_actualWork = actualWork;
+      set(ProjectField.ACTUAL_WORK, actualWork);
    }
 
    /**
@@ -845,7 +818,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getActualWork()
    {
-      return (m_actualWork);
+      return (Duration) getCachedValue(ProjectField.ACTUAL_WORK);
    }
 
    /**
@@ -855,7 +828,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getWork2()
    {
-      return (m_work2);
+      return (Number) getCachedValue(ProjectField.WORK2);
    }
 
    /**
@@ -865,7 +838,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setWork2(Number work2)
    {
-      m_work2 = work2;
+      set(ProjectField.WORK2, work2);
    }
 
    /**
@@ -875,7 +848,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getDuration()
    {
-      return (m_duration);
+      return (Duration) getCachedValue(ProjectField.DURATION);
    }
 
    /**
@@ -885,7 +858,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDuration(Duration duration)
    {
-      m_duration = duration;
+      set(ProjectField.DURATION, duration);
    }
 
    /**
@@ -895,7 +868,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getBaselineDuration()
    {
-      return (m_baselineDuration);
+      return (Duration) getCachedValue(ProjectField.BASELINE_DURATION);
    }
 
    /**
@@ -905,7 +878,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBaselineDuration(Duration baselineDuration)
    {
-      m_baselineDuration = baselineDuration;
+      set(ProjectField.BASELINE_DURATION, baselineDuration);
    }
 
    /**
@@ -915,7 +888,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getActualDuration()
    {
-      return (m_actualDuration);
+      return (Duration) getCachedValue(ProjectField.ACTUAL_DURATION);
    }
 
    /**
@@ -925,7 +898,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setActualDuration(Duration actualDuration)
    {
-      m_actualDuration = actualDuration;
+      set(ProjectField.ACTUAL_DURATION, actualDuration);
    }
 
    /**
@@ -935,7 +908,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getPercentageComplete()
    {
-      return (m_percentageComplete);
+      return (Number) getCachedValue(ProjectField.PERCENTAGE_COMPLETE);
    }
 
    /**
@@ -945,7 +918,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setPercentageComplete(Number percentComplete)
    {
-      m_percentageComplete = percentComplete;
+      set(ProjectField.PERCENTAGE_COMPLETE, percentComplete);
    }
 
    /**
@@ -955,7 +928,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBaselineStart(Date baselineStartDate)
    {
-      m_baselineStart = baselineStartDate;
+      set(ProjectField.BASELINE_START, baselineStartDate);
    }
 
    /**
@@ -965,7 +938,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getBaselineStart()
    {
-      return (m_baselineStart);
+      return (Date) getCachedValue(ProjectField.BASELINE_START);
    }
 
    /**
@@ -975,7 +948,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBaselineFinish(Date baselineFinishDate)
    {
-      m_baselineFinish = baselineFinishDate;
+      set(ProjectField.BASELINE_FINISH, baselineFinishDate);
    }
 
    /**
@@ -985,7 +958,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getBaselineFinish()
    {
-      return (m_baselineFinish);
+      return (Date) getCachedValue(ProjectField.BASELINE_FINISH);
    }
 
    /**
@@ -995,7 +968,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setActualStart(Date actualStartDate)
    {
-      m_actualStart = actualStartDate;
+      set(ProjectField.ACTUAL_START, actualStartDate);
    }
 
    /**
@@ -1005,7 +978,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getActualStart()
    {
-      return (m_actualStart);
+      return (Date) getCachedValue(ProjectField.ACTUAL_START);
    }
 
    /**
@@ -1015,7 +988,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setActualFinish(Date actualFinishDate)
    {
-      m_actualFinish = actualFinishDate;
+      set(ProjectField.ACTUAL_FINISH, actualFinishDate);
    }
 
    /**
@@ -1025,7 +998,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getActualFinish()
    {
-      return (m_actualFinish);
+      return (Date) getCachedValue(ProjectField.ACTUAL_FINISH);
    }
 
    /**
@@ -1035,7 +1008,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getStartVariance()
    {
-      return (m_startVariance);
+      return (Duration) getCachedValue(ProjectField.START_VARIANCE);
    }
 
    /**
@@ -1045,7 +1018,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setStartVariance(Duration startVariance)
    {
-      m_startVariance = startVariance;
+      set(ProjectField.START_VARIANCE, startVariance);
    }
 
    /**
@@ -1055,7 +1028,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Duration getFinishVariance()
    {
-      return (m_finishVariance);
+      return (Duration) getCachedValue(ProjectField.FINISH_VARIANCE);
    }
 
    /**
@@ -1065,7 +1038,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setFinishVariance(Duration finishVariance)
    {
-      m_finishVariance = finishVariance;
+      set(ProjectField.FINISH_VARIANCE, finishVariance);
    }
 
    /**
@@ -1075,7 +1048,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getSubject()
    {
-      return (m_subject);
+      return (String) getCachedValue(ProjectField.SUBJECT);
    }
 
    /**
@@ -1085,7 +1058,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setSubject(String subject)
    {
-      m_subject = subject;
+      set(ProjectField.SUBJECT, subject);
    }
 
    /**
@@ -1095,7 +1068,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getAuthor()
    {
-      return (m_author);
+      return (String) getCachedValue(ProjectField.AUTHOR);
    }
 
    /**
@@ -1105,7 +1078,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setAuthor(String author)
    {
-      m_author = author;
+      set(ProjectField.AUTHOR, author);
    }
 
    /**
@@ -1115,7 +1088,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getKeywords()
    {
-      return (m_keywords);
+      return (String) getCachedValue(ProjectField.KEYWORDS);
    }
 
    /**
@@ -1125,7 +1098,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setKeywords(String keywords)
    {
-      m_keywords = keywords;
+      set(ProjectField.KEYWORDS, keywords);
    }
 
    /**
@@ -1137,10 +1110,10 @@ public final class ProjectHeader extends ProjectEntity
    {
       if (symbol == null)
       {
-         symbol = "$";
+         symbol = DEFAULT_CURRENCY_SYMBOL;
       }
 
-      m_currencySymbol = symbol;
+      set(ProjectField.CURRENCY_SYMBOL, symbol);
    }
 
    /**
@@ -1150,7 +1123,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getCurrencySymbol()
    {
-      return (m_currencySymbol);
+      return (String) getCachedValue(ProjectField.CURRENCY_SYMBOL);
    }
 
    /**
@@ -1160,7 +1133,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setSymbolPosition(CurrencySymbolPosition posn)
    {
-      m_symbolPosition = posn;
+      set(ProjectField.CURRENCY_SYMBOL_POSITION, posn);
    }
 
    /**
@@ -1170,7 +1143,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public CurrencySymbolPosition getSymbolPosition()
    {
-      return (m_symbolPosition);
+      return (CurrencySymbolPosition) getCachedValue(ProjectField.CURRENCY_SYMBOL_POSITION);
    }
 
    /**
@@ -1178,9 +1151,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param currDigs Available values, 0,1,2
     */
-   public void setCurrencyDigits(Number currDigs)
+   public void setCurrencyDigits(Integer currDigs)
    {
-      m_currencyDigits = currDigs;
+      set(ProjectField.CURRENCY_DIGITS, currDigs);
    }
 
    /**
@@ -1188,9 +1161,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Available values, 0,1,2
     */
-   public Number getCurrencyDigits()
+   public Integer getCurrencyDigits()
    {
-      return (m_currencyDigits);
+      return (Integer) getCachedValue(ProjectField.CURRENCY_DIGITS);
    }
 
    /**
@@ -1202,7 +1175,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setThousandsSeparator(char sep)
    {
-      m_thousandsSeparator = sep;
+      set(ProjectField.THOUSANDS_SEPARATOR, Character.valueOf(sep));
    }
 
    /**
@@ -1214,7 +1187,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public char getThousandsSeparator()
    {
-      return (m_thousandsSeparator);
+      return getCachedCharValue(ProjectField.THOUSANDS_SEPARATOR, DEFAULT_THOUSANDS_SEPARATOR);
    }
 
    /**
@@ -1226,7 +1199,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDecimalSeparator(char decSep)
    {
-      m_decimalSeparator = decSep;
+      set(ProjectField.DECIMAL_SEPARATOR, Character.valueOf(decSep));
    }
 
    /**
@@ -1238,7 +1211,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public char getDecimalSeparator()
    {
-      return (m_decimalSeparator);
+      return getCachedCharValue(ProjectField.DECIMAL_SEPARATOR, DEFAULT_DECIMAL_SEPARATOR);
    }
 
    /**
@@ -1248,7 +1221,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getProjectExternallyEdited()
    {
-      return (m_projectExternallyEdited);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.PROJECT_EXTERNALLY_EDITED));
    }
 
    /**
@@ -1258,7 +1231,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setProjectExternallyEdited(boolean projectExternallyEdited)
    {
-      m_projectExternallyEdited = projectExternallyEdited;
+      set(ProjectField.PROJECT_EXTERNALLY_EDITED, projectExternallyEdited);
    }
 
    /**
@@ -1268,7 +1241,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getCategory()
    {
-      return (m_category);
+      return (String) getCachedValue(ProjectField.CATEGORY);
    }
 
    /**
@@ -1278,7 +1251,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCategory(String category)
    {
-      m_category = category;
+      set(ProjectField.CATEGORY, category);
    }
 
    /**
@@ -1288,7 +1261,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getDaysPerMonth()
    {
-      return (m_daysPerMonth);
+      return (Number) getCachedValue(ProjectField.DAYS_PER_MONTH);
    }
 
    /**
@@ -1300,7 +1273,7 @@ public final class ProjectHeader extends ProjectEntity
    {
       if (daysPerMonth != null)
       {
-         m_daysPerMonth = daysPerMonth;
+         set(ProjectField.DAYS_PER_MONTH, daysPerMonth);
       }
    }
 
@@ -1311,7 +1284,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getMinutesPerDay()
    {
-      return (m_minutesPerDay);
+      return (Number) getCachedValue(ProjectField.MINUTES_PER_DAY);
    }
 
    /**
@@ -1323,7 +1296,7 @@ public final class ProjectHeader extends ProjectEntity
    {
       if (minutesPerDay != null)
       {
-         m_minutesPerDay = minutesPerDay;
+         set(ProjectField.MINUTES_PER_DAY, minutesPerDay);
       }
    }
 
@@ -1334,7 +1307,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Number getMinutesPerWeek()
    {
-      return m_minutesPerWeek;
+      return (Number) getCachedValue(ProjectField.MINUTES_PER_WEEK);
    }
 
    /**
@@ -1346,7 +1319,7 @@ public final class ProjectHeader extends ProjectEntity
    {
       if (minutesPerWeek != null)
       {
-         m_minutesPerWeek = minutesPerWeek;
+         set(ProjectField.MINUTES_PER_WEEK, minutesPerWeek);
       }
    }
 
@@ -1357,7 +1330,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getFiscalYearStart()
    {
-      return (m_fiscalYearStart);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.FISCAL_YEAR_START));
    }
 
    /**
@@ -1367,7 +1340,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setFiscalYearStart(boolean fiscalYearStart)
    {
-      m_fiscalYearStart = fiscalYearStart;
+      set(ProjectField.FISCAL_YEAR_START, fiscalYearStart);
    }
 
    /**
@@ -1377,7 +1350,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public EarnedValueMethod getDefaultTaskEarnedValueMethod()
    {
-      return m_defaultTaskEarnedValueMethod;
+      return (EarnedValueMethod) getCachedValue(ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD);
    }
 
    /**
@@ -1387,7 +1360,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultTaskEarnedValueMethod(EarnedValueMethod defaultTaskEarnedValueMethod)
    {
-      m_defaultTaskEarnedValueMethod = defaultTaskEarnedValueMethod;
+      set(ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD, defaultTaskEarnedValueMethod);
    }
 
    /**
@@ -1397,7 +1370,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getRemoveFileProperties()
    {
-      return (m_removeFileProperties);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.REMOVE_FILE_PROPERTIES));
    }
 
    /**
@@ -1407,7 +1380,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setRemoveFileProperties(boolean removeFileProperties)
    {
-      m_removeFileProperties = removeFileProperties;
+      set(ProjectField.REMOVE_FILE_PROPERTIES, removeFileProperties);
    }
 
    /**
@@ -1417,7 +1390,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getMoveCompletedEndsBack()
    {
-      return (m_moveCompletedEndsBack);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_COMPLETED_ENDS_BACK));
    }
 
    /**
@@ -1427,7 +1400,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMoveCompletedEndsBack(boolean moveCompletedEndsBack)
    {
-      m_moveCompletedEndsBack = moveCompletedEndsBack;
+      set(ProjectField.MOVE_COMPLETED_ENDS_BACK, moveCompletedEndsBack);
    }
 
    /**
@@ -1437,7 +1410,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getNewTasksEstimated()
    {
-      return (m_newTasksEstimated);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASKS_ESTIMATED));
    }
 
    /**
@@ -1447,7 +1420,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setNewTasksEstimated(boolean newTasksEstimated)
    {
-      m_newTasksEstimated = newTasksEstimated;
+      set(ProjectField.NEW_TASKS_ESTIMATED, newTasksEstimated);
    }
 
    /**
@@ -1457,7 +1430,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getSpreadActualCost()
    {
-      return (m_spreadActualCost);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SPREAD_ACTUAL_COST));
    }
 
    /**
@@ -1467,7 +1440,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setSpreadActualCost(boolean spreadActualCost)
    {
-      m_spreadActualCost = spreadActualCost;
+      set(ProjectField.SPREAD_ACTUAL_COST, spreadActualCost);
    }
 
    /**
@@ -1477,7 +1450,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getMultipleCriticalPaths()
    {
-      return (m_multipleCriticalPaths);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MULTIPLE_CRITICAL_PATHS));
    }
 
    /**
@@ -1487,7 +1460,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMultipleCriticalPaths(boolean multipleCriticalPaths)
    {
-      m_multipleCriticalPaths = multipleCriticalPaths;
+      set(ProjectField.MULTIPLE_CRITICAL_PATHS, multipleCriticalPaths);
    }
 
    /**
@@ -1497,7 +1470,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getAutoAddNewResourcesAndTasks()
    {
-      return (m_autoAddNewResourcesAndTasks);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.AUTO_ADD_NEW_RESOURCES_AND_TASKS));
    }
 
    /**
@@ -1507,7 +1480,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setAutoAddNewResourcesAndTasks(boolean autoAddNewResourcesAndTasks)
    {
-      m_autoAddNewResourcesAndTasks = autoAddNewResourcesAndTasks;
+      set(ProjectField.AUTO_ADD_NEW_RESOURCES_AND_TASKS, autoAddNewResourcesAndTasks);
    }
 
    /**
@@ -1517,7 +1490,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getLastSaved()
    {
-      return (m_lastSaved);
+      return (Date) getCachedValue(ProjectField.LAST_SAVED);
    }
 
    /**
@@ -1527,7 +1500,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setLastSaved(Date lastSaved)
    {
-      m_lastSaved = lastSaved;
+      set(ProjectField.LAST_SAVED, lastSaved);
    }
 
    /**
@@ -1537,7 +1510,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getStatusDate()
    {
-      return (m_statusDate);
+      return (Date) getCachedValue(ProjectField.STATUS_DATE);
    }
 
    /**
@@ -1547,7 +1520,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setStatusDate(Date statusDate)
    {
-      m_statusDate = statusDate;
+      set(ProjectField.STATUS_DATE, statusDate);
    }
 
    /**
@@ -1557,7 +1530,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getMoveRemainingStartsBack()
    {
-      return (m_moveRemainingStartsBack);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_REMAINING_STARTS_BACK));
    }
 
    /**
@@ -1567,7 +1540,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMoveRemainingStartsBack(boolean moveRemainingStartsBack)
    {
-      m_moveRemainingStartsBack = moveRemainingStartsBack;
+      set(ProjectField.MOVE_REMAINING_STARTS_BACK, moveRemainingStartsBack);
    }
 
    /**
@@ -1577,7 +1550,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getAutolink()
    {
-      return (m_autolink);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.AUTO_LINK));
    }
 
    /**
@@ -1587,7 +1560,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setAutolink(boolean autolink)
    {
-      m_autolink = autolink;
+      set(ProjectField.AUTO_LINK, autolink);
    }
 
    /**
@@ -1597,7 +1570,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getMicrosoftProjectServerURL()
    {
-      return (m_microsoftProjectServerURL);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MICROSOFT_PROJECT_SERVER_URL));
    }
 
    /**
@@ -1607,7 +1580,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMicrosoftProjectServerURL(boolean microsoftProjectServerURL)
    {
-      m_microsoftProjectServerURL = microsoftProjectServerURL;
+      set(ProjectField.MICROSOFT_PROJECT_SERVER_URL, microsoftProjectServerURL);
    }
 
    /**
@@ -1617,7 +1590,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getHonorConstraints()
    {
-      return (m_honorConstraints);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.HONOR_CONSTRAINTS));
    }
 
    /**
@@ -1627,7 +1600,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setHonorConstraints(boolean honorConstraints)
    {
-      m_honorConstraints = honorConstraints;
+      set(ProjectField.HONOR_CONSTRAINTS, honorConstraints);
    }
 
    /**
@@ -1637,7 +1610,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getAdminProject()
    {
-      return (m_adminProject);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.ADMIN_PROJECT));
    }
 
    /**
@@ -1647,7 +1620,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setAdminProject(boolean adminProject)
    {
-      m_adminProject = adminProject;
+      set(ProjectField.ADMIN_PROJECT, adminProject);
    }
 
    /**
@@ -1657,7 +1630,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getInsertedProjectsLikeSummary()
    {
-      return (m_insertedProjectsLikeSummary);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.INSERTED_PROJECTS_LIKE_SUMMARY));
    }
 
    /**
@@ -1667,7 +1640,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setInsertedProjectsLikeSummary(boolean insertedProjectsLikeSummary)
    {
-      m_insertedProjectsLikeSummary = insertedProjectsLikeSummary;
+      set(ProjectField.INSERTED_PROJECTS_LIKE_SUMMARY, insertedProjectsLikeSummary);
    }
 
    /**
@@ -1677,7 +1650,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getName()
    {
-      return (m_name);
+      return (String) getCachedValue(ProjectField.NAME);
    }
 
    /**
@@ -1687,7 +1660,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setName(String name)
    {
-      m_name = name;
+      set(ProjectField.NAME, name);
    }
 
    /**
@@ -1697,7 +1670,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getSpreadPercentComplete()
    {
-      return (m_spreadPercentComplete);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SPREAD_PERCENT_COMPLETE));
    }
 
    /**
@@ -1707,7 +1680,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setSpreadPercentComplete(boolean spreadPercentComplete)
    {
-      m_spreadPercentComplete = spreadPercentComplete;
+      set(ProjectField.SPREAD_PERCENT_COMPLETE, spreadPercentComplete);
    }
 
    /**
@@ -1717,7 +1690,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getMoveCompletedEndsForward()
    {
-      return (m_moveCompletedEndsForward);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_COMPLETED_ENDS_FORWARD));
    }
 
    /**
@@ -1727,7 +1700,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMoveCompletedEndsForward(boolean moveCompletedEndsForward)
    {
-      m_moveCompletedEndsForward = moveCompletedEndsForward;
+      set(ProjectField.MOVE_COMPLETED_ENDS_FORWARD, moveCompletedEndsForward);
    }
 
    /**
@@ -1737,7 +1710,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getEditableActualCosts()
    {
-      return (m_editableActualCosts);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.EDITABLE_ACTUAL_COSTS));
    }
 
    /**
@@ -1747,7 +1720,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setEditableActualCosts(boolean editableActualCosts)
    {
-      m_editableActualCosts = editableActualCosts;
+      set(ProjectField.EDITABLE_ACTUAL_COSTS, editableActualCosts);
    }
 
    /**
@@ -1757,7 +1730,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getUniqueID()
    {
-      return (m_uniqueID);
+      return (String) getCachedValue(ProjectField.UNIQUE_ID);
    }
 
    /**
@@ -1767,7 +1740,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setUniqueID(String uniqueID)
    {
-      m_uniqueID = uniqueID;
+      set(ProjectField.UNIQUE_ID, uniqueID);
    }
 
    /**
@@ -1777,7 +1750,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Integer getRevision()
    {
-      return (m_revision);
+      return (Integer) getCachedValue(ProjectField.REVISION);
    }
 
    /**
@@ -1787,7 +1760,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getNewTasksEffortDriven()
    {
-      return (m_newTasksEffortDriven);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASKS_EFFORT_DRIVEN));
    }
 
    /**
@@ -1797,7 +1770,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setNewTasksEffortDriven(boolean newTasksEffortDriven)
    {
-      m_newTasksEffortDriven = newTasksEffortDriven;
+      set(ProjectField.NEW_TASKS_EFFORT_DRIVEN, newTasksEffortDriven);
    }
 
    /**
@@ -1807,7 +1780,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setRevision(Integer revision)
    {
-      m_revision = revision;
+      set(ProjectField.REVISION, revision);
    }
 
    /**
@@ -1817,7 +1790,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getMoveRemainingStartsForward()
    {
-      return (m_moveRemainingStartsForward);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_REMAINING_STARTS_FORWARD));
    }
 
    /**
@@ -1827,7 +1800,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMoveRemainingStartsForward(boolean moveRemainingStartsForward)
    {
-      m_moveRemainingStartsForward = moveRemainingStartsForward;
+      set(ProjectField.MOVE_REMAINING_STARTS_FORWARD, moveRemainingStartsForward);
    }
 
    /**
@@ -1837,7 +1810,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getActualsInSync()
    {
-      return (m_actualsInSync);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.ACTUALS_IN_SYNC));
    }
 
    /**
@@ -1847,7 +1820,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setActualsInSync(boolean actualsInSync)
    {
-      m_actualsInSync = actualsInSync;
+      set(ProjectField.ACTUALS_IN_SYNC, actualsInSync);
    }
 
    /**
@@ -1857,7 +1830,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public TaskType getDefaultTaskType()
    {
-      return (m_defaultTaskType);
+      return (TaskType) getCachedValue(ProjectField.DEFAULT_TASK_TYPE);
    }
 
    /**
@@ -1867,7 +1840,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultTaskType(TaskType defaultTaskType)
    {
-      m_defaultTaskType = defaultTaskType;
+      set(ProjectField.DEFAULT_TASK_TYPE, defaultTaskType);
    }
 
    /**
@@ -1877,7 +1850,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public EarnedValueMethod getEarnedValueMethod()
    {
-      return (m_earnedValueMethod);
+      return (EarnedValueMethod) getCachedValue(ProjectField.EARNED_VALUE_METHOD);
    }
 
    /**
@@ -1887,7 +1860,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setEarnedValueMethod(EarnedValueMethod earnedValueMethod)
    {
-      m_earnedValueMethod = earnedValueMethod;
+      set(ProjectField.EARNED_VALUE_METHOD, earnedValueMethod);
    }
 
    /**
@@ -1897,7 +1870,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getCreationDate()
    {
-      return (m_creationDate);
+      return (Date) getCachedValue(ProjectField.CREATION_DATE);
    }
 
    /**
@@ -1907,7 +1880,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCreationDate(Date creationDate)
    {
-      m_creationDate = creationDate;
+      set(ProjectField.CREATION_DATE, creationDate);
    }
 
    /**
@@ -1917,7 +1890,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getExtendedCreationDate()
    {
-      return (m_extendedCreationDate);
+      return (Date) getCachedValue(ProjectField.EXTENDED_CREATION_DATE);
    }
 
    /**
@@ -1927,7 +1900,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public AccrueType getDefaultFixedCostAccrual()
    {
-      return (m_defaultFixedCostAccrual);
+      return (AccrueType) getCachedValue(ProjectField.DEFAULT_FIXED_COST_ACCRUAL);
    }
 
    /**
@@ -1937,7 +1910,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDefaultFixedCostAccrual(AccrueType defaultFixedCostAccrual)
    {
-      m_defaultFixedCostAccrual = defaultFixedCostAccrual;
+      set(ProjectField.DEFAULT_FIXED_COST_ACCRUAL, defaultFixedCostAccrual);
    }
 
    /**
@@ -1947,7 +1920,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setExtendedCreationDate(Date creationDate)
    {
-      m_extendedCreationDate = creationDate;
+      set(ProjectField.EXTENDED_CREATION_DATE, creationDate);
    }
 
    /**
@@ -1957,7 +1930,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Integer getCriticalSlackLimit()
    {
-      return (m_criticalSlackLimit);
+      return (Integer) getCachedValue(ProjectField.CRITICAL_SLACK_LIMIT);
    }
 
    /**
@@ -1967,7 +1940,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCriticalSlackLimit(Integer criticalSlackLimit)
    {
-      m_criticalSlackLimit = criticalSlackLimit;
+      set(ProjectField.CRITICAL_SLACK_LIMIT, criticalSlackLimit);
    }
 
    /**
@@ -1978,7 +1951,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Integer getBaselineForEarnedValue()
    {
-      return (m_baselineForEarnedValue);
+      return (Integer) getCachedValue(ProjectField.BASELINE_FOR_EARNED_VALUE);
    }
 
    /**
@@ -1989,7 +1962,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setBaselineForEarnedValue(Integer baselineForEarnedValue)
    {
-      m_baselineForEarnedValue = baselineForEarnedValue;
+      set(ProjectField.BASELINE_FOR_EARNED_VALUE, baselineForEarnedValue);
    }
 
    /**
@@ -1999,7 +1972,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Integer getFiscalYearStartMonth()
    {
-      return (m_fiscalYearStartMonth);
+      return (Integer) getCachedValue(ProjectField.FISCAL_YEAR_START_MONTH);
    }
 
    /**
@@ -2009,7 +1982,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setFiscalYearStartMonth(Integer fiscalYearStartMonth)
    {
-      m_fiscalYearStartMonth = fiscalYearStartMonth;
+      set(ProjectField.FISCAL_YEAR_START_MONTH, fiscalYearStartMonth);
    }
 
    /**
@@ -2020,7 +1993,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getNewTaskStartIsProjectStart()
    {
-      return (m_newTaskStartIsProjectStart);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASK_START_IS_PROJECT_START));
    }
 
    /**
@@ -2031,7 +2004,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setNewTaskStartIsProjectStart(boolean newTaskStartIsProjectStart)
    {
-      m_newTaskStartIsProjectStart = newTaskStartIsProjectStart;
+      set(ProjectField.NEW_TASK_START_IS_PROJECT_START, newTaskStartIsProjectStart);
    }
 
    /**
@@ -2041,7 +2014,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Day getWeekStartDay()
    {
-      return (m_weekStartDay);
+      return (Day) getCachedValue(ProjectField.WEEK_START_DAY);
    }
 
    /**
@@ -2051,7 +2024,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setWeekStartDay(Day weekStartDay)
    {
-      m_weekStartDay = weekStartDay;
+      set(ProjectField.WEEK_START_DAY, weekStartDay);
    }
 
    /**
@@ -2061,7 +2034,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCalculateMultipleCriticalPaths(boolean flag)
    {
-      m_calculateMultipleCriticalPaths = flag;
+      set(ProjectField.CALCULATE_MULTIPLE_CRITICAL_PATHS, flag);
    }
 
    /**
@@ -2071,7 +2044,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getCalculateMultipleCriticalPaths()
    {
-      return (m_calculateMultipleCriticalPaths);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.CALCULATE_MULTIPLE_CRITICAL_PATHS));
    }
 
    /**
@@ -2081,7 +2054,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getCurrencyCode()
    {
-      return (m_currencyCode);
+      return (String) getCachedValue(ProjectField.CURRENCY_CODE);
    }
 
    /**
@@ -2091,7 +2064,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCurrencyCode(String currencyCode)
    {
-      m_currencyCode = currencyCode;
+      set(ProjectField.CURRENCY_CODE, currencyCode);
    }
 
    /**
@@ -2101,7 +2074,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setCustomProperties(Map<String, Object> customProperties)
    {
-      m_customProperties = customProperties;
+      set(ProjectField.CUSTOM_PROPERTIES, customProperties);
    }
 
    /**
@@ -2109,9 +2082,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return the Document Summary Information Map
     */
-   public Map<String, Object> getCustomProperties()
+   @SuppressWarnings("unchecked") public Map<String, Object> getCustomProperties()
    {
-      return m_customProperties;
+      return (Map<String, Object>) getCachedValue(ProjectField.CUSTOM_PROPERTIES);
    }
 
    /**
@@ -2121,7 +2094,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setHyperlinkBase(String hyperlinkBase)
    {
-      m_hyperlinkBase = hyperlinkBase;
+      set(ProjectField.HYPERLINK_BASE, hyperlinkBase);
    }
 
    /**
@@ -2131,7 +2104,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getHyperlinkBase()
    {
-      return (m_hyperlinkBase);
+      return (String) getCachedValue(ProjectField.HYPERLINK_BASE);
    }
 
    /**
@@ -2141,7 +2114,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getShowProjectSummaryTask()
    {
-      return m_showProjectSummaryTask;
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**
@@ -2151,31 +2124,49 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setShowProjectSummaryTask(boolean value)
    {
-      m_showProjectSummaryTask = value;
+      set(ProjectField.SHOW_PROJECT_SUMMARY_TASK, value);
    }
 
    /**
-    * Retrieve the date for a specific baseline. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
+    * Retrieve a baseline value.
     * 
-    * @param index baseline index
-    * @return baseline date, null if baseline not set
+    * @return baseline value
     */
-   public Date getBaselineDate(int index)
+   public Date getBaselineDate()
    {
-      return m_baselineDate[index];
+      return (Date) getCachedValue(ProjectField.BASELINE_DATE);
    }
 
    /**
-    * Set the date for a specific baseline. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
+    * Set a baseline value.
     * 
-    * @param index baseline index
-    * @param date baseline date, null if baseline not set
+    * @param value baseline value
     */
-   public void setBaselineDate(int index, Date date)
+   public void setBaselineDate(Date value)
    {
-      m_baselineDate[index] = date;
+      set(ProjectField.BASELINE_DATE, value);
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Date getBaselineDate(int baselineNumber)
+   {
+      return (Date) getCachedValue(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber));
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineDate(int baselineNumber, Date value)
+   {
+      set(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber), value);
    }
 
    /**
@@ -2185,7 +2176,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getTemplate()
    {
-      return m_template;
+      return (String) getCachedValue(ProjectField.TEMPLATE);
    }
 
    /**
@@ -2195,7 +2186,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setTemplate(String template)
    {
-      m_template = template;
+      set(ProjectField.TEMPLATE, template);
    }
 
    /**
@@ -2205,7 +2196,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getLastAuthor()
    {
-      return m_lastAuthor;
+      return (String) getCachedValue(ProjectField.LAST_AUTHOR);
    }
 
    /**
@@ -2215,7 +2206,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setLastAuthor(String projectUser)
    {
-      m_lastAuthor = projectUser;
+      set(ProjectField.LAST_AUTHOR, projectUser);
    }
 
    /**
@@ -2225,7 +2216,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Date getLastPrinted()
    {
-      return m_lastPrinted;
+      return (Date) getCachedValue(ProjectField.LASTPRINTED);
    }
 
    /**
@@ -2235,7 +2226,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setLastPrinted(Date lastPrinted)
    {
-      m_lastPrinted = lastPrinted;
+      set(ProjectField.LASTPRINTED, lastPrinted);
    }
 
    /**
@@ -2245,7 +2236,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getShortApplicationName()
    {
-      return m_shortApplicationName;
+      return (String) getCachedValue(ProjectField.SHORT_APPLICATION_NAME);
    }
 
    /**
@@ -2255,7 +2246,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setShortApplicationName(String application)
    {
-      m_shortApplicationName = application;
+      set(ProjectField.SHORT_APPLICATION_NAME, application);
    }
 
    /**
@@ -2265,7 +2256,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Integer getEditingTime()
    {
-      return m_editingTime;
+      return (Integer) getCachedValue(ProjectField.EDITING_TIME);
    }
 
    /**
@@ -2275,7 +2266,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setEditingTime(Integer editingTime)
    {
-      m_editingTime = editingTime;
+      set(ProjectField.EDITING_TIME, editingTime);
    }
 
    /**
@@ -2285,7 +2276,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getPresentationFormat()
    {
-      return m_presentationFormat;
+      return (String) getCachedValue(ProjectField.PRESENTATION_FORMAT);
    }
 
    /**
@@ -2295,7 +2286,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setPresentationFormat(String format)
    {
-      m_presentationFormat = format;
+      set(ProjectField.PRESENTATION_FORMAT, format);
    }
 
    /**
@@ -2305,7 +2296,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getContentType()
    {
-      return m_contentType;
+      return (String) getCachedValue(ProjectField.CONTENT_TYPE);
    }
 
    /**
@@ -2315,7 +2306,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setContentType(String contentType)
    {
-      m_contentType = contentType;
+      set(ProjectField.CONTENT_TYPE, contentType);
    }
 
    /**
@@ -2325,7 +2316,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getContentStatus()
    {
-      return m_contentStatus;
+      return (String) getCachedValue(ProjectField.CONTENT_STATUS);
    }
 
    /**
@@ -2335,7 +2326,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setContentStatus(String contentStatus)
    {
-      m_contentStatus = contentStatus;
+      set(ProjectField.CONTENT_STATUS, contentStatus);
    }
 
    /**
@@ -2345,7 +2336,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getLanguage()
    {
-      return m_language;
+      return (String) getCachedValue(ProjectField.LANGUAGE);
    }
 
    /**
@@ -2355,7 +2346,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setLanguage(String language)
    {
-      m_language = language;
+      set(ProjectField.LANGUAGE, language);
    }
 
    /**
@@ -2365,7 +2356,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getDocumentVersion()
    {
-      return m_documentVersion;
+      return (String) getCachedValue(ProjectField.DOCUMENT_VERSION);
    }
 
    /**
@@ -2375,7 +2366,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDocumentVersion(String documentVersion)
    {
-      m_documentVersion = documentVersion;
+      set(ProjectField.DOCUMENT_VERSION, documentVersion);
    }
 
    /**
@@ -2385,7 +2376,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMpxDelimiter(char delimiter)
    {
-      m_mpxDelimiter = delimiter;
+      set(ProjectField.MPX_DELIMITER, Character.valueOf(delimiter));
    }
 
    /**
@@ -2395,7 +2386,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public char getMpxDelimiter()
    {
-      return (m_mpxDelimiter);
+      return getCachedCharValue(ProjectField.MPX_DELIMITER, DEFAULT_MPX_DELIMITER);
    }
 
    /**
@@ -2405,7 +2396,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMpxProgramName(String programName)
    {
-      m_mpxProgramName = programName;
+      set(ProjectField.MPX_PROGRAM_NAME, programName);
    }
 
    /**
@@ -2415,7 +2406,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getMpxProgramName()
    {
-      return (m_mpxProgramName);
+      return (String) getCachedValue(ProjectField.MPX_PROGRAM_NAME);
    }
 
    /**
@@ -2425,7 +2416,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMpxFileVersion(FileVersion version)
    {
-      m_mpxFileVersion = version;
+      set(ProjectField.MPX_FILE_VERSION, version);
    }
 
    /**
@@ -2435,7 +2426,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public FileVersion getMpxFileVersion()
    {
-      return (m_mpxFileVersion);
+      return (FileVersion) getCachedValue(ProjectField.MPX_FILE_VERSION);
    }
 
    /**
@@ -2445,7 +2436,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setMpxCodePage(CodePage codePage)
    {
-      m_mpxCodePage = codePage;
+      set(ProjectField.MPX_CODE_PAGE, codePage);
    }
 
    /**
@@ -2455,7 +2446,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public CodePage getMpxCodePage()
    {
-      return (m_mpxCodePage);
+      return (CodePage) getCachedValue(ProjectField.MPX_CODE_PAGE);
    }
 
    /**
@@ -2465,7 +2456,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setProjectFilePath(String projectFilePath)
    {
-      m_projectFilePath = projectFilePath;
+      set(ProjectField.PROJECT_FILE_PATH, projectFilePath);
    }
 
    /**
@@ -2475,7 +2466,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getProjectFilePath()
    {
-      return (m_projectFilePath);
+      return (String) getCachedValue(ProjectField.PROJECT_FILE_PATH);
    }
 
    /**
@@ -2485,7 +2476,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public String getFullApplicationName()
    {
-      return m_fullApplicationName;
+      return (String) getCachedValue(ProjectField.FULL_APPLICATION_NAME);
    }
 
    /**
@@ -2495,7 +2486,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setFullApplicationName(String name)
    {
-      m_fullApplicationName = name;
+      set(ProjectField.FULL_APPLICATION_NAME, name);
    }
 
    /**
@@ -2503,9 +2494,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @return application name
     */
-   public int getApplicationVersion()
+   public Integer getApplicationVersion()
    {
-      return m_applicationVersion;
+      return (Integer) getCachedValue(ProjectField.APPLICATION_VERSION);
    }
 
    /**
@@ -2513,9 +2504,9 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @param version application version
     */
-   public void setApplicationVersion(int version)
+   public void setApplicationVersion(Integer version)
    {
-      m_applicationVersion = version;
+      set(ProjectField.APPLICATION_VERSION, version);
    }
 
    /**
@@ -2527,9 +2518,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return integer representing the file type
     */
-   public int getMppFileType()
+   public Integer getMppFileType()
    {
-      return (m_mppFileType);
+      return (Integer) getCachedValue(ProjectField.MPP_FILE_TYPE);
    }
 
    /**
@@ -2537,9 +2528,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param fileType file type
     */
-   public void setMppFileType(int fileType)
+   public void setMppFileType(Integer fileType)
    {
-      m_mppFileType = fileType;
+      set(ProjectField.MPP_FILE_TYPE, fileType);
    }
 
    /**
@@ -2549,7 +2540,7 @@ public final class ProjectHeader extends ProjectEntity
     */
    public boolean getAutoFilter()
    {
-      return (m_autoFilter);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.AUTOFILTER));
    }
 
    /**
@@ -2559,146 +2550,109 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setAutoFilter(boolean autoFilter)
    {
-      m_autoFilter = autoFilter;
+      set(ProjectField.AUTOFILTER, autoFilter);
    }
 
-   private String m_currencySymbol;
-   private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
-   private Number m_currencyDigits;
-   private char m_thousandsSeparator;
-   private char m_decimalSeparator;
+   /**
+    * {@inheritDoc}
+    */
+   @Override public void addFieldListener(FieldListener listener)
+   {
+      if (m_listeners == null)
+      {
+         m_listeners = new LinkedList<FieldListener>();
+      }
+      m_listeners.add(listener);
+   }
 
    /**
-    * Default Settings Attributes.
+    * {@inheritDoc}
     */
-   private TimeUnit m_defaultDurationUnits = TimeUnit.DAYS;
-   private boolean m_defaultDurationIsFixed;
-   private TimeUnit m_defaultWorkUnits;
-   private Rate m_defaultStandardRate;
-   private Rate m_defaultOvertimeRate;
-   private boolean m_updatingTaskStatusUpdatesResourceStatus;
-   private boolean m_splitInProgressTasks;
+   @Override public void removeFieldListener(FieldListener listener)
+   {
+      if (m_listeners != null)
+      {
+         m_listeners.remove(listener);
+      }
+   }
 
    /**
-    * Date Time Settings Attributes.
+    * Maps a field index to a TaskField instance.
+    * 
+    * @param fields array of fields used as the basis for the mapping.
+    * @param index required field index
+    * @return TaskField instance
     */
-   private DateOrder m_dateOrder = DateOrder.MDY;
-   private ProjectTimeFormat m_timeFormat = ProjectTimeFormat.TWELVE_HOUR;
-   private Date m_defaultStartTime;
-   private char m_dateSeparator;
-   private char m_timeSeparator;
-   private String m_amText;
-   private String m_pmText;
-   private ProjectDateFormat m_dateFormat = ProjectDateFormat.DD_MM_YY;
-   private ProjectDateFormat m_barTextDateFormat;
+   private ProjectField selectField(ProjectField[] fields, int index)
+   {
+      if (index < 1 || index > fields.length)
+      {
+         throw new IllegalArgumentException(index + " is not a valid field index");
+      }
+      return (fields[index - 1]);
+   }
 
    /**
-    * Project Header Attributes.
+    * Handles retrieval of primitive char type.
+    * 
+    * @param field required field
+    * @param defaultValue default value if field is missing
+    * @return char value
     */
-   private String m_projectTitle;
-   private String m_company;
-   private String m_manager;
-   private String m_calendarName;
-   private Date m_startDate;
-   private Date m_finishDate;
-   private ScheduleFrom m_scheduleFrom = ScheduleFrom.START;
-   private Date m_currentDate;
-   private String m_comments;
-   private Number m_cost;
-   private Number m_baselineCost;
-   private Number m_actualCost;
-   private Duration m_work;
-   private Duration m_baselineWork;
-   private Duration m_actualWork;
-   private Number m_work2;
-   private Duration m_duration;
-   private Duration m_baselineDuration;
-   private Duration m_actualDuration;
-   private Number m_percentageComplete;
-   private Date m_baselineStart;
-   private Date m_baselineFinish;
-   private Date m_actualStart;
-   private Date m_actualFinish;
-   private Duration m_startVariance;
-   private Duration m_finishVariance;
-   private String m_subject;
-   private String m_author;
-   private String m_keywords;
-   private String m_hyperlinkBase;
+   private char getCachedCharValue(FieldType field, char defaultValue)
+   {
+      Character c = (Character) getCachedValue(field);
+      return c == null ? defaultValue : c.charValue();
+   }
 
    /**
-    * The following member variables are extended attributes. They are
-    * do not form part of the MPX file format definition, and are neither
-    * loaded from an MPX file, or saved to an MPX file. Their purpose
-    * is to provide storage for attributes which are defined by later versions
-    * of Microsoft Project. This allows these attributes to be manipulated
-    * when they have been retrieved from file formats other than MPX.
+    * {@inheritDoc}
     */
-   private Date m_defaultEndTime;
-   private boolean m_projectExternallyEdited;
-   private String m_category;
-   private Number m_minutesPerDay;
-   private Number m_daysPerMonth;
-   private Number m_minutesPerWeek;
-   private boolean m_fiscalYearStart;
-   private EarnedValueMethod m_defaultTaskEarnedValueMethod;
-   private boolean m_removeFileProperties;
-   private boolean m_moveCompletedEndsBack;
-   private boolean m_newTasksEstimated;
-   private boolean m_spreadActualCost;
-   private boolean m_multipleCriticalPaths;
-   private boolean m_autoAddNewResourcesAndTasks;
-   private Date m_lastSaved;
-   private Date m_statusDate;
-   private boolean m_moveRemainingStartsBack;
-   private boolean m_autolink;
-   private boolean m_microsoftProjectServerURL;
-   private boolean m_honorConstraints;
-   private boolean m_adminProject;
-   private boolean m_insertedProjectsLikeSummary;
-   private String m_name;
-   private boolean m_spreadPercentComplete;
-   private boolean m_moveCompletedEndsForward;
-   private boolean m_editableActualCosts;
-   private String m_uniqueID;
-   private Integer m_revision;
-   private boolean m_newTasksEffortDriven;
-   private boolean m_moveRemainingStartsForward;
-   private boolean m_actualsInSync;
-   private TaskType m_defaultTaskType;
-   private EarnedValueMethod m_earnedValueMethod;
-   private Date m_creationDate;
-   private Date m_extendedCreationDate;
-   private AccrueType m_defaultFixedCostAccrual;
-   private Integer m_criticalSlackLimit;
-   private Integer m_baselineForEarnedValue;
-   private Integer m_fiscalYearStartMonth;
-   private boolean m_newTaskStartIsProjectStart;
-   private Day m_weekStartDay;
-   private boolean m_calculateMultipleCriticalPaths;
-   private Map<String, Object> m_customProperties;
-   private String m_currencyCode;
-   private boolean m_showProjectSummaryTask;
-   private Date[] m_baselineDate = new Date[11];
-   private String m_template;
-   private String m_lastAuthor;
-   private Date m_lastPrinted;
-   private String m_shortApplicationName;
-   private Integer m_editingTime;
-   private String m_presentationFormat;
-   private String m_contentType;
-   private String m_contentStatus;
-   private String m_language;
-   private String m_documentVersion;
-   private char m_mpxDelimiter;
-   private String m_mpxProgramName;
-   private FileVersion m_mpxFileVersion;
-   private CodePage m_mpxCodePage;
-   private String m_projectFilePath;
-   private String m_fullApplicationName;
-   private int m_applicationVersion;
-   private int m_mppFileType;
-   private boolean m_autoFilter;
+   @Override public Object getCachedValue(FieldType field)
+   {
+      return (field == null ? null : m_array[field.getValue()]);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public Object getCurrentValue(FieldType field)
+   {
+      return (getCachedValue(field));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public void set(FieldType field, Object value)
+   {
+      if (field != null)
+      {
+         int index = field.getValue();
+         m_array[index] = value;
+      }
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param field task field
+    * @param value attribute value
+    */
+   private void set(FieldType field, boolean value)
+   {
+      set(field, (value ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   /**
+    * Array of field values.
+    */
+   private Object[] m_array = new Object[ProjectField.MAX_VALUE];
+
+   /**
+    * Listeners.
+    */
+   private List<FieldListener> m_listeners;
 
    /**
     * Default time separator character.
@@ -2706,9 +2660,34 @@ public final class ProjectHeader extends ProjectEntity
    private static final char DEFAULT_TIME_SEPARATOR = ':';
 
    /**
+    * Default date separator character.
+    */
+   private static final char DEFAULT_DATE_SEPARATOR = '/';
+
+   /**
+    * Default thousands separator character.
+    */
+   private static final char DEFAULT_THOUSANDS_SEPARATOR = ',';
+
+   /**
+    * Default decimal separator character.
+    */
+   private static final char DEFAULT_DECIMAL_SEPARATOR = '.';
+
+   /**
+    * Default currency symbol.
+    */
+   private static final String DEFAULT_CURRENCY_SYMBOL = "$";
+
+   /**
     * Default cost value.
     */
    private static final Double DEFAULT_COST = Double.valueOf(0);
+
+   /**
+    * Default MPX delimiter.
+    */
+   private static final char DEFAULT_MPX_DELIMITER = ',';
 
    /**
     * Default critical slack limit.

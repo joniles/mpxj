@@ -129,7 +129,7 @@ abstract class MPD9AbstractReader
       header.setProjectTitle(row.getString("PROJ_PROP_TITLE"));
       header.setCompany(row.getString("PROJ_PROP_COMPANY"));
       header.setManager(row.getString("PROJ_PROP_MANAGER"));
-      header.setCalendarName(row.getString("PROJ_INFO_CAL_NAME"));
+      header.setDefaultCalendarName(row.getString("PROJ_INFO_CAL_NAME"));
       header.setStartDate(row.getDate("PROJ_INFO_START_DATE"));
       header.setFinishDate(row.getDate("PROJ_INFO_FINISH_DATE"));
       header.setScheduleFrom(ScheduleFrom.getInstance(1 - row.getInt("PROJ_INFO_SCHED_FROM")));

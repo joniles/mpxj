@@ -65,7 +65,7 @@ public final class ProjectHeaderReader
          ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
          ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
          ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));
-         ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
+         ph.setDefaultCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
          ph.setDefaultStartTime(props.getTime(Props.START_TIME));
          ph.setDefaultEndTime(props.getTime(Props.END_TIME));
          ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));
@@ -134,7 +134,7 @@ public final class ProjectHeaderReader
 
          ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
 
-         ph.setBaselineDate(0, props.getTimestamp(Props.BASELINE_DATE));
+         ph.setBaselineDate(props.getTimestamp(Props.BASELINE_DATE));
          ph.setBaselineDate(1, props.getTimestamp(Props.BASELINE1_DATE));
          ph.setBaselineDate(2, props.getTimestamp(Props.BASELINE2_DATE));
          ph.setBaselineDate(3, props.getTimestamp(Props.BASELINE3_DATE));

@@ -536,7 +536,12 @@ public final class MPXReader extends AbstractProjectReader
          projectHeader.setDateSeparator(c.charValue());
       }
 
-      projectHeader.setTimeSeparator(record.getCharacter(4));
+      c = record.getCharacter(4);
+      if (c != null)
+      {
+         projectHeader.setTimeSeparator(c.charValue());
+      }
+
       projectHeader.setAMText(record.getString(5));
       projectHeader.setPMText(record.getString(6));
       projectHeader.setDateFormat(record.getDateFormat(7));
@@ -583,7 +588,7 @@ public final class MPXReader extends AbstractProjectReader
       projectHeader.setProjectTitle(record.getString(0));
       projectHeader.setCompany(record.getString(1));
       projectHeader.setManager(record.getString(2));
-      projectHeader.setCalendarName(record.getString(3));
+      projectHeader.setDefaultCalendarName(record.getString(3));
       projectHeader.setStartDate(record.getDateTime(4));
       projectHeader.setFinishDate(record.getDateTime(5));
       projectHeader.setScheduleFrom(record.getScheduleFrom(6));

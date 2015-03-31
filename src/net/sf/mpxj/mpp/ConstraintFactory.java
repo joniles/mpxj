@@ -11,6 +11,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -53,7 +54,7 @@ public class ConstraintFactory
          int lastConstraintID = -1;
 
          ProjectHeader header = file.getProjectHeader();
-         boolean project15 = header.getMppFileType() == 14 && header.getFullApplicationName().equals("Microsoft.Project 15.0");
+         boolean project15 = NumberHelper.getInt(header.getMppFileType()) == 14 && header.getFullApplicationName().equals("Microsoft.Project 15.0");
          int durationUnitsOffset = project15 ? 18 : 14;
          int durationOffset = project15 ? 14 : 16;
 

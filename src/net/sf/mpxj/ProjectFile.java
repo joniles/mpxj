@@ -1931,7 +1931,7 @@ public final class ProjectFile implements TaskContainer
     */
    public ProjectCalendar getCalendar()
    {
-      String calendarName = m_projectHeader.getCalendarName();
+      String calendarName = m_projectHeader.getDefaultCalendarName();
       ProjectCalendar calendar = getCalendarByName(calendarName);
       if (calendar == null)
       {
@@ -1954,7 +1954,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void setCalendar(ProjectCalendar calendar)
    {
-      m_projectHeader.setCalendarName(calendar.getName());
+      m_projectHeader.setDefaultCalendarName(calendar.getName());
    }
 
    /**
