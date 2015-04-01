@@ -10,7 +10,7 @@ module MPXJ
 
     # Retrieve the resource associated with this assignment
     #
-    # @return [Resource] the resource associated with this assignment.    
+    # @return [Resource] the resource associated with this assignment.
     def resource
       parent_project.get_resource_by_unique_id(resource_unique_id)
     end

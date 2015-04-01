@@ -11,7 +11,6 @@ module MPXJ
       @attribute_values = attribute_values
     end
 
-    
     def method_missing(name, *args, &block)
       # We can probably do this more efficiently with dynamic methods... but let's get some feedback first!
       attribute_name = name.to_s

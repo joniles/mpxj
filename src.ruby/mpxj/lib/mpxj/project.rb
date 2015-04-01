@@ -3,6 +3,7 @@ require 'json'
 module MPXJ
   # Represents a project plan
   class Project
+    attr_reader :properties
     attr_reader :all_resources
     attr_reader :all_tasks
     attr_reader :child_tasks
@@ -21,6 +22,7 @@ module MPXJ
 
       file = File.read(file_name)
       json_data = JSON.parse(file)
+      process_properties(json_data)
       process_resources(json_data)
       process_tasks(json_data)
       process_assignments(json_data)
@@ -63,6 +65,12 @@ module MPXJ
     end
 
     private
+
+    def process_properties(json_data)
+      attribute_types = json_data["property_types"]
+      attribute_values = json_data["property_values"]
+      @properties = Properties.new(self, attribute_types, attribute_values)
+    end
 
     def process_resources(json_data)
       attribute_types = json_data["resource_types"]

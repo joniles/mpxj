@@ -66,7 +66,7 @@ public enum DataType implements MpxjEnum
    PROJECT_DATE_FORMAT(32),
    SCHEDULE_FROM(33),
    DAY(34),
-   CUSTOM_PROPERTIES(35),
+   MAP(35),
    MPX_FILE_VERSION(36),
    MPX_CODE_PAGE(37);
 

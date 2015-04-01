@@ -1,6 +1,7 @@
 require "mpxj/version"
 require "mpxj/container"
 require "mpxj/project"
+require "mpxj/properties"
 require "mpxj/resource"
 require "mpxj/task"
 require "mpxj/assignment"

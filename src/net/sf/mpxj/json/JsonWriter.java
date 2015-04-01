@@ -26,13 +26,17 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
@@ -80,7 +84,8 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer = new JsonStreamWriter(stream);
          m_writer.setPretty(m_pretty);
 
-         m_writer.writeStartObject();
+         m_writer.writeStartObject(null);
+         writeProperties();
          writeResources();
          writeTasks();
          writeAssignments();
@@ -96,6 +101,15 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * This method writes project property data to a JSON file. 
+    */
+   private void writeProperties() throws IOException
+   {
+      writeAttributeTypes("property_types", ProjectField.values());
+      writeFields("property_values", m_projectFile.getProjectProperties(), ProjectField.values());
+   }
+
+   /**
     * This method writes resource data to a JSON file. 
     */
    private void writeResources() throws IOException
@@ -105,7 +119,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartList("resources");
       for (Resource resource : m_projectFile.getAllResources())
       {
-         writeFields(resource, ResourceField.values());
+         writeFields(null, resource, ResourceField.values());
       }
       m_writer.writeEndList();
    }
@@ -134,7 +148,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTask(Task task) throws IOException
    {
-      writeFields(task, TaskField.values());
+      writeFields(null, task, TaskField.values());
       for (Task child : task.getChildTasks())
       {
          writeTask(child);
@@ -151,7 +165,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartList("assignments");
       for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
       {
-         writeFields(assignment, AssignmentField.values());
+         writeFields(null, assignment, AssignmentField.values());
       }
       m_writer.writeEndList();
 
@@ -175,13 +189,13 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a set of fields from a field container to a JSON file.
-    * 
+    * @param objectName name of the object, or null if no name required
     * @param container field container
     * @param fields fields to write
     */
-   private void writeFields(FieldContainer container, FieldType[] fields) throws IOException
+   private void writeFields(String objectName, FieldContainer container, FieldType[] fields) throws IOException
    {
-      m_writer.writeStartObject();
+      m_writer.writeStartObject(objectName);
       for (FieldType field : fields)
       {
          Object value = container.getCurrentValue(field);
@@ -202,7 +216,19 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeField(FieldType field, Object value) throws IOException
    {
       String fieldName = field.name().toLowerCase();
-      switch (field.getDataType())
+      writeField(fieldName, field.getDataType(), value);
+   }
+
+   /**
+    * Write the appropriate data for a field to the JSON file based on its type.
+    * 
+    * @param fieldName field name
+    * @param fieldType field type
+    * @param value field value
+    */
+   private void writeField(String fieldName, DataType fieldType, Object value) throws IOException
+   {
+      switch (fieldType)
       {
          case INTEGER:
          {
@@ -253,6 +279,12 @@ public final class JsonWriter extends AbstractProjectWriter
          case RELATION_LIST:
          {
             writeRelationList(fieldName, value);
+            break;
+         }
+
+         case MAP:
+         {
+            writeMap(fieldName, value);
             break;
          }
 
@@ -379,6 +411,34 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write a map field to the JSON file.
+    * 
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeMap(String fieldName, Object value) throws IOException
+   {
+      @SuppressWarnings("unchecked")
+      Map<String, Object> map = (Map<String, Object>) value;
+      m_writer.writeStartObject(fieldName);
+      for (Map.Entry<String, Object> entry : map.entrySet())
+      {
+         Object entryValue = entry.getValue();
+         if (entryValue != null)
+         {
+            DataType type = TYPE_MAP.get(entryValue.getClass().getName());
+            if (type == null)
+            {
+               type = DataType.STRING;
+               entryValue = entryValue.toString();
+            }
+            writeField(entry.getKey(), type, entryValue);
+         }
+      }
+      m_writer.writeEndObject();
+   }
+
+   /**
     * Write a string field to the JSON file.
     * 
     * @param fieldName field name
@@ -407,7 +467,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartList(fieldName);
       for (Relation relation : list)
       {
-         m_writer.writeStartObject();
+         m_writer.writeStartObject(null);
          writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
          writeDurationField("lag", relation.getLag());
          writeStringField("type", relation.getType());
@@ -419,4 +479,14 @@ public final class JsonWriter extends AbstractProjectWriter
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
+
+   private static Map<String, DataType> TYPE_MAP = new HashMap<String, DataType>();
+   static
+   {
+      TYPE_MAP.put(Boolean.class.getName(), DataType.BOOLEAN);
+      TYPE_MAP.put(Date.class.getName(), DataType.DATE);
+      TYPE_MAP.put(Double.class.getName(), DataType.NUMERIC);
+      TYPE_MAP.put(Duration.class.getName(), DataType.DURATION);
+      TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);
+   }
 }

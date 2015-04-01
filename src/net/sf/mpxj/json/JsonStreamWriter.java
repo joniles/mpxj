@@ -77,17 +77,6 @@ public class JsonStreamWriter
    }
 
    /**
-    * Begin writing an object.
-    */
-   public void writeStartObject() throws IOException
-   {
-      writeComma();
-      writeNewLineIndent();
-      m_writer.write("{");
-      increaseIndent();
-   }
-
-   /**
     * Begin writing a named object attribute.
     * 
     * @param name attribute name
@@ -96,8 +85,13 @@ public class JsonStreamWriter
    {
       writeComma();
       writeNewLineIndent();
-      writeName(name);
-      writeNewLineIndent();
+
+      if (name != null)
+      {
+         writeName(name);
+         writeNewLineIndent();
+      }
+
       m_writer.write("{");
       increaseIndent();
    }
