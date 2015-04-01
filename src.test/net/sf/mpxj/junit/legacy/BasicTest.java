@@ -36,7 +36,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -128,7 +128,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/empty.mpp"));
       ProjectFile mpx = new MPPReader().read(in);
-      mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
+      mpx.getProjectProperties().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
       File out = File.createTempFile("junit", ".mpx");
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
@@ -1263,9 +1263,9 @@ public class BasicTest
       ProjectFile file = new ProjectFile();
       file.addDefaultBaseCalendar();
 
-      ProjectHeader header = file.getProjectHeader();
-      header.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
-      header.setStartDate(df.parse("01/01/2003"));
+      ProjectProperties properties = file.getProjectProperties();
+      properties.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
+      properties.setStartDate(df.parse("01/01/2003"));
 
       Resource resource1 = file.addResource();
       resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
@@ -1288,8 +1288,8 @@ public class BasicTest
       assertEquals(1, file.getAllTasks().size());
       assertEquals(1, file.getAllResources().size());
 
-      header = file.getProjectHeader();
-      assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", header.getComments());
+      properties = file.getProjectProperties();
+      assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", properties.getComments());
 
       task1 = file.getTaskByUniqueID(Integer.valueOf(1));
       assertEquals("Task1: Some\nExample\nText\nWith\nBreaks", task1.getName());
@@ -1408,100 +1408,100 @@ public class BasicTest
    }
 
    /**
-    * This ensures that values in the project header are read and written
+    * This ensures that values in the project properties are read and written
     * as expected.
     *
     * @throws Exception
     */
-   @Test public void testProjectHeader() throws Exception
+   @Test public void testProjectProperties() throws Exception
    {
       MPXReader reader = new MPXReader();
       MPXWriter writer = new MPXWriter();
 
       //
-      // Read the MPX file and ensure that the project header fields
+      // Read the MPX file and ensure that the project properties
       // have the expected values.
       //
       ProjectFile mpx = reader.read(MpxjTestData.filePath("legacy/headertest.mpx"));
-      testHeaderFields(mpx);
+      testProperties(mpx);
 
       //
       // Write the file, re-read it and test to ensure that
-      // the project header fields have the expected values
+      // the project properties have the expected values
       //
       File out = File.createTempFile("junit", ".mpx");
       writer.write(mpx, out);
       mpx = reader.read(out);
-      testHeaderFields(mpx);
+      testProperties(mpx);
       out.deleteOnExit();
 
       //
-      // Read the MPP8 file and ensure that the project header fields
+      // Read the MPP8 file and ensure that the project properties
       // have the expected values.
       //
       mpx = new MPPReader().read(MpxjTestData.filePath("legacy/headertest8.mpp"));
-      testHeaderFields(mpx);
+      testProperties(mpx);
 
       //
-      // Read the MPP9 file and ensure that the project header fields
+      // Read the MPP9 file and ensure that the project properties
       // have the expected values.
       //
       mpx = new MPPReader().read(MpxjTestData.filePath("legacy/headertest9.mpp"));
-      testHeaderFields(mpx);
+      testProperties(mpx);
 
       //
-      // Read the MSPDI file and ensure that the project header fields
+      // Read the MSPDI file and ensure that the project properties
       // have the expected values.
       //
       mpx = new MSPDIReader().read(MpxjTestData.filePath("legacy/headertest9.xml"));
-      testMspdiHeaderFields(mpx);
+      testMspdiProperties(mpx);
 
       //
       // Write the file, re-read it and test to ensure that
-      // the project header fields have the expected values
+      // the project properties have the expected values
       //
       out = File.createTempFile("junit", ".xml");
       new MSPDIWriter().write(mpx, out);
 
       mpx = new MSPDIReader().read(out);
-      testMspdiHeaderFields(mpx);
+      testMspdiProperties(mpx);
       out.deleteOnExit();
    }
 
    /**
-    * Implements common project header tests.
+    * Implements common project properties tests.
     *
     * @param file target project file
     */
-   private void testHeaderFields(ProjectFile file)
+   private void testProperties(ProjectFile file)
    {
-      ProjectHeader header = file.getProjectHeader();
-      assertEquals("Project Title Text", header.getProjectTitle());
-      assertEquals("Author Text", header.getAuthor());
-      assertEquals("Comments Text", header.getComments());
-      assertEquals("Company Text", header.getCompany());
-      assertEquals("Keywords Text", header.getKeywords());
-      assertEquals("Manager Text", header.getManager());
-      assertEquals("Subject Text", header.getSubject());
+      ProjectProperties properties = file.getProjectProperties();
+      assertEquals("Project Title Text", properties.getProjectTitle());
+      assertEquals("Author Text", properties.getAuthor());
+      assertEquals("Comments Text", properties.getComments());
+      assertEquals("Company Text", properties.getCompany());
+      assertEquals("Keywords Text", properties.getKeywords());
+      assertEquals("Manager Text", properties.getManager());
+      assertEquals("Subject Text", properties.getSubject());
    }
 
    /**
-    * Implements common project header tests.
+    * Implements common project properties tests.
     *
     * @param file target project file
     */
-   private void testMspdiHeaderFields(ProjectFile file)
+   private void testMspdiProperties(ProjectFile file)
    {
-      ProjectHeader header = file.getProjectHeader();
-      assertEquals("Project Title Text", header.getProjectTitle());
-      assertEquals("Author Text", header.getAuthor());
+      ProjectProperties properties = file.getProjectProperties();
+      assertEquals("Project Title Text", properties.getProjectTitle());
+      assertEquals("Author Text", properties.getAuthor());
       // Looks like an oversight in the schema - the Notes field is present in files, but not in the schema
-      //assertEquals("Comments Text", header.getComments());
-      assertEquals("Company Text", header.getCompany());
+      //assertEquals("Comments Text", properties.getComments());
+      assertEquals("Company Text", properties.getCompany());
       // Doesn't look like keywords is present in MSPDI files at all
-      //assertEquals("Keywords Text", header.getKeywords());
-      assertEquals("Manager Text", header.getManager());
-      assertEquals("Subject Text", header.getSubject());
+      //assertEquals("Keywords Text", properties.getKeywords());
+      assertEquals("Manager Text", properties.getManager());
+      assertEquals("Subject Text", properties.getSubject());
    }
 
    /**

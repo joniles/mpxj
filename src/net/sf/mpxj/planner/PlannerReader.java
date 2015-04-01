@@ -56,7 +56,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -135,7 +135,7 @@ public final class PlannerReader extends AbstractProjectReader
 
          Project plannerProject = (Project) unmarshaller.unmarshal(doc);
 
-         readProjectHeader(plannerProject);
+         readProjectProperties(plannerProject);
          readCalendars(plannerProject);
          readResources(plannerProject);
          readTasks(plannerProject);
@@ -172,18 +172,18 @@ public final class PlannerReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts project header data from a Planner file.
+    * This method extracts project properties from a Planner file.
     *
     * @param project Root node of the Planner file
     */
-   private void readProjectHeader(Project project) throws MPXJException
+   private void readProjectProperties(Project project) throws MPXJException
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();
+      ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      header.setCompany(project.getCompany());
-      header.setManager(project.getManager());
-      header.setName(project.getName());
-      header.setStartDate(getDateTime(project.getProjectStart()));
+      properties.setCompany(project.getCompany());
+      properties.setManager(project.getManager());
+      properties.setName(project.getName());
+      properties.setStartDate(getDateTime(project.getProjectStart()));
    }
 
    /**
@@ -205,7 +205,7 @@ public final class PlannerReader extends AbstractProjectReader
          m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
          if (m_defaultCalendar != null)
          {
-            m_projectFile.getProjectHeader().setDefaultCalendarName(m_defaultCalendar.getName());
+            m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
          }
       }
    }

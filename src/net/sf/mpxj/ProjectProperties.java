@@ -1,8 +1,8 @@
 /*
- * file:       ProjectHeader.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Packwood Software 2002-2003
+ * file:       ProjectProperties.java
+ * author:     Jon Iles             
+ *             Scott Melville
+ * copyright:  (c) Packwood Software 2002-2015
  * date:       15/08/2002
  */
 
@@ -35,24 +35,21 @@ import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
 /**
- * This class represents the ProjectHeader record as found in an MPX
- * file. This record contains details of global settings relevant to the
- * project plan. Note that a number of the fields in this record are
- * calculated by Microsoft Project, and will therefore be ignored on import.
+ * This class represents a collection of properties relevant to the whole project.
  */
-public final class ProjectHeader extends ProjectEntity implements FieldContainer
+public final class ProjectProperties extends ProjectEntity implements FieldContainer
 {
    /**
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
     */
-   ProjectHeader(ProjectFile file)
+   ProjectProperties(ProjectFile file)
    {
       super(file);
 
       //
-      // Configure File Creation Record Settings
+      // Configure MPX File Creation Record Settings
       //
       setMpxDelimiter(DEFAULT_MPX_DELIMITER);
       setMpxProgramName("Microsoft Project for Windows");
@@ -60,7 +57,7 @@ public final class ProjectHeader extends ProjectEntity implements FieldContainer
       setMpxCodePage(CodePage.ANSI);
 
       //
-      // Configure Date Time Settings and Currency Settings Records
+      // Configure MPX Date Time Settings and Currency Settings Records
       //
       setCurrencySymbol(DEFAULT_CURRENCY_SYMBOL);
       setSymbolPosition(CurrencySymbolPosition.BEFORE);
@@ -79,7 +76,7 @@ public final class ProjectHeader extends ProjectEntity implements FieldContainer
       setBarTextDateFormat(ProjectDateFormat.DD_MM_YYYY);
 
       //
-      // Configure Default Settings Record
+      // Configure MPX Default Settings Record
       //
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
@@ -92,7 +89,7 @@ public final class ProjectHeader extends ProjectEntity implements FieldContainer
       setSplitInProgressTasks(false);
 
       //
-      // Configure Project Header Record
+      // Configure MPX Project Header Record
       //
       setProjectTitle("Project1");
       setCompany(null);
@@ -684,7 +681,7 @@ public final class ProjectHeader extends ProjectEntity implements FieldContainer
    /**
     * Returns any comments.
     *
-    * @return comments attached to the Project Header
+    * @return comments
     */
    public String getComments()
    {

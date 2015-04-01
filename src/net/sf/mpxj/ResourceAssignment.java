@@ -744,13 +744,13 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          Duration standardWorkPerDay = standardWork.getAmountPerDay();
          if (standardWorkPerDay.getUnits() != standardRateUnits)
          {
-            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, getParentFile().getProjectHeader());
+            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, getParentFile().getProjectProperties());
          }
 
          Duration totalStandardWork = standardWork.getTotalAmount();
          if (totalStandardWork.getUnits() != standardRateUnits)
          {
-            totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, getParentFile().getProjectHeader());
+            totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, getParentFile().getProjectProperties());
          }
 
          Duration overtimeWorkPerDay;
@@ -766,13 +766,13 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
             overtimeWorkPerDay = overtimeWork.getAmountPerDay();
             if (overtimeWorkPerDay.getUnits() != overtimeRateUnits)
             {
-               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, getParentFile().getProjectHeader());
+               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, getParentFile().getProjectProperties());
             }
 
             totalOvertimeWork = overtimeWork.getTotalAmount();
             if (totalOvertimeWork.getUnits() != overtimeRateUnits)
             {
-               totalOvertimeWork = totalOvertimeWork.convertUnits(overtimeRateUnits, getParentFile().getProjectHeader());
+               totalOvertimeWork = totalOvertimeWork.convertUnits(overtimeRateUnits, getParentFile().getProjectProperties());
             }
          }
 
@@ -2219,7 +2219,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          Duration work = getWork();
          if (actualWork != null && work != null && work.getDuration() != 0)
          {
-            pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), getParentFile().getProjectHeader()).getDuration());
+            pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), getParentFile().getProjectProperties()).getDuration());
             set(AssignmentField.PERCENT_WORK_COMPLETE, pct);
          }
       }
@@ -2406,7 +2406,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
          Duration baselineWork = getBaselineWork();
          if (work != null && baselineWork != null)
          {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader()).getDuration(), work.getUnits());
+            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
             set(AssignmentField.WORK_VARIANCE, variance);
          }
       }
@@ -2435,7 +2435,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       Duration variance = (Duration) getCachedValue(AssignmentField.START_VARIANCE);
       if (variance == null)
       {
-         TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
+         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
          variance = DateHelper.getVariance(getTask(), getBaselineStart(), getStart(), format);
          set(AssignmentField.START_VARIANCE, variance);
       }
@@ -2464,7 +2464,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
       Duration variance = (Duration) getCachedValue(AssignmentField.FINISH_VARIANCE);
       if (variance == null)
       {
-         TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
+         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
          variance = DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
          set(AssignmentField.FINISH_VARIANCE, variance);
       }

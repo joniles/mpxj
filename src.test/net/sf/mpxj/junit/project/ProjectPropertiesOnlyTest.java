@@ -1,5 +1,5 @@
 /*
- * file:       ProjectHeaderOnlyTest.java
+ * file:       ProjectPropertiesOnlyTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2014
  * date:       08/12/2014
@@ -36,15 +36,15 @@ import net.sf.mpxj.mpp.MPPReader;
 import org.junit.Test;
 
 /**
- * Validate the behaviour of the "header only" MPPReader flag.
+ * Validate the behaviour of the "properties only" MPPReader flag.
  */
-public class ProjectHeaderOnlyTest
+public class ProjectPropertiesOnlyTest
 {
    /**
-    * Test to validate that we only read the project header when the "header only" flag is set on the reader.
+    * Test to validate that we only read the project properties when the "properties only" flag is set on the reader.
     * We'll hijack the existing generated task text sample files.
     */
-   @Test public void testHeaderOnly() throws MPXJException
+   @Test public void testPropertiesOnly() throws MPXJException
    {
       File testDataDir = new File(MpxjTestData.filePath("generated/task-text"));
       for (File file : testDataDir.listFiles(new FileFilter()
@@ -55,26 +55,26 @@ public class ProjectHeaderOnlyTest
          }
       }))
       {
-         testHeaderOnly(file);
+         testPropertiesOnly(file);
       }
    }
 
    /**
     * Test a single file to ensure that tasks are read by default, and are not read
-    * when the header only flag is set.
+    * when the properties only flag is set.
     * 
     * @param file file to test
     */
-   private void testHeaderOnly(File file) throws MPXJException
+   private void testPropertiesOnly(File file) throws MPXJException
    {
       MPPReader reader = new MPPReader();
       ProjectFile project = reader.read(file);
       assertTrue(project.getAllTasks().size() > 0);
-      assertEquals("Project User", project.getProjectHeader().getAuthor());
+      assertEquals("Project User", project.getProjectProperties().getAuthor());
 
-      reader.setReadHeaderOnly(true);
+      reader.setReadPropertiesOnly(true);
       project = reader.read(file);
       assertTrue(project.getAllTasks().size() == 0);
-      assertEquals("Project User", project.getProjectHeader().getAuthor());
+      assertEquals("Project User", project.getProjectProperties().getAuthor());
    }
 }

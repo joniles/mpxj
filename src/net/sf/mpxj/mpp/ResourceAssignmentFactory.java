@@ -81,7 +81,7 @@ public class ResourceAssignmentFactory
       //System.out.println(assnVarData);
 
       MppBitFlag[] metaDataBitFlags;
-      if (NumberHelper.getInt(file.getProjectHeader().getMppFileType()) == 14)
+      if (NumberHelper.getInt(file.getProjectProperties().getMppFileType()) == 14)
       {
          metaDataBitFlags = MPP14_ASSIGNMENT_META_DATA_BIT_FLAGS;
       }
@@ -156,7 +156,7 @@ public class ResourceAssignmentFactory
          //
          // Post processing
          //
-         if (NumberHelper.getInt(file.getProjectHeader().getMppFileType()) == 9 && assignment.getCreateDate() == null)
+         if (NumberHelper.getInt(file.getProjectProperties().getMppFileType()) == 9 && assignment.getCreateDate() == null)
          {
             byte[] creationData = assnVarData.getByteArray(varDataId, MPP9_CREATION_DATA);
             if (creationData != null && creationData.length >= 28)
@@ -315,7 +315,7 @@ public class ResourceAssignmentFactory
    {
       if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
       {
-         Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectHeader());
+         Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
 
          Duration workPerDay;
 
@@ -341,7 +341,7 @@ public class ResourceAssignmentFactory
             {
                double unitsPerHour = NumberHelper.getDouble(assignment.getUnits());
                workPerDay = ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-               Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectHeader());
+               Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
                double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
                double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
                workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
@@ -351,7 +351,7 @@ public class ResourceAssignmentFactory
          Duration overtimeWork = assignment.getOvertimeWork();
          if (overtimeWork != null && overtimeWork.getDuration() != 0)
          {
-            Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectHeader());
+            Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
             totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
          }
 

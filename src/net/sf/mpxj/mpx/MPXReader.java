@@ -43,7 +43,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -119,9 +119,9 @@ public final class MPXReader extends AbstractProjectReader
          m_projectFile.setAutoOutlineNumber(false);
          m_projectFile.setAutoWBS(false);
 
-         LocaleUtility.setLocale(m_projectFile.getProjectHeader(), m_locale);
+         LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
          m_delimiter = (char) data[3];
-         m_projectFile.getProjectHeader().setMpxDelimiter(m_delimiter);
+         m_projectFile.getProjectProperties().setMpxDelimiter(m_delimiter);
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_taskModel.setLocale(m_locale);
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
@@ -157,7 +157,7 @@ public final class MPXReader extends AbstractProjectReader
          // an input stream reader using the appropriate character set, and
          // create a new tokenizer to read from this Reader instance.
          //
-         InputStreamReader reader = new InputStreamReader(bis, m_projectFile.getProjectHeader().getMpxCodePage().getCharset());
+         InputStreamReader reader = new InputStreamReader(bis, m_projectFile.getProjectProperties().getMpxCodePage().getCharset());
          tk = new ReaderTokenizer(reader);
          tk.setDelimiter(m_delimiter);
 
@@ -237,21 +237,21 @@ public final class MPXReader extends AbstractProjectReader
 
          case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
-            populateCurrencySettings(record, m_projectFile.getProjectHeader());
+            populateCurrencySettings(record, m_projectFile.getProjectProperties());
             m_formats.update();
             break;
          }
 
          case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
-            populateDefaultSettings(record, m_projectFile.getProjectHeader());
+            populateDefaultSettings(record, m_projectFile.getProjectProperties());
             m_formats.update();
             break;
          }
 
          case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
-            populateDateTimeSettings(record, m_projectFile.getProjectHeader());
+            populateDateTimeSettings(record, m_projectFile.getProjectProperties());
             m_formats.update();
             break;
          }
@@ -286,7 +286,7 @@ public final class MPXReader extends AbstractProjectReader
 
          case MPXConstants.PROJECT_HEADER_RECORD_NUMBER:
          {
-            populateProjectHeader(record, m_projectFile.getProjectHeader());
+            populateProjectHeader(record, m_projectFile.getProjectProperties());
             m_formats.update();
             break;
          }
@@ -457,7 +457,7 @@ public final class MPXReader extends AbstractProjectReader
 
          case MPXConstants.FILE_CREATION_RECORD_NUMBER:
          {
-            populateFileCreationRecord(record, m_projectFile.getProjectHeader());
+            populateFileCreationRecord(record, m_projectFile.getProjectProperties());
             break;
          }
 
@@ -472,24 +472,24 @@ public final class MPXReader extends AbstractProjectReader
     * Populates currency settings.
     *
     * @param record MPX record
-    * @param projectHeader project header
+    * @param properties project properties
     */
-   private void populateCurrencySettings(Record record, ProjectHeader projectHeader)
+   private void populateCurrencySettings(Record record, ProjectProperties properties)
    {
-      projectHeader.setCurrencySymbol(record.getString(0));
-      projectHeader.setSymbolPosition(record.getCurrencySymbolPosition(1));
-      projectHeader.setCurrencyDigits(record.getInteger(2));
+      properties.setCurrencySymbol(record.getString(0));
+      properties.setSymbolPosition(record.getCurrencySymbolPosition(1));
+      properties.setCurrencyDigits(record.getInteger(2));
 
       Character c = record.getCharacter(3);
       if (c != null)
       {
-         projectHeader.setThousandsSeparator(c.charValue());
+         properties.setThousandsSeparator(c.charValue());
       }
 
       c = record.getCharacter(4);
       if (c != null)
       {
-         projectHeader.setDecimalSeparator(c.charValue());
+         properties.setDecimalSeparator(c.charValue());
       }
    }
 
@@ -497,55 +497,55 @@ public final class MPXReader extends AbstractProjectReader
     * Populates default settings.
     *
     * @param record MPX record
-    * @param projectHeader project header
+    * @param properties project properties
     * @throws MPXJException
     */
-   private void populateDefaultSettings(Record record, ProjectHeader projectHeader) throws MPXJException
+   private void populateDefaultSettings(Record record, ProjectProperties properties) throws MPXJException
    {
-      projectHeader.setDefaultDurationUnits(record.getTimeUnit(0));
-      projectHeader.setDefaultDurationIsFixed(record.getNumericBoolean(1));
-      projectHeader.setDefaultWorkUnits(record.getTimeUnit(2));
-      projectHeader.setMinutesPerDay(Double.valueOf(NumberHelper.getDouble(record.getFloat(3)) * 60));
-      projectHeader.setMinutesPerWeek(Double.valueOf(NumberHelper.getDouble(record.getFloat(4)) * 60));
-      projectHeader.setDefaultStandardRate(record.getRate(5));
-      projectHeader.setDefaultOvertimeRate(record.getRate(6));
-      projectHeader.setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
-      projectHeader.setSplitInProgressTasks(record.getNumericBoolean(8));
+      properties.setDefaultDurationUnits(record.getTimeUnit(0));
+      properties.setDefaultDurationIsFixed(record.getNumericBoolean(1));
+      properties.setDefaultWorkUnits(record.getTimeUnit(2));
+      properties.setMinutesPerDay(Double.valueOf(NumberHelper.getDouble(record.getFloat(3)) * 60));
+      properties.setMinutesPerWeek(Double.valueOf(NumberHelper.getDouble(record.getFloat(4)) * 60));
+      properties.setDefaultStandardRate(record.getRate(5));
+      properties.setDefaultOvertimeRate(record.getRate(6));
+      properties.setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
+      properties.setSplitInProgressTasks(record.getNumericBoolean(8));
    }
 
    /**
     * Populates date time settings.
     *
     * @param record MPX record
-    * @param projectHeader project header instance
+    * @param properties project properties
     */
-   private void populateDateTimeSettings(Record record, ProjectHeader projectHeader)
+   private void populateDateTimeSettings(Record record, ProjectProperties properties)
    {
-      projectHeader.setDateOrder(record.getDateOrder(0));
-      projectHeader.setTimeFormat(record.getTimeFormat(1));
+      properties.setDateOrder(record.getDateOrder(0));
+      properties.setTimeFormat(record.getTimeFormat(1));
 
       Date time = getTimeFromInteger(record.getInteger(2));
       if (time != null)
       {
-         projectHeader.setDefaultStartTime(time);
+         properties.setDefaultStartTime(time);
       }
 
       Character c = record.getCharacter(3);
       if (c != null)
       {
-         projectHeader.setDateSeparator(c.charValue());
+         properties.setDateSeparator(c.charValue());
       }
 
       c = record.getCharacter(4);
       if (c != null)
       {
-         projectHeader.setTimeSeparator(c.charValue());
+         properties.setTimeSeparator(c.charValue());
       }
 
-      projectHeader.setAMText(record.getString(5));
-      projectHeader.setPMText(record.getString(6));
-      projectHeader.setDateFormat(record.getDateFormat(7));
-      projectHeader.setBarTextDateFormat(record.getDateFormat(8));
+      properties.setAMText(record.getString(5));
+      properties.setPMText(record.getString(6));
+      properties.setDateFormat(record.getDateFormat(7));
+      properties.setBarTextDateFormat(record.getDateFormat(8));
    }
 
    /**
@@ -580,40 +580,40 @@ public final class MPXReader extends AbstractProjectReader
     * Populates the project header.
     *
     * @param record MPX record
-    * @param projectHeader project header instance
+    * @param properties project properties
     * @throws MPXJException
     */
-   private void populateProjectHeader(Record record, ProjectHeader projectHeader) throws MPXJException
+   private void populateProjectHeader(Record record, ProjectProperties properties) throws MPXJException
    {
-      projectHeader.setProjectTitle(record.getString(0));
-      projectHeader.setCompany(record.getString(1));
-      projectHeader.setManager(record.getString(2));
-      projectHeader.setDefaultCalendarName(record.getString(3));
-      projectHeader.setStartDate(record.getDateTime(4));
-      projectHeader.setFinishDate(record.getDateTime(5));
-      projectHeader.setScheduleFrom(record.getScheduleFrom(6));
-      projectHeader.setCurrentDate(record.getDateTime(7));
-      projectHeader.setComments(record.getString(8));
-      projectHeader.setCost(record.getCurrency(9));
-      projectHeader.setBaselineCost(record.getCurrency(10));
-      projectHeader.setActualCost(record.getCurrency(11));
-      projectHeader.setWork(record.getDuration(12));
-      projectHeader.setBaselineWork(record.getDuration(13));
-      projectHeader.setActualWork(record.getDuration(14));
-      projectHeader.setWork2(record.getPercentage(15));
-      projectHeader.setDuration(record.getDuration(16));
-      projectHeader.setBaselineDuration(record.getDuration(17));
-      projectHeader.setActualDuration(record.getDuration(18));
-      projectHeader.setPercentageComplete(record.getPercentage(19));
-      projectHeader.setBaselineStart(record.getDateTime(20));
-      projectHeader.setBaselineFinish(record.getDateTime(21));
-      projectHeader.setActualStart(record.getDateTime(22));
-      projectHeader.setActualFinish(record.getDateTime(23));
-      projectHeader.setStartVariance(record.getDuration(24));
-      projectHeader.setFinishVariance(record.getDuration(25));
-      projectHeader.setSubject(record.getString(26));
-      projectHeader.setAuthor(record.getString(27));
-      projectHeader.setKeywords(record.getString(28));
+      properties.setProjectTitle(record.getString(0));
+      properties.setCompany(record.getString(1));
+      properties.setManager(record.getString(2));
+      properties.setDefaultCalendarName(record.getString(3));
+      properties.setStartDate(record.getDateTime(4));
+      properties.setFinishDate(record.getDateTime(5));
+      properties.setScheduleFrom(record.getScheduleFrom(6));
+      properties.setCurrentDate(record.getDateTime(7));
+      properties.setComments(record.getString(8));
+      properties.setCost(record.getCurrency(9));
+      properties.setBaselineCost(record.getCurrency(10));
+      properties.setActualCost(record.getCurrency(11));
+      properties.setWork(record.getDuration(12));
+      properties.setBaselineWork(record.getDuration(13));
+      properties.setActualWork(record.getDuration(14));
+      properties.setWork2(record.getPercentage(15));
+      properties.setDuration(record.getDuration(16));
+      properties.setBaselineDuration(record.getDuration(17));
+      properties.setActualDuration(record.getDuration(18));
+      properties.setPercentageComplete(record.getPercentage(19));
+      properties.setBaselineStart(record.getDateTime(20));
+      properties.setBaselineFinish(record.getDateTime(21));
+      properties.setActualStart(record.getDateTime(22));
+      properties.setActualFinish(record.getDateTime(23));
+      properties.setStartVariance(record.getDuration(24));
+      properties.setFinishVariance(record.getDuration(25));
+      properties.setSubject(record.getString(26));
+      properties.setAuthor(record.getString(27));
+      properties.setKeywords(record.getString(28));
    }
 
    /**
@@ -1282,7 +1282,7 @@ public final class MPXReader extends AbstractProjectReader
       //System.out.println(record);      
       task.setStartDate(record.getDateTime(1));
       task.setFinishDate(record.getDateTime(2));
-      task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectHeader(), record.getInteger(3), record.getInteger(4)));
+      task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectProperties(), record.getInteger(3), record.getInteger(4)));
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
@@ -1344,7 +1344,7 @@ public final class MPXReader extends AbstractProjectReader
       {
          if (work.getUnits() != actualWork.getUnits())
          {
-            actualWork = actualWork.convertUnits(work.getUnits(), m_projectFile.getProjectHeader());
+            actualWork = actualWork.convertUnits(work.getUnits(), m_projectFile.getProjectProperties());
          }
 
          assignment.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
@@ -1380,13 +1380,13 @@ public final class MPXReader extends AbstractProjectReader
     * Populate a file creation record.
     *
     * @param record MPX record
-    * @param header project header
+    * @param properties project properties
     */
-   static void populateFileCreationRecord(Record record, ProjectHeader header)
+   static void populateFileCreationRecord(Record record, ProjectProperties properties)
    {
-      header.setMpxProgramName(record.getString(0));
-      header.setMpxFileVersion(FileVersion.getInstance(record.getString(1)));
-      header.setMpxCodePage(record.getCodePage(2));
+      properties.setMpxProgramName(record.getString(0));
+      properties.setMpxFileVersion(FileVersion.getInstance(record.getString(1)));
+      properties.setMpxCodePage(record.getCodePage(2));
    }
 
    /**

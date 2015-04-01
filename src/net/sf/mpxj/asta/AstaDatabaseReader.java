@@ -108,7 +108,7 @@ public final class AstaDatabaseReader implements ProjectReader
          ProjectFile project = m_reader.getProject();
          project.addProjectListeners(m_projectListeners);
 
-         processProjectHeader();
+         processProjectProperties();
          processCalendars();
          processResources();
          processTasks();
@@ -147,16 +147,16 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Select the project header row from the database.
+    * Select the project properties row from the database.
     * 
     * @throws SQLException
     */
-   private void processProjectHeader() throws SQLException
+   private void processProjectProperties() throws SQLException
    {
       List<Row> rows = getRows("select * from project_summary where projid=?", m_projectID);
       if (rows.isEmpty() == false)
       {
-         m_reader.processProjectHeader(rows.get(0));
+         m_reader.processProjectProperties(rows.get(0));
       }
    }
 

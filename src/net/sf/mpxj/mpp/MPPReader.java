@@ -121,8 +121,8 @@ public final class MPPReader extends AbstractProjectReader
          // Retrieve the CompObj data, validate the file format and process
          //
          CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
-         projectFile.getProjectHeader().setFullApplicationName(compObj.getApplicationName());
-         projectFile.getProjectHeader().setApplicationVersion(compObj.getApplicationVersion());
+         projectFile.getProjectProperties().setFullApplicationName(compObj.getApplicationName());
+         projectFile.getProjectProperties().setApplicationVersion(compObj.getApplicationVersion());
          String format = compObj.getFileFormat();
          Class<? extends MPPVariantReader> readerClass = FILE_CLASS_MAP.get(format);
          if (readerClass == null)
@@ -281,27 +281,27 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
-    * Flag to determine if the reader should only read the project header data.
+    * Flag to determine if the reader should only read the project properties.
     * This allows for rapid access to the document properties, without the
     * cost of reading the entire contents of the project file.
     *    
-    * @return true if the reader should only read the project header 
+    * @return true if the reader should only read the project properties 
     */
-   public boolean getReadHeaderOnly()
+   public boolean getReadPropertiesOnly()
    {
-      return m_readHeaderOnly;
+      return m_readPropertiesOnly;
    }
 
    /**
-    * Flag to determine if the reader should only read the project header data.
+    * Flag to determine if the reader should only read the project properties.
     * This allows for rapid access to the document properties, without the
     * cost of reading the entire contents of the project file.
     * 
-    * @param readHeaderOnly true if the reader should only read the project header
+    * @param readPropertiesOnly true if the reader should only read the project properties
     */
-   public void setReadHeaderOnly(boolean readHeaderOnly)
+   public void setReadPropertiesOnly(boolean readPropertiesOnly)
    {
-      m_readHeaderOnly = readHeaderOnly;
+      m_readPropertiesOnly = readPropertiesOnly;
    }
 
    /**
@@ -367,7 +367,7 @@ public final class MPPReader extends AbstractProjectReader
     * presentation data from the MPP file.
     */
    private boolean m_readPresentationData = true;
-   private boolean m_readHeaderOnly;
+   private boolean m_readPropertiesOnly;
 
    private String m_readPassword;
    private String m_writePassword;

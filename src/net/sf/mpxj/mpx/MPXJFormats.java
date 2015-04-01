@@ -29,7 +29,7 @@ import java.util.Locale;
 
 import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ProjectTimeFormat;
 
 /**
@@ -58,31 +58,31 @@ public final class MPXJFormats
     */
    public void update()
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();
-      char decimalSeparator = header.getDecimalSeparator();
-      char thousandsSeparator = header.getThousandsSeparator();
+      ProjectProperties properties = m_projectFile.getProjectProperties();
+      char decimalSeparator = properties.getDecimalSeparator();
+      char thousandsSeparator = properties.getThousandsSeparator();
       m_unitsDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
       m_decimalFormat.applyPattern("0.00#", null, decimalSeparator, thousandsSeparator);
       m_durationDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
       m_percentageDecimalFormat.applyPattern("##0.##", null, decimalSeparator, thousandsSeparator);
-      updateCurrencyFormats(header, decimalSeparator, thousandsSeparator);
-      updateDateTimeFormats(header);
+      updateCurrencyFormats(properties, decimalSeparator, thousandsSeparator);
+      updateDateTimeFormats(properties);
    }
 
    /**
     * Update the currency format.
     *
-    * @param header project header
+    * @param properties project properties
     * @param decimalSeparator decimal separator
     * @param thousandsSeparator thousands separator
     */
-   private void updateCurrencyFormats(ProjectHeader header, char decimalSeparator, char thousandsSeparator)
+   private void updateCurrencyFormats(ProjectProperties properties, char decimalSeparator, char thousandsSeparator)
    {
       String prefix = "";
       String suffix = "";
-      String currencySymbol = quoteFormatCharacters(header.getCurrencySymbol());
+      String currencySymbol = quoteFormatCharacters(properties.getCurrencySymbol());
 
-      switch (header.getSymbolPosition())
+      switch (properties.getSymbolPosition())
       {
          case AFTER:
          {
@@ -112,7 +112,7 @@ public final class MPXJFormats
       StringBuilder pattern = new StringBuilder(prefix);
       pattern.append("#0");
 
-      int digits = header.getCurrencyDigits().intValue();
+      int digits = properties.getCurrencyDigits().intValue();
       if (digits > 0)
       {
          pattern.append('.');
@@ -203,16 +203,16 @@ public final class MPXJFormats
    /**
     * Updates the date and time formats.
     *
-    * @param header projects header
+    * @param properties project properties
     */
-   private void updateDateTimeFormats(ProjectHeader header)
+   private void updateDateTimeFormats(ProjectProperties properties)
    {
       String datePattern = "";
       String dateTimePattern = "";
-      String timePattern = getTimeElement(header);
+      String timePattern = getTimeElement(properties);
 
-      char datesep = header.getDateSeparator();
-      DateOrder dateOrder = header.getDateOrder();
+      char datesep = properties.getDateSeparator();
+      DateOrder dateOrder = properties.getDateOrder();
 
       switch (dateOrder)
       {
@@ -235,7 +235,7 @@ public final class MPXJFormats
          }
       }
 
-      switch (header.getDateFormat())
+      switch (properties.getDateFormat())
       {
          case DD_MM_YY_HH_MM:
          {
@@ -628,21 +628,21 @@ public final class MPXJFormats
       m_dateFormat.setLocale(m_locale, m_nullText);
       m_timeFormat.setNullText(m_nullText);
 
-      m_dateTimeFormat.setAmPmText(header.getAMText(), header.getPMText());
-      m_timeFormat.setAmPmText(header.getAMText(), header.getPMText());
+      m_dateTimeFormat.setAmPmText(properties.getAMText(), properties.getPMText());
+      m_timeFormat.setAmPmText(properties.getAMText(), properties.getPMText());
    }
 
    /**
     * Returns time elements considering 12/24 hour formatting.
     *
-    * @param header project header
+    * @param properties project properties
     * @return time formatting String
     */
-   private String getTimeElement(ProjectHeader header)
+   private String getTimeElement(ProjectProperties properties)
    {
       String time;
-      char timesep = header.getTimeSeparator();
-      ProjectTimeFormat format = header.getTimeFormat();
+      char timesep = properties.getTimeSeparator();
+      ProjectTimeFormat format = properties.getTimeFormat();
 
       if (format == null || format == ProjectTimeFormat.TWELVE_HOUR)
       {

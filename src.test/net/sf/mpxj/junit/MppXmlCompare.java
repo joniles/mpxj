@@ -39,7 +39,7 @@ public final class MppXmlCompare
       m_xml = xml;
       m_mpp = mpp;
 
-      //compareHeaders
+      //compareProperties
       compareResources();
       compareTasks();
       //compareAssignments
@@ -635,7 +635,7 @@ public final class MppXmlCompare
             {
                if (expected.getUnits() != actual.getUnits())
                {
-                  actual = actual.convertUnits(expected.getUnits(), m_mpp.getProjectHeader());
+                  actual = actual.convertUnits(expected.getUnits(), m_mpp.getProjectProperties());
                }
 
                assertEquals(expected.getDuration(), actual.getDuration(), 0.99);

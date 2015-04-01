@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
@@ -86,9 +86,9 @@ final class MPP12Reader implements MPPVariantReader
       try
       {
          populateMemberData(reader, file, root);
-         processProjectHeader();
+         processProjectProperties();
 
-         if (!reader.getReadHeaderOnly())
+         if (!reader.getReadPropertiesOnly())
          {
             processSubProjectData();
             processGraphicalIndicators();
@@ -137,7 +137,7 @@ final class MPP12Reader implements MPPVariantReader
       Props12 props12 = new Props12(new DocumentInputStream(((DocumentEntry) root.getEntry("Props12"))));
       //System.out.println(props12);
 
-      file.getProjectHeader().setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.getProjectProperties().setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
       m_inputStreamFactory = new DocumentInputStreamFactory(props12);
 
       //
@@ -170,8 +170,8 @@ final class MPP12Reader implements MPPVariantReader
       m_taskOrder = new TreeMap<Long, Integer>();
       m_nullTaskOrder = new TreeMap<Integer, Integer>();
 
-      m_file.getProjectHeader().setMppFileType(Integer.valueOf(12));
-      m_file.getProjectHeader().setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setMppFileType(Integer.valueOf(12));
+      m_file.getProjectProperties().setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
 
       m_customFieldValues = new CustomFieldValues();
    }
@@ -227,12 +227,12 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * Process the project header data.
+    * Process the project properties data.
     */
-   private void processProjectHeader() throws MPXJException
+   private void processProjectProperties() throws MPXJException
    {
-      ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, m_projectProps, m_root);
+      ProjectPropertiesReader reader = new ProjectPropertiesReader();
+      reader.process(m_file, m_projectProps, m_root);
    }
 
    /**
@@ -771,8 +771,8 @@ final class MPP12Reader implements MPPVariantReader
          processBaseFonts(data);
       }
 
-      ProjectHeader header = m_file.getProjectHeader();
-      header.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      ProjectProperties properties = m_file.getProjectProperties();
+      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**

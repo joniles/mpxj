@@ -48,7 +48,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -107,7 +107,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
    {
       // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
       writeFileCreationRecord(); // VOLM
-      writeProjectHeader(m_projectFile.getProjectHeader()); // PROJ
+      writeProjectProperties(m_projectFile.getProjectProperties()); // PROJ
       writeCalendars(m_projectFile.getCalendars()); // CLDR
       writeExceptions(m_projectFile.getCalendars()); // HOLI
       writeTasks(m_projectFile.getAllTasks()); // ACTV
@@ -128,15 +128,15 @@ public final class SDEFWriter // extends AbstractProjectWriter
    }
 
    /**
-    * Write project header.
+    * Write project properties.
     *
-    * @param record project header
+    * @param record project properties
     * @throws IOException
     * 
     */
-   private void writeProjectHeader(ProjectHeader record) throws IOException
+   private void writeProjectProperties(ProjectProperties record) throws IOException
    {
-      // the ProjectHeader class from MPXJ has the details of how many days per week etc....
+      // the ProjectProperties class from MPXJ has the details of how many days per week etc....
       // so I've assigned these variables in here, but actually use them in other methods
       // see the write task method, that's where they're used, but that method only has a Task object
       m_minutesPerDay = record.getMinutesPerDay().doubleValue();

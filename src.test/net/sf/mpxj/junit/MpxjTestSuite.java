@@ -27,7 +27,7 @@ import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
 import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
-import net.sf.mpxj.junit.project.ProjectHeaderOnlyTest;
+import net.sf.mpxj.junit.project.ProjectPropertiesOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskBaselinesTest;
@@ -63,7 +63,7 @@ import org.junit.runners.Suite;
    SplitTaskTest.class,
    MppGraphIndTest.class,
    SlackTest.class,
-   MppProjectHeaderTest.class,
+   MppProjectPropertiesTest.class,
    MppTaskTest.class,
    MppResourceTest.class,
    MppSubprojectTest.class,
@@ -111,7 +111,7 @@ import org.junit.runners.Suite;
    TaskDeletionTest.class,
    TaskTextValuesTest.class,
    ProjectPropertiesTest.class,
-   ProjectHeaderOnlyTest.class,
+   ProjectPropertiesOnlyTest.class,
    TaskBaselinesTest.class,
    TaskPercentCompleteTest.class,
    InvalidCalendarTest.class,

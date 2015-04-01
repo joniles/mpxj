@@ -41,7 +41,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -95,107 +95,107 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Reads the project header.
+    * Reads the project properties.
     * 
-    * @param row project header data
+    * @param row project properties data
     */
-   protected void processProjectHeader(Row row)
+   protected void processProjectProperties(Row row)
    {
-      ProjectHeader header = m_project.getProjectHeader();
+      ProjectProperties properties = m_project.getProjectProperties();
 
-      header.setCurrencySymbol(row.getString("PROJ_OPT_CURRENCY_SYMBOL"));
-      header.setSymbolPosition(MPDUtility.getSymbolPosition(row.getInt("PROJ_OPT_CURRENCY_POSITION")));
-      header.setCurrencyDigits(row.getInteger("PROJ_OPT_CURRENCY_DIGITS"));
-      //header.setThousandsSeparator();
-      //header.setDecimalSeparator();
-      header.setDefaultDurationUnits(MPDUtility.getDurationTimeUnits(row.getInt("PROJ_OPT_DUR_ENTRY_FMT")));
-      //header.setDefaultDurationIsFixed();      
-      header.setDefaultWorkUnits(MPDUtility.getDurationTimeUnits(row.getInt("PROJ_OPT_WORK_ENTRY_FMT")));
-      header.setMinutesPerDay(row.getInteger("PROJ_OPT_MINUTES_PER_DAY"));
-      header.setMinutesPerWeek(row.getInteger("PROJ_OPT_MINUTES_PER_WEEK"));
-      header.setDefaultStandardRate(new Rate(row.getDouble("PROJ_OPT_DEF_STD_RATE"), TimeUnit.HOURS));
-      header.setDefaultOvertimeRate(new Rate(row.getDouble("PROJ_OPT_DEF_OVT_RATE"), TimeUnit.HOURS));
-      header.setUpdatingTaskStatusUpdatesResourceStatus(row.getBoolean("PROJ_OPT_TASK_UPDATES_RES"));
-      header.setSplitInProgressTasks(row.getBoolean("PROJ_OPT_SPLIT_IN_PROGRESS"));
-      //header.setDateOrder();
-      //header.setTimeFormat();
-      header.setDefaultStartTime(row.getDate("PROJ_OPT_DEF_START_TIME"));
-      //header.setDateSeparator();
-      //header.setTimeSeparator();
-      //header.setAmText();
-      //header.setPmText();
-      //header.setDateFormat();
-      //header.setBarTextDateFormat();
-      header.setProjectTitle(row.getString("PROJ_PROP_TITLE"));
-      header.setCompany(row.getString("PROJ_PROP_COMPANY"));
-      header.setManager(row.getString("PROJ_PROP_MANAGER"));
-      header.setDefaultCalendarName(row.getString("PROJ_INFO_CAL_NAME"));
-      header.setStartDate(row.getDate("PROJ_INFO_START_DATE"));
-      header.setFinishDate(row.getDate("PROJ_INFO_FINISH_DATE"));
-      header.setScheduleFrom(ScheduleFrom.getInstance(1 - row.getInt("PROJ_INFO_SCHED_FROM")));
-      header.setCurrentDate(row.getDate("PROJ_INFO_CURRENT_DATE"));
-      //header.setComments();
-      //header.setCost();
-      //header.setBaselineCost();
-      //header.setActualCost();
-      //header.setWork();
-      //header.setBaselineWork();
-      //header.setActualWork();
-      //header.setWork2();
-      //header.setDuration();
-      //header.setBaselineDuration();
-      //header.setActualDuration();
-      //header.setPercentageComplete();
-      //header.setBaselineStart();
-      //header.setBaselineFinish();
-      //header.setActualStart();
-      //header.setActualFinish();
-      //header.setStartVariance();
-      //header.setFinishVariance();
-      header.setSubject(row.getString("PROJ_PROP_SUBJECT"));
-      header.setAuthor(row.getString("PROJ_PROP_AUTHOR"));
-      header.setKeywords(row.getString("PROJ_PROP_KEYWORDS"));
-      header.setDefaultEndTime(row.getDate("PROJ_OPT_DEF_FINISH_TIME"));
-      header.setProjectExternallyEdited(row.getBoolean("PROJ_EXT_EDITED_FLAG"));
-      header.setCategory(row.getString("PROJ_PROP_CATEGORY"));
-      header.setDaysPerMonth(row.getInteger("PROJ_OPT_DAYS_PER_MONTH"));
-      header.setFiscalYearStart(row.getBoolean("PROJ_OPT_FY_USE_START_YR"));
-      //header.setDefaultTaskEarnedValueMethod();
-      //header.setRemoveFileProperties();
-      //header.setMoveCompletedEndsBack();
-      header.setNewTasksEstimated(row.getBoolean("PROJ_OPT_NEW_TASK_EST"));
-      header.setSpreadActualCost(row.getBoolean("PROJ_OPT_SPREAD_ACT_COSTS"));
-      header.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
-      //header.setAutoAddNewResourcesAndTasks();
-      header.setLastSaved(row.getDate("PROJ_LAST_SAVED"));
-      header.setStatusDate(row.getDate("PROJ_INFO_STATUS_DATE"));
-      //header.setMoveRemainingStartsBack();
-      //header.setAutolink();
-      //header.setMicrosoftProjectServerURL();
-      header.setHonorConstraints(row.getBoolean("PROJ_OPT_HONOR_CONSTRAINTS"));
-      //header.setAdminProject(row.getInt("PROJ_ADMINPROJECT")!=0); // Not in MPP9 MPD?
-      //header.setInsertedProjectsLikeSummary();
-      header.setName(row.getString("PROJ_NAME"));
-      header.setSpreadPercentComplete(row.getBoolean("PROJ_OPT_SPREAD_PCT_COMP"));
-      //header.setMoveCompletedEndsForward();
-      //header.setEditableActualCosts();
-      //header.setUniqueID();
-      //header.setRevision();
-      header.setNewTasksEffortDriven(row.getBoolean("PROJ_OPT_NEW_ARE_EFFORT_DRIVEN"));
-      //header.setMoveRemainingStartsForward();
-      //header.setActualsInSync(row.getInt("PROJ_ACTUALS_SYNCH") != 0); // Not in MPP9 MPD?
-      header.setDefaultTaskType(TaskType.getInstance(row.getInt("PROJ_OPT_DEF_TASK_TYPE")));
-      //header.setEarnedValueMethod();
-      header.setCreationDate(row.getDate("PROJ_CREATION_DATE"));
-      //header.setExtendedCreationDate(row.getDate("PROJ_CREATION_DATE_EX")); // Not in MPP9 MPD?
-      header.setDefaultFixedCostAccrual(AccrueType.getInstance(row.getInt("PROJ_OPT_DEF_FIX_COST_ACCRUAL")));
-      header.setCriticalSlackLimit(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"));
-      //header.setBaselineForEarnedValue;
-      header.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
-      //header.setNewTaskStartIsProjectStart();     
-      header.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
-      //header.setCalculateMultipleCriticalPaths();
-      header.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
+      properties.setCurrencySymbol(row.getString("PROJ_OPT_CURRENCY_SYMBOL"));
+      properties.setSymbolPosition(MPDUtility.getSymbolPosition(row.getInt("PROJ_OPT_CURRENCY_POSITION")));
+      properties.setCurrencyDigits(row.getInteger("PROJ_OPT_CURRENCY_DIGITS"));
+      //properties.setThousandsSeparator();
+      //properties.setDecimalSeparator();
+      properties.setDefaultDurationUnits(MPDUtility.getDurationTimeUnits(row.getInt("PROJ_OPT_DUR_ENTRY_FMT")));
+      //properties.setDefaultDurationIsFixed();      
+      properties.setDefaultWorkUnits(MPDUtility.getDurationTimeUnits(row.getInt("PROJ_OPT_WORK_ENTRY_FMT")));
+      properties.setMinutesPerDay(row.getInteger("PROJ_OPT_MINUTES_PER_DAY"));
+      properties.setMinutesPerWeek(row.getInteger("PROJ_OPT_MINUTES_PER_WEEK"));
+      properties.setDefaultStandardRate(new Rate(row.getDouble("PROJ_OPT_DEF_STD_RATE"), TimeUnit.HOURS));
+      properties.setDefaultOvertimeRate(new Rate(row.getDouble("PROJ_OPT_DEF_OVT_RATE"), TimeUnit.HOURS));
+      properties.setUpdatingTaskStatusUpdatesResourceStatus(row.getBoolean("PROJ_OPT_TASK_UPDATES_RES"));
+      properties.setSplitInProgressTasks(row.getBoolean("PROJ_OPT_SPLIT_IN_PROGRESS"));
+      //properties.setDateOrder();
+      //properties.setTimeFormat();
+      properties.setDefaultStartTime(row.getDate("PROJ_OPT_DEF_START_TIME"));
+      //properties.setDateSeparator();
+      //properties.setTimeSeparator();
+      //properties.setAmText();
+      //properties.setPmText();
+      //properties.setDateFormat();
+      //properties.setBarTextDateFormat();
+      properties.setProjectTitle(row.getString("PROJ_PROP_TITLE"));
+      properties.setCompany(row.getString("PROJ_PROP_COMPANY"));
+      properties.setManager(row.getString("PROJ_PROP_MANAGER"));
+      properties.setDefaultCalendarName(row.getString("PROJ_INFO_CAL_NAME"));
+      properties.setStartDate(row.getDate("PROJ_INFO_START_DATE"));
+      properties.setFinishDate(row.getDate("PROJ_INFO_FINISH_DATE"));
+      properties.setScheduleFrom(ScheduleFrom.getInstance(1 - row.getInt("PROJ_INFO_SCHED_FROM")));
+      properties.setCurrentDate(row.getDate("PROJ_INFO_CURRENT_DATE"));
+      //properties.setComments();
+      //properties.setCost();
+      //properties.setBaselineCost();
+      //properties.setActualCost();
+      //properties.setWork();
+      //properties.setBaselineWork();
+      //properties.setActualWork();
+      //properties.setWork2();
+      //properties.setDuration();
+      //properties.setBaselineDuration();
+      //properties.setActualDuration();
+      //properties.setPercentageComplete();
+      //properties.setBaselineStart();
+      //properties.setBaselineFinish();
+      //properties.setActualStart();
+      //properties.setActualFinish();
+      //properties.setStartVariance();
+      //properties.setFinishVariance();
+      properties.setSubject(row.getString("PROJ_PROP_SUBJECT"));
+      properties.setAuthor(row.getString("PROJ_PROP_AUTHOR"));
+      properties.setKeywords(row.getString("PROJ_PROP_KEYWORDS"));
+      properties.setDefaultEndTime(row.getDate("PROJ_OPT_DEF_FINISH_TIME"));
+      properties.setProjectExternallyEdited(row.getBoolean("PROJ_EXT_EDITED_FLAG"));
+      properties.setCategory(row.getString("PROJ_PROP_CATEGORY"));
+      properties.setDaysPerMonth(row.getInteger("PROJ_OPT_DAYS_PER_MONTH"));
+      properties.setFiscalYearStart(row.getBoolean("PROJ_OPT_FY_USE_START_YR"));
+      //properties.setDefaultTaskEarnedValueMethod();
+      //properties.setRemoveFileProperties();
+      //properties.setMoveCompletedEndsBack();
+      properties.setNewTasksEstimated(row.getBoolean("PROJ_OPT_NEW_TASK_EST"));
+      properties.setSpreadActualCost(row.getBoolean("PROJ_OPT_SPREAD_ACT_COSTS"));
+      properties.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
+      //properties.setAutoAddNewResourcesAndTasks();
+      properties.setLastSaved(row.getDate("PROJ_LAST_SAVED"));
+      properties.setStatusDate(row.getDate("PROJ_INFO_STATUS_DATE"));
+      //properties.setMoveRemainingStartsBack();
+      //properties.setAutolink();
+      //properties.setMicrosoftProjectServerURL();
+      properties.setHonorConstraints(row.getBoolean("PROJ_OPT_HONOR_CONSTRAINTS"));
+      //properties.setAdminProject(row.getInt("PROJ_ADMINPROJECT")!=0); // Not in MPP9 MPD?
+      //properties.setInsertedProjectsLikeSummary();
+      properties.setName(row.getString("PROJ_NAME"));
+      properties.setSpreadPercentComplete(row.getBoolean("PROJ_OPT_SPREAD_PCT_COMP"));
+      //properties.setMoveCompletedEndsForward();
+      //properties.setEditableActualCosts();
+      //properties.setUniqueID();
+      //properties.setRevision();
+      properties.setNewTasksEffortDriven(row.getBoolean("PROJ_OPT_NEW_ARE_EFFORT_DRIVEN"));
+      //properties.setMoveRemainingStartsForward();
+      //properties.setActualsInSync(row.getInt("PROJ_ACTUALS_SYNCH") != 0); // Not in MPP9 MPD?
+      properties.setDefaultTaskType(TaskType.getInstance(row.getInt("PROJ_OPT_DEF_TASK_TYPE")));
+      //properties.setEarnedValueMethod();
+      properties.setCreationDate(row.getDate("PROJ_CREATION_DATE"));
+      //properties.setExtendedCreationDate(row.getDate("PROJ_CREATION_DATE_EX")); // Not in MPP9 MPD?
+      properties.setDefaultFixedCostAccrual(AccrueType.getInstance(row.getInt("PROJ_OPT_DEF_FIX_COST_ACCRUAL")));
+      properties.setCriticalSlackLimit(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"));
+      //properties.setBaselineForEarnedValue;
+      properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
+      //properties.setNewTaskStartIsProjectStart();     
+      properties.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
+      //properties.setCalculateMultipleCriticalPaths();
+      properties.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
 
       //
       // Unused attributes
@@ -909,7 +909,7 @@ abstract class MPD9AbstractReader
          //task.setFlag18();
          //task.setFlag19();
          //task.setFlag20();
-         task.setFreeSlack(row.getDuration("TASK_FREE_SLACK").convertUnits(durationFormat, m_project.getProjectHeader()));
+         task.setFreeSlack(row.getDuration("TASK_FREE_SLACK").convertUnits(durationFormat, m_project.getProjectProperties()));
          task.setHideBar(row.getBoolean("TASK_BAR_IS_HIDDEN"));
          //task.setHyperlink();
          //task.setHyperlinkAddress();

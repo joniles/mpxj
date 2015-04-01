@@ -53,7 +53,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -121,7 +121,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
 
-         writeProjectHeader();
+         writeProjectProperties();
          writeCalendars();
          writeResources();
          writeTasks();
@@ -155,14 +155,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes project header data to a PM XML file.
+    * This method writes project properties data to a PM XML file.
     */
-   private void writeProjectHeader()
+   private void writeProjectProperties()
    {
       m_project = m_factory.createProjectType();
       m_apibo.getProject().add(m_project);
 
-      ProjectHeader mpxj = m_projectFile.getProjectHeader();
+      ProjectProperties mpxj = m_projectFile.getProjectProperties();
       Task rootTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(0));
       UUID guid = rootTask == null ? null : rootTask.getGUID();
 
@@ -550,7 +550,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       if (duration.getUnits() != TimeUnit.HOURS)
       {
-         duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+         duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
       }
 
       return Double.valueOf(duration.getDuration());

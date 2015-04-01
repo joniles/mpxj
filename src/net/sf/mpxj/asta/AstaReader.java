@@ -41,7 +41,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -80,13 +80,13 @@ final class AstaReader
    }
 
    /**
-    * Process project header.
+    * Process project properties.
     * 
-    * @param row project header data.
+    * @param row project properties data.
     */
-   public void processProjectHeader(Row row)
+   public void processProjectProperties(Row row)
    {
-      ProjectHeader ph = m_project.getProjectHeader();
+      ProjectProperties ph = m_project.getProjectProperties();
       ph.setDuration(row.getDuration("DURATIONHOURS"));
       ph.setStartDate(row.getDate("STARU"));
       ph.setFinishDate(row.getDate("ENE"));

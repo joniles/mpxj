@@ -1943,7 +1943,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
          if (duration != null && baselineDuration != null)
          {
-            variance = Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectHeader()).getDuration(), duration.getUnits());
+            variance = Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectProperties()).getDuration(), duration.getUnits());
             set(TaskField.DURATION_VARIANCE, variance);
          }
       }
@@ -2029,7 +2029,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Duration variance = (Duration) getCachedValue(TaskField.FINISH_VARIANCE);
       if (variance == null)
       {
-         TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
+         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
          variance = DateHelper.getVariance(this, getBaselineFinish(), getFinish(), format);
          set(TaskField.FINISH_VARIANCE, variance);
       }
@@ -2461,7 +2461,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Duration variance = (Duration) getCachedValue(TaskField.START_VARIANCE);
       if (variance == null)
       {
-         TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
+         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
          variance = DateHelper.getVariance(this, getBaselineStart(), getStart(), format);
          set(TaskField.START_VARIANCE, variance);
       }
@@ -2597,7 +2597,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          {
             if (startSlack.getUnits() != units)
             {
-               startSlack = startSlack.convertUnits(units, getParentFile().getProjectHeader());
+               startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
             }
          }
 
@@ -2610,7 +2610,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          {
             if (finishSlack.getUnits() != units)
             {
-               finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectHeader());
+               finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
             }
          }
 
@@ -2711,7 +2711,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          Duration baselineWork = getBaselineWork();
          if (work != null && baselineWork != null)
          {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader()).getDuration(), work.getUnits());
+            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
             set(TaskField.WORK_VARIANCE, variance);
          }
       }

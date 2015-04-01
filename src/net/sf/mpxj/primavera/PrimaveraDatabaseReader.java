@@ -41,7 +41,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
@@ -108,7 +108,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          ProjectFile project = m_reader.getProject();
          project.addProjectListeners(m_projectListeners);
 
-         processProjectHeader();
+         processProjectProperties();
          processCalendars();
          processResources();
          processTasks();
@@ -165,17 +165,17 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
-    * Select the project header row from the database.
+    * Select the project properties from the database.
     * 
     * @throws SQLException
     */
-   private void processProjectHeader() throws SQLException
+   private void processProjectProperties() throws SQLException
    {
       //
       // Process common attributes
       //
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
-      m_reader.processProjectHeader(rows);
+      m_reader.processProjectProperties(rows);
 
       //
       // Process PMDB-specific attributes
@@ -184,7 +184,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       if (!rows.isEmpty())
       {
          Row row = rows.get(0);
-         ProjectHeader ph = m_reader.getProject().getProjectHeader();
+         ProjectProperties ph = m_reader.getProject().getProjectProperties();
          ph.setCreationDate(row.getDate("create_date"));
          ph.setLastSaved(row.getDate("update_date"));
          ph.setMinutesPerDay(Double.valueOf(row.getDouble("day_hr_cnt").doubleValue() * 60));

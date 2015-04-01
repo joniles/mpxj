@@ -64,7 +64,7 @@ abstract class FieldMap
    {
       m_file = file;
       m_customFieldValues = customFieldValues;
-      m_defaultProjectTimeUnits = m_file.getProjectHeader().getDefaultDurationUnits();
+      m_defaultProjectTimeUnits = m_file.getProjectProperties().getDefaultDurationUnits();
    }
 
    /**
@@ -807,7 +807,7 @@ abstract class FieldMap
                      TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
                      if (units == null)
                      {
-                        units = getProjectFile().getProjectHeader().getDefaultDurationUnits();
+                        units = getProjectFile().getProjectProperties().getDefaultDurationUnits();
                      }
 
                      result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(data, m_fixedDataOffset), units);

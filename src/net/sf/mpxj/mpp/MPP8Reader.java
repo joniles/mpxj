@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -88,9 +88,9 @@ final class MPP8Reader implements MPPVariantReader
       try
       {
          populateMemberData(reader, file, root);
-         processProjectHeader();
+         processProjectProperties();
 
-         if (!reader.getReadHeaderOnly())
+         if (!reader.getReadPropertiesOnly())
          {
             processCalendarData();
             processResourceData();
@@ -130,7 +130,7 @@ final class MPP8Reader implements MPPVariantReader
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
       m_viewDir = (DirectoryEntry) root.getEntry("   2");
 
-      m_file.getProjectHeader().setMppFileType(Integer.valueOf(8));
+      m_file.getProjectProperties().setMppFileType(Integer.valueOf(8));
    }
 
    /**
@@ -147,13 +147,13 @@ final class MPP8Reader implements MPPVariantReader
    }
 
    /**
-    * Process the project header data.
+    * Process the project properties data.
     */
-   private void processProjectHeader() throws MPXJException, IOException
+   private void processProjectProperties() throws MPXJException, IOException
    {
       Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
-      ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, props, m_root);
+      ProjectPropertiesReader reader = new ProjectPropertiesReader();
+      reader.process(m_file, props, m_root);
    }
 
    /**
@@ -164,8 +164,8 @@ final class MPP8Reader implements MPPVariantReader
    {
       Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
 
-      ProjectHeader header = m_file.getProjectHeader();
-      header.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      ProjectProperties properties = m_file.getProjectProperties();
+      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**
@@ -408,7 +408,7 @@ final class MPP8Reader implements MPPVariantReader
       String notes;
       byte[] flags = new byte[3];
       RecurringTaskReader recurringTaskReader = null;
-      TimeUnit defaultProjectTimeUnits = m_file.getProjectHeader().getDefaultDurationUnits();
+      TimeUnit defaultProjectTimeUnits = m_file.getProjectProperties().getDefaultDurationUnits();
 
       for (int loop = 0; loop < tasks; loop++)
       {

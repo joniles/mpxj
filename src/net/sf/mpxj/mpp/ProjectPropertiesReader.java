@@ -1,5 +1,5 @@
 /*
- * file:       ProjectHeaderReader.java
+ * file:       ProjectPropertiesReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2006
  * date:       24/08/2006
@@ -29,7 +29,7 @@ import java.util.Map;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
@@ -45,12 +45,12 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
- * This class reads project header data from MPP8, MPP9, and MPP12 files.
+ * This class reads project properties data from MPP8, MPP9, and MPP12 files.
  */
-public final class ProjectHeaderReader
+public final class ProjectPropertiesReader
 {
    /**
-    * The main entry point for processing project header data.
+    * The main entry point for processing project properties.
     * 
     * @param file parent project file
     * @param props properties data
@@ -61,7 +61,7 @@ public final class ProjectHeaderReader
       try
       {
          //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-         ProjectHeader ph = file.getProjectHeader();
+         ProjectProperties ph = file.getProjectProperties();
          ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
          ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
          ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));

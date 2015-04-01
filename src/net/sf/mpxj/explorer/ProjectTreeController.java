@@ -75,15 +75,15 @@ public class ProjectTreeController
 
       DefaultMutableTreeNode projectNode = new DefaultMutableTreeNode(projectFile);
 
-      DefaultMutableTreeNode headerNode = new DefaultMutableTreeNode(projectFile.getProjectHeader())
+      DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode(projectFile.getProjectProperties())
       {
          @Override public String toString()
          {
-            return "Header";
+            return "Properties";
          }
       };
 
-      projectNode.add(headerNode);
+      projectNode.add(propertiesNode);
 
       DefaultMutableTreeNode tasksFolder = new DefaultMutableTreeNode("Tasks");
       projectNode.add(tasksFolder);

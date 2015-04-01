@@ -77,7 +77,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
          processFile(inputStream);
 
-         processProjectHeader();
+         processProjectProperties();
          processCalendars();
          processResources();
          processTasks();
@@ -195,16 +195,16 @@ public final class AstaFileReader extends AbstractProjectReader
    }
 
    /**
-    * Select the project header row from the database.
+    * Select the project properties row from the database.
     * 
     * @throws SQLException
     */
-   private void processProjectHeader() throws SQLException
+   private void processProjectProperties() throws SQLException
    {
       List<Row> rows = getTable("PROJECT_SUMMARY");
       if (rows.isEmpty() == false)
       {
-         m_reader.processProjectHeader(rows.get(0));
+         m_reader.processProjectProperties(rows.get(0));
       }
    }
 

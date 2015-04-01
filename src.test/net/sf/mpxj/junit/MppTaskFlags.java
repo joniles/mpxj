@@ -314,7 +314,7 @@ public class MppTaskFlags
       assertEquals("Flag20", task.getName());
       testFlag(task, 20);
 
-      if (NumberHelper.getInt(mpp.getProjectHeader().getMppFileType()) == 14)
+      if (NumberHelper.getInt(mpp.getProjectProperties().getMppFileType()) == 14)
       {
          //
          // Active

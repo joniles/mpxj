@@ -28,7 +28,7 @@ import java.util.Map;
 
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
@@ -51,12 +51,12 @@ final class RecurrenceUtility
     * Convert the integer representation of a duration value and duration units
     * into an MPXJ Duration instance.
     * 
-    * @param header project header for duration units conversion 
+    * @param properties project properties, used for duration units conversion 
     * @param durationValue integer duration value
     * @param unitsValue integer units value
     * @return Duration instance
     */
-   public static Duration getDuration(ProjectHeader header, Integer durationValue, Integer unitsValue)
+   public static Duration getDuration(ProjectProperties properties, Integer durationValue, Integer unitsValue)
    {
       Duration result;
       if (durationValue == null)
@@ -69,7 +69,7 @@ final class RecurrenceUtility
          TimeUnit units = getDurationUnits(unitsValue);
          if (result.getUnits() != units)
          {
-            result = result.convertUnits(units, header);
+            result = result.convertUnits(units, properties);
          }
       }
       return (result);
@@ -79,11 +79,11 @@ final class RecurrenceUtility
     * Convert an MPXJ Duration instance into an integer duration in minutes
     * ready to be written to an MPX file.
     * 
-    * @param header project header for duration units conversion
+    * @param properties project properties, used for duration units conversion
     * @param duration Duration instance
     * @return integer duration in minutes
     */
-   public static Integer getDurationValue(ProjectHeader header, Duration duration)
+   public static Integer getDurationValue(ProjectProperties properties, Duration duration)
    {
       Integer result;
       if (duration == null)
@@ -94,7 +94,7 @@ final class RecurrenceUtility
       {
          if (duration.getUnits() != TimeUnit.MINUTES)
          {
-            duration = duration.convertUnits(TimeUnit.MINUTES, header);
+            duration = duration.convertUnits(TimeUnit.MINUTES, properties);
          }
          result = Integer.valueOf((int) duration.getDuration());
       }

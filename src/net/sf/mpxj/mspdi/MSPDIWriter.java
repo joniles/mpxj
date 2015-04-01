@@ -57,7 +57,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -185,7 +185,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
 
-         writeProjectHeader(project);
+         writeProjectProperties(project);
          writeCalendars(project);
          writeResources(project);
          writeTasks(project);
@@ -212,77 +212,77 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes project header data to an MSPDI file.
+    * This method writes project properties to an MSPDI file.
     *
     * @param project Root node of the MSPDI file
     */
-   private void writeProjectHeader(Project project)
+   private void writeProjectProperties(Project project)
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();
+      ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      project.setActualsInSync(Boolean.valueOf(header.getActualsInSync()));
-      project.setAdminProject(Boolean.valueOf(header.getAdminProject()));
-      project.setAuthor(header.getAuthor());
-      project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(header.getAutoAddNewResourcesAndTasks()));
-      project.setAutolink(Boolean.valueOf(header.getAutolink()));
-      project.setBaselineForEarnedValue(NumberHelper.getBigInteger(header.getBaselineForEarnedValue()));
+      project.setActualsInSync(Boolean.valueOf(properties.getActualsInSync()));
+      project.setAdminProject(Boolean.valueOf(properties.getAdminProject()));
+      project.setAuthor(properties.getAuthor());
+      project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(properties.getAutoAddNewResourcesAndTasks()));
+      project.setAutolink(Boolean.valueOf(properties.getAutolink()));
+      project.setBaselineForEarnedValue(NumberHelper.getBigInteger(properties.getBaselineForEarnedValue()));
       project.setCalendarUID(m_projectFile.getCalendar() == null ? BigInteger.ONE : NumberHelper.getBigInteger(m_projectFile.getCalendar().getUniqueID()));
-      project.setCategory(header.getCategory());
-      project.setCompany(header.getCompany());
-      project.setCreationDate(DatatypeConverter.printDate(header.getCreationDate()));
-      project.setCriticalSlackLimit(NumberHelper.getBigInteger(header.getCriticalSlackLimit()));
-      project.setCurrencyCode(header.getCurrencyCode());
-      project.setCurrencyDigits(BigInteger.valueOf(header.getCurrencyDigits().intValue()));
-      project.setCurrencySymbol(header.getCurrencySymbol());
-      project.setCurrencySymbolPosition(header.getSymbolPosition());
-      project.setCurrentDate(DatatypeConverter.printDate(header.getCurrentDate()));
-      project.setDaysPerMonth(NumberHelper.getBigInteger(header.getDaysPerMonth()));
-      project.setDefaultFinishTime(DatatypeConverter.printTime(header.getDefaultEndTime()));
-      project.setDefaultFixedCostAccrual(header.getDefaultFixedCostAccrual());
-      project.setDefaultOvertimeRate(DatatypeConverter.printRate(header.getDefaultOvertimeRate()));
-      project.setDefaultStandardRate(DatatypeConverter.printRate(header.getDefaultStandardRate()));
-      project.setDefaultStartTime(DatatypeConverter.printTime(header.getDefaultStartTime()));
-      project.setDefaultTaskEVMethod(DatatypeConverter.printEarnedValueMethod(header.getDefaultTaskEarnedValueMethod()));
-      project.setDefaultTaskType(header.getDefaultTaskType());
-      project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(header.getDefaultDurationUnits(), false));
-      project.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(header.getEarnedValueMethod()));
-      project.setEditableActualCosts(Boolean.valueOf(header.getEditableActualCosts()));
-      project.setExtendedCreationDate(DatatypeConverter.printDate(header.getExtendedCreationDate()));
-      project.setFinishDate(DatatypeConverter.printDate(header.getFinishDate()));
-      project.setFiscalYearStart(Boolean.valueOf(header.getFiscalYearStart()));
-      project.setFYStartDate(NumberHelper.getBigInteger(header.getFiscalYearStartMonth()));
-      project.setHonorConstraints(Boolean.valueOf(header.getHonorConstraints()));
-      project.setInsertedProjectsLikeSummary(Boolean.valueOf(header.getInsertedProjectsLikeSummary()));
-      project.setLastSaved(DatatypeConverter.printDate(header.getLastSaved()));
-      project.setManager(header.getManager());
-      project.setMicrosoftProjectServerURL(Boolean.valueOf(header.getMicrosoftProjectServerURL()));
-      project.setMinutesPerDay(NumberHelper.getBigInteger(header.getMinutesPerDay()));
-      project.setMinutesPerWeek(NumberHelper.getBigInteger(header.getMinutesPerWeek()));
-      project.setMoveCompletedEndsBack(Boolean.valueOf(header.getMoveCompletedEndsBack()));
-      project.setMoveCompletedEndsForward(Boolean.valueOf(header.getMoveCompletedEndsForward()));
-      project.setMoveRemainingStartsBack(Boolean.valueOf(header.getMoveRemainingStartsBack()));
-      project.setMoveRemainingStartsForward(Boolean.valueOf(header.getMoveRemainingStartsForward()));
-      project.setMultipleCriticalPaths(Boolean.valueOf(header.getMultipleCriticalPaths()));
-      project.setName(header.getName());
-      project.setNewTasksEffortDriven(Boolean.valueOf(header.getNewTasksEffortDriven()));
-      project.setNewTasksEstimated(Boolean.valueOf(header.getNewTasksEstimated()));
-      project.setNewTaskStartDate(header.getNewTaskStartIsProjectStart() == true ? BigInteger.ZERO : BigInteger.ONE);
-      project.setProjectExternallyEdited(Boolean.valueOf(header.getProjectExternallyEdited()));
-      project.setRemoveFileProperties(Boolean.valueOf(header.getRemoveFileProperties()));
-      project.setRevision(NumberHelper.getBigInteger(header.getRevision()));
+      project.setCategory(properties.getCategory());
+      project.setCompany(properties.getCompany());
+      project.setCreationDate(DatatypeConverter.printDate(properties.getCreationDate()));
+      project.setCriticalSlackLimit(NumberHelper.getBigInteger(properties.getCriticalSlackLimit()));
+      project.setCurrencyCode(properties.getCurrencyCode());
+      project.setCurrencyDigits(BigInteger.valueOf(properties.getCurrencyDigits().intValue()));
+      project.setCurrencySymbol(properties.getCurrencySymbol());
+      project.setCurrencySymbolPosition(properties.getSymbolPosition());
+      project.setCurrentDate(DatatypeConverter.printDate(properties.getCurrentDate()));
+      project.setDaysPerMonth(NumberHelper.getBigInteger(properties.getDaysPerMonth()));
+      project.setDefaultFinishTime(DatatypeConverter.printTime(properties.getDefaultEndTime()));
+      project.setDefaultFixedCostAccrual(properties.getDefaultFixedCostAccrual());
+      project.setDefaultOvertimeRate(DatatypeConverter.printRate(properties.getDefaultOvertimeRate()));
+      project.setDefaultStandardRate(DatatypeConverter.printRate(properties.getDefaultStandardRate()));
+      project.setDefaultStartTime(DatatypeConverter.printTime(properties.getDefaultStartTime()));
+      project.setDefaultTaskEVMethod(DatatypeConverter.printEarnedValueMethod(properties.getDefaultTaskEarnedValueMethod()));
+      project.setDefaultTaskType(properties.getDefaultTaskType());
+      project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(properties.getDefaultDurationUnits(), false));
+      project.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(properties.getEarnedValueMethod()));
+      project.setEditableActualCosts(Boolean.valueOf(properties.getEditableActualCosts()));
+      project.setExtendedCreationDate(DatatypeConverter.printDate(properties.getExtendedCreationDate()));
+      project.setFinishDate(DatatypeConverter.printDate(properties.getFinishDate()));
+      project.setFiscalYearStart(Boolean.valueOf(properties.getFiscalYearStart()));
+      project.setFYStartDate(NumberHelper.getBigInteger(properties.getFiscalYearStartMonth()));
+      project.setHonorConstraints(Boolean.valueOf(properties.getHonorConstraints()));
+      project.setInsertedProjectsLikeSummary(Boolean.valueOf(properties.getInsertedProjectsLikeSummary()));
+      project.setLastSaved(DatatypeConverter.printDate(properties.getLastSaved()));
+      project.setManager(properties.getManager());
+      project.setMicrosoftProjectServerURL(Boolean.valueOf(properties.getMicrosoftProjectServerURL()));
+      project.setMinutesPerDay(NumberHelper.getBigInteger(properties.getMinutesPerDay()));
+      project.setMinutesPerWeek(NumberHelper.getBigInteger(properties.getMinutesPerWeek()));
+      project.setMoveCompletedEndsBack(Boolean.valueOf(properties.getMoveCompletedEndsBack()));
+      project.setMoveCompletedEndsForward(Boolean.valueOf(properties.getMoveCompletedEndsForward()));
+      project.setMoveRemainingStartsBack(Boolean.valueOf(properties.getMoveRemainingStartsBack()));
+      project.setMoveRemainingStartsForward(Boolean.valueOf(properties.getMoveRemainingStartsForward()));
+      project.setMultipleCriticalPaths(Boolean.valueOf(properties.getMultipleCriticalPaths()));
+      project.setName(properties.getName());
+      project.setNewTasksEffortDriven(Boolean.valueOf(properties.getNewTasksEffortDriven()));
+      project.setNewTasksEstimated(Boolean.valueOf(properties.getNewTasksEstimated()));
+      project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() == true ? BigInteger.ZERO : BigInteger.ONE);
+      project.setProjectExternallyEdited(Boolean.valueOf(properties.getProjectExternallyEdited()));
+      project.setRemoveFileProperties(Boolean.valueOf(properties.getRemoveFileProperties()));
+      project.setRevision(NumberHelper.getBigInteger(properties.getRevision()));
       project.setSaveVersion(BigInteger.valueOf(m_saveVersion.getValue()));
-      project.setScheduleFromStart(Boolean.valueOf(header.getScheduleFrom() == ScheduleFrom.START));
-      project.setSplitsInProgressTasks(Boolean.valueOf(header.getSplitInProgressTasks()));
-      project.setSpreadActualCost(Boolean.valueOf(header.getSpreadActualCost()));
-      project.setSpreadPercentComplete(Boolean.valueOf(header.getSpreadPercentComplete()));
-      project.setStartDate(DatatypeConverter.printDate(header.getStartDate()));
-      project.setStatusDate(DatatypeConverter.printDate(header.getStatusDate()));
-      project.setSubject(header.getSubject());
-      project.setTaskUpdatesResource(Boolean.valueOf(header.getUpdatingTaskStatusUpdatesResourceStatus()));
-      project.setTitle(header.getProjectTitle());
-      project.setUID(header.getUniqueID());
-      project.setWeekStartDay(DatatypeConverter.printDay(header.getWeekStartDay()));
-      project.setWorkFormat(DatatypeConverter.printWorkUnits(header.getDefaultWorkUnits()));
+      project.setScheduleFromStart(Boolean.valueOf(properties.getScheduleFrom() == ScheduleFrom.START));
+      project.setSplitsInProgressTasks(Boolean.valueOf(properties.getSplitInProgressTasks()));
+      project.setSpreadActualCost(Boolean.valueOf(properties.getSpreadActualCost()));
+      project.setSpreadPercentComplete(Boolean.valueOf(properties.getSpreadPercentComplete()));
+      project.setStartDate(DatatypeConverter.printDate(properties.getStartDate()));
+      project.setStatusDate(DatatypeConverter.printDate(properties.getStatusDate()));
+      project.setSubject(properties.getSubject());
+      project.setTaskUpdatesResource(Boolean.valueOf(properties.getUpdatingTaskStatusUpdatesResourceStatus()));
+      project.setTitle(properties.getProjectTitle());
+      project.setUID(properties.getUniqueID());
+      project.setWeekStartDay(DatatypeConverter.printDay(properties.getWeekStartDay()));
+      project.setWorkFormat(DatatypeConverter.printWorkUnits(properties.getDefaultWorkUnits()));
    }
 
    /**
@@ -1090,7 +1090,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (mpx.getLevelingDelay() != null)
       {
          Duration levelingDelay = mpx.getLevelingDelay();
-         double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
+         double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay, false));
       }
@@ -1393,7 +1393,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          double linkLag = lag.getDuration();
          if (lag.getUnits() != TimeUnit.PERCENT)
          {
-            linkLag = 10.0 * Duration.convertUnits(linkLag, lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectHeader()).getDuration();
+            linkLag = 10.0 * Duration.convertUnits(linkLag, lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          }
          link.setLinkLag(BigInteger.valueOf((long) linkLag));
          link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits(), false));

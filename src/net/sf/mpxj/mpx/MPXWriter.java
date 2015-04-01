@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
@@ -74,11 +74,11 @@ public final class MPXWriter extends AbstractProjectWriter
       m_projectFile = projectFile;
       if (m_useLocaleDefaults == true)
       {
-         LocaleUtility.setLocale(m_projectFile.getProjectHeader(), m_locale);
+         LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
       }
 
-      m_delimiter = projectFile.getProjectHeader().getMpxDelimiter();
-      m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getProjectHeader().getMpxCodePage().getCharset());
+      m_delimiter = projectFile.getProjectProperties().getMpxDelimiter();
+      m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getProjectProperties().getMpxCodePage().getCharset());
       m_buffer = new StringBuilder();
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
 
@@ -109,7 +109,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_projectFile.validateUniqueIDsForMicrosoftProject();
 
       writeFileCreationRecord();
-      writeProjectHeader(m_projectFile.getProjectHeader());
+      writeProjectHeader(m_projectFile.getProjectProperties());
 
       if (m_projectFile.getAllResources().isEmpty() == false)
       {
@@ -138,16 +138,16 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeFileCreationRecord() throws IOException
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();
+      ProjectProperties properties = m_projectFile.getProjectProperties();
 
       m_buffer.setLength(0);
       m_buffer.append("MPX");
       m_buffer.append(m_delimiter);
-      m_buffer.append(header.getMpxProgramName());
+      m_buffer.append(properties.getMpxProgramName());
       m_buffer.append(m_delimiter);
-      m_buffer.append(header.getMpxFileVersion());
+      m_buffer.append(properties.getMpxFileVersion());
       m_buffer.append(m_delimiter);
-      m_buffer.append(header.getMpxCodePage());
+      m_buffer.append(properties.getMpxCodePage());
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
    }
@@ -155,10 +155,10 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * Write project header.
     *
-    * @param record project header
+    * @param properties project properties
     * @throws IOException
     */
-   private void writeProjectHeader(ProjectHeader record) throws IOException
+   private void writeProjectHeader(ProjectProperties properties) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -167,15 +167,15 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       m_buffer.append(MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getCurrencySymbol()));
+      m_buffer.append(format(properties.getCurrencySymbol()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getSymbolPosition()));
+      m_buffer.append(format(properties.getSymbolPosition()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getCurrencyDigits()));
+      m_buffer.append(format(properties.getCurrencyDigits()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(Character.valueOf(record.getThousandsSeparator())));
+      m_buffer.append(format(Character.valueOf(properties.getThousandsSeparator())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(Character.valueOf(record.getDecimalSeparator())));
+      m_buffer.append(format(Character.valueOf(properties.getDecimalSeparator())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 
@@ -184,23 +184,23 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       m_buffer.append(MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(Integer.valueOf(record.getDefaultDurationUnits().getValue())));
+      m_buffer.append(format(Integer.valueOf(properties.getDefaultDurationUnits().getValue())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getDefaultDurationIsFixed() ? "1" : "0");
+      m_buffer.append(properties.getDefaultDurationIsFixed() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(Integer.valueOf(record.getDefaultWorkUnits().getValue())));
+      m_buffer.append(format(Integer.valueOf(properties.getDefaultWorkUnits().getValue())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDecimal(NumberHelper.getDouble(record.getMinutesPerDay()) / 60)));
+      m_buffer.append(format(formatDecimal(NumberHelper.getDouble(properties.getMinutesPerDay()) / 60)));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDecimal(NumberHelper.getDouble(record.getMinutesPerWeek()) / 60)));
+      m_buffer.append(format(formatDecimal(NumberHelper.getDouble(properties.getMinutesPerWeek()) / 60)));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatRate(record.getDefaultStandardRate())));
+      m_buffer.append(format(formatRate(properties.getDefaultStandardRate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatRate(record.getDefaultOvertimeRate())));
+      m_buffer.append(format(formatRate(properties.getDefaultOvertimeRate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getUpdatingTaskStatusUpdatesResourceStatus() ? "1" : "0");
+      m_buffer.append(properties.getUpdatingTaskStatusUpdatesResourceStatus() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getSplitInProgressTasks() ? "1" : "0");
+      m_buffer.append(properties.getSplitInProgressTasks() ? "1" : "0");
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 
@@ -209,23 +209,23 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       m_buffer.append(MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDateOrder()));
+      m_buffer.append(format(properties.getDateOrder()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getTimeFormat()));
+      m_buffer.append(format(properties.getTimeFormat()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(getIntegerTimeInMinutes(record.getDefaultStartTime())));
+      m_buffer.append(format(getIntegerTimeInMinutes(properties.getDefaultStartTime())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(Character.valueOf(record.getDateSeparator())));
+      m_buffer.append(format(Character.valueOf(properties.getDateSeparator())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(Character.valueOf(record.getTimeSeparator())));
+      m_buffer.append(format(Character.valueOf(properties.getTimeSeparator())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getAMText()));
+      m_buffer.append(format(properties.getAMText()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getPMText()));
+      m_buffer.append(format(properties.getPMText()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDateFormat()));
+      m_buffer.append(format(properties.getDateFormat()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getBarTextDateFormat()));
+      m_buffer.append(format(properties.getBarTextDateFormat()));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
@@ -244,64 +244,64 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.setLength(0);
       m_buffer.append(MPXConstants.PROJECT_HEADER_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getProjectTitle()));
+      m_buffer.append(format(properties.getProjectTitle()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getCompany()));
+      m_buffer.append(format(properties.getCompany()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getManager()));
+      m_buffer.append(format(properties.getManager()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDefaultCalendarName()));
+      m_buffer.append(format(properties.getDefaultCalendarName()));
       m_buffer.append(m_delimiter);
 
-      m_buffer.append(format(formatDateTime(record.getStartDate())));
+      m_buffer.append(format(formatDateTime(properties.getStartDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getFinishDate())));
+      m_buffer.append(format(formatDateTime(properties.getFinishDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getScheduleFrom()));
+      m_buffer.append(format(properties.getScheduleFrom()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getCurrentDate())));
+      m_buffer.append(format(formatDateTime(properties.getCurrentDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getComments()));
+      m_buffer.append(format(properties.getComments()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatCurrency(record.getCost())));
+      m_buffer.append(format(formatCurrency(properties.getCost())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatCurrency(record.getBaselineCost())));
+      m_buffer.append(format(formatCurrency(properties.getBaselineCost())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatCurrency(record.getActualCost())));
+      m_buffer.append(format(formatCurrency(properties.getActualCost())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getWork())));
+      m_buffer.append(format(formatDuration(properties.getWork())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getBaselineWork())));
+      m_buffer.append(format(formatDuration(properties.getBaselineWork())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getActualWork())));
+      m_buffer.append(format(formatDuration(properties.getActualWork())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatPercentage(record.getWork2())));
+      m_buffer.append(format(formatPercentage(properties.getWork2())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getDuration())));
+      m_buffer.append(format(formatDuration(properties.getDuration())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getBaselineDuration())));
+      m_buffer.append(format(formatDuration(properties.getBaselineDuration())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getActualDuration())));
+      m_buffer.append(format(formatDuration(properties.getActualDuration())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatPercentage(record.getPercentageComplete())));
+      m_buffer.append(format(formatPercentage(properties.getPercentageComplete())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getBaselineStart())));
+      m_buffer.append(format(formatDateTime(properties.getBaselineStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getBaselineFinish())));
+      m_buffer.append(format(formatDateTime(properties.getBaselineFinish())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getActualStart())));
+      m_buffer.append(format(formatDateTime(properties.getActualStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getActualFinish())));
+      m_buffer.append(format(formatDateTime(properties.getActualFinish())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getStartVariance())));
+      m_buffer.append(format(formatDuration(properties.getStartVariance())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getFinishVariance())));
+      m_buffer.append(format(formatDuration(properties.getFinishVariance())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getSubject()));
+      m_buffer.append(format(properties.getSubject()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getAuthor()));
+      m_buffer.append(format(properties.getAuthor()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getKeywords()));
+      m_buffer.append(format(properties.getKeywords()));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 
@@ -682,7 +682,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(formatDateTime(record.getFinishDate())));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectHeader(), record.getDuration())));
+         m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectProperties(), record.getDuration())));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDurationUnits(record)));
          m_buffer.append(m_delimiter);

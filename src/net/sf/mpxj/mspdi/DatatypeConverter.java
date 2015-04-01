@@ -47,7 +47,7 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TaskType;
@@ -968,13 +968,13 @@ public final class DatatypeConverter
          // Convert from a duration in hours to a duration
          // expressed in the default duration units
          //
-         ProjectHeader header = file.getProjectHeader();
+         ProjectProperties properties = file.getProjectProperties();
          if (defaultUnits == null)
          {
-            defaultUnits = header.getDefaultDurationUnits();
+            defaultUnits = properties.getDefaultDurationUnits();
          }
 
-         result = Duration.convertUnits(duration, units, defaultUnits, header);
+         result = Duration.convertUnits(duration, units, defaultUnits, properties);
       }
 
       return (result);
@@ -1030,7 +1030,7 @@ public final class DatatypeConverter
          }
          else
          {
-            duration = duration.convertUnits(TimeUnit.HOURS, writer.getProjectFile().getProjectHeader());
+            duration = duration.convertUnits(TimeUnit.HOURS, writer.getProjectFile().getProjectProperties());
             result = new XsdDuration(duration).toString();
          }
       }
@@ -1198,7 +1198,7 @@ public final class DatatypeConverter
 
             default:
             {
-               result = PARENT_FILE.get().getProjectHeader().getDefaultDurationUnits();
+               result = PARENT_FILE.get().getProjectProperties().getDefaultDurationUnits();
                break;
             }
          }
@@ -1360,27 +1360,27 @@ public final class DatatypeConverter
    /**
     * Parse duration represented in thousandths of minutes. 
     * 
-    * @param header project header
+    * @param properties project properties
     * @param value duration value
     * @param targetTimeUnit required output time units
     * @return Duration instance
     */
-   public static final Duration parseDurationInThousanthsOfMinutes(ProjectHeader header, Number value, TimeUnit targetTimeUnit)
+   public static final Duration parseDurationInThousanthsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit)
    {
-      return parseDurationInFractionsOfMinutes(header, value, targetTimeUnit, 1000);
+      return parseDurationInFractionsOfMinutes(properties, value, targetTimeUnit, 1000);
    }
 
    /**
     * Parse duration represented as tenths of minutes.
     * 
-    * @param header project header
+    * @param properties project properties
     * @param value duration value
     * @param targetTimeUnit required output time units
     * @return Duration instance
     */
-   public static final Duration parseDurationInTenthsOfMinutes(ProjectHeader header, Number value, TimeUnit targetTimeUnit)
+   public static final Duration parseDurationInTenthsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit)
    {
-      return parseDurationInFractionsOfMinutes(header, value, targetTimeUnit, 10);
+      return parseDurationInFractionsOfMinutes(properties, value, targetTimeUnit, 10);
    }
 
    /**
@@ -1436,13 +1436,13 @@ public final class DatatypeConverter
    /**
     * Parse duration represented as an arbitrary fraction of minutes.
     * 
-    * @param header project header
+    * @param properties project properties
     * @param value duration value
     * @param targetTimeUnit required output time units
     * @param factor required fraction of a minute
     * @return Duration instance
     */
-   private static final Duration parseDurationInFractionsOfMinutes(ProjectHeader header, Number value, TimeUnit targetTimeUnit, int factor)
+   private static final Duration parseDurationInFractionsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit, int factor)
    {
       Duration result = null;
 
@@ -1451,7 +1451,7 @@ public final class DatatypeConverter
          result = Duration.getInstance(value.intValue() / factor, TimeUnit.MINUTES);
          if (targetTimeUnit != result.getUnits())
          {
-            result = result.convertUnits(targetTimeUnit, header);
+            result = result.convertUnits(targetTimeUnit, properties);
          }
       }
 

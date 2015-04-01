@@ -258,7 +258,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
          ProjectCalendarDateRanges ranges = getRanges(date, null, null);
          if (ranges == null)
          {
-            result = getParentFile().getProjectHeader().getDefaultStartTime();
+            result = getParentFile().getProjectProperties().getDefaultStartTime();
          }
          else
          {
@@ -286,7 +286,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
          ProjectCalendarDateRanges ranges = getRanges(date, null, null);
          if (ranges == null)
          {
-            result = getParentFile().getProjectHeader().getDefaultEndTime();
+            result = getParentFile().getProjectProperties().getDefaultEndTime();
             result = DateHelper.getCanonicalTime(result);
          }
          else
@@ -328,12 +328,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     */
    public Date getDate(Date startDate, Duration duration, boolean returnNextWorkStart)
    {
-      ProjectHeader header = getParentFile().getProjectHeader();
+      ProjectProperties properties = getParentFile().getProjectProperties();
       // Note: Using a double allows us to handle date values that are accurate up to seconds.
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
       //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, header).getDuration(), 2);
+      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
       Calendar endCal = Calendar.getInstance();
@@ -497,12 +497,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     */
    public Date getStartDate(Date finishDate, Duration duration)
    {
-      ProjectHeader header = getParentFile().getProjectHeader();
+      ProjectProperties properties = getParentFile().getProjectProperties();
       // Note: Using a double allows us to handle date values that are accurate up to seconds.
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
       //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, header).getDuration(), 2);
+      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
       Calendar cal = Calendar.getInstance();
       cal.setTime(finishDate);
       Calendar startCal = Calendar.getInstance();
@@ -1167,9 +1167,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek
    private Duration convertFormat(long totalTime, TimeUnit format)
    {
       double duration = totalTime;
-      double minutesPerDay = getParentFile().getProjectHeader().getMinutesPerDay().doubleValue();
-      double minutesPerWeek = getParentFile().getProjectHeader().getMinutesPerWeek().doubleValue();
-      double daysPerMonth = getParentFile().getProjectHeader().getDaysPerMonth().doubleValue();
+      double minutesPerDay = getParentFile().getProjectProperties().getMinutesPerDay().doubleValue();
+      double minutesPerWeek = getParentFile().getProjectProperties().getMinutesPerWeek().doubleValue();
+      double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
 
       switch (format)
       {

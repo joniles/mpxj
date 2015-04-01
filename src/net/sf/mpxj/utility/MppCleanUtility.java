@@ -37,7 +37,7 @@ import java.util.Map;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
@@ -115,7 +115,7 @@ public class MppCleanUtility
 
       String varDataFileName;
       String projectDirName;
-      int mppFileType = NumberHelper.getInt(m_project.getProjectHeader().getMppFileType());
+      int mppFileType = NumberHelper.getInt(m_project.getProjectProperties().getMppFileType());
       switch (mppFileType)
       {
          case 8:
@@ -180,25 +180,25 @@ public class MppCleanUtility
       processReplacements((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"), varDataFileName, replacements, true);
 
       //
-      // Process project header details
+      // Process project properties
       //
       replacements.clear();
-      ProjectHeader header = m_project.getProjectHeader();
-      mapText(header.getProjectTitle(), replacements);
+      ProjectProperties properties = m_project.getProjectProperties();
+      mapText(properties.getProjectTitle(), replacements);
       processReplacements(m_projectDir, "Props", replacements, true);
 
       replacements.clear();
-      mapText(header.getProjectTitle(), replacements);
-      mapText(header.getSubject(), replacements);
-      mapText(header.getAuthor(), replacements);
-      mapText(header.getKeywords(), replacements);
-      mapText(header.getComments(), replacements);
+      mapText(properties.getProjectTitle(), replacements);
+      mapText(properties.getSubject(), replacements);
+      mapText(properties.getAuthor(), replacements);
+      mapText(properties.getKeywords(), replacements);
+      mapText(properties.getComments(), replacements);
       processReplacements(root, "\005SummaryInformation", replacements, false);
 
       replacements.clear();
-      mapText(header.getManager(), replacements);
-      mapText(header.getCompany(), replacements);
-      mapText(header.getCategory(), replacements);
+      mapText(properties.getManager(), replacements);
+      mapText(properties.getCompany(), replacements);
+      mapText(properties.getCategory(), replacements);
       processReplacements(root, "\005DocumentSummaryInformation", replacements, false);
 
       //

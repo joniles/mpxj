@@ -120,7 +120,7 @@ public class TaskDurationsTest
     */
    private void testDurationUnits(File file, ProjectReader reader, ProjectFile project)
    {
-      TimeUnit[] units = (NumberHelper.getInt(project.getProjectHeader().getMppFileType()) == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
+      TimeUnit[] units = (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
       int maxIndex = reader instanceof MPXReader ? 3 : 10;
 
       int taskID = 11;

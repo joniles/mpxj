@@ -326,7 +326,7 @@ public final class JsonWriter extends AbstractProjectWriter
          Duration val = (Duration) value;
          if (val.getDuration() != 0)
          {
-            Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectHeader());
+            Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectProperties());
             long seconds = (long) (minutes.getDuration() * 60.0);
             m_writer.writeNameValuePair(fieldName, seconds);
          }
@@ -361,7 +361,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeTimeUnitsField(String fieldName, Object value) throws IOException
    {
       TimeUnit val = (TimeUnit) value;
-      if (val != m_projectFile.getProjectHeader().getDefaultDurationUnits())
+      if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
       {
          m_writer.writeNameValuePair(fieldName, val.toString());
       }

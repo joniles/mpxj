@@ -106,7 +106,7 @@ public class GenericCriteria
          {
             if (((Duration) value).getUnits() != TimeUnit.HOURS)
             {
-               value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+               value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
             }
          }
       }
@@ -163,7 +163,7 @@ public class GenericCriteria
                if (lhs != null)
                {
                   Duration dur = (Duration) lhs;
-                  lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+                  lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
                }
                else
                {
@@ -293,7 +293,7 @@ public class GenericCriteria
                {
                   if (value != null && ((Duration) value).getUnits() != TimeUnit.HOURS)
                   {
-                     value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+                     value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
                   }
                   else
                   {

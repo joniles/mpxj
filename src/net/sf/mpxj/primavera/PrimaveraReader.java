@@ -49,7 +49,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -114,23 +114,23 @@ final class PrimaveraReader
    }
 
    /**
-    * Process project header.
+    * Process project properties.
     * 
-    * @param rows project header data.
+    * @param rows project properties data.
     */
-   public void processProjectHeader(List<Row> rows)
+   public void processProjectProperties(List<Row> rows)
    {
       if (rows.isEmpty() == false)
       {
          Row row = rows.get(0);
-         ProjectHeader header = m_project.getProjectHeader();
-         header.setCreationDate(row.getDate("create_date"));
-         header.setFinishDate(row.getDate("plan_end_date"));
-         header.setName(row.getString("proj_short_name"));
-         header.setStartDate(row.getDate("plan_start_date")); // data_date?
-         header.setProjectTitle(row.getString("proj_short_name"));
-         header.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
-         header.setStatusDate(row.getDate("last_recalc_date"));
+         ProjectProperties properties = m_project.getProjectProperties();
+         properties.setCreationDate(row.getDate("create_date"));
+         properties.setFinishDate(row.getDate("plan_end_date"));
+         properties.setName(row.getString("proj_short_name"));
+         properties.setStartDate(row.getDate("plan_start_date")); // data_date?
+         properties.setProjectTitle(row.getString("proj_short_name"));
+         properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
+         properties.setStatusDate(row.getDate("last_recalc_date"));
       }
    }
 
@@ -858,12 +858,12 @@ final class PrimaveraReader
     */
    public void processDefaultCurrency(Row row)
    {
-      ProjectHeader header = m_project.getProjectHeader();
-      header.setCurrencySymbol(row.getString("curr_symbol"));
-      header.setSymbolPosition(CURRENCY_SYMBOL_POSITION_MAP.get(row.getString("pos_curr_fmt_type")));
-      header.setCurrencyDigits(row.getInteger("decimal_digit_cnt"));
-      header.setThousandsSeparator(row.getString("digit_group_symbol").charAt(0));
-      header.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
+      ProjectProperties properties = m_project.getProjectProperties();
+      properties.setCurrencySymbol(row.getString("curr_symbol"));
+      properties.setSymbolPosition(CURRENCY_SYMBOL_POSITION_MAP.get(row.getString("pos_curr_fmt_type")));
+      properties.setCurrencyDigits(row.getInteger("decimal_digit_cnt"));
+      properties.setThousandsSeparator(row.getString("digit_group_symbol").charAt(0));
+      properties.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
    }
 
    /**

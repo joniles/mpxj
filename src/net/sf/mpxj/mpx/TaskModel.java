@@ -177,7 +177,7 @@ final class TaskModel
       populateModel();
 
       int number;
-      char delimiter = m_parentFile.getProjectHeader().getMpxDelimiter();
+      char delimiter = m_parentFile.getProjectProperties().getMpxDelimiter();
 
       StringBuilder textual = new StringBuilder();
       StringBuilder numeric = new StringBuilder();

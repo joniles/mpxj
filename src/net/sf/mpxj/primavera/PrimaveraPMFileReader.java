@@ -55,7 +55,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -160,7 +160,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             throw new MPXJException("Unable to locate any non-external projects in a list of " + projects.size() + " projects");
          }
 
-         processProjectHeader(apibo, project);
+         processProjectProperties(apibo, project);
          processCalendars(apibo);
          processResources(apibo);
          processTasks(project);
@@ -199,39 +199,39 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    /**
-    * Process project header.
+    * Process project properties.
     * 
     * @param apibo top level object
     * @param project xml container
     */
-   private void processProjectHeader(APIBusinessObjects apibo, ProjectType project)
+   private void processProjectProperties(APIBusinessObjects apibo, ProjectType project)
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();
+      ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      header.setCreationDate(project.getCreateDate());
-      header.setFinishDate(project.getFinishDate());
-      header.setName(project.getName());
-      header.setStartDate(project.getPlannedStartDate());
-      header.setStatusDate(project.getDataDate());
-      header.setProjectTitle(project.getId());
+      properties.setCreationDate(project.getCreateDate());
+      properties.setFinishDate(project.getFinishDate());
+      properties.setName(project.getName());
+      properties.setStartDate(project.getPlannedStartDate());
+      properties.setStatusDate(project.getDataDate());
+      properties.setProjectTitle(project.getId());
 
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
       {
          GlobalPreferencesType prefs = list.get(0);
 
-         header.setCreationDate(prefs.getCreateDate());
-         header.setLastSaved(prefs.getLastUpdateDate());
-         header.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerDay()) * 60)));
-         header.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
-         header.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
+         properties.setCreationDate(prefs.getCreateDate());
+         properties.setLastSaved(prefs.getLastUpdateDate());
+         properties.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerDay()) * 60)));
+         properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
+         properties.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
 
          List<CurrencyType> currencyList = apibo.getCurrency();
          for (CurrencyType currency : currencyList)
          {
             if (currency.getObjectId().equals(prefs.getBaseCurrencyObjectId()))
             {
-               header.setCurrencySymbol(currency.getSymbol());
+               properties.setCurrencySymbol(currency.getSymbol());
                break;
             }
          }

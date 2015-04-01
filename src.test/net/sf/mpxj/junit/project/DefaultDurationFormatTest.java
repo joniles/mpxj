@@ -39,7 +39,7 @@ public class DefaultDurationFormatTest
 {
    /**
     * Ensure that where the duration format is listed as "21" in the MSPDI file, we use the default duration format,
-    * as defined in the project header.
+    * as defined in the project properties.
     */
    @Test public void testDefaultDateFormat() throws Exception
    {

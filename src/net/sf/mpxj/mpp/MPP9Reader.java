@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
@@ -86,9 +86,9 @@ final class MPP9Reader implements MPPVariantReader
       try
       {
          populateMemberData(reader, file, root);
-         processProjectHeader();
+         processProjectProperties();
 
-         if (!reader.getReadHeaderOnly())
+         if (!reader.getReadPropertiesOnly())
          {
             processSubProjectData();
             processGraphicalIndicators();
@@ -137,7 +137,7 @@ final class MPP9Reader implements MPPVariantReader
       Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
       //System.out.println(props9);
 
-      file.getProjectHeader().setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.getProjectProperties().setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
       m_inputStreamFactory = new DocumentInputStreamFactory(props9);
 
       //
@@ -180,8 +180,8 @@ final class MPP9Reader implements MPPVariantReader
       m_fontBases = new HashMap<Integer, FontBase>();
       m_taskSubProjects = new HashMap<Integer, SubProject>();
 
-      m_file.getProjectHeader().setMppFileType(Integer.valueOf(9));
-      m_file.getProjectHeader().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setMppFileType(Integer.valueOf(9));
+      m_file.getProjectProperties().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
    }
 
    /**
@@ -201,12 +201,12 @@ final class MPP9Reader implements MPPVariantReader
    }
 
    /**
-    * Process the project header data.
+    * Process the project properties data.
     */
-   private void processProjectHeader() throws MPXJException
+   private void processProjectProperties() throws MPXJException
    {
-      ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, m_projectProps, m_root);
+      ProjectPropertiesReader reader = new ProjectPropertiesReader();
+      reader.process(m_file, m_projectProps, m_root);
    }
 
    /**
@@ -707,8 +707,8 @@ final class MPP9Reader implements MPPVariantReader
          processBaseFonts(data);
       }
 
-      ProjectHeader header = m_file.getProjectHeader();
-      header.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      ProjectProperties properties = m_file.getProjectProperties();
+      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**
@@ -1980,7 +1980,7 @@ final class MPP9Reader implements MPPVariantReader
                         durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
                      }
                      Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+                     value = duration.convertUnits(durationUnits, m_file.getProjectProperties());
                      break;
                   }
 
@@ -2102,7 +2102,7 @@ final class MPP9Reader implements MPPVariantReader
                         durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
                      }
                      Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+                     value = duration.convertUnits(durationUnits, m_file.getProjectProperties());
                      break;
 
                   }

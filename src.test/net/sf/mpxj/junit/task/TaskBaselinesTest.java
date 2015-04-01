@@ -36,7 +36,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
@@ -114,8 +114,8 @@ public class TaskBaselinesTest
       //
       // Handle different file content depending on which application and file version have been used
       //
-      ProjectHeader header = project.getProjectHeader();
-      if (NumberHelper.getInt(header.getApplicationVersion()) >= 14 && NumberHelper.getInt(header.getMppFileType()) >= 14)
+      ProjectProperties properties = project.getProjectProperties();
+      if (NumberHelper.getInt(properties.getApplicationVersion()) >= 14 && NumberHelper.getInt(properties.getMppFileType()) >= 14)
       {
          startTaskID = testEstimatedDurations(project, startTaskID, maxBaselines);
          startTaskID = testEstimatedFinishes(project, startTaskID, maxBaselines);

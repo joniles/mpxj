@@ -744,7 +744,7 @@ public final class MPPUtility
          {
             case DAYS:
             {
-               double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
+               double unitsPerDay = file.getProjectProperties().getMinutesPerDay().doubleValue() * 10d;
                double totalDays = 0;
                if (unitsPerDay != 0)
                {
@@ -764,7 +764,7 @@ public final class MPPUtility
 
             case WEEKS:
             {
-               double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
+               double unitsPerWeek = file.getProjectProperties().getMinutesPerWeek().doubleValue() * 10d;
                double totalWeeks = 0;
                if (unitsPerWeek != 0)
                {
@@ -784,7 +784,7 @@ public final class MPPUtility
 
             case MONTHS:
             {
-               double unitsPerMonth = file.getProjectHeader().getMinutesPerDay().doubleValue() * file.getProjectHeader().getDaysPerMonth().doubleValue() * 10d;
+               double unitsPerMonth = file.getProjectProperties().getMinutesPerDay().doubleValue() * file.getProjectProperties().getDaysPerMonth().doubleValue() * 10d;
                double totalMonths = 0;
                if (unitsPerMonth != 0)
                {

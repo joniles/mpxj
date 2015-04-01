@@ -1,5 +1,5 @@
 /*
- * file:       MppProjectHeaderTest.java
+ * file:       MppProjectPropertiesTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2006
  * date:       23-August-2006
@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
@@ -40,78 +40,78 @@ import net.sf.mpxj.mpp.MPPReader;
 import org.junit.Test;
 
 /**
- * Test reading project header data from MPP files.
+ * Test reading project properties from MPP files.
  */
-public class MppProjectHeaderTest
+public class MppProjectPropertiesTest
 {
    /**
-    * Test project header data read from an MPP9 file.
+    * Test project properties read from an MPP9 file.
     * 
     * @throws Exception
     */
    @Test public void testMpp9() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9header.mpp"));
-      testHeader(mpp, true);
+      testProperties(mpp, true);
    }
 
    /**
-    * Test project header data read from an MPP9 file saved by Project 2007.
+    * Test project properties read from an MPP9 file saved by Project 2007.
     * 
     * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9header-from12.mpp"));
-      testHeader(mpp, true);
+      testProperties(mpp, true);
    }
 
    /**
-    * Test project header data read from an MPP9 file saved by Project 2010.
+    * Test project properties read from an MPP9 file saved by Project 2010.
     * 
     * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9header-from14.mpp"));
-      testHeader(mpp, true);
+      testProperties(mpp, true);
    }
 
    /**
-    * Test project header data read from an MPP12 file.
+    * Test project properties read from an MPP12 file.
     * 
     * @throws Exception
     */
    @Test public void testMpp12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12header.mpp"));
-      testHeader(mpp, true);
+      testProperties(mpp, true);
    }
 
    /**
-    * Test project header data read from an MPP12 file saved by Project 2010.
+    * Test project properties read from an MPP12 file saved by Project 2010.
     * 
     * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12header-from14.mpp"));
-      testHeader(mpp, true);
+      testProperties(mpp, true);
    }
 
    /**
-    * Test project header data read from an MPP14 file.
+    * Test project properties read from an MPP14 file.
     * 
     * @throws Exception
     */
    @Test public void testMpp14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14header.mpp"));
-      testHeader(mpp, true);
+      testProperties(mpp, true);
    }
 
    /**
-    * Test project header data read from an MPD9 file.
+    * Test project properties read from an MPD9 file.
     * 
     * @throws Exception
     */
@@ -119,16 +119,16 @@ public class MppProjectHeaderTest
    {
       assumeJvm();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9header.mpd"));
-      testHeader(mpp, false);
+      testProperties(mpp, false);
    }
 
    /**
-    * Test the contents of the project header as read from an MPP file.
+    * Test the project properties as read from an MPP file.
     * 
     * @param mpp project file
     * @param isMPP is the source an MPP file
     */
-   private void testHeader(ProjectFile mpp, boolean isMPP)
+   private void testProperties(ProjectFile mpp, boolean isMPP)
    {
       //
       // Create time and date formatters
@@ -137,12 +137,12 @@ public class MppProjectHeaderTest
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       //
-      // Check the values of project header attributes.
+      // Check the values of project properties.
       // The order of these tests should be the same as the order 
       // in which the attributes are read from the MPP file
       // for ease of reference.
       //
-      ProjectHeader ph = mpp.getProjectHeader();
+      ProjectProperties ph = mpp.getProjectProperties();
       assertEquals(ScheduleFrom.FINISH, ph.getScheduleFrom());
       assertEquals("24 Hours", ph.getDefaultCalendarName());
       assertEquals("08:35", tf.format(ph.getDefaultStartTime()));

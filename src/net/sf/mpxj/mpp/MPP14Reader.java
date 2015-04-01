@@ -47,7 +47,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
@@ -91,9 +91,9 @@ final class MPP14Reader implements MPPVariantReader
       try
       {
          populateMemberData(reader, file, root);
-         processProjectHeader();
+         processProjectProperties();
 
-         if (!reader.getReadHeaderOnly())
+         if (!reader.getReadPropertiesOnly())
          {
             processSubProjectData();
             processGraphicalIndicators();
@@ -142,7 +142,7 @@ final class MPP14Reader implements MPPVariantReader
       Props14 props14 = new Props14(new DocumentInputStream(((DocumentEntry) root.getEntry("Props14"))));
       //System.out.println(props14);
 
-      file.getProjectHeader().setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.getProjectProperties().setProjectFilePath(props14.getUnicodeString(Props.PROJECT_FILE_PATH));
       m_inputStreamFactory = new DocumentInputStreamFactory(props14);
 
       //
@@ -180,8 +180,8 @@ final class MPP14Reader implements MPPVariantReader
       m_taskOrder = new TreeMap<Long, Integer>();
       m_nullTaskOrder = new TreeMap<Integer, Integer>();
 
-      m_file.getProjectHeader().setMppFileType(Integer.valueOf(14));
-      m_file.getProjectHeader().setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setMppFileType(Integer.valueOf(14));
+      m_file.getProjectProperties().setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
 
       m_customFieldValues = new CustomFieldValues();
    }
@@ -215,7 +215,7 @@ final class MPP14Reader implements MPPVariantReader
    private void processCustomValueLists()
    {
       Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-      int parentOffset = m_file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
+      int parentOffset = m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
 
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
@@ -239,12 +239,12 @@ final class MPP14Reader implements MPPVariantReader
    }
 
    /**
-    * Process the project header data.
+    * Process the project properties data.
     */
-   private void processProjectHeader() throws MPXJException
+   private void processProjectProperties() throws MPXJException
    {
-      ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, m_projectProps, m_root);
+      ProjectPropertiesReader reader = new ProjectPropertiesReader();
+      reader.process(m_file, m_projectProps, m_root);
    }
 
    /**
@@ -783,8 +783,8 @@ final class MPP14Reader implements MPPVariantReader
          processBaseFonts(data);
       }
 
-      ProjectHeader header = m_file.getProjectHeader();
-      header.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      ProjectProperties properties = m_file.getProjectProperties();
+      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**
@@ -1411,7 +1411,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
-      if (m_file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0"))
       {
          metaDataBitFlags = PROJECT2013_TASK_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_TASK_META_DATA2_BIT_FLAGS;
@@ -2030,7 +2030,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
-      if (m_file.getProjectHeader().getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0"))
       {
          metaDataBitFlags = PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS;

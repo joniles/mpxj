@@ -682,13 +682,13 @@ public final class ProjectFile implements TaskContainer
    }
 
    /**
-    * This method is used to retrieve the project header record.
+    * This method is used to retrieve the project properties.
     *
-    * @return project header object
+    * @return project properties
     */
-   public ProjectHeader getProjectHeader()
+   public ProjectProperties getProjectProperties()
    {
-      return (m_projectHeader);
+      return (m_projectProperties);
    }
 
    /**
@@ -1923,7 +1923,7 @@ public final class ProjectFile implements TaskContainer
 
    /**
     * Retrieves the default calendar for this project based on the calendar name
-    * given in the project header. If a calendar of this name cannot be found, then
+    * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
     * project contains no calendars, then a default calendar is added. 
     * 
@@ -1931,7 +1931,7 @@ public final class ProjectFile implements TaskContainer
     */
    public ProjectCalendar getCalendar()
    {
-      String calendarName = m_projectHeader.getDefaultCalendarName();
+      String calendarName = m_projectProperties.getDefaultCalendarName();
       ProjectCalendar calendar = getCalendarByName(calendarName);
       if (calendar == null)
       {
@@ -1954,7 +1954,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void setCalendar(ProjectCalendar calendar)
    {
-      m_projectHeader.setDefaultCalendarName(calendar.getName());
+      m_projectProperties.setDefaultCalendarName(calendar.getName());
    }
 
    /**
@@ -2037,9 +2037,9 @@ public final class ProjectFile implements TaskContainer
    private List<ProjectCalendar> m_calendars = new LinkedList<ProjectCalendar>();
 
    /**
-    * Project header record.
+    * Project properties.
     */
-   private ProjectHeader m_projectHeader = new ProjectHeader(this);
+   private ProjectProperties m_projectProperties = new ProjectProperties(this);
 
    /**
     * Indicating whether WBS value should be calculated on creation, or will

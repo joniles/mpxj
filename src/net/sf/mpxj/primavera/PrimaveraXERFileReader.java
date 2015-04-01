@@ -93,7 +93,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          project.addProjectListeners(m_projectListeners);
 
          processProjectID();
-         processProjectHeader();
+         processProjectProperties();
          processUserDefinedFields();
          processCalendars();
          processResources();
@@ -148,7 +148,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             ProjectFile project = m_reader.getProject();
             project.addProjectListeners(m_projectListeners);
 
-            processProjectHeader();
+            processProjectProperties();
             processUserDefinedFields();
             processCalendars();
             processResources();
@@ -309,15 +309,15 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
-    * Process project header.
+    * Process project properties.
     */
-   private void processProjectHeader()
+   private void processProjectProperties()
    {
       //
       // Process common attributes
       //
       List<Row> rows = getRows("project", "proj_id", m_projectID);
-      m_reader.processProjectHeader(rows);
+      m_reader.processProjectProperties(rows);
 
       //
       // Process XER-specific attributes

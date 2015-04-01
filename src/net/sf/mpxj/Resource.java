@@ -940,7 +940,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          Duration baselineWork = getBaselineWork();
          if (work != null && baselineWork != null)
          {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader()).getDuration(), work.getUnits());
+            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
             set(ResourceField.WORK_VARIANCE, variance);
          }
       }

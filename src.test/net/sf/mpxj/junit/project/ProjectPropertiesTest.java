@@ -35,7 +35,7 @@ import java.util.Map;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
@@ -83,34 +83,34 @@ public class ProjectPropertiesTest
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       ProjectFile project = reader.read(file);
-      ProjectHeader header = project.getProjectHeader();
+      ProjectProperties properties = project.getProjectProperties();
 
       //
       // We are reading title successfully - it's just that when MS Project saves
       // the test data files, sometimes it sets the value we asked for... sometimes 
       // it reverts to the file name.
       //
-      //assertEquals("Title", header.getProjectTitle());
+      //assertEquals("Title", properties.getProjectTitle());
 
-      assertEquals("Subject", header.getSubject());
-      assertEquals("Author", header.getAuthor());
-      assertEquals("Keywords", header.getKeywords());
-      assertEquals("Comments", header.getComments());
-      assertEquals("Template", header.getTemplate());
-      assertEquals("Category", header.getCategory());
-      assertEquals("Format", header.getPresentationFormat());
-      assertEquals("Manager", header.getManager());
-      assertEquals("Company", header.getCompany());
+      assertEquals("Subject", properties.getSubject());
+      assertEquals("Author", properties.getAuthor());
+      assertEquals("Keywords", properties.getKeywords());
+      assertEquals("Comments", properties.getComments());
+      assertEquals("Template", properties.getTemplate());
+      assertEquals("Category", properties.getCategory());
+      assertEquals("Format", properties.getPresentationFormat());
+      assertEquals("Manager", properties.getManager());
+      assertEquals("Company", properties.getCompany());
 
-      if (NumberHelper.getInt(project.getProjectHeader().getMppFileType()) > 9)
+      if (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) > 9)
       {
-         assertEquals("Content type", header.getContentType());
-         assertEquals("Content status", header.getContentStatus());
-         assertEquals("Language", header.getLanguage());
-         assertEquals("Document version", header.getDocumentVersion());
+         assertEquals("Content type", properties.getContentType());
+         assertEquals("Content status", properties.getContentStatus());
+         assertEquals("Language", properties.getLanguage());
+         assertEquals("Document version", properties.getDocumentVersion());
       }
 
-      Map<String, Object> custom = header.getCustomProperties();
+      Map<String, Object> custom = properties.getCustomProperties();
       assertEquals(Integer.valueOf(1000), custom.get("CustomNumber"));
       assertEquals(Double.valueOf(1.5), custom.get("CustomFloat"));
       assertEquals("This is a custom property.", custom.get("CustomString"));

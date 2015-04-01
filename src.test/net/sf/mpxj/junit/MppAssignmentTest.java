@@ -307,7 +307,7 @@ public class MppAssignmentTest
       Task task;
       List<ResourceAssignment> assignments;
       ResourceAssignment assignment;
-      int mppFileType = NumberHelper.getInt(mpp.getProjectHeader().getMppFileType());
+      int mppFileType = NumberHelper.getInt(mpp.getProjectProperties().getMppFileType());
 
       if (mppFileType > 9)
       {

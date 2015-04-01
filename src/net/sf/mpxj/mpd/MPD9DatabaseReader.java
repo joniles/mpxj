@@ -116,7 +116,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          m_project.setAutoCalendarUniqueID(false);
          m_project.setAutoAssignmentUniqueID(false);
 
-         processProjectHeader();
+         processProjectProperties();
          processCalendars();
          processResources();
          processResourceBaselines();
@@ -159,16 +159,16 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Select the project header row from the database.
+    * Select the project properties from the database.
     * 
     * @throws SQLException
     */
-   private void processProjectHeader() throws SQLException
+   private void processProjectProperties() throws SQLException
    {
       List<ResultSetRow> rows = getRows("SELECT * FROM MSP_PROJECTS WHERE PROJ_ID=?", m_projectID);
       if (rows.isEmpty() == false)
       {
-         processProjectHeader(rows.get(0));
+         processProjectProperties(rows.get(0));
       }
    }
 

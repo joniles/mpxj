@@ -36,7 +36,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -470,8 +470,8 @@ public class MppTaskTest
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-      ProjectHeader projectHeader = mpp.getProjectHeader();
-      assertNotNull(projectHeader);
+      ProjectProperties properties = mpp.getProjectProperties();
+      assertNotNull(properties);
 
       // test various global properties
       List<Task> listAllTasks = mpp.getAllTasks();

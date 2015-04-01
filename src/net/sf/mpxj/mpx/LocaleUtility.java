@@ -29,7 +29,7 @@ import net.sf.mpxj.CodePage;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.common.DateHelper;
 
@@ -52,30 +52,30 @@ final class LocaleUtility
     * It resets the locale specific currency attributes to the default values
     * for the new locale.
     *
-    * @param header project header instance
+    * @param properties project properties
     * @param locale new locale
     */
-   public static void setLocale(ProjectHeader header, Locale locale)
+   public static void setLocale(ProjectProperties properties, Locale locale)
    {
-      header.setMpxDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
-      header.setMpxProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
-      header.setMpxCodePage((CodePage) LocaleData.getObject(locale, LocaleData.CODE_PAGE));
+      properties.setMpxDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
+      properties.setMpxProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
+      properties.setMpxCodePage((CodePage) LocaleData.getObject(locale, LocaleData.CODE_PAGE));
 
-      header.setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
-      header.setSymbolPosition((CurrencySymbolPosition) LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
-      header.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
-      header.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
-      header.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
+      properties.setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
+      properties.setSymbolPosition((CurrencySymbolPosition) LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
+      properties.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
+      properties.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
+      properties.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
 
-      header.setDateOrder((DateOrder) LocaleData.getObject(locale, LocaleData.DATE_ORDER));
-      header.setTimeFormat((ProjectTimeFormat) LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
-      header.setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
-      header.setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
-      header.setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
-      header.setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
-      header.setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
-      header.setDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      header.setBarTextDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      properties.setDateOrder((DateOrder) LocaleData.getObject(locale, LocaleData.DATE_ORDER));
+      properties.setTimeFormat((ProjectTimeFormat) LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
+      properties.setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
+      properties.setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
+      properties.setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
+      properties.setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
+      properties.setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
+      properties.setDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      properties.setBarTextDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
    }
 
    /**

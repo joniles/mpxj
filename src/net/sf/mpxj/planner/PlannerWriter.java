@@ -45,7 +45,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -111,7 +111,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_plannerProject = m_factory.createProject();
 
-         writeProjectHeader();
+         writeProjectProperties();
          writeCalendars();
          writeResources();
          writeTasks();
@@ -134,16 +134,16 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes project header data to a Planner file.
+    * This method writes project properties to a Planner file.
     */
-   private void writeProjectHeader()
+   private void writeProjectProperties()
    {
-      ProjectHeader mpxjHeader = m_projectFile.getProjectHeader();
+      ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      m_plannerProject.setCompany(mpxjHeader.getCompany());
-      m_plannerProject.setManager(mpxjHeader.getManager());
-      m_plannerProject.setName(getString(mpxjHeader.getName()));
-      m_plannerProject.setProjectStart(getDateTime(mpxjHeader.getStartDate()));
+      m_plannerProject.setCompany(properties.getCompany());
+      m_plannerProject.setManager(properties.getManager());
+      m_plannerProject.setName(getString(properties.getName()));
+      m_plannerProject.setProjectStart(getDateTime(properties.getStartDate()));
       m_plannerProject.setCalendar(getIntegerString(m_projectFile.getCalendar().getUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
@@ -785,7 +785,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
             case DAYS:
             {
-               double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
+               double minutesPerDay = m_projectFile.getProjectProperties().getMinutesPerDay().doubleValue();
                seconds = value.getDuration() * (minutesPerDay * 60);
                break;
             }
@@ -798,7 +798,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
             case WEEKS:
             {
-               double minutesPerWeek = m_projectFile.getProjectHeader().getMinutesPerWeek().doubleValue();
+               double minutesPerWeek = m_projectFile.getProjectProperties().getMinutesPerWeek().doubleValue();
                seconds = value.getDuration() * (minutesPerWeek * 60);
                break;
             }
@@ -811,8 +811,8 @@ public final class PlannerWriter extends AbstractProjectWriter
 
             case MONTHS:
             {
-               double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
-               double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
+               double minutesPerDay = m_projectFile.getProjectProperties().getMinutesPerDay().doubleValue();
+               double daysPerMonth = m_projectFile.getProjectProperties().getDaysPerMonth().doubleValue();
                seconds = value.getDuration() * (daysPerMonth * minutesPerDay * 60);
                break;
             }
@@ -825,8 +825,8 @@ public final class PlannerWriter extends AbstractProjectWriter
 
             case YEARS:
             {
-               double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
-               double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
+               double minutesPerDay = m_projectFile.getProjectProperties().getMinutesPerDay().doubleValue();
+               double daysPerMonth = m_projectFile.getProjectProperties().getDaysPerMonth().doubleValue();
                seconds = value.getDuration() * (12 * daysPerMonth * minutesPerDay * 60);
                break;
             }

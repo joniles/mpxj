@@ -30,7 +30,7 @@ import java.util.List;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -82,7 +82,7 @@ public class MpxjQuery
       ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
       ProjectFile mpx = reader.read(filename);
 
-      listProjectHeader(mpx);
+      listProjectProperties(mpx);
 
       listResources(mpx);
 
@@ -109,21 +109,21 @@ public class MpxjQuery
    }
 
    /**
-    * Reads basic summary details from the project header.
+    * Reads basic summary details from the project properties.
     *
     * @param file MPX file
     */
-   private static void listProjectHeader(ProjectFile file)
+   private static void listProjectProperties(ProjectFile file)
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
-      ProjectHeader header = file.getProjectHeader();
-      Date startDate = header.getStartDate();
-      Date finishDate = header.getFinishDate();
+      ProjectProperties properties = file.getProjectProperties();
+      Date startDate = properties.getStartDate();
+      Date finishDate = properties.getFinishDate();
       String formattedStartDate = startDate == null ? "(none)" : df.format(startDate);
       String formattedFinishDate = finishDate == null ? "(none)" : df.format(finishDate);
 
-      System.out.println("MPP file type: " + header.getMppFileType());
-      System.out.println("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
+      System.out.println("MPP file type: " + properties.getMppFileType());
+      System.out.println("Project Properties: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
       System.out.println();
    }
 

@@ -86,10 +86,10 @@ public final class Duration implements Comparable<Duration>
     * The results obtained from it should therefore be treated with caution.
     *
     * @param type target duration type
-    * @param defaults project header containing default values
+    * @param defaults project properties containing default values
     * @return new Duration instance
     */
-   public Duration convertUnits(TimeUnit type, ProjectHeader defaults)
+   public Duration convertUnits(TimeUnit type, ProjectProperties defaults)
    {
       return (convertUnits(m_duration, m_units, type, defaults));
    }
@@ -103,10 +103,10 @@ public final class Duration implements Comparable<Duration>
     * @param duration duration value
     * @param fromUnits units to convert from
     * @param toUnits units to convert to
-    * @param defaults project header containing default values
+    * @param defaults project properties containing default values
     * @return new Duration instance
     */
-   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
+   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectProperties defaults)
    {
       return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue(), defaults.getDaysPerMonth().doubleValue()));
    }

@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -146,14 +146,14 @@ public class MpxjCreate
       calendar.addCalendarException(df.parse("13/03/2006"), df.parse("13/03/2006"));
 
       //
-      // Retrieve the project header and set the start date. Note Microsoft
+      // Retrieve the project properties and set the start date. Note Microsoft
       // Project appears to reset all task dates relative to this date, so this
       // date must match the start date of the earliest task for you to see
       // the expected results. If this value is not set, it will default to
       // today's date.
       //
-      ProjectHeader header = file.getProjectHeader();
-      header.setStartDate(df.parse("01/01/2003"));
+      ProjectProperties properties = file.getProjectProperties();
+      properties.setStartDate(df.parse("01/01/2003"));
 
       //
       // Add resources

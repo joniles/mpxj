@@ -197,7 +197,7 @@ public final class MPDUtility
 
          case DAYS:
          {
-            double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
+            double unitsPerDay = file.getProjectProperties().getMinutesPerDay().doubleValue() * 10d;
             double totalDays = 0;
             if (unitsPerDay != 0)
             {
@@ -217,7 +217,7 @@ public final class MPDUtility
 
          case WEEKS:
          {
-            double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
+            double unitsPerWeek = file.getProjectProperties().getMinutesPerWeek().doubleValue() * 10d;
             double totalWeeks = 0;
             if (unitsPerWeek != 0)
             {
