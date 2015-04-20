@@ -12,15 +12,16 @@
 		<action dev="joniles" type="add">Added project properties to the JSON output</action>
 		<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader class to ProjectProperties</action>
+		<action dev="joniles" type="update">Introduced ProjectConfig class</action>		
 		<action dev="joniles" type="update">Renamed Project.getProjectHeader to getProjectProperties</action>	
 		<action dev="joniles" type="update">Renamed MppReader.getReadHeaderOnly to getReadPropertiesOnly</action>
 		<action dev="joniles" type="update">Renamed MppReader.setReadHeaderOnly to setReadPropertiesOnly</action>	
-		<action dev="joniles" type="update">Renamed Project.getCalendarUniqueID to getNextCalendarUniqueID</action>
-		<action dev="joniles" type="update">Renamed Project.getResourceUniqueID to getNextResourceUniqueID</action>		
-		<action dev="joniles" type="update">Renamed Project.getTaskUniqueID to getNextTaskUniqueID</action>
-		<action dev="joniles" type="update">Renamed Project.getAssignmentUniqueID to getNextAssignmentUniqueID</action>
-		<action dev="joniles" type="update">Renamed Project.getResourceID to getNextResourceID</action>		
-		<action dev="joniles" type="update">Renamed Project.getTaskID to getNextTaskID</action>
+		<action dev="joniles" type="update">Renamed Project.getCalendarUniqueID to ProjectConfig.getNextCalendarUniqueID</action>
+		<action dev="joniles" type="update">Renamed Project.getResourceUniqueID to ProjectConfig.getNextResourceUniqueID</action>		
+		<action dev="joniles" type="update">Renamed Project.getTaskUniqueID to ProjectConfig.getNextTaskUniqueID</action>
+		<action dev="joniles" type="update">Renamed Project.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</action>
+		<action dev="joniles" type="update">Renamed Project.getResourceID to ProjectConfig.getNextResourceID</action>		
+		<action dev="joniles" type="update">Renamed Project.getTaskID to ProjectConfig.getNextTaskID</action>
 		<action dev="joniles" type="update">Renamed Project.getAliasTaskField to getTaskFieldByAlias</action>
 		<action dev="joniles" type="update">Renamed Project.getAliasResourceField to getResourceFieldByAlias</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.getApplicationName to getShortApplicationName</action>

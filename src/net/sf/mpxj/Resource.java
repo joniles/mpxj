@@ -50,15 +50,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       super(file);
 
       setType(ResourceType.WORK);
+      ProjectConfig config = file.getProjectConfig();
 
-      if (file.getAutoResourceUniqueID() == true)
+      if (config.getAutoResourceUniqueID() == true)
       {
-         setUniqueID(Integer.valueOf(file.getNextResourceUniqueID()));
+         setUniqueID(Integer.valueOf(config.getNextResourceUniqueID()));
       }
 
-      if (file.getAutoResourceID() == true)
+      if (config.getAutoResourceID() == true)
       {
-         setID(Integer.valueOf(file.getNextResourceID()));
+         setID(Integer.valueOf(config.getNextResourceID()));
       }
    }
 

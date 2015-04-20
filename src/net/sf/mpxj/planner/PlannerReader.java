@@ -55,6 +55,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -113,12 +114,14 @@ public final class PlannerReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
 
+         ProjectConfig config = m_projectFile.getProjectConfig();
+         config.setAutoTaskUniqueID(false);
+         config.setAutoResourceUniqueID(false);
+         config.setAutoOutlineLevel(false);
+         config.setAutoOutlineNumber(false);
+         config.setAutoWBS(false);
+
          m_projectFile.addProjectListeners(m_projectListeners);
-         m_projectFile.setAutoTaskUniqueID(false);
-         m_projectFile.setAutoResourceUniqueID(false);
-         m_projectFile.setAutoOutlineLevel(false);
-         m_projectFile.setAutoOutlineNumber(false);
-         m_projectFile.setAutoWBS(false);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);
@@ -144,7 +147,7 @@ public final class PlannerReader extends AbstractProjectReader
          //
          // Ensure that the unique ID counters are correct
          //
-         m_projectFile.updateUniqueCounters();
+         config.updateUniqueCounters();
 
          return (m_projectFile);
       }

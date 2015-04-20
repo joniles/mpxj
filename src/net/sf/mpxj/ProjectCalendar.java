@@ -54,9 +54,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek
    {
       m_projectFile = file;
 
-      if (file.getAutoCalendarUniqueID() == true)
+      if (file.getProjectConfig().getAutoCalendarUniqueID() == true)
       {
-         setUniqueID(Integer.valueOf(file.getNextCalendarUniqueID()));
+         setUniqueID(Integer.valueOf(file.getProjectConfig().getNextCalendarUniqueID()));
       }
    }
 

@@ -48,6 +48,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -84,11 +85,12 @@ final class PrimaveraReader
    {
       m_project = new ProjectFile();
 
-      m_project.setAutoTaskUniqueID(false);
-      m_project.setAutoResourceUniqueID(false);
-      m_project.setAutoCalendarUniqueID(true);
-      m_project.setAutoAssignmentUniqueID(false);
-      m_project.setAutoWBS(false);
+      ProjectConfig config = m_project.getProjectConfig();
+      config.setAutoTaskUniqueID(false);
+      config.setAutoResourceUniqueID(false);
+      config.setAutoCalendarUniqueID(true);
+      config.setAutoAssignmentUniqueID(false);
+      config.setAutoWBS(false);
 
       m_resourceFields = resourceFields;
       m_wbsFields = wbsFields;

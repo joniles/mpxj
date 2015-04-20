@@ -57,28 +57,29 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       setActive(true);
 
       m_parent = parent;
+      ProjectConfig config = file.getProjectConfig();
 
-      if (file.getAutoTaskUniqueID() == true)
+      if (config.getAutoTaskUniqueID() == true)
       {
-         setUniqueID(Integer.valueOf(file.getNextTaskUniqueID()));
+         setUniqueID(Integer.valueOf(config.getNextTaskUniqueID()));
       }
 
-      if (file.getAutoTaskID() == true)
+      if (config.getAutoTaskID() == true)
       {
-         setID(Integer.valueOf(file.getNextTaskID()));
+         setID(Integer.valueOf(config.getNextTaskID()));
       }
 
-      if (file.getAutoWBS() == true)
+      if (config.getAutoWBS() == true)
       {
          generateWBS(parent);
       }
 
-      if (file.getAutoOutlineNumber() == true)
+      if (config.getAutoOutlineNumber() == true)
       {
          generateOutlineNumber(parent);
       }
 
-      if (file.getAutoOutlineLevel() == true)
+      if (config.getAutoOutlineLevel() == true)
       {
          if (parent == null)
          {
@@ -260,7 +261,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       m_children.add(child);
       setSummary(true);
 
-      if (getParentFile().getAutoOutlineLevel() == true)
+      if (getParentFile().getProjectConfig().getAutoOutlineLevel() == true)
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -287,7 +288,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       child.m_parent = this;
       setSummary(true);
 
-      if (getParentFile().getAutoOutlineLevel() == true)
+      if (getParentFile().getProjectConfig().getAutoOutlineLevel() == true)
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }

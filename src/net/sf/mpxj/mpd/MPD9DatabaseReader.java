@@ -40,6 +40,7 @@ import javax.sql.DataSource;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
@@ -105,16 +106,18 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          m_project = new ProjectFile();
 
+         ProjectConfig config = m_project.getProjectConfig();
+         config.setAutoTaskID(false);
+         config.setAutoTaskUniqueID(false);
+         config.setAutoResourceID(false);
+         config.setAutoResourceUniqueID(false);
+         config.setAutoOutlineLevel(false);
+         config.setAutoOutlineNumber(false);
+         config.setAutoWBS(false);
+         config.setAutoCalendarUniqueID(false);
+         config.setAutoAssignmentUniqueID(false);
+
          m_project.addProjectListeners(m_projectListeners);
-         m_project.setAutoTaskID(false);
-         m_project.setAutoTaskUniqueID(false);
-         m_project.setAutoResourceID(false);
-         m_project.setAutoResourceUniqueID(false);
-         m_project.setAutoOutlineLevel(false);
-         m_project.setAutoOutlineNumber(false);
-         m_project.setAutoWBS(false);
-         m_project.setAutoCalendarUniqueID(false);
-         m_project.setAutoAssignmentUniqueID(false);
 
          processProjectProperties();
          processCalendars();

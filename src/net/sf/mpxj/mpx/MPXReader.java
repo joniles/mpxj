@@ -42,6 +42,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurringTask;
@@ -110,14 +111,16 @@ public final class MPXReader extends AbstractProjectReader
 
          m_projectFile = new ProjectFile();
 
+         m_projectConfig = m_projectFile.getProjectConfig();
+         m_projectConfig.setAutoTaskID(false);
+         m_projectConfig.setAutoTaskUniqueID(false);
+         m_projectConfig.setAutoResourceID(false);
+         m_projectConfig.setAutoResourceUniqueID(false);
+         m_projectConfig.setAutoOutlineLevel(false);
+         m_projectConfig.setAutoOutlineNumber(false);
+         m_projectConfig.setAutoWBS(false);
+
          m_projectFile.addProjectListeners(m_projectListeners);
-         m_projectFile.setAutoTaskID(false);
-         m_projectFile.setAutoTaskUniqueID(false);
-         m_projectFile.setAutoResourceID(false);
-         m_projectFile.setAutoResourceUniqueID(false);
-         m_projectFile.setAutoOutlineLevel(false);
-         m_projectFile.setAutoOutlineNumber(false);
-         m_projectFile.setAutoWBS(false);
 
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
          m_delimiter = (char) data[3];
@@ -187,9 +190,9 @@ public final class MPXReader extends AbstractProjectReader
          //
          // Ensure that the unique ID counters are correct
          //
-         m_projectFile.updateUniqueCounters();
+         m_projectConfig.updateUniqueCounters();
 
-         m_projectFile.setAutoCalendarUniqueID(false);
+         m_projectConfig.setAutoCalendarUniqueID(false);
 
          return (m_projectFile);
       }
@@ -821,14 +824,14 @@ public final class MPXReader extends AbstractProjectReader
          }
       }
 
-      if (m_projectFile.getAutoResourceUniqueID() == true)
+      if (m_projectConfig.getAutoResourceUniqueID() == true)
       {
-         resource.setUniqueID(Integer.valueOf(m_projectFile.getNextResourceUniqueID()));
+         resource.setUniqueID(Integer.valueOf(m_projectConfig.getNextResourceUniqueID()));
       }
 
-      if (m_projectFile.getAutoResourceID() == true)
+      if (m_projectConfig.getAutoResourceID() == true)
       {
-         resource.setID(Integer.valueOf(m_projectFile.getNextResourceID()));
+         resource.setID(Integer.valueOf(m_projectConfig.getNextResourceID()));
       }
 
       //
@@ -1236,29 +1239,29 @@ public final class MPXReader extends AbstractProjectReader
          }
       }
 
-      if (m_projectFile.getAutoWBS() == true)
+      if (m_projectConfig.getAutoWBS() == true)
       {
          task.generateWBS(null);
       }
 
-      if (m_projectFile.getAutoOutlineNumber() == true)
+      if (m_projectConfig.getAutoOutlineNumber() == true)
       {
          task.generateOutlineNumber(null);
       }
 
-      if (m_projectFile.getAutoOutlineLevel() == true)
+      if (m_projectConfig.getAutoOutlineLevel() == true)
       {
          task.setOutlineLevel(Integer.valueOf(1));
       }
 
-      if (m_projectFile.getAutoTaskUniqueID() == true)
+      if (m_projectConfig.getAutoTaskUniqueID() == true)
       {
-         task.setUniqueID(Integer.valueOf(m_projectFile.getNextTaskUniqueID()));
+         task.setUniqueID(Integer.valueOf(m_projectConfig.getNextTaskUniqueID()));
       }
 
-      if (task.getID() == null || m_projectFile.getAutoTaskID() == true)
+      if (task.getID() == null || m_projectConfig.getAutoTaskID() == true)
       {
-         task.setID(Integer.valueOf(m_projectFile.getNextTaskID()));
+         task.setID(Integer.valueOf(m_projectConfig.getNextTaskID()));
       }
 
       //
@@ -1524,6 +1527,7 @@ public final class MPXReader extends AbstractProjectReader
    }
 
    private ProjectFile m_projectFile;
+   private ProjectConfig m_projectConfig;
    private Task m_lastTask;
    private Resource m_lastResource;
    private ProjectCalendar m_lastResourceCalendar;

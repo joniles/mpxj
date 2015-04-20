@@ -731,7 +731,7 @@ final class MPP8Reader implements MPPVariantReader
       //
       // Enable auto WBS if necessary
       //
-      m_file.setAutoWBS(autoWBS);
+      m_file.getProjectConfig().setAutoWBS(autoWBS);
    }
 
    /**

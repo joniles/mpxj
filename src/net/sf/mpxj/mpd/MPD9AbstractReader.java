@@ -40,6 +40,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
@@ -1237,10 +1238,11 @@ abstract class MPD9AbstractReader
       // generate outline numbers for the tasks as they don't appear to
       // be present in the MPP file.
       //
-      m_project.setAutoWBS(m_autoWBS);
-      m_project.setAutoOutlineNumber(true);
+      ProjectConfig config = m_project.getProjectConfig();
+      config.setAutoWBS(m_autoWBS);
+      config.setAutoOutlineNumber(true);
       m_project.updateStructure();
-      m_project.setAutoOutlineNumber(false);
+      config.setAutoOutlineNumber(false);
 
       //
       // Perform post-processing to set the summary flag
@@ -1253,7 +1255,7 @@ abstract class MPD9AbstractReader
       //
       // Ensure that the unique ID counters are correct
       //
-      m_project.updateUniqueCounters();
+      config.updateUniqueCounters();
    }
 
    /**

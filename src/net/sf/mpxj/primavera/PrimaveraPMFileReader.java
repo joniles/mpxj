@@ -54,6 +54,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -120,10 +121,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          m_projectFile = new ProjectFile();
 
-         m_projectFile.setAutoTaskUniqueID(false);
-         m_projectFile.setAutoResourceUniqueID(false);
-         m_projectFile.setAutoCalendarUniqueID(false);
-         m_projectFile.setAutoAssignmentUniqueID(false);
+         ProjectConfig config = m_projectFile.getProjectConfig();
+         config.setAutoTaskUniqueID(false);
+         config.setAutoResourceUniqueID(false);
+         config.setAutoCalendarUniqueID(false);
+         config.setAutoAssignmentUniqueID(false);
+
          m_projectFile.setTaskFieldAlias(TaskField.TEXT1, "WBS Code");
          m_projectFile.setTaskFieldAlias(TaskField.TEXT2, "Task ID");
 
@@ -170,7 +173,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          //
          // Ensure that the unique ID counters are correct
          //
-         m_projectFile.updateUniqueCounters();
+         config.updateUniqueCounters();
 
          return (m_projectFile);
       }

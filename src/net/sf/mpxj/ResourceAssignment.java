@@ -51,9 +51,9 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       super(file);
 
-      if (file.getAutoAssignmentUniqueID() == true)
+      if (file.getProjectConfig().getAutoAssignmentUniqueID() == true)
       {
-         setUniqueID(Integer.valueOf(file.getNextAssignmentUniqueID()));
+         setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
    }
 

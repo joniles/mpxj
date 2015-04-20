@@ -56,6 +56,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -1424,10 +1425,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // write a dummy resource assignment record to ensure that the MSPDI
       // file shows the correct percent complete amount for the task.
       //
-      boolean autoUniqueID = m_projectFile.getAutoAssignmentUniqueID();
+      ProjectConfig config = m_projectFile.getProjectConfig();
+      boolean autoUniqueID = config.getAutoAssignmentUniqueID();
       if (!autoUniqueID)
       {
-         m_projectFile.setAutoAssignmentUniqueID(true);
+         config.setAutoAssignmentUniqueID(true);
       }
 
       for (Task task : m_projectFile.getAllTasks())
@@ -1455,7 +1457,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          }
       }
 
-      m_projectFile.setAutoAssignmentUniqueID(autoUniqueID);
+      config.setAutoAssignmentUniqueID(autoUniqueID);
    }
 
    /**

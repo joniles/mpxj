@@ -1705,7 +1705,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       // Enable auto WBS if necessary
       //
-      m_file.setAutoWBS(autoWBS);
+      m_file.getProjectConfig().setAutoWBS(autoWBS);
 
       //
       // We have now read all of the task, so we are in a position

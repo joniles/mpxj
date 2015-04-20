@@ -1901,7 +1901,7 @@ final class MPP9Reader implements MPPVariantReader
       //
       // Enable auto WBS if necessary
       //
-      m_file.setAutoWBS(autoWBS);
+      m_file.getProjectConfig().setAutoWBS(autoWBS);
 
       //
       // We have now read all of the tasks, so we are in a position

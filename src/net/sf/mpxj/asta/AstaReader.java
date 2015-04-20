@@ -40,6 +40,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RelationType;
@@ -61,12 +62,13 @@ final class AstaReader
    public AstaReader()
    {
       m_project = new ProjectFile();
+      ProjectConfig config = m_project.getProjectConfig();
 
-      m_project.setAutoTaskUniqueID(false);
-      m_project.setAutoResourceUniqueID(false);
+      config.setAutoTaskUniqueID(false);
+      config.setAutoResourceUniqueID(false);
 
-      m_project.setAutoCalendarUniqueID(false);
-      m_project.setAutoWBS(false);
+      config.setAutoCalendarUniqueID(false);
+      config.setAutoWBS(false);
    }
 
    /**
@@ -164,7 +166,7 @@ final class AstaReader
    private ProjectCalendar deriveResourceCalendar(Integer parentCalendarID)
    {
       ProjectCalendar calendar = m_project.addDefaultDerivedCalendar();
-      calendar.setUniqueID(Integer.valueOf(m_project.getNextCalendarUniqueID()));
+      calendar.setUniqueID(Integer.valueOf(m_project.getProjectConfig().getNextCalendarUniqueID()));
       calendar.setParent(m_project.getCalendarByUniqueID(parentCalendarID));
       return calendar;
    }
