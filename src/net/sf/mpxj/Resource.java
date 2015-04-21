@@ -38,7 +38,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends ProjectEntity implements Comparable<Resource>, IdentifiedProjectEntity, FieldContainer
+public final class Resource extends ProjectEntity implements Comparable<Resource>, ProjectEntityWithID, FieldContainer
 {
    /**
     * Default constructor.

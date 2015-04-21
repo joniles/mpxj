@@ -39,7 +39,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a task record from an project file.
  */
-public final class Task extends ProjectEntity implements Comparable<Task>, IdentifiedProjectEntity, FieldContainer, ChildTaskContainer
+public final class Task extends ProjectEntity implements Comparable<Task>, ProjectEntityWithID, FieldContainer, ChildTaskContainer
 {
    /**
     * Default constructor.

@@ -32,7 +32,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Manages the collection of tasks belonging to a project.
  */
-public class TaskContainer extends ProjectEntityContainer<Task>
+public class TaskContainer extends ProjectEntityWithIDContainer<Task>
 {
    /**
     * Constructor.

@@ -30,7 +30,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Manages the collection of resources belonging to a project.
  */
-public class ResourceContainer extends ProjectEntityContainer<Resource>
+public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 {
    /**
     * Constructor.

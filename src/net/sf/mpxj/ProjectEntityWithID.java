@@ -1,5 +1,5 @@
 /*
- * file:       IdentifiedProjectEntity.java
+ * file:       ProjectEntityWithID.java
  * author:     Jon Iles             
  * copyright:  (c) Packwood Software 2002-2015
  * date:       15/04/2015
@@ -24,9 +24,9 @@
 package net.sf.mpxj;
 
 /**
- * Implemented by entities which can be identified by an ID and a Unique ID.
+ * Implemented by entities which can be identified by an ID.
  */
-public interface IdentifiedProjectEntity
+public interface ProjectEntityWithID extends ProjectEntityWithUniqueID
 {
    /**
     * Retrieve the ID value of the entity.
@@ -41,18 +41,4 @@ public interface IdentifiedProjectEntity
     * @param id ID value
     */
    public void setID(Integer id);
-
-   /**
-    * Retrieve the Unique ID value of the entity.
-    * 
-    * @return Unique ID value
-    */
-   public Integer getUniqueID();
-
-   /**
-    * Set the Unique ID value of the entity.
-    * 
-    * @param id Unique ID value
-    */
-   public void setUniqueID(Integer id);
 }

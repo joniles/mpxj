@@ -24,7 +24,6 @@
 package net.sf.mpxj;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -39,7 +38,7 @@ import net.sf.mpxj.common.NumberHelper;
  * 
  * @param <T> concrete entity type
  */
-public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity & Comparable<T>> implements List<T>
+public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID> implements List<T>
 {
    /**
     * Constructor.
@@ -66,33 +65,6 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
    protected int firstUniqueID()
    {
       return 1;
-   }
-
-   /**
-    * This method can be called to ensure that the IDs of all
-    * entities are sequential, and start from an
-    * appropriate point. If entities are added to and removed from
-    * this list, then the project is loaded into Microsoft
-    * project, if the ID values have gaps in the sequence, there will
-    * be blank rows shown.
-    */
-   public void renumberIDs()
-   {
-      if (!m_list.isEmpty())
-      {
-         Collections.sort(m_list);
-         T firstEntity = m_list.get(0);
-         int id = NumberHelper.getInt(firstEntity.getID());
-         if (id != 0)
-         {
-            id = 1;
-         }
-
-         for (T entity : m_list)
-         {
-            entity.setID(Integer.valueOf(id++));
-         }
-      }
    }
 
    /**
@@ -127,17 +99,6 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
    }
 
    /**
-    * Retrieve an entity by its ID.
-    * 
-    * @param id entity ID
-    * @return entity instance or null
-    */
-   public T getByID(Integer id)
-   {
-      return m_idMap.get(id);
-   }
-
-   /**
     * Retrieve an entity by its Unique ID.
     * 
     * @param id entity Unique ID
@@ -146,16 +107,6 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
    public T getByUniqueID(Integer id)
    {
       return m_uniqueIDMap.get(id);
-   }
-
-   /**
-    * Remove the ID to instance mapping.
-    * 
-    * @param id ID to remove
-    */
-   public void unmapID(Integer id)
-   {
-      m_idMap.remove(id);
    }
 
    /**
@@ -177,17 +128,6 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
    public void mapUniqueID(Integer id, T entity)
    {
       m_uniqueIDMap.put(id, entity);
-   }
-
-   /**
-    * Add an ID to instance mapping.
-    * 
-    * @param id ID
-    * @param entity instance
-    */
-   public void mapID(Integer id, T entity)
-   {
-      m_idMap.put(id, entity);
    }
 
    @Override public int size()
@@ -303,7 +243,6 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
    protected final ProjectFile m_projectFile;
    protected final List<T> m_list = new LinkedList<T>();
    protected Map<Integer, T> m_uniqueIDMap = new HashMap<Integer, T>();
-   protected Map<Integer, T> m_idMap = new HashMap<Integer, T>();
 
    /**
     * Maximum unique ID value MS Project will accept.
