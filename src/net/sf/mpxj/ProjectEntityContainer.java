@@ -63,7 +63,10 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
     * 
     * @return first Unique ID value
     */
-   protected abstract int firstUniqueID();
+   protected int firstUniqueID()
+   {
+      return 1;
+   }
 
    /**
     * This method can be called to ensure that the IDs of all
@@ -78,16 +81,16 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
       if (!m_list.isEmpty())
       {
          Collections.sort(m_list);
-         T firstTask = m_list.get(0);
-         int id = NumberHelper.getInt(firstTask.getID());
+         T firstEntity = m_list.get(0);
+         int id = NumberHelper.getInt(firstEntity.getID());
          if (id != 0)
          {
             id = 1;
          }
 
-         for (T task : m_list)
+         for (T entity : m_list)
          {
-            task.setID(Integer.valueOf(id++));
+            entity.setID(Integer.valueOf(id++));
          }
       }
    }
@@ -112,9 +115,9 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
    {
       if (!m_list.isEmpty())
       {
-         for (T task : m_list)
+         for (T entity : m_list)
          {
-            if (NumberHelper.getInt(task.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            if (NumberHelper.getInt(entity.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
             {
                renumberUniqueIDs();
                break;
@@ -182,7 +185,7 @@ public abstract class ProjectEntityContainer<T extends IdentifiedProjectEntity &
     * @param id ID
     * @param entity instance
     */
-   public void mapTaskID(Integer id, T entity)
+   public void mapID(Integer id, T entity)
    {
       m_idMap.put(id, entity);
    }

@@ -24,7 +24,6 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -104,29 +103,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void renumberResourceIDs()
    {
-      if (m_allResources.isEmpty() == false)
-      {
-         Collections.sort(m_allResources);
-         int id = 1;
-
-         for (Resource resource : m_allResources)
-         {
-            resource.setID(Integer.valueOf(id++));
-         }
-      }
-   }
-
-   /**
-    * Renumbers all resource unique IDs.
-    */
-   private void renumberResourceUniqueIDs()
-   {
-      int uid = 1;
-
-      for (Resource resource : m_allResources)
-      {
-         resource.setUniqueID(Integer.valueOf(uid++));
-      }
+      m_resources.renumberIDs();
    }
 
    /**
@@ -164,18 +141,7 @@ public final class ProjectFile implements ChildTaskContainer
    public void validateUniqueIDsForMicrosoftProject()
    {
       m_tasks.validateUniqueIDsForMicrosoftProject();
-
-      if (!m_allResources.isEmpty())
-      {
-         for (Resource resource : m_allResources)
-         {
-            if (NumberHelper.getInt(resource.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
-            {
-               renumberResourceUniqueIDs();
-               break;
-            }
-         }
-      }
+      m_resources.validateUniqueIDsForMicrosoftProject();
 
       if (!m_allResourceAssignments.isEmpty())
       {
@@ -345,9 +311,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public Resource addResource()
    {
-      Resource resource = new Resource(this);
-      m_allResources.add(resource);
-      return (resource);
+      return m_resources.add();
    }
 
    /**
@@ -357,27 +321,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void removeResource(Resource resource)
    {
-      m_allResources.remove(resource);
-      m_resourceUniqueIDMap.remove(resource.getUniqueID());
-      m_resourceIDMap.remove(resource.getID());
-
-      Iterator<ResourceAssignment> iter = m_allResourceAssignments.iterator();
-      Integer resourceUniqueID = resource.getUniqueID();
-      while (iter.hasNext() == true)
-      {
-         ResourceAssignment assignment = iter.next();
-         if (NumberHelper.equals(assignment.getResourceUniqueID(), resourceUniqueID))
-         {
-            assignment.getTask().removeResourceAssignment(assignment);
-            iter.remove();
-         }
-      }
-
-      ProjectCalendar calendar = resource.getResourceCalendar();
-      if (calendar != null)
-      {
-         calendar.remove();
-      }
+      m_resources.remove(resource);
    }
 
    /**
@@ -387,7 +331,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public List<Resource> getAllResources()
    {
-      return (m_allResources);
+      return m_resources;
    }
 
    /**
@@ -397,7 +341,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public List<ResourceAssignment> getAllResourceAssignments()
    {
-      return (m_allResourceAssignments);
+      return m_allResourceAssignments;
    }
 
    /**
@@ -556,7 +500,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public Resource getResourceByID(Integer id)
    {
-      return (m_resourceIDMap.get(id));
+      return m_resources.getByID(id);
    }
 
    /**
@@ -568,7 +512,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public Resource getResourceByUniqueID(Integer id)
    {
-      return (m_resourceUniqueIDMap.get(id));
+      return m_resources.getByUniqueID(id);
    }
 
    /**
@@ -1102,7 +1046,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void mapTaskID(Integer id, Task task)
    {
-      m_tasks.mapTaskID(id, task);
+      m_tasks.mapID(id, task);
    }
 
    /**
@@ -1112,7 +1056,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void unmapResourceUniqueID(Integer id)
    {
-      m_resourceUniqueIDMap.remove(id);
+      m_resources.unmapUniqueID(id);
    }
 
    /**
@@ -1123,7 +1067,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void mapResourceUniqueID(Integer id, Resource resource)
    {
-      m_resourceUniqueIDMap.put(id, resource);
+      m_resources.mapUniqueID(id, resource);
    }
 
    /**
@@ -1133,7 +1077,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void unmapResourceID(Integer id)
    {
-      m_resourceIDMap.remove(id);
+      m_resources.unmapID(id);
    }
 
    /**
@@ -1144,7 +1088,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void mapResourceID(Integer id, Resource resource)
    {
-      m_resourceIDMap.put(id, resource);
+      m_resources.mapID(id, resource);
    }
 
    /**
@@ -1500,12 +1444,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    private ProjectConfig m_config = new ProjectConfig(this);
 
-   /**
-    * This list holds a reference to all resources defined in the
-    * MPX file.
-    */
-   private List<Resource> m_allResources = new LinkedList<Resource>();
-
+   private ResourceContainer m_resources = new ResourceContainer(this);
    private TaskContainer m_tasks = new TaskContainer(this);
 
    /**
@@ -1559,16 +1498,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Maps from a resource field alias to a resource field number.
     */
    private Map<String, ResourceField> m_aliasResourceField = new HashMap<String, ResourceField>();
-
-   /**
-    * Maps from a resource unique ID to a resource instance.
-    */
-   private Map<Integer, Resource> m_resourceUniqueIDMap = new HashMap<Integer, Resource>();
-
-   /**
-    * Maps from a resource ID to a resource instance.
-    */
-   private Map<Integer, Resource> m_resourceIDMap = new HashMap<Integer, Resource>();
 
    /**
     * Maps from a calendar unique ID to a calendar instance.

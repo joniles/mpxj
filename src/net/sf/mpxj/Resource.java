@@ -38,7 +38,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends ProjectEntity implements Comparable<Resource>, FieldContainer
+public final class Resource extends ProjectEntity implements Comparable<Resource>, IdentifiedProjectEntity, FieldContainer
 {
    /**
     * Default constructor.
@@ -1359,7 +1359,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @param val value
     */
-   public void setID(Integer val)
+   @Override public void setID(Integer val)
    {
       ProjectFile parent = getParentFile();
       Integer previous = getID();
@@ -1419,7 +1419,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @param val Unique ID
     */
-   public void setUniqueID(Integer val)
+   @Override public void setUniqueID(Integer val)
    {
       set(ResourceField.UNIQUE_ID, val);
    }
@@ -1462,7 +1462,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @return value
     */
-   public Integer getID()
+   @Override public Integer getID()
    {
       return ((Integer) getCachedValue(ResourceField.ID));
    }
@@ -1492,7 +1492,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * 
     * @return value
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return ((Integer) getCachedValue(ResourceField.UNIQUE_ID));
    }
