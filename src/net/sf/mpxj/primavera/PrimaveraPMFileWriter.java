@@ -167,7 +167,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       UUID guid = rootTask == null ? null : rootTask.getGUID();
 
       m_project.setActivityDefaultActivityType("Task Dependent");
-      m_project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getCalendar()));
+      m_project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
       m_project.setActivityDefaultDurationType("Fixed Duration and Units");
       m_project.setActivityDefaultPercentCompleteType("Duration");
       m_project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);

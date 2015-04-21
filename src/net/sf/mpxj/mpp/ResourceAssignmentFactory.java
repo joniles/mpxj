@@ -196,7 +196,7 @@ public class ResourceAssignmentFactory
 
             if (calendar == null)
             {
-               calendar = file.getCalendar();
+               calendar = file.getDefaultCalendar();
             }
 
             assignment.setTimephasedBaselineWork(0, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE_WORK)), !useRawTimephasedData));

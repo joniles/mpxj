@@ -4161,7 +4161,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
                   ProjectCalendar calendar = getCalendar();
                   if (calendar == null)
                   {
-                     calendar = getParentFile().getCalendar();
+                     calendar = getParentFile().getDefaultCalendar();
                   }
                   value = calendar.getDate(actualStart, duration, true);
                }

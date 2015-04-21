@@ -760,7 +760,7 @@ final class AstaReader
       //
       if (defaultCalendar != null)
       {
-         m_project.setCalendar(defaultCalendar);
+         m_project.setDefaultCalendar(defaultCalendar);
          for (Task task : m_project.getAllTasks())
          {
             if (task.getCalendar() == defaultCalendar)

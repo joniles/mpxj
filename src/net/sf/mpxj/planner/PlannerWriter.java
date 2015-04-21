@@ -144,7 +144,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setManager(properties.getManager());
       m_plannerProject.setName(getString(properties.getName()));
       m_plannerProject.setProjectStart(getDateTime(properties.getStartDate()));
-      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getCalendar().getUniqueID()));
+      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getDefaultCalendar().getUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
 

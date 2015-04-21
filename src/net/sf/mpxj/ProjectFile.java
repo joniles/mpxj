@@ -1283,7 +1283,7 @@ public final class ProjectFile implements ChildTaskContainer
     * 
     * @return default projectCalendar instance
     */
-   public ProjectCalendar getCalendar()
+   public ProjectCalendar getDefaultCalendar()
    {
       String calendarName = m_projectProperties.getDefaultCalendarName();
       ProjectCalendar calendar = getCalendarByName(calendarName);
@@ -1306,7 +1306,7 @@ public final class ProjectFile implements ChildTaskContainer
     * 
     * @param calendar default calendar instance
     */
-   public void setCalendar(ProjectCalendar calendar)
+   public void setDefaultCalendar(ProjectCalendar calendar)
    {
       m_projectProperties.setDefaultCalendarName(calendar.getName());
    }
@@ -1326,7 +1326,7 @@ public final class ProjectFile implements ChildTaskContainer
       ProjectCalendar result = getCalendarByName("Used for Microsoft Project 98 Baseline Calendar");
       if (result == null)
       {
-         result = getCalendar();
+         result = getDefaultCalendar();
       }
       return result;
    }

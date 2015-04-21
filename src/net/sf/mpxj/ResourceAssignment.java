@@ -1266,7 +1266,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
       if (calendar == null)
       {
-         calendar = getParentFile().getCalendar();
+         calendar = getParentFile().getDefaultCalendar();
       }
 
       return calendar;

@@ -197,7 +197,7 @@ public final class DateHelper
          ProjectCalendar calendar = task.getCalendar();
          if (calendar == null)
          {
-            calendar = task.getParentFile().getCalendar();
+            calendar = task.getParentFile().getDefaultCalendar();
          }
 
          if (calendar != null)

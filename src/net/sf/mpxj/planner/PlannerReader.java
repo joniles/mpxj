@@ -598,7 +598,7 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Calculate missing attributes
       //
-      ProjectCalendar calendar = m_projectFile.getCalendar();
+      ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
       if (calendar != null)
       {
          Duration duration = calendar.getWork(mpxjTask.getStart(), mpxjTask.getFinish(), TimeUnit.HOURS);

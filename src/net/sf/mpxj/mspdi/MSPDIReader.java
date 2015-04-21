@@ -314,7 +314,7 @@ public final class MSPDIReader extends AbstractProjectReader
          ProjectProperties properties = m_projectFile.getProjectProperties();
          BigInteger calendarID = new BigInteger(properties.getDefaultCalendarName());
          ProjectCalendar calendar = map.get(calendarID);
-         m_projectFile.setCalendar(calendar);
+         m_projectFile.setDefaultCalendar(calendar);
       }
 
       catch (Exception ex)
@@ -1310,7 +1310,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          if (calendar == null)
          {
-            calendar = m_projectFile.getCalendar();
+            calendar = m_projectFile.getDefaultCalendar();
          }
 
          LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
