@@ -1,8 +1,8 @@
 /*
  * file:       TaskContainer.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2013
- * date:       08/11/2013
+ * copyright:  (c) Packwood Software 2002-2015
+ * date:       20/04/2015
  */
 
 /*
@@ -23,17 +23,221 @@
 
 package net.sf.mpxj;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import net.sf.mpxj.common.NumberHelper;
+
 /**
- * Interface implemented by classes which have child tasks.
+ * Manages the collection of tasks belonging to a project.
  */
-public interface TaskContainer
+public class TaskContainer extends ProjectEntityContainer<Task>
 {
    /**
-    * Retrieve a list of child tasks held by this object.
+    * Constructor.
     * 
-    * @return list of child tasks
+    * @param projectFile parent project
     */
-   public List<Task> getChildTasks();
+   public TaskContainer(ProjectFile projectFile)
+   {
+      super(projectFile);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public Task add()
+   {
+      Task task = new Task(m_projectFile, (Task) null);
+      add(task);
+      m_projectFile.getChildTasks().add(task);
+      return task;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public boolean remove(Object o)
+   {
+      Task task = (Task) o;
+      //
+      // Remove the task from the file and its parent task
+      //
+      m_list.remove(task);
+      m_uniqueIDMap.remove(task.getUniqueID());
+      m_idMap.remove(task.getID());
+
+      Task parentTask = task.getParentTask();
+      if (parentTask != null)
+      {
+         parentTask.removeChildTask(task);
+      }
+      else
+      {
+         m_projectFile.getChildTasks().remove(task);
+      }
+
+      //
+      // Remove all resource assignments
+      //
+      Iterator<ResourceAssignment> iter = m_projectFile.getAllResourceAssignments().iterator();
+      while (iter.hasNext() == true)
+      {
+         ResourceAssignment assignment = iter.next();
+         if (assignment.getTask() == task)
+         {
+            Resource resource = assignment.getResource();
+            if (resource != null)
+            {
+               resource.removeResourceAssignment(assignment);
+            }
+            iter.remove();
+         }
+      }
+
+      //
+      // Recursively remove any child tasks
+      //
+      while (true)
+      {
+         List<Task> childTaskList = task.getChildTasks();
+         if (childTaskList.isEmpty() == true)
+         {
+            break;
+         }
+
+         remove(childTaskList.get(0));
+      }
+
+      return true;
+   }
+
+   /**
+    * Microsoft Project bases the order of tasks displayed on their ID
+    * value. This method takes the hierarchical structure of tasks
+    * represented in MPXJ and renumbers the ID values to ensure that
+    * this structure is displayed as expected in Microsoft Project. This
+    * is typically used to deal with the case where a hierarchical task
+    * structure has been created programmatically in MPXJ.  
+    */
+   public void synchronizeTaskIDToHierarchy()
+   {
+      m_list.clear();
+
+      int currentID = (getByID(Integer.valueOf(0)) == null ? 1 : 0);
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         task.setID(Integer.valueOf(currentID++));
+         m_list.add(task);
+         currentID = synchroizeTaskIDToHierarchy(task, currentID);
+      }
+   }
+
+   /**
+    * Called recursively to renumber child task IDs.
+    * 
+    * @param parentTask parent task instance
+    * @param currentID current task ID
+    * @return updated current task ID
+    */
+   private int synchroizeTaskIDToHierarchy(Task parentTask, int currentID)
+   {
+      for (Task task : parentTask.getChildTasks())
+      {
+         task.setID(Integer.valueOf(currentID++));
+         m_list.add(task);
+         currentID = synchroizeTaskIDToHierarchy(task, currentID);
+      }
+      return currentID;
+   }
+
+   /**
+    * This method is used to recreate the hierarchical structure of the
+    * project file from scratch. The method sorts the list of all tasks,
+    * then iterates through it creating the parent-child structure defined
+    * by the outline level field.
+    */
+   public void updateStructure()
+   {
+      if (m_list.size() > 1)
+      {
+         Collections.sort(m_list);
+         m_projectFile.getChildTasks().clear();
+
+         Task lastTask = null;
+         int lastLevel = -1;
+         boolean autoWbs = m_projectFile.getProjectConfig().getAutoWBS();
+         boolean autoOutlineNumber = m_projectFile.getProjectConfig().getAutoOutlineNumber();
+
+         for (Task task : m_list)
+         {
+            task.clearChildTasks();
+            Task parent = null;
+            if (!task.getNull())
+            {
+               int level = NumberHelper.getInt(task.getOutlineLevel());
+
+               if (lastTask != null)
+               {
+                  if (level == lastLevel || task.getNull())
+                  {
+                     parent = lastTask.getParentTask();
+                     level = lastLevel;
+                  }
+                  else
+                  {
+                     if (level > lastLevel)
+                     {
+                        parent = lastTask;
+                     }
+                     else
+                     {
+                        while (level <= lastLevel)
+                        {
+                           parent = lastTask.getParentTask();
+
+                           if (parent == null)
+                           {
+                              break;
+                           }
+
+                           lastLevel = NumberHelper.getInt(parent.getOutlineLevel());
+                           lastTask = parent;
+                        }
+                     }
+                  }
+               }
+
+               lastTask = task;
+               lastLevel = level;
+
+               if (autoWbs || task.getWBS() == null)
+               {
+                  task.generateWBS(parent);
+               }
+
+               if (autoOutlineNumber)
+               {
+                  task.generateOutlineNumber(parent);
+               }
+            }
+
+            if (parent == null)
+            {
+               m_projectFile.getChildTasks().add(task);
+            }
+            else
+            {
+               parent.addChildTask(task);
+            }
+         }
+      }
+   }
+
+   @Override protected int firstUniqueID()
+   {
+      Task firstEntity = getByID(Integer.valueOf(0));
+      return firstEntity == null ? 1 : 0;
+   }
 }

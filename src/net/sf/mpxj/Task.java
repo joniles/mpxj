@@ -39,7 +39,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a task record from an project file.
  */
-public final class Task extends ProjectEntity implements Comparable<Task>, FieldContainer, TaskContainer
+public final class Task extends ProjectEntity implements Comparable<Task>, IdentifiedProjectEntity, FieldContainer, ChildTaskContainer
 {
    /**
     * Default constructor.
@@ -1036,7 +1036,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param val ID
     */
-   public void setID(Integer val)
+   @Override public void setID(Integer val)
    {
       ProjectFile parent = getParentFile();
       Integer previous = getID();
@@ -1392,7 +1392,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param val unique ID
     */
-   public void setUniqueID(Integer val)
+   @Override public void setUniqueID(Integer val)
    {
       set(TaskField.UNIQUE_ID, val);
    }
@@ -2103,7 +2103,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return the task ID
     */
-   public Integer getID()
+   @Override public Integer getID()
    {
       return ((Integer) getCachedValue(TaskField.ID));
    }
@@ -2655,7 +2655,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return String
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return ((Integer) getCachedValue(TaskField.UNIQUE_ID));
    }

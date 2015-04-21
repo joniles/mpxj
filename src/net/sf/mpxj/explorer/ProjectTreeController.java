@@ -32,7 +32,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskContainer;
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
@@ -113,7 +113,7 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param parent parent task container
     */
-   private void addTasks(DefaultMutableTreeNode parentNode, TaskContainer parent)
+   private void addTasks(DefaultMutableTreeNode parentNode, ChildTaskContainer parent)
    {
       for (Task task : parent.getChildTasks())
       {

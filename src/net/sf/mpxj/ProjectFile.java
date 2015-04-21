@@ -38,7 +38,7 @@ import net.sf.mpxj.listener.ProjectListener;
 /**
  * This class represents a project plan.
  */
-public final class ProjectFile implements TaskContainer
+public final class ProjectFile implements ChildTaskContainer
 {
    /**
     * Retrieve project configuration data.
@@ -58,7 +58,7 @@ public final class ProjectFile implements TaskContainer
     */
    void addTask(Task task)
    {
-      m_allTasks.add(task);
+      m_tasks.add(task);
    }
 
    /**
@@ -68,10 +68,7 @@ public final class ProjectFile implements TaskContainer
     */
    public Task addTask()
    {
-      Task task = new Task(this, (Task) null);
-      m_allTasks.add(task);
-      m_childTasks.add(task);
-      return (task);
+      return m_tasks.add();
    }
 
    /**
@@ -81,54 +78,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void removeTask(Task task)
    {
-      //
-      // Remove the task from the file and its parent task
-      //
-      m_allTasks.remove(task);
-      m_taskUniqueIDMap.remove(task.getUniqueID());
-      m_taskIDMap.remove(task.getID());
-
-      Task parentTask = task.getParentTask();
-      if (parentTask != null)
-      {
-         parentTask.removeChildTask(task);
-      }
-      else
-      {
-         m_childTasks.remove(task);
-      }
-
-      //
-      // Remove all resource assignments
-      //
-      Iterator<ResourceAssignment> iter = m_allResourceAssignments.iterator();
-      while (iter.hasNext() == true)
-      {
-         ResourceAssignment assignment = iter.next();
-         if (assignment.getTask() == task)
-         {
-            Resource resource = assignment.getResource();
-            if (resource != null)
-            {
-               resource.removeResourceAssignment(assignment);
-            }
-            iter.remove();
-         }
-      }
-
-      //
-      // Recursively remove any child tasks
-      //
-      while (true)
-      {
-         List<Task> childTaskList = task.getChildTasks();
-         if (childTaskList.isEmpty() == true)
-         {
-            break;
-         }
-
-         removeTask(childTaskList.get(0));
-      }
+      m_tasks.remove(task);
    }
 
    /**
@@ -141,21 +91,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void renumberTaskIDs()
    {
-      if (m_allTasks.isEmpty() == false)
-      {
-         Collections.sort(m_allTasks);
-         Task firstTask = m_allTasks.get(0);
-         int id = NumberHelper.getInt(firstTask.getID());
-         if (id != 0)
-         {
-            id = 1;
-         }
-
-         for (Task task : m_allTasks)
-         {
-            task.setID(Integer.valueOf(id++));
-         }
-      }
+      m_tasks.renumberIDs();
    }
 
    /**
@@ -177,20 +113,6 @@ public final class ProjectFile implements TaskContainer
          {
             resource.setID(Integer.valueOf(id++));
          }
-      }
-   }
-
-   /**
-    * Renumbers all task unique IDs.
-    */
-   private void renumberTaskUniqueIDs()
-   {
-      Task firstTask = getTaskByID(Integer.valueOf(0));
-      int uid = (firstTask == null ? 1 : 0);
-
-      for (Task task : m_allTasks)
-      {
-         task.setUniqueID(Integer.valueOf(uid++));
       }
    }
 
@@ -241,17 +163,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void validateUniqueIDsForMicrosoftProject()
    {
-      if (!m_allTasks.isEmpty())
-      {
-         for (Task task : m_allTasks)
-         {
-            if (NumberHelper.getInt(task.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
-            {
-               renumberTaskUniqueIDs();
-               break;
-            }
-         }
-      }
+      m_tasks.validateUniqueIDsForMicrosoftProject();
 
       if (!m_allResources.isEmpty())
       {
@@ -300,33 +212,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void synchronizeTaskIDToHierarchy()
    {
-      m_allTasks.clear();
-
-      int currentID = (getTaskByID(Integer.valueOf(0)) == null ? 1 : 0);
-      for (Task task : m_childTasks)
-      {
-         task.setID(Integer.valueOf(currentID++));
-         m_allTasks.add(task);
-         currentID = synchroizeTaskIDToHierarchy(task, currentID);
-      }
-   }
-
-   /**
-    * Called recursively to renumber child task IDs.
-    * 
-    * @param parentTask parent task instance
-    * @param currentID current task ID
-    * @return updated current task ID
-    */
-   private int synchroizeTaskIDToHierarchy(Task parentTask, int currentID)
-   {
-      for (Task task : parentTask.getChildTasks())
-      {
-         task.setID(Integer.valueOf(currentID++));
-         m_allTasks.add(task);
-         currentID = synchroizeTaskIDToHierarchy(task, currentID);
-      }
-      return currentID;
+      m_tasks.synchronizeTaskIDToHierarchy();
    }
 
    /**
@@ -337,7 +223,7 @@ public final class ProjectFile implements TaskContainer
     */
    @Override public List<Task> getChildTasks()
    {
-      return (m_childTasks);
+      return m_childTasks;
    }
 
    /**
@@ -346,9 +232,9 @@ public final class ProjectFile implements TaskContainer
     *
     * @return list of all tasks
     */
-   public List<Task> getAllTasks()
+   public TaskContainer getAllTasks()
    {
-      return (m_allTasks);
+      return m_tasks;
    }
 
    /**
@@ -646,7 +532,7 @@ public final class ProjectFile implements TaskContainer
     */
    public Task getTaskByID(Integer id)
    {
-      return (m_taskIDMap.get(id));
+      return m_tasks.getByID(id);
    }
 
    /**
@@ -658,7 +544,7 @@ public final class ProjectFile implements TaskContainer
     */
    public Task getTaskByUniqueID(Integer id)
    {
-      return (m_taskUniqueIDMap.get(id));
+      return m_tasks.getByUniqueID(id);
    }
 
    /**
@@ -693,79 +579,7 @@ public final class ProjectFile implements TaskContainer
     */
    public void updateStructure()
    {
-      if (m_allTasks.size() > 1)
-      {
-         Collections.sort(m_allTasks);
-         m_childTasks.clear();
-
-         Task lastTask = null;
-         int lastLevel = -1;
-         boolean autoWbs = m_config.getAutoWBS();
-         boolean autoOutlineNumber = m_config.getAutoOutlineNumber();
-
-         for (Task task : m_allTasks)
-         {
-            task.clearChildTasks();
-            Task parent = null;
-            if (!task.getNull())
-            {
-               int level = NumberHelper.getInt(task.getOutlineLevel());
-
-               if (lastTask != null)
-               {
-                  if (level == lastLevel || task.getNull())
-                  {
-                     parent = lastTask.getParentTask();
-                     level = lastLevel;
-                  }
-                  else
-                  {
-                     if (level > lastLevel)
-                     {
-                        parent = lastTask;
-                     }
-                     else
-                     {
-                        while (level <= lastLevel)
-                        {
-                           parent = lastTask.getParentTask();
-
-                           if (parent == null)
-                           {
-                              break;
-                           }
-
-                           lastLevel = NumberHelper.getInt(parent.getOutlineLevel());
-                           lastTask = parent;
-                        }
-                     }
-                  }
-               }
-
-               lastTask = task;
-               lastLevel = level;
-
-               if (autoWbs || task.getWBS() == null)
-               {
-                  task.generateWBS(parent);
-               }
-
-               if (autoOutlineNumber)
-               {
-                  task.generateOutlineNumber(parent);
-               }
-            }
-
-            if (parent == null)
-            {
-               m_childTasks.add(task);
-            }
-            else
-            {
-               parent.addChildTask(task);
-            }
-         }
-      }
+      m_tasks.updateStructure();
    }
 
    /**
@@ -778,7 +592,7 @@ public final class ProjectFile implements TaskContainer
    {
       Date startDate = null;
 
-      for (Task task : m_allTasks)
+      for (Task task : m_tasks)
       {
          //
          // If a hidden "summary" task is present we ignore it
@@ -841,7 +655,7 @@ public final class ProjectFile implements TaskContainer
    {
       Date finishDate = null;
 
-      for (Task task : m_allTasks)
+      for (Task task : m_tasks)
       {
          //
          // If a hidden "summary" task is present we ignore it
@@ -1256,7 +1070,7 @@ public final class ProjectFile implements TaskContainer
     */
    void unmapTaskUniqueID(Integer id)
    {
-      m_taskUniqueIDMap.remove(id);
+      m_tasks.unmapUniqueID(id);
    }
 
    /**
@@ -1267,7 +1081,7 @@ public final class ProjectFile implements TaskContainer
     */
    void mapTaskUniqueID(Integer id, Task task)
    {
-      m_taskUniqueIDMap.put(id, task);
+      m_tasks.mapUniqueID(id, task);
    }
 
    /**
@@ -1277,7 +1091,7 @@ public final class ProjectFile implements TaskContainer
     */
    void unmapTaskID(Integer id)
    {
-      m_taskIDMap.remove(id);
+      m_tasks.unmapID(id);
    }
 
    /**
@@ -1288,7 +1102,7 @@ public final class ProjectFile implements TaskContainer
     */
    void mapTaskID(Integer id, Task task)
    {
-      m_taskIDMap.put(id, task);
+      m_tasks.mapTaskID(id, task);
    }
 
    /**
@@ -1692,17 +1506,13 @@ public final class ProjectFile implements TaskContainer
     */
    private List<Resource> m_allResources = new LinkedList<Resource>();
 
-   /**
-    * This list holds a reference to all tasks defined in the
-    * MPX file.
-    */
-   private List<Task> m_allTasks = new LinkedList<Task>();
+   private TaskContainer m_tasks = new TaskContainer(this);
 
    /**
     * List holding references to the top level tasks
     * as defined by the outline level.
     */
-   private List<Task> m_childTasks = new LinkedList<Task>();
+   private final List<Task> m_childTasks = new LinkedList<Task>();
 
    /**
     * This list holds a reference to all resource assignments defined in the
@@ -1749,16 +1559,6 @@ public final class ProjectFile implements TaskContainer
     * Maps from a resource field alias to a resource field number.
     */
    private Map<String, ResourceField> m_aliasResourceField = new HashMap<String, ResourceField>();
-
-   /**
-    * Maps from a task unique ID to a task instance.
-    */
-   private Map<Integer, Task> m_taskUniqueIDMap = new HashMap<Integer, Task>();
-
-   /**
-    * Maps from a task ID to a task instance.
-    */
-   private Map<Integer, Task> m_taskIDMap = new HashMap<Integer, Task>();
 
    /**
     * Maps from a resource unique ID to a resource instance.
