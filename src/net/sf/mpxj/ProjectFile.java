@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -107,19 +106,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Renumbers all calendar unique IDs.
-    */
-   private void renumberCalendarUniqueIDs()
-   {
-      int uid = 1;
-
-      for (ProjectCalendar calendar : m_calendars)
-      {
-         calendar.setUniqueID(Integer.valueOf(uid++));
-      }
-   }
-
-   /**
     * This method is called to ensure that all unique ID values
     * held by MPXJ are within the range supported by MS Project.
     * If any of these values fall outside of this range, the unique IDs
@@ -130,18 +116,7 @@ public final class ProjectFile implements ChildTaskContainer
       m_tasks.validateUniqueIDsForMicrosoftProject();
       m_resources.validateUniqueIDsForMicrosoftProject();
       m_assignments.validateUniqueIDsForMicrosoftProject();
-
-      if (!m_calendars.isEmpty())
-      {
-         for (ProjectCalendar calendar : m_calendars)
-         {
-            if (NumberHelper.getInt(calendar.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
-            {
-               renumberCalendarUniqueIDs();
-               break;
-            }
-         }
-      }
+      m_calendars.validateUniqueIDsForMicrosoftProject();
    }
 
    /**
@@ -150,7 +125,7 @@ public final class ProjectFile implements ChildTaskContainer
     * represented in MPXJ and renumbers the ID values to ensure that
     * this structure is displayed as expected in Microsoft Project. This
     * is typically used to deal with the case where a hierarchical task
-    * structure has been created programatically in MPXJ.  
+    * structure has been created programmatically in MPXJ.  
     */
    public void synchronizeTaskIDToHierarchy()
    {
@@ -186,9 +161,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar addCalendar()
    {
-      ProjectCalendar calendar = new ProjectCalendar(this);
-      m_calendars.add(calendar);
-      return (calendar);
+      return m_calendars.add();
    }
 
    /**
@@ -198,18 +171,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void removeCalendar(ProjectCalendar calendar)
    {
-      if (m_calendars.contains(calendar))
-      {
-         m_calendars.remove(calendar);
-      }
-
-      Resource resource = calendar.getResource();
-      if (resource != null)
-      {
-         resource.setResourceCalendar(null);
-      }
-
-      calendar.setParent(null);
+      m_calendars.remove(calendar);
    }
 
    /**
@@ -221,42 +183,18 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar addDefaultBaseCalendar()
    {
-      ProjectCalendar calendar = addCalendar();
-
-      calendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
-
-      calendar.setWorkingDay(Day.SUNDAY, false);
-      calendar.setWorkingDay(Day.MONDAY, true);
-      calendar.setWorkingDay(Day.TUESDAY, true);
-      calendar.setWorkingDay(Day.WEDNESDAY, true);
-      calendar.setWorkingDay(Day.THURSDAY, true);
-      calendar.setWorkingDay(Day.FRIDAY, true);
-      calendar.setWorkingDay(Day.SATURDAY, false);
-
-      calendar.addDefaultCalendarHours();
-
-      return (calendar);
+      return m_calendars.addDefaultBaseCalendar();
    }
 
    /**
-    * This is a protected convenience method to add a default derived
+    * This is a convenience method to add a default derived
     * calendar.
     *
     * @return new ProjectCalendar instance
     */
    public ProjectCalendar addDefaultDerivedCalendar()
    {
-      ProjectCalendar calendar = addCalendar();
-
-      calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
-
-      return (calendar);
+      return m_calendars.addDefaultDerivedCalendar();
    }
 
    /**
@@ -265,9 +203,9 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @return list of calendars
     */
-   public List<ProjectCalendar> getCalendars()
+   public ProjectCalendarContainer getCalendars()
    {
-      return (m_calendars);
+      return m_calendars;
    }
 
    /**
@@ -305,7 +243,7 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @return list of all resources
     */
-   public List<Resource> getAllResources()
+   public ResourceContainer getAllResources()
    {
       return m_resources;
    }
@@ -315,7 +253,7 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @return list of all resources
     */
-   public List<ResourceAssignment> getAllResourceAssignments()
+   public ResourceAssignmentContainer getAllResourceAssignments()
    {
       return m_assignments;
    }
@@ -363,26 +301,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar getCalendarByName(String calendarName)
    {
-      ProjectCalendar calendar = null;
-
-      if (calendarName != null && calendarName.length() != 0)
-      {
-         Iterator<ProjectCalendar> iter = m_calendars.iterator();
-         while (iter.hasNext() == true)
-         {
-            calendar = iter.next();
-            String name = calendar.getName();
-
-            if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
-            {
-               break;
-            }
-
-            calendar = null;
-         }
-      }
-
-      return (calendar);
+      return m_calendars.getByName(calendarName);
    }
 
    /**
@@ -395,7 +314,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar getCalendarByUniqueID(Integer calendarID)
    {
-      return (m_calendarUniqueIDMap.get(calendarID));
+      return m_calendars.getByUniqueID(calendarID);
    }
 
    /**
@@ -1068,7 +987,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void unmapCalendarUniqueID(Integer id)
    {
-      m_calendarUniqueIDMap.remove(id);
+      m_calendars.unmapUniqueID(id);
    }
 
    /**
@@ -1079,7 +998,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void mapCalendarUniqueID(Integer id, ProjectCalendar calendar)
    {
-      m_calendarUniqueIDMap.put(id, calendar);
+      m_calendars.mapUniqueID(id, calendar);
    }
 
    /**
@@ -1418,11 +1337,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final TaskContainer m_tasks = new TaskContainer(this);
    private final List<Task> m_childTasks = new LinkedList<Task>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
-
-   /**
-    * List holding references to all calendars.
-    */
-   private List<ProjectCalendar> m_calendars = new LinkedList<ProjectCalendar>();
+   private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
 
    /**
     * Project properties.
@@ -1458,11 +1373,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Maps from a resource field alias to a resource field number.
     */
    private Map<String, ResourceField> m_aliasResourceField = new HashMap<String, ResourceField>();
-
-   /**
-    * Maps from a calendar unique ID to a calendar instance.
-    */
-   private Map<Integer, ProjectCalendar> m_calendarUniqueIDMap = new HashMap<Integer, ProjectCalendar>();
 
    /**
     * List of project event listeners.
@@ -1539,9 +1449,4 @@ public final class ProjectFile implements ChildTaskContainer
     * Saved view state.
     */
    private ViewState m_viewState;
-
-   /**
-    * Maximum unique ID value MS Project will accept.
-    */
-   private static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
 }

@@ -43,7 +43,7 @@ import net.sf.mpxj.common.NumberHelper;
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public final class ProjectCalendar extends ProjectCalendarWeek
+public final class ProjectCalendar extends ProjectCalendarWeek implements ProjectEntityWithUniqueID
 {
    /**
     * Default constructor.
@@ -903,7 +903,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     *
     * @param uniqueID unique identifier
     */
-   public void setUniqueID(Integer uniqueID)
+   @Override public void setUniqueID(Integer uniqueID)
    {
       ProjectFile parent = getParentFile();
 
@@ -922,7 +922,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek
     *
     * @return calendar unique identifier
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return (m_uniqueID);
    }
