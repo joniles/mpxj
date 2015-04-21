@@ -18,29 +18,27 @@
 		<action dev="joniles" type="update">Introduced ResourceContainer class</action>
 		<action dev="joniles" type="update">Introduced ResourceAssignmentContainer class</action>
 		<action dev="joniles" type="update">Introduced ProjectCalendarContainer class</action>
-		<action dev="joniles" type="update">Renamed Project.getProjectHeader to getProjectProperties</action>
-			
-		<action dev="joniles" type="update">Renamed Project.getCalendar to getDefaultCalendar</action>
-		<action dev="joniles" type="update">Renamed Project.setCalendar to setDefaultCalendar</action>
-			
+		<action dev="joniles" type="update">Renamed ProjectFile.getProjectHeader to getProjectProperties</action>			
+		<action dev="joniles" type="update">Renamed ProjectFile.getCalendar to getDefaultCalendar</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.setCalendar to setDefaultCalendar</action>			
 		<action dev="joniles" type="update">Renamed MppReader.getReadHeaderOnly to getReadPropertiesOnly</action>
 		<action dev="joniles" type="update">Renamed MppReader.setReadHeaderOnly to setReadPropertiesOnly</action>	
-		<action dev="joniles" type="update">Renamed Project.getCalendarUniqueID to ProjectConfig.getNextCalendarUniqueID</action>
-		<action dev="joniles" type="update">Renamed Project.getResourceUniqueID to ProjectConfig.getNextResourceUniqueID</action>		
-		<action dev="joniles" type="update">Renamed Project.getTaskUniqueID to ProjectConfig.getNextTaskUniqueID</action>
-		<action dev="joniles" type="update">Renamed Project.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</action>
-		<action dev="joniles" type="update">Renamed Project.getResourceID to ProjectConfig.getNextResourceID</action>		
-		<action dev="joniles" type="update">Renamed Project.getTaskID to ProjectConfig.getNextTaskID</action>
-		<action dev="joniles" type="update">Renamed Project.getAliasTaskField to getTaskFieldByAlias</action>
-		<action dev="joniles" type="update">Renamed Project.getAliasResourceField to getResourceFieldByAlias</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.getCalendarUniqueID to ProjectConfig.getNextCalendarUniqueID</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.getResourceUniqueID to ProjectConfig.getNextResourceUniqueID</action>		
+		<action dev="joniles" type="update">Renamed ProjectFile.getTaskUniqueID to ProjectConfig.getNextTaskUniqueID</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.getResourceID to ProjectConfig.getNextResourceID</action>		
+		<action dev="joniles" type="update">Renamed ProjectFile.getTaskID to ProjectConfig.getNextTaskID</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.getAliasTaskField to getTaskFieldByAlias</action>
+		<action dev="joniles" type="update">Renamed ProjectFile.getAliasResourceField to getResourceFieldByAlias</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.getApplicationName to getShortApplicationName</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.setApplicationName to setShortApplicationName</action>		
 		<action dev="joniles" type="update">Renamed ProjectHeader.setCalendarName to setDefaultCalendarName</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.getCalendarName to getDefaultCalendarName</action>				
-		<action dev="joniles" type="update">Moved Project.getProjectFilePath to ProjectHeader.getProjectFilePath</action>
-		<action dev="joniles" type="update">Moved Project.setProjectFilePath to ProjectHeader.setProjectFilePath</action>
-		<action dev="joniles" type="update">Moved Project.getApplicationName to ProjectHeader.getFullApplicationName</action>
-		<action dev="joniles" type="update">Moved Project.setApplicationName to ProjectHeader.setFullApplicationName</action>
+		<action dev="joniles" type="update">Moved ProjectFile.getProjectFilePath to ProjectHeader.getProjectFilePath</action>
+		<action dev="joniles" type="update">Moved ProjectFile.setProjectFilePath to ProjectHeader.setProjectFilePath</action>
+		<action dev="joniles" type="update">Moved ProjectFile.getApplicationName to ProjectHeader.getFullApplicationName</action>
+		<action dev="joniles" type="update">Moved ProjectFile.setApplicationName to ProjectHeader.setFullApplicationName</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.setDelimiter to ProjectHeader.setMpxDelimiter</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.getDelimiter to ProjectHeader.getMpxDelimiter</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.setProgramName to ProjectHeader.setMpxProgramName</action>
@@ -49,12 +47,12 @@
 		<action dev="joniles" type="update">Moved FileCreationRecord.getFileVersion to ProjectHeader.getMpxFileVersion</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.setCodePage to ProjectHeader.setMpxCodePage</action>
 		<action dev="joniles" type="update">Moved FileCreationRecord.getCodePage to ProjectHeader.getMpxCodePage</action>		
-		<action dev="joniles" type="update">Moved Project.getMppFileType to ProjectHeader.getMppFileType</action>
-		<action dev="joniles" type="update">Moved Project.setMppFileType to ProjectHeader.setMppFileType</action>
-		<action dev="joniles" type="update">Moved Project.getApplicationVersion to ProjectHeader.getApplicationVersion</action>
-		<action dev="joniles" type="update">Moved Project.setApplicationVersion to ProjectHeader.setApplicationVersion</action>
-		<action dev="joniles" type="update">Moved Project.setAutoFilter to ProjectHeader.setAutoFilter</action>
-		<action dev="joniles" type="update">Moved Project.getAutoFilter to ProjectHeader.getAutoFilter</action>
+		<action dev="joniles" type="update">Moved ProjectFile.getMppFileType to ProjectHeader.getMppFileType</action>
+		<action dev="joniles" type="update">Moved ProjectFile.setMppFileType to ProjectHeader.setMppFileType</action>
+		<action dev="joniles" type="update">Moved ProjectFile.getApplicationVersion to ProjectHeader.getApplicationVersion</action>
+		<action dev="joniles" type="update">Moved ProjectFile.setApplicationVersion to ProjectHeader.setApplicationVersion</action>
+		<action dev="joniles" type="update">Moved ProjectFile.setAutoFilter to ProjectHeader.setAutoFilter</action>
+		<action dev="joniles" type="update">Moved ProjectFile.getAutoFilter to ProjectHeader.getAutoFilter</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">
