@@ -16,6 +16,7 @@
 		<action dev="joniles" type="update">Introduced ProjectConfig class</action>		
 		<action dev="joniles" type="update">Introduced TaskContainer class</action>
 		<action dev="joniles" type="update">Introduced ResourceContainer class</action>
+		<action dev="joniles" type="update">Introduced ResourceAssignmentContainer class</action>
 		<action dev="joniles" type="update">Renamed Project.getProjectHeader to getProjectProperties</action>	
 		<action dev="joniles" type="update">Renamed MppReader.getReadHeaderOnly to getReadPropertiesOnly</action>
 		<action dev="joniles" type="update">Renamed MppReader.setReadHeaderOnly to setReadPropertiesOnly</action>	

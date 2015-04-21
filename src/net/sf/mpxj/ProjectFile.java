@@ -107,19 +107,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Renumbers all assignment unique IDs.
-    */
-   private void renumberAssignmentUniqueIDs()
-   {
-      int uid = 1;
-
-      for (ResourceAssignment assignment : m_allResourceAssignments)
-      {
-         assignment.setUniqueID(Integer.valueOf(uid++));
-      }
-   }
-
-   /**
     * Renumbers all calendar unique IDs.
     */
    private void renumberCalendarUniqueIDs()
@@ -142,18 +129,7 @@ public final class ProjectFile implements ChildTaskContainer
    {
       m_tasks.validateUniqueIDsForMicrosoftProject();
       m_resources.validateUniqueIDsForMicrosoftProject();
-
-      if (!m_allResourceAssignments.isEmpty())
-      {
-         for (ResourceAssignment assignment : m_allResourceAssignments)
-         {
-            if (NumberHelper.getInt(assignment.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
-            {
-               renumberAssignmentUniqueIDs();
-               break;
-            }
-         }
-      }
+      m_assignments.validateUniqueIDsForMicrosoftProject();
 
       if (!m_calendars.isEmpty())
       {
@@ -341,7 +317,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public List<ResourceAssignment> getAllResourceAssignments()
    {
-      return m_allResourceAssignments;
+      return m_assignments;
    }
 
    /**
@@ -352,7 +328,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void addResourceAssignment(ResourceAssignment assignment)
    {
-      m_allResourceAssignments.add(assignment);
+      m_assignments.add(assignment);
    }
 
    /**
@@ -363,13 +339,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    void removeResourceAssignment(ResourceAssignment assignment)
    {
-      m_allResourceAssignments.remove(assignment);
-      assignment.getTask().removeResourceAssignment(assignment);
-      Resource resource = assignment.getResource();
-      if (resource != null)
-      {
-         resource.removeResourceAssignment(assignment);
-      }
+      m_assignments.remove(assignment);
    }
 
    /**
@@ -1444,20 +1414,10 @@ public final class ProjectFile implements ChildTaskContainer
 
    private ProjectConfig m_config = new ProjectConfig(this);
 
-   private ResourceContainer m_resources = new ResourceContainer(this);
-   private TaskContainer m_tasks = new TaskContainer(this);
-
-   /**
-    * List holding references to the top level tasks
-    * as defined by the outline level.
-    */
+   private final ResourceContainer m_resources = new ResourceContainer(this);
+   private final TaskContainer m_tasks = new TaskContainer(this);
    private final List<Task> m_childTasks = new LinkedList<Task>();
-
-   /**
-    * This list holds a reference to all resource assignments defined in the
-    * MPX file.
-    */
-   private List<ResourceAssignment> m_allResourceAssignments = new LinkedList<ResourceAssignment>();
+   private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
 
    /**
     * List holding references to all calendars.

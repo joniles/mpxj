@@ -71,7 +71,12 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       return true;
    }
 
-   @Override public Resource add()
+   /**
+    * Add a resource to the project.
+    * 
+    * @return new resource instance
+    */
+   public Resource add()
    {
       Resource resource = new Resource(m_projectFile);
       m_list.add(resource);

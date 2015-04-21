@@ -51,13 +51,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    /**
-    * Add a new project entity.
-    * 
-    * @return new entity instance
-    */
-   public abstract T add();
-
-   /**
     * Returns the value of the first Unique ID to use when renumbering Unique IDs.
     * 
     * @return first Unique ID value

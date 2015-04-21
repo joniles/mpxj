@@ -40,7 +40,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends ProjectEntity implements FieldContainer
+public final class ResourceAssignment extends ProjectEntity implements ProjectEntityWithUniqueID, FieldContainer
 {
    /**
     * Constructor.
@@ -95,7 +95,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @return resource assignment unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return (Integer) getCachedValue(AssignmentField.UNIQUE_ID);
    }
@@ -105,7 +105,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
     * 
     * @param uniqueID resource assignment unique ID
     */
-   public void setUniqueID(Integer uniqueID)
+   @Override public void setUniqueID(Integer uniqueID)
    {
       set(AssignmentField.UNIQUE_ID, uniqueID);
    }

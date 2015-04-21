@@ -45,9 +45,11 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    }
 
    /**
-    * {@inheritDoc}
+    * Add a task to the project.
+    * 
+    * @return new task instance
     */
-   @Override public Task add()
+   public Task add()
    {
       Task task = new Task(m_projectFile, (Task) null);
       add(task);
