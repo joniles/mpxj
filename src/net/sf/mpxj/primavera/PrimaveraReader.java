@@ -559,7 +559,7 @@ final class PrimaveraReader
          }
          while (m_taskFields.containsKey(taskField) || m_wbsFields.containsKey(taskField));
 
-         m_project.setTaskFieldAlias(taskField, name);
+         m_project.getTaskFieldAliases().add(taskField, name);
       }
 
       catch (Exception ex)
@@ -601,7 +601,7 @@ final class PrimaveraReader
       String fieldName = m_udfMap.get(fieldId);
       Object value = null;
 
-      TaskField field = m_project.getTaskFieldByAlias(fieldName);
+      TaskField field = m_project.getTaskFieldAliases().getField(fieldName);
       if (field != null)
       {
          DataType fieldType = field.getDataType();
@@ -984,13 +984,13 @@ final class PrimaveraReader
 
          if (type instanceof TaskField)
          {
-            m_project.setTaskFieldAlias((TaskField) type, alias);
+            m_project.getTaskFieldAliases().add((TaskField) type, alias);
          }
          else
          {
             if (type instanceof ResourceField)
             {
-               m_project.setResourceFieldAlias((ResourceField) type, alias);
+               m_project.getResourceFieldAliases().add((ResourceField) type, alias);
             }
          }
       }

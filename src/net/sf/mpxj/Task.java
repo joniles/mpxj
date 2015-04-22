@@ -3650,7 +3650,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Object getFieldByAlias(String alias)
    {
-      return (getCachedValue(getParentFile().getTaskFieldByAlias(alias)));
+      return getCachedValue(getParentFile().getTaskFieldAliases().getField(alias));
    }
 
    /**
@@ -3661,7 +3661,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getTaskFieldByAlias(alias), value);
+      set(getParentFile().getTaskFieldAliases().getField(alias), value);
    }
 
    /**

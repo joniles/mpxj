@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.AliasContainer;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -831,6 +832,7 @@ final class MPP12Reader implements MPPVariantReader
          String alias = "";
          int field = -1;
          int aliasOffset = 0;
+         AliasContainer<TaskField> container = m_file.getTaskFieldAliases();
          while (index < numberOfAliases && offset < length)
          {
             // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
@@ -848,7 +850,7 @@ final class MPP12Reader implements MPPVariantReader
             if (aliasOffset < data.length)
             {
                alias = MPPUtility.getUnicodeString(data, aliasOffset);
-               m_file.setTaskFieldAlias(MPPTaskField.getInstance(field), alias);
+               container.add(MPPTaskField.getInstance(field), alias);
                //System.out.println(field + ": " + alias);
             }
             index++;
@@ -879,6 +881,8 @@ final class MPP12Reader implements MPPVariantReader
          String alias = "";
          int field = -1;
          int aliasOffset = 0;
+         AliasContainer<ResourceField> aliases = m_file.getResourceFieldAliases();
+
          while (index < numberOfAliases && offset < length)
          {
             // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
@@ -896,7 +900,7 @@ final class MPP12Reader implements MPPVariantReader
             if (aliasOffset < data.length)
             {
                alias = MPPUtility.getUnicodeString(data, aliasOffset);
-               m_file.setResourceFieldAlias(MPPResourceField.getInstance(field), alias);
+               aliases.add(MPPResourceField.getInstance(field), alias);
                //System.out.println(field + ": " + alias);
             }
             index++;

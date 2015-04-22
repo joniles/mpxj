@@ -215,7 +215,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectProperties getProjectProperties()
    {
-      return (m_projectProperties);
+      return m_properties;
    }
 
    /**
@@ -741,46 +741,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Associates an alias with a custom task field number.
-    *
-    * @param field custom field number
-    * @param alias alias text
-    */
-   public void setTaskFieldAlias(TaskField field, String alias)
-   {
-      if ((alias != null) && (alias.length() != 0))
-      {
-         m_taskFieldAlias.put(field, alias);
-         m_aliasTaskField.put(alias, field);
-      }
-   }
-
-   /**
-    * Retrieves the alias associated with a custom task field.
-    * This method will return null if no alias has been defined for
-    * this field.
-    *
-    * @param field task field instance
-    * @return alias text
-    */
-   public String getTaskFieldAlias(TaskField field)
-   {
-      return (m_taskFieldAlias.get(field));
-   }
-
-   /**
-    * Retrieves a task field instance based on its alias. If the
-    * alias is not recognised, this method will return null.
-    *
-    * @param alias alias text
-    * @return task field instance
-    */
-   public TaskField getTaskFieldByAlias(String alias)
-   {
-      return (m_aliasTaskField.get(alias));
-   }
-
-   /**
     * Associates a value list with a custom task field number.
     *
     * @param field custom field number
@@ -835,65 +795,23 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Associates an alias with a custom resource field number.
+    * Retrieve task field aliases.
     *
-    * @param field custom field number
-    * @param alias alias text
+    * @return task field alias container
     */
-   public void setResourceFieldAlias(ResourceField field, String alias)
+   public AliasContainer<TaskField> getTaskFieldAliases()
    {
-      if ((alias != null) && (alias.length() != 0))
-      {
-         m_resourceFieldAlias.put(field, alias);
-         m_aliasResourceField.put(alias, field);
-      }
+      return m_taskAliases;
    }
 
    /**
-    * Retrieves the alias associated with a custom resource field.
-    * This method will return null if no alias has been defined for
-    * this field.
+    * Retrieve resource field aliases.
     *
-    * @param field field number
-    * @return alias text
+    * @return resource field alias container
     */
-   public String getResourceFieldAlias(ResourceField field)
+   public AliasContainer<ResourceField> getResourceFieldAliases()
    {
-      return (m_resourceFieldAlias.get(field));
-   }
-
-   /**
-    * Retrieves a resource field based on its alias. If the
-    * alias is not recognised, this method will return null.
-    *
-    * @param alias alias text
-    * @return resource field instance
-    */
-   public ResourceField getResourceFieldByAlias(String alias)
-   {
-      return (m_aliasResourceField.get(alias));
-   }
-
-   /**
-    * Allows derived classes to gain access to the mapping between
-    * task fields and aliases.
-    *
-    * @return task field to alias map
-    */
-   public Map<TaskField, String> getTaskFieldAliasMap()
-   {
-      return (m_taskFieldAlias);
-   }
-
-   /**
-    * Allows callers to gain access to the mapping between
-    * resource field numbers and aliases.
-    *
-    * @return resource field to alias map
-    */
-   public Map<ResourceField, String> getResourceFieldAliasMap()
-   {
-      return (m_resourceFieldAlias);
+      return m_resourceAliases;
    }
 
    /**
@@ -1285,7 +1203,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar getDefaultCalendar()
    {
-      String calendarName = m_projectProperties.getDefaultCalendarName();
+      String calendarName = m_properties.getDefaultCalendarName();
       ProjectCalendar calendar = getCalendarByName(calendarName);
       if (calendar == null)
       {
@@ -1308,7 +1226,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void setDefaultCalendar(ProjectCalendar calendar)
    {
-      m_projectProperties.setDefaultCalendarName(calendar.getName());
+      m_properties.setDefaultCalendarName(calendar.getName());
    }
 
    /**
@@ -1331,23 +1249,15 @@ public final class ProjectFile implements ChildTaskContainer
       return result;
    }
 
-   private ProjectConfig m_config = new ProjectConfig(this);
-
+   private final ProjectConfig m_config = new ProjectConfig(this);
+   private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);
    private final List<Task> m_childTasks = new LinkedList<Task>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
-
-   /**
-    * Project properties.
-    */
-   private ProjectProperties m_projectProperties = new ProjectProperties(this);
-
-   /**
-    * Maps from a task field number to a task alias.
-    */
-   private Map<TaskField, String> m_taskFieldAlias = new HashMap<TaskField, String>();
+   private final AliasContainer<TaskField> m_taskAliases = new AliasContainer<TaskField>();
+   private final AliasContainer<ResourceField> m_resourceAliases = new AliasContainer<ResourceField>();
 
    /**
     * Maps from a task field number to a value list.
@@ -1358,21 +1268,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Maps from a task field number to a description list.
     */
    private Map<TaskField, List<String>> m_taskFieldDescriptionList = new HashMap<TaskField, List<String>>();
-
-   /**
-    * Maps from a task field alias to a task field number.
-    */
-   private Map<String, TaskField> m_aliasTaskField = new HashMap<String, TaskField>();
-
-   /**
-    * Maps from a resource field number to a resource alias.
-    */
-   private Map<ResourceField, String> m_resourceFieldAlias = new HashMap<ResourceField, String>();
-
-   /**
-    * Maps from a resource field alias to a resource field number.
-    */
-   private Map<String, ResourceField> m_aliasResourceField = new HashMap<String, ResourceField>();
 
    /**
     * List of project event listeners.

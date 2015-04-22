@@ -106,11 +106,11 @@ public final class Column
       {
          if (m_fieldType instanceof TaskField)
          {
-            result = m_project.getTaskFieldAlias((TaskField) m_fieldType);
+            result = m_project.getTaskFieldAliases().getAlias((TaskField) m_fieldType);
          }
          else
          {
-            result = m_project.getResourceFieldAlias((ResourceField) m_fieldType);
+            result = m_project.getResourceFieldAliases().getAlias((ResourceField) m_fieldType);
          }
 
          if (result == null && m_fieldType != null)

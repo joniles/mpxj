@@ -34,7 +34,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -42,6 +41,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.AliasContainer;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
@@ -308,13 +308,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeTaskFieldAliases(List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
-      Map<TaskField, String> fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
+      AliasContainer<TaskField> aliases = m_projectFile.getTaskFieldAliases();
 
       for (TaskField key : getAllTaskExtendedAttributes())
       {
          Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
          String name = key.getName();
-         String alias = fieldAliasMap.get(key);
+         String alias = aliases.getAlias(key);
 
          if (m_taskExtendedAttributes.contains(key) || alias != null)
          {
@@ -334,13 +334,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeResourceFieldAliases(List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
-      Map<ResourceField, String> fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
+      AliasContainer<ResourceField> aliases = m_projectFile.getResourceFieldAliases();
 
       for (ResourceField key : getAllResourceExtendedAttributes())
       {
          Integer fieldID = Integer.valueOf(MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
          String name = key.getName();
-         String alias = fieldAliasMap.get(key);
+         String alias = aliases.getAlias(key);
 
          if (m_resourceExtendedAttributes.contains(key) || alias != null)
          {

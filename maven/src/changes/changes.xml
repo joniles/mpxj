@@ -29,8 +29,6 @@
 		<action dev="joniles" type="update">Renamed ProjectFile.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</action>
 		<action dev="joniles" type="update">Renamed ProjectFile.getResourceID to ProjectConfig.getNextResourceID</action>		
 		<action dev="joniles" type="update">Renamed ProjectFile.getTaskID to ProjectConfig.getNextTaskID</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.getAliasTaskField to getTaskFieldByAlias</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.getAliasResourceField to getResourceFieldByAlias</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.getApplicationName to getShortApplicationName</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader.setApplicationName to setShortApplicationName</action>		
 		<action dev="joniles" type="update">Renamed ProjectHeader.setCalendarName to setDefaultCalendarName</action>
@@ -53,6 +51,14 @@
 		<action dev="joniles" type="update">Moved ProjectFile.setApplicationVersion to ProjectHeader.setApplicationVersion</action>
 		<action dev="joniles" type="update">Moved ProjectFile.setAutoFilter to ProjectHeader.setAutoFilter</action>
 		<action dev="joniles" type="update">Moved ProjectFile.getAutoFilter to ProjectHeader.getAutoFilter</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getAliasTaskField, replaced by ProjectFile.getTaskFieldAliases().getField()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getAliasResourceField, replaced by ProjectFile.getResourceFieldAliases().getField()</action>		
+		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().getAlias()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.setTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().setAlias()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().getAlias()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.setResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().setAlias()</action>		
+		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliasMap, replaced by ProjectFile.getTaskFieldAliases</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

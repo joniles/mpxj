@@ -633,7 +633,7 @@ public final class MSPDIReader extends AbstractProjectReader
                TaskField taskField = MPPTaskField.getInstance(index);
                if (taskField != null)
                {
-                  m_projectFile.setTaskFieldAlias(taskField, attribute.getAlias());
+                  m_projectFile.getTaskFieldAliases().add(taskField, attribute.getAlias());
                }
                break;
             }
@@ -643,7 +643,7 @@ public final class MSPDIReader extends AbstractProjectReader
                ResourceField resourceField = MPPResourceField.getInstance(index);
                if (resourceField != null)
                {
-                  m_projectFile.setResourceFieldAlias(resourceField, attribute.getAlias());
+                  m_projectFile.getResourceFieldAliases().add(resourceField, attribute.getAlias());
                }
                break;
             }

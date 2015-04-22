@@ -41,6 +41,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import net.sf.mpxj.AliasContainer;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
@@ -127,8 +128,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         m_projectFile.setTaskFieldAlias(TaskField.TEXT1, "WBS Code");
-         m_projectFile.setTaskFieldAlias(TaskField.TEXT2, "Task ID");
+         AliasContainer<TaskField> aliases = m_projectFile.getTaskFieldAliases();
+         aliases.add(TaskField.TEXT1, "WBS Code");
+         aliases.add(TaskField.TEXT2, "Task ID");
 
          m_projectFile.addProjectListeners(m_projectListeners);
 
