@@ -23,31 +23,22 @@
 
 package net.sf.mpxj;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Manages the table definitions belonging to a project.
  */
-public class TableContainer extends AbstractList<Table>
+public class TableContainer extends ListWithCallbacks<Table>
 {
-   @Override public boolean add(Table table)
+   @Override protected void added(Table table)
    {
-      m_tables.add(table);
+      getIndex(table).put(table.getName(), table);
+   }
 
-      if (!table.getResourceFlag())
-      {
-         m_taskTablesByName.put(table.getName(), table);
-      }
-      else
-      {
-         m_resourceTablesByName.put(table.getName(), table);
-      }
-
-      return true;
+   @Override protected void removed(Table table)
+   {
+      getIndex(table).remove(table.getName());
    }
 
    /**
@@ -74,17 +65,27 @@ public class TableContainer extends AbstractList<Table>
       return m_resourceTablesByName.get(name);
    }
 
-   @Override public Table get(int index)
+   /**
+    * Retrieve the correct index for the supplied Table instance.
+    * 
+    * @param table Table instance
+    * @return index
+    */
+   private Map<String, Table> getIndex(Table table)
    {
-      return m_tables.get(index);
+      Map<String, Table> result;
+
+      if (!table.getResourceFlag())
+      {
+         result = m_taskTablesByName;
+      }
+      else
+      {
+         result = m_resourceTablesByName;
+      }
+      return result;
    }
 
-   @Override public int size()
-   {
-      return m_tables.size();
-   }
-
-   private final List<Table> m_tables = new ArrayList<Table>();
    private Map<String, Table> m_taskTablesByName = new HashMap<String, Table>();
    private Map<String, Table> m_resourceTablesByName = new HashMap<String, Table>();
 }
