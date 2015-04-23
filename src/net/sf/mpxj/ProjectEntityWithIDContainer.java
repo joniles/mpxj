@@ -56,17 +56,17 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
     */
    public void renumberIDs()
    {
-      if (!m_list.isEmpty())
+      if (!isEmpty())
       {
-         Collections.sort(m_list);
-         T firstEntity = m_list.get(0);
+         Collections.sort(this);
+         T firstEntity = get(0);
          int id = NumberHelper.getInt(firstEntity.getID());
          if (id != 0)
          {
             id = 1;
          }
 
-         for (T entity : m_list)
+         for (T entity : this)
          {
             entity.setID(Integer.valueOf(id++));
          }

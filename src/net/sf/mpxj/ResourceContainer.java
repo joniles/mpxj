@@ -42,11 +42,8 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       super(projectFile);
    }
 
-   @Override public boolean remove(Object o)
+   @Override public void removed(Resource resource)
    {
-      Resource resource = (Resource) o;
-
-      m_list.remove(resource);
       m_uniqueIDMap.remove(resource.getUniqueID());
       m_idMap.remove(resource.getID());
 
@@ -67,8 +64,6 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       {
          calendar.remove();
       }
-
-      return true;
    }
 
    /**
@@ -79,7 +74,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    public Resource add()
    {
       Resource resource = new Resource(m_projectFile);
-      m_list.add(resource);
+      add(resource);
       return (resource);
    }
 }

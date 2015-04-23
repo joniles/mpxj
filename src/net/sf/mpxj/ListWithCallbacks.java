@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class exporing a list interface, backed by an ArrayList instance with callbacks
+ * Class implementing a list interface, backed by an ArrayList instance with callbacks
  * which can be overridden by subclasses for notification of added and removed items.
  *
  * @param <T> list content type
@@ -55,6 +55,17 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
       // Optional implementation supplied by subclass
    }
 
+   /**
+    * Called to notify subclasses of item replacement.
+    * 
+    * @param oldElement old element
+    * @param newElement new element
+    */
+   protected void replaced(T oldElement, T newElement)
+   {
+      // Optional implementation supplied by subclass      
+   }
+
    @Override public T get(int index)
    {
       return m_list.get(index);
@@ -68,8 +79,7 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
    @Override public T set(int index, T element)
    {
       T removed = m_list.set(index, element);
-      removed(removed);
-      added(element);
+      replaced(removed, element);
       return removed;
    }
 

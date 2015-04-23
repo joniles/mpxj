@@ -40,15 +40,8 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       super(projectFile);
    }
 
-   @Override public boolean remove(Object o)
+   @Override public void removed(ProjectCalendar calendar)
    {
-      ProjectCalendar calendar = (ProjectCalendar) o;
-
-      if (m_list.contains(calendar))
-      {
-         m_list.remove(calendar);
-      }
-
       Resource resource = calendar.getResource();
       if (resource != null)
       {
@@ -56,8 +49,6 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       }
 
       calendar.setParent(null);
-
-      return true;
    }
 
    /**
@@ -68,7 +59,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    public ProjectCalendar add()
    {
       ProjectCalendar calendar = new ProjectCalendar(m_projectFile);
-      m_list.add(calendar);
+      add(calendar);
       return calendar;
    }
 
@@ -132,7 +123,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
       if (calendarName != null && calendarName.length() != 0)
       {
-         Iterator<ProjectCalendar> iter = m_list.iterator();
+         Iterator<ProjectCalendar> iter = iterator();
          while (iter.hasNext() == true)
          {
             calendar = iter.next();

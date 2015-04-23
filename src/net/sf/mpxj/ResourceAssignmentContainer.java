@@ -38,18 +38,13 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       super(projectFile);
    }
 
-   @Override public boolean remove(Object o)
+   @Override public void removed(ResourceAssignment assignment)
    {
-      ResourceAssignment assignment = (ResourceAssignment) o;
-
-      m_list.remove(assignment);
       assignment.getTask().removeResourceAssignment(assignment);
       Resource resource = assignment.getResource();
       if (resource != null)
       {
          resource.removeResourceAssignment(assignment);
       }
-
-      return true;
    }
 }

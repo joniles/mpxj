@@ -60,13 +60,11 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    /**
     * {@inheritDoc}
     */
-   @Override public boolean remove(Object o)
+   @Override public void removed(Task task)
    {
-      Task task = (Task) o;
       //
       // Remove the task from the file and its parent task
       //
-      m_list.remove(task);
       m_uniqueIDMap.remove(task.getUniqueID());
       m_idMap.remove(task.getID());
 
@@ -111,8 +109,6 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
 
          remove(childTaskList.get(0));
       }
-
-      return true;
    }
 
    /**
@@ -125,13 +121,13 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public void synchronizeTaskIDToHierarchy()
    {
-      m_list.clear();
+      clear();
 
       int currentID = (getByID(Integer.valueOf(0)) == null ? 1 : 0);
       for (Task task : m_projectFile.getChildTasks())
       {
          task.setID(Integer.valueOf(currentID++));
-         m_list.add(task);
+         add(task);
          currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
    }
@@ -148,7 +144,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       for (Task task : parentTask.getChildTasks())
       {
          task.setID(Integer.valueOf(currentID++));
-         m_list.add(task);
+         add(task);
          currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
       return currentID;
@@ -162,9 +158,9 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public void updateStructure()
    {
-      if (m_list.size() > 1)
+      if (size() > 1)
       {
-         Collections.sort(m_list);
+         Collections.sort(this);
          m_projectFile.getChildTasks().clear();
 
          Task lastTask = null;
@@ -172,7 +168,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
          boolean autoWbs = m_projectFile.getProjectConfig().getAutoWBS();
          boolean autoOutlineNumber = m_projectFile.getProjectConfig().getAutoOutlineNumber();
 
-         for (Task task : m_list)
+         for (Task task : this)
          {
             task.clearChildTasks();
             Task parent = null;
