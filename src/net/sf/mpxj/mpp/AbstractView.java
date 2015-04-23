@@ -85,7 +85,7 @@ public abstract class AbstractView implements View
     */
    public Table getTable()
    {
-      return (m_parent.getTaskTableByName(m_tableName));
+      return (m_parent.getTables().getTaskTableByName(m_tableName));
    }
 
    /**

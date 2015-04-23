@@ -54,6 +54,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Table;
+import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
@@ -2242,13 +2243,14 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(varData);
       //System.out.println(fixedData);
 
+      TableContainer container = m_file.getTables();
       TableFactory14 factory = new TableFactory14(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
       int items = fixedData.getItemCount();
       for (int loop = 0; loop < items; loop++)
       {
          byte[] data = fixedData.getByteArrayValue(loop);
          Table table = factory.createTable(m_file, data, varMeta, varData);
-         m_file.addTable(table);
+         container.add(table);
          //System.out.println(table);
       }
    }

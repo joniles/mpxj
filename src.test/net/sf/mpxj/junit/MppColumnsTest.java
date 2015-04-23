@@ -135,7 +135,7 @@ public class MppColumnsTest
     */
    private void testTaskColumns(ProjectFile file, String name, String[] columns)
    {
-      Table table = file.getTaskTableByName(name);
+      Table table = file.getTables().getTaskTableByName(name);
       assertEquals(columns.length, table.getColumns().size());
       int index = 0;
       for (Column column : table.getColumns())
@@ -153,7 +153,7 @@ public class MppColumnsTest
     */
    private void testResourceColumns(ProjectFile file, String name, String[] columns)
    {
-      Table table = file.getResourceTableByName(name);
+      Table table = file.getTables().getResourceTableByName(name);
       assertEquals(columns.length, table.getColumns().size());
       int index = 0;
       for (Column column : table.getColumns())

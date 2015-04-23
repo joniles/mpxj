@@ -58,7 +58,10 @@
 		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().getAlias()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.setResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().setAlias()</action>		
 		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliasMap, replaced by ProjectFile.getTaskFieldAliases</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</action>		
+		<action dev="joniles" type="update">Removed ProjectFile.addTable, replaced by ProjectFile.getTables().add()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getTaskTableByName, replaced by ProjectFile.getTables().getTaskTableByName()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceTableByName, replaced by ProjectFile.getTables().getResourceTableByName()</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

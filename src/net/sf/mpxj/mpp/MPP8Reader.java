@@ -51,6 +51,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
+import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -1186,6 +1187,7 @@ final class MPP8Reader implements MPPVariantReader
       FixDeferFix fdf = new FixDeferFix(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixDeferFix   0"))));
       int items = ff.getItemCount();
       StringBuilder sb = new StringBuilder();
+      TableContainer container = m_file.getTables();
 
       for (int loop = 0; loop < items; loop++)
       {
@@ -1215,7 +1217,7 @@ final class MPP8Reader implements MPPVariantReader
          }
 
          table.setName(MPPUtility.removeAmpersands(name));
-         m_file.addTable(table);
+         container.add(table);
 
          byte[] extendedData = fdf.getByteArray(getOffset(data, 122));
          if (extendedData != null)

@@ -940,31 +940,13 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Package-private method used to add tables to this MPP file.
-    *
-    * @param table table data
-    */
-   public void addTable(Table table)
-   {
-      m_tables.add(table);
-      if (table.getResourceFlag() == false)
-      {
-         m_taskTablesByName.put(table.getName(), table);
-      }
-      else
-      {
-         m_resourceTablesByName.put(table.getName(), table);
-      }
-   }
-
-   /**
     * This method returns a list of the tables defined in this MPP file.
     *
     * @return list of tables
     */
-   public List<Table> getTables()
+   public TableContainer getTables()
    {
-      return (m_tables);
+      return m_tables;
    }
 
    /**
@@ -1110,30 +1092,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Utility method to retrieve the definition of a task table by name.
-    * This method will return null if the table name is not recognised.
-    *
-    * @param name table name
-    * @return table instance
-    */
-   public Table getTaskTableByName(String name)
-   {
-      return (m_taskTablesByName.get(name));
-   }
-
-   /**
-    * Utility method to retrieve the definition of a resource table by name.
-    * This method will return null if the table name is not recognised.
-    *
-    * @param name table name
-    * @return table instance
-    */
-   public Table getResourceTableByName(String name)
-   {
-      return (m_resourceTablesByName.get(name));
-   }
-
-   /**
     * This package-private method is used to add resource sub project details.
     *
     * @param project sub project
@@ -1258,6 +1216,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final AliasContainer<TaskField> m_taskAliases = new AliasContainer<TaskField>();
    private final AliasContainer<ResourceField> m_resourceAliases = new AliasContainer<ResourceField>();
+   private final TableContainer m_tables = new TableContainer();
 
    /**
     * Maps from a task field number to a value list.
@@ -1280,24 +1239,9 @@ public final class ProjectFile implements ChildTaskContainer
    private List<View> m_views = new ArrayList<View>();
 
    /**
-    * List of tables defined in this file.
-    */
-   private List<Table> m_tables = new ArrayList<Table>();
-
-   /**
     * Map of graphical indicator data.
     */
    private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
-
-   /**
-    * Index of task tables by name.
-    */
-   private Map<String, Table> m_taskTablesByName = new HashMap<String, Table>();
-
-   /**
-    * Index of resource tables by name.
-    */
-   private Map<String, Table> m_resourceTablesByName = new HashMap<String, Table>();
 
    /**
     * List of all task filters.
