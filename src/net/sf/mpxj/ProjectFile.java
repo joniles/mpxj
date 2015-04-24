@@ -993,43 +993,13 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This package-private method is used to add resource sub project details.
-    *
-    * @param project sub project
-    */
-   public void setResourceSubProject(SubProject project)
-   {
-      m_resourceSubProject = project;
-   }
-
-   /**
-    * Retrieves details of the sub project file used as a resource pool.
-    *
-    * @return sub project details
-    */
-   public SubProject getResourceSubProject()
-   {
-      return (m_resourceSubProject);
-   }
-
-   /**
-    * This package-private method is used to add sub project details.
-    *
-    * @param project sub project
-    */
-   public void addSubProject(SubProject project)
-   {
-      m_allSubProjects.add(project);
-   }
-
-   /**
-    * Retrieves all the subprojects for this MPX file.
+    * Retrieves all the subprojects for this project.
     *
     * @return all sub project details
     */
-   public List<SubProject> getAllSubProjects()
+   public SubProjectContainer getSubProjects()
    {
-      return (m_allSubProjects);
+      return m_subProjects;
    }
 
    /**
@@ -1120,6 +1090,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();
+   private final SubProjectContainer m_subProjects = new SubProjectContainer();
 
    /**
     * Maps from a task field number to a value list.
@@ -1145,17 +1116,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Map of graphical indicator data.
     */
    private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
-
-   /**
-    * Resource sub project.
-    */
-   private SubProject m_resourceSubProject;
-
-   /**
-    * This list holds a reference to all subprojects defined in the
-    * MPX file.
-    */
-   private List<SubProject> m_allSubProjects = new LinkedList<SubProject>();
 
    /**
     * Saved view state.

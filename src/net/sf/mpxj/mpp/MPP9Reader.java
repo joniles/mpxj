@@ -407,7 +407,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  m_file.setResourceSubProject(sp);
+                  m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
 
@@ -424,7 +424,7 @@ final class MPP9Reader implements MPPVariantReader
 
                   offset += 4;
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  m_file.setResourceSubProject(sp);
+                  m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
 
@@ -444,7 +444,7 @@ final class MPP9Reader implements MPPVariantReader
                   // 0x02 looks to be the link FROM the resource pool to a project that uses it 
                   if (subProjectType == 0x04)
                   {
-                     m_file.setResourceSubProject(sp);
+                     m_file.getSubProjects().setResourceSubProject(sp);
                   }
                   break;
                }
@@ -495,7 +495,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
-                  m_file.setResourceSubProject(sp);
+                  m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
 
@@ -678,7 +678,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(sp.toString());
 
          // Add to the list of subprojects
-         m_file.addSubProject(sp);
+         m_file.getSubProjects().add(sp);
 
          return (sp);
       }

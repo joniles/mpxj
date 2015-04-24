@@ -450,7 +450,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  m_file.setResourceSubProject(readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index));
+                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index));
                   break;
                }
 
@@ -467,7 +467,7 @@ final class MPP14Reader implements MPPVariantReader
 
                   offset += 4;
 
-                  m_file.setResourceSubProject(readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index));
+                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index));
                   break;
                }
 
@@ -495,7 +495,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  m_file.setResourceSubProject(readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index));
+                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index));
                   break;
                }
 
@@ -754,7 +754,7 @@ final class MPP14Reader implements MPPVariantReader
          //System.out.println(sp.toString());
 
          // Add to the list of subprojects
-         m_file.addSubProject(sp);
+         m_file.getSubProjects().add(sp);
 
          return (sp);
       }
