@@ -81,7 +81,7 @@ public abstract class ViewStateReader
          int filterID = MPPUtility.getShort(fixedData, 128);
 
          ViewState state = new ViewState(file, viewName, uniqueIdList, filterID);
-         file.setViewState(state);
+         file.getViews().setViewState(state);
       }
    }
 

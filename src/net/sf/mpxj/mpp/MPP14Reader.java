@@ -2220,7 +2220,7 @@ final class MPP14Reader implements MPPVariantReader
             if (fd != null)
             {
                view = factory.createView(m_file, fm, fd, viewVarData, m_fontBases);
-               m_file.addView(view);
+               m_file.getViews().add(view);
             }
             lastOffset = offset;
          }

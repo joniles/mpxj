@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -920,23 +919,13 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Package-private method used to add views to this MPP file.
-    *
-    * @param view view data
-    */
-   public void addView(View view)
-   {
-      m_views.add(view);
-   }
-
-   /**
     * This method returns a list of the views defined in this MPP file.
     *
     * @return list of views
     */
-   public List<View> getViews()
+   public ViewContainer getViews()
    {
-      return (m_views);
+      return m_views;
    }
 
    /**
@@ -1000,26 +989,6 @@ public final class ProjectFile implements ChildTaskContainer
    public SubProjectContainer getSubProjects()
    {
       return m_subProjects;
-   }
-
-   /**
-    * Set the saved view state associated with this file.
-    * 
-    * @param viewState view state
-    */
-   public void setViewState(ViewState viewState)
-   {
-      m_viewState = viewState;
-   }
-
-   /**
-    * Retrieve the saved view state associated with this file.
-    * 
-    * @return view state
-    */
-   public ViewState getViewState()
-   {
-      return (m_viewState);
    }
 
    /**
@@ -1091,6 +1060,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
+   private final ViewContainer m_views = new ViewContainer();
 
    /**
     * Maps from a task field number to a value list.
@@ -1108,17 +1078,8 @@ public final class ProjectFile implements ChildTaskContainer
    private List<ProjectListener> m_projectListeners;
 
    /**
-    * List of views defined in this file.
-    */
-   private List<View> m_views = new ArrayList<View>();
-
-   /**
     * Map of graphical indicator data.
     */
    private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
 
-   /**
-    * Saved view state.
-    */
-   private ViewState m_viewState;
 }

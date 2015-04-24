@@ -70,7 +70,10 @@
 		<action dev="joniles" type="update">Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</action>		
 		<action dev="joniles" type="update">Removed ProjectFile.getAllGroups, replaced by ProjectFile.getGroups()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getGroupByName, replaced by ProjectFile.getGroups().getByName()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</action>	
+		<action dev="joniles" type="update">Removed ProjectFile.addView, replaced by ProjectFile.getViews().add()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.setViewState, replaced by ProjectFile.getViews().setViewState()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getViewState, replaced by ProjectFile.getViews().getViewState()</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

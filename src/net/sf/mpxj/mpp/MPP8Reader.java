@@ -1171,7 +1171,7 @@ final class MPP8Reader implements MPPVariantReader
       {
          data = ff.getByteArrayValue(loop);
          view = new View8(m_file, data);
-         m_file.addView(view);
+         m_file.getViews().add(view);
       }
    }
 

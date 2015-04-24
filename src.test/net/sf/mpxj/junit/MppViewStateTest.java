@@ -113,7 +113,7 @@ public class MppViewStateTest
     */
    private void testViewState(ProjectFile mpp)
    {
-      ViewState state = mpp.getViewState();
+      ViewState state = mpp.getViews().getViewState();
       assertNotNull(state);
 
       assertEquals("Gantt Chart", state.getViewName());
