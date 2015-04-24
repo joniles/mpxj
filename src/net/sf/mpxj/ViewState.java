@@ -74,7 +74,7 @@ public final class ViewState
     */
    public Filter getFilter()
    {
-      return m_file.getFilterByID(m_filterID);
+      return m_file.getFilters().getFilterByID(m_filterID);
    }
 
    private ProjectFile m_file;

@@ -940,7 +940,7 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method returns a list of the tables defined in this MPP file.
+    * This method returns the tables defined in an MPP file.
     *
     * @return list of tables
     */
@@ -950,90 +950,13 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Adds a filter definition to this project file.
+    * This method returns the filters defined in an MPP file.
     * 
-    * @param filter filter definition
+    * @return filters
     */
-   public void addFilter(Filter filter)
+   public FilterContainer getFilters()
    {
-      if (filter.isTaskFilter())
-      {
-         m_taskFilters.add(filter);
-      }
-
-      if (filter.isResourceFilter())
-      {
-         m_resourceFilters.add(filter);
-      }
-
-      m_filtersByName.put(filter.getName(), filter);
-      m_filtersByID.put(filter.getID(), filter);
-   }
-
-   /**
-    * Removes a filter from this project file.
-    *
-    * @param filterName The name of the filter
-    */
-   public void removeFilter(String filterName)
-   {
-      Filter filter = getFilterByName(filterName);
-      if (filter != null)
-      {
-         if (filter.isTaskFilter())
-         {
-            m_taskFilters.remove(filter);
-         }
-
-         if (filter.isResourceFilter())
-         {
-            m_resourceFilters.remove(filter);
-         }
-         m_filtersByName.remove(filterName);
-         m_filtersByID.remove(filter.getID());
-      }
-   }
-
-   /**
-    * Retrieves a list of all resource filters.
-    * 
-    * @return list of all resource filters
-    */
-   public List<Filter> getAllResourceFilters()
-   {
-      return (m_resourceFilters);
-   }
-
-   /**
-    * Retrieves a list of all task filters.
-    * 
-    * @return list of all task filters
-    */
-   public List<Filter> getAllTaskFilters()
-   {
-      return (m_taskFilters);
-   }
-
-   /**
-    * Retrieve a given filter by name.
-    * 
-    * @param name filter name
-    * @return filter instance
-    */
-   public Filter getFilterByName(String name)
-   {
-      return (m_filtersByName.get(name));
-   }
-
-   /**
-    * Retrieve a given filter by ID.
-    * 
-    * @param id filter ID
-    * @return filter instance
-    */
-   public Filter getFilterByID(Integer id)
-   {
-      return (m_filtersByID.get(id));
+      return m_filters;
    }
 
    /**
@@ -1217,6 +1140,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final AliasContainer<TaskField> m_taskAliases = new AliasContainer<TaskField>();
    private final AliasContainer<ResourceField> m_resourceAliases = new AliasContainer<ResourceField>();
    private final TableContainer m_tables = new TableContainer();
+   private final FilterContainer m_filters = new FilterContainer();
 
    /**
     * Maps from a task field number to a value list.
@@ -1243,25 +1167,25 @@ public final class ProjectFile implements ChildTaskContainer
     */
    private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
 
-   /**
-    * List of all task filters.
-    */
-   private List<Filter> m_taskFilters = new ArrayList<Filter>();
-
-   /**
-    * List of all resource filters.
-    */
-   private List<Filter> m_resourceFilters = new ArrayList<Filter>();
-
-   /**
-    * Index of filters by name.
-    */
-   private Map<String, Filter> m_filtersByName = new HashMap<String, Filter>();
-
-   /**
-    * Index of filters by ID.
-    */
-   private Map<Integer, Filter> m_filtersByID = new HashMap<Integer, Filter>();
+   //   /**
+   //    * List of all task filters.
+   //    */
+   //   private List<Filter> m_taskFilters = new ArrayList<Filter>();
+   //
+   //   /**
+   //    * List of all resource filters.
+   //    */
+   //   private List<Filter> m_resourceFilters = new ArrayList<Filter>();
+   //
+   //   /**
+   //    * Index of filters by name.
+   //    */
+   //   private Map<String, Filter> m_filtersByName = new HashMap<String, Filter>();
+   //
+   //   /**
+   //    * Index of filters by ID.
+   //    */
+   //   private Map<Integer, Filter> m_filtersByID = new HashMap<Integer, Filter>();
 
    /**
     * List of all groups.

@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import net.sf.mpxj.Filter;
+import net.sf.mpxj.FilterContainer;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GenericCriteriaPrompt;
 import net.sf.mpxj.ProjectFile;
@@ -133,31 +134,33 @@ public class MppFilterTest
       //
       // Test all data types
       //
-      Filter filter = mpp.getFilterByName("Filter 1");
+      FilterContainer filters = mpp.getFilters();
+
+      Filter filter = filters.getFilterByName("Filter 1");
       assertEquals("(Duration1 EQUALS 9.0w)", filter.getCriteria().toString());
 
-      filter = mpp.getFilterByName("Filter 2");
+      filter = filters.getFilterByName("Filter 2");
       assertEquals("(Number1 EQUALS 99.0)", filter.getCriteria().toString());
 
-      filter = mpp.getFilterByName("Filter 3");
+      filter = filters.getFilterByName("Filter 3");
       assertEquals("(% Complete EQUALS 10.0)", filter.getCriteria().toString());
 
-      filter = mpp.getFilterByName("Filter 4");
+      filter = filters.getFilterByName("Filter 4");
       assertEquals("(Cost1 EQUALS 99.0)", filter.getCriteria().toString());
 
-      filter = mpp.getFilterByName("Filter 5");
+      filter = filters.getFilterByName("Filter 5");
       assertEquals("(Text1 EQUALS Hello)", filter.getCriteria().toString());
 
-      filter = mpp.getFilterByName("Filter 6");
+      filter = filters.getFilterByName("Filter 6");
       assertEquals("(Flag1 EQUALS true)", filter.getCriteria().toString());
 
-      filter = mpp.getFilterByName("Filter 7");
+      filter = filters.getFilterByName("Filter 7");
       assertEquals("(Date1 EQUALS Tue Jul 18 00:00:00 BST 2006)", filter.getCriteria().toString());
 
       //
       // Test all operators
       //
-      filter = mpp.getFilterByName("Filter 8");
+      filter = filters.getFilterByName("Filter 8");
       assertEquals("((Number1 EQUALS 10.0) AND (Number2 DOES_NOT_EQUAL 10.0) AND (Number3 IS_GREATER_THAN 10.0) AND (Number4 IS_GREATER_THAN_OR_EQUAL_TO 10.0) AND (Number5 IS_LESS_THAN 10.0) AND (Number6 IS_LESS_THAN_OR_EQUAL_TO 10.0) AND (Number7 IS_WITHIN 10.0,20.0) AND (Number8 IS_NOT_WITHIN 10.0,20.0))", filter.getCriteria().toString());
    }
 
@@ -170,35 +173,36 @@ public class MppFilterTest
    {
       Task task1 = mpp.getTaskByID(Integer.valueOf(1));
       Task task2 = mpp.getTaskByID(Integer.valueOf(2));
+      FilterContainer filters = mpp.getFilters();
 
       //
       // Test different data types
       //
-      Filter filter = mpp.getFilterByName("Filter 1");
+      Filter filter = filters.getFilterByName("Filter 1");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      filter = mpp.getFilterByName("Filter 2");
+      filter = filters.getFilterByName("Filter 2");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      filter = mpp.getFilterByName("Filter 3");
+      filter = filters.getFilterByName("Filter 3");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      filter = mpp.getFilterByName("Filter 4");
+      filter = filters.getFilterByName("Filter 4");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      filter = mpp.getFilterByName("Filter 5");
+      filter = filters.getFilterByName("Filter 5");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      filter = mpp.getFilterByName("Filter 6");
+      filter = filters.getFilterByName("Filter 6");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      filter = mpp.getFilterByName("Filter 7");
+      filter = filters.getFilterByName("Filter 7");
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
@@ -212,37 +216,37 @@ public class MppFilterTest
       Task task7 = mpp.getTaskByID(Integer.valueOf(7));
 
       // Number1 != 10
-      filter = mpp.getFilterByName("Filter 9");
+      filter = filters.getFilterByName("Filter 9");
       assertTrue(filter.evaluate(task3, null));
       assertFalse(filter.evaluate(task4, null));
       assertTrue(filter.evaluate(task5, null));
 
       // Number1 > 10
-      filter = mpp.getFilterByName("Filter 10");
+      filter = filters.getFilterByName("Filter 10");
       assertFalse(filter.evaluate(task3, null));
       assertFalse(filter.evaluate(task4, null));
       assertTrue(filter.evaluate(task5, null));
 
       // Number1 >= 10
-      filter = mpp.getFilterByName("Filter 11");
+      filter = filters.getFilterByName("Filter 11");
       assertFalse(filter.evaluate(task3, null));
       assertTrue(filter.evaluate(task4, null));
       assertTrue(filter.evaluate(task5, null));
 
       // Number1 < 10
-      filter = mpp.getFilterByName("Filter 12");
+      filter = filters.getFilterByName("Filter 12");
       assertTrue(filter.evaluate(task3, null));
       assertFalse(filter.evaluate(task4, null));
       assertFalse(filter.evaluate(task5, null));
 
       // Number1 <= 10
-      filter = mpp.getFilterByName("Filter 13");
+      filter = filters.getFilterByName("Filter 13");
       assertTrue(filter.evaluate(task3, null));
       assertTrue(filter.evaluate(task4, null));
       assertFalse(filter.evaluate(task5, null));
 
       // Number1 is within 10, 12
-      filter = mpp.getFilterByName("Filter 14");
+      filter = filters.getFilterByName("Filter 14");
       assertFalse(filter.evaluate(task3, null));
       assertTrue(filter.evaluate(task4, null));
       assertTrue(filter.evaluate(task5, null));
@@ -250,7 +254,7 @@ public class MppFilterTest
       assertFalse(filter.evaluate(task7, null));
 
       // Number1 is not within 10, 12
-      filter = mpp.getFilterByName("Filter 15");
+      filter = filters.getFilterByName("Filter 15");
       assertTrue(filter.evaluate(task3, null));
       assertFalse(filter.evaluate(task4, null));
       assertFalse(filter.evaluate(task5, null));
@@ -258,7 +262,7 @@ public class MppFilterTest
       assertTrue(filter.evaluate(task7, null));
 
       // Text1 contains aaa
-      filter = mpp.getFilterByName("Filter 16");
+      filter = filters.getFilterByName("Filter 16");
       assertFalse(filter.evaluate(task3, null));
       assertFalse(filter.evaluate(task4, null));
       assertTrue(filter.evaluate(task5, null));
@@ -266,7 +270,7 @@ public class MppFilterTest
       assertFalse(filter.evaluate(task7, null));
 
       // Text1 does not contain aaa
-      filter = mpp.getFilterByName("Filter 17");
+      filter = filters.getFilterByName("Filter 17");
       assertTrue(filter.evaluate(task3, null));
       assertTrue(filter.evaluate(task4, null));
       assertFalse(filter.evaluate(task5, null));
@@ -274,7 +278,7 @@ public class MppFilterTest
       assertTrue(filter.evaluate(task7, null));
 
       // Text1 contains exactly aaa
-      filter = mpp.getFilterByName("Filter 18");
+      filter = filters.getFilterByName("Filter 18");
       assertFalse(filter.evaluate(task3, null));
       assertFalse(filter.evaluate(task4, null));
       assertTrue(filter.evaluate(task5, null));
@@ -309,29 +313,30 @@ public class MppFilterTest
    {
       Task task6 = mpp.getTaskByID(Integer.valueOf(6));
       Task task7 = mpp.getTaskByID(Integer.valueOf(7));
+      FilterContainer filters = mpp.getFilters();
 
       // Number1==13 && Number2==7
-      Filter filter = mpp.getFilterByName("Filter 19");
+      Filter filter = filters.getFilterByName("Filter 19");
       assertFalse(filter.evaluate(task6, null));
       assertTrue(filter.evaluate(task7, null));
 
       // Number1==12 || Number1==13
-      filter = mpp.getFilterByName("Filter 20");
+      filter = filters.getFilterByName("Filter 20");
       assertTrue(filter.evaluate(task6, null));
       assertTrue(filter.evaluate(task7, null));
 
       // Duration==10d && Number1==13 && Number2==7
-      filter = mpp.getFilterByName("Filter 21");
+      filter = filters.getFilterByName("Filter 21");
       assertFalse(filter.evaluate(task6, null));
       assertTrue(filter.evaluate(task7, null));
 
       // Duration==10d || Number1==12 || Number2==7
-      filter = mpp.getFilterByName("Filter 22");
+      filter = filters.getFilterByName("Filter 22");
       assertTrue(filter.evaluate(task6, null));
       assertTrue(filter.evaluate(task7, null));
 
       // Duration==10d && Number1==12 || Number1==13
-      filter = mpp.getFilterByName("Filter 23");
+      filter = filters.getFilterByName("Filter 23");
       assertTrue(filter.evaluate(task6, null));
       assertTrue(filter.evaluate(task7, null));
    }
@@ -343,7 +348,7 @@ public class MppFilterTest
     */
    private void testParameters(ProjectFile mpp)
    {
-      Filter filter = mpp.getFilterByName("Filter 24");
+      Filter filter = mpp.getFilters().getFilterByName("Filter 24");
       assertNotNull(filter);
 
       List<GenericCriteriaPrompt> prompts = filter.getPrompts();

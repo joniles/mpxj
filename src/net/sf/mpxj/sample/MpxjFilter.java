@@ -76,7 +76,7 @@ public class MpxjFilter
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
       ProjectFile project = reader.read(filename);
-      Filter filter = project.getFilterByName(filtername);
+      Filter filter = project.getFilters().getFilterByName(filtername);
 
       if (filter == null)
       {
@@ -108,13 +108,13 @@ public class MpxjFilter
    {
       System.out.println("Unknown filter name supplied.");
       System.out.println("Available task filters:");
-      for (Filter filter : project.getAllTaskFilters())
+      for (Filter filter : project.getFilters().getTaskFilters())
       {
          System.out.println("   " + filter.getName());
       }
 
       System.out.println("Available resource filters:");
-      for (Filter filter : project.getAllResourceFilters())
+      for (Filter filter : project.getFilters().getResourceFilters())
       {
          System.out.println("   " + filter.getName());
       }

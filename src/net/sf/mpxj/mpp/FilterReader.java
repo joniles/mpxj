@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Filter;
+import net.sf.mpxj.FilterContainer;
 import net.sf.mpxj.GenericCriteriaPrompt;
 import net.sf.mpxj.ProjectFile;
 
@@ -61,6 +62,7 @@ public abstract class FilterReader
       int filterCount = fixedData.getItemCount();
       boolean[] criteriaType = new boolean[2];
       CriteriaReader criteriaReader = getCriteriaReader();
+      FilterContainer filters = file.getFilters();
 
       for (int filterLoop = 0; filterLoop < filterCount; filterLoop++)
       {
@@ -89,7 +91,7 @@ public abstract class FilterReader
          filter.setIsResourceFilter(criteriaType[1]);
          filter.setPrompts(prompts);
 
-         file.addFilter(filter);
+         filters.addFilter(filter);
          //System.out.println(filter);
       }
    }

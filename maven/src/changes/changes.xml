@@ -61,7 +61,13 @@
 		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</action>		
 		<action dev="joniles" type="update">Removed ProjectFile.addTable, replaced by ProjectFile.getTables().add()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getTaskTableByName, replaced by ProjectFile.getTables().getTaskTableByName()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceTableByName, replaced by ProjectFile.getTables().getResourceTableByName()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceTableByName, replaced by ProjectFile.getTables().getResourceTableByName()</action>		
+		<action dev="joniles" type="update">Removed ProjectFile.addFilter, replaced by ProjectFile.getFilters().addFilter()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.removeFilter, replaced by ProjectFile.getFilters().rmoveFilter()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getAllResourceFilters, replaced by ProjectFile.getFilters().getResourceFilters()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getAllTaskFilters, replaced by ProjectFile.getFilters().getTaskFilters()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getFilterByName, replaced by ProjectFile.getFilters().getFilterByName()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

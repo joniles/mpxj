@@ -537,7 +537,7 @@ public abstract class GanttChartView extends GenericView
     */
    public Filter getDefaultFilter()
    {
-      return (m_parent.getFilterByName(m_defaultFilterName));
+      return (m_parent.getFilters().getFilterByName(m_defaultFilterName));
    }
 
    /**

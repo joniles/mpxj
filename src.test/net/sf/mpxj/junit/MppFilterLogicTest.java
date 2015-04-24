@@ -128,7 +128,7 @@ public class MppFilterLogicTest
        *    
        * MSP evaluates this to includes both ac1 and ac2
        */
-      Filter inBlockAndFilter = mpp.getFilterByName("InBlockAnd");
+      Filter inBlockAndFilter = mpp.getFilters().getFilterByName("InBlockAnd");
 
       assertTrue(inBlockAndFilter.evaluate(ac1, null));
       assertTrue(inBlockAndFilter.evaluate(ac2, null));
@@ -144,7 +144,7 @@ public class MppFilterLogicTest
        *    
        * MSP evaluates this to only include ac1
        */
-      Filter betweenBlockAndFilter = mpp.getFilterByName("BetweenBlockAnd");
+      Filter betweenBlockAndFilter = mpp.getFilters().getFilterByName("BetweenBlockAnd");
       assertTrue(betweenBlockAndFilter.evaluate(ac1, null));
       assertFalse(betweenBlockAndFilter.evaluate(ac2, null));
    }
