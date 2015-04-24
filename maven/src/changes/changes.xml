@@ -73,7 +73,11 @@
 		<action dev="joniles" type="update">Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</action>	
 		<action dev="joniles" type="update">Removed ProjectFile.addView, replaced by ProjectFile.getViews().add()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.setViewState, replaced by ProjectFile.getViews().setViewState()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getViewState, replaced by ProjectFile.getViews().getViewState()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getViewState, replaced by ProjectFile.getViews().getViewState()</action>		
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceSubProject, replaced by ProjectFile.getSubProjects().getResourceSubProject()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.setResourceSubProject, replaced by ProjectFile.getSubProjects().setResourceSubProject()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.addSubProject, replaced by ProjectFile.getSubProjects().add()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getAllSubProjects, replaced by ProjectFile.getSubProjects</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">
