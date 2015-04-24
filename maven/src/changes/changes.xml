@@ -67,7 +67,10 @@
 		<action dev="joniles" type="update">Removed ProjectFile.getAllResourceFilters, replaced by ProjectFile.getFilters().getResourceFilters()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getAllTaskFilters, replaced by ProjectFile.getFilters().getTaskFilters()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getFilterByName, replaced by ProjectFile.getFilters().getFilterByName()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</action>		
+		<action dev="joniles" type="update">Removed ProjectFile.getAllGroups, replaced by ProjectFile.getGroups()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getGroupByName, replaced by ProjectFile.getGroups().getByName()</action>
+		<action dev="joniles" type="update">Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

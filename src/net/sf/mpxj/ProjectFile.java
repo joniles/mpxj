@@ -964,31 +964,9 @@ public final class ProjectFile implements ChildTaskContainer
     * 
     * @return list of all groups
     */
-   public List<Group> getAllGroups()
+   public GroupContainer getGroups()
    {
-      return (m_groups);
-   }
-
-   /**
-    * Retrieve a given group by name.
-    * 
-    * @param name group name
-    * @return Group instance
-    */
-   public Group getGroupByName(String name)
-   {
-      return (m_groupsByName.get(name));
-   }
-
-   /**
-    * Adds a group definition to this project file.
-    * 
-    * @param group group definition
-    */
-   public void addGroup(Group group)
-   {
-      m_groups.add(group);
-      m_groupsByName.put(group.getName(), group);
+      return m_groups;
    }
 
    /**
@@ -1141,6 +1119,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final AliasContainer<ResourceField> m_resourceAliases = new AliasContainer<ResourceField>();
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
+   private final GroupContainer m_groups = new GroupContainer();
 
    /**
     * Maps from a task field number to a value list.
@@ -1166,36 +1145,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Map of graphical indicator data.
     */
    private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
-
-   //   /**
-   //    * List of all task filters.
-   //    */
-   //   private List<Filter> m_taskFilters = new ArrayList<Filter>();
-   //
-   //   /**
-   //    * List of all resource filters.
-   //    */
-   //   private List<Filter> m_resourceFilters = new ArrayList<Filter>();
-   //
-   //   /**
-   //    * Index of filters by name.
-   //    */
-   //   private Map<String, Filter> m_filtersByName = new HashMap<String, Filter>();
-   //
-   //   /**
-   //    * Index of filters by ID.
-   //    */
-   //   private Map<Integer, Filter> m_filtersByID = new HashMap<Integer, Filter>();
-
-   /**
-    * List of all groups.
-    */
-   private List<Group> m_groups = new ArrayList<Group>();
-
-   /**
-    * Index of groups by name.
-    */
-   private Map<String, Group> m_groupsByName = new HashMap<String, Group>();
 
    /**
     * Resource sub project.

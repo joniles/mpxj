@@ -27,12 +27,12 @@ import java.io.File;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
@@ -160,7 +160,7 @@ public class ProjectTreeController
     */
    private void addGroups(DefaultMutableTreeNode parentNode, ProjectFile file)
    {
-      for (Group group : file.getAllGroups())
+      for (Group group : file.getGroups())
       {
          final Group g = group;
          DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(group)

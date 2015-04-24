@@ -76,7 +76,7 @@ public final class GroupReader14
          boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
 
          Group group = new Group(groupID, groupName, showSummaryTasks);
-         file.addGroup(group);
+         file.getGroups().add(group);
 
          int clauseCount = MPPUtility.getShort(groupVarData, 10);
          int offset = 12;

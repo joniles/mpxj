@@ -122,7 +122,7 @@ public class MppGroupTest
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-      Group group = mpp.getGroupByName("Group 1");
+      Group group = mpp.getGroups().getByName("Group 1");
       assertNotNull(group);
       assertEquals("Group 1", group.getName());
       assertFalse(group.getShowSummaryTasks());
