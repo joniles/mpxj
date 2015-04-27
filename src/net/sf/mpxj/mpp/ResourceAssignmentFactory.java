@@ -264,7 +264,7 @@ public class ResourceAssignmentFactory
                }
             }
 
-            file.fireAssignmentReadEvent(assignment);
+            file.getEventManager().fireAssignmentReadEvent(assignment);
          }
       }
    }

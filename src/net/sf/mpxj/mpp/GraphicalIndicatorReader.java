@@ -30,6 +30,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 import net.sf.mpxj.common.MPPResourceField;
@@ -50,6 +51,7 @@ public final class GraphicalIndicatorReader
    public void process(ProjectFile file, Props props)
    {
       m_file = file;
+      m_properties = m_file.getProjectProperties();
       m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
 
       if (m_data != null)
@@ -155,7 +157,7 @@ public final class GraphicalIndicatorReader
     */
    private GraphicalIndicatorCriteria processCriteria(FieldType type)
    {
-      GraphicalIndicatorCriteria criteria = new GraphicalIndicatorCriteria(m_file);
+      GraphicalIndicatorCriteria criteria = new GraphicalIndicatorCriteria(m_properties);
       criteria.setLeftValue(type);
 
       int indicatorType = MPPUtility.getInt(m_data, m_dataOffset);
@@ -220,7 +222,7 @@ public final class GraphicalIndicatorReader
          {
             case DURATION: // 0x03
             {
-               Duration value = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(m_data, m_dataOffset + 4)));
+               Duration value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(m_data, m_dataOffset + 4)));
                m_dataOffset += 6;
                criteria.setRightValue(index, value);
                break;
@@ -278,4 +280,5 @@ public final class GraphicalIndicatorReader
    private int m_headerOffset;
    private int m_dataOffset;
    private ProjectFile m_file;
+   private ProjectProperties m_properties;
 }

@@ -78,6 +78,19 @@
 		<action dev="joniles" type="update">Removed ProjectFile.setResourceSubProject, replaced by ProjectFile.getSubProjects().setResourceSubProject()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.addSubProject, replaced by ProjectFile.getSubProjects().add()</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getAllSubProjects, replaced by ProjectFile.getSubProjects</action>
+  		<action dev="joniles" type="update">Removed ProjectFile.fireTaskReadEvent, replaced by ProjectFile.getEventManager().fireTaskReadEvent()</action>
+ 	    <action dev="joniles" type="update">Removed ProjectFile.fireTaskWrittenEvent, replaced by ProjectFile.getEventManager().fireTaskWrittenEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireResourceReadEvent, replaced by ProjectFile.getEventManager().fireResourceReadEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireResourceWrittenEvent, replaced by ProjectFile.getEventManager().fireResourceWrittenEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireCalendarReadEvent, replaced by ProjectFile.getEventManager().fireCalendarReadEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireAssignmentReadEvent, replaced by ProjectFile.getEventManager().fireAssignmentReadEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireAssignmentWrittenEvent, replaced by ProjectFile.getEventManager().fireAssignmentWrittenEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireRelationReadEvent, replaced by ProjectFile.getEventManager().fireRelationReadEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireRelationWrittenEvent, replaced by ProjectFile.getEventManager().fireRelationWrittenEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.fireCalendarWrittenEvent, replaced by ProjectFile.getEventManager().fireCalendarWrittenEvent()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.addProjectListener, replaced by ProjectFile.getEventManager().addProjectListener()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.addProjectListeners, replaced by ProjectFile.getEventManager().addProjectListeners()</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.removeProjectListener, replaced by ProjectFile.getEventManager().removeProjectListener()</action>		
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

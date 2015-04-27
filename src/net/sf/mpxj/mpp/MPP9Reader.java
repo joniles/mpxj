@@ -39,6 +39,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -131,6 +132,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       m_reader = reader;
       m_file = file;
+      m_eventManager = file.getEventManager();
       m_root = root;
 
       //
@@ -176,7 +178,7 @@ final class MPP9Reader implements MPPVariantReader
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
       VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
       m_outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_file, m_projectDir, "Props"));
+      m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<Integer, FontBase>();
@@ -193,6 +195,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       m_reader = null;
       m_file = null;
+      m_eventManager = null;
       m_root = null;
       m_resourceMap = null;
       m_projectDir = null;
@@ -702,7 +705,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props9 props = new Props9(m_inputStreamFactory.getInstance(m_file, m_viewDir, "Props"));
+      Props9 props = new Props9(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -951,7 +954,7 @@ final class MPP9Reader implements MPPVariantReader
                int valuesLength = endDataOffset - dataOffset;
                byte[] values = new byte[valuesLength];
                MPPUtility.getByteArray(data, dataOffset, valuesLength, values, 0);
-               m_file.setTaskFieldValueList(field, getTaskFieldValues(m_file, field, values));
+               m_file.setTaskFieldValueList(field, getTaskFieldValues(m_file.getProjectProperties(), field, values));
                //System.out.println(MPPUtility.hexdump(values, true));
 
                // Get the descriptions
@@ -997,12 +1000,12 @@ final class MPP9Reader implements MPPVariantReader
     * This method will return null if no descriptions for the value list has 
     * been defined for this field.
     *
-    * @param file parent project file
+    * @param properties project properties
     * @param field task field
     * @param data data block
     * @return list of task field values
     */
-   public List<Object> getTaskFieldValues(ProjectFile file, TaskField field, byte[] data)
+   public List<Object> getTaskFieldValues(ProjectProperties properties, TaskField field, byte[] data)
    {
       if (field == null || data == null || data.length == 0)
       {
@@ -1041,7 +1044,7 @@ final class MPP9Reader implements MPPVariantReader
          case DURATION:
             while (offset + 6 <= data.length)
             {
-               Duration duration = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
+               Duration duration = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
                list.add(duration);
                offset += 6;
             }
@@ -1349,7 +1352,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta calVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
       Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream(((DocumentEntry) calDir.getEntry("Var2Data"))));
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(m_file, calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(calDir, "FixedData"), 12);
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
@@ -1423,7 +1426,7 @@ final class MPP9Reader implements MPPVariantReader
                   }
 
                   calendarMap.put(calendarID, cal);
-                  m_file.fireCalendarReadEvent(cal);
+                  m_eventManager.fireCalendarReadEvent(cal);
                }
 
                offset += 12;
@@ -1609,14 +1612,14 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file);
+      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties());
       fieldMap.createTaskFieldMap(m_projectProps);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance(m_file, taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
+      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance(taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
@@ -1806,7 +1809,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             if (recurringTaskReader == null)
             {
-               recurringTaskReader = new RecurringTaskReader(m_file);
+               recurringTaskReader = new RecurringTaskReader(m_file.getProjectProperties());
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
             task.setRecurring(true);
@@ -1897,7 +1900,7 @@ final class MPP9Reader implements MPPVariantReader
          //
          // Fire the task read event
          //
-         m_file.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
          //System.out.println(task);
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
       }
@@ -2303,14 +2306,14 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file);
+      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties());
       fieldMap.createResourceFieldMap(m_projectProps);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_file, rscDir, "FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -2422,7 +2425,7 @@ final class MPP9Reader implements MPPVariantReader
          AvailabilityFactory af = new AvailabilityFactory();
          af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
 
-         m_file.fireResourceReadEvent(resource);
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -2433,7 +2436,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file);
+      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties());
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -2441,10 +2444,10 @@ final class MPP9Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
 
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
+      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
       if (assnFixedData.getItemCount() != assnFixedMeta.getAdjustedItemCount())
       {
-         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
+         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
@@ -2473,7 +2476,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance(dir, "FixedData"));
 
       int items = fixedMeta.getAdjustedItemCount();
       View view;
@@ -2510,7 +2513,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
       //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
-      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2537,7 +2540,7 @@ final class MPP9Reader implements MPPVariantReader
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
       //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
       //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
-      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"), true);
+      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(dir, "FixedData"), true);
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2547,7 +2550,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(varData);
 
       FilterReader reader = new FilterReader9();
-      reader.process(m_file, fixedData, varData);
+      reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
    }
 
    /**
@@ -2560,7 +2563,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
       //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);      
-      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2586,7 +2589,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(varMeta);
       //System.out.println(varData);
 
-      InputStream is = m_inputStreamFactory.getInstance(m_file, dir, "FixedData");
+      InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
       //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
@@ -2659,6 +2662,7 @@ final class MPP9Reader implements MPPVariantReader
 
    private MPPReader m_reader;
    private ProjectFile m_file;
+   private EventManager m_eventManager;
    private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;

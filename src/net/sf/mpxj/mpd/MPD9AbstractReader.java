@@ -36,6 +36,7 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -258,7 +259,7 @@ abstract class MPD9AbstractReader
 
          cal.setUniqueID(uniqueID);
          m_calendarMap.put(uniqueID, cal);
-         m_project.fireCalendarReadEvent(cal);
+         m_eventManager.fireCalendarReadEvent(cal);
       }
    }
 
@@ -615,7 +616,7 @@ abstract class MPD9AbstractReader
          //
          resource.setOverAllocated(NumberHelper.getDouble(resource.getPeakUnits()) > NumberHelper.getDouble(resource.getMaxUnits()));
 
-         m_project.fireResourceReadEvent(resource);
+         m_eventManager.fireResourceReadEvent(resource);
 
          //
          // Unused attributes
@@ -1087,7 +1088,7 @@ abstract class MPD9AbstractReader
             task.setNull(true);
          }
 
-         m_project.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
       }
    }
 
@@ -1127,7 +1128,7 @@ abstract class MPD9AbstractReader
          TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
          Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
          Relation relation = successorTask.addPredecessor(predecessorTask, type, duration);
-         m_project.fireRelationReadEvent(relation);
+         m_eventManager.fireRelationReadEvent(relation);
       }
    }
 
@@ -1203,7 +1204,7 @@ abstract class MPD9AbstractReader
             assignment.setNotes(notes);
          }
 
-         m_project.fireAssignmentReadEvent(assignment);
+         m_eventManager.fireAssignmentReadEvent(assignment);
       }
    }
 
@@ -1331,6 +1332,7 @@ abstract class MPD9AbstractReader
 
    protected Integer m_projectID;
    protected ProjectFile m_project;
+   protected EventManager m_eventManager;
 
    private boolean m_preserveNoteFormatting;
    private boolean m_autoWBS = true;

@@ -105,6 +105,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       try
       {
          m_project = new ProjectFile();
+         m_eventManager = m_project.getEventManager();
 
          ProjectConfig config = m_project.getProjectConfig();
          config.setAutoTaskID(false);
@@ -117,7 +118,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         m_project.addProjectListeners(m_projectListeners);
+         m_project.getEventManager().addProjectListeners(m_projectListeners);
 
          processProjectProperties();
          processCalendars();

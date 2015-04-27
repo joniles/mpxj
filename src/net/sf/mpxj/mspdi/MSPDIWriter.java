@@ -51,6 +51,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -175,6 +176,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_projectFile = projectFile;
          m_projectFile.validateUniqueIDsForMicrosoftProject();
+         m_eventManager = m_projectFile.getEventManager();
 
          Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -469,7 +471,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeWorkWeeks(calendar, bc);
 
-      m_projectFile.fireCalendarWrittenEvent(bc);
+      m_eventManager.fireCalendarWrittenEvent(bc);
 
       return (calendar);
    }
@@ -1369,7 +1371,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             Integer taskUniqueID = rel.getTargetTask().getUniqueID();
             list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
-            m_projectFile.fireRelationWrittenEvent(rel);
+            m_eventManager.fireRelationWrittenEvent(rel);
          }
       }
    }
@@ -1535,7 +1537,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeAssignmentTimephasedData(mpx, xml);
 
-      m_projectFile.fireAssignmentWrittenEvent(mpx);
+      m_eventManager.fireAssignmentWrittenEvent(mpx);
 
       return (xml);
    }
@@ -1979,6 +1981,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private ObjectFactory m_factory;
 
    private ProjectFile m_projectFile;
+
+   private EventManager m_eventManager;
 
    private Set<TaskField> m_taskExtendedAttributes;
 

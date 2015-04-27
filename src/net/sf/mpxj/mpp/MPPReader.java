@@ -113,7 +113,7 @@ public final class MPPReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         projectFile.addProjectListeners(m_projectListeners);
+         projectFile.getEventManager().addProjectListeners(m_projectListeners);
 
          //
          // Open the file system and retrieve the root directory

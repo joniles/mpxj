@@ -102,7 +102,7 @@ public final class GanttChartView14 extends GanttChartView
          //System.out.println(MPPUtility.hexdump(data, offset, 32, false));
 
          // may need to sort this out
-         GenericCriteria c = criteria.process(m_parent, data, offset + 12, -1, null, null, null);
+         GenericCriteria c = criteria.process(m_properties, data, offset + 12, -1, null, null, null);
          //System.out.println(c);
 
          Filter filter = new Filter();

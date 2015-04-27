@@ -45,6 +45,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -60,6 +61,7 @@ import net.sf.mpxj.TimeUnit;
 public final class SDEFWriter // extends AbstractProjectWriter
 {
    private ProjectFile m_projectFile; // from MPXJ library
+   private EventManager m_eventManager;
    private PrintStream m_writer; // line out to a text file
    private StringBuilder m_buffer; // used to accumulate characters
    private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
@@ -76,6 +78,8 @@ public final class SDEFWriter // extends AbstractProjectWriter
    public void write(ProjectFile projectFile, OutputStream out)
    {
       m_projectFile = projectFile;
+      m_eventManager = projectFile.getEventManager();
+
       m_writer = new PrintStream(out); // the print stream class is the easiest way to create a text file
       m_buffer = new StringBuilder();
 
@@ -203,7 +207,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
                writeCalendarException(record, ex);
             }
          }
-         m_projectFile.fireCalendarWrittenEvent(record); // left here from MPX template, maybe not needed???
+         m_eventManager.fireCalendarWrittenEvent(record); // left here from MPX template, maybe not needed???
       }
    }
 
@@ -289,7 +293,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
          //	      m_buffer.append(SDEFmethods.Lset(record.getText7(), 1) + " ");
          //	      m_buffer.append(SDEFmethods.Lset(record.getText8(), 30) + " ");	      
          m_writer.println(m_buffer.toString());
-         m_projectFile.fireTaskWrittenEvent(record);
+         m_eventManager.fireTaskWrittenEvent(record);
       }
    }
 
@@ -439,7 +443,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
          est = Integer.valueOf(Math.abs(days.intValue()));
          m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE		      
          m_writer.println(m_buffer.toString());
-         m_projectFile.fireTaskWrittenEvent(record);
+         m_eventManager.fireTaskWrittenEvent(record);
       }
    }
 

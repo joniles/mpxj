@@ -39,6 +39,7 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -131,6 +132,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       m_reader = reader;
       m_file = file;
+      m_eventManager = file.getEventManager();
       m_root = root;
 
       //
@@ -164,7 +166,7 @@ final class MPP12Reader implements MPPVariantReader
       m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
       m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
       m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      m_projectProps = new Props12(m_inputStreamFactory.getInstance(m_file, m_projectDir, "Props"));
+      m_projectProps = new Props12(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<Integer, FontBase>();
@@ -185,6 +187,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       m_reader = null;
       m_file = null;
+      m_eventManager = null;
       m_root = null;
       m_resourceMap = null;
       m_projectDir = null;
@@ -766,7 +769,7 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_file, m_viewDir, "Props"));
+      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -1047,7 +1050,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(calVarData);
 
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(m_file, calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(calDir, "FixedData"), 12);
 
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
@@ -1122,7 +1125,7 @@ final class MPP12Reader implements MPPVariantReader
                   }
 
                   calendarMap.put(calendarID, cal);
-                  m_file.fireCalendarReadEvent(cal);
+                  m_eventManager.fireCalendarReadEvent(cal);
                }
 
                offset += 12;
@@ -1348,10 +1351,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file, m_customFieldValues);
+      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_customFieldValues);
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file, m_customFieldValues);
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_customFieldValues);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -1362,7 +1365,7 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 86);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
-      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_file, taskDir, "Props"));
+      Props12 props = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
       //System.out.println(taskFixedMeta);
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
@@ -1576,7 +1579,7 @@ final class MPP12Reader implements MPPVariantReader
          {
             if (recurringTaskReader == null)
             {
-               recurringTaskReader = new RecurringTaskReader(m_file);
+               recurringTaskReader = new RecurringTaskReader(m_file.getProjectProperties());
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
             task.setRecurring(true);
@@ -1674,7 +1677,7 @@ final class MPP12Reader implements MPPVariantReader
             m_taskOrder.put(key, task.getUniqueID());
          }
 
-         m_file.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
          //dumpUnknownData(task.getUniqueID().toString(), UNKNOWN_TASK_DATA, data);
          //System.out.println(task);
       }
@@ -2100,20 +2103,20 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file, m_customFieldValues);
+      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_customFieldValues);
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file, m_customFieldValues);
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_customFieldValues);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_file, rscDir, "FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
-      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(m_file, rscDir, "Fixed2Data"));
-      Props12 props = new Props12(m_inputStreamFactory.getInstance(m_file, rscDir, "Props"));
+      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
+      Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -2242,7 +2245,7 @@ final class MPP12Reader implements MPPVariantReader
          AvailabilityFactory af = new AvailabilityFactory();
          af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
 
-         m_file.fireResourceReadEvent(resource);
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -2253,10 +2256,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file, m_customFieldValues);
+      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_customFieldValues);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file, m_customFieldValues);
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_customFieldValues);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -2265,8 +2268,8 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       // MSP 20007 seems to write 142 byte blocks, MSP 2010 writes 110 byte blocks
       // We need to identify any cases where the meta data count does not correctly identify the block size
-      FixedData assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_file, assnDir, "FixedData"));
-      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(m_file, assnDir, "Fixed2Data"));
+      FixedData assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
+      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(assnDir, "Fixed2Data"));
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
       factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getAdjustedItemCount());
    }
@@ -2293,7 +2296,7 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(dir, "FixedData"));
 
       int items = fixedMeta.getAdjustedItemCount();
       View view;
@@ -2354,7 +2357,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2364,7 +2367,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(varData);
 
       FilterReader reader = new FilterReader12();
-      reader.process(m_file, fixedData, varData);
+      reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
    }
 
    /**
@@ -2400,7 +2403,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_file, dir, "FixedData"));
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
@@ -2487,6 +2490,7 @@ final class MPP12Reader implements MPPVariantReader
 
    private MPPReader m_reader;
    private ProjectFile m_file;
+   private EventManager m_eventManager;
    private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;

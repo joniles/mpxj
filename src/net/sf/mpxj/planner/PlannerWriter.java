@@ -41,6 +41,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -87,6 +88,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       try
       {
          m_projectFile = projectFile;
+         m_eventManager = projectFile.getEventManager();
 
          if (CONTEXT == null)
          {
@@ -267,7 +269,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       List<net.sf.mpxj.planner.schema.Day> dayList = plannerDays.getDay();
       processExceptionDays(mpxjCalendar, dayList);
 
-      m_projectFile.fireCalendarWrittenEvent(mpxjCalendar);
+      m_eventManager.fireCalendarWrittenEvent(mpxjCalendar);
 
       //
       // Process any derived calendars
@@ -405,7 +407,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       //plannerResource.setStdRate();
       //plannerResource.setOvtRate();      
       plannerResource.setUnits("0");
-      //plannerResource.setProperties();      
+      //plannerResource.setProperties();
+      m_eventManager.fireResourceWrittenEvent(mpxjResource);
    }
 
    /**
@@ -478,6 +481,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       writePredecessors(mpxjTask, plannerTask);
 
+      m_eventManager.fireTaskWrittenEvent(mpxjTask);
+
       //
       // Write child tasks
       //
@@ -520,7 +525,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             plannerPredecessor.setLag(getDurationString(rel.getLag()));
             plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
             predecessorList.add(plannerPredecessor);
-            m_projectFile.fireRelationWrittenEvent(rel);
+            m_eventManager.fireRelationWrittenEvent(rel);
          }
       }
    }
@@ -544,7 +549,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          plannerAllocation.setResourceId(getIntegerString(mpxjAssignment.getResourceUniqueID()));
          plannerAllocation.setUnits(getIntegerString(mpxjAssignment.getUnits()));
 
-         m_projectFile.fireAssignmentWrittenEvent(mpxjAssignment);
+         m_eventManager.fireAssignmentWrittenEvent(mpxjAssignment);
       }
    }
 
@@ -900,6 +905,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    private String m_encoding;
    private ProjectFile m_projectFile;
+   private EventManager m_eventManager;
    private ObjectFactory m_factory;
    private Project m_plannerProject;
 

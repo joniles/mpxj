@@ -32,11 +32,11 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
    /**
     * Constructor.
     * 
-    * @param projectFile parent project file
+    * @param properties project properties
     */
-   public GraphicalIndicatorCriteria(ProjectFile projectFile)
+   public GraphicalIndicatorCriteria(ProjectProperties properties)
    {
-      super(projectFile);
+      super(properties);
    }
 
    /**

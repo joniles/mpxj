@@ -40,7 +40,7 @@ import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
-import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.TaskType;
@@ -57,14 +57,13 @@ abstract class FieldMap
    /**
     * Constructor.
     * 
-    * @param file parent project file 
+    * @param properties project properties
     * @param customFieldValues custom field values
     */
-   public FieldMap(ProjectFile file, CustomFieldValues customFieldValues)
+   public FieldMap(ProjectProperties properties, CustomFieldValues customFieldValues)
    {
-      m_file = file;
+      m_properties = properties;
       m_customFieldValues = customFieldValues;
-      m_defaultProjectTimeUnits = m_file.getProjectProperties().getDefaultDurationUnits();
    }
 
    /**
@@ -540,13 +539,13 @@ abstract class FieldMap
    }
 
    /**
-    * Retrieve the parent project file.
+    * Retrieve the project properties.
     * 
     * @return project file
     */
-   protected ProjectFile getProjectFile()
+   protected ProjectProperties getProjectProperties()
    {
-      return m_file;
+      return m_properties;
    }
 
    /**
@@ -807,16 +806,16 @@ abstract class FieldMap
                      TimeUnit units = (TimeUnit) getFieldData(id, unitsType, fixedData, varData);
                      if (units == null)
                      {
-                        units = getProjectFile().getProjectProperties().getDefaultDurationUnits();
+                        units = getProjectProperties().getDefaultDurationUnits();
                      }
 
-                     result = MPPUtility.getAdjustedDuration(getProjectFile(), MPPUtility.getInt(data, m_fixedDataOffset), units);
+                     result = MPPUtility.getAdjustedDuration(getProjectProperties(), MPPUtility.getInt(data, m_fixedDataOffset), units);
                      break;
                   }
 
                   case TIME_UNITS:
                   {
-                     result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, m_fixedDataOffset), m_defaultProjectTimeUnits);
+                     result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, m_fixedDataOffset), getProjectProperties().getDefaultDurationUnits());
                      break;
                   }
 
@@ -969,7 +968,7 @@ abstract class FieldMap
 
             case TIME_UNITS:
             {
-               result = MPPUtility.getDurationTimeUnits(varData.getShort(id, m_varDataKey), m_defaultProjectTimeUnits);
+               result = MPPUtility.getDurationTimeUnits(varData.getShort(id, m_varDataKey), getProjectProperties().getDefaultDurationUnits());
                break;
             }
 
@@ -1187,7 +1186,7 @@ abstract class FieldMap
                if (data.length >= 4)
                {
                   int duration = MPPUtility.getInt(data, 0);
-                  result = MPPUtility.getAdjustedDuration(getProjectFile(), duration, units);
+                  result = MPPUtility.getAdjustedDuration(getProjectProperties(), duration, units);
                }
             }
          }
@@ -1406,9 +1405,8 @@ abstract class FieldMap
       private int m_metaBlock;
    }
 
-   private ProjectFile m_file;
+   private ProjectProperties m_properties;
    protected CustomFieldValues m_customFieldValues;
-   protected TimeUnit m_defaultProjectTimeUnits;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
 

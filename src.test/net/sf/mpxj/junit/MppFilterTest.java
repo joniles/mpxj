@@ -32,6 +32,7 @@ import net.sf.mpxj.FilterContainer;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GenericCriteriaPrompt;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
@@ -174,6 +175,7 @@ public class MppFilterTest
       Task task1 = mpp.getTaskByID(Integer.valueOf(1));
       Task task2 = mpp.getTaskByID(Integer.valueOf(2));
       FilterContainer filters = mpp.getFilters();
+      ProjectProperties properties = mpp.getProjectProperties();
 
       //
       // Test different data types
@@ -287,7 +289,7 @@ public class MppFilterTest
 
       // Create and test an "is any value" filter
       filter = new Filter();
-      GenericCriteria criteria = new GenericCriteria(mpp);
+      GenericCriteria criteria = new GenericCriteria(properties);
       filter.setCriteria(criteria);
       criteria.setLeftValue(TaskField.DEADLINE);
       criteria.setOperator(TestOperator.IS_ANY_VALUE);
@@ -295,7 +297,7 @@ public class MppFilterTest
 
       // Create and test a boolean filter
       filter = new Filter();
-      criteria = new GenericCriteria(mpp);
+      criteria = new GenericCriteria(properties);
       filter.setCriteria(criteria);
       criteria.setLeftValue(TaskField.FLAG1);
       criteria.setOperator(TestOperator.EQUALS);

@@ -106,7 +106,7 @@ public final class AstaDatabaseReader implements ProjectReader
       {
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
-         project.addProjectListeners(m_projectListeners);
+         project.getEventManager().addProjectListeners(m_projectListeners);
 
          processProjectProperties();
          processCalendars();

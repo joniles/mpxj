@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -38,11 +38,11 @@ class FieldMap9 extends FieldMap
    /**
     * Constructor.
     * 
-    * @param file parent file
+    * @param properties project properties
     */
-   public FieldMap9(ProjectFile file)
+   public FieldMap9(ProjectProperties properties)
    {
-      super(file, new CustomFieldValues());
+      super(properties, new CustomFieldValues());
    }
 
    /**

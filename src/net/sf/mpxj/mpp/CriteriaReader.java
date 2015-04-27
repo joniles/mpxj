@@ -31,7 +31,7 @@ import java.util.TreeMap;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GenericCriteriaPrompt;
-import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 
@@ -118,7 +118,7 @@ public abstract class CriteriaReader
    /**
     * Main entry point to read criteria data.
     * 
-    * @param file parent project file
+    * @param properties project properties
     * @param data criteria data block
     * @param dataOffset offset of the data start within the larger data block
     * @param entryOffset offset of start node for walking the tree
@@ -127,9 +127,9 @@ public abstract class CriteriaReader
     * @param criteriaType optional array representing criteria types
     * @return first node of the criteria
     */
-   public GenericCriteria process(ProjectFile file, byte[] data, int dataOffset, int entryOffset, List<GenericCriteriaPrompt> prompts, List<FieldType> fields, boolean[] criteriaType)
+   public GenericCriteria process(ProjectProperties properties, byte[] data, int dataOffset, int entryOffset, List<GenericCriteriaPrompt> prompts, List<FieldType> fields, boolean[] criteriaType)
    {
-      m_file = file;
+      m_properties = properties;
       m_prompts = prompts;
       m_fields = fields;
       m_criteriaType = criteriaType;
@@ -257,7 +257,7 @@ public abstract class CriteriaReader
       Object rightValue1 = getValue(leftValue, rightBlock1);
       Object rightValue2 = rightBlock2 == null ? null : getValue(leftValue, rightBlock2);
 
-      GenericCriteria criteria = new GenericCriteria(m_file);
+      GenericCriteria criteria = new GenericCriteria(m_properties);
       criteria.setLeftValue(leftValue);
       criteria.setOperator(operator);
       criteria.setRightValue(0, rightValue1);
@@ -287,7 +287,7 @@ public abstract class CriteriaReader
     */
    private void addBlock(List<GenericCriteria> list, byte[] block, TestOperator operator)
    {
-      GenericCriteria result = new GenericCriteria(m_file);
+      GenericCriteria result = new GenericCriteria(m_properties);
       result.setOperator(operator);
       list.add(result);
       processBlock(result.getCriteriaList(), getChildBlock(block));
@@ -344,7 +344,7 @@ public abstract class CriteriaReader
       {
          case DURATION:
          {
-            value = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
+            value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
             break;
          }
 
@@ -415,7 +415,7 @@ public abstract class CriteriaReader
       return prompt;
    }
 
-   private ProjectFile m_file;
+   private ProjectProperties m_properties;
    private byte[] m_criteriaData;
    private boolean[] m_criteriaType;
    private int m_criteriaTextStart;

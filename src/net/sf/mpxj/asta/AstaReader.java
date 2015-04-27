@@ -37,6 +37,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
@@ -62,6 +63,8 @@ final class AstaReader
    public AstaReader()
    {
       m_project = new ProjectFile();
+      m_eventManager = m_project.getEventManager();
+
       ProjectConfig config = m_project.getProjectConfig();
 
       config.setAutoTaskUniqueID(false);
@@ -217,7 +220,7 @@ final class AstaReader
          task.setWBS("-");
          task.setCalendar(calendar);
 
-         m_project.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
       }
 
       //
@@ -326,7 +329,7 @@ final class AstaReader
             }
          }
 
-         m_project.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
       }
 
       for (Row row : milestones)
@@ -1028,6 +1031,8 @@ final class AstaReader
             calendar.addCalendarException(startDate, endDate);
          }
       }
+
+      m_eventManager.fireCalendarReadEvent(calendar);
    }
 
    /**
@@ -1079,6 +1084,7 @@ final class AstaReader
    }
 
    private ProjectFile m_project;
+   private EventManager m_eventManager;
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);

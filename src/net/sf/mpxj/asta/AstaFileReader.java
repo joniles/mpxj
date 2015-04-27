@@ -71,7 +71,7 @@ public final class AstaFileReader extends AbstractProjectReader
       {
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
-         project.addProjectListeners(m_projectListeners);
+         project.getEventManager().addProjectListeners(m_projectListeners);
 
          m_tables = new HashMap<String, List<Row>>();
 

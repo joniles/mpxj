@@ -38,11 +38,11 @@ public class GenericCriteria
    /**
     * Constructor.
     * 
-    * @param projectFile parent project file
+    * @param properties project properties
     */
-   public GenericCriteria(ProjectFile projectFile)
+   public GenericCriteria(ProjectProperties properties)
    {
-      m_projectFile = projectFile;
+      m_properties = properties;
    }
 
    /**
@@ -106,7 +106,7 @@ public class GenericCriteria
          {
             if (((Duration) value).getUnits() != TimeUnit.HOURS)
             {
-               value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
+               value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_properties);
             }
          }
       }
@@ -163,7 +163,7 @@ public class GenericCriteria
                if (lhs != null)
                {
                   Duration dur = (Duration) lhs;
-                  lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
+                  lhs = dur.convertUnits(TimeUnit.HOURS, m_properties);
                }
                else
                {
@@ -293,7 +293,7 @@ public class GenericCriteria
                {
                   if (value != null && ((Duration) value).getUnits() != TimeUnit.HOURS)
                   {
-                     value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
+                     value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_properties);
                   }
                   else
                   {
@@ -394,7 +394,7 @@ public class GenericCriteria
       return (sb.toString());
    }
 
-   private ProjectFile m_projectFile;
+   private ProjectProperties m_properties;
    private FieldType m_leftValue;
    private TestOperator m_operator;
    private Object[] m_definedRightValues = new Object[2];

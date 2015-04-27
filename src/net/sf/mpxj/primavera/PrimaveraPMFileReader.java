@@ -48,6 +48,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -121,6 +122,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, UTF8);
 
          m_projectFile = new ProjectFile();
+         m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskUniqueID(false);
@@ -132,7 +134,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          aliases.add(TaskField.TEXT1, "WBS Code");
          aliases.add(TaskField.TEXT2, "Task ID");
 
-         m_projectFile.addProjectListeners(m_projectListeners);
+         m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);
@@ -370,7 +372,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             }
          }
 
-         m_projectFile.fireResourceReadEvent(resource);
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -498,7 +500,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
 
-         m_projectFile.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
       }
 
       updateStructure();
@@ -574,7 +576,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             RelationType type = RELATION_TYPE_MAP.get(row.getType());
             Duration lag = getDuration(row.getLag());
             Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
-            m_projectFile.fireRelationReadEvent(relation);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
@@ -616,7 +618,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
 
-            m_projectFile.fireAssignmentReadEvent(assignment);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
    }
@@ -687,6 +689,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    private ProjectFile m_projectFile;
+   private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();

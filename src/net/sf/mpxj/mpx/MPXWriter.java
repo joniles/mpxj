@@ -39,6 +39,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -72,6 +73,8 @@ public final class MPXWriter extends AbstractProjectWriter
    @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
+      m_eventManager = projectFile.getEventManager();
+
       if (m_useLocaleDefaults == true)
       {
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
@@ -372,7 +375,7 @@ public final class MPXWriter extends AbstractProjectWriter
             }
          }
 
-         m_projectFile.fireCalendarWrittenEvent(record);
+         m_eventManager.fireCalendarWrittenEvent(record);
       }
    }
 
@@ -533,7 +536,7 @@ public final class MPXWriter extends AbstractProjectWriter
          writeCalendar(record.getResourceCalendar());
       }
 
-      m_projectFile.fireResourceWrittenEvent(record);
+      m_eventManager.fireResourceWrittenEvent(record);
    }
 
    /**
@@ -658,7 +661,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      m_projectFile.fireTaskWrittenEvent(record);
+      m_eventManager.fireTaskWrittenEvent(record);
    }
 
    /**
@@ -779,7 +782,7 @@ public final class MPXWriter extends AbstractProjectWriter
       }
       writeResourceAssignmentWorkgroupFields(workgroup);
 
-      m_projectFile.fireAssignmentWrittenEvent(record);
+      m_eventManager.fireAssignmentWrittenEvent(record);
    }
 
    /**
@@ -1257,7 +1260,7 @@ public final class MPXWriter extends AbstractProjectWriter
          result = sb.toString();
       }
 
-      m_projectFile.fireRelationWrittenEvent(relation);
+      m_eventManager.fireRelationWrittenEvent(relation);
       return (result);
    }
 
@@ -1448,6 +1451,7 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    private ProjectFile m_projectFile;
+   private EventManager m_eventManager;
    private OutputStreamWriter m_writer;
    private ResourceModel m_resourceModel;
    private TaskModel m_taskModel;

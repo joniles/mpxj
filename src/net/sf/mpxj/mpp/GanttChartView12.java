@@ -104,7 +104,7 @@ public final class GanttChartView12 extends GanttChartView
 
          int entryOffset = MPPUtility.getShort(data, offset + 12);
          fields.clear();
-         GenericCriteria c = criteria.process(m_parent, data, offset + 4, entryOffset, null, fields, null);
+         GenericCriteria c = criteria.process(m_properties, data, offset + 4, entryOffset, null, fields, null);
          //System.out.println(c);
 
          if (!fields.isEmpty())

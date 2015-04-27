@@ -34,7 +34,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -729,12 +729,12 @@ public final class MPPUtility
     * duration. This instance has been adjusted to take into account the
     * number of "hours per day" specified for the current project.
     *
-    * @param file parent file
+    * @param properties project properties
     * @param duration duration length
     * @param timeUnit duration units
     * @return Duration instance
     */
-   public static Duration getAdjustedDuration(ProjectFile file, int duration, TimeUnit timeUnit)
+   public static Duration getAdjustedDuration(ProjectProperties properties, int duration, TimeUnit timeUnit)
    {
       Duration result = null;
 
@@ -744,7 +744,7 @@ public final class MPPUtility
          {
             case DAYS:
             {
-               double unitsPerDay = file.getProjectProperties().getMinutesPerDay().doubleValue() * 10d;
+               double unitsPerDay = properties.getMinutesPerDay().doubleValue() * 10d;
                double totalDays = 0;
                if (unitsPerDay != 0)
                {
@@ -764,7 +764,7 @@ public final class MPPUtility
 
             case WEEKS:
             {
-               double unitsPerWeek = file.getProjectProperties().getMinutesPerWeek().doubleValue() * 10d;
+               double unitsPerWeek = properties.getMinutesPerWeek().doubleValue() * 10d;
                double totalWeeks = 0;
                if (unitsPerWeek != 0)
                {
@@ -784,7 +784,7 @@ public final class MPPUtility
 
             case MONTHS:
             {
-               double unitsPerMonth = file.getProjectProperties().getMinutesPerDay().doubleValue() * file.getProjectProperties().getDaysPerMonth().doubleValue() * 10d;
+               double unitsPerMonth = properties.getMinutesPerDay().doubleValue() * properties.getDaysPerMonth().doubleValue() * 10d;
                double totalMonths = 0;
                if (unitsPerMonth != 0)
                {
@@ -1153,7 +1153,7 @@ public final class MPPUtility
    /**
     * Dump out all the possible variables within the given data block.
     *
-    * @param file current project file
+    * @param properties project properties
     * @param data data to dump from
     * @param dumpShort true to dump all the data as shorts
     * @param dumpInt true to dump all the data as ints
@@ -1164,7 +1164,7 @@ public final class MPPUtility
     * @param dumpTime true to dump all the data as Dates (time)
     * @param dumpAdjustedDuration true to dump all data as adjusted durations
     */
-   public static final void dataDump(ProjectFile file, byte[] data, boolean dumpShort, boolean dumpInt, boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate, boolean dumpTime, boolean dumpAdjustedDuration)
+   public static final void dataDump(ProjectProperties properties, byte[] data, boolean dumpShort, boolean dumpInt, boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate, boolean dumpTime, boolean dumpAdjustedDuration)
    {
       System.out.println("DATA");
 
@@ -1268,7 +1268,7 @@ public final class MPPUtility
             {
                try
                {
-                  System.out.println(i + ":" + MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, i), TimeUnit.DAYS));
+                  System.out.println(i + ":" + MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, i), TimeUnit.DAYS));
                }
                catch (Exception ex)
                {

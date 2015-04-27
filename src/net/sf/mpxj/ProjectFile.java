@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * This class represents a project plan.
@@ -527,219 +526,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method is called to alert project listeners to the fact that
-    * a task has been read from a project file.
-    *
-    * @param task task instance
-    */
-   public void fireTaskReadEvent(Task task)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.taskRead(task);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a task has been written to a project file.
-    *
-    * @param task task instance
-    */
-   public void fireTaskWrittenEvent(Task task)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.taskWritten(task);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a resource has been read from a project file.
-    *
-    * @param resource resource instance
-    */
-   public void fireResourceReadEvent(Resource resource)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.resourceRead(resource);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a resource has been written to a project file.
-    *
-    * @param resource resource instance
-    */
-   public void fireResourceWrittenEvent(Resource resource)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.resourceWritten(resource);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a calendar has been read from a project file.
-    *
-    * @param calendar calendar instance
-    */
-   public void fireCalendarReadEvent(ProjectCalendar calendar)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.calendarRead(calendar);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a resource assignment has been read from a project file.
-    *
-    * @param resourceAssignment resourceAssignment instance
-    */
-   public void fireAssignmentReadEvent(ResourceAssignment resourceAssignment)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.assignmentRead(resourceAssignment);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a resource assignment has been written to a project file.
-    *
-    * @param resourceAssignment resourceAssignment instance
-    */
-   public void fireAssignmentWrittenEvent(ResourceAssignment resourceAssignment)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.assignmentWritten(resourceAssignment);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a relation has been read from a project file.
-    *
-    * @param relation relation instance
-    */
-   public void fireRelationReadEvent(Relation relation)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.relationRead(relation);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a relation has been written to a project file.
-    *
-    * @param relation relation instance
-    */
-   public void fireRelationWrittenEvent(Relation relation)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.relationWritten(relation);
-         }
-      }
-   }
-
-   /**
-    * This method is called to alert project listeners to the fact that
-    * a calendar has been written to a project file.
-    *
-    * @param calendar calendar instance
-    */
-   public void fireCalendarWrittenEvent(ProjectCalendar calendar)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            listener.calendarWritten(calendar);
-         }
-      }
-   }
-
-   /**
-    * Adds a listener to this project file.
-    *
-    * @param listener listener instance
-    */
-   public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new LinkedList<ProjectListener>();
-      }
-      m_projectListeners.add(listener);
-   }
-
-   /**
-    * Adds a collection of listeners to the current project.
-    * 
-    * @param listeners collection of listeners
-    */
-   public void addProjectListeners(List<ProjectListener> listeners)
-   {
-      if (listeners != null)
-      {
-         for (ProjectListener listener : listeners)
-         {
-            addProjectListener(listener);
-         }
-      }
-   }
-
-   /**
-    * Removes a listener from this project file.
-    *
-    * @param listener listener instance
-    */
-   public void removeProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners != null)
-      {
-         m_projectListeners.remove(listener);
-      }
-   }
-
-   /**
     * Associates a value list with a custom task field number.
     *
     * @param field custom field number
@@ -992,6 +778,16 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
+    * Retrieve the event manager for this project.
+    * 
+    * @return event manager
+    */
+   public EventManager getEventManager()
+   {
+      return m_eventManager;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -1061,6 +857,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final GroupContainer m_groups = new GroupContainer();
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
+   private final EventManager m_eventManager = new EventManager();
 
    /**
     * Maps from a task field number to a value list.
@@ -1071,11 +868,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Maps from a task field number to a description list.
     */
    private Map<TaskField, List<String>> m_taskFieldDescriptionList = new HashMap<TaskField, List<String>>();
-
-   /**
-    * List of project event listeners.
-    */
-   private List<ProjectListener> m_projectListeners;
 
    /**
     * Map of graphical indicator data.

@@ -24,7 +24,9 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Table;
+import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.View;
 import net.sf.mpxj.ViewType;
 
@@ -40,7 +42,8 @@ public abstract class AbstractView implements View
     */
    public AbstractView(ProjectFile parent)
    {
-      m_parent = parent;
+      m_properties = parent.getProjectProperties();
+      m_tables = parent.getTables();
    }
 
    /**
@@ -85,7 +88,7 @@ public abstract class AbstractView implements View
     */
    public Table getTable()
    {
-      return (m_parent.getTables().getTaskTableByName(m_tableName));
+      return (m_tables.getTaskTableByName(m_tableName));
    }
 
    /**
@@ -99,7 +102,8 @@ public abstract class AbstractView implements View
       return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name + (m_tableName == null ? "" : " table=" + m_tableName) + "]");
    }
 
-   protected ProjectFile m_parent;
+   protected ProjectProperties m_properties;
+   protected TableContainer m_tables;
    protected Integer m_id;
    protected String m_name;
    protected ViewType m_type;

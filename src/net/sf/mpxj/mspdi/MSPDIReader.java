@@ -53,6 +53,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -125,6 +126,7 @@ public final class MSPDIReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
+         m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskID(false);
@@ -137,7 +139,7 @@ public final class MSPDIReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         m_projectFile.addProjectListeners(m_projectListeners);
+         m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);
@@ -392,7 +394,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       map.put(calendar.getUID(), bc);
 
-      m_projectFile.fireCalendarReadEvent(bc);
+      m_eventManager.fireCalendarReadEvent(bc);
    }
 
    /**
@@ -764,7 +766,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       readAvailabilityTable(mpx, xml.getAvailabilityPeriods());
 
-      m_projectFile.fireResourceReadEvent(mpx);
+      m_eventManager.fireResourceReadEvent(mpx);
    }
 
    /**
@@ -1117,7 +1119,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
       }
 
-      m_projectFile.fireTaskReadEvent(mpx);
+      m_eventManager.fireTaskReadEvent(mpx);
    }
 
    /**
@@ -1256,7 +1258,7 @@ public final class MSPDIReader extends AbstractProjectReader
             Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
 
             Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
-            m_projectFile.fireRelationReadEvent(relation);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
@@ -1392,7 +1394,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getStartVariance(), TimeUnit.DAYS));
             mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getFinishVariance(), TimeUnit.DAYS));
 
-            m_projectFile.fireAssignmentReadEvent(mpx);
+            m_eventManager.fireAssignmentReadEvent(mpx);
          }
       }
    }
@@ -1580,5 +1582,6 @@ public final class MSPDIReader extends AbstractProjectReader
    private boolean m_compatibleInput = true;
 
    private ProjectFile m_projectFile;
+   private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
 }

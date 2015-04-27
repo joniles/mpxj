@@ -37,6 +37,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FileVersion;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -110,6 +111,7 @@ public final class MPXReader extends AbstractProjectReader
          }
 
          m_projectFile = new ProjectFile();
+         m_eventManager = m_projectFile.getEventManager();
 
          m_projectConfig = m_projectFile.getProjectConfig();
          m_projectConfig.setAutoTaskID(false);
@@ -120,7 +122,7 @@ public final class MPXReader extends AbstractProjectReader
          m_projectConfig.setAutoOutlineNumber(false);
          m_projectConfig.setAutoWBS(false);
 
-         m_projectFile.addProjectListeners(m_projectListeners);
+         m_eventManager.addProjectListeners(m_projectListeners);
 
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
          m_delimiter = (char) data[3];
@@ -320,7 +322,7 @@ public final class MPXReader extends AbstractProjectReader
          {
             m_lastResource = m_projectFile.addResource();
             populateResource(m_lastResource, record);
-            m_projectFile.fireResourceReadEvent(m_lastResource);
+            m_eventManager.fireResourceReadEvent(m_lastResource);
             break;
          }
 
@@ -410,7 +412,7 @@ public final class MPXReader extends AbstractProjectReader
                childTasks.get(childTasks.size() - 1).addChildTask(m_lastTask, outlineLevel);
             }
 
-            m_projectFile.fireTaskReadEvent(m_lastTask);
+            m_eventManager.fireTaskReadEvent(m_lastTask);
             break;
          }
 
@@ -708,7 +710,7 @@ public final class MPXReader extends AbstractProjectReader
       calendar.setWorkingDay(Day.FRIDAY, DayType.getInstance(record.getInteger(6)));
       calendar.setWorkingDay(Day.SATURDAY, DayType.getInstance(record.getInteger(7)));
 
-      m_projectFile.fireCalendarReadEvent(calendar);
+      m_eventManager.fireCalendarReadEvent(calendar);
    }
 
    /**
@@ -996,7 +998,7 @@ public final class MPXReader extends AbstractProjectReader
       }
 
       Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
-      m_projectFile.fireRelationReadEvent(relation);
+      m_eventManager.fireRelationReadEvent(relation);
    }
 
    /**
@@ -1359,7 +1361,7 @@ public final class MPXReader extends AbstractProjectReader
          resource.addResourceAssignment(assignment);
       }
 
-      m_projectFile.fireAssignmentReadEvent(assignment);
+      m_eventManager.fireAssignmentReadEvent(assignment);
    }
 
    /**
@@ -1527,6 +1529,7 @@ public final class MPXReader extends AbstractProjectReader
    }
 
    private ProjectFile m_projectFile;
+   private EventManager m_eventManager;
    private ProjectConfig m_projectConfig;
    private Task m_lastTask;
    private Resource m_lastResource;

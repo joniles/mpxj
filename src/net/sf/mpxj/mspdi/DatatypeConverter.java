@@ -1631,7 +1631,7 @@ public final class DatatypeConverter
       ProjectFile file = PARENT_FILE.get();
       if (file != null)
       {
-         file.fireTaskWrittenEvent(file.getTaskByUniqueID(value));
+         file.getEventManager().fireTaskWrittenEvent(file.getTaskByUniqueID(value));
       }
       return (value.toString());
    }
@@ -1658,7 +1658,7 @@ public final class DatatypeConverter
       ProjectFile file = PARENT_FILE.get();
       if (file != null)
       {
-         file.fireResourceWrittenEvent(file.getResourceByUniqueID(value));
+         file.getEventManager().fireResourceWrittenEvent(file.getResourceByUniqueID(value));
       }
       return (value.toString());
    }

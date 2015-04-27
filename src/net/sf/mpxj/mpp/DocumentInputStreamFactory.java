@@ -26,8 +26,6 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.mpxj.ProjectFile;
-
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -53,13 +51,12 @@ class DocumentInputStreamFactory
     * Method used to instantiate the appropriate input stream reader,
     * a standard one, or one which can deal with "encrypted" data.
     * 
-    * @param file parent project file
     * @param directory directory entry
     * @param name file name
     * @return new input stream
     * @throws IOException
     */
-   public InputStream getInstance(ProjectFile file, DirectoryEntry directory, String name) throws IOException
+   public InputStream getInstance(DirectoryEntry directory, String name) throws IOException
    {
       DocumentEntry entry = (DocumentEntry) directory.getEntry(name);
       InputStream stream;

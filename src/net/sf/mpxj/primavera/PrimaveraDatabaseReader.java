@@ -106,7 +106,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       {
          m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
-         project.addProjectListeners(m_projectListeners);
+         project.getEventManager().addProjectListeners(m_projectListeners);
 
          processProjectProperties();
          processCalendars();

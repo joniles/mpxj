@@ -50,6 +50,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -113,6 +114,7 @@ public final class PlannerReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
+         m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskUniqueID(false);
@@ -121,7 +123,7 @@ public final class PlannerReader extends AbstractProjectReader
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
 
-         m_projectFile.addProjectListeners(m_projectListeners);
+         m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
          factory.setNamespaceAware(true);
@@ -255,7 +257,7 @@ public final class PlannerReader extends AbstractProjectReader
       //
       processExceptionDays(mpxjCalendar, plannerCalendar);
 
-      m_projectFile.fireCalendarReadEvent(mpxjCalendar);
+      m_eventManager.fireCalendarReadEvent(mpxjCalendar);
 
       //
       // Process any derived calendars
@@ -503,7 +505,7 @@ public final class PlannerReader extends AbstractProjectReader
       }
       calendar.setParent(baseCalendar);
 
-      m_projectFile.fireResourceReadEvent(mpxjResource);
+      m_eventManager.fireResourceReadEvent(mpxjResource);
    }
 
    /**
@@ -633,7 +635,7 @@ public final class PlannerReader extends AbstractProjectReader
       }
       mpxjTask.setEffortDriven(true);
 
-      m_projectFile.fireTaskReadEvent(mpxjTask);
+      m_eventManager.fireTaskReadEvent(mpxjTask);
 
       //
       // Process child tasks
@@ -670,7 +672,7 @@ public final class PlannerReader extends AbstractProjectReader
                   lag = Duration.getInstance(0, TimeUnit.HOURS);
                }
                Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
-               m_projectFile.fireRelationReadEvent(relation);
+               m_eventManager.fireRelationReadEvent(relation);
             }
          }
       }
@@ -730,7 +732,7 @@ public final class PlannerReader extends AbstractProjectReader
 
             tasksWithAssignments.add(task);
 
-            m_projectFile.fireAssignmentReadEvent(assignment);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
 
@@ -963,6 +965,7 @@ public final class PlannerReader extends AbstractProjectReader
    }
 
    private ProjectFile m_projectFile;
+   private EventManager m_eventManager;
    private ProjectCalendar m_defaultCalendar;
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");

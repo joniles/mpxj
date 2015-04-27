@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Day;
-import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Task;
@@ -37,11 +37,11 @@ final class RecurringTaskReader
    /**
     * Constructor.
     * 
-    * @param file parent project file
+    * @param properties project properties
     */
-   public RecurringTaskReader(ProjectFile file)
+   public RecurringTaskReader(ProjectProperties properties)
    {
-      m_file = file;
+      m_properties = properties;
    }
 
    /**
@@ -55,7 +55,7 @@ final class RecurringTaskReader
       RecurringTask rt = task.addRecurringTask();
       rt.setStartDate(MPPUtility.getDate(data, 6));
       rt.setFinishDate(MPPUtility.getDate(data, 10));
-      rt.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 16))));
+      rt.setDuration(MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 16))));
       rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
       rt.setUseEndDate(MPPUtility.getShort(data, 24) == 1);
@@ -84,5 +84,5 @@ final class RecurringTaskReader
       rt.setYearlyAbsoluteDate(MPPUtility.getDate(data, 70));
    }
 
-   private ProjectFile m_file;
+   private ProjectProperties m_properties;
 }

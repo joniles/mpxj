@@ -38,6 +38,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -126,6 +127,7 @@ final class MPP8Reader implements MPPVariantReader
       m_reader = reader;
       m_root = root;
       m_file = file;
+      m_eventManager = file.getEventManager();
 
       m_calendarMap = new HashMap<Integer, ProjectCalendar>();
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
@@ -141,6 +143,7 @@ final class MPP8Reader implements MPPVariantReader
    {
       m_reader = null;
       m_root = null;
+      m_eventManager = null;
       m_file = null;
       m_calendarMap = null;
       m_projectDir = null;
@@ -352,7 +355,7 @@ final class MPP8Reader implements MPPVariantReader
          }
 
          m_calendarMap.put(Integer.valueOf(calendarID), cal);
-         m_file.fireCalendarReadEvent(cal);
+         m_eventManager.fireCalendarReadEvent(cal);
       }
 
       updateBaseCalendarNames(baseCalendars);
@@ -409,7 +412,8 @@ final class MPP8Reader implements MPPVariantReader
       String notes;
       byte[] flags = new byte[3];
       RecurringTaskReader recurringTaskReader = null;
-      TimeUnit defaultProjectTimeUnits = m_file.getProjectProperties().getDefaultDurationUnits();
+      ProjectProperties properties = m_file.getProjectProperties();
+      TimeUnit defaultProjectTimeUnits = properties.getDefaultDurationUnits();
 
       for (int loop = 0; loop < tasks; loop++)
       {
@@ -466,7 +470,7 @@ final class MPP8Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 234)) / 100));
-         task.setActualDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setActualDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
          task.setActualFinish(MPPUtility.getTimestamp(data, 108));
          task.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 210)) / 100));
          task.setActualOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 192)) / 100, TimeUnit.HOURS));
@@ -477,7 +481,7 @@ final class MPP8Reader implements MPPVariantReader
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
          task.setBaselineCost(NumberHelper.getDouble((double) MPPUtility.getLong6(data, 246) / 100));
-         task.setBaselineDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 82), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setBaselineDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 82), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
          task.setBaselineFinish(MPPUtility.getTimestamp(data, 116));
          task.setBaselineStart(MPPUtility.getTimestamp(data, 112));
          task.setBaselineWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 174)) / 100, TimeUnit.HOURS));
@@ -514,17 +518,17 @@ final class MPP8Reader implements MPPVariantReader
          task.setDate(9, taskExtData.getTimestamp(TASK_DATE9));
          task.setDate(10, taskExtData.getTimestamp(TASK_DATE10));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
-         task.setDuration(1, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION1_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(2, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION2_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(3, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION3_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(4, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION4_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(5, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION5_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(6, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION6_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(7, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION7_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(8, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION8_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(9, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION9_UNITS), defaultProjectTimeUnits)));
-         task.setDuration(10, MPPUtility.getAdjustedDuration(m_file, taskExtData.getInt(TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION10_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setDuration(1, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION1_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(2, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION2_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(3, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION3_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(4, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION4_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(5, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION5_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(6, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION6_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(7, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION7_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(8, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION8_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(9, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION9_UNITS), defaultProjectTimeUnits)));
+         task.setDuration(10, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION10_UNITS), defaultProjectTimeUnits)));
          //task.setDurationVariance(); // Calculated value
          task.setEarlyFinish(MPPUtility.getTimestamp(data, 20));
          task.setEarlyStart(MPPUtility.getTimestamp(data, 96));
@@ -614,7 +618,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setRecurring(MPPUtility.getShort(data, 142) != 0);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 240)) / 100));
-         task.setRemainingDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setRemainingDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
          task.setRemainingOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 216)) / 100));
          task.setRemainingOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 198)) / 100, TimeUnit.HOURS));
          task.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 186)) / 100, TimeUnit.HOURS));
@@ -693,7 +697,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (recurringTaskReader == null)
             {
-               recurringTaskReader = new RecurringTaskReader(m_file);
+               recurringTaskReader = new RecurringTaskReader(properties);
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
          }
@@ -720,7 +724,7 @@ final class MPP8Reader implements MPPVariantReader
             autoWBS = false;
          }
 
-         m_file.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
 
          //
          // Uncommenting the call to this method is useful when trying
@@ -820,7 +824,7 @@ final class MPP8Reader implements MPPVariantReader
                      TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
                      Duration lag = MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits);
                      Relation relation = task2.addPredecessor(task1, type, lag);
-                     m_file.fireRelationReadEvent(relation);
+                     m_eventManager.fireRelationReadEvent(relation);
                   }
                }
             }
@@ -1047,7 +1051,7 @@ final class MPP8Reader implements MPPVariantReader
             resource.setNotes(notes);
          }
 
-         m_file.fireResourceReadEvent(resource);
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -1102,7 +1106,7 @@ final class MPP8Reader implements MPPVariantReader
                assignment.setUnits(Double.valueOf(((double) MPPUtility.getShort(data, 80)) / 100));
                assignment.setWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 84)) / 100, TimeUnit.HOURS));
 
-               m_file.fireAssignmentReadEvent(assignment);
+               m_eventManager.fireAssignmentReadEvent(assignment);
             }
          }
       }
@@ -1378,6 +1382,7 @@ final class MPP8Reader implements MPPVariantReader
 
    private MPPReader m_reader;
    private ProjectFile m_file;
+   private EventManager m_eventManager;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
    private DirectoryEntry m_root;
    private DirectoryEntry m_projectDir;

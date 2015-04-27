@@ -43,6 +43,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
@@ -84,6 +85,7 @@ final class PrimaveraReader
    public PrimaveraReader(UserFieldCounters udfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS)
    {
       m_project = new ProjectFile();
+      m_eventManager = m_project.getEventManager();
 
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoTaskUniqueID(false);
@@ -190,7 +192,7 @@ final class PrimaveraReader
          }
       }
 
-      m_project.fireCalendarReadEvent(calendar);
+      m_eventManager.fireCalendarReadEvent(calendar);
    }
 
    /**
@@ -319,7 +321,7 @@ final class PrimaveraReader
          Resource resource = m_project.addResource();
          processFields(m_resourceFields, row, resource);
          resource.setResourceCalendar(getResourceCalendar(row.getInteger("clndr_id")));
-         m_project.fireResourceReadEvent(resource);
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -411,7 +413,7 @@ final class PrimaveraReader
          Task task = m_project.addTask();
          processFields(m_wbsFields, row, task);
          uniqueIDs.add(task.getUniqueID());
-         m_project.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
       }
 
       //
@@ -506,7 +508,7 @@ final class PrimaveraReader
             addTaskUDFValue(task, r);
          }
 
-         m_project.fireTaskReadEvent(task);
+         m_eventManager.fireTaskReadEvent(task);
       }
 
       updateStructure();
@@ -821,7 +823,7 @@ final class PrimaveraReader
             RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
             Duration lag = row.getDuration("lag_hr_cnt");
             Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
-            m_project.fireRelationReadEvent(relation);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
@@ -847,7 +849,7 @@ final class PrimaveraReader
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
 
-            m_project.fireAssignmentReadEvent(assignment);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
    }
@@ -1217,6 +1219,7 @@ final class PrimaveraReader
    }
 
    private ProjectFile m_project;
+   private EventManager m_eventManager;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");

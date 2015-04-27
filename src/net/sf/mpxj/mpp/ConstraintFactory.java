@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -46,7 +47,7 @@ public class ConstraintFactory
       if (consDir != null)
       {
          FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
-         FixedData consFixedData = new FixedData(consFixedMeta, 20, inputStreamFactory.getInstance(file, consDir, "FixedData"));
+         FixedData consFixedData = new FixedData(consFixedMeta, 20, inputStreamFactory.getInstance(consDir, "FixedData"));
          //         FixedMeta consFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("Fixed2Meta"))), 9);
          //         FixedData consFixed2Data = new FixedData(consFixed2Meta, 48, getEncryptableInputStream(consDir, "Fixed2Data"));
 
@@ -54,6 +55,8 @@ public class ConstraintFactory
          int lastConstraintID = -1;
 
          ProjectProperties properties = file.getProjectProperties();
+         EventManager eventManager = file.getEventManager();
+
          boolean project15 = NumberHelper.getInt(properties.getMppFileType()) == 14 && properties.getFullApplicationName().equals("Microsoft.Project 15.0");
          int durationUnitsOffset = project15 ? 18 : 14;
          int durationOffset = project15 ? 14 : 16;
@@ -92,9 +95,9 @@ public class ConstraintFactory
                         {
                            RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
                            TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset));
-                           Duration lag = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, durationOffset), durationUnits);
+                           Duration lag = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), durationUnits);
                            Relation relation = task2.addPredecessor(task1, type, lag);
-                           file.fireRelationReadEvent(relation);
+                           eventManager.fireRelationReadEvent(relation);
                         }
                      }
                   }

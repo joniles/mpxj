@@ -36,6 +36,7 @@ import java.util.Map;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
+import net.sf.mpxj.FilterContainer;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.MPPTaskField;
 
@@ -108,6 +109,7 @@ public abstract class GanttChartView extends GenericView
       //System.out.println(varData.getVarMeta());
       //MPPUtility.fileDump("c:\\temp\\vardata.txt", varData.toString().getBytes());
 
+      m_filters = parent.getFilters();
       m_showInMenu = (fixedMeta[8] & 0x08) != 0;
 
       byte[] propsData = varData.getByteArray(m_id, getPropertiesID());
@@ -537,7 +539,7 @@ public abstract class GanttChartView extends GenericView
     */
    public Filter getDefaultFilter()
    {
-      return (m_parent.getFilters().getFilterByName(m_defaultFilterName));
+      return (m_filters.getFilterByName(m_defaultFilterName));
    }
 
    /**
@@ -1462,6 +1464,8 @@ public abstract class GanttChartView extends GenericView
    protected int m_progressLinesOtherProgressPointShape;
    protected List<Filter> m_autoFilters = new LinkedList<Filter>();
    protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
+
+   private FilterContainer m_filters;
 
    protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    protected static final Integer TIMESCALE_PROPERTIES = Integer.valueOf(574619678);
