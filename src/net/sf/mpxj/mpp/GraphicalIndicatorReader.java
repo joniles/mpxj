@@ -28,8 +28,8 @@ import java.util.Date;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
+import net.sf.mpxj.GraphicalIndicatorContainer;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
-import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
@@ -45,13 +45,14 @@ public final class GraphicalIndicatorReader
    /**
     * The main entry point for processing graphical indicator definitions.
     * 
-    * @param file parent project file
+    * @param indicators graphical indicators container
+    * @param properties project properties
     * @param props properties data
     */
-   public void process(ProjectFile file, Props props)
+   public void process(GraphicalIndicatorContainer indicators, ProjectProperties properties, Props props)
    {
-      m_file = file;
-      m_properties = m_file.getProjectProperties();
+      m_indicators = indicators;
+      m_properties = properties;
       m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
 
       if (m_data != null)
@@ -146,7 +147,7 @@ public final class GraphicalIndicatorReader
          indicator.addProjectSummaryCriteria(processCriteria(type));
       }
 
-      m_file.addGraphicalIndicator(type, indicator);
+      m_indicators.addGraphicalIndicator(type, indicator);
    }
 
    /**
@@ -279,6 +280,6 @@ public final class GraphicalIndicatorReader
    private byte[] m_data;
    private int m_headerOffset;
    private int m_dataOffset;
-   private ProjectFile m_file;
+   private GraphicalIndicatorContainer m_indicators;
    private ProjectProperties m_properties;
 }

@@ -246,7 +246,7 @@ final class MPP12Reader implements MPPVariantReader
    private void processGraphicalIndicators()
    {
       GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
-      graphicalIndicatorReader.process(m_file, m_projectProps);
+      graphicalIndicatorReader.process(m_file.getGraphicalIndicators(), m_file.getProjectProperties(), m_projectProps);
    }
 
    /**

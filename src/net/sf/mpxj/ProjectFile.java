@@ -745,26 +745,13 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Adds the definition of a graphical indicator for a field type.
+    * Retrieves the graphical indicators defined by this project.
     * 
-    * @param field field type
-    * @param indicator graphical indicator definition
+    * @return graphical indicators
     */
-   public void addGraphicalIndicator(FieldType field, GraphicalIndicator indicator)
+   public GraphicalIndicatorContainer getGraphicalIndicators()
    {
-      m_graphicalIndicators.put(field, indicator);
-   }
-
-   /**
-    * Retrieves the definition of any graphical indicators used for the
-    * given field type.
-    * 
-    * @param field field type
-    * @return graphical indicator definition
-    */
-   public GraphicalIndicator getGraphicalIndicator(FieldType field)
-   {
-      return (m_graphicalIndicators.get(field));
+      return m_indicators;
    }
 
    /**
@@ -858,6 +845,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
+   private final GraphicalIndicatorContainer m_indicators = new GraphicalIndicatorContainer();
 
    /**
     * Maps from a task field number to a value list.
@@ -868,10 +856,4 @@ public final class ProjectFile implements ChildTaskContainer
     * Maps from a task field number to a description list.
     */
    private Map<TaskField, List<String>> m_taskFieldDescriptionList = new HashMap<TaskField, List<String>>();
-
-   /**
-    * Map of graphical indicator data.
-    */
-   private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
-
 }
