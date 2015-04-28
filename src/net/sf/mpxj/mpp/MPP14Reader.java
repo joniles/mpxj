@@ -171,8 +171,8 @@ final class MPP14Reader implements MPPVariantReader
       m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
       m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
       m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      //m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
-      //m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
+      m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
+      m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
       m_projectProps = new Props14(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
       //FieldMap fm = new FieldMap14(m_file);
@@ -186,8 +186,6 @@ final class MPP14Reader implements MPPVariantReader
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(14));
       m_file.getProjectProperties().setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
-
-      m_customFieldValues = new CustomFieldValues();
    }
 
    /**
@@ -210,37 +208,20 @@ final class MPP14Reader implements MPPVariantReader
       m_parentTasks = null;
       m_taskOrder = null;
       m_nullTaskOrder = null;
-      m_customFieldValues = null;
    }
 
    /**
     * This method extracts and collates the value list information 
-    * for custom column value lists.
+    * for custom column value lists. 
+    * @throws IOException 
     */
-   private void processCustomValueLists()
+   private void processCustomValueLists() throws IOException
    {
-      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-      int parentOffset = m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
+      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
+      Props taskProps = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
-      {
-         Integer id = uniqueid[loop];
-
-         CustomFieldValueItem item = new CustomFieldValueItem(id);
-         item.setValue(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE));
-         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
-         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
-
-         byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         if (b != null)
-         {
-            item.setParent(Integer.valueOf(MPPUtility.getShort(b, parentOffset)));
-         }
-
-         //byte b2[] = m_outlineCodeFixedData2.getByteArrayValue(loop+3); // contains FieldGUID in first 16 bytes
-
-         m_customFieldValues.addItem(item);
-      }
+      CustomFieldValueReader14 reader = new CustomFieldValueReader14(m_file.getProjectProperties(), m_file.getCustomFieldConfig(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
+      reader.process();
    }
 
    /**
@@ -1371,10 +1352,10 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap14(m_file.getProjectProperties(), m_customFieldValues);
+      FieldMap fieldMap = new FieldMap14(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file.getProjectProperties(), m_customFieldValues);
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -1999,10 +1980,10 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap14(m_file.getProjectProperties(), m_customFieldValues);
+      FieldMap fieldMap = new FieldMap14(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file.getProjectProperties(), m_customFieldValues);
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
@@ -2165,10 +2146,10 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap14(m_file.getProjectProperties(), m_customFieldValues);
+      FieldMap fieldMap = new FieldMap14(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file.getProjectProperties(), m_customFieldValues);
+      FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -2346,13 +2327,17 @@ final class MPP14Reader implements MPPVariantReader
       else
       {
          int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
-         if (item != null && item.getValue() != null)
+         CustomFieldValueItem item = m_file.getCustomFieldConfig().getCustomFieldValueItemByUniqueID(uniqueId);
+         if (item != null)
          {
-            result = MPPUtility.getUnicodeString(item.getValue(), 0);
+            Object value = item.getValue();
+            if (value instanceof String)
+            {
+               result = (String) value;
+            }
 
             String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
-            if (result2 != null && !result2.isEmpty())
+            if (result != null && result2 != null && !result2.isEmpty())
             {
                result = result2 + "." + result;
             }
@@ -2379,11 +2364,16 @@ final class MPP14Reader implements MPPVariantReader
          return "";
       }
 
-      CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
-      if (item != null && item.getValue() != null)
+      CustomFieldValueItem item = m_file.getCustomFieldConfig().getCustomFieldValueItemByUniqueID(uniqueId);
+      if (item != null)
       {
-         result = MPPUtility.getUnicodeString(item.getValue(), 0);
-         if (!NumberHelper.equals(id, item.getParent()))
+         Object value = item.getValue();
+         if (value instanceof String)
+         {
+            result = (String) value;
+         }
+
+         if (result != null && !NumberHelper.equals(id, item.getParent()))
          {
             String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
             if (result2 != null && !result2.isEmpty())
@@ -2454,8 +2444,8 @@ final class MPP14Reader implements MPPVariantReader
    private VarMeta m_outlineCodeVarMeta;
    private FixedData m_outlineCodeFixedData;
    private FixedMeta m_outlineCodeFixedMeta;
-   //private FixedData m_outlineCodeFixedData2;
-   //private FixedMeta m_outlineCodeFixedMeta2;
+   private FixedData m_outlineCodeFixedData2;
+   private FixedMeta m_outlineCodeFixedMeta2;
    private Props14 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;
@@ -2464,7 +2454,6 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Integer, Integer> m_parentTasks;
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
-   private CustomFieldValues m_customFieldValues;
    private DocumentInputStreamFactory m_inputStreamFactory;
 
    //   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
@@ -2524,9 +2513,6 @@ final class MPP14Reader implements MPPVariantReader
    /** 
     * Custom value list types.
     */
-   private static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
-   private static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
-   private static final Integer VALUE_LIST_UNKNOWN = Integer.valueOf(23);
    private static final int VALUE_LIST_MASK = 0x0700;
 
    /**

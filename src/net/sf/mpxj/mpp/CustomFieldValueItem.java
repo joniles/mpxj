@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.UUID;
+
 /**
  * Instances of this type represent a possible value for a custom field that is
  * using value lists.
@@ -54,7 +56,7 @@ public final class CustomFieldValueItem
     * 
     * @param value item value
     */
-   public void setValue(byte[] value)
+   public void setValue(Object value)
    {
       m_value = value;
    }
@@ -64,7 +66,7 @@ public final class CustomFieldValueItem
     * 
     * @return item value
     */
-   public byte[] getValue()
+   public Object getValue()
    {
       return m_value;
    }
@@ -130,15 +132,36 @@ public final class CustomFieldValueItem
    }
 
    /**
+    * Retrieve the GUID for this value.
+    * 
+    * @return value GUID
+    */
+   public UUID getGuid()
+   {
+      return m_guid;
+   }
+
+   /**
+    * Set the GUID for this value.
+    * 
+    * @param guid value GUID
+    */
+   public void setGuid(UUID guid)
+   {
+      m_guid = guid;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
-      return String.format("[CustomFieldValueItem uniqueID=%d parentId=%d value=%s (%s)", m_uniqueID, m_parentId, MPPUtility.hexdump(m_value, false), MPPUtility.getUnicodeString(m_value, 0));
+      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s", m_uniqueID, m_guid, m_parentId, String.valueOf(m_value));
    }
 
    private Integer m_uniqueID;
-   private byte[] m_value;
+   private UUID m_guid;
+   private Object m_value;
    private String m_description;
    private byte[] m_unknown;
    private Integer m_parentId;

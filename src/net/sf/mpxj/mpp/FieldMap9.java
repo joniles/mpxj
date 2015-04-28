@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.CustomFieldConfigContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ResourceField;
@@ -39,10 +40,11 @@ class FieldMap9 extends FieldMap
     * Constructor.
     * 
     * @param properties project properties
+    * @param customFields custom fields
     */
-   public FieldMap9(ProjectProperties properties)
+   public FieldMap9(ProjectProperties properties, CustomFieldConfigContainer customFields)
    {
-      super(properties, new CustomFieldValues());
+      super(properties, customFields);
    }
 
    /**

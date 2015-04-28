@@ -28,12 +28,14 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomFieldConfigContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -58,12 +60,12 @@ abstract class FieldMap
     * Constructor.
     * 
     * @param properties project properties
-    * @param customFieldValues custom field values
+    * @param customFields custom field values
     */
-   public FieldMap(ProjectProperties properties, CustomFieldValues customFieldValues)
+   public FieldMap(ProjectProperties properties, CustomFieldConfigContainer customFields)
    {
       m_properties = properties;
-      m_customFieldValues = customFieldValues;
+      m_customFields = customFields;
    }
 
    /**
@@ -1114,10 +1116,14 @@ abstract class FieldMap
          else
          {
             int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
-            if (item != null && item.getValue() != null)
+            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+            if (item != null)
             {
-               result = MPPUtility.getTimestamp(item.getValue(), 0);
+               Object value = item.getValue();
+               if (value instanceof Date)
+               {
+                  result = value;
+               }
             }
 
             //
@@ -1217,10 +1223,14 @@ abstract class FieldMap
          else
          {
             int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
-            if (item != null && item.getValue() != null)
+            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+            if (item != null)
             {
-               result = MPPUtility.getDouble(item.getValue(), 0);
+               Object value = item.getValue();
+               if (value instanceof Number)
+               {
+                  result = ((Number) value).doubleValue();
+               }
             }
          }
          return NumberHelper.getDouble(result);
@@ -1249,10 +1259,14 @@ abstract class FieldMap
          else
          {
             int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = m_customFieldValues.getItem(Integer.valueOf(uniqueId));
-            if (item != null && item.getValue() != null)
+            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+            if (item != null)
             {
-               result = MPPUtility.getUnicodeString(item.getValue(), 0);
+               Object value = item.getValue();
+               if (value instanceof String)
+               {
+                  result = (String) value;
+               }
             }
          }
          return result;
@@ -1406,7 +1420,7 @@ abstract class FieldMap
    }
 
    private ProjectProperties m_properties;
-   protected CustomFieldValues m_customFieldValues;
+   protected CustomFieldConfigContainer m_customFields;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
 

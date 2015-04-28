@@ -1,8 +1,8 @@
 /*
- * file:       CustomFieldValues.java
+ * file:       CustomFieldConfig.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       19/03/2015
+ * copyright:  (c) Packwood Software 2002-2015
+ * date:       28/04/2015
  */
 
 /*
@@ -21,39 +21,32 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpp;
-
-import java.util.HashMap;
-import java.util.Map;
+package net.sf.mpxj;
 
 /**
- * Represents the set of values available for each custom field.
+ * Configuration detail for a custom field.
  */
-class CustomFieldValues
+public class CustomFieldConfig
 {
    /**
-    * Add a custom field value list item.
+    * Constructor.
     * 
-    * @param item CustomFieldValueItem instance
+    * @param parent parent container
     */
-   public void addItem(CustomFieldValueItem item)
+   public CustomFieldConfig(CustomFieldConfigContainer parent)
    {
-      m_items.put(item.getUniqueID(), item);
+      m_table = new CustomFieldLookupTable(parent);
    }
 
    /**
-    * Get the custom field value list item with the given unique ID.
+    * Retrieve the value lookup table associated with this custom field.
     * 
-    * @param uniqueID unique ID
-    * @return CustomFieldValueItem instance
+    * @return value lookup table
     */
-   public CustomFieldValueItem getItem(Integer uniqueID)
+   public CustomFieldLookupTable getLookupTable()
    {
-      return m_items.get(uniqueID);
+      return m_table;
    }
 
-   /**
-    * Custom field value list items.
-    */
-   private Map<Integer, CustomFieldValueItem> m_items = new HashMap<Integer, CustomFieldValueItem>();
+   private final CustomFieldLookupTable m_table;
 }

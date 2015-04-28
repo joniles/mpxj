@@ -29,6 +29,7 @@ import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
+import net.sf.mpxj.junit.project.ProjectValueListsTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskBaselinesTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
@@ -117,6 +118,7 @@ import org.junit.runners.Suite;
    InvalidCalendarTest.class,
    DefaultDurationFormatTest.class,
    MppPasswordTest.class,
+   ProjectValueListsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

@@ -775,6 +775,16 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
+    * Retrieves the custom field configuration for this project.
+    * 
+    * @return custom field configuration
+    */
+   public CustomFieldConfigContainer getCustomFieldConfig()
+   {
+      return m_customFields;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -846,6 +856,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
    private final GraphicalIndicatorContainer m_indicators = new GraphicalIndicatorContainer();
+   private final CustomFieldConfigContainer m_customFields = new CustomFieldConfigContainer();
 
    /**
     * Maps from a task field number to a value list.

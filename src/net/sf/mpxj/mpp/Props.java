@@ -347,5 +347,7 @@ class Props extends MPPComponent
    public static final Integer BASELINE9_DATE = Integer.valueOf(37753758);
    public static final Integer BASELINE10_DATE = Integer.valueOf(37753759);
 
+   public static final Integer CUSTOM_FIELDS = Integer.valueOf(71303169);
+
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
 }
