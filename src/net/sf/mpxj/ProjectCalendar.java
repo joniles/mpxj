@@ -909,10 +909,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       if (m_uniqueID != null)
       {
-         parent.unmapCalendarUniqueID(m_uniqueID);
+         parent.getCalendars().unmapUniqueID(m_uniqueID);
       }
 
-      parent.mapCalendarUniqueID(uniqueID, this);
+      parent.getCalendars().mapUniqueID(uniqueID, this);
 
       m_uniqueID = uniqueID;
    }

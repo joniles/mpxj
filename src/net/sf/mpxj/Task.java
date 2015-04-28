@@ -213,7 +213,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       m_children.add(task);
 
-      parent.addTask(task);
+      parent.getAllTasks().add(task);
 
       setSummary(true);
 
@@ -360,7 +360,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       {
          assignment = new ResourceAssignment(getParentFile(), this);
          m_assignments.add(assignment);
-         getParentFile().addResourceAssignment(assignment);
+         getParentFile().getAllResourceAssignments().add(assignment);
 
          assignment.setTaskUniqueID(getUniqueID());
          assignment.setWork(getDuration());
@@ -386,7 +386,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (getExistingResourceAssignment(assignment.getResource()) == null)
       {
          m_assignments.add(assignment);
-         getParentFile().addResourceAssignment(assignment);
+         getParentFile().getAllResourceAssignments().add(assignment);
 
          Resource resource = assignment.getResource();
          if (resource != null)
@@ -1043,10 +1043,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       if (previous != null)
       {
-         parent.unmapTaskID(previous);
+         parent.getAllTasks().unmapID(previous);
       }
 
-      parent.mapTaskID(val, this);
+      parent.getAllTasks().mapID(val, this);
 
       set(TaskField.ID, val);
    }
@@ -4703,9 +4703,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             ProjectFile parent = getParentFile();
             if (oldValue != null)
             {
-               parent.unmapTaskUniqueID((Integer) oldValue);
+               parent.getAllTasks().unmapUniqueID((Integer) oldValue);
             }
-            parent.mapTaskUniqueID((Integer) newValue, this);
+            parent.getAllTasks().mapUniqueID((Integer) newValue, this);
             break;
          }
 

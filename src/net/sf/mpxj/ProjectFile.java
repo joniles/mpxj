@@ -45,17 +45,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method is provided to allow child tasks that have been created
-    * programmatically to be added as a record to the main file.
-    *
-    * @param task task created as a child of another task
-    */
-   void addTask(Task task)
-   {
-      m_tasks.add(task);
-   }
-
-   /**
     * This method allows a task to be added to the file programatically.
     *
     * @return new task object
@@ -252,28 +241,6 @@ public final class ProjectFile implements ChildTaskContainer
    public ResourceAssignmentContainer getAllResourceAssignments()
    {
       return m_assignments;
-   }
-
-   /**
-    * This method is provided to allow resource assignments that have been
-    * created programatically to be added as a record to the main file.
-    *
-    * @param assignment Resource assignment created as part of a task
-    */
-   void addResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.add(assignment);
-   }
-
-   /**
-    * This method removes a resource assignment from the internal storage
-    * maintained by the project file.
-    *
-    * @param assignment resource assignment to remove
-    */
-   void removeResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.remove(assignment);
    }
 
    /**
@@ -541,111 +508,6 @@ public final class ProjectFile implements ChildTaskContainer
    public AliasContainer<ResourceField> getResourceFieldAliases()
    {
       return m_resourceAliases;
-   }
-
-   /**
-    * Removes an id-to-task mapping.
-    *
-    * @param id task unique ID
-    */
-   void unmapTaskUniqueID(Integer id)
-   {
-      m_tasks.unmapUniqueID(id);
-   }
-
-   /**
-    * Adds an id-to-task mapping.
-    *
-    * @param id task unique ID
-    * @param task task instance
-    */
-   void mapTaskUniqueID(Integer id, Task task)
-   {
-      m_tasks.mapUniqueID(id, task);
-   }
-
-   /**
-    * Removes an id-to-task mapping.
-    *
-    * @param id task ID
-    */
-   void unmapTaskID(Integer id)
-   {
-      m_tasks.unmapID(id);
-   }
-
-   /**
-    * Adds an id-to-task mapping.
-    *
-    * @param id task ID
-    * @param task task instance
-    */
-   void mapTaskID(Integer id, Task task)
-   {
-      m_tasks.mapID(id, task);
-   }
-
-   /**
-    * Removes an id-to-resource mapping.
-    *
-    * @param id resource unique ID
-    */
-   void unmapResourceUniqueID(Integer id)
-   {
-      m_resources.unmapUniqueID(id);
-   }
-
-   /**
-    * Adds an id-to-resource mapping.
-    *
-    * @param id resource unique ID
-    * @param resource resource instance
-    */
-   void mapResourceUniqueID(Integer id, Resource resource)
-   {
-      m_resources.mapUniqueID(id, resource);
-   }
-
-   /**
-    * Removes an id-to-resource mapping.
-    *
-    * @param id resource ID
-    */
-   void unmapResourceID(Integer id)
-   {
-      m_resources.unmapID(id);
-   }
-
-   /**
-    * Adds an id-to-resource mapping.
-    *
-    * @param id resource ID
-    * @param resource resource instance
-    */
-   void mapResourceID(Integer id, Resource resource)
-   {
-      m_resources.mapID(id, resource);
-   }
-
-   /**
-    * Removes an id-to-calendar mapping.
-    *
-    * @param id calendar unique ID
-    */
-   void unmapCalendarUniqueID(Integer id)
-   {
-      m_calendars.unmapUniqueID(id);
-   }
-
-   /**
-    * Adds an id-to-calendar mapping.
-    *
-    * @param id calendar unique ID
-    * @param calendar calendar instance
-    */
-   void mapCalendarUniqueID(Integer id, ProjectCalendar calendar)
-   {
-      m_calendars.mapUniqueID(id, calendar);
    }
 
    /**

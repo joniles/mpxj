@@ -501,7 +501,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void remove()
    {
-      getParentFile().removeResourceAssignment(this);
+      getParentFile().getAllResourceAssignments().remove(this);
    }
 
    /**
