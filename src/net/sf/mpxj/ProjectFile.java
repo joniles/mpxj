@@ -689,16 +689,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Retrieves the graphical indicators defined by this project.
-    * 
-    * @return graphical indicators
-    */
-   public GraphicalIndicatorContainer getGraphicalIndicators()
-   {
-      return m_indicators;
-   }
-
-   /**
     * Retrieves all the subprojects for this project.
     *
     * @return all sub project details
@@ -723,7 +713,7 @@ public final class ProjectFile implements ChildTaskContainer
     * 
     * @return custom field configuration
     */
-   public CustomFieldConfigContainer getCustomFieldConfig()
+   public CustomFieldContainer getCustomFields()
    {
       return m_customFields;
    }
@@ -799,6 +789,5 @@ public final class ProjectFile implements ChildTaskContainer
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final GraphicalIndicatorContainer m_indicators = new GraphicalIndicatorContainer();
-   private final CustomFieldConfigContainer m_customFields = new CustomFieldConfigContainer();
+   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
 }

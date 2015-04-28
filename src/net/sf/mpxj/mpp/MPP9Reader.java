@@ -221,7 +221,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processGraphicalIndicators()
    {
       GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
-      graphicalIndicatorReader.process(m_file.getGraphicalIndicators(), m_file.getProjectProperties(), m_projectProps);
+      graphicalIndicatorReader.process(m_file.getCustomFields(), m_file.getProjectProperties(), m_projectProps);
    }
 
    /**
@@ -909,7 +909,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processCustomValueLists()
    {
-      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_file.getProjectProperties(), m_projectProps, m_file.getCustomFieldConfig());
+      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_file.getProjectProperties(), m_projectProps, m_file.getCustomFields());
       reader.process();
    }
 
@@ -1555,7 +1555,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFields());
       fieldMap.createTaskFieldMap(m_projectProps);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -2249,7 +2249,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFields());
       fieldMap.createResourceFieldMap(m_projectProps);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
@@ -2379,7 +2379,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFields());
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");

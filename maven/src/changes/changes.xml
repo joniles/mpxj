@@ -90,7 +90,9 @@
 	    <action dev="joniles" type="update">Removed ProjectFile.fireCalendarWrittenEvent, replaced by ProjectFile.getEventManager().fireCalendarWrittenEvent()</action>
 	    <action dev="joniles" type="update">Removed ProjectFile.addProjectListener, replaced by ProjectFile.getEventManager().addProjectListener()</action>
 	    <action dev="joniles" type="update">Removed ProjectFile.addProjectListeners, replaced by ProjectFile.getEventManager().addProjectListeners()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.removeProjectListener, replaced by ProjectFile.getEventManager().removeProjectListener()</action>		
+	    <action dev="joniles" type="update">Removed ProjectFile.removeProjectListener, replaced by ProjectFile.getEventManager().removeProjectListener()</action>			    
+	    <action dev="joniles" type="update">Removed ProjectFile.addGraphicalIndicator</action>
+	    <action dev="joniles" type="update">Removed ProjectFile.getGraphicalIndicator, replaced by ProjectFile.getCustomFields().getCustomField().getGraphicalIndicator()</action>
 	</release>
 	
 	<release version="4.7.6" date="18/03/2015">

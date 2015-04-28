@@ -1,5 +1,5 @@
 /*
- * file:       CustomFieldConfig.java
+ * file:       CustomField.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2015
  * date:       28/04/2015
@@ -26,16 +26,17 @@ package net.sf.mpxj;
 /**
  * Configuration detail for a custom field.
  */
-public class CustomFieldConfig
+public class CustomField
 {
    /**
     * Constructor.
     * 
     * @param parent parent container
     */
-   public CustomFieldConfig(CustomFieldConfigContainer parent)
+   public CustomField(CustomFieldContainer parent)
    {
       m_table = new CustomFieldLookupTable(parent);
+      m_indicator = new GraphicalIndicator();
    }
 
    /**
@@ -48,5 +49,16 @@ public class CustomFieldConfig
       return m_table;
    }
 
+   /**
+    * Retrieve the graphical indicator configuration for this custom field.
+    * 
+    * @return graphical indicator configuration
+    */
+   public GraphicalIndicator getGraphicalIndicator()
+   {
+      return m_indicator;
+   }
+
    private final CustomFieldLookupTable m_table;
+   private final GraphicalIndicator m_indicator;
 }

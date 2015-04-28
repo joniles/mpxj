@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.mpxj.CustomFieldConfig;
-import net.sf.mpxj.CustomFieldConfigContainer;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
@@ -49,7 +49,7 @@ public class CustomFieldValueReader9
     * @param projectProps MPP project properties
     * @param container cusotm field container
     */
-   public CustomFieldValueReader9(ProjectProperties properties, Props projectProps, CustomFieldConfigContainer container)
+   public CustomFieldValueReader9(ProjectProperties properties, Props projectProps, CustomFieldContainer container)
    {
       m_properties = properties;
       m_projectProps = projectProps;
@@ -127,7 +127,7 @@ public class CustomFieldValueReader9
     */
    private void populateContainer(FieldType field, byte[] values, byte[] descriptions)
    {
-      CustomFieldConfig config = m_container.getCustomFieldConfig(field);
+      CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
 
       List<Object> descriptionList = convertType(DataType.STRING, descriptions);
@@ -215,5 +215,5 @@ public class CustomFieldValueReader9
 
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
-   private final CustomFieldConfigContainer m_container;
+   private final CustomFieldContainer m_container;
 }

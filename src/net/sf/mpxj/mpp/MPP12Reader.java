@@ -213,7 +213,7 @@ final class MPP12Reader implements MPPVariantReader
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       Props taskProps = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
 
-      CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file.getProjectProperties(), m_file.getCustomFieldConfig(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
+      CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
       reader.process();
    }
 
@@ -232,7 +232,7 @@ final class MPP12Reader implements MPPVariantReader
    private void processGraphicalIndicators()
    {
       GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
-      graphicalIndicatorReader.process(m_file.getGraphicalIndicators(), m_file.getProjectProperties(), m_projectProps);
+      graphicalIndicatorReader.process(m_file.getCustomFields(), m_file.getProjectProperties(), m_projectProps);
    }
 
    /**
@@ -1337,10 +1337,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -2089,10 +2089,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
@@ -2242,10 +2242,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFieldConfig());
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -2424,7 +2424,7 @@ final class MPP12Reader implements MPPVariantReader
       else
       {
          int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_file.getCustomFieldConfig().getCustomFieldValueItemByUniqueID(uniqueId);
+         CustomFieldValueItem item = m_file.getCustomFields().getCustomFieldValueItemByUniqueID(uniqueId);
          if (item != null)
          {
             Object value = item.getValue();
@@ -2461,7 +2461,7 @@ final class MPP12Reader implements MPPVariantReader
          return "";
       }
 
-      CustomFieldValueItem item = m_file.getCustomFieldConfig().getCustomFieldValueItemByUniqueID(uniqueId);
+      CustomFieldValueItem item = m_file.getCustomFields().getCustomFieldValueItemByUniqueID(uniqueId);
       if (item != null)
       {
          Object value = item.getValue();

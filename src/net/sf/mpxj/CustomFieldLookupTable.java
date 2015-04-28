@@ -35,7 +35,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
     * 
     * @param parent parent container
     */
-   public CustomFieldLookupTable(CustomFieldConfigContainer parent)
+   public CustomFieldLookupTable(CustomFieldContainer parent)
    {
       m_parent = parent;
    }
@@ -50,5 +50,5 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
       m_parent.removeValue(item);
    }
 
-   private CustomFieldConfigContainer m_parent;
+   private CustomFieldContainer m_parent;
 }

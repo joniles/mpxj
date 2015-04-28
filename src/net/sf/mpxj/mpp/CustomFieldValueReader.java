@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 
-import net.sf.mpxj.CustomFieldConfigContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
 
@@ -45,7 +45,7 @@ public abstract class CustomFieldValueReader
     * @param outlineCodeFixedData2 raw mpp data
     * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader(ProjectProperties properties, CustomFieldConfigContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader(ProjectProperties properties, CustomFieldContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
    {
       m_properties = properties;
       m_container = container;
@@ -116,7 +116,7 @@ public abstract class CustomFieldValueReader
       return result;
    }
    protected ProjectProperties m_properties;
-   protected CustomFieldConfigContainer m_container;
+   protected CustomFieldContainer m_container;
    protected VarMeta m_outlineCodeVarMeta;
    protected Var2Data m_outlineCodeVarData;
    protected FixedData m_outlineCodeFixedData;

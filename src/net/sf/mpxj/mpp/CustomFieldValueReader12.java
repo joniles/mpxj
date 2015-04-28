@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.CustomFieldConfigContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -48,7 +48,7 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
     * @param outlineCodeFixedData2 raw mpp data
     * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader12(ProjectProperties properties, CustomFieldConfigContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader12(ProjectProperties properties, CustomFieldContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
    {
       super(properties, container, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2, taskProps);
    }
@@ -82,7 +82,7 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
 
          FieldType field = map.get(parentField);
 
-         m_container.getCustomFieldConfig(field).getLookupTable().add(item);
+         m_container.getCustomField(field).getLookupTable().add(item);
       }
    }
 

@@ -1,5 +1,5 @@
 /*
- * file:       CustomFieldConfigContainer.java
+ * file:       CustomFieldContainer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-20015
  * date:       28/04/2015
@@ -31,7 +31,7 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
 /**
  * Container holding configuration details for all custom fields.
  */
-public class CustomFieldConfigContainer
+public class CustomFieldContainer
 {
    /**
     * Retrieve configuration details for a given custom field.
@@ -39,12 +39,12 @@ public class CustomFieldConfigContainer
     * @param field required custom field
     * @return configuration detail
     */
-   public CustomFieldConfig getCustomFieldConfig(FieldType field)
+   public CustomField getCustomField(FieldType field)
    {
-      CustomFieldConfig result = m_configMap.get(field);
+      CustomField result = m_configMap.get(field);
       if (result == null)
       {
-         result = new CustomFieldConfig(this);
+         result = new CustomField(this);
          m_configMap.put(field, result);
       }
       return result;
@@ -81,6 +81,6 @@ public class CustomFieldConfigContainer
       m_valueMap.remove(item.getUniqueID());
    }
 
-   private Map<FieldType, CustomFieldConfig> m_configMap = new HashMap<FieldType, CustomFieldConfig>();
+   private Map<FieldType, CustomField> m_configMap = new HashMap<FieldType, CustomField>();
    private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<Integer, CustomFieldValueItem>();
 }

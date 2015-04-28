@@ -25,10 +25,10 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
-import net.sf.mpxj.GraphicalIndicatorContainer;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TaskField;
@@ -49,9 +49,9 @@ public final class GraphicalIndicatorReader
     * @param properties project properties
     * @param props properties data
     */
-   public void process(GraphicalIndicatorContainer indicators, ProjectProperties properties, Props props)
+   public void process(CustomFieldContainer indicators, ProjectProperties properties, Props props)
    {
-      m_indicators = indicators;
+      m_container = indicators;
       m_properties = properties;
       m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
 
@@ -102,7 +102,7 @@ public final class GraphicalIndicatorReader
       //System.out.println("Header: " + type);
       //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
 
-      GraphicalIndicator indicator = new GraphicalIndicator();
+      GraphicalIndicator indicator = m_container.getCustomField(type).getGraphicalIndicator();
       indicator.setFieldType(type);
       int flags = m_data[m_dataOffset];
       indicator.setProjectSummaryInheritsFromSummaryRows((flags & 0x08) != 0);
@@ -146,8 +146,6 @@ public final class GraphicalIndicatorReader
       {
          indicator.addProjectSummaryCriteria(processCriteria(type));
       }
-
-      m_indicators.addGraphicalIndicator(type, indicator);
    }
 
    /**
@@ -280,6 +278,6 @@ public final class GraphicalIndicatorReader
    private byte[] m_data;
    private int m_headerOffset;
    private int m_dataOffset;
-   private GraphicalIndicatorContainer m_indicators;
+   private CustomFieldContainer m_container;
    private ProjectProperties m_properties;
 }

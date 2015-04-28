@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.CustomFieldConfigContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -62,7 +62,7 @@ abstract class FieldMap
     * @param properties project properties
     * @param customFields custom field values
     */
-   public FieldMap(ProjectProperties properties, CustomFieldConfigContainer customFields)
+   public FieldMap(ProjectProperties properties, CustomFieldContainer customFields)
    {
       m_properties = properties;
       m_customFields = customFields;
@@ -1420,7 +1420,7 @@ abstract class FieldMap
    }
 
    private ProjectProperties m_properties;
-   protected CustomFieldConfigContainer m_customFields;
+   protected CustomFieldContainer m_customFields;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
 
