@@ -24,10 +24,8 @@
 package net.sf.mpxj;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -526,60 +524,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Associates a value list with a custom task field number.
-    *
-    * @param field custom field number
-    * @param values values for the value list
-    */
-   public void setTaskFieldValueList(TaskField field, List<Object> values)
-   {
-      if ((values != null) && (values.size() != 0))
-      {
-         m_taskFieldValueList.put(field, values);
-      }
-   }
-
-   /**
-    * Retrieves the value list associated with a custom task field.
-    * This method will return null if no value list has been defined for
-    * this field.
-    *
-    * @param field task field instance
-    * @return alias text
-    */
-   public List<Object> getTaskFieldValueList(TaskField field)
-   {
-      return m_taskFieldValueList.get(field);
-   }
-
-   /**
-    * Associates a descriptions for value list with a custom task field number.
-    *
-    * @param field custom field number
-    * @param descriptions descriptions for the value list
-    */
-   public void setTaskFieldDescriptionList(TaskField field, List<String> descriptions)
-   {
-      if ((descriptions != null) && (descriptions.size() != 0))
-      {
-         m_taskFieldDescriptionList.put(field, descriptions);
-      }
-   }
-
-   /**
-    * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has been defined for
-    * this field.
-    *
-    * @param field task field instance
-    * @return alias text
-    */
-   public List<String> getTaskFieldDescriptionList(TaskField field)
-   {
-      return m_taskFieldDescriptionList.get(field);
-   }
-
-   /**
     * Retrieve task field aliases.
     *
     * @return task field alias container
@@ -857,14 +801,4 @@ public final class ProjectFile implements ChildTaskContainer
    private final EventManager m_eventManager = new EventManager();
    private final GraphicalIndicatorContainer m_indicators = new GraphicalIndicatorContainer();
    private final CustomFieldConfigContainer m_customFields = new CustomFieldConfigContainer();
-
-   /**
-    * Maps from a task field number to a value list.
-    */
-   private Map<TaskField, List<Object>> m_taskFieldValueList = new HashMap<TaskField, List<Object>>();
-
-   /**
-    * Maps from a task field number to a description list.
-    */
-   private Map<TaskField, List<String>> m_taskFieldDescriptionList = new HashMap<TaskField, List<String>>();
 }

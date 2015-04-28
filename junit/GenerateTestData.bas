@@ -523,35 +523,35 @@ Sub GenerateProjectValueLists
     FileNew SummaryInfo:=False
 
 	' Cost
-    CustomFieldPropertiesEx FieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
+    CustomFieldProperties FieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskCost1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskCost1, Value:="1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskCost1, Value:="2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskCost1, Value:="3", Description:="Description 3"
 
 	' Date
-    CustomFieldPropertiesEx FieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
+    CustomFieldProperties FieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskDate1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskDate1, Value:="01/01/2015 08:00", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskDate1, Value:="02/01/2015 08:00", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskDate1, Value:="03/01/2015 08:00", Description:="Description 3"
 
 	' Duration
-    CustomFieldPropertiesEx FieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
+    CustomFieldProperties FieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskDuration1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskDuration1, Value:="1d", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskDuration1, Value:="2d", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskDuration1, Value:="3d", Description:="Description 3"
 
 	' Number
-    CustomFieldPropertiesEx FieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
+    CustomFieldProperties FieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskNumber1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskNumber1, Value:="1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskNumber1, Value:="2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskNumber1, Value:="3", Description:="Description 3"
 
 	' Text
-    CustomFieldPropertiesEx FieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
+    CustomFieldProperties FieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskText1, RestrictToList:=True    
     CustomFieldValueListAdd pjCustomTaskText1, Value:="Value 1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskText1, Value:="Value 2", Description:="Description 2"

@@ -40,6 +40,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -908,66 +909,8 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processCustomValueLists()
    {
-      byte[] data = m_projectProps.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
-      if (data != null)
-      {
-         int index = 0;
-         int offset = 0;
-         // First the length
-         int length = MPPUtility.getInt(data, offset);
-         offset += 4;
-         // Then the number of custom value lists
-         int numberOfValueLists = MPPUtility.getInt(data, offset);
-         offset += 4;
-
-         // Then the value lists themselves
-         TaskField field;
-         int valueListOffset = 0;
-         while (index < numberOfValueLists && offset < length)
-         {
-            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-            // offset to the value list (4 bytes)
-
-            // Get the Field
-            field = MPPTaskField.getInstance(MPPUtility.getShort(data, offset));
-            offset += 2;
-            // Go past 40 0B marker
-            offset += 2;
-            // Get the value list offset
-            valueListOffset = MPPUtility.getInt(data, offset);
-            offset += 4;
-            // Read the value list itself 
-            if (valueListOffset < data.length)
-            {
-               int tempOffset = valueListOffset;
-               tempOffset += 8;
-               // Get the data offset
-               int dataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
-               tempOffset += 4;
-               // Get the end of the data offset
-               int endDataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
-               tempOffset += 4;
-               // Get the end of the description
-               int endDescriptionOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
-
-               // Get the values themselves
-               int valuesLength = endDataOffset - dataOffset;
-               byte[] values = new byte[valuesLength];
-               MPPUtility.getByteArray(data, dataOffset, valuesLength, values, 0);
-               m_file.setTaskFieldValueList(field, getTaskFieldValues(m_file.getProjectProperties(), field, values));
-               //System.out.println(MPPUtility.hexdump(values, true));
-
-               // Get the descriptions
-               int descriptionsLength = endDescriptionOffset - endDataOffset;
-               byte[] descriptions = new byte[descriptionsLength];
-               MPPUtility.getByteArray(data, endDataOffset, descriptionsLength, descriptions, 0);
-               m_file.setTaskFieldDescriptionList(field, getTaskFieldDescriptions(descriptions));
-               //System.out.println(MPPUtility.hexdump(descriptions, true));        		
-            }
-            index++;
-         }
-      }
-      //System.out.println(file.getTaskFieldAliasMap().toString());
+      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_file.getProjectProperties(), m_projectProps, m_file.getCustomFieldConfig());
+      reader.process();
    }
 
    /**
@@ -1005,7 +948,7 @@ final class MPP9Reader implements MPPVariantReader
     * @param data data block
     * @return list of task field values
     */
-   public List<Object> getTaskFieldValues(ProjectProperties properties, TaskField field, byte[] data)
+   public List<Object> getTaskFieldValues(ProjectProperties properties, FieldType field, byte[] data)
    {
       if (field == null || data == null || data.length == 0)
       {
