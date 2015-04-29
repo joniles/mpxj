@@ -892,7 +892,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             case CURRENCY:
             case NUMERIC:
             {
-               write = (((Number) value).intValue() != 0);
+               write = !NumberHelper.equals(((Number) value).doubleValue(), 0.0, 0.00001);
                break;
             }
 
