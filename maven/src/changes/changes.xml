@@ -12,7 +12,8 @@
 		<action dev="joniles" type="add">Added project properties to the JSON output</action>
 		<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>		
 		<action dev="joniles" type="fix" issue="267">XXE security vulnerability</action>					
-		<action dev="joniles" type="fix" issue="266">Task Number fields not saved to file if the value would floor to zero</action>				
+		<action dev="joniles" type="fix" issue="266">Task Number fields not saved to file if the value would floor to zero</action>	
+		<action dev="joniles" type="fix" issue="255">Not all project calendars are read in for Project 2013 files (based on a contribution by Colin Rodriguez)</action>							
 		<action dev="joniles" type="update">Renamed TaskContainer class to ChildTaskContainer</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader class to ProjectProperties</action>
 		<action dev="joniles" type="update">Introduced ProjectConfig class</action>		

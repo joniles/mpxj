@@ -15,6 +15,7 @@ Sub GenerateAll()
     GenerateProjectProperties
     GenerateBaselines
     GenerateProjectValueLists
+    GenerateCalendars
 End Sub
 
 Sub NameThatField(value As Long)
@@ -561,6 +562,23 @@ Sub GenerateProjectValueLists
         
     FileClose pjDoNotSave	
 End Sub
+
+Sub GenerateCalendars
+    FileNew SummaryInfo:=False
+    
+    ' Add project calendars
+    BaseCalendarCreate Name:="Calendar1"
+    BaseCalendarCreate Name:="Calendar2"
+    
+    ' Add resource calendars        
+    ActiveProject.Resources.Add("Resource One")
+    ActiveProject.Resources.Add("Resource Two")
+    
+    SaveFiles "calendar-calendars"
+        
+    FileClose pjDoNotSave    
+End Sub
+
 
 Sub SaveFiles(FilenameBase As String)
 

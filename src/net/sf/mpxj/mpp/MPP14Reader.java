@@ -1063,6 +1063,24 @@ final class MPP14Reader implements MPPVariantReader
       ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
       processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
 
+      int calendarIDOffset;
+      int baseIDOffset;
+      int resourceIDOffset;
+
+      // ID offsets appear to be different for 2013 files
+      if (m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0"))
+      {
+         calendarIDOffset = 8;
+         baseIDOffset = 0;
+         resourceIDOffset = 4;
+      }
+      else
+      {
+         calendarIDOffset = 0;
+         baseIDOffset = 4;
+         resourceIDOffset = 8;
+      }
+
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
@@ -1076,8 +1094,8 @@ final class MPP14Reader implements MPPVariantReader
             //
             while (offset + 12 <= fixedData.length)
             {
-               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
-               int baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
+               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + calendarIDOffset));
+               int baseCalendarID = MPPUtility.getInt(fixedData, offset + baseIDOffset);
 
                if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
                {
@@ -1113,7 +1131,7 @@ final class MPP14Reader implements MPPVariantReader
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
+                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + resourceIDOffset));
                      m_resourceMap.put(resourceID, cal);
                   }
 

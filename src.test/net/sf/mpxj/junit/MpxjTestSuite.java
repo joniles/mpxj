@@ -24,6 +24,7 @@
 package net.sf.mpxj.junit;
 
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
+import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
 import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
@@ -119,6 +120,7 @@ import org.junit.runners.Suite;
    DefaultDurationFormatTest.class,
    MppPasswordTest.class,
    ProjectValueListsTest.class,
+   CalendarCalendarsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
