@@ -56,10 +56,24 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
    @Override public void process()
    {
       Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-      int parentOffset = m_properties.getFullApplicationName().equals("Microsoft.Project 15.0") ? 10 : 8;
+      int parentOffset;
+      int typeOffset;
+      int fieldOffset;
+
+      if (m_properties.getFullApplicationName().equals("Microsoft.Project 15.0"))
+      {
+         typeOffset = 16;
+         fieldOffset = 18;
+         parentOffset = 10;
+      }
+      else
+      {
+         fieldOffset = 16;
+         typeOffset = 32;
+         parentOffset = 8;
+      }
 
       Map<UUID, FieldType> map = populateCustomFieldMap();
-
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
          Integer id = uniqueid[loop];
@@ -76,9 +90,10 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
+
          item.setGuid(MPPUtility.getGUID(b2, 0));
-         UUID parentField = MPPUtility.getGUID(b2, 16);
-         int type = MPPUtility.getShort(b2, 32);
+         UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
+         int type = MPPUtility.getShort(b2, typeOffset);
          item.setValue(getTypedValue(type, value));
 
          FieldType field = map.get(parentField);
