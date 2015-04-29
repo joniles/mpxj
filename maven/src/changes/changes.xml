@@ -10,7 +10,8 @@
 
 	<release version="4.8.0" date="Git HEAD">
 		<action dev="joniles" type="add">Added project properties to the JSON output</action>
-		<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>
+		<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>		
+		<action dev="joniles" type="fix" issue="267">XXE security vulnerability</action>			
 		<action dev="joniles" type="update">Renamed TaskContainer class to ChildTaskContainer</action>
 		<action dev="joniles" type="update">Renamed ProjectHeader class to ProjectProperties</action>
 		<action dev="joniles" type="update">Introduced ProjectConfig class</action>		
