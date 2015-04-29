@@ -202,6 +202,14 @@ public class CustomFieldValueReader9
                break;
             }
 
+            case BOOLEAN:
+            {
+               Boolean value = Boolean.valueOf(MPPUtility.getShort(data, index) == 1);
+               result.add(value);
+               index += 2;
+               break;
+            }
+
             default:
             {
                index = data.length;
