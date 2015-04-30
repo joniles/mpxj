@@ -605,6 +605,7 @@ final class MPP14Reader implements MPPVariantReader
                case SUBPROJECT_TASKUNIQUEID5:
                case SUBPROJECT_TASKUNIQUEID6:
                case SUBPROJECT_TASKUNIQUEID7:
+               case SUBPROJECT_TASKUNIQUEID8:
                {
                   sp.setTaskUniqueID(Integer.valueOf(value));
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -2513,6 +2514,7 @@ final class MPP14Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;
    private static final int SUBPROJECT_TASKUNIQUEID6 = 0x067F0000;
    private static final int SUBPROJECT_TASKUNIQUEID7 = 0x067D0000;
+   private static final int SUBPROJECT_TASKUNIQUEID8 = 0x00540000;
 
    /**
     * Calendar data types.
