@@ -25,6 +25,7 @@ package net.sf.mpxj.sample;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
@@ -83,7 +84,20 @@ public final class PrimaveraConvert
       System.out.println("Reading Primavera database started.");
 
       Class.forName(driverClass);
-      Connection c = DriverManager.getConnection(connectionString);
+      Properties props = new Properties();
+
+      //
+      // This is not a very robust way to detect that we're working with SQLlite...
+      // If you are trying to grab data from
+      // a standalone P6 using SQLite, the SQLite JDBC driver needs this property
+      // in order to correctly parse timestamps.
+      //
+      if (driverClass.equals("org.sqlite.JDBC"))
+      {
+         props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
+      }
+
+      Connection c = DriverManager.getConnection(connectionString, props);
       PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
       reader.setConnection(c);
 

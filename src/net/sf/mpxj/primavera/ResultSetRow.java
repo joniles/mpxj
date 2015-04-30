@@ -96,6 +96,7 @@ final class ResultSetRow extends MapRow
                break;
             }
 
+            case Types.REAL:
             case Types.DECIMAL:
             case Types.DOUBLE:
             case Types.NUMERIC:

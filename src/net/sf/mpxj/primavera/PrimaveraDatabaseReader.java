@@ -180,7 +180,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       //
       // Process PMDB-specific attributes
       //
-      rows = getRows("select * from " + m_schema + "prefer join " + m_schema + "currtype on currtype.curr_id =prefer.curr_id where prefer.delete_date is null");
+      rows = getRows("select * from " + m_schema + "prefer where prefer.delete_date is null");
       if (!rows.isEmpty())
       {
          Row row = rows.get(0);
@@ -191,6 +191,21 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          ph.setMinutesPerWeek(Double.valueOf(row.getDouble("week_hr_cnt").doubleValue() * 60));
          ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
 
+         processDefaultCurrency(row.getInteger("curr_id"));
+      }
+   }
+
+   /**
+    * Select the default currency properties from the database.
+    * 
+    * @param currencyID default currency ID
+    */
+   private void processDefaultCurrency(Integer currencyID) throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "currtype where curr_id=?", currencyID);
+      if (!rows.isEmpty())
+      {
+         Row row = rows.get(0);
          m_reader.processDefaultCurrency(row);
       }
    }
