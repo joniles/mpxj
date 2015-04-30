@@ -109,6 +109,7 @@ Each attribute supported by these classes is represented by appropriate data typ
 
 The attributes supported by each class are listed here:
 
+* [Properties Attributes](docs/PropertiesAttributes.md)
 * [Task Attributes](docs/TaskAttributes.md)
 * [Resource Attributes](docs/ResourceAttributes.md)
 * [Assignment Attributes](docs/AssignmentAttributes.md)
