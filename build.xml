@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="4.7.6" />
+		<property name="current.version" value="5.0.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
@@ -196,7 +196,7 @@
 		</replace>
 
 		<replace dir="${ikvm.src.dir}" token="class ProjectEntity" value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ProjectEntity">
-			<include name="**/*.java" />
+			<include name="**/ProjectEntity.java" />
 		</replace>
 
 		<replace dir="${ikvm.src.dir}" token="public enum " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public enum ">

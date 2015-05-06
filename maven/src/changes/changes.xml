@@ -8,7 +8,10 @@
 
    <body> 
 
-	<release version="4.8.0" date="Git HEAD">
+	<release version="5.1.0" date="Git HEAD">
+	</release>
+
+	<release version="5.0.0" date="06/05/2015">
 		<action dev="joniles" type="add">Added project properties to the JSON output</action>
 		<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>		
 		<action dev="joniles" type="add">Added support for reading data from a standalone Primavera P6 SQLite database</action>
