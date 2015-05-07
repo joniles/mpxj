@@ -42,7 +42,7 @@ namespace MpxjQuery
             ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
             ProjectFile mpx = reader.read(filename);
 
-            System.Console.WriteLine("MPP file type: " + mpx.MppFileType);
+            System.Console.WriteLine("MPP file type: " + mpx.ProjectProperties.MppFileType);
 
             listProjectHeader(mpx);
 
@@ -75,7 +75,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listProjectHeader(ProjectFile file)
         {
-            ProjectHeader header = file.ProjectHeader;
+            ProjectProperties header = file.ProjectProperties;
             String formattedStartDate = header.StartDate == null ? "(none)" : header.StartDate.ToDateTime().ToString();
             String formattedFinishDate = header.FinishDate == null ? "(none)" : header.FinishDate.ToDateTime().ToString();
 

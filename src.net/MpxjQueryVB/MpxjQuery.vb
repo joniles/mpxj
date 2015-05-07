@@ -35,7 +35,7 @@ Module MpxjQuery
         Dim reader As ProjectReader = ProjectReaderUtility.getProjectReader(filename)
         Dim mpx As ProjectFile = reader.read(filename)
 
-        System.Console.WriteLine("MPP file type: " & mpx.MppFileType)
+        System.Console.WriteLine("MPP file type: " & mpx.ProjectProperties.MppFileType.ToNullableInt)
 
         listProjectHeader(mpx)
 
@@ -67,7 +67,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listProjectHeader(file As ProjectFile)
-        Dim header As ProjectHeader = file.ProjectHeader
+        Dim header As ProjectProperties = file.ProjectProperties
         Dim formattedStartDate As String = If(header.StartDate Is Nothing, "(none)", header.StartDate.ToDateTime().ToString())
         Dim formattedFinishDate As String = If(header.FinishDate Is Nothing, "(none)", header.FinishDate.ToDateTime().ToString())
 
