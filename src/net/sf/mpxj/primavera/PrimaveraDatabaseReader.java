@@ -467,9 +467,16 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    public void setSchema(String schema)
    {
-      if (schema.charAt(schema.length() - 1) != '.')
+      if (schema == null)
       {
-         schema = schema + '.';
+         schema = "";
+      }
+      else
+      {
+         if (!schema.isEmpty() && !schema.endsWith("."))
+         {
+            schema = schema + '.';
+         }
       }
       m_schema = schema;
    }

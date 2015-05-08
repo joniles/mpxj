@@ -27,6 +27,7 @@ import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
 import net.sf.mpxj.junit.legacy.BasicTest;
+import net.sf.mpxj.junit.primavera.PrimaveraDatabaseReaderTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
@@ -121,6 +122,7 @@ import org.junit.runners.Suite;
    MppPasswordTest.class,
    ProjectValueListsTest.class,
    CalendarCalendarsTest.class,
+   PrimaveraDatabaseReaderTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
