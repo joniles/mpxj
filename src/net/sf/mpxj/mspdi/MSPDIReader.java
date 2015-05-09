@@ -54,6 +54,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -78,6 +79,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
@@ -622,35 +624,10 @@ public final class MSPDIReader extends AbstractProjectReader
    private void readFieldAlias(Project.ExtendedAttributes.ExtendedAttribute attribute)
    {
       String alias = attribute.getAlias();
-
       if (alias != null && alias.length() != 0)
       {
-         int id = Integer.parseInt(attribute.getFieldID());
-         int base = id & 0xFFFF0000;
-         int index = id & 0x0000FFFF;
-
-         switch (base)
-         {
-            case MPPTaskField.TASK_FIELD_BASE:
-            {
-               TaskField taskField = MPPTaskField.getInstance(index);
-               if (taskField != null)
-               {
-                  m_projectFile.getTaskFieldAliases().add(taskField, attribute.getAlias());
-               }
-               break;
-            }
-
-            case MPPResourceField.RESOURCE_FIELD_BASE:
-            {
-               ResourceField resourceField = MPPResourceField.getInstance(index);
-               if (resourceField != null)
-               {
-                  m_projectFile.getResourceFieldAliases().add(resourceField, attribute.getAlias());
-               }
-               break;
-            }
-         }
+         FieldType field = FieldTypeHelper.getInstance(Integer.parseInt(attribute.getFieldID()));
+         m_projectFile.getCustomFields().getCustomField(field).setAlias(attribute.getAlias());
       }
    }
 

@@ -1054,6 +1054,14 @@ public enum TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
+   @Override public FieldTypeClass getFieldTypeClass()
+   {
+      return FieldTypeClass.TASK;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));

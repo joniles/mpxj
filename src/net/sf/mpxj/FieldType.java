@@ -32,6 +32,13 @@ import java.util.Locale;
 public interface FieldType extends MpxjEnum
 {
    /**
+    * Retrieve an enum representing the type of entity to which this field belongs.
+    *  
+    * @return field type class
+    */
+   public FieldTypeClass getFieldTypeClass();
+
+   /**
     * Retrieve the enum name.
     * 
     * @return enum name

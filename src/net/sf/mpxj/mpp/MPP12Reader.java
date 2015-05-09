@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.mpxj.AliasContainer;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -58,8 +57,6 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
@@ -801,105 +798,6 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * Retrieve any task field aliases defined in the MPP file.
-    *
-    * @param data task field name alias data
-    */
-   private void processTaskFieldNameAliases(byte[] data)
-   {
-      if (data != null)
-      {
-         int index = 0;
-         int offset = 0;
-         // First the length (repeated twice)
-         int length = MPPUtility.getInt(data, offset);
-         offset += 8;
-         // Then the number of custom columns
-         int numberOfAliases = MPPUtility.getInt(data, offset);
-         offset += 4;
-
-         // Then the aliases themselves
-         String alias = "";
-         int field = -1;
-         int aliasOffset = 0;
-         AliasContainer<TaskField> container = m_file.getTaskFieldAliases();
-         while (index < numberOfAliases && offset < length)
-         {
-            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-            // offset to the string (4 bytes)
-
-            // Get the Field ID
-            field = MPPUtility.getShort(data, offset);
-            offset += 2;
-            // Go past 40 0B marker
-            offset += 2;
-            // Get the alias offset (offset + 4 for some reason).
-            aliasOffset = MPPUtility.getInt(data, offset) + 4;
-            offset += 4;
-            // Read the alias itself 
-            if (aliasOffset < data.length)
-            {
-               alias = MPPUtility.getUnicodeString(data, aliasOffset);
-               container.add(MPPTaskField.getInstance(field), alias);
-               //System.out.println(field + ": " + alias);
-            }
-            index++;
-         }
-      }
-      //System.out.println(file.getTaskFieldAliasMap().toString());
-   }
-
-   /**
-    * Retrieve any resource field aliases defined in the MPP file.
-    *
-    * @param data resource field name alias data
-    */
-   private void processResourceFieldNameAliases(byte[] data)
-   {
-      if (data != null)
-      {
-         int index = 0;
-         int offset = 0;
-         // First the length (repeated twice)
-         int length = MPPUtility.getInt(data, offset);
-         offset += 8;
-         // Then the number of custom columns
-         int numberOfAliases = MPPUtility.getInt(data, offset);
-         offset += 4;
-
-         // Then the aliases themselves
-         String alias = "";
-         int field = -1;
-         int aliasOffset = 0;
-         AliasContainer<ResourceField> aliases = m_file.getResourceFieldAliases();
-
-         while (index < numberOfAliases && offset < length)
-         {
-            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-            // offset to the string (4 bytes)
-
-            // Get the Field ID
-            field = MPPUtility.getShort(data, offset);
-            offset += 2;
-            // Go past 40 0B marker
-            offset += 2;
-            // Get the alias offset (offset + 4 for some reason).
-            aliasOffset = MPPUtility.getInt(data, offset) + 4;
-            offset += 4;
-            // Read the alias itself
-            if (aliasOffset < data.length)
-            {
-               alias = MPPUtility.getUnicodeString(data, aliasOffset);
-               aliases.add(MPPResourceField.getInstance(field), alias);
-               //System.out.println(field + ": " + alias);
-            }
-            index++;
-         }
-      }
-      //System.out.println(file.getResourceFieldAliasMap().toString());
-   }
-
-   /**
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.
     *
@@ -1362,7 +1260,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(props);
 
       // Process aliases      
-      processTaskFieldNameAliases(props.getByteArray(TASK_FIELD_NAME_ALIASES));
+      new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
 
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
@@ -2111,8 +2009,8 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(rscFixed2Data);
       //System.out.println(props);
 
-      // Process aliases      
-      processResourceFieldNameAliases(props.getByteArray(RESOURCE_FIELD_NAME_ALIASES));
+      // Process aliases    
+      new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();

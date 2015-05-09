@@ -29,6 +29,7 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
@@ -37,6 +38,44 @@ import net.sf.mpxj.TaskField;
  */
 public final class FieldTypeHelper
 {
+   /**
+    * Retrieve an MPP9/MPP12 field ID based on an MPXJ FieldType instance.
+    * 
+    * @param type FieldType instance
+    * @return field ID
+    */
+   public static int getFieldID(FieldType type)
+   {
+      int result;
+      switch (type.getFieldTypeClass())
+      {
+         case TASK:
+         {
+            result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID((TaskField) type);
+            break;
+         }
+
+         case RESOURCE:
+         {
+            result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID((ResourceField) type);
+            break;
+         }
+
+         case ASSIGNMENT:
+         {
+            result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID((AssignmentField) type);
+            break;
+         }
+
+         default:
+         {
+            result = -1;
+         }
+
+      }
+      return result;
+   }
+
    /**
     * Retrieve a FieldType instance based on an ID value from 
     * an MPP9 or MPP12 file.
@@ -179,6 +218,11 @@ public final class FieldTypeHelper
    {
       return new FieldType()
       {
+         @Override public FieldTypeClass getFieldTypeClass()
+         {
+            return FieldTypeClass.UNKNOWN;
+         }
+
          @Override public String name()
          {
             return null;
@@ -225,7 +269,7 @@ public final class FieldTypeHelper
     */
    public static FieldType mapTextFields(FieldType field)
    {
-      if (field != null && field instanceof TaskField)
+      if (field != null && field.getFieldTypeClass() == FieldTypeClass.TASK)
       {
          TaskField taskField = (TaskField) field;
          switch (taskField)

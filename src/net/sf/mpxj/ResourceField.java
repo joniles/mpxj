@@ -659,6 +659,14 @@ public enum ResourceField implements FieldType
    /**
     * {@inheritDoc}
     */
+   @Override public FieldTypeClass getFieldTypeClass()
+   {
+      return FieldTypeClass.RESOURCE;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));

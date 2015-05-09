@@ -1,8 +1,8 @@
 /*
- * file:       CustomFieldLookupTable.java
+ * file:       FieldTypeClass.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-20015
- * date:       28/04/2015
+ * copyright:  (c) Packwood Software 2015
+ * date:       2015-05-09
  */
 
 /*
@@ -23,32 +23,15 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.mpp.CustomFieldValueItem;
-
 /**
- * Lookup table defined for a custom field.
+ * Represents the type of entity to which a FieldType instance can belong.
  */
-public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
+public enum FieldTypeClass
 {
-   /**
-    * Constructor.
-    * 
-    * @param parent parent container
-    */
-   public CustomFieldLookupTable(CustomFieldContainer parent)
-   {
-      m_parent = parent;
-   }
-
-   @Override protected void added(CustomFieldValueItem item)
-   {
-      m_parent.registerValue(item);
-   }
-
-   @Override protected void removed(CustomFieldValueItem item)
-   {
-      m_parent.deregisterValue(item);
-   }
-
-   private CustomFieldContainer m_parent;
+   TASK,
+   RESOURCE,
+   ASSIGNMENT,
+   CONSTRAINT,
+   PROJECT,
+   UNKNOWN;
 }

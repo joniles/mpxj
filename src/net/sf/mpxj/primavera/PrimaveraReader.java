@@ -38,6 +38,7 @@ import java.util.Set;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -46,6 +47,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -561,7 +563,7 @@ final class PrimaveraReader
          }
          while (m_taskFields.containsKey(taskField) || m_wbsFields.containsKey(taskField));
 
-         m_project.getTaskFieldAliases().add(taskField, name);
+         m_project.getCustomFields().getCustomField(taskField).setAlias(name);
       }
 
       catch (Exception ex)
@@ -603,7 +605,7 @@ final class PrimaveraReader
       String fieldName = m_udfMap.get(fieldId);
       Object value = null;
 
-      TaskField field = m_project.getTaskFieldAliases().getField(fieldName);
+      FieldType field = m_project.getCustomFields().getFieldByAlias(FieldTypeClass.TASK, fieldName);
       if (field != null)
       {
          DataType fieldType = field.getDataType();
@@ -637,7 +639,7 @@ final class PrimaveraReader
             }
          }
 
-         task.setFieldByAlias(fieldName, value);
+         task.set(field, value);
       }
    }
 
@@ -979,22 +981,10 @@ final class PrimaveraReader
     */
    private void applyAliases(Map<FieldType, String> aliases)
    {
+      CustomFieldContainer fields = m_project.getCustomFields();
       for (Map.Entry<FieldType, String> entry : aliases.entrySet())
       {
-         FieldType type = entry.getKey();
-         String alias = entry.getValue();
-
-         if (type instanceof TaskField)
-         {
-            m_project.getTaskFieldAliases().add((TaskField) type, alias);
-         }
-         else
-         {
-            if (type instanceof ResourceField)
-            {
-               m_project.getResourceFieldAliases().add((ResourceField) type, alias);
-            }
-         }
+         fields.getCustomField(entry.getKey()).setAlias(entry.getValue());
       }
    }
 

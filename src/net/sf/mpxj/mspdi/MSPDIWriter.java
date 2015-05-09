@@ -41,11 +41,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.AliasContainer;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -74,6 +74,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
@@ -181,9 +182,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-         m_taskExtendedAttributes = new HashSet<TaskField>();
-         m_resourceExtendedAttributes = new HashSet<ResourceField>();
-         m_assignmentExtendedAttributes = new HashSet<AssignmentField>();
+         m_extendedAttributesInUse = new HashSet<FieldType>();
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -208,9 +207,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          m_projectFile = null;
          m_factory = null;
-         m_taskExtendedAttributes = null;
-         m_resourceExtendedAttributes = null;
-         m_assignmentExtendedAttributes = null;
+         m_extendedAttributesInUse = null;
       }
    }
 
@@ -299,57 +296,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
-      writeTaskFieldAliases(list);
-      writeResourceFieldAliases(list);
-   }
-
-   /**
-    * Writes field aliases.
-    * 
-    * @param list field alias list
-    */
-   private void writeTaskFieldAliases(List<Project.ExtendedAttributes.ExtendedAttribute> list)
-   {
-      AliasContainer<TaskField> aliases = m_projectFile.getTaskFieldAliases();
-
-      for (TaskField key : getAllTaskExtendedAttributes())
+      for (CustomField field : m_projectFile.getCustomFields())
       {
-         Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
-         String name = key.getName();
-         String alias = aliases.getAlias(key);
+         FieldType fieldType = field.getFieldType();
+         String alias = field.getAlias();
 
-         if (m_taskExtendedAttributes.contains(key) || alias != null)
+         if (m_extendedAttributesInUse.contains(fieldType) || alias != null)
          {
             Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
             list.add(attribute);
-            attribute.setFieldID(fieldID.toString());
-            attribute.setFieldName(name);
-            attribute.setAlias(alias);
-         }
-      }
-   }
-
-   /**
-    * Writes field aliases.
-    * 
-    * @param list field alias list
-    */
-   private void writeResourceFieldAliases(List<Project.ExtendedAttributes.ExtendedAttribute> list)
-   {
-      AliasContainer<ResourceField> aliases = m_projectFile.getResourceFieldAliases();
-
-      for (ResourceField key : getAllResourceExtendedAttributes())
-      {
-         Integer fieldID = Integer.valueOf(MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
-         String name = key.getName();
-         String alias = aliases.getAlias(key);
-
-         if (m_resourceExtendedAttributes.contains(key) || alias != null)
-         {
-            Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
-            list.add(attribute);
-            attribute.setFieldID(fieldID.toString());
-            attribute.setFieldName(name);
+            attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
+            attribute.setFieldName(fieldType.getName());
             attribute.setAlias(alias);
          }
       }
@@ -848,7 +805,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (writeExtendedAttribute(value, mpxFieldID))
          {
-            m_resourceExtendedAttributes.add(mpxFieldID);
+            m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
 
@@ -1297,7 +1254,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (writeExtendedAttribute(value, mpxFieldID))
          {
-            m_taskExtendedAttributes.add(mpxFieldID);
+            m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
 
@@ -1645,7 +1602,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (writeExtendedAttribute(value, mpxFieldID))
          {
-            m_assignmentExtendedAttributes.add(mpxFieldID);
+            m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPAssignmentField.getID(mpxFieldID) | MPPAssignmentField.ASSIGNMENT_FIELD_BASE);
 
@@ -1984,11 +1941,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private EventManager m_eventManager;
 
-   private Set<TaskField> m_taskExtendedAttributes;
-
-   private Set<ResourceField> m_resourceExtendedAttributes;
-
-   private Set<AssignmentField> m_assignmentExtendedAttributes;
+   private Set<FieldType> m_extendedAttributesInUse;
 
    private boolean m_splitTimephasedAsDays = true;
 

@@ -31,12 +31,25 @@ public class CustomField
    /**
     * Constructor.
     * 
+    * @param field field 
     * @param parent parent container
     */
-   public CustomField(CustomFieldContainer parent)
+   public CustomField(FieldType field, CustomFieldContainer parent)
    {
-      m_table = new CustomFieldLookupTable(parent);
+      m_field = field;
+      m_parent = parent;
+      m_table = new CustomFieldLookupTable(m_parent);
       m_indicator = new GraphicalIndicator();
+   }
+
+   /**
+    * Retrieve the field type represented by this instance.
+    * 
+    * @return field type
+    */
+   public FieldType getFieldType()
+   {
+      return m_field;
    }
 
    /**
@@ -59,6 +72,30 @@ public class CustomField
       return m_indicator;
    }
 
+   /**
+    * Retrieve the alias for this field.
+    * 
+    * @return field alias
+    */
+   public String getAlias()
+   {
+      return m_alias;
+   }
+
+   /**
+    * Set the alias for this field.
+    * 
+    * @param alias field alias
+    */
+   public void setAlias(String alias)
+   {
+      m_alias = alias;
+      m_parent.registerAlias(m_field, alias);
+   }
+
+   private final FieldType m_field;
+   private final CustomFieldContainer m_parent;
    private final CustomFieldLookupTable m_table;
    private final GraphicalIndicator m_indicator;
+   private String m_alias;
 }

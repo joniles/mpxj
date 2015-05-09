@@ -41,9 +41,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
-import net.sf.mpxj.AliasContainer;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -130,9 +130,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         AliasContainer<TaskField> aliases = m_projectFile.getTaskFieldAliases();
-         aliases.add(TaskField.TEXT1, "WBS Code");
-         aliases.add(TaskField.TEXT2, "Task ID");
+         CustomFieldContainer fields = m_projectFile.getCustomFields();
+         fields.getCustomField(TaskField.TEXT1).setAlias("WBS Code");
+         fields.getCustomField(TaskField.TEXT2).setAlias("Task ID");
 
          m_eventManager.addProjectListeners(m_projectListeners);
 

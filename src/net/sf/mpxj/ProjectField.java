@@ -184,6 +184,14 @@ public enum ProjectField implements FieldType
    /**
     * {@inheritDoc}
     */
+   @Override public FieldTypeClass getFieldTypeClass()
+   {
+      return FieldTypeClass.PROJECT;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));

@@ -599,6 +599,14 @@ public enum AssignmentField implements FieldType
    /**
     * {@inheritDoc}
     */
+   @Override public FieldTypeClass getFieldTypeClass()
+   {
+      return FieldTypeClass.ASSIGNMENT;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));

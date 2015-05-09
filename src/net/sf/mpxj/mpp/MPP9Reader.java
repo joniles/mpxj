@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.mpxj.AliasContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -752,159 +751,6 @@ final class MPP9Reader implements MPPVariantReader
    }
 
    /**
-    * Retrieve any task field aliases defined in the MPP file.
-    *
-    * @param data task field name alias data
-    */
-   private void processTaskFieldNameAliases(byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 0;
-         ArrayList<String> aliases = new ArrayList<String>(300);
-
-         while (offset < data.length)
-         {
-            String alias = MPPUtility.getUnicodeString(data, offset);
-            aliases.add(alias);
-            offset += (alias.length() + 1) * 2;
-         }
-
-         AliasContainer<TaskField> aliasContainer = m_file.getTaskFieldAliases();
-         aliasContainer.add(TaskField.TEXT1, aliases.get(118));
-         aliasContainer.add(TaskField.TEXT2, aliases.get(119));
-         aliasContainer.add(TaskField.TEXT3, aliases.get(120));
-         aliasContainer.add(TaskField.TEXT4, aliases.get(121));
-         aliasContainer.add(TaskField.TEXT5, aliases.get(122));
-         aliasContainer.add(TaskField.TEXT6, aliases.get(123));
-         aliasContainer.add(TaskField.TEXT7, aliases.get(124));
-         aliasContainer.add(TaskField.TEXT8, aliases.get(125));
-         aliasContainer.add(TaskField.TEXT9, aliases.get(126));
-         aliasContainer.add(TaskField.TEXT10, aliases.get(127));
-         aliasContainer.add(TaskField.START1, aliases.get(128));
-         aliasContainer.add(TaskField.FINISH1, aliases.get(129));
-         aliasContainer.add(TaskField.START2, aliases.get(130));
-         aliasContainer.add(TaskField.FINISH2, aliases.get(131));
-         aliasContainer.add(TaskField.START3, aliases.get(132));
-         aliasContainer.add(TaskField.FINISH3, aliases.get(133));
-         aliasContainer.add(TaskField.START4, aliases.get(134));
-         aliasContainer.add(TaskField.FINISH4, aliases.get(135));
-         aliasContainer.add(TaskField.START5, aliases.get(136));
-         aliasContainer.add(TaskField.FINISH5, aliases.get(137));
-         aliasContainer.add(TaskField.START6, aliases.get(138));
-         aliasContainer.add(TaskField.FINISH6, aliases.get(139));
-         aliasContainer.add(TaskField.START7, aliases.get(140));
-         aliasContainer.add(TaskField.FINISH7, aliases.get(141));
-         aliasContainer.add(TaskField.START8, aliases.get(142));
-         aliasContainer.add(TaskField.FINISH8, aliases.get(143));
-         aliasContainer.add(TaskField.START9, aliases.get(144));
-         aliasContainer.add(TaskField.FINISH9, aliases.get(145));
-         aliasContainer.add(TaskField.START10, aliases.get(146));
-         aliasContainer.add(TaskField.FINISH10, aliases.get(147));
-         aliasContainer.add(TaskField.NUMBER1, aliases.get(149));
-         aliasContainer.add(TaskField.NUMBER2, aliases.get(150));
-         aliasContainer.add(TaskField.NUMBER3, aliases.get(151));
-         aliasContainer.add(TaskField.NUMBER4, aliases.get(152));
-         aliasContainer.add(TaskField.NUMBER5, aliases.get(153));
-         aliasContainer.add(TaskField.NUMBER6, aliases.get(154));
-         aliasContainer.add(TaskField.NUMBER7, aliases.get(155));
-         aliasContainer.add(TaskField.NUMBER8, aliases.get(156));
-         aliasContainer.add(TaskField.NUMBER9, aliases.get(157));
-         aliasContainer.add(TaskField.NUMBER10, aliases.get(158));
-         aliasContainer.add(TaskField.DURATION1, aliases.get(159));
-         aliasContainer.add(TaskField.DURATION2, aliases.get(161));
-         aliasContainer.add(TaskField.DURATION3, aliases.get(163));
-         aliasContainer.add(TaskField.DURATION4, aliases.get(165));
-         aliasContainer.add(TaskField.DURATION5, aliases.get(167));
-         aliasContainer.add(TaskField.DURATION6, aliases.get(169));
-         aliasContainer.add(TaskField.DURATION7, aliases.get(171));
-         aliasContainer.add(TaskField.DURATION8, aliases.get(173));
-         aliasContainer.add(TaskField.DURATION9, aliases.get(175));
-         aliasContainer.add(TaskField.DURATION10, aliases.get(177));
-         aliasContainer.add(TaskField.DATE1, aliases.get(184));
-         aliasContainer.add(TaskField.DATE2, aliases.get(185));
-         aliasContainer.add(TaskField.DATE3, aliases.get(186));
-         aliasContainer.add(TaskField.DATE4, aliases.get(187));
-         aliasContainer.add(TaskField.DATE5, aliases.get(188));
-         aliasContainer.add(TaskField.DATE6, aliases.get(189));
-         aliasContainer.add(TaskField.DATE7, aliases.get(190));
-         aliasContainer.add(TaskField.DATE8, aliases.get(191));
-         aliasContainer.add(TaskField.DATE9, aliases.get(192));
-         aliasContainer.add(TaskField.DATE10, aliases.get(193));
-         aliasContainer.add(TaskField.TEXT11, aliases.get(194));
-         aliasContainer.add(TaskField.TEXT12, aliases.get(195));
-         aliasContainer.add(TaskField.TEXT13, aliases.get(196));
-         aliasContainer.add(TaskField.TEXT14, aliases.get(197));
-         aliasContainer.add(TaskField.TEXT15, aliases.get(198));
-         aliasContainer.add(TaskField.TEXT16, aliases.get(199));
-         aliasContainer.add(TaskField.TEXT17, aliases.get(200));
-         aliasContainer.add(TaskField.TEXT18, aliases.get(201));
-         aliasContainer.add(TaskField.TEXT19, aliases.get(202));
-         aliasContainer.add(TaskField.TEXT20, aliases.get(203));
-         aliasContainer.add(TaskField.TEXT21, aliases.get(204));
-         aliasContainer.add(TaskField.TEXT22, aliases.get(205));
-         aliasContainer.add(TaskField.TEXT23, aliases.get(206));
-         aliasContainer.add(TaskField.TEXT24, aliases.get(207));
-         aliasContainer.add(TaskField.TEXT25, aliases.get(208));
-         aliasContainer.add(TaskField.TEXT26, aliases.get(209));
-         aliasContainer.add(TaskField.TEXT27, aliases.get(210));
-         aliasContainer.add(TaskField.TEXT28, aliases.get(211));
-         aliasContainer.add(TaskField.TEXT29, aliases.get(212));
-         aliasContainer.add(TaskField.TEXT30, aliases.get(213));
-         aliasContainer.add(TaskField.NUMBER11, aliases.get(214));
-         aliasContainer.add(TaskField.NUMBER12, aliases.get(215));
-         aliasContainer.add(TaskField.NUMBER13, aliases.get(216));
-         aliasContainer.add(TaskField.NUMBER14, aliases.get(217));
-         aliasContainer.add(TaskField.NUMBER15, aliases.get(218));
-         aliasContainer.add(TaskField.NUMBER16, aliases.get(219));
-         aliasContainer.add(TaskField.NUMBER17, aliases.get(220));
-         aliasContainer.add(TaskField.NUMBER18, aliases.get(221));
-         aliasContainer.add(TaskField.NUMBER19, aliases.get(222));
-         aliasContainer.add(TaskField.NUMBER20, aliases.get(223));
-         aliasContainer.add(TaskField.OUTLINE_CODE1, aliases.get(227));
-         aliasContainer.add(TaskField.OUTLINE_CODE2, aliases.get(228));
-         aliasContainer.add(TaskField.OUTLINE_CODE3, aliases.get(229));
-         aliasContainer.add(TaskField.OUTLINE_CODE4, aliases.get(230));
-         aliasContainer.add(TaskField.OUTLINE_CODE5, aliases.get(231));
-         aliasContainer.add(TaskField.OUTLINE_CODE6, aliases.get(232));
-         aliasContainer.add(TaskField.OUTLINE_CODE7, aliases.get(233));
-         aliasContainer.add(TaskField.OUTLINE_CODE8, aliases.get(234));
-         aliasContainer.add(TaskField.OUTLINE_CODE9, aliases.get(235));
-         aliasContainer.add(TaskField.OUTLINE_CODE10, aliases.get(236));
-         aliasContainer.add(TaskField.FLAG1, aliases.get(237));
-         aliasContainer.add(TaskField.FLAG2, aliases.get(238));
-         aliasContainer.add(TaskField.FLAG3, aliases.get(239));
-         aliasContainer.add(TaskField.FLAG4, aliases.get(240));
-         aliasContainer.add(TaskField.FLAG5, aliases.get(241));
-         aliasContainer.add(TaskField.FLAG6, aliases.get(242));
-         aliasContainer.add(TaskField.FLAG7, aliases.get(243));
-         aliasContainer.add(TaskField.FLAG8, aliases.get(244));
-         aliasContainer.add(TaskField.FLAG9, aliases.get(245));
-         aliasContainer.add(TaskField.FLAG10, aliases.get(246));
-         aliasContainer.add(TaskField.FLAG11, aliases.get(247));
-         aliasContainer.add(TaskField.FLAG12, aliases.get(248));
-         aliasContainer.add(TaskField.FLAG13, aliases.get(249));
-         aliasContainer.add(TaskField.FLAG14, aliases.get(250));
-         aliasContainer.add(TaskField.FLAG15, aliases.get(251));
-         aliasContainer.add(TaskField.FLAG16, aliases.get(252));
-         aliasContainer.add(TaskField.FLAG17, aliases.get(253));
-         aliasContainer.add(TaskField.FLAG18, aliases.get(254));
-         aliasContainer.add(TaskField.FLAG19, aliases.get(255));
-         aliasContainer.add(TaskField.FLAG20, aliases.get(256));
-         aliasContainer.add(TaskField.COST1, aliases.get(278));
-         aliasContainer.add(TaskField.COST2, aliases.get(279));
-         aliasContainer.add(TaskField.COST3, aliases.get(280));
-         aliasContainer.add(TaskField.COST4, aliases.get(281));
-         aliasContainer.add(TaskField.COST5, aliases.get(282));
-         aliasContainer.add(TaskField.COST6, aliases.get(283));
-         aliasContainer.add(TaskField.COST7, aliases.get(284));
-         aliasContainer.add(TaskField.COST8, aliases.get(285));
-         aliasContainer.add(TaskField.COST9, aliases.get(286));
-         aliasContainer.add(TaskField.COST10, aliases.get(287));
-      }
-   }
-
-   /**
     * Retrieve any task field value lists defined in the MPP file.
     */
    private void processCustomValueLists()
@@ -1018,153 +864,30 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Retrieve any resource field aliases defined in the MPP file.
     *
+    * @param map index to field map 
     * @param data resource field name alias data
     */
-   private void processResourceFieldNameAliases(byte[] data)
+   private void processFieldNameAliases(Map<Integer, FieldType> map, byte[] data)
    {
       if (data != null)
       {
          int offset = 0;
-         ArrayList<String> aliases = new ArrayList<String>(250);
-
+         int index = 0;
+         CustomFieldContainer fields = m_file.getCustomFields();
          while (offset < data.length)
          {
             String alias = MPPUtility.getUnicodeString(data, offset);
-            aliases.add(alias);
+            if (!alias.isEmpty())
+            {
+               FieldType field = map.get(Integer.valueOf(index));
+               if (field != null)
+               {
+                  fields.getCustomField(field).setAlias(alias);
+               }
+            }
             offset += (alias.length() + 1) * 2;
+            index++;
          }
-
-         AliasContainer<ResourceField> container = m_file.getResourceFieldAliases();
-         container.add(ResourceField.TEXT1, aliases.get(52));
-         container.add(ResourceField.TEXT2, aliases.get(53));
-         container.add(ResourceField.TEXT3, aliases.get(54));
-         container.add(ResourceField.TEXT4, aliases.get(55));
-         container.add(ResourceField.TEXT5, aliases.get(56));
-         container.add(ResourceField.TEXT6, aliases.get(57));
-         container.add(ResourceField.TEXT7, aliases.get(58));
-         container.add(ResourceField.TEXT8, aliases.get(59));
-         container.add(ResourceField.TEXT9, aliases.get(60));
-         container.add(ResourceField.TEXT10, aliases.get(61));
-         container.add(ResourceField.TEXT11, aliases.get(62));
-         container.add(ResourceField.TEXT12, aliases.get(63));
-         container.add(ResourceField.TEXT13, aliases.get(64));
-         container.add(ResourceField.TEXT14, aliases.get(65));
-         container.add(ResourceField.TEXT15, aliases.get(66));
-         container.add(ResourceField.TEXT16, aliases.get(67));
-         container.add(ResourceField.TEXT17, aliases.get(68));
-         container.add(ResourceField.TEXT18, aliases.get(69));
-         container.add(ResourceField.TEXT19, aliases.get(70));
-         container.add(ResourceField.TEXT20, aliases.get(71));
-         container.add(ResourceField.TEXT21, aliases.get(72));
-         container.add(ResourceField.TEXT22, aliases.get(73));
-         container.add(ResourceField.TEXT23, aliases.get(74));
-         container.add(ResourceField.TEXT24, aliases.get(75));
-         container.add(ResourceField.TEXT25, aliases.get(76));
-         container.add(ResourceField.TEXT26, aliases.get(77));
-         container.add(ResourceField.TEXT27, aliases.get(78));
-         container.add(ResourceField.TEXT28, aliases.get(79));
-         container.add(ResourceField.TEXT29, aliases.get(80));
-         container.add(ResourceField.TEXT30, aliases.get(81));
-         container.add(ResourceField.START1, aliases.get(82));
-         container.add(ResourceField.START2, aliases.get(83));
-         container.add(ResourceField.START3, aliases.get(84));
-         container.add(ResourceField.START4, aliases.get(85));
-         container.add(ResourceField.START5, aliases.get(86));
-         container.add(ResourceField.START6, aliases.get(87));
-         container.add(ResourceField.START7, aliases.get(88));
-         container.add(ResourceField.START8, aliases.get(89));
-         container.add(ResourceField.START9, aliases.get(90));
-         container.add(ResourceField.START10, aliases.get(91));
-         container.add(ResourceField.FINISH1, aliases.get(92));
-         container.add(ResourceField.FINISH2, aliases.get(93));
-         container.add(ResourceField.FINISH3, aliases.get(94));
-         container.add(ResourceField.FINISH4, aliases.get(95));
-         container.add(ResourceField.FINISH5, aliases.get(96));
-         container.add(ResourceField.FINISH6, aliases.get(97));
-         container.add(ResourceField.FINISH7, aliases.get(98));
-         container.add(ResourceField.FINISH8, aliases.get(99));
-         container.add(ResourceField.FINISH9, aliases.get(100));
-         container.add(ResourceField.FINISH10, aliases.get(101));
-         container.add(ResourceField.NUMBER1, aliases.get(102));
-         container.add(ResourceField.NUMBER2, aliases.get(103));
-         container.add(ResourceField.NUMBER3, aliases.get(104));
-         container.add(ResourceField.NUMBER4, aliases.get(105));
-         container.add(ResourceField.NUMBER5, aliases.get(106));
-         container.add(ResourceField.NUMBER6, aliases.get(107));
-         container.add(ResourceField.NUMBER7, aliases.get(108));
-         container.add(ResourceField.NUMBER8, aliases.get(109));
-         container.add(ResourceField.NUMBER9, aliases.get(110));
-         container.add(ResourceField.NUMBER10, aliases.get(111));
-         container.add(ResourceField.NUMBER11, aliases.get(112));
-         container.add(ResourceField.NUMBER12, aliases.get(113));
-         container.add(ResourceField.NUMBER13, aliases.get(114));
-         container.add(ResourceField.NUMBER14, aliases.get(115));
-         container.add(ResourceField.NUMBER15, aliases.get(116));
-         container.add(ResourceField.NUMBER16, aliases.get(117));
-         container.add(ResourceField.NUMBER17, aliases.get(118));
-         container.add(ResourceField.NUMBER18, aliases.get(119));
-         container.add(ResourceField.NUMBER19, aliases.get(120));
-         container.add(ResourceField.NUMBER20, aliases.get(121));
-         container.add(ResourceField.DURATION1, aliases.get(122));
-         container.add(ResourceField.DURATION2, aliases.get(123));
-         container.add(ResourceField.DURATION3, aliases.get(124));
-         container.add(ResourceField.DURATION4, aliases.get(125));
-         container.add(ResourceField.DURATION5, aliases.get(126));
-         container.add(ResourceField.DURATION6, aliases.get(127));
-         container.add(ResourceField.DURATION7, aliases.get(128));
-         container.add(ResourceField.DURATION8, aliases.get(129));
-         container.add(ResourceField.DURATION9, aliases.get(130));
-         container.add(ResourceField.DURATION10, aliases.get(131));
-         container.add(ResourceField.DATE1, aliases.get(145));
-         container.add(ResourceField.DATE2, aliases.get(146));
-         container.add(ResourceField.DATE3, aliases.get(147));
-         container.add(ResourceField.DATE4, aliases.get(148));
-         container.add(ResourceField.DATE5, aliases.get(149));
-         container.add(ResourceField.DATE6, aliases.get(150));
-         container.add(ResourceField.DATE7, aliases.get(151));
-         container.add(ResourceField.DATE8, aliases.get(152));
-         container.add(ResourceField.DATE9, aliases.get(153));
-         container.add(ResourceField.DATE10, aliases.get(154));
-         container.add(ResourceField.OUTLINE_CODE1, aliases.get(155));
-         container.add(ResourceField.OUTLINE_CODE2, aliases.get(156));
-         container.add(ResourceField.OUTLINE_CODE3, aliases.get(157));
-         container.add(ResourceField.OUTLINE_CODE4, aliases.get(158));
-         container.add(ResourceField.OUTLINE_CODE5, aliases.get(159));
-         container.add(ResourceField.OUTLINE_CODE6, aliases.get(160));
-         container.add(ResourceField.OUTLINE_CODE7, aliases.get(161));
-         container.add(ResourceField.OUTLINE_CODE8, aliases.get(162));
-         container.add(ResourceField.OUTLINE_CODE9, aliases.get(163));
-         container.add(ResourceField.OUTLINE_CODE10, aliases.get(164));
-         container.add(ResourceField.FLAG10, aliases.get(165));
-         container.add(ResourceField.FLAG1, aliases.get(166));
-         container.add(ResourceField.FLAG2, aliases.get(167));
-         container.add(ResourceField.FLAG3, aliases.get(168));
-         container.add(ResourceField.FLAG4, aliases.get(169));
-         container.add(ResourceField.FLAG5, aliases.get(170));
-         container.add(ResourceField.FLAG6, aliases.get(171));
-         container.add(ResourceField.FLAG7, aliases.get(172));
-         container.add(ResourceField.FLAG8, aliases.get(173));
-         container.add(ResourceField.FLAG9, aliases.get(174));
-         container.add(ResourceField.FLAG11, aliases.get(175));
-         container.add(ResourceField.FLAG12, aliases.get(176));
-         container.add(ResourceField.FLAG13, aliases.get(177));
-         container.add(ResourceField.FLAG14, aliases.get(178));
-         container.add(ResourceField.FLAG15, aliases.get(179));
-         container.add(ResourceField.FLAG16, aliases.get(180));
-         container.add(ResourceField.FLAG17, aliases.get(181));
-         container.add(ResourceField.FLAG18, aliases.get(182));
-         container.add(ResourceField.FLAG19, aliases.get(183));
-         container.add(ResourceField.FLAG20, aliases.get(184));
-         container.add(ResourceField.COST1, aliases.get(207));
-         container.add(ResourceField.COST2, aliases.get(208));
-         container.add(ResourceField.COST3, aliases.get(209));
-         container.add(ResourceField.COST4, aliases.get(210));
-         container.add(ResourceField.COST5, aliases.get(211));
-         container.add(ResourceField.COST6, aliases.get(212));
-         container.add(ResourceField.COST7, aliases.get(213));
-         container.add(ResourceField.COST8, aliases.get(214));
-         container.add(ResourceField.COST9, aliases.get(215));
-         container.add(ResourceField.COST10, aliases.get(216));
       }
    }
 
@@ -1567,7 +1290,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
 
-      processTaskFieldNameAliases(m_projectProps.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
+      processFieldNameAliases(TASK_FIELD_ALIASES, m_projectProps.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
 
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
@@ -2261,7 +1984,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
 
-      processResourceFieldNameAliases(m_projectProps.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
+      processFieldNameAliases(RESOURCE_FIELD_ALIASES, m_projectProps.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
@@ -2661,4 +2384,275 @@ final class MPP9Reader implements MPPVariantReader
       true,
       false
    };
+
+   private static final Map<Integer, FieldType> RESOURCE_FIELD_ALIASES = new HashMap<Integer, FieldType>();
+   static
+   {
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(52), ResourceField.TEXT1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(53), ResourceField.TEXT2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(54), ResourceField.TEXT3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(55), ResourceField.TEXT4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(56), ResourceField.TEXT5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(57), ResourceField.TEXT6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(58), ResourceField.TEXT7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(59), ResourceField.TEXT8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(60), ResourceField.TEXT9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(61), ResourceField.TEXT10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(62), ResourceField.TEXT11);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(63), ResourceField.TEXT12);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(64), ResourceField.TEXT13);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(65), ResourceField.TEXT14);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(66), ResourceField.TEXT15);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(67), ResourceField.TEXT16);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(68), ResourceField.TEXT17);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(69), ResourceField.TEXT18);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(70), ResourceField.TEXT19);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(71), ResourceField.TEXT20);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(72), ResourceField.TEXT21);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(73), ResourceField.TEXT22);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(74), ResourceField.TEXT23);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(75), ResourceField.TEXT24);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(76), ResourceField.TEXT25);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(77), ResourceField.TEXT26);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(78), ResourceField.TEXT27);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(79), ResourceField.TEXT28);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(80), ResourceField.TEXT29);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(81), ResourceField.TEXT30);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(82), ResourceField.START1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(83), ResourceField.START2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(84), ResourceField.START3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(85), ResourceField.START4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(86), ResourceField.START5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(87), ResourceField.START6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(88), ResourceField.START7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(89), ResourceField.START8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(90), ResourceField.START9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(91), ResourceField.START10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(92), ResourceField.FINISH1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(93), ResourceField.FINISH2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(94), ResourceField.FINISH3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(95), ResourceField.FINISH4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(96), ResourceField.FINISH5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(97), ResourceField.FINISH6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(98), ResourceField.FINISH7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(99), ResourceField.FINISH8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(100), ResourceField.FINISH9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(101), ResourceField.FINISH10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(102), ResourceField.NUMBER1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(103), ResourceField.NUMBER2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(104), ResourceField.NUMBER3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(105), ResourceField.NUMBER4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(106), ResourceField.NUMBER5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(107), ResourceField.NUMBER6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(108), ResourceField.NUMBER7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(109), ResourceField.NUMBER8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(110), ResourceField.NUMBER9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(111), ResourceField.NUMBER10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(112), ResourceField.NUMBER11);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(113), ResourceField.NUMBER12);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(114), ResourceField.NUMBER13);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(115), ResourceField.NUMBER14);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(116), ResourceField.NUMBER15);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(117), ResourceField.NUMBER16);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(118), ResourceField.NUMBER17);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(119), ResourceField.NUMBER18);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(120), ResourceField.NUMBER19);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(121), ResourceField.NUMBER20);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(122), ResourceField.DURATION1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(123), ResourceField.DURATION2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(124), ResourceField.DURATION3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(125), ResourceField.DURATION4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(126), ResourceField.DURATION5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(127), ResourceField.DURATION6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(128), ResourceField.DURATION7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(129), ResourceField.DURATION8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(130), ResourceField.DURATION9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(131), ResourceField.DURATION10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(145), ResourceField.DATE1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(146), ResourceField.DATE2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(147), ResourceField.DATE3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(148), ResourceField.DATE4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(149), ResourceField.DATE5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(150), ResourceField.DATE6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(151), ResourceField.DATE7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(152), ResourceField.DATE8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(153), ResourceField.DATE9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(154), ResourceField.DATE10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(155), ResourceField.OUTLINE_CODE1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(156), ResourceField.OUTLINE_CODE2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(157), ResourceField.OUTLINE_CODE3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(158), ResourceField.OUTLINE_CODE4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(159), ResourceField.OUTLINE_CODE5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(160), ResourceField.OUTLINE_CODE6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(161), ResourceField.OUTLINE_CODE7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(162), ResourceField.OUTLINE_CODE8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(163), ResourceField.OUTLINE_CODE9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(164), ResourceField.OUTLINE_CODE10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(165), ResourceField.FLAG10);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(166), ResourceField.FLAG1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(167), ResourceField.FLAG2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(168), ResourceField.FLAG3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(169), ResourceField.FLAG4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(170), ResourceField.FLAG5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(171), ResourceField.FLAG6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(172), ResourceField.FLAG7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(173), ResourceField.FLAG8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(174), ResourceField.FLAG9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(175), ResourceField.FLAG11);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(176), ResourceField.FLAG12);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(177), ResourceField.FLAG13);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(178), ResourceField.FLAG14);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(179), ResourceField.FLAG15);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(180), ResourceField.FLAG16);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(181), ResourceField.FLAG17);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(182), ResourceField.FLAG18);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(183), ResourceField.FLAG19);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(184), ResourceField.FLAG20);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(207), ResourceField.COST1);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(208), ResourceField.COST2);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(209), ResourceField.COST3);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(210), ResourceField.COST4);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(211), ResourceField.COST5);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(212), ResourceField.COST6);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(213), ResourceField.COST7);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(214), ResourceField.COST8);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(215), ResourceField.COST9);
+      RESOURCE_FIELD_ALIASES.put(Integer.valueOf(216), ResourceField.COST10);
+   }
+
+   private static final Map<Integer, FieldType> TASK_FIELD_ALIASES = new HashMap<Integer, FieldType>();
+   static
+   {
+      TASK_FIELD_ALIASES.put(Integer.valueOf(118), TaskField.TEXT1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(119), TaskField.TEXT2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(120), TaskField.TEXT3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(121), TaskField.TEXT4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(122), TaskField.TEXT5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(123), TaskField.TEXT6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(124), TaskField.TEXT7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(125), TaskField.TEXT8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(126), TaskField.TEXT9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(127), TaskField.TEXT10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(128), TaskField.START1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(129), TaskField.FINISH1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(130), TaskField.START2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(131), TaskField.FINISH2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(132), TaskField.START3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(133), TaskField.FINISH3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(134), TaskField.START4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(135), TaskField.FINISH4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(136), TaskField.START5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(137), TaskField.FINISH5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(138), TaskField.START6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(139), TaskField.FINISH6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(140), TaskField.START7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(141), TaskField.FINISH7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(142), TaskField.START8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(143), TaskField.FINISH8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(144), TaskField.START9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(145), TaskField.FINISH9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(146), TaskField.START10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(147), TaskField.FINISH10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(149), TaskField.NUMBER1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(150), TaskField.NUMBER2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(151), TaskField.NUMBER3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(152), TaskField.NUMBER4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(153), TaskField.NUMBER5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(154), TaskField.NUMBER6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(155), TaskField.NUMBER7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(156), TaskField.NUMBER8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(157), TaskField.NUMBER9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(158), TaskField.NUMBER10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(159), TaskField.DURATION1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(161), TaskField.DURATION2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(163), TaskField.DURATION3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(165), TaskField.DURATION4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(167), TaskField.DURATION5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(169), TaskField.DURATION6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(171), TaskField.DURATION7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(173), TaskField.DURATION8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(175), TaskField.DURATION9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(177), TaskField.DURATION10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(184), TaskField.DATE1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(185), TaskField.DATE2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(186), TaskField.DATE3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(187), TaskField.DATE4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(188), TaskField.DATE5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(189), TaskField.DATE6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(190), TaskField.DATE7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(191), TaskField.DATE8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(192), TaskField.DATE9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(193), TaskField.DATE10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(194), TaskField.TEXT11);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(195), TaskField.TEXT12);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(196), TaskField.TEXT13);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(197), TaskField.TEXT14);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(198), TaskField.TEXT15);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(199), TaskField.TEXT16);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(200), TaskField.TEXT17);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(201), TaskField.TEXT18);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(202), TaskField.TEXT19);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(203), TaskField.TEXT20);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(204), TaskField.TEXT21);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(205), TaskField.TEXT22);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(206), TaskField.TEXT23);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(207), TaskField.TEXT24);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(208), TaskField.TEXT25);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(209), TaskField.TEXT26);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(210), TaskField.TEXT27);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(211), TaskField.TEXT28);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(212), TaskField.TEXT29);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(213), TaskField.TEXT30);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(214), TaskField.NUMBER11);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(215), TaskField.NUMBER12);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(216), TaskField.NUMBER13);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(217), TaskField.NUMBER14);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(218), TaskField.NUMBER15);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(219), TaskField.NUMBER16);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(220), TaskField.NUMBER17);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(221), TaskField.NUMBER18);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(222), TaskField.NUMBER19);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(223), TaskField.NUMBER20);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(227), TaskField.OUTLINE_CODE1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(228), TaskField.OUTLINE_CODE2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(229), TaskField.OUTLINE_CODE3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(230), TaskField.OUTLINE_CODE4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(231), TaskField.OUTLINE_CODE5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(232), TaskField.OUTLINE_CODE6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(233), TaskField.OUTLINE_CODE7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(234), TaskField.OUTLINE_CODE8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(235), TaskField.OUTLINE_CODE9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(236), TaskField.OUTLINE_CODE10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(237), TaskField.FLAG1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(238), TaskField.FLAG2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(239), TaskField.FLAG3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(240), TaskField.FLAG4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(241), TaskField.FLAG5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(242), TaskField.FLAG6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(243), TaskField.FLAG7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(244), TaskField.FLAG8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(245), TaskField.FLAG9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(246), TaskField.FLAG10);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(247), TaskField.FLAG11);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(248), TaskField.FLAG12);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(249), TaskField.FLAG13);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(250), TaskField.FLAG14);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(251), TaskField.FLAG15);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(252), TaskField.FLAG16);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(253), TaskField.FLAG17);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(254), TaskField.FLAG18);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(255), TaskField.FLAG19);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(256), TaskField.FLAG20);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(278), TaskField.COST1);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(279), TaskField.COST2);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(280), TaskField.COST3);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(281), TaskField.COST4);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(282), TaskField.COST5);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(283), TaskField.COST6);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(284), TaskField.COST7);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(285), TaskField.COST8);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(286), TaskField.COST9);
+      TASK_FIELD_ALIASES.put(Integer.valueOf(287), TaskField.COST10);
+   }
+
 }

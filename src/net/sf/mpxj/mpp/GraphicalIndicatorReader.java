@@ -31,8 +31,8 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 
@@ -199,18 +199,9 @@ public final class GraphicalIndicatorReader
 
       if (valueFlag == false)
       {
-         // 4 byte int representing the field type, we need the low bytes
-         // the high bytes define if this is a task or a resource field
-         int field = MPPUtility.getShort(m_data, m_dataOffset);
+         int fieldID = MPPUtility.getInt(m_data, m_dataOffset);
+         criteria.setRightValue(index, FieldTypeHelper.getInstance(fieldID));
          m_dataOffset += 4;
-         if (type instanceof TaskField)
-         {
-            criteria.setRightValue(index, MPPTaskField.getInstance(field));
-         }
-         else
-         {
-            criteria.setRightValue(index, MPPResourceField.getInstance(field));
-         }
       }
       else
       {

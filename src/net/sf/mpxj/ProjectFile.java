@@ -491,26 +491,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Retrieve task field aliases.
-    *
-    * @return task field alias container
-    */
-   public AliasContainer<TaskField> getTaskFieldAliases()
-   {
-      return m_taskAliases;
-   }
-
-   /**
-    * Retrieve resource field aliases.
-    *
-    * @return resource field alias container
-    */
-   public AliasContainer<ResourceField> getResourceFieldAliases()
-   {
-      return m_resourceAliases;
-   }
-
-   /**
     * This method returns a list of the views defined in this MPP file.
     *
     * @return list of views
@@ -643,8 +623,6 @@ public final class ProjectFile implements ChildTaskContainer
    private final List<Task> m_childTasks = new LinkedList<Task>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
-   private final AliasContainer<TaskField> m_taskAliases = new AliasContainer<TaskField>();
-   private final AliasContainer<ResourceField> m_resourceAliases = new AliasContainer<ResourceField>();
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();

@@ -48,6 +48,14 @@ public enum ConstraintField implements FieldType
    /**
     * {@inheritDoc}
     */
+   @Override public FieldTypeClass getFieldTypeClass()
+   {
+      return FieldTypeClass.CONSTRAINT;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));

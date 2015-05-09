@@ -63,6 +63,66 @@ public final class Pair<L, R>
       return (m_second);
    }
 
+   @Override public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((m_first == null) ? 0 : m_first.hashCode());
+      result = prime * result + ((m_second == null) ? 0 : m_second.hashCode());
+      return result;
+   }
+
+   @Override public boolean equals(Object obj)
+   {
+      if (this == obj)
+      {
+         return true;
+      }
+
+      if (obj == null)
+      {
+         return false;
+      }
+
+      if (getClass() != obj.getClass())
+      {
+         return false;
+      }
+
+      Pair<?, ?> other = (Pair<?, ?>) obj;
+      if (m_first == null)
+      {
+         if (other.m_first != null)
+         {
+            return false;
+         }
+      }
+      else
+      {
+         if (!m_first.equals(other.m_first))
+         {
+            return false;
+         }
+      }
+
+      if (m_second == null)
+      {
+         if (other.m_second != null)
+         {
+            return false;
+         }
+      }
+      else
+      {
+         if (!m_second.equals(other.m_second))
+         {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
    private L m_first;
    private R m_second;
 }

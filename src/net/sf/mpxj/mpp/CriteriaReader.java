@@ -29,10 +29,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GenericCriteriaPrompt;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 
 /**
@@ -266,7 +266,7 @@ public abstract class CriteriaReader
 
       if (m_criteriaType != null)
       {
-         m_criteriaType[0] = leftValue instanceof TaskField;
+         m_criteriaType[0] = leftValue.getFieldTypeClass() == FieldTypeClass.TASK;
          m_criteriaType[1] = !m_criteriaType[0];
       }
 

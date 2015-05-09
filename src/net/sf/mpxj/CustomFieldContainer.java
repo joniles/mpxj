@@ -24,14 +24,16 @@
 package net.sf.mpxj;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
  * Container holding configuration details for all custom fields.
  */
-public class CustomFieldContainer
+public class CustomFieldContainer implements Iterable<CustomField>
 {
    /**
     * Retrieve configuration details for a given custom field.
@@ -44,10 +46,15 @@ public class CustomFieldContainer
       CustomField result = m_configMap.get(field);
       if (result == null)
       {
-         result = new CustomField(this);
+         result = new CustomField(field, this);
          m_configMap.put(field, result);
       }
       return result;
+   }
+
+   @Override public Iterator<CustomField> iterator()
+   {
+      return m_configMap.values().iterator();
    }
 
    /**
@@ -66,7 +73,7 @@ public class CustomFieldContainer
     * 
     * @param item custom field value
     */
-   void addValue(CustomFieldValueItem item)
+   void registerValue(CustomFieldValueItem item)
    {
       m_valueMap.put(item.getUniqueID(), item);
    }
@@ -76,11 +83,35 @@ public class CustomFieldContainer
     * 
     * @param item custom field value
     */
-   void removeValue(CustomFieldValueItem item)
+   void deregisterValue(CustomFieldValueItem item)
    {
       m_valueMap.remove(item.getUniqueID());
    }
 
+   /**
+    * When an alias for a field is added, index it here to allow lookup by alias and type.
+    * 
+    * @param type field type
+    * @param alias field alias
+    */
+   void registerAlias(FieldType type, String alias)
+   {
+      m_aliasMap.put(new Pair<FieldTypeClass, String>(type.getFieldTypeClass(), alias), type);
+   }
+
+   /**
+    * Retrieve a field from a particular entity using its alias.
+    *
+    * @param typeClass the type of entity we are interested in
+    * @param alias the alias
+    * @return the field type refered to be the alias, or null if not found
+    */
+   public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
+   {
+      return m_aliasMap.get(new Pair<FieldTypeClass, String>(typeClass, alias));
+   }
+
    private Map<FieldType, CustomField> m_configMap = new HashMap<FieldType, CustomField>();
    private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<Integer, CustomFieldValueItem>();
+   private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<Pair<FieldTypeClass, String>, FieldType>();
 }

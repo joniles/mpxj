@@ -10,6 +10,8 @@
 
 	<release version="5.0.1" date="Git HEAD">
 		<action dev="joniles" type="fix">Updated to ensure that PrimaveraDatabaseReader.setSchema accepts null or empty string</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
+		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
 	</release>
 
 	<release version="5.0.0" date="06/05/2015">
