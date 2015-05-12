@@ -95,8 +95,8 @@
     <Reference Include="MpxjUtilities">
       <HintPath>..\..\lib.net\MpxjUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.11-20141221">
-      <HintPath>..\..\lib.net\poi-3.11-20141221.dll</HintPath>
+    <Reference Include="poi-3.12-20150511">
+      <HintPath>..\..\lib.net\poi-3.12-20150511.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.2.0">
       <HintPath>..\..\lib.net\rtfparserkit-1.2.0.dll</HintPath>
