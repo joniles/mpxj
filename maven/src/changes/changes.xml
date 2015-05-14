@@ -10,6 +10,7 @@
 
 	<release version="5.1.0" date="Git HEAD">
 		<action dev="joniles" type="fix">Updated to ensure that PrimaveraDatabaseReader.setSchema accepts null or empty string</action>
+		<action dev="joniles" type="fix">Ensure conversion to/from .Net DateTime takes account of timezone and daylight savings (based on a contribution by Timour Koupeev)</action>
 		<action dev="joniles" type="update">Updated to use POI 3.12.</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
 		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>

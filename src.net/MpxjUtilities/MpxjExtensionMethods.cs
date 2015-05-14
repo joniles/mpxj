@@ -58,7 +58,7 @@ namespace net.sf.mpxj.MpxjUtilities
             {
                 throw new ArgumentNullException();
             }
-            return new DateTime(DATE_EPOCH_TICKS + (javaDate.getTime() * 10000));
+            return ToNullableDateTime(javaDate).Value;
         }
 
         /// <summary>
@@ -68,7 +68,18 @@ namespace net.sf.mpxj.MpxjUtilities
         /// <returns>DateTime instance</returns>
         public static DateTime? ToNullableDateTime(this java.util.Date javaDate)
         {
-            return javaDate == null ? (DateTime?)null : new DateTime(DATE_EPOCH_TICKS + (javaDate.getTime() * 10000));
+            DateTime? result;
+            if (javaDate == null)
+            {
+                result = null;
+            }
+            else
+            {
+                long javaTime = javaDate.getTime();
+                int dstOffset = java.util.TimeZone.getDefault().getOffset(javaTime);
+                result = javaDate == null ? (DateTime?)null : new DateTime(DATE_EPOCH_TICKS + ((javaTime + dstOffset) * 10000));
+            }
+            return result;
         }
 
         /// <summary>
@@ -79,7 +90,16 @@ namespace net.sf.mpxj.MpxjUtilities
         public static java.util.Date ToJavaDate(this DateTime d)
         {
             TimeSpan ts = d - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime();
-            return new java.util.Date((long)ts.TotalMilliseconds);
+            long timestamp = (long)ts.TotalMilliseconds;
+            java.util.TimeZone tz = java.util.TimeZone.getDefault();
+            java.util.Date result = new java.util.Date(timestamp - tz.getRawOffset());
+
+            if (tz.inDaylightTime(result) == true)
+            {
+                int savings = tz.getDSTSavings();
+                result = new java.util.Date(result.getTime() - savings);
+            }
+            return (result);
         }
 
         /// <summary>
