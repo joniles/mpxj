@@ -35,7 +35,7 @@ module MPXJ
 
     def get_attribute_value(attribute_type, attribute_value)
       case attribute_type.to_i
-      when 12, 17
+      when 12, 17, 19
         get_integer_value(attribute_value)
       when 8, 3, 5, 7
         get_float_value(attribute_value)
