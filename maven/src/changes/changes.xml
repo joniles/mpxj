@@ -8,7 +8,10 @@
 
    <body> 
 
-	<release version="5.1.2" date="Git HEAD">
+	<release version="5.1.3" date="Git HEAD">
+	</release>
+
+	<release version="5.1.2" date="18/05/2015">
 		<action dev="joniles" type="update">Updated to ensure Ruby recognises short type as an integer.</action>
 	</release>
 
