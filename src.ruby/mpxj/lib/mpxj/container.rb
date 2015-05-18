@@ -83,11 +83,7 @@ module MPXJ
     end
 
     def get_boolean_value(attribute_value)
-      if attribute_value.nil?
-        false
-      else
-        attribute_value == "true"
-      end
+      attribute_value == true
     end
   end
 end

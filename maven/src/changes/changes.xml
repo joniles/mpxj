@@ -9,10 +9,11 @@
    <body> 
 
 	<release version="5.1.3" date="Git HEAD">
+	<action dev="joniles" type="fix">Updated to ensure Ruby reads Boolean attributes correctly.</action>
 	</release>
 
 	<release version="5.1.2" date="18/05/2015">
-		<action dev="joniles" type="update">Updated to ensure Ruby recognises short type as an integer.</action>
+		<action dev="joniles" type="fix">Updated to ensure Ruby recognises short type as an integer.</action>
 	</release>
 
 	<release version="5.1.1" date="18/05/2015">
