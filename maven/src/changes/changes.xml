@@ -9,6 +9,9 @@
    <body> 
 
 	<release version="5.1.4" date="Git HEAD">
+	</release>
+
+	<release version="5.1.4" date="03/06/2015">
 		<action dev="joniles" type="update">Updated to generate Activity ID for Primavera WBS.</action>
 		<action dev="joniles" type="fix">Updated to correct Primavera duration percent complete calculation.</action>
 	</release>
