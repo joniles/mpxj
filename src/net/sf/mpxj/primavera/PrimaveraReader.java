@@ -421,6 +421,7 @@ final class PrimaveraReader
       //
       // Create hierarchical structure
       //
+      FieldType activityIDField = getActivityIDField(m_wbsFields);
       m_project.getChildTasks().clear();
       for (Row row : wbs)
       {
@@ -435,6 +436,10 @@ final class PrimaveraReader
             m_project.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
             task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            if (activityIDField != null)
+            {
+               task.set(activityIDField, task.getWBS() + " " + task.getName());
+            }
          }
       }
 
@@ -515,6 +520,26 @@ final class PrimaveraReader
 
       updateStructure();
       updateDates();
+   }
+
+   /**
+    * Determine which field the Activity ID has been mapped to.
+    * 
+    * @param map field map
+    * @return field
+    */
+   private FieldType getActivityIDField(Map<FieldType, String> map)
+   {
+      FieldType result = null;
+      for (Map.Entry<FieldType, String> entry : map.entrySet())
+      {
+         if (entry.getValue().equals("task_code"))
+         {
+            result = entry.getKey();
+            break;
+         }
+      }
+      return result;
    }
 
    /**
@@ -1067,11 +1092,21 @@ final class PrimaveraReader
    private Number calculateDurationPercentComplete(Row row)
    {
       double result = 0;
-
       double targetDuration = row.getDuration("target_drtn_hr_cnt").getDuration();
-      if (targetDuration != 0)
+      double remainingDuration = row.getDuration("remain_drtn_hr_cnt").getDuration();
+
+      if (targetDuration == 0)
       {
-         double remainingDuration = row.getDuration("remain_drtn_hr_cnt").getDuration();
+         if (remainingDuration == 0)
+         {
+            if (row.getString("status_code").equals("TK_Complete"))
+            {
+               result = 100;
+            }
+         }
+      }
+      else
+      {
          if (remainingDuration < targetDuration)
          {
             result = ((targetDuration - remainingDuration) * 100) / targetDuration;
