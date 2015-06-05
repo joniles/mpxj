@@ -62,6 +62,9 @@
     <Reference Include="IKVM.OpenJDK.Jdbc">
       <HintPath>..\..\lib.net\IKVM.OpenJDK.Jdbc.dll</HintPath>
     </Reference>
+    <Reference Include="IKVM.OpenJDK.Localedata">
+      <HintPath>..\..\lib.net\IKVM.OpenJDK.Localedata.dll</HintPath>
+    </Reference>
     <Reference Include="IKVM.OpenJDK.Misc">
       <HintPath>..\..\lib.net\IKVM.OpenJDK.Misc.dll</HintPath>
     </Reference>

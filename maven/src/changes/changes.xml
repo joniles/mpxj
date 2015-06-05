@@ -8,7 +8,8 @@
 
    <body> 
 
-	<release version="5.1.4" date="Git HEAD">
+	<release version="5.1.5" date="Git HEAD">
+		<action dev="joniles" type="update">Updated to use IKVM 8.0.5449.1</action>
 	</release>
 
 	<release version="5.1.4" date="03/06/2015">

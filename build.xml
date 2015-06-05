@@ -10,7 +10,7 @@
 		<tstamp />
 
 		<property name="current.version" value="5.1.4" />
-		<property name="ikvm.dir" value="${basedir}/../ikvm-7.2.4630.5" />
+		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />

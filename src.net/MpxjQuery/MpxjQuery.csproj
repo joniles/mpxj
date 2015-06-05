@@ -53,6 +53,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\IKVM.OpenJDK.Jdbc.dll</HintPath>
     </Reference>
+    <Reference Include="IKVM.OpenJDK.Localedata">
+      <HintPath>..\..\lib.net\IKVM.OpenJDK.Localedata.dll</HintPath>
+    </Reference>
     <Reference Include="IKVM.OpenJDK.Misc, Version=0.46.0.1, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\IKVM.OpenJDK.Misc.dll</HintPath>
