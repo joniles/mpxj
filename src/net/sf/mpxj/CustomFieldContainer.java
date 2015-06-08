@@ -104,7 +104,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     *
     * @param typeClass the type of entity we are interested in
     * @param alias the alias
-    * @return the field type refered to be the alias, or null if not found
+    * @return the field type referred to be the alias, or null if not found
     */
    public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
    {
