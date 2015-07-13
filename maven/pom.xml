@@ -60,8 +60,8 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:git://git.code.sf.net/p/mpxj/mpxj</connection>
-		<url>http://sourceforge.net/p/mpxj/mpxj/ci/master/tree/</url>
+		<connection>scm:git:git://git@github.com:joniles/mpxj.git</connection>
+		<url>https://github.com/joniles/mpxj</url>
 	</scm>
 
 	<developers>
