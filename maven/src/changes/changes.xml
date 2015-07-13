@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="5.1.6" date="Git HEAD">
+		<action dev="joniles" type="update">Updated ruby gem to allow timezone to be provided</action>
 	</release>
 
 	<release version="5.1.5" date="05/06/2015">

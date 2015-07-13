@@ -62,7 +62,7 @@ module MPXJ
       if attribute_value.nil?
         nil
       else
-        Time.parse(attribute_value)
+        @parent_project.zone.parse(attribute_value)
       end
     end
 

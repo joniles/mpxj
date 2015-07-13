@@ -8,7 +8,9 @@ module MPXJ
     attr_reader :all_tasks
     attr_reader :child_tasks
     attr_reader :all_assignments
-    def initialize(file_name)
+    attr_reader :zone
+    
+    def initialize(file_name, zone)
       @resources_by_unique_id = {}
       @tasks_by_unique_id = {}
 
@@ -19,6 +21,8 @@ module MPXJ
       @all_tasks = []
       @all_assignments = []
       @child_tasks = []
+
+      @zone = zone
 
       file = File.read(file_name)
       json_data = JSON.parse(file)

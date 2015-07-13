@@ -1,23 +1,29 @@
 require 'tempfile'
+require 'active_support/core_ext/time/calculations'
 
 module MPXJ
   # Used to read a project plan from a file
   class Reader
     # Reads a project plan from a file, and returns a Project instance
-    #   which provides access to the structure and attributes of the project data.
+    # which provides access to the structure and attributes of the project data.
+    # Note that an optional timezone can be supplied to ensue that all date-time
+    # values returned are in the specified timezone.
     #
     # @param file_name [String] the name of the file to read
+    # @param zone [ActiveSupport::TimeZone] an optional timezone
     # @return [Project] new Project instance
-    def self.read(file_name)
+    def self.read(file_name, zone = nil)
       project = nil
       json_file = Tempfile.new([File.basename(file_name, ".*"), '.json'])
+      tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
+    
       begin
         classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
         java_output = `java -cp \"#{classpath}\" net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
           raise "Failed to read file: #{java_output}"
         end
-        project = Project.new(json_file)
+        project = Project.new(json_file, tz)
       ensure
         json_file.close
         json_file.unlink
