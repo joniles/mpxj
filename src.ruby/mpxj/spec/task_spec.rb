@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+# Oh the horror...
+# Only needed as I'm running tests on Windows.
+# Is is possible to do `bundle exec rspec spec` and get this pulled in as required without polluting gemspec with it?
+# Apparently not...
+$:.unshift File.expand_path("c:/ruby/tzinfo-data/lib", __FILE__)
+
 describe MPXJ::Task do
   before :each do
     @project = MPXJ::Reader.read("#{File.dirname(__FILE__)}/task.mpp")

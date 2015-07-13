@@ -6,14 +6,18 @@
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
-   <body> 
-
-	<release version="5.1.8" date="Git HEAD">
+   <body>
+    
+	<release version="5.1.9" date="Git HEAD">
 
 	</release>
 
+	<release version="5.1.8" date="13/07/2015">
+		<action dev="joniles" type="update">Another attempt at getting tzinfo-data dependency working</action>
+	</release>
+
 	<release version="5.1.7" date="13/07/2015">
-		<action dev="joniles" type="update">Updated ruby gem to make tzinfo-data dependency conditional on platformd</action>
+		<action dev="joniles" type="update">Updated ruby gem to make tzinfo-data dependency conditional on platform</action>
 	</release>
 
 	<release version="5.1.6" date="13/07/2015">
