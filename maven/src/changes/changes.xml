@@ -8,8 +8,12 @@
 
    <body> 
 
-	<release version="5.1.7" date="Git HEAD">
+	<release version="5.1.8" date="Git HEAD">
 
+	</release>
+
+	<release version="5.1.7" date="13/07/2015">
+		<action dev="joniles" type="update">Updated ruby gem to make tzinfo-data dependency conditional on platformd</action>
 	</release>
 
 	<release version="5.1.6" date="13/07/2015">
