@@ -271,15 +271,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
+      if (mpxj.getCalendarExceptions().isEmpty())
+         return;
+      Calendar cal = Calendar.getInstance(); // Replaced m_calendar with local calendar instance because getEndTime() calls were using m_calendar.setTime() as well, wrecking the while loop conditional.
       for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
       {
-         m_calendar.setTime(mpxjException.getFromDate());
-         while (m_calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
+         cal.setTime(mpxjException.getFromDate());
+         while (cal.getTimeInMillis() < mpxjException.getToDate().getTime())
          {
             HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
             xmlExceptions.getHolidayOrException().add(xmlException);
 
-            xmlException.setDate(m_calendar.getTime());
+            xmlException.setDate(cal.getTime());
 
             for (DateRange range : mpxjException)
             {
@@ -289,7 +292,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
                xmlHours.setStart(range.getStart());
                xmlHours.setFinish(getEndTime(range.getEnd()));
             }
-            m_calendar.add(Calendar.DAY_OF_YEAR, 1);
+            cal.add(Calendar.DAY_OF_YEAR, 1);
          }
       }
    }
@@ -436,6 +439,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setId(mpxj.getWBS());
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
+      xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPlannedDuration(getDuration(mpxj.getDuration()));
@@ -490,11 +494,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
 
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
+      xml.setActualCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
       xml.setAtCompletionUnits(getDuration(mpxj.getRemainingWork()));
+      xml.setPlannedCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(getGUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
@@ -504,6 +510,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPlannedUnits(getDuration(mpxj.getWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setRemainingCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingFinishDate(mpxj.getFinish());
       xml.setRemainingStartDate(mpxj.getStart());
