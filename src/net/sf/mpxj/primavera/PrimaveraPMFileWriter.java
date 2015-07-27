@@ -271,15 +271,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
+      if (mpxj.getCalendarExceptions().isEmpty())
+         return;
+      Calendar cal = Calendar.getInstance();
       for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
       {
-         m_calendar.setTime(mpxjException.getFromDate());
-         while (m_calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
+         cal.setTime(mpxjException.getFromDate());
+         while (cal.getTimeInMillis() < mpxjException.getToDate().getTime())
          {
             HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
             xmlExceptions.getHolidayOrException().add(xmlException);
 
-            xmlException.setDate(m_calendar.getTime());
+            xmlException.setDate(cal.getTime());
 
             for (DateRange range : mpxjException)
             {
@@ -289,7 +292,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
                xmlHours.setStart(range.getStart());
                xmlHours.setFinish(getEndTime(range.getEnd()));
             }
-            m_calendar.add(Calendar.DAY_OF_YEAR, 1);
+            cal.add(Calendar.DAY_OF_YEAR, 1);
          }
       }
    }
