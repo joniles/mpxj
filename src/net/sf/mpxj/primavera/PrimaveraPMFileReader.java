@@ -57,6 +57,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
+import net.sf.mpxj.ProjectEntityWithUniqueID;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -70,6 +71,7 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
@@ -83,6 +85,8 @@ import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.UDFAssignmentType;
+import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -168,6 +172,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             throw new MPXJException("Unable to locate any non-external projects in a list of " + projects.size() + " projects");
          }
 
+         processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
          processCalendars(apibo);
          processResources(apibo);
@@ -203,6 +208,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_projectFile = null;
          m_clashMap.clear();
          m_calMap.clear();
+      }
+   }
+
+   /** Set up CustomFieldValueItems as UDF object id -> UDFType title (alias).
+    * @author lsong
+    */
+   private void processProjectUDFs(APIBusinessObjects apibo)
+   {
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+      for (UDFTypeType udf : apibo.getUDFType())
+      {
+         CustomFieldValueItem item = new CustomFieldValueItem(udf.getObjectId());
+         item.setValue(udf.getTitle());
+         customFields.registerValue(item);
       }
    }
 
@@ -373,6 +392,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             }
          }
 
+         writeUDFTypes(resource, xml.getUDF());
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
@@ -501,6 +522,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
 
+         writeUDFTypes(task, row.getUDF());
+
          m_eventManager.fireTaskReadEvent(task);
       }
 
@@ -619,6 +642,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
 
+            writeUDFTypes(assignment, row.getUDF());
+
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
@@ -641,6 +666,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
       return result;
    }
+
+   /**
+    * @author lsong
+    */
+   private void writeUDFTypes(ProjectEntityWithUniqueID mpxj, List<UDFAssignmentType> udfs)
+   {
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+      for (UDFAssignmentType udf : udfs)
+         customFields.registerAliasValue((String) customFields.getCustomFieldValueItemByUniqueID(udf.getTypeObjectId()).getValue(), mpxj.getUniqueID(), udf);
+   }
+
    /**
     * Cached context to minimise construction cost.
     */

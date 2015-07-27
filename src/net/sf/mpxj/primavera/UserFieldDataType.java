@@ -23,6 +23,14 @@
 
 package net.sf.mpxj.primavera;
 
+import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.ConstraintField;
+import net.sf.mpxj.DataType;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectField;
+import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.TaskField;
+
 /**
  * User defined field data types. 
  */
@@ -55,6 +63,49 @@ public enum UserFieldDataType
    public String getDefaultFieldName()
    {
       return m_defaultFieldName;
+   }
+
+   /**
+    * @author kmahan 
+    * @date 2014-09-24
+    * @return string representation of data type
+    */
+   public static String inferUserFieldDataType(DataType dataType)
+   {
+      switch (dataType)
+      {
+         case STRING:
+            return "Text";
+         case DATE:
+            return "Start Date";
+         case NUMERIC:
+            return "Double";
+         case INTEGER:
+         case SHORT:
+            return "Integer";
+         default:
+            throw new RuntimeException("Unconvertible data type: " + dataType);
+      }
+   }
+
+   /**
+    * @author lsong
+    * @date 2015-7-24
+    * @return udf subject area
+    */
+   public static String inferUserFieldSubjectArea(FieldType fieldType)
+   {
+      if (fieldType instanceof TaskField)
+         return "Activity";
+      if (fieldType instanceof ResourceField)
+         return "Resource";
+      if (fieldType instanceof ProjectField)
+         return "Project";
+      if (fieldType instanceof AssignmentField)
+         return "Assignment";
+      if (fieldType instanceof ConstraintField)
+         return "Constraint";
+      throw new RuntimeException("Unrecognized field type: " + fieldType);
    }
 
    private String m_defaultFieldName;
