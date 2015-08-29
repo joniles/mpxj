@@ -490,7 +490,7 @@ public enum ResourceField implements FieldType
    BASELINE10_FINISH(DataType.DATE),
    BASELINE10_START(DataType.DATE),
 
-   BOOKING_TYPE(DataType.STRING),
+   BOOKING_TYPE(DataType.BOOKING_TYPE),
    BUDGET_COST(DataType.CURRENCY),
    BUDGET_WORK(DataType.WORK),
    CALENDAR_GUID(DataType.GUID),
