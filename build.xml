@@ -518,7 +518,7 @@
 	    </condition>
 	</target>
 
-	<target name="nuget-package" depends="init-props">
+	<target name="nuget-package" depends="init-props" description="Create NuGet packages">
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="update"/>
 			<arg value="-self"/>
@@ -550,7 +550,7 @@
 		</exec>				
 	</target>
 	
-	<target name="nuget-deploy" depends="init-props">		
+	<target name="nuget-deploy" depends="init-props" description="Deploy NuGet packages">		
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="push"/>
 			<arg value="${basedir}/../net.sf.mpxj.${current.version}.nupkg"/>
@@ -567,7 +567,7 @@
 		</exec>		
 	</target>
 		
-	<target name="gem-setup" depends="jar">
+	<target name="gem-setup" depends="jar" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
 		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
 			<fileset dir="${basedir}/lib" includes="*.jar" />
@@ -577,13 +577,13 @@
 		</copy>
 	</target>
 	
-	<target name="gem-test" depends="gem-setup">
+	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
 		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rspec spec" />
 		</exec>
 	</target>
 		
-	<target name="gem-deploy" depends="gem-setup">
+	<target name="gem-deploy" depends="gem-setup" description="Deploy rubygem to rubygems.org">
 		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
