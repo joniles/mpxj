@@ -271,28 +271,29 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
-      if (mpxj.getCalendarExceptions().isEmpty())
-         return;
-      Calendar cal = Calendar.getInstance();
-      for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
+      if (!mpxj.getCalendarExceptions().isEmpty())
       {
-         cal.setTime(mpxjException.getFromDate());
-         while (cal.getTimeInMillis() < mpxjException.getToDate().getTime())
+         Calendar cal = Calendar.getInstance();
+         for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
          {
-            HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
-            xmlExceptions.getHolidayOrException().add(xmlException);
-
-            xmlException.setDate(cal.getTime());
-
-            for (DateRange range : mpxjException)
+            cal.setTime(mpxjException.getFromDate());
+            while (cal.getTimeInMillis() < mpxjException.getToDate().getTime())
             {
-               WorkTimeType xmlHours = m_factory.createWorkTimeType();
-               xmlException.getWorkTime().add(xmlHours);
+               HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
+               xmlExceptions.getHolidayOrException().add(xmlException);
 
-               xmlHours.setStart(range.getStart());
-               xmlHours.setFinish(getEndTime(range.getEnd()));
+               xmlException.setDate(cal.getTime());
+
+               for (DateRange range : mpxjException)
+               {
+                  WorkTimeType xmlHours = m_factory.createWorkTimeType();
+                  xmlException.getWorkTime().add(xmlHours);
+
+                  xmlHours.setStart(range.getStart());
+                  xmlHours.setFinish(getEndTime(range.getEnd()));
+               }
+               cal.add(Calendar.DAY_OF_YEAR, 1);
             }
-            cal.add(Calendar.DAY_OF_YEAR, 1);
          }
       }
    }
