@@ -12,6 +12,7 @@
 		<action dev="joniles" type="add">Added basic custom field attributes to JSON output</action>
 		<action dev="joniles" type="add">Added Ruby methods to work with custom field aliases</action>
 		<action dev="joniles" type="fix">Fix to infinite loop condition when writing calendar (contributed by lobmeleon)</action>
+		<action dev="joniles" type="update">Symmetry between Primavera PM reader/writer (contributed by lobmeleon)</action>
 	</release>
 
 	<release version="5.1.8" date="13/07/2015">
