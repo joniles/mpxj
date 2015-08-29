@@ -328,6 +328,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          resource.setNotes(xml.getResourceNotes());
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
+         resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
 
          Integer calendarID = xml.getCalendarObjectId();
          if (calendarID != null)
@@ -460,7 +461,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          task.setUniqueID(uniqueID);
-         task.setPercentageComplete(NumberHelper.getDouble(row.getPercentComplete().doubleValue() * 100.0));
+         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
          task.setName(row.getName());
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setActualWork(getDuration(row.getActualDuration()));
@@ -641,6 +642,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
       return result;
    }
+
+   /** Reverse the effects of PrimaveraPMFileWriter.getPercentage(). */
+   private Number reversePercentage(Double n)
+   {
+      if (n == null)
+         return null;
+      return NumberHelper.getDouble(n.doubleValue() * 100.0);
+   }
+
    /**
     * Cached context to minimise construction cost.
     */
