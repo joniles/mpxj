@@ -16,7 +16,7 @@ module MPXJ
       project = nil
       json_file = Tempfile.new([File.basename(file_name, ".*"), '.json'])
       tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
-    
+
       begin
         classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
         java_output = `java -cp \"#{classpath}\" net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`

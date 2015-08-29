@@ -68,14 +68,14 @@ describe MPXJ::Task do
       expect(@project.get_task_by_id(2).child_tasks[0].unique_id).to eq(3)
     end
   end
-  
+
   describe '#start' do
     it 'returns a date in the default time zone' do
       task = @project.get_task_by_id(1)
       expect(task.name).to eq('Task1')
       expect(task.start.to_s).to eq('2015-03-17 08:00:00 UTC')
     end
-    
+
     it 'returns a date in the specified time zone' do
       zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
       project = MPXJ::Reader.read("#{File.dirname(__FILE__)}/task.mpp", zone)

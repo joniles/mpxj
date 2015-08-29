@@ -9,7 +9,8 @@
    <body>
     
 	<release version="5.1.9" date="Git HEAD">
-
+		<action dev="joniles" type="add">Added basic custom field attributes to JSON output</action>
+		<action dev="joniles" type="add">Added Ruby methods to work with custom field aliases</action>
 	</release>
 
 	<release version="5.1.8" date="13/07/2015">
