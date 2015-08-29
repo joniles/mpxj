@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,9 +48,14 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldContainer;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -60,6 +66,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityType;
@@ -73,6 +80,8 @@ import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.UDFAssignmentType;
+import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -121,6 +130,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
 
+         writeUserFieldDefinitions();
          writeProjectProperties();
          writeCalendars();
          writeResources();
@@ -151,6 +161,28 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_wbsSequence = 0;
          m_relationshipObjectID = 0;
          m_calendar = null;
+      }
+   }
+
+   /**
+    * Add UDFType objects to a PM XML file.
+    * 
+    * @author kmahan 
+    * @date 2014-09-24
+    * @author lsong
+    * @date 2015-7-24
+    */
+   private void writeUserFieldDefinitions()
+   {
+      for (CustomField cf : m_projectFile.getCustomFields())
+      {
+         UDFTypeType udf = m_factory.createUDFTypeType();
+         udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
+
+         udf.setDataType(UserFieldDataType.inferUserFieldDataType(cf.getFieldType().getDataType()));
+         udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
+         udf.setTitle(cf.getAlias());
+         m_apibo.getUDFType().add(udf);
       }
    }
 
@@ -219,6 +251,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setSummaryLevel("Assignment Level");
       m_project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
       m_project.setWBSCodeSeparator(".");
+      m_project.getUDF().addAll(writeUDFType(FieldTypeClass.PROJECT, mpxj));
    }
 
    /**
@@ -335,6 +368,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setObjectId(mpxj.getUniqueID());
       xml.setResourceNotes(mpxj.getNotes());
       xml.setResourceType(getResourceType(mpxj));
+      xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
    }
 
    /**
@@ -458,6 +492,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setStatus(getActivityStatus(mpxj));
       xml.setType("Resource Dependent");
       xml.setWBSObjectId(parentObjectID);
+      xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
 
       writePredecessors(mpxj);
    }
@@ -520,6 +555,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setResourceObjectId(mpxj.getResourceUniqueID());
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(parentTaskUniqueID);
+      xml.getUDF().addAll(writeUDFType(FieldTypeClass.ASSIGNMENT, mpxj));
    }
 
    /**
@@ -546,6 +582,32 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
          }
       }
+   }
+
+   /**
+    * Writes a list of IDF types.
+    * 
+    * @author lsong
+    * @param type parent entity type
+    * @param mpxj parent entity
+    * @return list of UDFAssignmentType instances
+    */
+   private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
+   {
+      List<UDFAssignmentType> out = new LinkedList<UDFAssignmentType>();
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+      for (CustomField cf : customFields)
+      {
+         FieldType fieldType = cf.getFieldType();
+         if (type == fieldType.getFieldTypeClass())
+         {
+            UDFAssignmentType udf = m_factory.createUDFAssignmentType();
+            udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
+            UDFAssignmentType.setUserFieldValue(udf, fieldType.getDataType(), mpxj.getCachedValue(fieldType));
+            out.add(udf);
+         }
+      }
+      return out;
    }
 
    /**

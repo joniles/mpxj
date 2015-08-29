@@ -8,12 +8,16 @@
 package net.sf.mpxj.primavera.schema;
 
 import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import net.sf.mpxj.DataType;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * <p>Java class for UDFAssignmentType complex type.
@@ -302,4 +306,34 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
       this.finishDateValue = value;
    }
 
+   /**
+    * @author kmahan
+    */
+   public static void setUserFieldValue(UDFAssignmentType udf, DataType dataType, Object value)
+   {
+      switch (dataType)
+      {
+         case STRING:
+            // write empty string instead of null to make sure we get a value
+            // node in the XML output
+            udf.setTextValue(value != null ? (String) value : "");
+            break;
+         case DATE:
+            udf.setStartDateValue((Date) value);
+            break;
+         case NUMERIC:
+            if (value != null && !(value instanceof Double))
+            {
+               value = Double.valueOf(((Number) value).doubleValue());
+            }
+            udf.setDoubleValue((Double) value);
+            break;
+         case INTEGER:
+         case SHORT:
+            udf.setIntegerValue(NumberHelper.getInteger((Number) value));
+            break;
+         default:
+            throw new RuntimeException("Unconvertible data type: " + dataType);
+      }
+   }
 }

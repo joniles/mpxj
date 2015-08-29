@@ -23,6 +23,13 @@
 
 package net.sf.mpxj.primavera;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.mpxj.DataType;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
+
 /**
  * User defined field data types. 
  */
@@ -57,5 +64,59 @@ public enum UserFieldDataType
       return m_defaultFieldName;
    }
 
+   /**
+    * Infers the Primavera user defined field data type from the MPXJ data type.
+    * 
+    * @author kmahan 
+    * @date 2014-09-24
+    * @param dataType MPXJ data type
+    * @return string representation of data type
+    */
+   public static String inferUserFieldDataType(DataType dataType)
+   {
+      switch (dataType)
+      {
+         case STRING:
+            return "Text";
+         case DATE:
+            return "Start Date";
+         case NUMERIC:
+            return "Double";
+         case INTEGER:
+         case SHORT:
+            return "Integer";
+         default:
+            throw new RuntimeException("Unconvertible data type: " + dataType);
+      }
+   }
+
+   /**
+    * Infers the Primavera entity type based on the MPXJ field type.
+    * 
+    * @author lsong
+    * @date 2015-7-24
+    * @param fieldType MPXJ field type
+    * @return UDF subject area
+    */
+   public static String inferUserFieldSubjectArea(FieldType fieldType)
+   {
+      String result = SUBJECT_AREA_MAP.get(fieldType.getFieldTypeClass());
+      if (result == null)
+      {
+         throw new RuntimeException("Unrecognized field type: " + fieldType);
+      }
+      return result;
+   }
+
    private String m_defaultFieldName;
+
+   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<FieldTypeClass, String>();
+   static
+   {
+      SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Assignment");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
+   }
 }
