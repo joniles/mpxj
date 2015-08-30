@@ -14,9 +14,10 @@
 		<action dev="joniles" type="add">Added Ruby methods to work with custom field aliases</action>
 		<action dev="joniles" type="fix">Fix to infinite loop condition when writing calendar (contributed by lobmeleon)</action>
 		<action dev="joniles" type="fix" issue="274">MPXJ getNotes() API returns garbled value for multibyte characters</action>
+		<action dev="joniles" type="fix" issue="268">Unsupported encoding error when reading resource notes</action>
 		<action dev="joniles" type="update">Symmetry between Primavera PM reader/writer (contributed by lobmeleon)</action>
 		<action dev="joniles" type="update">Added UDF support to PMXML file reader and writer(contributed by lobmeleon)</action>
-		<action dev="joniles" type="update">Updated to rtfparserkit 1.3.0</action>
+		<action dev="joniles" type="update">Updated to rtfparserkit 1.4.0</action>
 	</release>
 
 	<release version="5.1.8" date="13/07/2015">
