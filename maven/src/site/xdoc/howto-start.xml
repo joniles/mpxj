@@ -285,13 +285,12 @@ calendar is derived from a base calendar; resource calendars may be unmodified
 in which case it will appear to be identical to the underlying base calendar, 
 or the resource calendar may modify the working and non-working days. In this
 case these changes are "overlaid" on top of the working and non-working times
-defined by the base calendar. Lists of all base and resource calendars can be
-obtained from the project file using the method calls shown below.
+defined by the base calendar. The calendars defined in a project can be retrieved
+using the method call shown below.
 </p>
 
 <source>
-List&lt;ProjectCalendar&gt; baseCalendars = file.getBaseCalendars();
-List&lt;ProjectCalendar&gt; resourceCalendars = file.getResourceCalendars();
+List&lt;ProjectCalendar&gt; calendars = file.getCalendars();
 </source>
 
 <p>
@@ -301,7 +300,7 @@ retrieved using the method calls shown below.
 </p>
 
 <source>
-ProjectCalendar defaultCalendar = file.getCalendar();
+ProjectCalendar defaultCalendar = file.getDefaultCalendar();
 </source>
 
 <p>
