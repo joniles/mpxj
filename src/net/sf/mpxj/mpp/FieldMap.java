@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
@@ -1074,6 +1075,12 @@ abstract class FieldMap
             case GUID:
             {
                result = MPPUtility.getGUID(varData.getByteArray(id, m_varDataKey), 0);
+               break;
+            }
+
+            case BOOKING_TYPE:
+            {
+               result = BookingType.getInstance(varData.getShort(id, m_varDataKey));
                break;
             }
 

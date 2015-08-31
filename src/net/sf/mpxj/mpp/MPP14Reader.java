@@ -58,7 +58,6 @@ import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
@@ -1997,23 +1996,10 @@ final class MPP14Reader implements MPPVariantReader
          readBitFields(metaDataBitFlags, resource, metaData);
          readBitFields(metaData2BitFlags, resource, metaData2);
 
-         ResourceType type;
          if (resource.getWorkGroup() == WorkGroup.DEFAULT)
          {
-            type = ResourceType.WORK;
+            resource.setType(ResourceType.WORK);
          }
-         else
-         {
-            if (resource.getStandardRateUnits() == TimeUnit.ELAPSED_MINUTES)
-            {
-               type = ResourceType.MATERIAL;
-            }
-            else
-            {
-               type = ResourceType.COST;
-            }
-         }
-         resource.setType(type);
 
          resource.setUniqueID(id);
 
@@ -2549,7 +2535,7 @@ final class MPP14Reader implements MPPVariantReader
    private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 4, 0x08, ResourceType.COST, ResourceType.MATERIAL)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
    };
 
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS =

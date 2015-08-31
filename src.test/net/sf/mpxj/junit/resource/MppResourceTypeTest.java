@@ -57,6 +57,19 @@ public class MppResourceTypeTest
    }
 
    /**
+    * Test to exercise the test case provided for SourceForge bug #235.
+    * https://sourceforge.net/p/mpxj/bugs/256/
+    */
+   @Test public void testSourceForge256() throws MPXJException
+   {
+      File file = new File(MpxjTestData.filePath("resource/resource-type/sf256.mpp"));
+      ProjectFile project = new MPPReader().read(file);
+      testResource(file, project, 1, "Cost", ResourceType.COST);
+      testResource(file, project, 2, "Work", ResourceType.WORK);
+      testResource(file, project, 3, "Material", ResourceType.MATERIAL);
+   }
+
+   /**
     * Test to validate the resource types in an MPP file saved by different versions of MS Project.
     */
    @Test public void testResourceType() throws MPXJException

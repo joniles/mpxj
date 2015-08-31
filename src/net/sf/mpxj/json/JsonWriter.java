@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
@@ -85,6 +86,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
+         writeCustomFields();
          writeProperties();
          writeResources();
          writeTasks();
@@ -97,6 +99,41 @@ public final class JsonWriter extends AbstractProjectWriter
       finally
       {
          m_projectFile = null;
+      }
+   }
+
+   /**
+    * Write a list of custom field attributes.
+    */
+   private void writeCustomFields() throws IOException
+   {
+      m_writer.writeStartList("custom_fields");
+      for (CustomField field : m_projectFile.getCustomFields())
+      {
+         writeCustomField(field);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write attributes for an individual custom field.
+    * Note that at present we are only writing a subset of the
+    * available data... in this instance the field alias.
+    * If the field does not have an alias we won't write an
+    * entry.
+    * 
+    * @param field custom field to write
+    * @throws IOException
+    */
+   private void writeCustomField(CustomField field) throws IOException
+   {
+      if (field.getAlias() != null)
+      {
+         m_writer.writeStartObject(null);
+         m_writer.writeNameValuePair("field_type_class", field.getFieldType().getFieldTypeClass().name().toLowerCase());
+         m_writer.writeNameValuePair("field_type", field.getFieldType().name().toLowerCase());
+         m_writer.writeNameValuePair("field_alias", field.getAlias());
+         m_writer.writeEndObject();
       }
    }
 

@@ -8,8 +8,20 @@
 
    <body>
     
-	<release version="5.1.9" date="Git HEAD">
-
+    <release version="5.1.10" date="Git HEAD">
+    </release>
+    
+	<release version="5.1.9" date="29/08/2015">
+		<action dev="joniles" type="add">Ensure Resource BookingType is read correctly from MPP files</action>
+		<action dev="joniles" type="add">Added basic custom field attributes to JSON output</action>
+		<action dev="joniles" type="add">Added Ruby methods to work with custom field aliases</action>
+		<action dev="joniles" type="fix">Fix to infinite loop condition when writing calendar (contributed by lobmeleon)</action>
+		<action dev="joniles" type="fix" issue="274">MPXJ getNotes() API returns garbled value for multibyte characters</action>
+		<action dev="joniles" type="fix" issue="268">Unsupported encoding error when reading resource notes</action>
+		<action dev="joniles" type="fix" issue="256">Incorrect resource types are read (contributed by Colin Rodriguez)</action>
+		<action dev="joniles" type="update">Symmetry between Primavera PM reader/writer (contributed by lobmeleon)</action>
+		<action dev="joniles" type="update">Added UDF support to PMXML file reader and writer(contributed by lobmeleon)</action>
+		<action dev="joniles" type="update">Updated to rtfparserkit 1.4.0</action>
 	</release>
 
 	<release version="5.1.8" date="13/07/2015">

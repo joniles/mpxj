@@ -68,7 +68,8 @@ public enum DataType implements MpxjEnum
    DAY(34),
    MAP(35),
    MPX_FILE_VERSION(36),
-   MPX_CODE_PAGE(37);
+   MPX_CODE_PAGE(37),
+   BOOKING_TYPE(38);
 
    /**
     * Private constructor.
