@@ -89,7 +89,7 @@ public final class DatatypeConverter
       }
       else
       {
-         result = NumberHelper.getDouble(Double.parseDouble(value) / 100);
+         result = NumberHelper.getDouble(Double.parseDouble(value.replace(',', '.')) / 100);
       }
       return result;
    }
@@ -113,7 +113,7 @@ public final class DatatypeConverter
     */
    public static final Number parseExtendedAttributeNumber(String value)
    {
-      return (Double.valueOf(value));
+      return (Double.valueOf(value.replace(',', '.')));
    }
 
    /**
