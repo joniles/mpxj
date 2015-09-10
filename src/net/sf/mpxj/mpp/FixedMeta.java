@@ -105,9 +105,10 @@ final class FixedMeta extends MPPComponent
     * Constructor, allowing a selection of possible block sizes to be supplied.
     * 
     * @param is input stream
+    * @param otherFixedBlock  other fixed block to use as part of the heuristic
     * @param itemSizes list of potential block sizes
     */
-   FixedMeta(InputStream is, final int... itemSizes)
+   FixedMeta(InputStream is, final FixedData otherFixedBlock, final int... itemSizes)
       throws IOException
    {
       this(is, new FixedMetaItemSizeProvider()
@@ -117,12 +118,28 @@ final class FixedMeta extends MPPComponent
             int itemSize = itemSizes[0];
             int available = fileSize - HEADER_SIZE;
             int distance = Integer.MIN_VALUE;
+            int otherFixedBlockCount = otherFixedBlock.getItemCount();
 
             for (int index = 0; index < itemSizes.length; index++)
             {
                int testItemSize = itemSizes[index];
                if (available % testItemSize == 0)
                {
+                  //
+                  // If we are testing a size which fits exactly into 
+                  // the block size, and matches the number of items from
+                  // another block, we can be pretty certain we have the correct
+                  // size, so bail out at this point
+                  //
+                  if (available / testItemSize == otherFixedBlockCount)
+                  {
+                     itemSize = testItemSize;
+                     break;
+                  }
+
+                  //
+                  // Otherwise use a rule-of-thumb to decide on the closest match
+                  //
                   int testDistance = (itemCount * testItemSize) - available;
                   if (testDistance <= 0 && testDistance > distance)
                   {
