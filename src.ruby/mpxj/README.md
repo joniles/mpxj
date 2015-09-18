@@ -3,7 +3,10 @@
 This gem allows a Ruby developer to work with a read-only view of project plans saved by a number of popular project planning applications.
 The work required to read data from these files is actually carried out by a [Java library](http://mpxj.sf.net), hence you will need Java installed
 and available on your path in order to work with this gem. Once the project data has been read from a file, a set of Ruby objects provides access to the
-structure of the project plan and its attributes. 
+structure of the project plan and its attributes.
+
+This gem only came about through the interest and support of Procore, who would love to [hear from you](https://www.procore.com/jobs/) 
+if you're excited about working with Ruby and Rails.
 
 ## Installation
 
