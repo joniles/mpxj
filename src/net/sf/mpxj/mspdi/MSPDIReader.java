@@ -44,6 +44,10 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -98,10 +102,6 @@ import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.A
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MSPDI file.
@@ -233,6 +233,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       properties.setActualsInSync(BooleanHelper.getBoolean(project.isActualsInSync()));
       properties.setAdminProject(BooleanHelper.getBoolean(project.isAdminProject()));
+      properties.setApplicationVersion(NumberHelper.getInteger(project.getSaveVersion()));
       properties.setAuthor(project.getAuthor());
       properties.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       properties.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
