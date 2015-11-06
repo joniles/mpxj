@@ -9,7 +9,7 @@
    <body>
 
     <release version="5.1.11" date="Git HEAD">
-    	
+		<action dev="joniles" type="update">Avoid NPE when reading MPP14 custom properties.</action>    	
     </release>
     
     <release version="5.1.10" date="09/09/2015">

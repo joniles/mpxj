@@ -90,15 +90,15 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-
-         item.setGuid(MPPUtility.getGUID(b2, 0));
-         UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
-         int type = MPPUtility.getShort(b2, typeOffset);
-         item.setValue(getTypedValue(type, value));
-
-         FieldType field = map.get(parentField);
-
-         m_container.getCustomField(field).getLookupTable().add(item);
+         if (b2 != null)
+         {
+            item.setGuid(MPPUtility.getGUID(b2, 0));
+            UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
+            int type = MPPUtility.getShort(b2, typeOffset);
+            item.setValue(getTypedValue(type, value));
+            FieldType field = map.get(parentField);
+            m_container.getCustomField(field).getLookupTable().add(item);
+         }
       }
    }
 
