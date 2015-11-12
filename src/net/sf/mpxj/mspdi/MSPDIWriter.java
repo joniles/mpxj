@@ -31,10 +31,12 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -79,6 +81,7 @@ import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
@@ -88,6 +91,10 @@ import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays;
+import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Masks;
+import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Masks.Mask;
+import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Values;
+import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Values.Value;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
@@ -190,9 +197,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
          writeProjectProperties(project);
          writeCalendars(project);
          writeResources(project);
+         List<Project.ExtendedAttributes.ExtendedAttribute> extendedAttributes = writeOutlineCodes(project);
          writeTasks(project);
          writeAssignments(project);
-         writeProjectExtendedAttributes(project);
+         writeProjectExtendedAttributes(extendedAttributes);
 
          DatatypeConverter.setParentFile(m_projectFile);
          marshaller.marshal(project, stream);
@@ -287,18 +295,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * This method writes project extended attribute data into an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
+    * @param list List of Extended attributes of the MSPDI file
     */
-   private void writeProjectExtendedAttributes(Project project)
+   private void writeProjectExtendedAttributes(List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
-      Project.ExtendedAttributes attributes = m_factory.createProjectExtendedAttributes();
-      project.setExtendedAttributes(attributes);
-      List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
-
-      for (CustomField field : m_projectFile.getCustomFields())
+      Set<FieldType> outlineCodes = new HashSet<FieldType>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
+      for (FieldType fieldType : getAllExtendedAttributes())
       {
-         FieldType fieldType = field.getFieldType();
+         //skip the outline codes, because they have already been added.
+         if (outlineCodes.contains(fieldType))
+            continue;
+
+         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
          String alias = field.getAlias();
 
          if (m_extendedAttributesInUse.contains(fieldType) || alias != null)
@@ -1132,6 +1140,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeTaskBaselines(xml, mpx);
 
+      writeTaskOutlineCodes(xml, mpx);
+
       return (xml);
    }
 
@@ -1245,11 +1255,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
+      Set<TaskField> outlineCodes = new HashSet<TaskField>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
+
       Project.Tasks.Task.ExtendedAttribute attrib;
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
       for (TaskField mpxFieldID : getAllTaskExtendedAttributes())
       {
+         //skip the outline codes, because they have already been added.
+         if (outlineCodes.contains(mpxFieldID))
+            continue;
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (writeExtendedAttribute(value, mpxFieldID))
@@ -1265,6 +1280,150 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
+   }
+
+   private HashMap<TaskField, HashMap<Object, Pair<Integer, UUID>>> m_outlineCodeValues = new HashMap<TaskField, HashMap<Object, Pair<Integer, UUID>>>();
+
+   /**
+    * This method writes Outline Codes into an MSPDI file.
+    * @param project Root node of the MSPDI file
+    * @return list of Extended attributes for later additions
+    */
+   private List<Project.ExtendedAttributes.ExtendedAttribute> writeOutlineCodes(Project project)
+   {
+      Project.ExtendedAttributes attributes = m_factory.createProjectExtendedAttributes();
+      project.setExtendedAttributes(attributes);
+      List<Project.ExtendedAttributes.ExtendedAttribute> extendedAttributes = attributes.getExtendedAttribute();
+
+      Project.OutlineCodes outlineCodes = m_factory.createProjectOutlineCodes();
+      project.setOutlineCodes(outlineCodes);
+
+      //collect all outline code values
+      Values[] xmlOutlineCodeValues = new Values[TaskFieldLists.CUSTOM_OUTLINE_CODE.length];
+      for (Task t : m_projectFile.getAllTasks())
+      {
+         for (int loop = 0; loop < TaskFieldLists.CUSTOM_OUTLINE_CODE.length; loop++)
+         {
+            TaskField key = TaskFieldLists.CUSTOM_OUTLINE_CODE[loop]; //OUTLINE_CODE1, ..., OUTLINE_CODE10
+            Object value = t.getCachedValue(key);
+            if (value == null)
+               continue;
+            m_extendedAttributesInUse.add(key);
+
+            Values values = null;
+            //if not already created, do so
+            if (xmlOutlineCodeValues[loop] == null)
+               xmlOutlineCodeValues[loop] = values = m_factory.createProjectOutlineCodesOutlineCodeValues();
+            else
+               values = xmlOutlineCodeValues[loop];
+
+            List<Value> vlist = values.getValue();
+            //add the values, that are not already present
+
+            //the id and the uuid have to be stored in a hashmap by key, because it will be referenced in the tasks to access the values by id
+            if (m_outlineCodeValues.containsKey(key))
+            {
+               if (m_outlineCodeValues.get(key).containsKey(value))
+                  continue;
+            }
+            else
+               m_outlineCodeValues.put(key, new HashMap<Object, Pair<Integer, UUID>>());
+
+            Value v = m_factory.createProjectOutlineCodesOutlineCodeValuesValue();
+            vlist.add(v);
+            Integer vId = Integer.valueOf(vlist.size());
+            v.setValueID(BigInteger.valueOf(vId.longValue()));
+            UUID vguid = UUID.randomUUID();
+            v.setFieldGUID(vguid.toString());
+            v.setParentValueID(BigInteger.valueOf(0));
+            v.setType(BigInteger.valueOf(21)); //why 21? it's what I read in working XML-files from project
+            v.setValue(DatatypeConverter.printExtendedAttribute(this, value, DataType.STRING));
+
+            // store the value 
+            m_outlineCodeValues.get(key).put(value, new Pair<Integer, UUID>(vId, vguid));
+         }
+      }
+
+      //add all values to the xml
+      for (int loop = 0; loop < TaskFieldLists.CUSTOM_OUTLINE_CODE.length; loop++)
+      {
+         if (xmlOutlineCodeValues[loop] == null)
+            continue;
+         Values values = xmlOutlineCodeValues[loop];
+
+         TaskField key = TaskFieldLists.CUSTOM_OUTLINE_CODE[loop]; //OUTLINE_CODE1, ..., OUTLINE_CODE10
+         // create Outline Code XML structure
+         Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
+         String name = key.getName();
+         String alias = m_projectFile.getCustomFields().getCustomField(key).getAlias();
+
+         Project.OutlineCodes.OutlineCode oc = m_factory.createProjectOutlineCodesOutlineCode();
+         outlineCodes.getOutlineCode().add(oc);
+         oc.setFieldID(fieldID.toString());
+         oc.setAlias(alias);
+         oc.setFieldName(name);
+         UUID guid = UUID.randomUUID();
+         oc.setGuid(guid.toString());
+
+         //add a simple mask that does not limit anything
+         Masks masks = m_factory.createProjectOutlineCodesOutlineCodeMasks();
+         oc.setMasks(masks);
+         List<Mask> mlist = masks.getMask();
+         Mask simpleMask = m_factory.createProjectOutlineCodesOutlineCodeMasksMask();
+         simpleMask.setSeparator(".");
+         simpleMask.setLevel(BigInteger.valueOf(1));
+         simpleMask.setType(BigInteger.valueOf(3));
+         simpleMask.setLength(BigInteger.valueOf(0));
+         mlist.add(simpleMask);
+
+         //add the values to the OutlineCode
+         oc.setValues(values);
+
+         //add OutlineCode to Extended Attributes
+         Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
+         extendedAttributes.add(attribute);
+         attribute.setFieldID(fieldID.toString());
+         attribute.setFieldName(name);
+         attribute.setAlias(alias);
+         attribute.setLtuid(guid.toString());
+      }
+
+      return extendedAttributes;
+   }
+
+   /**
+    * This method writes outline code values for a task.
+    * @param xml MSPDI task
+    * @param mpx MPXJ task
+    */
+   private void writeTaskOutlineCodes(Project.Tasks.Task xml, Task mpx)
+   {
+      List<Project.Tasks.Task.OutlineCode> list = xml.getOutlineCode();
+
+      for (int loop = 0; loop < TaskFieldLists.CUSTOM_OUTLINE_CODE.length; loop++)
+      {
+         TaskField key = TaskFieldLists.CUSTOM_OUTLINE_CODE[loop]; //OUTLINE_CODE1, ..., OUTLINE_CODE10
+         HashMap<Object, Pair<Integer, UUID>> valuemap = m_outlineCodeValues.get(key);
+         if (valuemap == null)
+            continue; //or throw an exception
+
+         Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
+         Project.Tasks.Task.OutlineCode oc = m_factory.createProjectTasksTaskOutlineCode();
+         Object value = mpx.getCachedValue(key);
+         if (value == null)
+            continue;
+         //get the value IDs, because they are just referenced by id
+         Pair<Integer, UUID> ids = valuemap.get(value);
+         if (ids == null)
+            continue;
+
+         oc.setValueID(BigInteger.valueOf(ids.getFirst().longValue()));
+         oc.setValueGUID(ids.getSecond().toString());
+
+         list.add(oc);
+         oc.setFieldID(fieldID.toString());
+      }
+
    }
 
    /**
@@ -1472,6 +1631,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
+      xml.setStop(DatatypeConverter.printDate(mpx.getTask().getStop()));
+      xml.setResume(DatatypeConverter.printDate(mpx.getTask().getResume()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setTaskUID(NumberHelper.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(NumberHelper.getBigInteger(mpx.getUniqueID()));
@@ -1886,6 +2047,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
+      return result;
+   }
+
+   /**
+    * Retrieve list of all extended attributes.
+    * @return list of extended attributes
+    */
+   private List<FieldType> getAllExtendedAttributes()
+   {
+      ArrayList<FieldType> result = new ArrayList<FieldType>();
+      result.addAll(getAllTaskExtendedAttributes());
+      result.addAll(getAllResourceExtendedAttributes());
+      result.addAll(getAllAssignmentExtendedAttributes());
       return result;
    }
 
