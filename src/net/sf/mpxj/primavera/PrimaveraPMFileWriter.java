@@ -615,12 +615,21 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private Double getDuration(Duration duration)
    {
-      if (duration.getUnits() != TimeUnit.HOURS)
+      Double result;
+      if (duration == null)
       {
-         duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
+         result = null;
       }
+      else
+      {
+         if (duration.getUnits() != TimeUnit.HOURS)
+         {
+            duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
+         }
 
-      return Double.valueOf(duration.getDuration());
+         result = Double.valueOf(duration.getDuration());
+      }
+      return result;
    }
 
    /**
