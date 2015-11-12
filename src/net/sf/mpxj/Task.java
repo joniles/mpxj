@@ -2263,7 +2263,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieves the list of succesors for this task.
+    * Retrieves the list of successors for this task.
     * 
     * @return list of successor Relation instances
     */
@@ -4604,6 +4604,24 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             case START_VARIANCE:
             {
                result = getStartVariance();
+               break;
+            }
+
+            case FINISH_VARIANCE:
+            {
+               result = getFinishVariance();
+               break;
+            }
+
+            case START_SLACK:
+            {
+               result = getStartSlack();
+               break;
+            }
+
+            case FINISH_SLACK:
+            {
+               result = getFinishSlack();
                break;
             }
 
