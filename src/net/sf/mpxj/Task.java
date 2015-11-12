@@ -4595,6 +4595,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       {
          switch ((TaskField) field)
          {
+            case PARENT_TASK_UNIQUE_ID:
+            {
+               result = m_parent == null ? Integer.valueOf(-1) : m_parent.getUniqueID();
+               break;
+            }
+
             case START_VARIANCE:
             {
                result = getStartVariance();
