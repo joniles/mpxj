@@ -133,13 +133,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         List<ProjectFile> result = new LinkedList<ProjectFile>();
          m_tables = new HashMap<String, List<Row>>();
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
 
          List<Row> rows = getRows("project", null, null);
+         List<ProjectFile> result = new ArrayList<ProjectFile>(rows.size());
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
@@ -679,7 +679,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       List<Row> table = m_tables.get(tableName);
       if (table == null)
       {
-         result = EMPTY_TABLE;
+         result = Collections.<Row> emptyList();
       }
       else
       {
@@ -738,7 +738,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-   private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
    private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_udfCounters = new UserFieldCounters();
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();

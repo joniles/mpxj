@@ -361,7 +361,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param map Map of calendar UIDs to names
     * @param baseCalendars list of base calendars
     */
-   private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars)
+   private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, List<Pair<ProjectCalendar, BigInteger>> baseCalendars)
    {
       ProjectCalendar bc = m_projectFile.addCalendar();
       bc.setUniqueID(NumberHelper.getInteger(calendar.getUID()));

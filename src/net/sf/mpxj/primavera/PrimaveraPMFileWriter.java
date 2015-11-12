@@ -26,11 +26,11 @@ package net.sf.mpxj.primavera;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -594,8 +594,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
    {
-      List<UDFAssignmentType> out = new LinkedList<UDFAssignmentType>();
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
+      List<UDFAssignmentType> out = new ArrayList<UDFAssignmentType>(customFields.size());
       for (CustomField cf : customFields)
       {
          FieldType fieldType = cf.getFieldType();

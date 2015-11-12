@@ -52,6 +52,11 @@ public class CustomFieldContainer implements Iterable<CustomField>
       return result;
    }
 
+   public int size()
+   {
+      return m_configMap.values().size();
+   }
+
    @Override public Iterator<CustomField> iterator()
    {
       return m_configMap.values().iterator();

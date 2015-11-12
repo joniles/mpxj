@@ -30,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -154,8 +155,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    public List<ProjectFile> readAll() throws MPXJException
    {
-      List<ProjectFile> result = new LinkedList<ProjectFile>();
       Map<Integer, String> projects = listProjects();
+      List<ProjectFile> result = new ArrayList<ProjectFile>(projects.keySet().size());
       for (Integer id : projects.keySet())
       {
          setProjectID(id.intValue());
