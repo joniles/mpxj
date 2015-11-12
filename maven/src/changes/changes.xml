@@ -17,7 +17,6 @@
 		<action dev="joniles" type="fix">Handle MSPDI files written by German versions of Microsoft Project (based on a contribution by Lord Helmchen)</action>
 		<action dev="joniles" type="fix" issue="277">synchronizeTaskIDToHierarchy clears list of tasks</action>
 		<action dev="joniles" type="fix" issue="273">PrimaveraPMFileWriter throws Exception at write(..)</action>
-		<action dev="joniles" type="fix" issue="276">PrimaveraPMFileReader does not read PercentageComplete</action>
 		<action dev="joniles" type="fix" issue="281">Parent task is always null when reading a Primavera XER file</action>
 		<action dev="joniles" type="update">Ensure that Task.getSuccesors() and Task.getPredecessors() return an empty list rather than null.</action>		
     </release>
