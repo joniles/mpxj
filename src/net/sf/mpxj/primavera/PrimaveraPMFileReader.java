@@ -485,7 +485,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          task.setUniqueID(uniqueID);
-         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
+         task.setPercentageComplete(reversePercentage(row.getDurationPercentComplete()));
          task.setName(row.getName());
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setActualWork(getDuration(row.getActualDuration()));
