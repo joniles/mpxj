@@ -66,6 +66,14 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
       // Optional implementation supplied by subclass      
    }
 
+   /**
+    * Clear the list, but don't explicitly "remove" the contents.
+    */
+   @Override public void clear()
+   {
+      m_list.clear();
+   }
+
    @Override public T get(int index)
    {
       return m_list.get(index);

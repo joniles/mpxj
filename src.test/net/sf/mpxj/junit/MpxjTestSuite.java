@@ -32,6 +32,7 @@ import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
 import net.sf.mpxj.junit.project.ProjectValueListsTest;
+import net.sf.mpxj.junit.project.TaskContainerTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskBaselinesTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
@@ -123,6 +124,7 @@ import org.junit.runners.Suite;
    ProjectValueListsTest.class,
    CalendarCalendarsTest.class,
    PrimaveraDatabaseReaderTest.class,
+   TaskContainerTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
