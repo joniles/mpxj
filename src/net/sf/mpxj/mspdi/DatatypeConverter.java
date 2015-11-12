@@ -89,7 +89,7 @@ public final class DatatypeConverter
       }
       else
       {
-         result = NumberHelper.getDouble(Double.parseDouble(value) / 100);
+         result = NumberHelper.getDouble(Double.parseDouble(correctNumberFormat(value)) / 100);
       }
       return result;
    }
@@ -113,7 +113,7 @@ public final class DatatypeConverter
     */
    public static final Number parseExtendedAttributeNumber(String value)
    {
-      return (Double.valueOf(value));
+      return (Double.valueOf(correctNumberFormat(value)));
    }
 
    /**
@@ -1858,6 +1858,29 @@ public final class DatatypeConverter
       }
       return (df);
 
+   }
+
+   /**
+    * Detect numbers using comma as a decimal separator and replace with period.
+    * 
+    * @param value original numeric value
+    * @return corrected numeric value
+    */
+   private static final String correctNumberFormat(String value)
+   {
+      String result;
+      int index = value.indexOf(',');
+      if (index == -1)
+      {
+         result = value;
+      }
+      else
+      {
+         char[] chars = value.toCharArray();
+         chars[index] = '.';
+         result = new String(chars);
+      }
+      return result;
    }
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
