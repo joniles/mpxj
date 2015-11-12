@@ -8,7 +8,10 @@
 
    <body>
 
-    <release version="5.1.11" date="Git HEAD">
+    <release version="5.1.12" date="Git HEAD">
+    </release>
+
+    <release version="5.1.11" date="12/11/2015">
 		<action dev="joniles" type="fix">Avoid NPE when reading MPP14 custom properties.</action>    	
 		<action dev="joniles" type="fix">Ensure calculated task attributes are present in JSON output.</action>
 		<action dev="joniles" type="fix">Handle MSPDI files written by German versions of Microsoft Project (based on a contribution by Lord Helmchen)</action>
