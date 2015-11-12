@@ -52,6 +52,11 @@ public class CustomFieldContainer implements Iterable<CustomField>
       return result;
    }
 
+   /**
+    * Return the number of custom fields.
+    * 
+    * @return number of custom fields
+    */
    public int size()
    {
       return m_configMap.values().size();

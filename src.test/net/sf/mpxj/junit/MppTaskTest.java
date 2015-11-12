@@ -502,7 +502,7 @@ public class MppTaskTest
       assertEquals(expectedStart, df.format(task.getStart()));
       assertEquals(expectedFinish, df.format(task.getFinish()));
       // no predecessors
-      assertTrue(task.getPredecessors() == null);
+      assertTrue(task.getPredecessors().isEmpty());
       // duration
       Duration expectedDuration = Duration.getInstance(1, TimeUnit.WEEKS);
       // note that this is a direct comparison - TimeUnit must match

@@ -1204,7 +1204,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       String result = null;
 
-      if (value != null)
+      if (value != null && value.size() != 0)
       {
          StringBuilder sb = new StringBuilder();
          for (Relation relation : value)

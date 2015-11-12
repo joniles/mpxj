@@ -566,21 +566,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private void writePredecessors(Task task)
    {
       List<Relation> relations = task.getPredecessors();
-      if (relations != null)
+      for (Relation mpxj : relations)
       {
-         for (Relation mpxj : relations)
-         {
-            RelationshipType xml = m_factory.createRelationshipType();
-            m_project.getRelationship().add(xml);
+         RelationshipType xml = m_factory.createRelationshipType();
+         m_project.getRelationship().add(xml);
 
-            xml.setLag(getDuration(mpxj.getLag()));
-            xml.setObjectId(Integer.valueOf(++m_relationshipObjectID));
-            xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
-            xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
-            xml.setPredecessorProjectObjectId(PROJECT_OBJECT_ID);
-            xml.setSuccessorProjectObjectId(PROJECT_OBJECT_ID);
-            xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
-         }
+         xml.setLag(getDuration(mpxj.getLag()));
+         xml.setObjectId(Integer.valueOf(++m_relationshipObjectID));
+         xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
+         xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
+         xml.setPredecessorProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setSuccessorProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
       }
    }
 

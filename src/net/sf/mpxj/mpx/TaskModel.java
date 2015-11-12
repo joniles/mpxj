@@ -26,11 +26,14 @@ package net.sf.mpxj.mpx;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 
 /**
  * This class represents the task table definition record in an MPX file.
@@ -146,14 +149,11 @@ final class TaskModel
       {
          for (int loop = 0; loop < MPXTaskField.MAX_FIELDS; loop++)
          {
-            if (task.getCachedValue(MPXTaskField.getMpxjField(loop)) != null)
+            if (!m_flags[loop] && isFieldPopulated(task, MPXTaskField.getMpxjField(loop)))
             {
-               if (m_flags[loop] == false)
-               {
-                  m_flags[loop] = true;
-                  m_fields[m_count] = loop;
-                  ++m_count;
-               }
+               m_flags[loop] = true;
+               m_fields[m_count] = loop;
+               ++m_count;
             }
          }
       }
@@ -163,6 +163,31 @@ final class TaskModel
       //
       Arrays.sort(m_fields);
       System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
+   }
+
+   @SuppressWarnings("unchecked") private boolean isFieldPopulated(Task task, TaskField field)
+   {
+      boolean result = false;
+      if (field != null)
+      {
+         Object value = task.getCachedValue(field);
+         switch (field)
+         {
+            case PREDECESSORS:
+            case SUCCESSORS:
+            {
+               result = value != null && !((List<Relation>) value).isEmpty();
+               break;
+            }
+
+            default:
+            {
+               result = value != null;
+               break;
+            }
+         }
+      }
+      return result;
    }
 
    /**

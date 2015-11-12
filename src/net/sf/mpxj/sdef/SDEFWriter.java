@@ -335,7 +335,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
       //
       // Write the task predecessor
       //
-      if (!record.getSummary() && record.getPredecessors() != null)
+      if (!record.getSummary() && !record.getPredecessors().isEmpty())
       { // I don't use summary tasks for SDEF
          m_buffer.append("PRED ");
          List<Relation> predecessors = record.getPredecessors();

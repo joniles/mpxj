@@ -193,7 +193,7 @@ public final class MPPReader extends AbstractProjectReader
    private void validationRelations(Task task)
    {
       List<Relation> predecessors = task.getPredecessors();
-      if (predecessors != null)
+      if (!predecessors.isEmpty())
       {
          ArrayList<Relation> invalid = new ArrayList<Relation>();
          for (Relation relation : predecessors)

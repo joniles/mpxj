@@ -514,19 +514,16 @@ public final class PlannerWriter extends AbstractProjectWriter
       int id = 0;
 
       List<Relation> predecessors = mpxjTask.getPredecessors();
-      if (predecessors != null)
+      for (Relation rel : predecessors)
       {
-         for (Relation rel : predecessors)
-         {
-            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            Predecessor plannerPredecessor = m_factory.createPredecessor();
-            plannerPredecessor.setId(getIntegerString(++id));
-            plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-            plannerPredecessor.setLag(getDurationString(rel.getLag()));
-            plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
-            predecessorList.add(plannerPredecessor);
-            m_eventManager.fireRelationWrittenEvent(rel);
-         }
+         Integer taskUniqueID = rel.getTargetTask().getUniqueID();
+         Predecessor plannerPredecessor = m_factory.createPredecessor();
+         plannerPredecessor.setId(getIntegerString(++id));
+         plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
+         plannerPredecessor.setLag(getDurationString(rel.getLag()));
+         plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
+         predecessorList.add(plannerPredecessor);
+         m_eventManager.fireRelationWrittenEvent(rel);
       }
    }
 

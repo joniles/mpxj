@@ -1322,14 +1322,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Tasks.Task.PredecessorLink> list = xml.getPredecessorLink();
 
       List<Relation> predecessors = mpx.getPredecessors();
-      if (predecessors != null)
+      for (Relation rel : predecessors)
       {
-         for (Relation rel : predecessors)
-         {
-            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
-            m_eventManager.fireRelationWrittenEvent(rel);
-         }
+         Integer taskUniqueID = rel.getTargetTask().getUniqueID();
+         list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
+         m_eventManager.fireRelationWrittenEvent(rel);
       }
    }
 

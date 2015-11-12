@@ -55,6 +55,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
       setActive(true);
+      set(TaskField.PREDECESSORS, new LinkedList<Relation>());
+      set(TaskField.SUCCESSORS, new LinkedList<Relation>());
+      //      m_array[TaskField.PREDECESSORS.getValue()] = new LinkedList<Relation>();
+      //      m_array[TaskField.SUCCESSORS.getValue()] = new LinkedList<Relation>();
 
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
@@ -473,11 +477,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       // Retrieve the list of predecessors
       //
       List<Relation> predecessorList = (List<Relation>) getCachedValue(TaskField.PREDECESSORS);
-      if (predecessorList == null)
-      {
-         predecessorList = new LinkedList<Relation>();
-         set(TaskField.PREDECESSORS, predecessorList);
-      }
 
       //
       // Ensure that there is only one predecessor relationship between
@@ -512,11 +511,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       // Retrieve the list of successors
       //
       List<Relation> successorList = (List<Relation>) targetTask.getCachedValue(TaskField.SUCCESSORS);
-      if (successorList == null)
-      {
-         successorList = new LinkedList<Relation>();
-         targetTask.set(TaskField.SUCCESSORS, successorList);
-      }
 
       //
       // Ensure that there is only one successor relationship between
@@ -4500,7 +4494,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       // Retrieve the list of predecessors
       //
       List<Relation> predecessorList = getPredecessors();
-      if (predecessorList != null && !predecessorList.isEmpty())
+      if (!predecessorList.isEmpty())
       {
          //
          // Ensure that we have a valid lag duration
@@ -4526,7 +4520,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             // Retrieve the list of successors
             //
             List<Relation> successorList = targetTask.getSuccessors();
-            if (successorList != null && !successorList.isEmpty())
+            if (!successorList.isEmpty())
             {
                //
                // Ensure that there is a successor relationship between
@@ -4910,15 +4904,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private boolean isRelated(Task task, List<Relation> list)
    {
       boolean result = false;
-      if (list != null)
+      for (Relation relation : list)
       {
-         for (Relation relation : list)
+         if (relation.getTargetTask().getUniqueID().intValue() == task.getUniqueID().intValue())
          {
-            if (relation.getTargetTask().getUniqueID().intValue() == task.getUniqueID().intValue())
-            {
-               result = true;
-               break;
-            }
+            result = true;
+            break;
          }
       }
       return result;

@@ -500,17 +500,19 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       @SuppressWarnings("unchecked")
       List<Relation> list = (List<Relation>) value;
-
-      m_writer.writeStartList(fieldName);
-      for (Relation relation : list)
+      if (!list.isEmpty())
       {
-         m_writer.writeStartObject(null);
-         writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
-         writeDurationField("lag", relation.getLag());
-         writeStringField("type", relation.getType());
-         m_writer.writeEndObject();
+         m_writer.writeStartList(fieldName);
+         for (Relation relation : list)
+         {
+            m_writer.writeStartObject(null);
+            writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
+            writeDurationField("lag", relation.getLag());
+            writeStringField("type", relation.getType());
+            m_writer.writeEndObject();
+         }
+         m_writer.writeEndList();
       }
-      m_writer.writeEndList();
    }
 
    private ProjectFile m_projectFile;
