@@ -356,7 +356,7 @@
 			<arg line="${vs.src.dir}/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
 		
-		<copy file="${vs.src.dir}/MpxjUtilities/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
+		<copy file="${vs.src.dir}/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
 		
 		<delete dir="${vs.working.dir}" />
 	</target>
