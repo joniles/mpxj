@@ -233,6 +233,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       properties.setActualsInSync(BooleanHelper.getBoolean(project.isActualsInSync()));
       properties.setAdminProject(BooleanHelper.getBoolean(project.isAdminProject()));
+      properties.setApplicationVersion(NumberHelper.getInteger(project.getSaveVersion()));
       properties.setAuthor(project.getAuthor());
       properties.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       properties.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
