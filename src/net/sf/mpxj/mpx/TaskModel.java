@@ -165,6 +165,13 @@ final class TaskModel
       System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
    }
 
+   /**
+    * Determine if a task field contains data.
+    * 
+    * @param task task instance
+    * @param field target field
+    * @return true if the field contains data
+    */
    @SuppressWarnings("unchecked") private boolean isFieldPopulated(Task task, TaskField field)
    {
       boolean result = false;
