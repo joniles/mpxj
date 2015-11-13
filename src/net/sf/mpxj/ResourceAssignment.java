@@ -46,8 +46,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * Constructor.
     *
     * @param file The parent file to which this record belongs.
+    * @param task The task to which this assignment is being made 
     */
-   public ResourceAssignment(ProjectFile file)
+   public ResourceAssignment(ProjectFile file, Task task)
    {
       super(file);
 
@@ -55,17 +56,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       {
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param file The parent file to which this record belongs.
-    * @param task The task to which this assignment is being made
-    */
-   ResourceAssignment(ProjectFile file, Task task)
-   {
-      super(file);
 
       m_task = task;
    }

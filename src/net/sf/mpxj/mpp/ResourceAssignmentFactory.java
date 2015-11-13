@@ -125,7 +125,7 @@ public class ResourceAssignmentFactory
             data2 = assnFixedData2.getByteArrayValue(loop);
          }
 
-         ResourceAssignment assignment = new ResourceAssignment(file);
+         ResourceAssignment assignment = new ResourceAssignment(file, null);
 
          assignment.disableEvents();
 
