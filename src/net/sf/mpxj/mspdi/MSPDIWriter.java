@@ -1632,23 +1632,37 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (m_splitTimephasedAsDays)
          {
             TimephasedWork lastComplete = null;
-            if (!complete.isEmpty())
+            if (complete != null && !complete.isEmpty())
             {
                lastComplete = complete.get(complete.size() - 1);
             }
 
             TimephasedWork firstPlanned = null;
-            if (!planned.isEmpty())
+            if (planned != null && !planned.isEmpty())
             {
                firstPlanned = planned.get(0);
             }
 
-            planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
-            complete = splitDays(calendar, complete, firstPlanned, null);
+            if (planned != null)
+            {
+               planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
+            }
+
+            if (complete != null)
+            {
+               complete = splitDays(calendar, complete, firstPlanned, null);
+            }
          }
 
-         writeAssignmentTimephasedData(assignmentID, list, planned, 1);
-         writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+         if (planned != null)
+         {
+            writeAssignmentTimephasedData(assignmentID, list, planned, 1);
+         }
+
+         if (complete != null)
+         {
+            writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+         }
       }
    }
 
