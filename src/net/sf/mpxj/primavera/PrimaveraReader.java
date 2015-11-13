@@ -181,6 +181,10 @@ final class PrimaveraReader
       Integer id = row.getInteger("clndr_id");
       m_calMap.put(id, calendar);
       calendar.setName(row.getString("clndr_name"));
+      calendar.setMinutesPerDay(Integer.valueOf((int) NumberHelper.getDouble(row.getDouble("day_hr_cnt")) * 60));
+      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("week_hr_cnt")) * 60)));
+      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("month_hr_cnt")) * 60)));
+      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("year_hr_cnt")) * 60)));
 
       // Process data
       String calendarData = row.getString("clndr_data");

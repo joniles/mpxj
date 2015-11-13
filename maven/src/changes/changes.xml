@@ -9,9 +9,10 @@
    <body>
 
     <release version="5.1.12" date="Git HEAD">
-    	<action dev="joniles" type="update">Improve resource assignment constructor (based on a contribution by Bruno Gasnier)</action>
-    	<action dev="joniles" type="update">Improve MPX French translations (contributed by Bruno Gasnier)</action>
     	<action dev="joniles" type="fix">Avoid NPE when writing MSPDI files with timephased data  (contributed by Bruno Gasnier)</action>
+    	<action dev="joniles" type="update">Improve resource assignment constructor (based on a contribution by Bruno Gasnier)</action>
+    	<action dev="joniles" type="update">Improve MPX French translations (contributed by Bruno Gasnier)</action>    	
+    	<action dev="joniles" type="add">Add calendar specific minutes per day, week, month, and year (based on a contribution by Bruno Gasnier)</action>
     </release>
 
     <release version="5.1.11" date="12/11/2015">

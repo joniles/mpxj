@@ -31,6 +31,7 @@ import java.util.Map;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
@@ -1318,6 +1319,26 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       {
          set(ProjectField.MINUTES_PER_WEEK, minutesPerWeek);
       }
+   }
+
+   /**
+    * Retrieve the default number of minutes per month.
+    * 
+    * @return minutes per month
+    */
+   public Number getMinutesPerMonth()
+   {
+      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
+   }
+
+   /**
+    * Retrieve the default number of minutes per year.
+    * 
+    * @return minutes per year
+    */
+   public Number getMinutesPerYear()
+   {
+      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
 
    /**

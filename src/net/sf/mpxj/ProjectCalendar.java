@@ -61,6 +61,86 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Retrieve the number of minutes per day for this calendar.
+    * 
+    * @return minutes per day
+    */
+   public int getMinutesPerDay()
+   {
+      return m_minutesPerDay == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerDay()) : m_minutesPerDay.intValue();
+   }
+
+   /**
+    * Retrieve the number of minutes per week for this calendar.
+    * 
+    * @return minutes per week
+    */
+   public int getMinutesPerWeek()
+   {
+      return m_minutesPerWeek == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerWeek()) : m_minutesPerWeek.intValue();
+   }
+
+   /**
+    * Retrieve the number of minutes per month for this calendar.
+    * 
+    * @return minutes per month
+    */
+   public int getMinutesPerMonth()
+   {
+      return m_minutesPerMonth == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerMonth()) : m_minutesPerMonth.intValue();
+   }
+
+   /**
+    * Retrieve the number of minutes per year for this calendar.
+    * 
+    * @return minutes per year
+    */
+   public int getMinutesPerYear()
+   {
+      return m_minutesPerYear == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerYear()) : m_minutesPerYear.intValue();
+   }
+
+   /**
+    * Set the number of minutes per day for this calendar.
+    * 
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerDay(Integer minutes)
+   {
+      m_minutesPerDay = minutes;
+   }
+
+   /**
+    * Set the number of minutes per week for this calendar.
+    * 
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerWeek(Integer minutes)
+   {
+      m_minutesPerWeek = minutes;
+   }
+
+   /**
+    * Set the number of minutes per month for this calendar.
+    * 
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerMonth(Integer minutes)
+   {
+      m_minutesPerMonth = minutes;
+   }
+
+   /**
+    * Set the number of minutes per year for this calendar.
+    * 
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerYear(Integer minutes)
+   {
+      m_minutesPerYear = minutes;
+   }
+
+   /**
     * Add an empty work week.
     * 
     * @return new work week
@@ -1167,9 +1247,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private Duration convertFormat(long totalTime, TimeUnit format)
    {
       double duration = totalTime;
-      double minutesPerDay = getParentFile().getProjectProperties().getMinutesPerDay().doubleValue();
-      double minutesPerWeek = getParentFile().getProjectProperties().getMinutesPerWeek().doubleValue();
-      double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
 
       switch (format)
       {
@@ -1189,6 +1266,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case DAYS:
          {
+            double minutesPerDay = getMinutesPerDay();
             if (minutesPerDay != 0)
             {
                duration /= (minutesPerDay * 60 * 1000);
@@ -1202,6 +1280,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case WEEKS:
          {
+            double minutesPerWeek = getMinutesPerWeek();
             if (minutesPerWeek != 0)
             {
                duration /= (minutesPerWeek * 60 * 1000);
@@ -1215,6 +1294,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case MONTHS:
          {
+            double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
+            double minutesPerDay = getMinutesPerDay();
             if (daysPerMonth != 0 && minutesPerDay != 0)
             {
                duration /= (daysPerMonth * minutesPerDay * 60 * 1000);
@@ -1787,6 +1868,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Work week definitions.
     */
    private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<ProjectCalendarWeek>();
+
+   private Integer m_minutesPerDay;
+   private Integer m_minutesPerWeek;
+   private Integer m_minutesPerMonth;
+   private Integer m_minutesPerYear;
 
    /**
     * Default base calendar name to use when none is supplied.
