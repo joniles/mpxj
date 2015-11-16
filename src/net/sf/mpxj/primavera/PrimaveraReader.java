@@ -976,6 +976,12 @@ final class PrimaveraReader
                break;
             }
 
+            case GUID:
+            {
+               value = row.getUUID(name);
+               break;
+            }
+
             default:
             {
                value = row.getString(name);
@@ -1130,6 +1136,7 @@ final class PrimaveraReader
       Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
 
       map.put(ResourceField.UNIQUE_ID, "rsrc_id");
+      map.put(ResourceField.GUID, "guid");
       map.put(ResourceField.NAME, "rsrc_name");
       map.put(ResourceField.CODE, "employee_code");
       map.put(ResourceField.EMAIL_ADDRESS, "email_addr");
@@ -1152,6 +1159,7 @@ final class PrimaveraReader
       Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
 
       map.put(TaskField.UNIQUE_ID, "wbs_id");
+      map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "wbs_name");
       map.put(TaskField.BASELINE_COST, "orig_cost");
       map.put(TaskField.REMAINING_COST, "indep_remain_total_cost");
@@ -1176,6 +1184,7 @@ final class PrimaveraReader
       Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
 
       map.put(TaskField.UNIQUE_ID, "task_id");
+      map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
@@ -1214,6 +1223,7 @@ final class PrimaveraReader
       Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
 
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
+      map.put(AssignmentField.GUID, "guid");
       map.put(AssignmentField.REMAINING_WORK, "remain_qty");
       map.put(AssignmentField.BASELINE_WORK, "target_qty");
       map.put(AssignmentField.ACTUAL_WORK, "act_reg_qty");

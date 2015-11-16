@@ -226,7 +226,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setEnableSummarization(Boolean.TRUE);
       m_project.setFiscalYearStartMonth(Integer.valueOf(1));
       m_project.setFinishDate(mpxj.getFinishDate());
-      m_project.setGUID(getGUID(guid));
+      m_project.setGUID(DatatypeConverter.printUUID(guid));
       m_project.setId(PROJECT_ID);
       m_project.setLastUpdateDate(mpxj.getLastSaved());
       m_project.setLevelingPriority(Integer.valueOf(10));
@@ -360,7 +360,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getResourceCalendar()));
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
-      xml.setGUID(getGUID(mpxj.getGUID()));
+      xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(RESOURCE_ID_PREFIX + mpxj.getUniqueID());
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
@@ -436,7 +436,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
          xml.setCode(code);
-         xml.setGUID(getGUID(mpxj.getGUID()));
+         xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
          xml.setName(mpxj.getName());
 
          xml.setObjectId(mpxj.getUniqueID());
@@ -470,7 +470,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType("Fixed Units/Time");
       xml.setFinishDate(mpxj.getFinish());
-      xml.setGUID(getGUID(mpxj.getGUID()));
+      xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(mpxj.getWBS());
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
@@ -538,7 +538,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setAtCompletionUnits(getDuration(mpxj.getRemainingWork()));
       xml.setPlannedCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
       xml.setFinishDate(mpxj.getFinish());
-      xml.setGUID(getGUID(mpxj.getGUID()));
+      xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPlannedDuration(getDuration(mpxj.getWork()));
       xml.setPlannedFinishDate(mpxj.getFinish());
@@ -630,17 +630,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          result = Double.valueOf(duration.getDuration());
       }
       return result;
-   }
-
-   /**
-    * Retrieve a GUID in the form required by Primavera.
-    * 
-    * @param guid UUID instance
-    * @return formatted GUID
-    */
-   private String getGUID(UUID guid)
-   {
-      return guid == null ? null : "{" + guid.toString().toUpperCase() + "}";
    }
 
    /**

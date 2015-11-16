@@ -13,6 +13,7 @@
     	<action dev="joniles" type="update">Improve resource assignment constructor (based on a contribution by Bruno Gasnier)</action>
     	<action dev="joniles" type="update">Improve MPX French translations (contributed by Bruno Gasnier)</action>    	
     	<action dev="joniles" type="add">Add calendar specific minutes per day, week, month, and year (based on a contribution by Bruno Gasnier)</action>
+    	<action dev="joniles" type="add">Add support for reading and writing GUID attribute for PMXML, XER files and Primavera database.</action>
     </release>
 
     <release version="5.1.11" date="12/11/2015">

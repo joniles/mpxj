@@ -24,6 +24,7 @@
 package net.sf.mpxj.primavera;
 
 import java.util.Date;
+import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 
@@ -92,4 +93,12 @@ interface Row
     * @return attribute value
     */
    public Duration getDuration(String name);
+
+   /**
+    * Retrieve a UUID attribute.
+    * 
+    * @param name attribute name
+    * @return attribute value
+    */
+   public UUID getUUID(String name);
 }

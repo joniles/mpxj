@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import net.sf.mpxj.ProjectFile;
 
@@ -36,6 +37,56 @@ import net.sf.mpxj.ProjectFile;
  */
 public final class DatatypeConverter
 {
+   /**
+    * Convert the Primavera string representation of a UUID into a Java UUID instance.
+    * 
+    * @param value Primavera UUID
+    * @return Java UUID instance
+    */
+   public static final UUID parseUUID(String value)
+   {
+      UUID result = null;
+      if (value != null && !value.isEmpty())
+      {
+         if (value.charAt(0) == '{')
+         {
+            // PMXML representation: <GUID>{0AB9133E-A09A-9648-B98A-B2384894AC44}</GUID>
+            result = UUID.fromString(value.substring(1, value.length() - 1));
+         }
+         else
+         {
+            // XER representation: CrkTPqCalki5irI4SJSsRA
+            byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
+            long msb = 0;
+            long lsb = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+               msb = (msb << 8) | (data[i] & 0xff);
+            }
+
+            for (int i = 8; i < 16; i++)
+            {
+               lsb = (lsb << 8) | (data[i] & 0xff);
+            }
+
+            result = new UUID(msb, lsb);
+         }
+      }
+      return result;
+   }
+
+   /**
+    * Retrieve a UUID in the form required by Primavera PMXML.
+    * 
+    * @param guid UUID instance
+    * @return formatted UUID
+    */
+   public static String printUUID(UUID guid)
+   {
+      return guid == null ? null : "{" + guid.toString().toUpperCase() + "}";
+   }
+
    /**
     * Print a date time value.
     *
@@ -150,7 +201,6 @@ public final class DatatypeConverter
          df.setLenient(false);
       }
       return (df);
-
    }
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<ProjectFile>();

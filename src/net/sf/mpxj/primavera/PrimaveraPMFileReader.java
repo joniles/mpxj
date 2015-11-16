@@ -347,6 +347,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          resource.setName(xml.getName());
          resource.setCode(xml.getEmployeeId());
          resource.setEmailAddress(xml.getEmailAddress());
+         resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
          resource.setNotes(xml.getResourceNotes());
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
@@ -426,6 +427,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setUniqueID(uniqueID);
          task.setName(row.getName());
          task.setBaselineCost(row.getSummaryBaselineTotalCost());
+         task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setRemainingCost(row.getSummaryRemainingTotalCost());
          task.setRemainingDuration(getDuration(row.getSummaryRemainingDuration()));
          task.setStart(row.getAnticipatedStartDate());
@@ -485,6 +487,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          task.setUniqueID(uniqueID);
+         task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
          task.setName(row.getName());
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
@@ -636,6 +639,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             assignment.setActualFinish(row.getActualFinishDate());
             assignment.setBaselineStart(row.getPlannedStartDate());
             assignment.setBaselineFinish(row.getPlannedFinishDate());
+            assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
 
             task.setActualCost(Double.valueOf(task.getActualCost().doubleValue() + assignment.getActualCost().doubleValue()));
             task.setRemainingCost(Double.valueOf(task.getRemainingCost().doubleValue() + assignment.getRemainingCost().doubleValue()));
