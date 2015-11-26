@@ -26,6 +26,8 @@ package net.sf.mpxj.primavera;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomFieldContainer;
@@ -522,6 +525,7 @@ final class PrimaveraReader
          m_eventManager.fireTaskReadEvent(task);
       }
 
+      sortActivities(activityIDField, m_project);
       updateStructure();
       updateDates();
    }
@@ -729,6 +733,44 @@ final class PrimaveraReader
          value = container.getCachedValue(baseline);
       }
       container.set(target, value);
+   }
+
+   /**
+    * Ensure activities are sorted into Activity ID order to match Primavera.
+    * 
+    * @param activityIDField field containing the Activity ID value
+    * @param container object containing the tasks to process
+    */
+   private void sortActivities(final FieldType activityIDField, ChildTaskContainer container)
+   {
+      // Do we have any tasks?
+      List<Task> tasks = container.getChildTasks();
+      if (!tasks.isEmpty())
+      {
+         // Have we reached the leaf nodes?
+         if (tasks.get(0).getChildTasks().isEmpty())
+         {
+            // These must be activities (if they have child tasks, they're part of the WBS)
+            // Sort by Activity ID
+            Collections.sort(tasks, new Comparator<Task>()
+            {
+               @Override public int compare(Task t1, Task t2)
+               {
+                  String activityID1 = (String) t1.getCurrentValue(activityIDField);
+                  String activityID2 = (String) t2.getCurrentValue(activityIDField);
+                  return activityID1.compareTo(activityID2);
+               }
+            });
+         }
+         else
+         {
+            // We're still looking at the WBS, recursively process
+            for (Task task : tasks)
+            {
+               sortActivities(activityIDField, task);
+            }
+         }
+      }
    }
 
    /**
