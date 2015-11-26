@@ -8,7 +8,10 @@
 
    <body>
 
-	<release version="5.1.13" date="Git HEAD">
+	<release version="5.1.14" date="Git HEAD">
+	</release>
+
+	<release version="5.1.13" date="26/11/2015">
 		<action dev="joniles" type="update">For schedules imported from Primavera ensure tasks representing activities are ordered by Activity ID within the WBS to match Primavera.</action>
 	</release>
 	
