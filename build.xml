@@ -107,7 +107,7 @@
 		</exec>
 		-->
 		<exec executable="xjc" dir="${basedir}">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src -p net.sf.mpxj.phoenix.schema ${basedir}/jaxb/project.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/phoenix-binding.xjb -p net.sf.mpxj.phoenix.schema ${basedir}/jaxb/phoenix-4.5.xsd" />
 		</exec>
 
 		<delete>

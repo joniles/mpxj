@@ -1,0 +1,46 @@
+<jxb:bindings version="1.0"
+               xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               schemaLocation="./jaxb/phoenix-4.5.xsd">
+
+   <jxb:globalBindings>
+      <!-- globally map float types to BigDecimal for consistency -->
+		<jxb:javaType name="java.lang.Integer"
+                    xmlType="xs:int"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseInteger" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printInteger"/>      
+                          
+   </jxb:globalBindings>      
+
+                    
+  <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='uuid']">
+  	<jxb:property>
+  		<jxb:baseType>
+         <jxb:javaType name="java.util.UUID"
+                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseUUID" 
+                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printUUID"/>
+   		</jxb:baseType>
+    </jxb:property>
+   </jxb:bindings>
+
+  <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='type']">
+  	<jxb:property>
+  		<jxb:baseType>
+         <jxb:javaType name="net.sf.mpxj.ResourceType"
+                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType" 
+                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printResourceType"/>
+   		</jxb:baseType>
+    </jxb:property>
+   </jxb:bindings>
+
+  <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='monetarybase']">
+  	<jxb:property>
+  		<jxb:baseType>
+         <jxb:javaType name="net.sf.mpxj.TimeUnit"
+                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits" 
+                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>
+   		</jxb:baseType>
+    </jxb:property>
+   </jxb:bindings>
+               
+</jxb:bindings>
