@@ -12,6 +12,15 @@
                           
    </jxb:globalBindings>      
 
+  <jxb:bindings node="//xs:element[@name='project']//xs:element[@name='settings']/xs:complexType/xs:attribute[@name='baseunit']">
+  	<jxb:property>
+  		<jxb:baseType>
+         <jxb:javaType name="net.sf.mpxj.TimeUnit"
+                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits" 
+                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>
+   		</jxb:baseType>
+    </jxb:property>
+   </jxb:bindings>
                     
   <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='uuid']">
   	<jxb:property>

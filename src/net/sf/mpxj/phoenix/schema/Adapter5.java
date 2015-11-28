@@ -8,20 +8,20 @@
 
 package net.sf.mpxj.phoenix.schema;
 
-import java.util.UUID;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import net.sf.mpxj.TimeUnit;
 
-public class Adapter2
-    extends XmlAdapter<String, UUID>
+public class Adapter5
+    extends XmlAdapter<String, TimeUnit>
 {
 
 
-    public UUID unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseUUID(value));
+    public TimeUnit unmarshal(String value) {
+        return (net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits(value));
     }
 
-    public String marshal(UUID value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printUUID(value));
+    public String marshal(TimeUnit value) {
+        return (net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits(value));
     }
 
 }
