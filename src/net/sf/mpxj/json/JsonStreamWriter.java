@@ -280,7 +280,11 @@ public class JsonStreamWriter
 
             default:
             {
-               m_buffer.append(c);
+               // Append if it's not a control character (0x00 to 0x1f)
+               if (c > 0x1f)
+               {
+                  m_buffer.append(c);
+               }
                break;
             }
          }

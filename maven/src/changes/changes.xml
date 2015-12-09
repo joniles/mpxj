@@ -8,7 +8,11 @@
 
    <body>
 
-	<release version="5.1.14" date="Git HEAD">
+	<release version="5.1.15" date="Git HEAD">
+	</release>
+
+	<release version="5.1.14" date="09/12/2015">
+		<action dev="joniles" type="fix">Strip unescaped control characters from JSON output.</action>
 	</release>
 
 	<release version="5.1.13" date="26/11/2015">
