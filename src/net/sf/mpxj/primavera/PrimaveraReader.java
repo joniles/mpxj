@@ -415,7 +415,8 @@ final class PrimaveraReader
       Map<Integer, TaskCosts> taskCostsMap = processCosts(costs);
 
       //
-      // Read WBS entries and create tasks
+      // Read WBS entries and create tasks.
+      // Note that the wbs list is supplied to us in the correct order.
       //
       for (Row row : wbs)
       {
@@ -747,28 +748,45 @@ final class PrimaveraReader
       List<Task> tasks = container.getChildTasks();
       if (!tasks.isEmpty())
       {
-         // Have we reached the leaf nodes?
-         if (tasks.get(0).getChildTasks().isEmpty())
+         for (Task task : tasks)
          {
-            // These must be activities (if they have child tasks, they're part of the WBS)
-            // Sort by Activity ID
+            //
+            // Sort child activities
+            //
+            sortActivities(activityIDField, task);
+
+            //
+            // Sort Order:
+            // 1. Activities come first
+            // 2. WBS come last
+            // 3. Activities ordered by activity ID
+            // 4. WBS ordered by ID
+            // 
             Collections.sort(tasks, new Comparator<Task>()
             {
                @Override public int compare(Task t1, Task t2)
                {
-                  String activityID1 = (String) t1.getCurrentValue(activityIDField);
-                  String activityID2 = (String) t2.getCurrentValue(activityIDField);
-                  return activityID1.compareTo(activityID2);
+                  boolean t1HasChildren = !t1.getChildTasks().isEmpty();
+                  boolean t2HasChildren = !t2.getChildTasks().isEmpty();
+
+                  // Both are WBS
+                  if (t1HasChildren && t2HasChildren)
+                  {
+                     return t1.getID().compareTo(t2.getID());
+                  }
+
+                  // Both are activities
+                  if (!t1HasChildren && !t2HasChildren)
+                  {
+                     String activityID1 = (String) t1.getCurrentValue(activityIDField);
+                     String activityID2 = (String) t2.getCurrentValue(activityIDField);
+                     return activityID1.compareTo(activityID2);
+                  }
+
+                  // One activity one WBS
+                  return t1HasChildren ? 1 : -1;
                }
             });
-         }
-         else
-         {
-            // We're still looking at the WBS, recursively process
-            for (Task task : tasks)
-            {
-               sortActivities(activityIDField, task);
-            }
          }
       }
    }
