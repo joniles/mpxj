@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   
+     <xs:simpleType name="phoenixDuration">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  
          <!-- XML Schema Generated from XML Document on Tue Nov 24 2015 23:58:28 GMT+0000 (GMT) -->
          <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
          <xs:element name="project">
@@ -94,23 +99,23 @@
                                                                                              <xs:attribute name="total_cost" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="billed" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="explicit" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="current_start" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="current_finish" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="early_start" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="early_finish" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="late_start" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="late_finish" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="original_duration" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="actual_duration" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="duration_at_completion" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="remaining_duration" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="current_start" type="xs:dateTime"></xs:attribute>
+                                                                                             <xs:attribute name="current_finish" type="xs:dateTime"></xs:attribute>
+                                                                                             <xs:attribute name="early_start" type="xs:dateTime"></xs:attribute>
+                                                                                             <xs:attribute name="early_finish" type="xs:dateTime"></xs:attribute>
+                                                                                             <xs:attribute name="late_start" type="xs:dateTime"></xs:attribute>
+                                                                                             <xs:attribute name="late_finish" type="xs:dateTime"></xs:attribute>
+                                                                                             <xs:attribute name="original_duration" type="phoenixDuration"></xs:attribute>
+                                                                                             <xs:attribute name="actual_duration" type="phoenixDuration"></xs:attribute>
+                                                                                             <xs:attribute name="duration_at_completion" type="phoenixDuration"></xs:attribute>
+                                                                                             <xs:attribute name="remaining_duration" type="phoenixDuration"></xs:attribute>
                                                                                              <xs:attribute name="physical_percent_complete" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="calendar" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="cost_account" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="notes" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="free_float" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="total_float" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="path_float" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="free_float" type="phoenixDuration"></xs:attribute>
+                                                                                             <xs:attribute name="total_float" type="phoenixDuration"></xs:attribute>
+                                                                                             <xs:attribute name="path_float" type="phoenixDuration"></xs:attribute>
                                                                                              <xs:attribute name="baseunit" type="xs:string"></xs:attribute>
                                                                                        </xs:complexType>
                                                                                  </xs:element>

@@ -27,8 +27,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -38,6 +40,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -47,10 +50,15 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.phoenix.schema.Project;
 import net.sf.mpxj.phoenix.schema.Project.Settings;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -446,7 +454,7 @@ public final class PhoenixReader extends AbstractProjectReader
     *
     * @param phoenixResource Resource data
     */
-   private void readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource) throws MPXJException
+   private void readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
    {
       Resource mpxjResource = m_projectFile.addResource();
 
@@ -463,28 +471,64 @@ public final class PhoenixReader extends AbstractProjectReader
       m_eventManager.fireResourceReadEvent(mpxjResource);
    }
 
-   /**
-    * This method extracts task data from a Planner file.
-    *
-    * @param plannerProject Root node of the Planner file
-    */
-   private void readTasks(Storepoint plannerProject) throws MPXJException
+   private void readTasks(Storepoint phoenixProject) throws MPXJException
    {
-      //      Tasks tasks = plannerProject.getTasks();
-      //      if (tasks != null)
-      //      {
-      //         for (net.sf.mpxj.planner.schema.Task task : tasks.getTask())
-      //         {
-      //            readTask(null, task);
-      //         }
-      //
-      //         for (net.sf.mpxj.planner.schema.Task task : tasks.getTask())
-      //         {
-      //            readPredecessors(task);
-      //         }
-      //      }
-      //
-      //      m_projectFile.updateStructure();
+      Map<String, Task> phases = processPhases(phoenixProject);
+      processActivities(phases, phoenixProject);
+   }
+
+   private Map<String, Task> processPhases(Storepoint phoenixProject)
+   {
+      Map<String, Task> map = new HashMap<String, Task>();
+      Code phase = null;
+
+      for (Code code : phoenixProject.getActivityCodes().getCode())
+      {
+         if (code.getName().equals("Phase"))
+         {
+            phase = code;
+            break;
+         }
+      }
+
+      if (phase != null)
+      {
+         for (Value value : phase.getValue())
+         {
+            Task task = m_projectFile.addTask();
+            task.setName(value.getName());
+            map.put(value.getName(), task);
+         }
+      }
+      return map;
+   }
+
+   private void processActivities(Map<String, Task> phaseMap, Storepoint phoenixProject)
+   {
+      for (Activity activity : phoenixProject.getActivities().getActivity())
+      {
+         processActivity(phaseMap, activity);
+      }
+   }
+
+   private void processActivity(Map<String, Task> phaseMap, Activity activity)
+   {
+      Task task = getParentTask(phaseMap, activity).addTask();
+      task.setUniqueID(activity.getId());
+      task.setName(activity.getDescription());
+   }
+
+   private ChildTaskContainer getParentTask(Map<String, Task> phaseMap, Activity activity)
+   {
+      ChildTaskContainer result = m_projectFile;
+      for (CodeAssignment ca : activity.getCodeAssignment())
+      {
+         if (ca.getCode().equals("Phase"))
+         {
+            result = phaseMap.get(ca.getValue());
+         }
+      }
+      return result;
    }
 
    /**

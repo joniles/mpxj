@@ -4,11 +4,20 @@
                schemaLocation="./jaxb/phoenix-4.5.xsd">
 
    <jxb:globalBindings>
-      <!-- globally map float types to BigDecimal for consistency -->
 		<jxb:javaType name="java.lang.Integer"
                     xmlType="xs:int"     
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseInteger" 
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printInteger"/>      
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printInteger"/>   
+                       
+		<jxb:javaType name="java.util.Date"
+                    xmlType="xs:dateTime"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDateTime" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDateTime"/>      
+
+		<jxb:javaType name="net.sf.mpxj.Duration"
+                    xmlType="phoenixDuration"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDuration" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDuration"/>      
                           
    </jxb:globalBindings>      
 

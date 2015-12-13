@@ -36,4 +36,6 @@ public interface ChildTaskContainer
     * @return list of child tasks
     */
    public List<Task> getChildTasks();
+
+   public Task addTask();
 }

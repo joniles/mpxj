@@ -23,11 +23,16 @@
 
 package net.sf.mpxj.phoenix;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 
@@ -89,6 +94,71 @@ public final class DatatypeConverter
       return TIME_UNITS_TO_STRING_MAP.get(type);
    }
 
+   public static final String printDateTime(Date value)
+   {
+      return (value == null ? null : getDateFormat().format(value));
+   }
+
+   public static final Date parseDateTime(String value)
+   {
+      Date result = null;
+
+      if (value != null && value.length() != 0)
+      {
+         try
+         {
+            result = getDateFormat().parse(value);
+         }
+
+         catch (ParseException ex)
+         {
+            // Ignored
+         }
+      }
+
+      return result;
+   }
+
+   private static final DateFormat getDateFormat()
+   {
+      DateFormat df = DATE_FORMAT.get();
+      if (df == null)
+      {
+         df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+         df.setLenient(false);
+      }
+      return (df);
+
+   }
+
+   public static final Duration parseDuration(String value)
+   {
+      Duration result = null;
+      if (value != null)
+      {
+         int split = value.indexOf(' ');
+         if (split != -1)
+         {
+            double durationValue = Double.parseDouble(value.substring(0, split));
+            TimeUnit durationUnits = parseTimeUnits(value.substring(split + 1));
+
+            result = Duration.getInstance(durationValue, durationUnits);
+
+         }
+      }
+      return result;
+   }
+
+   public static final String printDuration(Duration duration)
+   {
+      String result = null;
+      if (duration != null)
+      {
+         result = duration.getDuration() + " " + printTimeUnits(duration.getUnits());
+      }
+      return result;
+   }
+
    private static final Map<String, ResourceType> STRING_TO_RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
    static
    {
@@ -115,5 +185,7 @@ public final class DatatypeConverter
    {
       TIME_UNITS_TO_STRING_MAP.put(TimeUnit.DAYS, "Days");
    }
+
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
 
 }
