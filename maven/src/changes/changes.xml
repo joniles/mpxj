@@ -8,8 +8,11 @@
 
    <body>
 
-	<release version="5.1.15" date="Git HEAD">
-	<action dev="joniles" type="fix">Fix WBS and Activity ordering for tasks from Primavera.</action>
+	<release version="5.1.16" date="Git HEAD">
+	</release>
+
+	<release version="5.1.15" date="16/12/2015">
+		<action dev="joniles" type="fix">Fix WBS and Activity ordering for tasks from Primavera.</action>
 	</release>
 
 	<release version="5.1.14" date="09/12/2015">
