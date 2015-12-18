@@ -9,6 +9,7 @@
         <projectUrl>http://mpxj.sf.net</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>MPXJ is an open source file handling library for Java and .Net to read and write Microsoft Project MPX and MSPDI XML files, Planner files, Primavera XER files and databases, and MPP, MPT, and MPD files for Project 98, 2000, 2002, 2003, 2007 and 2010.</description>
+        <summary>MPXJ reads and writes schedule data in a variety of formats.</summary>
     </metadata>
     <files>
     	<file src="..\lib.net\mpxj.*" target="lib"/>  
