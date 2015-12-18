@@ -1273,6 +1273,22 @@ public final class MPXReader extends AbstractProjectReader
       {
          task.setUniqueID(task.getID());
       }
+
+      //
+      // Some applications (I'm looking at you SureTrak) don't write start and finish
+      // attributes. If you open an MPX file like this in MS Project, it will use
+      // the early start and early finish values (if present) to populate 
+      // the start and finish attributes.
+
+      if (task.getStart() == null && task.getEarlyStart() != null)
+      {
+         task.setStart(task.getEarlyStart());
+      }
+
+      if (task.getFinish() == null && task.getEarlyFinish() != null)
+      {
+         task.setFinish(task.getEarlyFinish());
+      }
    }
 
    /**
