@@ -28,37 +28,17 @@
                     xmlType="phoenixRelationType"     
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseRelationType" 
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printRelationType"/>      
+
+		<jxb:javaType name="net.sf.mpxj.TimeUnit"
+                    xmlType="phoenixTimeUnits"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>      
+
+		<jxb:javaType name="net.sf.mpxj.ResourceType"
+                    xmlType="phoenixResourceType"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printResourceType"/>      
                           
    </jxb:globalBindings>      
-
-  <jxb:bindings node="//xs:element[@name='project']//xs:element[@name='settings']/xs:complexType/xs:attribute[@name='baseunit']">
-  	<jxb:property>
-  		<jxb:baseType>
-         <jxb:javaType name="net.sf.mpxj.TimeUnit"
-                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits" 
-                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>
-   		</jxb:baseType>
-    </jxb:property>
-   </jxb:bindings>
-                    
-  <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='type']">
-  	<jxb:property>
-  		<jxb:baseType>
-         <jxb:javaType name="net.sf.mpxj.ResourceType"
-                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType" 
-                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printResourceType"/>
-   		</jxb:baseType>
-    </jxb:property>
-   </jxb:bindings>
-
-  <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='monetarybase']">
-  	<jxb:property>
-  		<jxb:baseType>
-         <jxb:javaType name="net.sf.mpxj.TimeUnit"
-                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits" 
-                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>
-   		</jxb:baseType>
-    </jxb:property>
-   </jxb:bindings>
                
 </jxb:bindings>

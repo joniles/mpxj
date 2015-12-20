@@ -12,6 +12,14 @@
       <xs:simpleType name="phoenixRelationType">
          <xs:restriction base="xs:string"/>
       </xs:simpleType>
+
+      <xs:simpleType name="phoenixTimeUnits">
+         <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+
+      <xs:simpleType name="phoenixResourceType">
+         <xs:restriction base="xs:string"/>
+      </xs:simpleType>
   
          <!-- XML Schema Generated from XML Document on Tue Nov 24 2015 23:58:28 GMT+0000 (GMT) -->
          <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
@@ -46,7 +54,7 @@
                                        </xs:sequence>
                                        <xs:attribute name="title" type="xs:string"></xs:attribute>
                                        <xs:attribute name="description" type="xs:string"></xs:attribute>
-                                       <xs:attribute name="baseunit" type="xs:string"></xs:attribute>
+                                       <xs:attribute name="baseunit" type="phoenixTimeUnits"></xs:attribute>
                                  </xs:complexType>
                            </xs:element>
                            <xs:element name="storepoints">
@@ -147,10 +155,10 @@
                                                                                              </xs:sequence>
                                                                                              <xs:attribute name="name" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
-                                                                                             <xs:attribute name="type" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="type" type="phoenixResourceType"></xs:attribute>
                                                                                              <xs:attribute name="unitslabel" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="maximum" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="monetarybase" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="monetarybase" type="phoenixTimeUnits"></xs:attribute>
                                                                                              <xs:attribute name="unitsperbase" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="monetaryrate" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="monetarycostperuse" type="xs:int"></xs:attribute>
