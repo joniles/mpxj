@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 
@@ -82,6 +83,16 @@ public final class DatatypeConverter
    public static final String printResourceType(ResourceType type)
    {
       return RESOURCE_TYPE_TO_STRING_MAP.get(type);
+   }
+
+   public static final RelationType parseRelationType(String value)
+   {
+      return NAME_TO_RELATION_TYPE.get(value);
+   }
+
+   public static final String printRelationType(RelationType type)
+   {
+      return RELATION_TYPE_TO_NAME.get(type);
    }
 
    public static final TimeUnit parseTimeUnits(String value)
@@ -178,12 +189,32 @@ public final class DatatypeConverter
    static
    {
       STRING_TO_TIME_UNITS_MAP.put("Days", TimeUnit.DAYS);
+      STRING_TO_TIME_UNITS_MAP.put("days", TimeUnit.DAYS);
+      STRING_TO_TIME_UNITS_MAP.put("day", TimeUnit.DAYS);
    }
 
    private static final Map<TimeUnit, String> TIME_UNITS_TO_STRING_MAP = new EnumMap<TimeUnit, String>(TimeUnit.class);
    static
    {
       TIME_UNITS_TO_STRING_MAP.put(TimeUnit.DAYS, "Days");
+   }
+
+   private static Map<String, RelationType> NAME_TO_RELATION_TYPE = new HashMap<String, RelationType>();
+   static
+   {
+      NAME_TO_RELATION_TYPE.put("FinishToFinish", RelationType.FINISH_FINISH);
+      NAME_TO_RELATION_TYPE.put("FinishToStart", RelationType.FINISH_START);
+      NAME_TO_RELATION_TYPE.put("StartToFinish", RelationType.START_FINISH);
+      NAME_TO_RELATION_TYPE.put("StartToStart", RelationType.START_START);
+   }
+
+   private static Map<RelationType, String> RELATION_TYPE_TO_NAME = new HashMap<RelationType, String>();
+   static
+   {
+      RELATION_TYPE_TO_NAME.put(RelationType.FINISH_FINISH, "FinishToFinish");
+      RELATION_TYPE_TO_NAME.put(RelationType.FINISH_START, "FinishToStart");
+      RELATION_TYPE_TO_NAME.put(RelationType.START_FINISH, "StartToFinish");
+      RELATION_TYPE_TO_NAME.put(RelationType.START_START, "StartToStart");
    }
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();

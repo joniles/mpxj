@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
    
-     <xs:simpleType name="phoenixDuration">
-    <xs:restriction base="xs:string"/>
-  </xs:simpleType>
+      <xs:simpleType name="phoenixDuration">
+         <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+
+      <xs:simpleType name="phoenixUuid">
+         <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+
+      <xs:simpleType name="phoenixRelationType">
+         <xs:restriction base="xs:string"/>
+      </xs:simpleType>
   
          <!-- XML Schema Generated from XML Document on Tue Nov 24 2015 23:58:28 GMT+0000 (GMT) -->
          <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
@@ -94,11 +102,11 @@
                                                                                              <xs:attribute name="id" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="type" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="description" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="uuid" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="creation_time" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
+                                                                                             <xs:attribute name="creation_time" type="xs:dateTime"></xs:attribute>
                                                                                              <xs:attribute name="total_cost" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="billed" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="explicit" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="explicit" type="xs:boolean"></xs:attribute>
                                                                                              <xs:attribute name="current_start" type="xs:dateTime"></xs:attribute>
                                                                                              <xs:attribute name="current_finish" type="xs:dateTime"></xs:attribute>
                                                                                              <xs:attribute name="early_start" type="xs:dateTime"></xs:attribute>
@@ -111,7 +119,7 @@
                                                                                              <xs:attribute name="remaining_duration" type="phoenixDuration"></xs:attribute>
                                                                                              <xs:attribute name="physical_percent_complete" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="calendar" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="cost_account" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="cost_account" type="phoenixUuid"></xs:attribute>
                                                                                              <xs:attribute name="notes" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="free_float" type="phoenixDuration"></xs:attribute>
                                                                                              <xs:attribute name="total_float" type="phoenixDuration"></xs:attribute>
@@ -138,7 +146,7 @@
                                                                                                    </xs:element>
                                                                                              </xs:sequence>
                                                                                              <xs:attribute name="name" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="uuid" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
                                                                                              <xs:attribute name="type" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="unitslabel" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="maximum" type="xs:int"></xs:attribute>
@@ -158,8 +166,8 @@
                                                                                        <xs:complexType>
                                                                                              <xs:attribute name="predecessor" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="successor" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="lag" type="xs:string"></xs:attribute>
-                                                                                             <xs:attribute name="type" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="lag" type="phoenixDuration"></xs:attribute>
+                                                                                             <xs:attribute name="type" type="phoenixRelationType"></xs:attribute>
                                                                                        </xs:complexType>
                                                                                  </xs:element>
                                                                            </xs:sequence>
@@ -198,8 +206,8 @@
 -->
                                                          </xs:sequence>
                                                          <xs:attribute name="name" type="xs:string"></xs:attribute>
-                                                         <xs:attribute name="uuid" type="xs:string"></xs:attribute>
-                                                         <xs:attribute name="parent_uuid" type="xs:string"></xs:attribute>
+                                                         <xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
+                                                         <xs:attribute name="parent_uuid" type="phoenixUuid"></xs:attribute>
                                                          <xs:attribute name="creation_time" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="start" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="data_date" type="xs:string"></xs:attribute>
@@ -337,7 +345,7 @@
                                                                            <xs:sequence>
                                                                                  <xs:element name="comparison">
                                                                                        <xs:complexType>
-                                                                                             <xs:attribute name="uuid" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
                                                                                              <xs:attribute name="color" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="active" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="list_name" type="xs:string"></xs:attribute>

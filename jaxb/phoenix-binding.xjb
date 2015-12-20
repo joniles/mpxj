@@ -18,6 +18,16 @@
                     xmlType="phoenixDuration"     
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDuration" 
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDuration"/>      
+
+		<jxb:javaType name="java.util.UUID"
+                    xmlType="phoenixUuid"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseUUID" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printUUID"/>      
+
+		<jxb:javaType name="net.sf.mpxj.RelationType"
+                    xmlType="phoenixRelationType"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseRelationType" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printRelationType"/>      
                           
    </jxb:globalBindings>      
 
@@ -31,16 +41,6 @@
     </jxb:property>
    </jxb:bindings>
                     
-  <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='uuid']">
-  	<jxb:property>
-  		<jxb:baseType>
-         <jxb:javaType name="java.util.UUID"
-                       parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseUUID" 
-                       printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printUUID"/>
-   		</jxb:baseType>
-    </jxb:property>
-   </jxb:bindings>
-
   <jxb:bindings node="//xs:element[@name='resource']/xs:complexType/xs:attribute[@name='type']">
   	<jxb:property>
   		<jxb:baseType>

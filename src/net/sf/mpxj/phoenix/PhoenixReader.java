@@ -25,8 +25,6 @@ package net.sf.mpxj.phoenix;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,14 +39,14 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
@@ -59,7 +57,9 @@ import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Acti
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.Relationship;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
 import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -122,9 +122,9 @@ public final class PhoenixReader extends AbstractProjectReader
 
          readProjectProperties(phoenixProject.getSettings());
          readCalendars(storepoint);
-         readResources(storepoint);
          readTasks(storepoint);
-         readAssignments(storepoint);
+         readResources(storepoint);
+         readRelationships(storepoint);
 
          //
          // Ensure that the unique ID counters are correct
@@ -157,7 +157,6 @@ public final class PhoenixReader extends AbstractProjectReader
       finally
       {
          m_projectFile = null;
-         m_defaultCalendar = null;
       }
    }
 
@@ -178,7 +177,7 @@ public final class PhoenixReader extends AbstractProjectReader
     *
     * @param phoenixProject Root node of the Phoenix file
     */
-   private void readCalendars(Storepoint phoenixProject) throws MPXJException
+   private void readCalendars(Storepoint phoenixProject)
    {
       //      Calendars calendars = phoenixProject.getCalendars();
       //      if (calendars != null)
@@ -437,14 +436,15 @@ public final class PhoenixReader extends AbstractProjectReader
     *
     * @param phoenixProject Root node of the Planner file
     */
-   private void readResources(Storepoint phoenixProject) throws MPXJException
+   private void readResources(Storepoint phoenixProject)
    {
       Resources resources = phoenixProject.getResources();
       if (resources != null)
       {
          for (net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res : resources.getResource())
          {
-            readResource(res);
+            Resource resource = readResource(res);
+            readAssignments(resource, res);
          }
       }
    }
@@ -454,7 +454,7 @@ public final class PhoenixReader extends AbstractProjectReader
     *
     * @param phoenixResource Resource data
     */
-   private void readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
+   private Resource readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
    {
       Resource mpxjResource = m_projectFile.addResource();
 
@@ -469,6 +469,8 @@ public final class PhoenixReader extends AbstractProjectReader
       mpxjResource.setGUID(phoenixResource.getUuid());
 
       m_eventManager.fireResourceReadEvent(mpxjResource);
+
+      return mpxjResource;
    }
 
    private void readTasks(Storepoint phoenixProject) throws MPXJException
@@ -515,7 +517,38 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       Task task = getParentTask(phaseMap, activity).addTask();
       task.setUniqueID(activity.getId());
+
+      task.setActualDuration(activity.getActualDuration());
+      //activity.getBaseunit()
+      //activity.getBilled()
+      //activity.getCalendar()
+      //activity.getCostAccount()
+      task.setCreateDate(activity.getCreationTime());
+      task.setFinish(activity.getCurrentFinish());
+      task.setStart(activity.getCurrentStart());
       task.setName(activity.getDescription());
+      task.setDuration(activity.getDurationAtCompletion());
+      task.setEarlyFinish(activity.getEarlyFinish());
+      task.setEarlyStart(activity.getEarlyStart());
+      task.setFreeSlack(activity.getFreeFloat());
+      task.setLateFinish(activity.getLateFinish());
+      task.setLateStart(activity.getLateStart());
+      task.setNotes(activity.getNotes());
+      task.setBaselineDuration(activity.getOriginalDuration());
+      //activity.getPathFloat()
+      task.setPhysicalPercentComplete(activity.getPhysicalPercentComplete());
+      task.setRemainingDuration(activity.getRemainingDuration());
+      task.setCost(activity.getTotalCost());
+      task.setTotalSlack(activity.getTotalFloat());
+      task.setMilestone(activityIsMilestone(activity));
+      //activity.getUserDefined()
+      task.setGUID(activity.getUuid());
+   }
+
+   private boolean activityIsMilestone(Activity activity)
+   {
+      String type = activity.getType();
+      return type != null && type.indexOf("Milestone") != -1;
    }
 
    private ChildTaskContainer getParentTask(Map<String, Task> phaseMap, Activity activity)
@@ -532,453 +565,50 @@ public final class PhoenixReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts data for a single task from a Planner file.
-    *
-    * @param parentTask parent task
-    * @param plannerTask Task data
-    */
-   //   private void readTask(Task parentTask, net.sf.mpxj.planner.schema.Task plannerTask) throws MPXJException
-   //   {
-   //      Task mpxjTask;
-   //
-   //      if (parentTask == null)
-   //      {
-   //         mpxjTask = m_projectFile.addTask();
-   //         mpxjTask.setOutlineLevel(Integer.valueOf(1));
-   //      }
-   //      else
-   //      {
-   //         mpxjTask = parentTask.addTask();
-   //         mpxjTask.setOutlineLevel(Integer.valueOf(parentTask.getOutlineLevel().intValue() + 1));
-   //      }
-   //
-   //      //
-   //      // Read task attributes from Planner
-   //      //
-   //      Integer percentComplete = getInteger(plannerTask.getPercentComplete());
-   //      //plannerTask.getDuration(); calculate from end - start, not in file?
-   //      //plannerTask.getEffort(); not set?
-   //      mpxjTask.setFinish(getDateTime(plannerTask.getEnd()));
-   //      mpxjTask.setUniqueID(getInteger(plannerTask.getId()));
-   //      mpxjTask.setName(plannerTask.getName());
-   //      mpxjTask.setNotes(plannerTask.getNote());
-   //      mpxjTask.setPercentageComplete(percentComplete);
-   //      mpxjTask.setPercentageWorkComplete(percentComplete);
-   //      mpxjTask.setPriority(Priority.getInstance(getInt(plannerTask.getPriority()) / 10));
-   //      mpxjTask.setType(getTaskType(plannerTask.getScheduling()));
-   //      //plannerTask.getStart(); // Start day, time is always 00:00?
-   //      mpxjTask.setMilestone(plannerTask.getType().equals("milestone"));
-   //
-   //      mpxjTask.setWork(getDuration(plannerTask.getWork()));
-   //
-   //      mpxjTask.setStart(getDateTime(plannerTask.getWorkStart()));
-   //
-   //      //
-   //      // Read constraint
-   //      //
-   //      ConstraintType mpxjConstraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
-   //      Constraint constraint = plannerTask.getConstraint();
-   //      if (constraint != null)
-   //      {
-   //         if (constraint.getType().equals("start-no-earlier-than"))
-   //         {
-   //            mpxjConstraintType = ConstraintType.START_NO_EARLIER_THAN;
-   //         }
-   //         else
-   //         {
-   //            if (constraint.getType().equals("must-start-on"))
-   //            {
-   //               mpxjConstraintType = ConstraintType.MUST_START_ON;
-   //            }
-   //         }
-   //
-   //         mpxjTask.setConstraintDate(getDateTime(constraint.getTime()));
-   //      }
-   //      mpxjTask.setConstraintType(mpxjConstraintType);
-   //
-   //      //
-   //      // Calculate missing attributes
-   //      //
-   //      ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
-   //      if (calendar != null)
-   //      {
-   //         Duration duration = calendar.getWork(mpxjTask.getStart(), mpxjTask.getFinish(), TimeUnit.HOURS);
-   //         double durationDays = duration.getDuration() / 8;
-   //         if (durationDays > 0)
-   //         {
-   //            duration = Duration.getInstance(durationDays, TimeUnit.DAYS);
-   //         }
-   //         mpxjTask.setDuration(duration);
-   //
-   //         if (percentComplete.intValue() != 0)
-   //         {
-   //            mpxjTask.setActualStart(mpxjTask.getStart());
-   //
-   //            if (percentComplete.intValue() == 100)
-   //            {
-   //               mpxjTask.setActualFinish(mpxjTask.getFinish());
-   //               mpxjTask.setActualDuration(duration);
-   //               mpxjTask.setActualWork(mpxjTask.getWork());
-   //               mpxjTask.setRemainingWork(Duration.getInstance(0, TimeUnit.HOURS));
-   //            }
-   //            else
-   //            {
-   //               Duration work = mpxjTask.getWork();
-   //               Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete.doubleValue()) / 100.0d, work.getUnits());
-   //
-   //               mpxjTask.setActualDuration(Duration.getInstance((duration.getDuration() * percentComplete.doubleValue()) / 100.0d, duration.getUnits()));
-   //               mpxjTask.setActualWork(actualWork);
-   //               mpxjTask.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
-   //            }
-   //         }
-   //      }
-   //      mpxjTask.setEffortDriven(true);
-   //
-   //      m_eventManager.fireTaskReadEvent(mpxjTask);
-   //
-   //      //
-   //      // Process child tasks
-   //      //
-   //      List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
-   //      for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
-   //      {
-   //         readTask(mpxjTask, childTask);
-   //      }
-   //   }
-
-   /**
-    * This method extracts predecessor data from a Planner file.
-    *
-    * @param plannerTask Task data
-    */
-   //   private void readPredecessors(net.sf.mpxj.planner.schema.Task plannerTask)
-   //   {
-   //      Task mpxjTask = m_projectFile.getTaskByUniqueID(getInteger(plannerTask.getId()));
-   //
-   //      Predecessors predecessors = plannerTask.getPredecessors();
-   //      if (predecessors != null)
-   //      {
-   //         List<Predecessor> predecessorList = predecessors.getPredecessor();
-   //         for (Predecessor predecessor : predecessorList)
-   //         {
-   //            Integer predecessorID = getInteger(predecessor.getPredecessorId());
-   //            Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
-   //            if (predecessorTask != null)
-   //            {
-   //               Duration lag = getDuration(predecessor.getLag());
-   //               if (lag == null)
-   //               {
-   //                  lag = Duration.getInstance(0, TimeUnit.HOURS);
-   //               }
-   //               Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
-   //               m_eventManager.fireRelationReadEvent(relation);
-   //            }
-   //         }
-   //      }
-   //
-   //      //
-   //      // Process child tasks
-   //      //
-   //      List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
-   //      for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
-   //      {
-   //         readPredecessors(childTask);
-   //      }
-   //   }
-
-   /**
     * This method extracts assignment data from a Planner file.
     *
     * @param plannerProject Root node of the Planner file
     */
-   private void readAssignments(Storepoint plannerProject)
+   private void readAssignments(Resource mpxjResource, net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res)
    {
-      //      Allocations allocations = plannerProject.getAllocations();
-      //      List<Allocation> allocationList = allocations.getAllocation();
-      //      Set<Task> tasksWithAssignments = new HashSet<Task>();
-      //
-      //      for (Allocation allocation : allocationList)
-      //      {
-      //         Integer taskID = getInteger(allocation.getTaskId());
-      //         Integer resourceID = getInteger(allocation.getResourceId());
-      //         Integer units = getInteger(allocation.getUnits());
-      //
-      //         Task task = m_projectFile.getTaskByUniqueID(taskID);
-      //         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
-      //
-      //         if (task != null && resource != null)
-      //         {
-      //            Duration work = task.getWork();
-      //            int percentComplete = NumberHelper.getInt(task.getPercentageComplete());
-      //
-      //            ResourceAssignment assignment = task.addResourceAssignment(resource);
-      //            assignment.setUnits(units);
-      //            assignment.setWork(work);
-      //
-      //            if (percentComplete != 0)
-      //            {
-      //               Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete) / 100, work.getUnits());
-      //               assignment.setActualWork(actualWork);
-      //               assignment.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
-      //            }
-      //            else
-      //            {
-      //               assignment.setRemainingWork(work);
-      //            }
-      //
-      //            assignment.setStart(task.getStart());
-      //            assignment.setFinish(task.getFinish());
-      //
-      //            tasksWithAssignments.add(task);
-      //
-      //            m_eventManager.fireAssignmentReadEvent(assignment);
-      //         }
-      //      }
-      //
-      //      //
-      //      // Adjust work per assignment for tasks with multiple assignments
-      //      //
-      //      for (Task task : tasksWithAssignments)
-      //      {
-      //         List<ResourceAssignment> assignments = task.getResourceAssignments();
-      //         if (assignments.size() > 1)
-      //         {
-      //            double maxUnits = 0;
-      //            for (ResourceAssignment assignment : assignments)
-      //            {
-      //               maxUnits += assignment.getUnits().doubleValue();
-      //            }
-      //
-      //            for (ResourceAssignment assignment : assignments)
-      //            {
-      //               Duration work = assignment.getWork();
-      //               double factor = assignment.getUnits().doubleValue() / maxUnits;
-      //
-      //               work = Duration.getInstance(work.getDuration() * factor, work.getUnits());
-      //               assignment.setWork(work);
-      //               Duration actualWork = assignment.getActualWork();
-      //               if (actualWork != null)
-      //               {
-      //                  actualWork = Duration.getInstance(actualWork.getDuration() * factor, actualWork.getUnits());
-      //                  assignment.setActualWork(actualWork);
-      //               }
-      //
-      //               Duration remainingWork = assignment.getRemainingWork();
-      //               if (remainingWork != null)
-      //               {
-      //                  remainingWork = Duration.getInstance(remainingWork.getDuration() * factor, remainingWork.getUnits());
-      //                  assignment.setRemainingWork(remainingWork);
-      //               }
-      //            }
-      //         }
-      //      }
+      for (Assignment assignment : res.getAssignment())
+      {
+         readAssignment(mpxjResource, assignment);
+      }
    }
 
-   /**
-    * Convert a Planner date-time value into a Java date.
-    * 
-    * 20070222T080000Z
-    * 
-    * @param value Planner date-time
-    * @return Java Date instance
-    */
-   //   private Date getDateTime(String value) throws MPXJException
-   //   {
-   //      try
-   //      {
-   //         Number year = m_fourDigitFormat.parse(value.substring(0, 4));
-   //         Number month = m_twoDigitFormat.parse(value.substring(4, 6));
-   //         Number day = m_twoDigitFormat.parse(value.substring(6, 8));
-   //
-   //         Number hours = m_twoDigitFormat.parse(value.substring(9, 11));
-   //         Number minutes = m_twoDigitFormat.parse(value.substring(11, 13));
-   //
-   //         Calendar cal = Calendar.getInstance();
-   //         cal.set(Calendar.YEAR, year.intValue());
-   //         cal.set(Calendar.MONTH, month.intValue() - 1);
-   //         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-   //
-   //         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-   //         cal.set(Calendar.MINUTE, minutes.intValue());
-   //
-   //         cal.set(Calendar.SECOND, 0);
-   //         cal.set(Calendar.MILLISECOND, 0);
-   //
-   //         return (cal.getTime());
-   //      }
-   //
-   //      catch (ParseException ex)
-   //      {
-   //         throw new MPXJException("Failed to parse date-time " + value, ex);
-   //      }
-   //   }
+   private void readAssignment(Resource resource, Assignment assignment)
+   {
+      Task task = m_projectFile.getTaskByUniqueID(assignment.getActivity());
+      if (task != null)
+      {
+         task.addResourceAssignment(resource);
+      }
+   }
 
-   /**
-    * Convert a Planner date into a Java date.
-    * 
-    * 20070222
-    * 
-    * @param value Planner date
-    * @return Java Date instance
-    */
-   //   private Date getDate(String value) throws MPXJException
-   //   {
-   //      try
-   //      {
-   //         Number year = m_fourDigitFormat.parse(value.substring(0, 4));
-   //         Number month = m_twoDigitFormat.parse(value.substring(4, 6));
-   //         Number day = m_twoDigitFormat.parse(value.substring(6, 8));
-   //
-   //         Calendar cal = Calendar.getInstance();
-   //         cal.set(Calendar.YEAR, year.intValue());
-   //         cal.set(Calendar.MONTH, month.intValue() - 1);
-   //         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-   //
-   //         cal.set(Calendar.HOUR_OF_DAY, 0);
-   //         cal.set(Calendar.MINUTE, 0);
-   //         cal.set(Calendar.SECOND, 0);
-   //         cal.set(Calendar.MILLISECOND, 0);
-   //
-   //         return (cal.getTime());
-   //      }
-   //
-   //      catch (ParseException ex)
-   //      {
-   //         throw new MPXJException("Failed to parse date " + value, ex);
-   //      }
-   //   }
+   private void readRelationships(Storepoint phoenixProject)
+   {
+      for (Relationship relation : phoenixProject.getRelationships().getRelationship())
+      {
+         readRelation(relation);
+      }
+   }
 
-   /**
-    * Convert a Planner time into a Java date.
-    * 
-    * 0800
-    * 
-    * @param value Planner time
-    * @return Java Date instance
-    */
-   //   private Date getTime(String value) throws MPXJException
-   //   {
-   //      try
-   //      {
-   //         Number hours = m_twoDigitFormat.parse(value.substring(0, 2));
-   //         Number minutes = m_twoDigitFormat.parse(value.substring(2, 4));
-   //
-   //         Calendar cal = Calendar.getInstance();
-   //         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-   //         cal.set(Calendar.MINUTE, minutes.intValue());
-   //         cal.set(Calendar.SECOND, 0);
-   //         cal.set(Calendar.MILLISECOND, 0);
-   //
-   //         return (cal.getTime());
-   //      }
-   //
-   //      catch (ParseException ex)
-   //      {
-   //         throw new MPXJException("Failed to parse time " + value, ex);
-   //      }
-   //   }
-
-   /**
-    * Convert a string into an Integer.
-    * 
-    * @param value integer represented as a string
-    * @return Integer instance
-    */
-   //   private Integer getInteger(String value)
-   //   {
-   //      return (NumberHelper.getInteger(value));
-   //   }
-
-   /**
-    * Convert a string into an int.
-    * 
-    * @param value integer represented as a string
-    * @return int value
-    */
-   //   private int getInt(String value)
-   //   {
-   //      return (Integer.parseInt(value));
-   //   }
-
-   /**
-    * Convert a string into a long.
-    * 
-    * @param value long represented as a string
-    * @return long value
-    */
-   //   private long getLong(String value)
-   //   {
-   //      return (Long.parseLong(value));
-   //   }
-
-   /**
-    * Convert a string representation of the task type
-    * into a TaskType instance.
-    * 
-    * @param value string value
-    * @return TaskType value
-    */
-   //   private TaskType getTaskType(String value)
-   //   {
-   //      TaskType result = TaskType.FIXED_UNITS;
-   //      if (value != null && value.equals("fixed-duration"))
-   //      {
-   //         result = TaskType.FIXED_DURATION;
-   //      }
-   //      return (result);
-   //   }
-
-   /**
-    * Converts the string representation of a Planner duration into
-    * an MPXJ Duration instance.
-    * 
-    * Planner represents durations as a number of seconds in its
-    * file format, however it displays durations as days and hours,
-    * and seems to assume that a working day is 8 hours.
-    * 
-    * @param value string representation of a duration
-    * @return Duration instance
-    */
-   //   private Duration getDuration(String value)
-   //   {
-   //      Duration result = null;
-   //
-   //      if (value != null && value.length() != 0)
-   //      {
-   //         double seconds = getLong(value);
-   //         double hours = seconds / (60 * 60);
-   //         double days = hours / 8;
-   //
-   //         if (days < 1)
-   //         {
-   //            result = Duration.getInstance(hours, TimeUnit.HOURS);
-   //         }
-   //         else
-   //         {
-   //            double durationDays = hours / 8;
-   //            result = Duration.getInstance(durationDays, TimeUnit.DAYS);
-   //         }
-   //      }
-   //
-   //      return (result);
-   //   }
+   private void readRelation(Relationship relation)
+   {
+      Task predecessor = m_projectFile.getTaskByUniqueID(relation.getPredecessor());
+      Task successor = m_projectFile.getTaskByUniqueID(relation.getSuccessor());
+      if (predecessor != null && successor != null)
+      {
+         Duration lag = relation.getLag();
+         RelationType type = relation.getType();
+         successor.addPredecessor(predecessor, type, lag);
+      }
+   }
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private ProjectCalendar m_defaultCalendar;
-   private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
-   private List<DateRange> m_defaultWorkingHours = new LinkedList<DateRange>();
    private List<ProjectListener> m_projectListeners;
-
-   //   private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<String, RelationType>();
-   //   static
-   //   {
-   //      RELATIONSHIP_TYPES.put("FF", RelationType.FINISH_FINISH);
-   //      RELATIONSHIP_TYPES.put("FS", RelationType.FINISH_START);
-   //      RELATIONSHIP_TYPES.put("SF", RelationType.START_FINISH);
-   //      RELATIONSHIP_TYPES.put("SS", RelationType.START_START);
-   //   }
 
    /**
     * Cached context to minimise construction cost.
