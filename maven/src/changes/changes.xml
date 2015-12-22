@@ -9,6 +9,7 @@
    <body>
 
 	<release version="5.1.17" date="Git HEAD">
+		<action dev="joniles" type="fix">Handle missing time component of a time stamp field when reading an MPX file.</action>	
 	</release>
 
 	<release version="5.1.16" date="18/12/2015">
