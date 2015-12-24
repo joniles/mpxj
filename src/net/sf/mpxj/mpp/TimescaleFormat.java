@@ -220,7 +220,7 @@ public enum TimescaleFormat implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     * @param name enum name
     */
@@ -266,7 +266,7 @@ public enum TimescaleFormat implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

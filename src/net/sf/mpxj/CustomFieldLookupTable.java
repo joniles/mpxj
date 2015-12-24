@@ -32,7 +32,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 {
    /**
     * Constructor.
-    * 
+    *
     * @param parent parent container
     */
    public CustomFieldLookupTable(CustomFieldContainer parent)

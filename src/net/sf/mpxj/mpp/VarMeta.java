@@ -83,7 +83,7 @@ interface VarMeta
    /**
     * Retrieves a set containing the types defined
     * in the var data for a given ID.
-    * 
+    *
     * @param id unique ID
     * @return set of types
     */
@@ -91,7 +91,7 @@ interface VarMeta
 
    /**
     * This method is used to check if a given key is present.
-    * 
+    *
     * @param key key to test
     * @return Boolean flag
     */

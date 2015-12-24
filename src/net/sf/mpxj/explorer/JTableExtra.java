@@ -93,7 +93,7 @@ public class JTableExtra extends JTable
 
    /**
     * Retrieve the currently selected cell.
-    * 
+    *
     * @return selected cell
     */
    public Point getSelectedCell()
@@ -103,7 +103,7 @@ public class JTableExtra extends JTable
 
    /**
     * Set the current selected cell.
-    * 
+    *
     * @param selectedCell selected cell
     */
    public void setSelectedCell(Point selectedCell)
@@ -113,7 +113,7 @@ public class JTableExtra extends JTable
 
    /**
     * Retrieves the fixed column width used by all columns in the table.
-    * 
+    *
     * @return column width
     */
    public int getColumnWidth()
@@ -123,7 +123,7 @@ public class JTableExtra extends JTable
 
    /**
     * Sets the column width used by all columns in the table.
-    * 
+    *
     * @param columnWidth column width
     */
    public void setColumnWidth(int columnWidth)
@@ -133,7 +133,7 @@ public class JTableExtra extends JTable
 
    /**
     * Updates the model. Ensures that we reset the columns widths.
-    * 
+    *
     * @param model table model
     */
    @Override public void setModel(TableModel model)

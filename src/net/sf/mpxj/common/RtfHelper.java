@@ -36,7 +36,7 @@ public final class RtfHelper
 {
    /**
     * Simple heuristic to determine if the string contains formal RTF.
-    * 
+    *
     * @param text source text
     * @return true if the text may contain formal RTF
     */
@@ -71,7 +71,7 @@ public final class RtfHelper
 
    /**
     * Remove the trailing line end from an RTF block.
-    * 
+    *
     * @param text source text
     * @param formalRTF true if this is a real RTF block
     * @return text with line end stripped

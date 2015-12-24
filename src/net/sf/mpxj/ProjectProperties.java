@@ -1,6 +1,6 @@
 /*
  * file:       ProjectProperties.java
- * author:     Jon Iles             
+ * author:     Jon Iles
  *             Scott Melville
  * copyright:  (c) Packwood Software 2002-2015
  * date:       15/08/2002
@@ -1323,7 +1323,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the default number of minutes per month.
-    * 
+    *
     * @return minutes per month
     */
    public Number getMinutesPerMonth()
@@ -1333,7 +1333,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the default number of minutes per year.
-    * 
+    *
     * @return minutes per year
     */
    public Number getMinutesPerYear()
@@ -2067,7 +2067,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the currency code for this project.
-    * 
+    *
     * @return currency code
     */
    public String getCurrencyCode()
@@ -2077,7 +2077,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the currency code for this project.
-    * 
+    *
     * @param currencyCode currency code
     */
    public void setCurrencyCode(String currencyCode)
@@ -2127,7 +2127,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the "show project summary task" flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getShowProjectSummaryTask()
@@ -2137,7 +2137,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Sets the "show project summary task" flag.
-    * 
+    *
     * @param value boolean flag
     */
    public void setShowProjectSummaryTask(boolean value)
@@ -2147,7 +2147,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @return baseline value
     */
    public Date getBaselineDate()
@@ -2157,7 +2157,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param value baseline value
     */
    public void setBaselineDate(Date value)
@@ -2167,7 +2167,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -2178,7 +2178,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -2189,7 +2189,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the template property.
-    * 
+    *
     * @return template property
     */
    public String getTemplate()
@@ -2199,7 +2199,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the template property.
-    * 
+    *
     * @param template property value
     */
    public void setTemplate(String template)
@@ -2209,7 +2209,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the project user property.
-    * 
+    *
     * @return project user property
     */
    public String getLastAuthor()
@@ -2219,7 +2219,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the project user property.
-    * 
+    *
     * @param projectUser project user property
     */
    public void setLastAuthor(String projectUser)
@@ -2229,7 +2229,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the last printed property.
-    * 
+    *
     * @return last printed property
     */
    public Date getLastPrinted()
@@ -2239,7 +2239,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the last printed property.
-    * 
+    *
     * @param lastPrinted property value
     */
    public void setLastPrinted(Date lastPrinted)
@@ -2249,7 +2249,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the application property.
-    * 
+    *
     * @return property value
     */
    public String getShortApplicationName()
@@ -2259,7 +2259,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the application property.
-    * 
+    *
     * @param application property value
     */
    public void setShortApplicationName(String application)
@@ -2269,7 +2269,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the editing time property.
-    * 
+    *
     * @return property value
     */
    public Integer getEditingTime()
@@ -2279,7 +2279,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the editing time property.
-    * 
+    *
     * @param editingTime editing time property
     */
    public void setEditingTime(Integer editingTime)
@@ -2289,7 +2289,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the format property.
-    * 
+    *
     * @return property value
     */
    public String getPresentationFormat()
@@ -2299,7 +2299,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the format property.
-    * 
+    *
     * @param format property value
     */
    public void setPresentationFormat(String format)
@@ -2309,7 +2309,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the content type property.
-    * 
+    *
     * @return content type property
     */
    public String getContentType()
@@ -2319,7 +2319,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the content type property.
-    * 
+    *
     * @param contentType property value
     */
    public void setContentType(String contentType)
@@ -2329,7 +2329,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the content status property.
-    * 
+    *
     * @return property value
     */
    public String getContentStatus()
@@ -2339,7 +2339,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the content status property.
-    * 
+    *
     * @param contentStatus property value
     */
    public void setContentStatus(String contentStatus)
@@ -2349,7 +2349,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the language property.
-    * 
+    *
     * @return property value
     */
    public String getLanguage()
@@ -2359,7 +2359,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the language property.
-    * 
+    *
     * @param language property value
     */
    public void setLanguage(String language)
@@ -2369,7 +2369,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the document version property.
-    * 
+    *
     * @return property value
     */
    public String getDocumentVersion()
@@ -2379,7 +2379,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the document version property.
-    * 
+    *
     * @param documentVersion property value
     */
    public void setDocumentVersion(String documentVersion)
@@ -2489,7 +2489,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the name of the application used to create this project data.
-    * 
+    *
     * @return application name
     */
    public String getFullApplicationName()
@@ -2499,7 +2499,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Sets the name of the application used to create this project data.
-    * 
+    *
     * @param name application name
     */
    public void setFullApplicationName(String name)
@@ -2509,7 +2509,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the version of the application used to create this project.
-    * 
+    *
     * @return application name
     */
    public Integer getApplicationVersion()
@@ -2519,7 +2519,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Sets the version of the application used to create this project.
-    * 
+    *
     * @param version application version
     */
    public void setApplicationVersion(Integer version)
@@ -2553,7 +2553,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve a flag indicating if auto filter is enabled.
-    * 
+    *
     * @return auto filter flag
     */
    public boolean getAutoFilter()
@@ -2563,7 +2563,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Sets a flag indicating if auto filter is enabled.
-    * 
+    *
     * @param autoFilter boolean flag
     */
    public void setAutoFilter(boolean autoFilter)
@@ -2596,7 +2596,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Maps a field index to a TaskField instance.
-    * 
+    *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
     * @return TaskField instance
@@ -2612,7 +2612,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Handles retrieval of primitive char type.
-    * 
+    *
     * @param field required field
     * @param defaultValue default value if field is missing
     * @return char value

@@ -166,8 +166,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Add UDFType objects to a PM XML file.
-    * 
-    * @author kmahan 
+    *
+    * @author kmahan
     * @date 2014-09-24
     * @author lsong
     * @date 2015-7-24
@@ -255,7 +255,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes calendar data to a PM XML file. 
+    * This method writes calendar data to a PM XML file.
     */
    private void writeCalendars()
    {
@@ -267,7 +267,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * This method writes data for an individual calendar to a PM XML file.
-    * 
+    *
     * @param mpxj ProjectCalander instance
     */
    private void writeCalendar(ProjectCalendar mpxj)
@@ -332,7 +332,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes resource data to a PM XML file. 
+    * This method writes resource data to a PM XML file.
     */
    private void writeResources()
    {
@@ -347,7 +347,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Write a single resource.
-    * 
+    *
     * @param mpxj Resource instance
     */
    private void writeResource(Resource mpxj)
@@ -373,7 +373,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * This method writes task data to a PM XML file.
-    * 
+    *
     */
    private void writeTasks()
    {
@@ -385,7 +385,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Used to write the child tasks of a parent task to the PM XML file.
-    * 
+    *
     * @param parent parent Task instance
     */
    private void writeChildTasks(Task parent)
@@ -397,10 +397,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Given a Task instance, this task determines if it should be written to the 
+    * Given a Task instance, this task determines if it should be written to the
     * PM XML file as an activity or as a WBS item, and calls the appropriate
     * method.
-    * 
+    *
     * @param task Task instance
     */
    private void writeTask(Task task)
@@ -420,7 +420,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Writes a WBS entity to the PM XML file.
-    * 
+    *
     * @param mpxj MPXJ Task entity
     */
    private void writeWBS(Task mpxj)
@@ -452,7 +452,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Writes an activity to a PM XML file.
-    * 
+    *
     * @param mpxj MPXJ Task instance
     */
    private void writeActivity(Task mpxj)
@@ -498,7 +498,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Writes assignment data to a PM XML file. 
+    * Writes assignment data to a PM XML file.
     */
    private void writeAssignments()
    {
@@ -518,7 +518,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Writes a resource assignment to a PM XML file.
-    * 
+    *
     * @param mpxj MPXJ ResourceAssignment instance
     */
    private void writeAssignment(ResourceAssignment mpxj)
@@ -560,7 +560,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Writes task predecessor links to a PM XML file.
-    * 
+    *
     * @param task MPXJ Task instance
     */
    private void writePredecessors(Task task)
@@ -583,7 +583,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Writes a list of IDF types.
-    * 
+    *
     * @author lsong
     * @param type parent entity type
     * @param mpxj parent entity
@@ -608,8 +608,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieve a duration in the form required by Primavera. 
-    * 
+    * Retrieve a duration in the form required by Primavera.
+    *
     * @param duration Duration instance
     * @return formatted duration
     */
@@ -634,7 +634,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Formats a day name.
-    * 
+    *
     * @param day MPXJ Day instance
     * @return Primavera day instance
     */
@@ -645,7 +645,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Formats a resource type.
-    * 
+    *
     * @param resource MPXJ resource
     * @return Primavera resource type
     */
@@ -679,7 +679,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Formats a percentage value.
-    * 
+    *
     * @param number MPXJ percentage value
     * @return Primavera percentage value
     */
@@ -699,7 +699,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * The end of a Primavera time range finishes on the last minute
     * of the period, so a range of 12:00 -> 13:00 is represented by
     * Primavera as 12:00 -> 12:59.
-    * 
+    *
     * @param date MPXJ end time
     * @return Primavera end time
     */
@@ -712,7 +712,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Retrieve a calendar unique ID.
-    * 
+    *
     * @param calendar ProjectCalendar instance
     * @return calendar unique ID
     */
@@ -723,7 +723,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Retrieve an activity status.
-    * 
+    *
     * @param mpxj MPXJ Task instance
     * @return activity status
     */
@@ -751,7 +751,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
-    * 
+    *
     * @return project file instance
     */
    ProjectFile getProjectFile()

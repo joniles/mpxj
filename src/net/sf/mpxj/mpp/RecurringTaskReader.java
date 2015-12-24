@@ -36,7 +36,7 @@ final class RecurringTaskReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     */
    public RecurringTaskReader(ProjectProperties properties)
@@ -46,7 +46,7 @@ final class RecurringTaskReader
 
    /**
     * Reads recurring task data.
-    * 
+    *
     * @param task Task instance
     * @param data recurring task data
     */

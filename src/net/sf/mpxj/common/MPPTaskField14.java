@@ -64,7 +64,7 @@ public class MPPTaskField14
 
    /**
     * Retrieve an instance of the TaskField class based on the data read from an
-    * MS Project file. This method does not attempt to apply any mapping to 
+    * MS Project file. This method does not attempt to apply any mapping to
     * the result.
     *
     * @param value value from an MS Project file
@@ -93,7 +93,7 @@ public class MPPTaskField14
 
    /**
     * Retrieve the ID of a field, as used by MS Project.
-    * 
+    *
     * @param value field instance
     * @return field ID
     */
@@ -483,7 +483,7 @@ public class MPPTaskField14
       FIELD_ARRAY[396] = TaskField.ESTIMATED;
       FIELD_ARRAY[232] = TaskField.EXTERNAL_TASK;
       FIELD_ARRAY[439] = TaskField.FINISH_SLACK;
-      FIELD_ARRAY[1284] = TaskField.FINISH; // Labelled "Task Finish" in MPP14      
+      FIELD_ARRAY[1284] = TaskField.FINISH; // Labelled "Task Finish" in MPP14
       FIELD_ARRAY[46] = TaskField.FINISH_VARIANCE;
       FIELD_ARRAY[53] = TaskField.FINISH1;
       FIELD_ARRAY[291] = TaskField.FINISH10;
@@ -608,7 +608,7 @@ public class MPPTaskField14
       FIELD_ARRAY[35] = TaskField.SCHEDULED_START;
       FIELD_ARRAY[538] = TaskField.SPI;
       FIELD_ARRAY[438] = TaskField.START_SLACK;
-      FIELD_ARRAY[1283] = TaskField.START; // Labelled "Task Start" in MPP14      
+      FIELD_ARRAY[1283] = TaskField.START; // Labelled "Task Start" in MPP14
       FIELD_ARRAY[45] = TaskField.START_VARIANCE;
       FIELD_ARRAY[52] = TaskField.START1;
       FIELD_ARRAY[290] = TaskField.START10;

@@ -117,7 +117,7 @@ public class FontStyle
 
    /**
     * Retrieve the background color.
-    * 
+    *
     * @return background color
     */
    public Color getBackgroundColor()
@@ -127,7 +127,7 @@ public class FontStyle
 
    /**
     * Retrieve the background pattern.
-    * 
+    *
     * @return background pattern
     */
    public BackgroundPattern getBackgroundPattern()

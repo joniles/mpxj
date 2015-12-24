@@ -42,7 +42,7 @@ import javax.swing.UIManager;
 import com.jgoodies.binding.beans.PropertyAdapter;
 
 /**
- * MppExplorer is a Swing UI used to examine the contents of a project file read by MPXJ. 
+ * MppExplorer is a Swing UI used to examine the contents of a project file read by MPXJ.
  */
 public class ProjectExplorer
 {
@@ -50,7 +50,7 @@ public class ProjectExplorer
 
    /**
     * Launch the application.
-    * 
+    *
     * @param args command line arguments.
     */
    public static void main(String[] args)

@@ -38,9 +38,9 @@ import net.sf.mpxj.TimephasedWork;
 public final class SplitTaskFactory
 {
    /**
-    * Process the timephased resource assignment data to work out the 
+    * Process the timephased resource assignment data to work out the
     * split structure of the task.
-    * 
+    *
     * @param task parent task
     * @param timephasedComplete completed resource assignment work
     * @param timephasedPlanned planned resource assignment work

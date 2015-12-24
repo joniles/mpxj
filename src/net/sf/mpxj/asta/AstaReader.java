@@ -76,7 +76,7 @@ final class AstaReader
 
    /**
     * Retrieves the project data read from this file.
-    * 
+    *
     * @return project data
     */
    public ProjectFile getProject()
@@ -86,7 +86,7 @@ final class AstaReader
 
    /**
     * Process project properties.
-    * 
+    *
     * @param row project properties data.
     */
    public void processProjectProperties(Row row)
@@ -103,7 +103,7 @@ final class AstaReader
 
    /**
     * Process resources.
-    * 
+    *
     * @param permanentRows permanent resource data
     * @param consumableRows consumable resource data
     */
@@ -129,7 +129,7 @@ final class AstaReader
       //
       // Process groups
       //
-      /*      
+      /*
             for (Row row : permanentRows)
             {
                Resource resource = m_project.getResourceByUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
@@ -162,7 +162,7 @@ final class AstaReader
 
    /**
     * Derive a calendar for a resource.
-    * 
+    *
     * @param parentCalendarID calendar from which resource calendar is derived
     * @return new calendar for a resource
     */
@@ -176,7 +176,7 @@ final class AstaReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @param bars bar data
     * @param tasks task data
     * @param milestones milestone data
@@ -216,7 +216,7 @@ final class AstaReader
          //Proc_Select_SC
          //Proc_Tender
          //QA Checked
-         //Related_Documents         
+         //Related_Documents
          task.setWBS("-");
          task.setCalendar(calendar);
 
@@ -262,7 +262,7 @@ final class AstaReader
          //GIVEN_DURATIONELA_MONTHS
          task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
          task.setResume(row.getDate("RESUME"));
-         //task.setStart(row.getDate("GIVEN_START"));         
+         //task.setStart(row.getDate("GIVEN_START"));
          //LATEST_PROGRESS_PERIOD
          //TASK_WORK_RATE_TIME_UNIT
          //TASK_WORK_RATE
@@ -315,7 +315,7 @@ final class AstaReader
          //SUBPROJECT_ID
          //ALT_ID
          //LAST_EDITED_DATE
-         //LAST_EDITED_BY    
+         //LAST_EDITED_BY
 
          processConstraints(row, task);
 
@@ -338,7 +338,7 @@ final class AstaReader
          Task task = parentTask == null ? m_project.addTask() : parentTask.addTask();
 
          task.setMilestone(true);
-         //PROJID         
+         //PROJID
          task.setUniqueID(row.getInteger("MILESTONEID"));
          task.setStart(row.getDate("GIVEN_DATE_TIME"));
          task.setFinish(row.getDate("GIVEN_DATE_TIME"));
@@ -418,8 +418,8 @@ final class AstaReader
 
    /**
     * Iterates through the tasks setting the correct
-    * outline level and ID values. 
-    * 
+    * outline level and ID values.
+    *
     * @param id current ID value
     * @param task current task
     * @param outlineLevel current outline level
@@ -439,7 +439,7 @@ final class AstaReader
 
    /**
     * Processes predecessor data.
-    * 
+    *
     * @param rows predecessor data
     */
    public void processPredecessors(List<Row> rows)
@@ -518,7 +518,7 @@ final class AstaReader
 
    /**
     * Process assignment data.
-    * 
+    *
     * @param permanentAssignments assignment data
     */
    public void processAssignments(List<Row> permanentAssignments)
@@ -583,7 +583,7 @@ final class AstaReader
          //RESUMF
          //SPAXE_INTEGER
          //USER_PERCENU_COMPLETE
-         //ALLOCATIOR_GROUP         
+         //ALLOCATIOR_GROUP
          //PRIORITC
          //ACCOUNTED_FOR_ELSEWHERE
          //DURATIOTTYPF
@@ -664,7 +664,7 @@ final class AstaReader
 
    /**
     * Convert an integer into a RelationType instance.
-    * 
+    *
     * @param index integer value
     * @return RelationType instance
     */
@@ -680,7 +680,7 @@ final class AstaReader
 
    /**
     * Convert a name into initials.
-    * 
+    *
     * @param name source name
     * @return initials
     */
@@ -717,7 +717,7 @@ final class AstaReader
    }
 
    /**
-    * Asta Powerproject assigns an explicit calendar for each task. This method 
+    * Asta Powerproject assigns an explicit calendar for each task. This method
     * is used to find the most common calendar and use this as the default project
     * calendar. This allows the explicitly assigned task calendars to be removed.
     */
@@ -776,7 +776,7 @@ final class AstaReader
 
    /**
     * Determines the constraints relating to a task.
-    * 
+    *
     * @param row row data
     * @param task Task instance
     */
@@ -855,7 +855,7 @@ final class AstaReader
 
    /**
     * Creates a mapping between exception ID values and working/non-working days.
-    * 
+    *
     * @param rows rows from the exceptions table
     * @return exception map
     */
@@ -877,9 +877,9 @@ final class AstaReader
                break;
             }
 
-            case 4: // Non Working            
-            case 16: // Holiday                       
-            case 64: // Weather            
+            case 4: // Non Working
+            case 16: // Holiday
+            case 64: // Weather
             case -2147483648: // Weekend
             default:
             {
@@ -895,7 +895,7 @@ final class AstaReader
 
    /**
     * Creates a map of work pattern rows indexed by the primary key.
-    * 
+    *
     * @param rows work pattern rows
     * @return work pattern map
     */
@@ -912,7 +912,7 @@ final class AstaReader
    /**
     * Creates a map between a calendar ID and a list of
     * work pattern assignment rows.
-    * 
+    *
     * @param rows work pattern assignment rows
     * @return work pattern assignment map
     */
@@ -935,7 +935,7 @@ final class AstaReader
 
    /**
     * Creates a map between a calendar ID and a list of exception assignment rows.
-    * 
+    *
     * @param rows exception assignment rows
     * @return exception assignment map
     */
@@ -958,7 +958,7 @@ final class AstaReader
 
    /**
     * Creates a map between a calendar ID and a list of time entry rows.
-    * 
+    *
     * @param rows time entry rows
     * @return time entry map
     */
@@ -981,7 +981,7 @@ final class AstaReader
 
    /**
     * Creates a ProjectCalendar instance from the Asta data.
-    * 
+    *
     * @param calendarRow basic calendar data
     * @param workPatternMap work pattern map
     * @param workPatternAssignmentMap work pattern assignment map
@@ -1037,7 +1037,7 @@ final class AstaReader
 
    /**
     * Populates a ProjectCalendarWeek instance from Asta work pattern data.
-    * 
+    *
     * @param week target ProjectCalendarWeek instance
     * @param workPatternID target work pattern ID
     * @param workPatternMap work pattern data

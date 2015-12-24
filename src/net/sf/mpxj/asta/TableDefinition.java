@@ -30,7 +30,7 @@ class TableDefinition
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name table name
     * @param columns table column definitions
     */
@@ -42,7 +42,7 @@ class TableDefinition
 
    /**
     * Retrieve the table name.
-    * 
+    *
     * @return table name
     */
    public String getName()
@@ -52,7 +52,7 @@ class TableDefinition
 
    /**
     * Retrieve the column definitions.
-    * 
+    *
     * @return column definitions
     */
    public ColumnDefinition[] getColumns()

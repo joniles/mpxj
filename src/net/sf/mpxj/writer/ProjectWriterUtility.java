@@ -48,8 +48,8 @@ public final class ProjectWriterUtility
 
    /**
     * Retrieves a ProjectWriter instance which can write a file of the
-    * type specified by the supplied file name. 
-    * 
+    * type specified by the supplied file name.
+    *
     * @param name file name
     * @return ProjectWriter instance
     */
@@ -77,7 +77,7 @@ public final class ProjectWriterUtility
    /**
     * Retrieves a set containing the file extensions supported by the
     * getProjectWriter method.
-    * 
+    *
     * @return set of file extensions
     */
    public static Set<String> getSupportedFileExtensions()

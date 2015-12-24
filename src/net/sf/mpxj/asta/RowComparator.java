@@ -33,7 +33,7 @@ class RowComparator implements Comparator<Row>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param sortColumns columns used in the comparison.
     */
    public RowComparator(String... sortColumns)

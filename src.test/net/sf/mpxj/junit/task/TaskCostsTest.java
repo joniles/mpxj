@@ -66,7 +66,7 @@ public class TaskCostsTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskCosts(File file) throws MPXJException
@@ -89,7 +89,7 @@ public class TaskCostsTest
 
    /**
     * Test the cost values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested

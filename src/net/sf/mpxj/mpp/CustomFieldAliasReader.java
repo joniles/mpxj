@@ -33,7 +33,7 @@ class CustomFieldAliasReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param fields field definition container
     * @param data raw MP data
     */
@@ -71,7 +71,7 @@ class CustomFieldAliasReader
             // Get the alias offset (offset + 4 for some reason).
             int aliasOffset = MPPUtility.getInt(m_data, offset) + 4;
             offset += 4;
-            // Read the alias itself 
+            // Read the alias itself
             if (aliasOffset < m_data.length)
             {
                String alias = MPPUtility.getUnicodeString(m_data, aliasOffset);

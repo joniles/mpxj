@@ -38,9 +38,9 @@ class FieldMap12 extends FieldMap
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
-    * @param customFields custom field values 
+    * @param customFields custom field values
     */
    public FieldMap12(ProjectProperties properties, CustomFieldContainer customFields)
    {

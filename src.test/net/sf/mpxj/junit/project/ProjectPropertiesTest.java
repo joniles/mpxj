@@ -69,7 +69,7 @@ public class ProjectPropertiesTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testProjectProperties(File file) throws MPXJException
@@ -87,7 +87,7 @@ public class ProjectPropertiesTest
 
       //
       // We are reading title successfully - it's just that when MS Project saves
-      // the test data files, sometimes it sets the value we asked for... sometimes 
+      // the test data files, sometimes it sets the value we asked for... sometimes
       // it reverts to the file name.
       //
       //assertEquals("Title", properties.getProjectTitle());

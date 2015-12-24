@@ -43,7 +43,7 @@ public class FileChooserView
 
    /**
     * Constructor.
-    * 
+    *
     * @param parent parent component for the dialog
     * @param model file choose model
     */

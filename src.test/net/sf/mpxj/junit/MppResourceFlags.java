@@ -30,13 +30,13 @@ public class MppResourceFlags
    @Test public void testMpp14FromProject2013() throws Exception
    {
       // TODO work in progress - fix reading from Project 2013 MPP14
-      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("resourceFlags-mpp14Project2013.mpp");      
+      //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("resourceFlags-mpp14Project2013.mpp");
       //testFlags(mpp);
    }
 
    /**
     * Common code to test flag values.
-    * 
+    *
     * @param mpp project file to test
     */
    private void testFlags(ProjectFile mpp)
@@ -171,7 +171,7 @@ public class MppResourceFlags
 
    /**
     * Test all 20 custom field flags.
-    * 
+    *
     * @param resource resource to be tested
     * @param flag flag index to test
     */

@@ -19,14 +19,14 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
- * Common implementation detail to extract task constraint data from 
+ * Common implementation detail to extract task constraint data from
  * MPP9, MPP12, and MPP14 files.
  */
 public class ConstraintFactory
 {
    /**
     * Main entry point when called to process constraint data.
-    * 
+    *
     * @param projectDir project directory
     * @param file parent project file
     * @param inputStreamFactory factory to create input stream

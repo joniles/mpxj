@@ -43,7 +43,7 @@ public class GroupContainer extends ListWithCallbacks<Group>
 
    /**
     * Retrieve a given group by name.
-    * 
+    *
     * @param name group name
     * @return Group instance
     */

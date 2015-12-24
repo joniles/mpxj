@@ -68,7 +68,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
-    * 
+    *
     * @return Map instance containing ID and name pairs
     * @throws MPXJException
     */
@@ -97,7 +97,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Read a project from the current data source.
-    * 
+    *
     * @return ProjectFile instance
     * @throws MPXJException
     */
@@ -149,7 +149,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * Convenience method which allows all projects in the database to
     * be read in a single operation.
-    * 
+    *
     * @return list of ProjectFile instances
     * @throws MPXJException
     */
@@ -167,7 +167,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Select the project properties from the database.
-    * 
+    *
     * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
@@ -198,7 +198,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Select the default currency properties from the database.
-    * 
+    *
     * @param currencyID default currency ID
     */
    private void processDefaultCurrency(Integer currencyID) throws SQLException
@@ -213,7 +213,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Process resources.
-    * 
+    *
     * @throws SQLException
     */
    private void processResources() throws SQLException
@@ -224,7 +224,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @throws SQLException
     */
    private void processTasks() throws SQLException
@@ -237,7 +237,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Process predecessors.
-    * 
+    *
     * @throws SQLException
     */
    private void processPredecessors() throws SQLException
@@ -248,7 +248,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Process calendars.
-    * 
+    *
     * @throws SQLException
     */
    private void processCalendars() throws SQLException
@@ -259,7 +259,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Process resource assignments.
-    * 
+    *
     * @throws SQLException
     */
    private void processAssignments() throws SQLException
@@ -270,7 +270,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Set the ID of the project to be read.
-    * 
+    *
     * @param projectID project ID
     */
    public void setProjectID(int projectID)
@@ -281,7 +281,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * Set the data source. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
-    * 
+    *
     * @param dataSource data source
     */
    public void setDataSource(DataSource dataSource)
@@ -292,7 +292,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * Sets the connection. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
-    * 
+    *
     * @param connection database connection
     */
    public void setConnection(Connection connection)
@@ -325,8 +325,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query. 
-    * 
+    * Retrieve a number of rows matching the supplied query.
+    *
     * @param sql query statement
     * @return result set
     * @throws SQLException
@@ -357,9 +357,9 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query 
+    * Retrieve a number of rows matching the supplied query
     * which takes a single parameter.
-    * 
+    *
     * @param sql query statement
     * @param var bind variable value
     * @return result set
@@ -393,7 +393,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Allocates a database connection.
-    * 
+    *
     * @throws SQLException
     */
    private void allocateConnection() throws SQLException
@@ -444,7 +444,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Retrieves basic meta data from the result set.
-    * 
+    *
     * @throws SQLException
     */
    private void populateMetaData() throws SQLException
@@ -463,7 +463,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Set the name of the schema containing the Primavera tables.
-    * 
+    *
     * @param schema schema name.
     */
    public void setSchema(String schema)
@@ -484,7 +484,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Retrieve the name of the schema containing the Primavera tables.
-    * 
+    *
     * @return schema name
     */
    public String getSchema()
@@ -494,7 +494,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Override the default field name mapping for user defined types.
-    * 
+    *
     * @param type target user defined data type
     * @param fieldName field name
     */
@@ -505,7 +505,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getResourceFieldMap()
@@ -515,7 +515,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getWbsFieldMap()
@@ -525,7 +525,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getTaskFieldMap()
@@ -535,7 +535,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getAssignmentFields()
@@ -545,7 +545,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
    /**
     * Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getAliases()
@@ -557,7 +557,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
     * Defaults to true.
-    * 
+    *
     * @return flag value
     */
    public boolean getMatchPrimaveraWBS()
@@ -568,8 +568,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
-    * Defaults to true. 
-    * 
+    * Defaults to true.
+    *
     * @param matchPrimaveraWBS flag value
     */
    public void setMatchPrimaveraWBS(boolean matchPrimaveraWBS)

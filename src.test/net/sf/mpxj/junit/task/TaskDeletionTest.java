@@ -39,7 +39,7 @@ import org.junit.Test;
 
 /**
  * Tests to ensure deleted tasks, both blank and normal, are handled correctly.
- * 
+ *
  * Test Data Generation:
  * 1. Create an MPP file with the following tasks:
  *       1. blank
@@ -96,9 +96,9 @@ public class TaskDeletionTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
-    * @param expectedNames expected task names 
+    * @param expectedNames expected task names
     */
    private void testTaskDeletion(File file, String[] expectedNames) throws MPXJException
    {

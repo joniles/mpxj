@@ -44,7 +44,7 @@ public class CustomerDataTest
 {
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData1() throws Exception
@@ -54,7 +54,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData2() throws Exception
@@ -64,7 +64,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData3() throws Exception
@@ -74,7 +74,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData4() throws Exception
@@ -84,7 +84,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData5() throws Exception
@@ -94,7 +94,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData6() throws Exception
@@ -104,7 +104,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData7() throws Exception
@@ -114,7 +114,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData8() throws Exception
@@ -124,7 +124,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData9() throws Exception
@@ -134,7 +134,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData10() throws Exception
@@ -150,7 +150,7 @@ public class CustomerDataTest
     * test will attempt of read each of the files in turn.
     *
     * @param index current chunk
-    * @param max maximum number of chunks 
+    * @param max maximum number of chunks
     * @throws Exception
     */
    private void testCustomerData(int index, int max) throws Exception

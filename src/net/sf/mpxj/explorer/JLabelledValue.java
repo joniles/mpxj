@@ -39,7 +39,7 @@ public class JLabelledValue extends JPanel
 
    /**
     * Constructor.
-    * 
+    *
     * @param label fixed label text
     */
    public JLabelledValue(String label)
@@ -60,7 +60,7 @@ public class JLabelledValue extends JPanel
 
    /**
     * Set the text displayed in the variable label.
-    * 
+    *
     * @param value value to be displayed
     */
    public void setValue(String value)
@@ -70,7 +70,7 @@ public class JLabelledValue extends JPanel
 
    /**
     * Retrieve the text displayed in the variable label.
-    * 
+    *
     * @return value
     */
    public String getValue()

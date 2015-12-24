@@ -33,7 +33,7 @@ class Record
 {
    /**
     * Constructor. Parse an entire string.
-    * 
+    *
     * @param text string to parse
     */
    protected Record(String text)
@@ -43,7 +43,7 @@ class Record
 
    /**
     * Constructor. Parse a segment of a string.
-    * 
+    *
     * @param text string to parse
     * @param start start position
     * @param end end position
@@ -55,8 +55,8 @@ class Record
 
    /**
     * Retrieve the field represented by this record.
-    * 
-    * @return field 
+    *
+    * @return field
     */
    public String getField()
    {
@@ -65,7 +65,7 @@ class Record
 
    /**
     * Retrieve the value represented by this record.
-    * 
+    *
     * @return value
     */
    public String getValue()
@@ -75,7 +75,7 @@ class Record
 
    /**
     * Retrieve all child records.
-    * 
+    *
     * @return list of child records
     */
    public List<Record> getChildren()
@@ -85,7 +85,7 @@ class Record
 
    /**
     * Retrieve a child record by name.
-    * 
+    *
     * @param key child record name
     * @return child record
     */
@@ -108,7 +108,7 @@ class Record
 
    /**
     * Parse a block of text into records.
-    * 
+    *
     * @param text text to parse
     * @param start start index
     * @param end end index
@@ -134,7 +134,7 @@ class Record
 
    /**
     * Parse a block of text into records.
-    * 
+    *
     * @param text text to be parsed
     * @param start start index
     * @param valueStart value start index
@@ -167,7 +167,7 @@ class Record
    /**
     * Look for the closing parenthesis corresponding to the one at position
     * represented by the opening index.
-    * 
+    *
     * @param text input expression
     * @param opening opening parenthesis index
     * @return closing parenthesis index
@@ -208,7 +208,7 @@ class Record
 
    /**
     * Retrieve the position of the next opening parenthesis.
-    * 
+    *
     * @param text text being parsed
     * @param position start position
     * @return index of parenthesis
@@ -228,7 +228,7 @@ class Record
 
    /**
     * Method to build hierarchical string representation - called recursively.
-    * 
+    *
     * @param spaces number of spaces to use to format the string
     * @return formatted string
     */

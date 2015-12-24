@@ -40,7 +40,7 @@ class FileRow extends MapRow
 {
    /**
     * Constructor.
-    * 
+    *
     * @param table table definition
     * @param data table data
     * @throws MPXJException
@@ -63,7 +63,7 @@ class FileRow extends MapRow
 
    /**
     * Maps the text representation of column data to Java types.
-    * 
+    *
     * @param table table name
     * @param column column name
     * @param data text representation of column data
@@ -127,7 +127,7 @@ class FileRow extends MapRow
 
    /**
     * Parse a string representation of a Boolean value.
-    * 
+    *
     * @param value string representation
     * @return Boolean value
     */
@@ -145,7 +145,7 @@ class FileRow extends MapRow
 
    /**
     * Parse a string representation of an Integer value.
-    * 
+    *
     * @param value string representation
     * @return Integer value
     */
@@ -171,7 +171,7 @@ class FileRow extends MapRow
 
    /**
     * Parse a string.
-    * 
+    *
     * @param value string representation
     * @return String value
     */
@@ -196,7 +196,7 @@ class FileRow extends MapRow
 
    /**
     * Parse the string representation of a double.
-    * 
+    *
     * @param value string representation
     * @return Java representation
     * @throws ParseException
@@ -238,7 +238,7 @@ class FileRow extends MapRow
 
    /**
     * Parse the string representation of a timestamp.
-    * 
+    *
     * @param value string representation
     * @return Java representation
     */

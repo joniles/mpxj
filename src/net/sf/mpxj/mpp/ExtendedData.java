@@ -202,7 +202,7 @@ final class ExtendedData
 
    /**
     * Retrieve the raw byte array.
-    * 
+    *
     * @param type data type
     * @return byte array
     */

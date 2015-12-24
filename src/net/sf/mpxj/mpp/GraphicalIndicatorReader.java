@@ -44,7 +44,7 @@ public final class GraphicalIndicatorReader
 {
    /**
     * The main entry point for processing graphical indicator definitions.
-    * 
+    *
     * @param indicators graphical indicators container
     * @param properties project properties
     * @param props properties data
@@ -150,7 +150,7 @@ public final class GraphicalIndicatorReader
 
    /**
     * Process the graphical indicator criteria for a single column.
-    * 
+    *
     * @param type field type
     * @return indicator criteria data
     */
@@ -187,7 +187,7 @@ public final class GraphicalIndicatorReader
    /**
     * Process an operand value used in the definition of the graphical
     * indicator criteria.
-    * 
+    *
     * @param index position in operand list
     * @param type field type
     * @param criteria indicator criteria

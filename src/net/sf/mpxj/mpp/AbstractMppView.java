@@ -32,7 +32,7 @@ public abstract class AbstractMppView extends AbstractView
 {
    /**
     * Constructor.
-    * 
+    *
     * @param parent parent file
     */
    public AbstractMppView(ProjectFile parent)

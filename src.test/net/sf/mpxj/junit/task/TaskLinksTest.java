@@ -69,7 +69,7 @@ public class TaskLinksTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskLinks(File file) throws MPXJException
@@ -101,7 +101,7 @@ public class TaskLinksTest
 
    /**
     * Test a relationship between two tasks.
-    * 
+    *
     * @param project parent project
     * @param taskID1 first task
     * @param taskID2 second task

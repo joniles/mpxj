@@ -39,7 +39,7 @@ public interface ProjectReader
 {
    /**
     * Add a listener to receive events as a project is being read.
-    * 
+    *
     * @param listener ProjectListener instance
     */
    public void addProjectListener(ProjectListener listener);

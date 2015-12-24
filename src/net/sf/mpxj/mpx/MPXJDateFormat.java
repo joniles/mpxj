@@ -121,7 +121,7 @@ public final class MPXJDateFormat extends DateFormat
 
    /**
     * Allows the AM/PM text to be set.
-    * 
+    *
     * @param am AM text
     * @param pm PM text
     */

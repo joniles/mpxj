@@ -79,9 +79,9 @@ final class LocaleUtility
    }
 
    /**
-    * Retrieves an array containing the locales supported by MPXJ's 
+    * Retrieves an array containing the locales supported by MPXJ's
     * MPX functionality.
-    * 
+    *
     * @return array of supported locales
     */
    public static Locale[] getSupportedLocales()

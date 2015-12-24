@@ -100,9 +100,9 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public final class MSPDIWriter extends AbstractProjectWriter
 {
    /**
-    * Sets a flag to control whether timephased assignment data is split 
+    * Sets a flag to control whether timephased assignment data is split
     * into days. The default is true.
-    * 
+    *
     * @param flag boolean flag
     */
    public void setSplitTimephasedAsDays(boolean flag)
@@ -111,9 +111,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieves a flag to control whether timephased assignment data is split 
-    * into days. The default is true. 
-    * 
+    * Retrieves a flag to control whether timephased assignment data is split
+    * into days. The default is true.
+    *
     * @return boolean true
     */
    public boolean getSplitTimephasedAsDays()
@@ -124,7 +124,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Sets a flag to control whether timephased resource assignment data
     * is written to the file. The default is false.
-    * 
+    *
     * @param value boolean flag
     */
    public void setWriteTimephasedData(boolean value)
@@ -133,9 +133,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieves the state of the flag which controls whether timephased 
+    * Retrieves the state of the flag which controls whether timephased
     * resource assignment data is written to the file. The default is false.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getWriteTimephasedData()
@@ -145,7 +145,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Set the save version to use when generating an MSPDI file.
-    * 
+    *
     * @param version save version
     */
    public void setSaveVersion(SaveVersion version)
@@ -155,7 +155,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve the save version current set.
-    * 
+    *
     * @return current save version
     */
    public SaveVersion getSaveVersion()
@@ -434,9 +434,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Main entry point used to determine the format used to write 
+    * Main entry point used to determine the format used to write
     * calendar exceptions.
-    * 
+    *
     * @param calendar parent calendar
     * @param dayList list of calendar days
     * @param exceptions list of exceptions
@@ -455,7 +455,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Write exceptions in the format used by MSPDI files prior to Project 2007.
-    * 
+    *
     * @param dayList list of calendar days
     * @param exceptions list of exceptions
     */
@@ -496,7 +496,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Write exceptions into the format used by MSPDI files from
     * Project 2007 onwards.
-    * 
+    *
     * @param calendar parent calendar
     * @param exceptions list of exceptions
     */
@@ -543,7 +543,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Write the work weeks associated with this calendar.
-    * 
+    *
     * @param xmlCalendar XML calendar instance
     * @param mpxjCalendar MPXJ calendar instance
     */
@@ -732,7 +732,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes resource baseline data.
-    * 
+    *
     * @param xmlResource MSPDI resource
     * @param mpxjResource MPXJ resource
     */
@@ -822,7 +822,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * This method is called to determine if an extended attribute
     * should be written to the file, or whether the default value
     * can be assumed.
-    * 
+    *
     * @param value extended attribute value
     * @param type extended attribute data type
     * @return boolean flag
@@ -871,7 +871,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes a resource's cost rate tables.
-    * 
+    *
     * @param xml MSPDI resource
     * @param mpx MPXJ resource
     */
@@ -921,7 +921,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method determines whether the cost rate table should be written.
     * A default cost rate table should not be written to the file.
-    * 
+    *
     * @param entry cost rate table entry
     * @param from from date
     * @return boolean flag
@@ -938,7 +938,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * This method writes a resource's availability table.
-    * 
+    *
     * @param xml MSPDI resource
     * @param mpx MPXJ resource
     */
@@ -1137,7 +1137,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes task baseline data.
-    * 
+    *
     * @param xmlTask MSPDI task
     * @param mpxjTask MPXJ task
     */
@@ -1419,7 +1419,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method writes data for a single assignment to an MSPDI file.
     *
-    * @param mpx Resource assignment data 
+    * @param mpx Resource assignment data
     * @return New MSPDI assignment instance
     */
    private Project.Assignments.Assignment writeAssignment(ResourceAssignment mpx)
@@ -1498,7 +1498,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes assignment baseline data.
-    * 
+    *
     * @param xml MSPDI assignment
     * @param mpxj MPXJ assignment
     */
@@ -1614,7 +1614,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes the timephased data for a resource assignment.
-    * 
+    *
     * @param mpx MPXJ assignment
     * @param xml MSDPI assignment
     */
@@ -1668,7 +1668,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Splits timephased data into individual days.
-    * 
+    *
     * @param calendar current calendar
     * @param list list of timephased assignment data
     * @param first first planned assignment
@@ -1802,9 +1802,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes a list of timephased data to the MSPDI file.
-    * 
+    *
     * @param assignmentID current assignment ID
-    * @param list output list of timephased data items 
+    * @param list output list of timephased data items
     * @param data input list of timephased data
     * @param type list type (planned or completed)
     */
@@ -1826,7 +1826,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve list of assignment extended attributes.
-    * 
+    *
     * @return list of extended attributes
     */
    private List<AssignmentField> getAllAssignmentExtendedAttributes()
@@ -1853,7 +1853,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve list of task extended attributes.
-    * 
+    *
     * @return list of extended attributes
     */
    private List<TaskField> getAllTaskExtendedAttributes()
@@ -1879,7 +1879,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve list of resource extended attributes.
-    * 
+    *
     * @return list of extended attributes
     */
    private List<ResourceField> getAllResourceExtendedAttributes()

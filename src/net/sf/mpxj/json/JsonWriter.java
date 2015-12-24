@@ -49,14 +49,14 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
- * This class creates a new JSON file from the contents of 
+ * This class creates a new JSON file from the contents of
  * a ProjectFile instance.
  */
 public final class JsonWriter extends AbstractProjectWriter
 {
    /**
     * Retrieve the pretty-print flag.
-    * 
+    *
     * @return true if pretty printing is enabled
     */
    public boolean getPretty()
@@ -66,8 +66,8 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Set the pretty-print flag.
-    * 
-    * @param pretty true if pretty printing is enabled 
+    *
+    * @param pretty true if pretty printing is enabled
     */
    public void setPretty(boolean pretty)
    {
@@ -121,7 +121,7 @@ public final class JsonWriter extends AbstractProjectWriter
     * available data... in this instance the field alias.
     * If the field does not have an alias we won't write an
     * entry.
-    * 
+    *
     * @param field custom field to write
     * @throws IOException
     */
@@ -138,7 +138,7 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes project property data to a JSON file. 
+    * This method writes project property data to a JSON file.
     */
    private void writeProperties() throws IOException
    {
@@ -147,7 +147,7 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes resource data to a JSON file. 
+    * This method writes resource data to a JSON file.
     */
    private void writeResources() throws IOException
    {
@@ -163,7 +163,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * This method writes task data to a JSON file.
-    * Note that we write the task hierarchy in order to make rebuilding the hierarchy easier. 
+    * Note that we write the task hierarchy in order to make rebuilding the hierarchy easier.
     */
    private void writeTasks() throws IOException
    {
@@ -180,7 +180,7 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * This method is called recursively to write a task and its child tasks
     * to the JSON file.
-    * 
+    *
     * @param task task to write
     */
    private void writeTask(Task task) throws IOException
@@ -193,7 +193,7 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method writes assignment data to a JSON file. 
+    * This method writes assignment data to a JSON file.
     */
    private void writeAssignments() throws IOException
    {
@@ -210,7 +210,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Generates a mapping between attribute names and data types.
-    * 
+    *
     * @param name name of the map
     * @param types types to write
     */
@@ -246,7 +246,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write the appropriate data for a field to the JSON file based on its type.
-    * 
+    *
     * @param field field type
     * @param value field value
     */
@@ -258,7 +258,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write the appropriate data for a field to the JSON file based on its type.
-    * 
+    *
     * @param fieldName field name
     * @param fieldType field type
     * @param value field value
@@ -335,7 +335,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write an integer field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -350,7 +350,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write an double field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -365,7 +365,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a boolean field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -380,7 +380,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a duration field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -404,7 +404,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a date field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -423,7 +423,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a time units field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -438,7 +438,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a priority field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -449,7 +449,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a map field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -477,7 +477,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a string field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -492,7 +492,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a relation list field to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */

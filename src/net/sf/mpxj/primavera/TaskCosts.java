@@ -31,7 +31,7 @@ class TaskCosts
 {
    /**
     * Add a planned cost value.
-    * 
+    *
     * @param value cost value
     */
    public void addPlanned(Double value)
@@ -44,7 +44,7 @@ class TaskCosts
 
    /**
     * Add an actual cost value.
-    * 
+    *
     * @param value cost value
     */
    public void addActual(Double value)
@@ -57,7 +57,7 @@ class TaskCosts
 
    /**
     * Add a remaining cost value.
-    * 
+    *
     * @param value cost value
     */
    public void addRemaining(Double value)
@@ -70,7 +70,7 @@ class TaskCosts
 
    /**
     * Retrieve the planned cost for a task.
-    * 
+    *
     * @return cost value
     */
    public Double getPlanned()
@@ -80,7 +80,7 @@ class TaskCosts
 
    /**
     * Retrieved the actual cost for a task.
-    * 
+    *
     * @return cost value
     */
    public Double getActual()
@@ -90,7 +90,7 @@ class TaskCosts
 
    /**
     * Retrieved the remaining cost for a task.
-    * 
+    *
     * @return cost value
     */
    public Double getRemaining()

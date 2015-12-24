@@ -30,7 +30,7 @@ public final class GenericCriteriaPrompt
 {
    /**
     * Constructor.
-    * 
+    *
     * @param type prompt data type
     * @param prompt text
     */
@@ -41,8 +41,8 @@ public final class GenericCriteriaPrompt
    }
 
    /**
-    * Retrieve the data type of the expected value. 
-    * 
+    * Retrieve the data type of the expected value.
+    *
     * @return data type
     */
    public DataType getType()
@@ -52,7 +52,7 @@ public final class GenericCriteriaPrompt
 
    /**
     * Retrieves the prompt text.
-    * 
+    *
     * @return prompt text
     */
    public String getPrompt()

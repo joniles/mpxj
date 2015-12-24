@@ -84,7 +84,7 @@ public final class GanttChartView9 extends GanttChartView
       List<FieldType> fields = new LinkedList<FieldType>();
 
       //
-      // Filter data: 24 byte header, plus 80 byte criteria blocks, 
+      // Filter data: 24 byte header, plus 80 byte criteria blocks,
       // plus var data. Total block size is specified at the start of the
       // block.
       //
@@ -224,7 +224,7 @@ public final class GanttChartView9 extends GanttChartView
 
    /**
     * Creates a new GridLines instance.
-    * 
+    *
     * @param data data block
     * @param offset offset into data block
     * @return new GridLines instance

@@ -49,7 +49,7 @@ public class MppGroupTest
 {
    /**
     * Test group data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9Groups() throws Exception
@@ -60,7 +60,7 @@ public class MppGroupTest
 
    /**
     * Test group data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GroupsFrom12() throws Exception
@@ -71,7 +71,7 @@ public class MppGroupTest
 
    /**
     * Test group data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GroupsFrom14() throws Exception
@@ -82,7 +82,7 @@ public class MppGroupTest
 
    /**
     * Test group data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12Groups() throws Exception
@@ -93,7 +93,7 @@ public class MppGroupTest
 
    /**
     * Test group data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12GroupsFrom14() throws Exception
@@ -104,7 +104,7 @@ public class MppGroupTest
 
    /**
     * Test group data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14Groups() throws Exception
@@ -115,7 +115,7 @@ public class MppGroupTest
 
    /**
     * Test group data.
-    * 
+    *
     * @param mpp ProjectFile instance
     */
    private void testGroups(ProjectFile mpp)

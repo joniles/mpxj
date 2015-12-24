@@ -27,13 +27,13 @@ import java.util.ArrayList;
 
 /**
  * Used to parse and represent the header data present at the
- * start of each line in an Asta PP file. 
+ * start of each line in an Asta PP file.
  */
 class RowHeader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param header header text
     */
    public RowHeader(String header)
@@ -43,7 +43,7 @@ class RowHeader
 
    /**
     * Parses values out of the header text.
-    * 
+    *
     * @param header header text
     */
    private void parse(String header)
@@ -83,8 +83,8 @@ class RowHeader
    }
 
    /**
-    * Retrieve the ID value of this row. 
-    * 
+    * Retrieve the ID value of this row.
+    *
     * @return ID value
     */
    public String getID()
@@ -94,7 +94,7 @@ class RowHeader
 
    /**
     * Retrieve the sequence value of this row.
-    * 
+    *
     * @return sequence value
     */
    public int getSequence()
@@ -104,7 +104,7 @@ class RowHeader
 
    /**
     * Retrieve the type of table this row belongs to.
-    * 
+    *
     * @return table type
     */
    public Integer getType()
@@ -114,7 +114,7 @@ class RowHeader
 
    /**
     * Retrieve the "sub type" of this row.
-    * 
+    *
     * @return row sub type
     */
    public int getSubtype()

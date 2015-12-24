@@ -34,7 +34,7 @@ public interface FieldListener
 {
    /**
     * Called when a field value is changed.
-    * 
+    *
     * @param container field container
     * @param type field type
     * @param oldValue old value

@@ -78,7 +78,7 @@ final class PrimaveraReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param udfCounters user defined field data types
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
@@ -114,7 +114,7 @@ final class PrimaveraReader
 
    /**
     * Retrieves the project data read from this file.
-    * 
+    *
     * @return project data
     */
    public ProjectFile getProject()
@@ -124,7 +124,7 @@ final class PrimaveraReader
 
    /**
     * Process project properties.
-    * 
+    *
     * @param rows project properties data.
     */
    public void processProjectProperties(List<Row> rows)
@@ -145,7 +145,7 @@ final class PrimaveraReader
 
    /**
     * Process User Defined Fields (UDF).
-    * 
+    *
     * @param userDefinedFields UDFs rows
     */
    public void processUserDefinedFields(List<Row> userDefinedFields)
@@ -161,7 +161,7 @@ final class PrimaveraReader
 
    /**
     * Process project calendars.
-    * 
+    *
     * @param rows project calendar data
     */
    public void processCalendars(List<Row> rows)
@@ -174,7 +174,7 @@ final class PrimaveraReader
 
    /**
     * Process data for an individual calendar.
-    * 
+    *
     * @param row calendar data
     */
    public void processCalendar(Row row)
@@ -206,7 +206,7 @@ final class PrimaveraReader
 
    /**
     * Create a structured calendar Record instance from the flat calendar data.
-    * 
+    *
     * @param calendarData flat calendar data
     * @return calendar Record instance
     */
@@ -234,7 +234,7 @@ final class PrimaveraReader
 
    /**
     * Process calendar days of the week.
-    * 
+    *
     * @param calendar project calendar
     * @param root calendar data
     */
@@ -253,7 +253,7 @@ final class PrimaveraReader
 
    /**
     * Process hours in a working day.
-    * 
+    *
     * @param calendar project calendar
     * @param dayRecord working day data
     */
@@ -295,7 +295,7 @@ final class PrimaveraReader
 
    /**
     * Process calendar exceptions.
-    * 
+    *
     * @param calendar project calendar
     * @param root calendar data
     */
@@ -320,7 +320,7 @@ final class PrimaveraReader
 
    /**
     * Process resources.
-    * 
+    *
     * @param rows resource data
     */
    public void processResources(List<Row> rows)
@@ -336,7 +336,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the correct calendar for a resource.
-    * 
+    *
     * @param calendarID calendar ID
     * @return calendar for resource
     */
@@ -391,7 +391,7 @@ final class PrimaveraReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @param wbs WBS task data
     * @param tasks task data
     * @param costs task costs
@@ -403,7 +403,7 @@ final class PrimaveraReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @param wbs WBS task data
     * @param tasks task data
     * @param costs task costs
@@ -533,7 +533,7 @@ final class PrimaveraReader
 
    /**
     * Determine which field the Activity ID has been mapped to.
-    * 
+    *
     * @param map field map
     * @return field
     */
@@ -553,7 +553,7 @@ final class PrimaveraReader
 
    /**
     * Summarise cost values for each task.
-    * 
+    *
     * @param costs list of cost rows
     * @return map of task IDs to costs
     */
@@ -614,7 +614,7 @@ final class PrimaveraReader
 
    /**
     * Parse a user defined field for a task.
-    * 
+    *
     * @param row UDF data
     */
    private void parseTaskUDF(Row row)
@@ -629,7 +629,7 @@ final class PrimaveraReader
 
    /**
     * Adds a user defined field value to a task.
-    * 
+    *
     * @param task Task instance
     * @param row UDF data
     */
@@ -679,7 +679,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the user defined values for a given task.
-    * 
+    *
     * @param taskID target task ID
     * @param udfs user defined fields
     * @return user defined fields for the target task
@@ -702,7 +702,7 @@ final class PrimaveraReader
       return udf;
    }
 
-   /*   
+   /*
       private String getNotes(List<Row> notes, String keyField, int keyValue, String notesField)
       {
          String result = null;
@@ -720,7 +720,7 @@ final class PrimaveraReader
 
    /**
     * Populates a field based on baseline and actual values.
-    * 
+    *
     * @param container field container
     * @param target target field
     * @param baseline baseline field
@@ -738,7 +738,7 @@ final class PrimaveraReader
 
    /**
     * Ensure activities are sorted into Activity ID order to match Primavera.
-    * 
+    *
     * @param activityIDField field containing the Activity ID value
     * @param container object containing the tasks to process
     */
@@ -761,7 +761,7 @@ final class PrimaveraReader
             // 2. WBS come last
             // 3. Activities ordered by activity ID
             // 4. WBS ordered by ID
-            // 
+            //
             Collections.sort(tasks, new Comparator<Task>()
             {
                @Override public int compare(Task t1, Task t2)
@@ -807,8 +807,8 @@ final class PrimaveraReader
 
    /**
     * Iterates through the tasks setting the correct
-    * outline level and ID values. 
-    * 
+    * outline level and ID values.
+    *
     * @param id current ID value
     * @param task current task
     * @param outlineLevel current outline level
@@ -843,7 +843,7 @@ final class PrimaveraReader
 
    /**
     * See the notes above.
-    * 
+    *
     * @param parentTask parent task.
     */
    private void updateDates(Task parentTask)
@@ -900,7 +900,7 @@ final class PrimaveraReader
 
    /**
     * Processes predecessor data.
-    * 
+    *
     * @param rows predecessor data
     */
    public void processPredecessors(List<Row> rows)
@@ -921,7 +921,7 @@ final class PrimaveraReader
 
    /**
     * Process assignment data.
-    * 
+    *
     * @param rows assignment data
     */
    public void processAssignments(List<Row> rows)
@@ -946,9 +946,9 @@ final class PrimaveraReader
    }
 
    /**
-    * Code common to both XER and database readers to extract 
+    * Code common to both XER and database readers to extract
     * currency format data.
-    * 
+    *
     * @param row row containing currency data
     */
    public void processDefaultCurrency(Row row)
@@ -963,7 +963,7 @@ final class PrimaveraReader
 
    /**
     * Generic method to extract Primavera fields and assign to MPXJ fields.
-    * 
+    *
     * @param map map of MPXJ field types and Primavera field names
     * @param row Primavera data container
     * @param container MPXJ data contain
@@ -1055,7 +1055,7 @@ final class PrimaveraReader
 
    /**
     * Deals with the case where we have had to map a task ID to a new value.
-    * 
+    *
     * @param id task ID from database
     * @return mapped task ID
     */
@@ -1071,7 +1071,7 @@ final class PrimaveraReader
 
    /**
     * Apply aliases to task and resource fields.
-    * 
+    *
     * @param aliases map of aliases
     */
    private void applyAliases(Map<FieldType, String> aliases)
@@ -1086,7 +1086,7 @@ final class PrimaveraReader
    /**
     * Determine which type of percent complete is used on on this task,
     * and calculate the required value.
-    * 
+    *
     * @param row task data
     * @return percent complete value
     */
@@ -1119,7 +1119,7 @@ final class PrimaveraReader
 
    /**
     * Calculate the physical percent complete.
-    * 
+    *
     * @param row task data
     * @return percent complete
     */
@@ -1130,7 +1130,7 @@ final class PrimaveraReader
 
    /**
     * Calculate the units percent complete.
-    * 
+    *
     * @param row task data
     * @return percent complete
     */
@@ -1155,7 +1155,7 @@ final class PrimaveraReader
 
    /**
     * Calculate the duration percent complete.
-    * 
+    *
     * @param row task data
     * @return percent complete
     */
@@ -1188,7 +1188,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultResourceFieldMap()
@@ -1211,7 +1211,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default mapping between MPXJ task fields and Primavera wbs field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultWbsFieldMap()
@@ -1236,7 +1236,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default mapping between MPXJ task fields and Primavera task field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultTaskFieldMap()
@@ -1275,7 +1275,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default mapping between MPXJ assignment fields and Primavera assignment field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultAssignmentFieldMap()
@@ -1300,7 +1300,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default aliases to be applied to MPXJ task and resource fields.
-    * 
+    *
     * @return map of aliases
     */
    public static Map<FieldType, String> getDefaultAliases()

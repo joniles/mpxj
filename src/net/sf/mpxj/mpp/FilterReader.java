@@ -38,21 +38,21 @@ public abstract class FilterReader
 {
    /**
     * Retrieves the type used for the VarData lookup.
-    * 
+    *
     * @return VarData type
     */
    protected abstract Integer getVarDataType();
 
    /**
     * Retrieves the criteria reader used for this filter.
-    * 
+    *
     * @return criteria reader
     */
    protected abstract CriteriaReader getCriteriaReader();
 
    /**
     * Entry point for processing filter definitions.
-    * 
+    *
     * @param properties project properties
     * @param filters project filters
     * @param fixedData filter fixed data

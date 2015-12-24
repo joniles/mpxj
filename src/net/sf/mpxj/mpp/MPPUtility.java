@@ -56,7 +56,7 @@ public final class MPPUtility
    /**
     * This method decodes a byte array with the given encryption code
     * using XOR encryption.
-    * 
+    *
     * @param data Source data
     * @param encryptionCode Encryption code
     */
@@ -72,11 +72,11 @@ public final class MPPUtility
     * The mask used by Project to hide the password. The data must first
     * be decoded using the XOR key and then the password can be read by reading
     * the characters in given order starting with 1 and going up to 16.
-    * 
+    *
     * 00000: 00 00 04 00 00 00 05 00 07 00 12 00 10 00 06 00
     * 00016: 14 00 00 00 00 00 08 00 16 00 00 00 00 00 02 00
     * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
-    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00 
+    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00
     */
    private static final int[] PASSWORD_MASK =
    {
@@ -101,11 +101,11 @@ public final class MPPUtility
    private static final int MINIMUM_PASSWORD_DATA_LENGTH = 64;
 
    /**
-    * Decode the password from the given data. Will decode the data block as well. 
-    * 
+    * Decode the password from the given data. Will decode the data block as well.
+    *
     * @param data encrypted data block
     * @param encryptionCode encryption code
-    * 
+    *
     * @return password
     */
    public static final String decodePassword(byte[] data, byte encryptionCode)
@@ -264,7 +264,7 @@ public final class MPPUtility
 
    /**
     * Reads a UUID/GUID from a data block.
-    * 
+    *
     * @param data data block
     * @param offset offset into the data block
     * @return UUID instance
@@ -517,9 +517,9 @@ public final class MPPUtility
 
    /**
     * Reads a color value represented by three bytes, for R, G, and B
-    * components, plus a flag byte indicating if this is an automatic color. 
+    * components, plus a flag byte indicating if this is an automatic color.
     * Returns null if the color type is "Automatic".
-    * 
+    *
     * @param data byte array of data
     * @param offset offset into array
     * @return new Color instance
@@ -593,7 +593,7 @@ public final class MPPUtility
 
          case MONTHS:
          {
-            duration = value / 96000; // 
+            duration = value / 96000; //
             break;
          }
 
@@ -902,7 +902,7 @@ public final class MPPUtility
 
    /**
     * Utility method to read a percentage value.
-    * 
+    *
     * @param data data block
     * @param offset offset into data block
     * @return percentage value
@@ -1046,7 +1046,7 @@ public final class MPPUtility
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
     * characters. The data is organised into fixed width columns.
-    * 
+    *
     * @param buffer data to be displayed
     * @param offset offset into buffer
     * @param length number of bytes to display
@@ -1195,7 +1195,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpDouble)
@@ -1207,7 +1207,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpTimeStamp)
@@ -1222,7 +1222,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpDuration)
@@ -1234,7 +1234,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpDate)
@@ -1249,7 +1249,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpTime)
@@ -1261,7 +1261,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpAdjustedDuration)
@@ -1272,7 +1272,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions                   
+                  // Silently ignore exceptions
                }
             }
 
@@ -1385,7 +1385,7 @@ public final class MPPUtility
    /**
     * Dumps the contents of a structured block made up from a header
     * and fixed sized records.
-    * 
+    *
     * @param headerSize header zie
     * @param blockSize block size
     * @param data data block
@@ -1406,7 +1406,7 @@ public final class MPPUtility
 
    /**
     * Get the epoch date.
-    * 
+    *
     * @return epoch date.
     */
    public static Date getEpochDate()

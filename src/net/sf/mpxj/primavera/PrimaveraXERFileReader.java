@@ -124,7 +124,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * This is a convenience method which allows all projects in an
     * XER file to be read in a single pass.
-    * 
+    *
     * @param is input stream
     * @return list of ProjectFile instances
     * @throws MPXJException
@@ -251,7 +251,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Process a currency definition.
-    * 
+    *
     * @param row record from XER file
     */
    private void processCurrency(Row row)
@@ -275,7 +275,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current file.
-    * 
+    *
     * @param is input stream used to read XER file
     * @return Map instance containing ID and name pairs
     * @throws MPXJException
@@ -390,7 +390,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Reads each token from a single record and adds it to a list.
-    * 
+    *
     * @param tk tokenizer
     * @param record list of tokens
     * @throws IOException
@@ -406,8 +406,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Handles a complete record at a time, stores it in a form ready for
-    * further processing. 
-    * 
+    * further processing.
+    *
     * @param record record to be processed
     * @return flag indicating if this is the last record in the file to be processed
     * @throws MPXJException
@@ -594,7 +594,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Extract any useful attributes from the header record.
-    * 
+    *
     * @param record header record
     */
    private void processHeader(List<String> record)
@@ -604,7 +604,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Override the default field name mapping for user defined types.
-    * 
+    *
     * @param type target user defined data type
     * @param fieldName field name
     */
@@ -615,7 +615,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getResourceFieldMap()
@@ -625,7 +625,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getWbsFieldMap()
@@ -635,7 +635,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getTaskFieldMap()
@@ -645,7 +645,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getAssignmentFields()
@@ -655,7 +655,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getAliases()
@@ -666,8 +666,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Filters a list of rows from the named table. If a column name and a value
     * are supplied, then use this to filter the rows. If no column name is
-    * supplied, then return all rows. 
-    * 
+    * supplied, then return all rows.
+    *
     * @param tableName table name
     * @param columnName filter column name
     * @param id filter column value
@@ -705,8 +705,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
-    * Defaults to true. 
-    * 
+    * Defaults to true.
+    *
     * @return flag value
     */
    public boolean getMatchPrimaveraWBS()
@@ -717,8 +717,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
-    * Defaults to true. 
-    * 
+    * Defaults to true.
+    *
     * @param matchPrimaveraWBS flag value
     */
    public void setMatchPrimaveraWBS(boolean matchPrimaveraWBS)

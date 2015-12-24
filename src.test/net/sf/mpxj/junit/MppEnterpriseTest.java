@@ -44,7 +44,7 @@ public class MppEnterpriseTest
 {
    /**
     * Test enterprise data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9EnterpriseFields() throws Exception
@@ -55,7 +55,7 @@ public class MppEnterpriseTest
 
    /**
     * Test enterprise data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9EnterpriseFieldsFrom12() throws Exception
@@ -66,7 +66,7 @@ public class MppEnterpriseTest
 
    /**
     * Test enterprise data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9EnterpriseFieldsFrom14() throws Exception
@@ -77,7 +77,7 @@ public class MppEnterpriseTest
 
    /**
     * Test enterprise data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12EnterpriseFields() throws Exception
@@ -88,7 +88,7 @@ public class MppEnterpriseTest
 
    /**
     * Test enterprise data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12EnterpriseFieldsFrom14() throws Exception
@@ -99,7 +99,7 @@ public class MppEnterpriseTest
 
    /**
     * Test enterprise data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14EnterpriseFields() throws Exception
@@ -110,7 +110,7 @@ public class MppEnterpriseTest
 
    /**
     * Test enterprise data read from an MSPDI file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMspdiEnterpriseFields() throws Exception
@@ -121,7 +121,7 @@ public class MppEnterpriseTest
 
    /**
     * Tests enterprise fields.
-    * 
+    *
     * @param mpp The ProjectFile being tested.
     * @throws Exception
     */

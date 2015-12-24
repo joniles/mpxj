@@ -738,7 +738,7 @@ public final class MPXJFormats
 
    /**
     * Retrieve the text representing a null value.
-    * 
+    *
     * @return null text
     */
    public String getNullText()

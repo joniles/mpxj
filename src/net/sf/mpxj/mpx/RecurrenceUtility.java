@@ -50,8 +50,8 @@ final class RecurrenceUtility
    /**
     * Convert the integer representation of a duration value and duration units
     * into an MPXJ Duration instance.
-    * 
-    * @param properties project properties, used for duration units conversion 
+    *
+    * @param properties project properties, used for duration units conversion
     * @param durationValue integer duration value
     * @param unitsValue integer units value
     * @return Duration instance
@@ -78,7 +78,7 @@ final class RecurrenceUtility
    /**
     * Convert an MPXJ Duration instance into an integer duration in minutes
     * ready to be written to an MPX file.
-    * 
+    *
     * @param properties project properties, used for duration units conversion
     * @param duration Duration instance
     * @return integer duration in minutes
@@ -104,7 +104,7 @@ final class RecurrenceUtility
    /**
     * Converts a TimeUnit instance to an integer value suitable for
     * writing to an MPX file.
-    * 
+    *
     * @param recurrence RecurringTask instance
     * @return integer value
     */
@@ -124,7 +124,7 @@ final class RecurrenceUtility
    /**
     * Maps a duration unit value from a recurring task record in an MPX file
     * to a TimeUnit instance. Defaults to days if any problems are encountered.
-    * 
+    *
     * @param value integer duration units value
     * @return TimeUnit instance
     */
@@ -150,9 +150,9 @@ final class RecurrenceUtility
    }
 
    /**
-    * Converts the MPX file integer representation of a recurrence type 
+    * Converts the MPX file integer representation of a recurrence type
     * into a RecurrenceType instance.
-    * 
+    *
     * @param value MPX file integer recurrence type
     * @return RecurrenceType instance
     */
@@ -164,7 +164,7 @@ final class RecurrenceUtility
    /**
     * Converts a RecurrenceType instance into the integer representation
     * used in an MPX file.
-    * 
+    *
     * @param value RecurrenceType instance
     * @return integer representation
     */
@@ -175,7 +175,7 @@ final class RecurrenceUtility
 
    /**
     * Converts the string representation of the days bit field into an integer.
-    * 
+    *
     * @param days string bit field
     * @return integer bit field
     */
@@ -191,7 +191,7 @@ final class RecurrenceUtility
 
    /**
     * Converts an integer bit field into a string representation.
-    * 
+    *
     * @param days integer bit field
     * @return string representation
     */
@@ -209,7 +209,7 @@ final class RecurrenceUtility
 
    /**
     * Convert MPX day index to Day instance.
-    * 
+    *
     * @param day day index
     * @return Day instance
     */
@@ -225,7 +225,7 @@ final class RecurrenceUtility
 
    /**
     * Convert Day instance to MPX day index.
-    * 
+    *
     * @param day Day instance
     * @return day index
     */
@@ -241,7 +241,7 @@ final class RecurrenceUtility
 
    /**
     * Array to map from the integer representation of a
-    * duration's units in the recurring task record to 
+    * duration's units in the recurring task record to
     * a TimeUnit instance.
     */
    private static final TimeUnit[] DURATION_UNITS =
@@ -253,7 +253,7 @@ final class RecurrenceUtility
    };
 
    /**
-    * Map to allow conversion of a TimeUnit instance back to an integer. 
+    * Map to allow conversion of a TimeUnit instance back to an integer.
     */
    private static final Map<TimeUnit, Integer> UNITS_MAP = new HashMap<TimeUnit, Integer>();
    static

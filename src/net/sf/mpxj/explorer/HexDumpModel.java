@@ -63,7 +63,7 @@ public class HexDumpModel
 
    /**
     * Set the file size.
-    * 
+    *
     * @param size file size
     */
    public void setSizeValueLabel(String size)
@@ -73,7 +73,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the file size.
-    * 
+    *
     * @return file size
     */
    public String getSizeValueLabel()
@@ -83,7 +83,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the number of columns in the view tables.
-    * 
+    *
     * @return number of columns
     */
    public int getColumns()
@@ -93,7 +93,7 @@ public class HexDumpModel
 
    /**
     * Set the number of columns in the view tables.
-    * 
+    *
     * @param columns number of columns
     */
    public void setColumns(int columns)
@@ -103,7 +103,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the offset into the file at which the display starts.
-    * 
+    *
     * @return offset
     */
    public int getOffset()
@@ -113,7 +113,7 @@ public class HexDumpModel
 
    /**
     * Set the offset into the file at which the display starts.
-    * 
+    *
     * @param offset offset
     */
    public void setOffset(int offset)
@@ -123,7 +123,7 @@ public class HexDumpModel
 
    /**
     * Set the contents of the file represented as a byte array.
-    * 
+    *
     * @param data file contents
     */
    public void setData(byte[] data)
@@ -133,7 +133,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the contents of the file represented as a byte array.
-    * 
+    *
     * @return file contents
     */
    public byte[] getData()
@@ -143,7 +143,7 @@ public class HexDumpModel
 
    /**
     * Set the model used by the hex table.
-    * 
+    *
     * @param tableModel table model
     */
    public void setHexTableModel(TableModel tableModel)
@@ -153,7 +153,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the model used by the hex table.
-    * 
+    *
     * @return table model
     */
    public TableModel getHexTableModel()
@@ -163,7 +163,7 @@ public class HexDumpModel
 
    /**
     * Set the model used by the ASCII table.
-    * 
+    *
     * @param tableModel table model
     */
    public void setAsciiTableModel(TableModel tableModel)
@@ -173,7 +173,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the table used by the ASCII model.
-    * 
+    *
     * @return table model
     */
    public TableModel getAsciiTableModel()
@@ -183,7 +183,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the index of the currently selected byte in the hex or ASCII table.
-    * 
+    *
     * @return currently selected byte index
     */
    public int getCurrentSelectionIndex()
@@ -193,7 +193,7 @@ public class HexDumpModel
 
    /**
     * Set the index of the currently selected byte in the hex or ASCII table.
-    * 
+    *
     * @param currentSelectionIndex currently selected byte index
     */
    public void setCurrentSelectionIndex(int currentSelectionIndex)
@@ -203,7 +203,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the index of the previously selected byte in the hex or ASCII table.
-    * 
+    *
     * @return previously selected byte index
     */
    public int getPreviousSelectionIndex()
@@ -213,7 +213,7 @@ public class HexDumpModel
 
    /**
     * Set the index of the previously selected byte in the hex or ASCII table.
-    * 
+    *
     * @param previousSelectionIndex previously selected byte index
     */
    public void setPreviousSelectionIndex(int previousSelectionIndex)
@@ -223,7 +223,7 @@ public class HexDumpModel
 
    /**
     * Retrieve a description of the previously selected index in the hex or ASCII table.
-    * 
+    *
     * @return previously selected index description
     */
    public String getPreviousSelectionValueLabel()
@@ -233,7 +233,7 @@ public class HexDumpModel
 
    /**
     * Set a description of the previously selected index in the hex or ASCII table.
-    * 
+    *
     * @param previousSelectionValueLabel previously selected index description
     */
    public void setPreviousSelectionValueLabel(String previousSelectionValueLabel)
@@ -243,7 +243,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the description of the current hex and ASCII table selection.
-    * 
+    *
     * @return current selection description
     */
    public String getCurrentSelectionValueLabel()
@@ -253,7 +253,7 @@ public class HexDumpModel
 
    /**
     * Set the description of the current hex and ASCII table selection.
-    * 
+    *
     * @param currentSelectionValueLabel current selection description
     */
    public void setCurrentSelectionValueLabel(String currentSelectionValueLabel)
@@ -263,7 +263,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the difference in bytes between the previous and the current selection.
-    * 
+    *
     * @return difference in bytes
     */
    public String getSelectionDifferenceValueLabel()
@@ -273,7 +273,7 @@ public class HexDumpModel
 
    /**
     * Set the difference in bytes between the previous and the current selection.
-    * 
+    *
     * @param selectionDifferenceValueLabel difference in bytes
     */
    public void setSelectionDifferenceValueLabel(String selectionDifferenceValueLabel)
@@ -283,7 +283,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the current table selection as a row and column point.
-    * 
+    *
     * @return current table selection
     */
    public Point getSelectedCell()
@@ -293,7 +293,7 @@ public class HexDumpModel
 
    /**
     * Set the current table selection as a row and column point.
-    * 
+    *
     * @param selectedCell current table selection
     */
    public void setSelectedCell(Point selectedCell)
@@ -303,7 +303,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a short int.
-    * 
+    *
     * @return short value
     */
    public String getShortValueLabel()
@@ -313,7 +313,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a short int.
-    * 
+    *
     * @param shortValueLabel short value
     */
    public void setShortValueLabel(String shortValueLabel)
@@ -323,7 +323,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a six byte long.
-    * 
+    *
     * @return long6 value
     */
    public String getLongSixValueLabel()
@@ -333,7 +333,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a six byte long.
-    * 
+    *
     * @param longSixValueLabel long6 value
     */
    public void setLongSixValueLabel(String longSixValueLabel)
@@ -343,7 +343,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a long int.
-    * 
+    *
     * @return long int value
     */
    public String getLongValueLabel()
@@ -353,7 +353,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a long int.
-    * 
+    *
     * @param longValueLabel long int value
     */
    public void setLongValueLabel(String longValueLabel)
@@ -363,7 +363,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a double.
-    * 
+    *
     * @return double value
     */
    public String getDoubleValueLabel()
@@ -373,7 +373,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a double.
-    * 
+    *
     * @param doubleValueLabel double value
     */
    public void setDoubleValueLabel(String doubleValueLabel)
@@ -383,7 +383,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a duration.
-    * 
+    *
     * @return duration value
     */
    public String getDurationValueLabel()
@@ -393,7 +393,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a duration.
-    * 
+    *
     * @param durationValueLabel duration value
     */
    public void setDurationValueLabel(String durationValueLabel)
@@ -403,7 +403,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a time unit.
-    * 
+    *
     * @return time unit value
     */
    public String getTimeUnitsValueLabel()
@@ -413,7 +413,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a time unit.
-    * 
+    *
     * @param timeUnitsValueLabel time unit value
     */
    public void setTimeUnitsValueLabel(String timeUnitsValueLabel)
@@ -423,7 +423,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a GUID.
-    * 
+    *
     * @return GUID value
     */
    public String getGuidValueLabel()
@@ -433,7 +433,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a GUID.
-    * 
+    *
     * @param guidValueLabel GUID value
     */
    public void setGuidValueLabel(String guidValueLabel)
@@ -443,7 +443,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a percentage.
-    * 
+    *
     * @return percentage value
     */
    public String getPercentageValueLabel()
@@ -453,7 +453,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a percentage.
-    * 
+    *
     * @param percentageValueLabel percentage value
     */
    public void setPercentageValueLabel(String percentageValueLabel)
@@ -463,7 +463,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a date.
-    * 
+    *
     * @return date value
     */
    public String getDateValueLabel()
@@ -473,7 +473,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a date.
-    * 
+    *
     * @param dateValueLabel date value
     */
    public void setDateValueLabel(String dateValueLabel)
@@ -483,7 +483,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a time.
-    * 
+    *
     * @return time value
     */
    public String getTimeValueLabel()
@@ -493,7 +493,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a time.
-    * 
+    *
     * @param timeValueLabel time value
     */
    public void setTimeValueLabel(String timeValueLabel)
@@ -503,7 +503,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as a timestamp.
-    * 
+    *
     * @return timestamp value
     */
    public String getTimestampValueLabel()
@@ -513,7 +513,7 @@ public class HexDumpModel
 
    /**
     * Set the value from the currently selected byte as a timestamp.
-    * 
+    *
     * @param timestampValueLabel timestamp value
     */
    public void setTimestampValueLabel(String timestampValueLabel)
@@ -523,7 +523,7 @@ public class HexDumpModel
 
    /**
     * Retrieve the value from the currently selected byte as work time units.
-    * 
+    *
     * @return work time units
     */
    public String getWorkUnitsValueLabel()
@@ -533,7 +533,7 @@ public class HexDumpModel
 
    /**
     * set the value from the currently selected byte as work time units.
-    * 
+    *
     * @param workUnitsValueLabel work time units
     */
    public void setWorkUnitsValueLabel(String workUnitsValueLabel)
@@ -543,7 +543,7 @@ public class HexDumpModel
 
    /**
     * Add a property change listener.
-    * 
+    *
     * @param listener property change listener
     */
    public void addPropertyChangeListener(PropertyChangeListener listener)
@@ -553,7 +553,7 @@ public class HexDumpModel
 
    /**
     * Add a property change listener for a named property.
-    * 
+    *
     * @param propertyName property name
     * @param listener listener
     */
@@ -564,7 +564,7 @@ public class HexDumpModel
 
    /**
     * Remove a property change listener.
-    * 
+    *
     * @param listener property change listener
     */
    public void removePropertyChangeListener(PropertyChangeListener listener)

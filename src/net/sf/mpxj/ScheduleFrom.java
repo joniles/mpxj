@@ -36,7 +36,7 @@ public enum ScheduleFrom implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private ScheduleFrom(int type)
@@ -80,7 +80,7 @@ public enum ScheduleFrom implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

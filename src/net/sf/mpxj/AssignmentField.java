@@ -576,7 +576,7 @@ public enum AssignmentField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     * @param unitsType units type
     */
@@ -588,7 +588,7 @@ public enum AssignmentField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     */
    private AssignmentField(DataType dataType)

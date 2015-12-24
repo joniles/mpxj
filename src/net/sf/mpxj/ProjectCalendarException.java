@@ -36,7 +36,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
 {
    /**
     * Package private constructor.
-    * 
+    *
     * @param fromDate exception start date
     * @param toDate exception end date
     */

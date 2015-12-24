@@ -54,7 +54,7 @@ public interface View
 
    /**
     * Retrieves the view type.
-    * 
+    *
     * @return view type
     */
    public ViewType getType();

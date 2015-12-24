@@ -37,7 +37,7 @@ public class SplitView9 extends GenericView9
 {
    /**
     * Constructor.
-    * 
+    *
     * @param parent parent file
     * @param fixedData fixed data block
     * @param varData var data block
@@ -69,7 +69,7 @@ public class SplitView9 extends GenericView9
 
    /**
     * Retrieves the lower view name.
-    * 
+    *
     * @return lower view name
     */
    public String getLowerViewName()
@@ -79,7 +79,7 @@ public class SplitView9 extends GenericView9
 
    /**
     * Retrieves the upper view name.
-    * 
+    *
     * @return upper view name
     */
    public String getUpperViewName()

@@ -36,7 +36,7 @@ public final class GroupClause
    /**
     * Retrieve a flag indicating that values are grouped
     * in ascending order.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getAscending()
@@ -47,7 +47,7 @@ public final class GroupClause
    /**
     * Sets a flag indicating that values are grouped
     * in ascending order.
-    * 
+    *
     * @param ascending boolean flag
     */
    public void setAscending(boolean ascending)
@@ -57,7 +57,7 @@ public final class GroupClause
 
    /**
     * Retrieves the background color.
-    * 
+    *
     * @return background color
     */
    public Color getCellBackgroundColor()
@@ -67,7 +67,7 @@ public final class GroupClause
 
    /**
     * Sets the background color.
-    * 
+    *
     * @param color background color.
     */
    public void setCellBackgroundColor(Color color)
@@ -77,7 +77,7 @@ public final class GroupClause
 
    /**
     * Retrieve the grouping field.
-    * 
+    *
     * @return grouping field
     */
    public FieldType getField()
@@ -87,7 +87,7 @@ public final class GroupClause
 
    /**
     * Set the grouping field.
-    * 
+    *
     * @param field grouping field
     */
    public void setField(FieldType field)
@@ -97,7 +97,7 @@ public final class GroupClause
 
    /**
     * Retrieve the font.
-    * 
+    *
     * @return font
     */
    public FontStyle getFont()
@@ -107,7 +107,7 @@ public final class GroupClause
 
    /**
     * Retrieve the font.
-    * 
+    *
     * @param font font
     */
    public void setFont(FontStyle font)
@@ -117,7 +117,7 @@ public final class GroupClause
 
    /**
     * Retrieve the group interval.
-    * 
+    *
     * @return group interval
     */
    public Object getGroupInterval()
@@ -127,7 +127,7 @@ public final class GroupClause
 
    /**
     * Sets the group interval.
-    * 
+    *
     * @param groupInterval group interval
     */
    public void setGroupInterval(Object groupInterval)
@@ -137,7 +137,7 @@ public final class GroupClause
 
    /**
     * Retrieves the group on value.
-    * 
+    *
     * @return group on value
     */
    public int getGroupOn()
@@ -147,7 +147,7 @@ public final class GroupClause
 
    /**
     * Sets the group on value.
-    * 
+    *
     * @param groupOn group on value
     */
    public void setGroupOn(int groupOn)
@@ -157,7 +157,7 @@ public final class GroupClause
 
    /**
     * Retrieves the pattern.
-    * 
+    *
     * @return pattern
     */
    public BackgroundPattern getPattern()
@@ -167,7 +167,7 @@ public final class GroupClause
 
    /**
     * Sets the pattern.
-    * 
+    *
     * @param pattern pattern
     */
    public void setPattern(BackgroundPattern pattern)
@@ -177,7 +177,7 @@ public final class GroupClause
 
    /**
     * Retrieves the "start at" value.
-    * 
+    *
     * @return "start at" value
     */
    public Object getStartAt()
@@ -187,7 +187,7 @@ public final class GroupClause
 
    /**
     * Sets the "start at" value.
-    * 
+    *
     * @param startAt "start at" value
     */
    public void setStartAt(Object startAt)

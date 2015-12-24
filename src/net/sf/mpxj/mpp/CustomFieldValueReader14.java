@@ -39,7 +39,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     * @param container custom field config
     * @param outlineCodeVarMeta raw mpp data
@@ -104,7 +104,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
 
    /**
     * Generate a map of UUID values to field types.
-    * 
+    *
     * @return uUID field value map
     */
    private Map<UUID, FieldType> populateCustomFieldMap()

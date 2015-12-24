@@ -37,7 +37,7 @@ class DocumentInputStreamFactory
 {
    /**
     * Constructor.
-    * 
+    *
     * @param props document properties
     */
    public DocumentInputStreamFactory(Props props)
@@ -50,7 +50,7 @@ class DocumentInputStreamFactory
    /**
     * Method used to instantiate the appropriate input stream reader,
     * a standard one, or one which can deal with "encrypted" data.
-    * 
+    *
     * @param directory directory entry
     * @param name file name
     * @return new input stream
@@ -74,7 +74,7 @@ class DocumentInputStreamFactory
 
    /**
     * Retrieve the encryption code.
-    * 
+    *
     * @return encryption code.
     */
    public byte getEncryptionCode()

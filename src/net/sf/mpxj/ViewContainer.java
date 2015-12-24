@@ -30,7 +30,7 @@ public class ViewContainer extends ListWithCallbacks<View>
 {
    /**
     * Set the saved view state associated with this file.
-    * 
+    *
     * @param viewState view state
     */
    public void setViewState(ViewState viewState)
@@ -40,7 +40,7 @@ public class ViewContainer extends ListWithCallbacks<View>
 
    /**
     * Retrieve the saved view state associated with this file.
-    * 
+    *
     * @return view state
     */
    public ViewState getViewState()

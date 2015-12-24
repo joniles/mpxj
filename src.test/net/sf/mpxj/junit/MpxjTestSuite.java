@@ -54,10 +54,10 @@ import org.junit.runners.Suite;
 
 /**
  * Test suite to collect together MPXJ tests.
- * 
+ *
  * Ideally this would be generated dynamically, which is fine when running under
  * a JVM, but various approaches to this failed when running under IKVM...
- * so a big list of classes it is! 
+ * so a big list of classes it is!
  */
 @RunWith(Suite.class) @Suite.SuiteClasses(
 {

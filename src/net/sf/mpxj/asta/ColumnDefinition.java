@@ -30,7 +30,7 @@ class ColumnDefinition
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name column name
     * @param type column data type
     */
@@ -42,7 +42,7 @@ class ColumnDefinition
 
    /**
     * Retrieves the column name.
-    * 
+    *
     * @return column name
     */
    public String getName()
@@ -52,7 +52,7 @@ class ColumnDefinition
 
    /**
     * Retrieves the column ata type.
-    * 
+    *
     * @return data type
     */
    public int getType()

@@ -207,7 +207,7 @@ public enum TestOperator implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private TestOperator(int type)
@@ -251,7 +251,7 @@ public enum TestOperator implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */
@@ -264,7 +264,7 @@ public enum TestOperator implements MpxjEnum
     * This method applies the operator represented by this class to the
     * supplied operands. Note that the RHS operand can be a list, allowing
     * range operators like "within" to operate.
-    * 
+    *
     * @param lhs operand
     * @param rhs operand
     * @return boolean result
@@ -274,7 +274,7 @@ public enum TestOperator implements MpxjEnum
    /**
     * This method is used to ensure that if a list of operand values has been
     * supplied, that a single operand is extracted.
-    * 
+    *
     * @param operand operand value
     * @return single operand value
     */
@@ -291,7 +291,7 @@ public enum TestOperator implements MpxjEnum
 
    /**
     * Determine if the supplied value falls within the specified range.
-    * 
+    *
     * @param lhs single value operand
     * @param rhs range operand
     * @return boolean result
@@ -328,7 +328,7 @@ public enum TestOperator implements MpxjEnum
    /**
     * Implements a simple compare-to operation. Assumes that the LHS
     * operand implements the Comparable interface.
-    * 
+    *
     * @param lhs operand
     * @param rhs operand
     * @return boolean result
@@ -372,7 +372,7 @@ public enum TestOperator implements MpxjEnum
    /**
     * Assuming the supplied arguments are both Strings, this method
     * determines if rhs is contained within lhs. This test is case insensitive.
-    * 
+    *
     * @param lhs operand
     * @param rhs operand
     * @return boolean result
@@ -394,7 +394,7 @@ public enum TestOperator implements MpxjEnum
    /**
     * Assuming the supplied arguments are both Strings, this method
     * determines if rhs is contained within lhs. This test is case sensitive.
-    * 
+    *
     * @param lhs operand
     * @param rhs operand
     * @return boolean result

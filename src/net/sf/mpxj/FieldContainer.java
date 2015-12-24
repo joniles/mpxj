@@ -34,7 +34,7 @@ public interface FieldContainer
 {
    /**
     * Set a field value.
-    * 
+    *
     * @param field field identifier
     * @param value field value
     */
@@ -43,7 +43,7 @@ public interface FieldContainer
    /**
     * Retrieve a field value. Use the cached value. Do not attempt to
     * calculate a value if the cached value is null.
-    * 
+    *
     * @param field field identifier
     * @return field value
     */
@@ -52,7 +52,7 @@ public interface FieldContainer
    /**
     * Retrieve a field value. If the cached value is null, attempt to
     * calculate the current value.
-    * 
+    *
     * @param field field identifier
     * @return field value
     */
@@ -60,14 +60,14 @@ public interface FieldContainer
 
    /**
     * Add a listener to receive field events.
-    * 
+    *
     * @param listener target listener
     */
    public void addFieldListener(FieldListener listener);
 
    /**
     * Remove a listener.
-    * 
+    *
     * @param listener target listener
     */
    public void removeFieldListener(FieldListener listener);

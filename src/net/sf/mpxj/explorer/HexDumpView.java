@@ -48,7 +48,7 @@ public class HexDumpView extends JPanel
 {
    /**
     * Constructor.
-    * 
+    *
     * @param model HexDump model
     */
    public HexDumpView(final HexDumpModel model)
@@ -199,7 +199,7 @@ public class HexDumpView extends JPanel
 
       //
       // Bindings
-      //      
+      //
       BeanAdapter<HexDumpModel> modelAdapter = new BeanAdapter<HexDumpModel>(model, true);
       Bindings.bind(columns, modelAdapter.getValueModel("columns"));
       Bindings.bind(offset, modelAdapter.getValueModel("offset"));

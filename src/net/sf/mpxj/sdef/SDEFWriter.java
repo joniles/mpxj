@@ -3,17 +3,17 @@
  * author:     William (Bill) Iverson
  * copyright:  (c) GeoComputer 2011
  * date:       05/14/2012
- * 
+ *
  * started with net.sf.mpxj.mpx MPXWriter.java as template for writing all of below
  * so it follows the logic and style of other MPXJ classes
- * 
+ *
  * SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
  * Army Corp of Engineers).  SDEF is a fixed column format text file, used to import
  * a project schedule up into the QCS (Quality Control System) software from USACE
- * 
+ *
  * Precise specification of SDEF can be found at the USACE library:
  * http://140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
- * 
+ *
  */
 
 /*
@@ -55,7 +55,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 
 /**
- * This class creates a new SDEF file from the contents of 
+ * This class creates a new SDEF file from the contents of
  * a ProjectFile instance.
  */
 public final class SDEFWriter // extends AbstractProjectWriter
@@ -71,7 +71,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * Write a project file in SDEF format to an output stream.
-    * 
+    *
     * @param projectFile ProjectFile instance
     * @param out output stream
     */
@@ -136,7 +136,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
     *
     * @param record project properties
     * @throws IOException
-    * 
+    *
     */
    private void writeProjectProperties(ProjectProperties record) throws IOException
    {
@@ -163,15 +163,15 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * This will create a line in the SDEF file for each calendar
-    * if there are more than 9 calendars, you'll have a big error, 
+    * if there are more than 9 calendars, you'll have a big error,
     * as USACE numbers them 0-9.
-    * 
+    *
     * @param records list of ProjectCalendar instances
     */
    private void writeCalendars(List<ProjectCalendar> records)
    {
 
-      //  
+      //
       // Write project calendars
       //
       for (ProjectCalendar record : records)
@@ -188,7 +188,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * Write calendar exceptions.
-    * 
+    *
     * @param records list of ProjectCalendars
     * @throws IOException
     */
@@ -200,7 +200,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
          {
             // Need to move HOLI up here and get 15 exceptions per line as per USACE spec.
             // for now, we'll write one line for each calendar exception, hope there aren't too many
-            // 
+            //
             // changing this would be a serious upgrade, too much coding to do today....
             for (ProjectCalendarException ex : record.getCalendarExceptions())
             {
@@ -261,11 +261,11 @@ public final class SDEFWriter // extends AbstractProjectWriter
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
          Integer est = Integer.valueOf(days.intValue());
-         m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE	      
+         m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE
 
          String conType = "ES "; // assume early start
          Date conDate = record.getEarlyStart();
-         int test = record.getConstraintType().getValue(); // test for other types	      
+         int test = record.getConstraintType().getValue(); // test for other types
          if (test == 1 || test == 3 || test == 6 || test == 7)
          {
             conType = "LF "; // see ConstraintType enum for definitions
@@ -285,13 +285,13 @@ public final class SDEFWriter // extends AbstractProjectWriter
          // use of text fields for extra USACE data is suggested at my web site: www.geocomputer.com
          // not documented on how to do this here, so I need to comment out at present
          //	      m_buffer.append(SDEFmethods.Lset(record.getText1(), 3) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText2(), 4) + " ");	      
+         //	      m_buffer.append(SDEFmethods.Lset(record.getText2(), 4) + " ");
          //	      m_buffer.append(SDEFmethods.Lset(record.getText3(), 4) + " ");
          //	      m_buffer.append(SDEFmethods.Lset(record.getText4(), 6) + " ");
          //	      m_buffer.append(SDEFmethods.Lset(record.getText5(), 6) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText6(), 2) + " ");	      
+         //	      m_buffer.append(SDEFmethods.Lset(record.getText6(), 2) + " ");
          //	      m_buffer.append(SDEFmethods.Lset(record.getText7(), 1) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText8(), 30) + " ");	      
+         //	      m_buffer.append(SDEFmethods.Lset(record.getText8(), 30) + " ");
          m_writer.println(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
       }
@@ -299,7 +299,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * Write an SDEF line for each task ACTV.
-    * 
+    *
     * @param tasks list of Task instances
     * @throws IOException
     */
@@ -313,7 +313,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * For each task, write an SDEF line for each PRED.
-    * 
+    *
     * @param tasks list of Task instances
     */
    private void writePredecessors(List<Task> tasks)
@@ -326,7 +326,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * Write each predecessor for a task.
-    * 
+    *
     * @param record Task instance
     */
    private void writeTaskPredecessors(Task record)
@@ -359,7 +359,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
             }
             Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
             Integer est = Integer.valueOf(days.intValue());
-            m_buffer.append(SDEFmethods.rset(est.toString(), 4) + " "); // task duration in days required by USACE		    	  
+            m_buffer.append(SDEFmethods.rset(est.toString(), 4) + " "); // task duration in days required by USACE
          }
          m_writer.println(m_buffer.toString());
       }
@@ -367,11 +367,11 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * Writes a progress line to the SDEF file.
-    * 
+    *
     * Progress lines in SDEF are a little tricky, you need to assume a percent complete
     * this could be physical or temporal, I don't know what you're using???
     * So in this version of SDEFwriter, I just put in 0.00 for cost progress to date, see *** below
-    * 
+    *
     * @param record Task instance
     */
    private void writePROG(Task record)
@@ -411,7 +411,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
          Integer est = Integer.valueOf(days.intValue());
-         m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE		      
+         m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE
 
          DecimalFormat twoDec = new DecimalFormat("#0.00"); // USACE required currency format
          m_buffer.append(SDEFmethods.rset(twoDec.format(record.getCost().floatValue()), 12) + " ");
@@ -441,7 +441,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
          }
          m_buffer.append(slack + " ");
          est = Integer.valueOf(Math.abs(days.intValue()));
-         m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE		      
+         m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE
          m_writer.println(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
       }
@@ -449,7 +449,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
 
    /**
     * Write a progress line for each task.
-    * 
+    *
     * @param tasks list of Task instances
     */
    private void writeProgress(List<Task> tasks)

@@ -37,7 +37,7 @@ final class TableFactory
 {
    /**
     * Constructor.
-    * 
+    *
     * @param tableColumnDataStandard standard columns data key
     * @param tableColumnDataEnterprise enterprise columns data key
     * @param tableColumnDataBaseline baseline columns data key
@@ -51,7 +51,7 @@ final class TableFactory
 
    /**
     * Creates a new Table instance from data extracted from an MPP file.
-    * 
+    *
     * @param file parent project file
     * @param data fixed data
     * @param varMeta var meta
@@ -91,7 +91,7 @@ final class TableFactory
 
    /**
     * Adds columns to a Table instance.
-    * 
+    *
     * @param file parent project file
     * @param table parent table instance
     * @param data column data

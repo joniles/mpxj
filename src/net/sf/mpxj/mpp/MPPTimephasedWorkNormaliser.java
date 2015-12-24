@@ -33,13 +33,13 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.DateHelper;
 
 /**
- * Normalise timephased resource assignment data from an MPP file. 
+ * Normalise timephased resource assignment data from an MPP file.
  */
 public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
    /**
     * This method merges together assignment data for the same day.
-    * 
+    *
     * @param calendar current calendar
     * @param list assignment data
     */

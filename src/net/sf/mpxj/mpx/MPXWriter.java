@@ -62,7 +62,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
- * This class creates a new MPX file from the contents of 
+ * This class creates a new MPX file from the contents of
  * a ProjectFile instance.
  */
 public final class MPXWriter extends AbstractProjectWriter
@@ -1389,7 +1389,7 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * Formats a resource, taking into account that the resource reference
     * may be null.
-    * 
+    *
     * @param resource Resource instance
     * @return formatted value
     */
@@ -1420,8 +1420,8 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Retrieves a flag indicating if the default settings for the locale should
-    * override any project settings. 
-    * 
+    * override any project settings.
+    *
     * @return boolean flag.
     */
    public boolean getUseLocaleDefaults()
@@ -1431,8 +1431,8 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Sets a flag indicating if the default settings for the locale should
-    * override any project settings.  
-    * 
+    * override any project settings.
+    *
     * @param useLocaleDefaults boolean flag
     */
    public void setUseLocaleDefaults(boolean useLocaleDefaults)

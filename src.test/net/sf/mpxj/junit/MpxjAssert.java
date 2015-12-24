@@ -52,7 +52,7 @@ public final class MpxjAssert
 
    /**
     * Assert equality for booleans. This method allows us to maintain autoboxing warnings for the rest of the code.
-    * 
+    *
     * @param message error message
     * @param expected expected value
     * @param actual actual value
@@ -64,7 +64,7 @@ public final class MpxjAssert
 
    /**
     * Assert equality for booleans. This method allows us to maintain autoboxing warnings for the rest of the code.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     */
@@ -75,7 +75,7 @@ public final class MpxjAssert
 
    /**
     * Assert method used to test durations.
-    * 
+    *
     * @param expectedDuration expected duration size
     * @param expectedUnits expected duration units
     * @param duration duration under test

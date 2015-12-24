@@ -39,7 +39,7 @@ public class GenericView14 extends GenericView
 {
    /**
     * Constructor.
-    * 
+    *
     * @param parent parent file
     * @param data fixed data
     * @param varData var data

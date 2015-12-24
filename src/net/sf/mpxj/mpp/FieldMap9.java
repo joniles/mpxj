@@ -38,7 +38,7 @@ class FieldMap9 extends FieldMap
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     * @param customFields custom fields
     */

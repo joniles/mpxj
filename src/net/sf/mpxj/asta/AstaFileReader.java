@@ -102,7 +102,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Tokenizes the input file and extracts the required data.
-    * 
+    *
     * @param is input stream
     * @throws MPXJException
     */
@@ -196,7 +196,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Select the project properties row from the database.
-    * 
+    *
     * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
@@ -210,7 +210,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Extract calendar data from the file.
-    * 
+    *
     * @throws SQLException
     */
    private void processCalendars() throws SQLException
@@ -246,7 +246,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Process resources.
-    * 
+    *
     * @throws SQLException
     */
    private void processResources() throws SQLException
@@ -262,7 +262,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @throws SQLException
     */
    private void processTasks() throws SQLException
@@ -283,7 +283,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Process predecessors.
-    * 
+    *
     * @throws SQLException
     */
    private void processPredecessors() throws SQLException
@@ -296,7 +296,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Process resource assignments.
-    * 
+    *
     * @throws SQLException
     */
    private void processAssignments() throws SQLException
@@ -312,7 +312,7 @@ public final class AstaFileReader extends AbstractProjectReader
     * Cleans up the structure, removes unnecessary summary tasks and
     * ensures tasks with blank names inherit their names from the
     * parent task.
-    * 
+    *
     * @param project ProjectFile instance
     */
    private void updateStructure(ProjectFile project)
@@ -380,9 +380,9 @@ public final class AstaFileReader extends AbstractProjectReader
    }
 
    /**
-    * Called recursively to replace blank task names 
+    * Called recursively to replace blank task names
     * with names inherited from parent tasks.
-    * 
+    *
     * @param parent parent task
     * @param task current task
     */
@@ -401,7 +401,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Very basic implementation of an inner join between two result sets.
-    * 
+    *
     * @param leftRows left result set
     * @param leftColumn left foreign key column
     * @param rightTable right table name
@@ -477,7 +477,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Removes rows with a null value in a given column.
-    * 
+    *
     * @param rows result set
     * @param column column being tested for null
     */
@@ -496,7 +496,7 @@ public final class AstaFileReader extends AbstractProjectReader
 
    /**
     * Retrieve table data, return an empty result set if no table data is present.
-    * 
+    *
     * @param name table name
     * @return table data
     */

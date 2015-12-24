@@ -35,16 +35,16 @@ import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.DateHelper;
 
 /**
- * Normalise timephased resource assignment data from an MPP file. 
+ * Normalise timephased resource assignment data from an MPP file.
  */
 public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
 {
 
    /**
-    * This method converts the internal representation of timephased 
+    * This method converts the internal representation of timephased
     * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
-    * 
+    * format to make it easy to work with.
+    *
     * @param calendar current calendar
     * @param list list of assignment data
     */
@@ -58,7 +58,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          mergeSameDay(calendar, list);
          //dumpList(list);
          mergeSameWork(list);
-         //dumpList(list);         
+         //dumpList(list);
          convertToHours(list);
          //dumpList(list);
       }
@@ -66,7 +66,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
    /**
     * This method breaks down spans of time into individual days.
-    * 
+    *
     * @param calendar current project calendar
     * @param list list of assignment data
     */
@@ -91,7 +91,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             Date startDay = DateHelper.getDayStartDate(assignment.getStart());
             Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
-            // special case - when the finishday time is midnight, it's really the previous day...                 
+            // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
             {
                cal.setTime(finishDay);
@@ -151,7 +151,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
    /**
     * This method splits the first day off of a time span.
-    * 
+    *
     * @param calendar current calendar
     * @param assignment timephased assignment span
     * @return first day and remainder assignments
@@ -253,7 +253,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
    /**
     * This method merges together assignment data for the same day.
-    * 
+    *
     * @param calendar current calendar
     * @param list assignment data
     */
@@ -261,7 +261,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
    /**
     * Retrieves the pro-rata work carried out on a given day.
-    * 
+    *
     * @param calendar current calendar
     * @param assignment current assignment.
     * @return assignment work duration

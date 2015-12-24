@@ -34,7 +34,7 @@ public class PoiTreeView extends JTree
 {
    /**
     * Constructor.
-    * 
+    *
     * @param model tree model to display
     */
    public PoiTreeView(final PoiTreeModel model)

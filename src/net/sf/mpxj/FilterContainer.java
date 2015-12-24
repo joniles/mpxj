@@ -35,7 +35,7 @@ public class FilterContainer
 {
    /**
     * Adds a filter definition to this project file.
-    * 
+    *
     * @param filter filter definition
     */
    public void addFilter(Filter filter)
@@ -80,7 +80,7 @@ public class FilterContainer
 
    /**
     * Retrieves a list of all resource filters.
-    * 
+    *
     * @return list of all resource filters
     */
    public List<Filter> getResourceFilters()
@@ -90,7 +90,7 @@ public class FilterContainer
 
    /**
     * Retrieves a list of all task filters.
-    * 
+    *
     * @return list of all task filters
     */
    public List<Filter> getTaskFilters()
@@ -100,7 +100,7 @@ public class FilterContainer
 
    /**
     * Retrieve a given filter by name.
-    * 
+    *
     * @param name filter name
     * @return filter instance
     */
@@ -111,7 +111,7 @@ public class FilterContainer
 
    /**
     * Retrieve a given filter by ID.
-    * 
+    *
     * @param id filter ID
     * @return filter instance
     */

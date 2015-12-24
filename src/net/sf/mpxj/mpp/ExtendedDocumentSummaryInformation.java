@@ -34,7 +34,7 @@ public class ExtendedDocumentSummaryInformation extends org.apache.poi.hpsf.Docu
 {
    /**
     * Constructor.
-    * 
+    *
     * @param ps property set
     */
    public ExtendedDocumentSummaryInformation(PropertySet ps)
@@ -45,7 +45,7 @@ public class ExtendedDocumentSummaryInformation extends org.apache.poi.hpsf.Docu
 
    /**
     * Retrieve the content type property.
-    * 
+    *
     * @return property value
     */
    public String getContentType()
@@ -55,7 +55,7 @@ public class ExtendedDocumentSummaryInformation extends org.apache.poi.hpsf.Docu
 
    /**
     * Retrieve the content status property.
-    * 
+    *
     * @return property value
     */
    public String getContentStatus()
@@ -65,7 +65,7 @@ public class ExtendedDocumentSummaryInformation extends org.apache.poi.hpsf.Docu
 
    /**
     * Retrieve the language property.
-    * 
+    *
     * @return property value
     */
    public String getLanguage()
@@ -75,7 +75,7 @@ public class ExtendedDocumentSummaryInformation extends org.apache.poi.hpsf.Docu
 
    /**
     * Retrieve the document version property.
-    * 
+    *
     * @return property value
     */
    public String getDocumentVersion()

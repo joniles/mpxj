@@ -60,7 +60,7 @@ public final class MPDDatabaseReader implements ProjectReader
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
-    * 
+    *
     * @return Map instance containing ID and name pairs
     * @throws MPXJException
     */
@@ -72,7 +72,7 @@ public final class MPDDatabaseReader implements ProjectReader
 
    /**
     * Read project data from a database.
-    * 
+    *
     * @return ProjectFile instance
     * @throws MPXJException
     */
@@ -89,7 +89,7 @@ public final class MPDDatabaseReader implements ProjectReader
 
    /**
     * Set the ID of the project to be read.
-    * 
+    *
     * @param projectID project ID
     */
    public void setProjectID(int projectID)
@@ -112,7 +112,7 @@ public final class MPDDatabaseReader implements ProjectReader
    /**
     * Set the data source. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
-    * 
+    *
     * @param dataSource data source
     */
    public void setDataSource(DataSource dataSource)
@@ -123,7 +123,7 @@ public final class MPDDatabaseReader implements ProjectReader
    /**
     * Sets the connection. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
-    * 
+    *
     * @param connection database connection
     */
    public void setConnection(Connection connection)
@@ -134,7 +134,7 @@ public final class MPDDatabaseReader implements ProjectReader
    /**
     * This is a convenience method which reads the first project
     * from the named MPD file using the JDBC-ODBC bridge driver.
-    * 
+    *
     * @param accessDatabaseFileName access database file name
     * @return ProjectFile instance
     * @throws MPXJException

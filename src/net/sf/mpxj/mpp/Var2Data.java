@@ -288,7 +288,7 @@ final class Var2Data extends MPPComponent
    /**
     * This method retrieves an integer of the specified type,
     * belonging to the item with the specified unique ID. Note that
-    * the integer value is read from an arbitrary offset within the 
+    * the integer value is read from an arbitrary offset within the
     * byte array of data.
     *
     * @param id unique ID of entity to which this data belongs
@@ -363,7 +363,7 @@ final class Var2Data extends MPPComponent
    /**
     * Retrieve the underlying meta data. This method is provided
     * mainly as a convenience for debugging.
-    * 
+    *
     * @return VarMeta instance
     */
    public VarMeta getVarMeta()
@@ -397,9 +397,9 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This is a specialised version of the toString method which 
-    * outputs just the data in this structure for the given unique ID. 
-    * 
+    * This is a specialised version of the toString method which
+    * outputs just the data in this structure for the given unique ID.
+    *
     * @param id unique ID
     * @return string representation
     */

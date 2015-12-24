@@ -67,7 +67,7 @@ public final class AstaDatabaseReader implements ProjectReader
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
-    * 
+    *
     * @return Map instance containing ID and name pairs
     * @throws MPXJException
     */
@@ -96,7 +96,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Read a project from the current data source.
-    * 
+    *
     * @return ProjectFile instance
     * @throws MPXJException
     */
@@ -148,7 +148,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Select the project properties row from the database.
-    * 
+    *
     * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
@@ -162,7 +162,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Process calendars.
-    * 
+    *
     * @throws SQLException
     */
    private void processCalendars() throws SQLException
@@ -193,7 +193,7 @@ public final class AstaDatabaseReader implements ProjectReader
       // calendars, however the resulting calendars aren't assigned to tasks and resources correctly, so
       // I've left this out for the moment.
       //
-      /*      
+      /*
             for (Row row : rows)
             {
                ProjectCalendar child = m_reader.getProject().getCalendarByUniqueID(row.getInteger("CALENDARID"));
@@ -214,7 +214,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Process resources.
-    * 
+    *
     * @throws SQLException
     */
    private void processResources() throws SQLException
@@ -226,7 +226,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @throws SQLException
     */
    private void processTasks() throws SQLException
@@ -239,7 +239,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Process predecessors.
-    * 
+    *
     * @throws SQLException
     */
    private void processPredecessors() throws SQLException
@@ -250,7 +250,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Process resource assignments.
-    * 
+    *
     * @throws SQLException
     */
    private void processAssignments() throws SQLException
@@ -261,7 +261,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Set the ID of the project to be read.
-    * 
+    *
     * @param projectID project ID
     */
    public void setProjectID(int projectID)
@@ -272,7 +272,7 @@ public final class AstaDatabaseReader implements ProjectReader
    /**
     * Set the data source. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
-    * 
+    *
     * @param dataSource data source
     */
    public void setDataSource(DataSource dataSource)
@@ -283,7 +283,7 @@ public final class AstaDatabaseReader implements ProjectReader
    /**
     * Sets the connection. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
-    * 
+    *
     * @param connection database connection
     */
    public void setConnection(Connection connection)
@@ -294,7 +294,7 @@ public final class AstaDatabaseReader implements ProjectReader
    /**
     * This is a convenience method which reads the first project
     * from the named Asta MDB file using the JDBC-ODBC bridge driver.
-    * 
+    *
     * @param accessDatabaseFileName access database file name
     * @return ProjectFile instance
     * @throws MPXJException
@@ -354,8 +354,8 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query. 
-    * 
+    * Retrieve a number of rows matching the supplied query.
+    *
     * @param sql query statement
     * @return result set
     * @throws SQLException
@@ -386,9 +386,9 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query 
+    * Retrieve a number of rows matching the supplied query
     * which takes a single parameter.
-    * 
+    *
     * @param sql query statement
     * @param var bind variable value
     * @return result set
@@ -422,7 +422,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Allocates a database connection.
-    * 
+    *
     * @throws SQLException
     */
    private void allocateConnection() throws SQLException
@@ -473,7 +473,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Retrieves basic meta data from the result set.
-    * 
+    *
     * @throws SQLException
     */
    private void populateMetaData() throws SQLException
@@ -492,7 +492,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Set the name of the schema containing the Primavera tables.
-    * 
+    *
     * @param schema schema name.
     */
    public void setSchema(String schema)
@@ -506,7 +506,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
    /**
     * Retrieve the name of the schema containing the Primavera tables.
-    * 
+    *
     * @return schema name
     */
    public String getSchema()
@@ -518,7 +518,7 @@ public final class AstaDatabaseReader implements ProjectReader
     * Cleans up the structure, removes unnecessary summary tasks and
     * ensures tasks with blank names inherit their names from the
     * parent task.
-    * 
+    *
     * @param project ProjectFile instance
     */
    private void updateStructure(ProjectFile project)
@@ -586,9 +586,9 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Called recursively to replace blank task names 
+    * Called recursively to replace blank task names
     * with names inherited from parent tasks.
-    * 
+    *
     * @param parent parent task
     * @param task current task
     */

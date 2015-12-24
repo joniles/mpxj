@@ -66,7 +66,7 @@ public class TaskNumbersTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskNumbers(File file) throws MPXJException
@@ -89,7 +89,7 @@ public class TaskNumbersTest
 
    /**
     * Test the number values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested

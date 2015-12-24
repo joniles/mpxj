@@ -71,7 +71,7 @@ public abstract class GenericView extends AbstractMppView
 
    /**
     * Retrieve the ID of the properties data.
-    * 
+    *
     * @return properties data ID
     */
    protected abstract Integer getPropertiesID();

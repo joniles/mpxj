@@ -39,7 +39,7 @@ public final class DatatypeConverter
 {
    /**
     * Convert the Primavera string representation of a UUID into a Java UUID instance.
-    * 
+    *
     * @param value Primavera UUID
     * @return Java UUID instance
     */
@@ -78,7 +78,7 @@ public final class DatatypeConverter
 
    /**
     * Retrieve a UUID in the form required by Primavera PMXML.
-    * 
+    *
     * @param guid UUID instance
     * @return formatted UUID
     */
