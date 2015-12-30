@@ -41,6 +41,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpp.ApplicationVersion;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
@@ -115,7 +116,7 @@ public class TaskBaselinesTest
       // Handle different file content depending on which application and file version have been used
       //
       ProjectProperties properties = project.getProjectProperties();
-      if (NumberHelper.getInt(properties.getApplicationVersion()) >= 14 && NumberHelper.getInt(properties.getMppFileType()) >= 14)
+      if (NumberHelper.getInt(properties.getApplicationVersion()) >= ApplicationVersion.PROJECT_2010 && NumberHelper.getInt(properties.getMppFileType()) >= 14)
       {
          startTaskID = testEstimatedDurations(project, startTaskID, maxBaselines);
          startTaskID = testEstimatedFinishes(project, startTaskID, maxBaselines);

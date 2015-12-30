@@ -965,7 +965,7 @@ final class MPP14Reader implements MPPVariantReader
       int resourceIDOffset;
 
       // ID offsets appear to be different for 2013 files
-      if (m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (NumberHelper.getInt(m_file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
          calendarIDOffset = 8;
          baseIDOffset = 0;
@@ -1316,7 +1316,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
-      if (m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (NumberHelper.getInt(m_file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
          metaDataBitFlags = PROJECT2013_TASK_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_TASK_META_DATA2_BIT_FLAGS;
@@ -1935,7 +1935,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
-      if (m_file.getProjectProperties().getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (NumberHelper.getInt(m_file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
          metaDataBitFlags = PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS;

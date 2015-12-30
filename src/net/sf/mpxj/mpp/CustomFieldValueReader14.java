@@ -31,6 +31,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * MPP14 custom field value reader.
@@ -60,7 +61,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
       int typeOffset;
       int fieldOffset;
 
-      if (m_properties.getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (NumberHelper.getInt(m_properties.getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
          typeOffset = 16;
          fieldOffset = 18;

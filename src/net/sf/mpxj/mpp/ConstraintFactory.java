@@ -57,7 +57,7 @@ public class ConstraintFactory
          ProjectProperties properties = file.getProjectProperties();
          EventManager eventManager = file.getEventManager();
 
-         boolean project15 = NumberHelper.getInt(properties.getMppFileType()) == 14 && properties.getFullApplicationName().equals("Microsoft.Project 15.0");
+         boolean project15 = NumberHelper.getInt(properties.getMppFileType()) == 14 && NumberHelper.getInt(properties.getApplicationVersion()) > ApplicationVersion.PROJECT_2010;
          int durationUnitsOffset = project15 ? 18 : 14;
          int durationOffset = project15 ? 14 : 16;
 
