@@ -53,20 +53,23 @@ public final class RtfHelper
     */
    public static String strip(String text)
    {
-      boolean formalRTF = isFormalRTF(text);
-      String newResult;
-      try
+      String result = text;
+      if (text != null && !text.isEmpty())
       {
-         StringTextConverter stc = new StringTextConverter();
-         stc.convert(new RtfStringSource(text));
-         newResult = stripExtraLineEnd(stc.getText(), formalRTF);
-      }
-      catch (IOException ex)
-      {
-         newResult = "";
+         try
+         {
+            boolean formalRTF = isFormalRTF(text);
+            StringTextConverter stc = new StringTextConverter();
+            stc.convert(new RtfStringSource(text));
+            result = stripExtraLineEnd(stc.getText(), formalRTF);
+         }
+         catch (IOException ex)
+         {
+            result = "";
+         }
       }
 
-      return newResult;
+      return result;
    }
 
    /**
