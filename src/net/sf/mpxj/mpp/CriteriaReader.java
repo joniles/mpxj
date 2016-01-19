@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.GenericCriteria;
@@ -339,57 +340,65 @@ public abstract class CriteriaReader
    private Object getConstantValue(FieldType type, byte[] block)
    {
       Object value;
+      DataType dataType = type.getDataType();
 
-      switch (type.getDataType())
+      if (dataType == null)
       {
-         case DURATION:
+         value = null;
+      }
+      else
+      {
+         switch (dataType)
          {
-            value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
-            break;
-         }
+            case DURATION:
+            {
+               value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
+               break;
+            }
 
-         case NUMERIC:
-         {
-            value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()));
-            break;
-         }
+            case NUMERIC:
+            {
+               value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()));
+               break;
+            }
 
-         case PERCENTAGE:
-         {
-            value = Double.valueOf(MPPUtility.getShort(block, getValueOffset()));
-            break;
-         }
+            case PERCENTAGE:
+            {
+               value = Double.valueOf(MPPUtility.getShort(block, getValueOffset()));
+               break;
+            }
 
-         case CURRENCY:
-         {
-            value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()) / 100);
-            break;
-         }
+            case CURRENCY:
+            {
+               value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()) / 100);
+               break;
+            }
 
-         case STRING:
-         {
-            int textOffset = getTextOffset(block);
-            value = MPPUtility.getUnicodeString(m_criteriaData, m_dataOffset + m_criteriaTextStart + textOffset);
-            break;
-         }
+            case STRING:
+            {
+               int textOffset = getTextOffset(block);
+               value = MPPUtility.getUnicodeString(m_criteriaData, m_dataOffset + m_criteriaTextStart + textOffset);
+               break;
+            }
 
-         case BOOLEAN:
-         {
-            int intValue = MPPUtility.getShort(block, getValueOffset());
-            value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
-            break;
-         }
+            case BOOLEAN:
+            {
+               int intValue = MPPUtility.getShort(block, getValueOffset());
+               value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
+               break;
+            }
 
-         case DATE:
-         {
-            value = MPPUtility.getTimestamp(block, getValueOffset());
-            break;
-         }
+            case DATE:
+            {
+               value = MPPUtility.getTimestamp(block, getValueOffset());
+               break;
+            }
 
-         default:
-         {
-            value = null;
-            break;
+            default:
+            {
+               value = null;
+               break;
+            }
          }
       }
 
