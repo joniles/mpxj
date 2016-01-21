@@ -26,6 +26,8 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -43,8 +45,8 @@ import java.util.Set;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -74,6 +76,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    public void setProjectID(int projectID)
    {
       m_projectID = Integer.valueOf(projectID);
+   }
+
+   /**
+    * Sets the character encoding used when reading an XER file.
+    *
+    * @param encoding encoding name
+    */
+   public void setEncoding(String encoding)
+   {
+      m_encoding = encoding;
    }
 
    /**
@@ -211,7 +223,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          bis.reset();
 
-         Tokenizer tk = new InputStreamTokenizer(bis);
+         Charset charset = m_encoding == null ? Charset.defaultCharset() : Charset.forName(m_encoding);
+         InputStreamReader reader = new InputStreamReader(bis, charset);
+         Tokenizer tk = new ReaderTokenizer(reader);
          tk.setDelimiter('\t');
          List<String> record = new ArrayList<String>();
 
@@ -726,6 +740,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
 
+   private String m_encoding;
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    boolean m_skipTable;

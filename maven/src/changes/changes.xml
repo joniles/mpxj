@@ -11,6 +11,7 @@
 	<release version="5.1.18" date="Git HEAD">
 		<action dev="joniles" type="fix" issue="285">Unsupported encoding command ansicpg1254</action>
 		<action dev="joniles" type="fix" issue="286">NullPointerException in CriteriaReader.getConstantValue</action>
+		<action dev="joniles" type="update" issue="287">Allow a character encoding to be specified when reading an XER file</action>
 	</release>
 
 	<release version="5.1.17" date="30/12/2015">
