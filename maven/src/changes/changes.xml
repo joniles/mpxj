@@ -12,6 +12,7 @@
 		<action dev="joniles" type="fix" issue="285">Unsupported encoding command ansicpg1254</action>
 		<action dev="joniles" type="fix" issue="286">NullPointerException in CriteriaReader.getConstantValue</action>
 		<action dev="joniles" type="update" issue="287">Allow a character encoding to be specified when reading an XER file</action>
+		<action dev="joniles" type="add">Write Primavera Primary Resource Unique ID to Task field Number1</action>
 	</release>
 
 	<release version="5.1.17" date="30/12/2015">

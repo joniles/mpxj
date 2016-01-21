@@ -1269,6 +1269,7 @@ final class PrimaveraReader
       map.put(TaskField.TEXT1, "task_code");
       map.put(TaskField.TEXT2, "task_type");
       map.put(TaskField.TEXT3, "status_code");
+      map.put(TaskField.NUMBER1, "rsrc_id");
 
       return map;
    }
@@ -1313,6 +1314,7 @@ final class PrimaveraReader
       map.put(TaskField.TEXT1, "Code");
       map.put(TaskField.TEXT2, "Activity Type");
       map.put(TaskField.TEXT3, "Status");
+      map.put(TaskField.NUMBER1, "Primary Resource Unique ID");
 
       return map;
    }
