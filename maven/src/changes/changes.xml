@@ -8,7 +8,10 @@
 
    <body>
 
-	<release version="5.1.18" date="Git HEAD">
+	<release version="5.1.19" date="Git HEAD">
+	</release>
+
+	<release version="5.1.18" date="25/01/2016">
 		<action dev="joniles" type="fix" issue="285">Unsupported encoding command ansicpg1254</action>
 		<action dev="joniles" type="fix" issue="286">NullPointerException in CriteriaReader.getConstantValue</action>
 		<action dev="joniles" type="update" issue="287">Allow a character encoding to be specified when reading an XER file</action>
