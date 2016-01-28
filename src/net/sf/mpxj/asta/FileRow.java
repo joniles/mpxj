@@ -121,7 +121,7 @@ class FileRow extends MapRow
 
       catch (Exception ex)
       {
-         throw new MPXJException("Failed to parse " + table + "." + column + " (data=" + data + ", type=" + type + ")");
+         throw new MPXJException("Failed to parse " + table + "." + column + " (data=" + data + ", type=" + type + ")", ex);
       }
    }
 
