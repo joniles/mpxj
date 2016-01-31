@@ -225,6 +225,27 @@ public final class NumberHelper
    }
 
    /**
+    * Compare two integers, accounting for null values.
+    *
+    * @param n1 integer value
+    * @param n2 integer value
+    * @return comparison result
+    */
+   public static int compare(Integer n1, Integer n2)
+   {
+      int result;
+      if (n1 == null || n2 == null)
+      {
+         result = (n1 == null && n2 == null ? 0 : (n1 == null ? 1 : -1));
+      }
+      else
+      {
+         result = n1.compareTo(n2);
+      }
+      return (result);
+   }
+
+   /**
     * Compares two doubles for equality, within an allowable range
     * of difference.
     *

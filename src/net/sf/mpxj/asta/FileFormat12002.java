@@ -1,5 +1,5 @@
 /*
- * file:       PowerProject12005.java
+ * file:       FileFormat12002.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2016
  * date:       27/01/2016
@@ -24,10 +24,15 @@
 package net.sf.mpxj.asta;
 
 /**
- * Asta PowerProject 12 file format.
+ * Asta PowerProject 12.0.0.1 file format.
  */
-class PowerProject12005 extends AbstractFileFormat
+class FileFormat12002 extends AbstractFileFormat
 {
+   @Override public boolean epochDateFormat()
+   {
+      return true;
+   }
+
    @Override protected String[] barColumnsOrder()
    {
       return BAR_COLUMNS_ORDER;
@@ -581,7 +586,7 @@ class PowerProject12005 extends AbstractFileFormat
       "CALENDAV",
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
-      "CREATED_AS_FOLDER",
+      //"CREATED_AS_FOLDER",
       "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",

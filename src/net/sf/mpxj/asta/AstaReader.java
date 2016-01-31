@@ -50,6 +50,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class provides a generic front end to read project data from
@@ -319,7 +320,7 @@ final class AstaReader
 
          processConstraints(row, task);
 
-         if (task.getPercentageComplete().intValue() != 0)
+         if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
          {
             task.setActualStart(task.getStart());
             if (task.getPercentageComplete().intValue() == 100)

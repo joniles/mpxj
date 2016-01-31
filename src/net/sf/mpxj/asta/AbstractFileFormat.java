@@ -62,6 +62,14 @@ abstract class AbstractFileFormat
    }
 
    /**
+    * Indicates if dates are encoded as integer offsets from an epoch date (true),
+    * or as simple numeric date formats (false).
+    *
+    * @return epoch date format flag
+    */
+   public abstract boolean epochDateFormat();
+
+   /**
     * Ordered column names for a table.
     *
     * @return ordered column names

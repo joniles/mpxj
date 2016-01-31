@@ -1,5 +1,5 @@
 /*
- * file:       PowerProject12002.java
+ * file:       FileFormat12005.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2016
  * date:       27/01/2016
@@ -26,8 +26,13 @@ package net.sf.mpxj.asta;
 /**
  * Asta PowerProject 12 file format.
  */
-class PowerProject10008 extends AbstractFileFormat
+class FileFormat12005 extends AbstractFileFormat
 {
+   @Override public boolean epochDateFormat()
+   {
+      return true;
+   }
+
    @Override protected String[] barColumnsOrder()
    {
       return BAR_COLUMNS_ORDER;
@@ -117,7 +122,7 @@ class PowerProject10008 extends AbstractFileFormat
       "MARK_FOR_HIDING",
       "TASKS_MAY_OVERLAP",
       "SUBPROJECT_ID",
-      //"ALT_ID",
+      "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -268,7 +273,7 @@ class PowerProject10008 extends AbstractFileFormat
       "COMM_ATTSSCALE2",
       "COMM_ATTSSCALE3",
       "COMM_ATTSNSCALES",
-      //"PERCENTAGE_LIKELIHOOD",
+      "PERCENTAGE_LIKELIHOOD",
       "PROJ_RISK",
       "PROJ_PRIORITY",
       "SUM_WEIGHTS",
@@ -442,14 +447,14 @@ class PowerProject10008 extends AbstractFileFormat
       "SPAVE_INTEGER",
       "SWIM_LANE",
       "USER_PERCENT_COMPLETE",
-      //"OVERALL_PERCENV_COMPLETE",
+      "OVERALL_PERCENV_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
+      "WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",
@@ -581,6 +586,7 @@ class PowerProject10008 extends AbstractFileFormat
       "CALENDAV",
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
+      "CREATED_AS_FOLDER",
       "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
@@ -668,8 +674,8 @@ class PowerProject10008 extends AbstractFileFormat
       "POINT_RELEASE",
       "TIMESHEET_PROJECT_ID",
       "LAST_ID_USED_IN_ARCHIVES",
-      //"PROJECT_VERSION",
-      //"STANDARD_WORK_MIN_FADE",
+      "PROJECT_VERSION",
+      "STANDARD_WORK_MIN_FADE",
       "BOOKOUT_SET_UNIQUE_ID",
       "NUMBER_BOOKED_OUT_SETS",
       "SHORT_NAME",
@@ -686,13 +692,13 @@ class PowerProject10008 extends AbstractFileFormat
       "CHART_PATH_SEPARATOR",
       "UTID_PREFIX",
       "TIMESHEET_CONNECTION",
-      //"WBS_PATH_SEPARATOR",
-      //"PROJECT_GUID",
+      "WBS_PATH_SEPARATOR",
+      "PROJECT_GUID",
       "DURATION_TIME_UNIT",
       "SECURITY_CODELIBRARY",
       "BOOKOUT_COUNTER",
       "PROGRESS_METHOD",
-      //"FORMULA_DATE_FORMAT",
+      "FORMULA_DATE_FORMAT",
       "WBN_ENABLED",
       "OLD_START_VALUE",
       "IGNORE_SATISFIED_COSTS",
@@ -700,10 +706,10 @@ class PowerProject10008 extends AbstractFileFormat
       "EXCLUSIVE_CUSTOM_TIME_UNITS",
       "IS_AN_ARCHIVE",
       "SORT_BY_SORT_ORDER",
-      //"USE_PROJECT_BASELINES_FOR_JP",
-      //"USE_ROLLED_UP_OPC_WEIGHTINGS",
-      //"DISPLAY_WBS_BY_CODE",
-      //"INHERIT_FROM_NEIGHBOUR",
+      "USE_PROJECT_BASELINES_FOR_JP",
+      "USE_ROLLED_UP_OPC_WEIGHTINGS",
+      "DISPLAY_WBS_BY_CODE",
+      "INHERIT_FROM_NEIGHBOUR",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -717,12 +723,15 @@ class PowerProject10008 extends AbstractFileFormat
       "RESUME",
       "GIVEN_START",
       "LATEST_PROGRESS_PERIOD",
+      "TASK_WORK_RATE_TIME_UNIT",
       "TASK_WORK_RATE",
       "PLACEMENT",
       "BEEN_SPLIT",
       "INTERRUPTIBLE",
       "HOLDING_PIN",
       "ACTUAL_DURATIONTYPF",
+      "ACTUAL_DURATIONELA_MONTHS",
+      "ACTUAL_DURATIONHOURS",
       "EARLY_START_DATE",
       "LATE_START_DATE",
       "FREE_START_DATE",
@@ -734,14 +743,14 @@ class PowerProject10008 extends AbstractFileFormat
       "SPAVE_INTEGER",
       "SWIM_LANE",
       "USER_PERCENT_COMPLETE",
-      //"OVERALL_PERCENV_COMPLETE",
+      "OVERALL_PERCENV_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
+      "WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",

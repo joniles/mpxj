@@ -25,6 +25,8 @@ package net.sf.mpxj.asta;
 
 import java.util.Comparator;
 
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * Simple comparator to allow two rows to be compared
  * by integer column values.
@@ -52,7 +54,7 @@ class RowComparator implements Comparator<Row>
       {
          Integer leftValue = leftRow.getInteger(m_sortColumns[index]);
          Integer rightValue = rightRow.getInteger(m_sortColumns[index]);
-         result = leftValue.compareTo(rightValue);
+         result = NumberHelper.compare(leftValue, rightValue);
          if (result != 0)
          {
             break;

@@ -182,18 +182,19 @@ public final class AstaFileReader extends AbstractProjectReader
 
             if (table != null && columns.size() > 1)
             {
-               System.out.println(table.getName() + " " + columns.size());
-               ColumnDefinition[] columnDefs = table.getColumns();
-               for (int xx = 0; xx < columns.size(); xx++)
-               {
-                  String x = columns.get(xx);
-                  //System.out.print(x + ", ");
-                  String columnName = xx < columnDefs.length ? columnDefs[xx].getName() : "?";
-                  System.out.print(columnName + ": " + x + ", ");
-               }
-               System.out.println();
+               //               System.out.println(table.getName() + " " + columns.size());
+               //               ColumnDefinition[] columnDefs = table.getColumns();
+               //               int unknownIndex = 1;
+               //               for (int xx = 0; xx < columns.size(); xx++)
+               //               {
+               //                  String x = columns.get(xx);
+               //                  //System.out.print(x + ", ");
+               //                  String columnName = xx < columnDefs.length ? (columnDefs[xx] == null ? "UNKNOWN" + (unknownIndex++) : columnDefs[xx].getName()) : "?";
+               //                  System.out.println(columnName + ": " + x + ", ");
+               //               }
+               //               System.out.println();
 
-               FileRow row = new FileRow(table, columns);
+               FileRow row = new FileRow(table, columns, m_epochDateFormat);
                List<Row> rows = m_tables.get(table.getName());
                if (rows == null)
                {
@@ -211,12 +212,32 @@ public final class AstaFileReader extends AbstractProjectReader
       }
    }
 
-   private void processFileType(String token)
+   /**
+    * Reads the file version and configures the expected file format.
+    *
+    * @param token token containing the file version
+    * @throws MPXJException
+    */
+   private void processFileType(String token) throws MPXJException
    {
       String version = token.substring(2).split(" ")[0];
-      m_fileVersion = Integer.parseInt(version);
-      System.out.println(m_fileVersion);
-      m_tableDefinitions = new PowerProject10008().tableDefinitions();
+      System.out.println(version);
+      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(Integer.valueOf(version));
+      if (fileFormatClass == null)
+      {
+         throw new MPXJException("Unsupported PP file format version " + version);
+      }
+
+      try
+      {
+         AbstractFileFormat format = fileFormatClass.newInstance();
+         m_tableDefinitions = format.tableDefinitions();
+         m_epochDateFormat = format.epochDateFormat();
+      }
+      catch (Exception ex)
+      {
+         throw new MPXJException("Failed to configure file format", ex);
+      }
    }
 
    /**
@@ -538,8 +559,8 @@ public final class AstaFileReader extends AbstractProjectReader
    private AstaReader m_reader;
    private List<ProjectListener> m_projectListeners;
    private Map<String, List<Row>> m_tables;
-   private int m_fileVersion;
    private Map<Integer, TableDefinition> m_tableDefinitions;
+   private boolean m_epochDateFormat;
 
    private static final char DELIMITER = ',';
 
@@ -550,4 +571,15 @@ public final class AstaFileReader extends AbstractProjectReader
    private static final RowComparator TASK_COMPARATOR = new RowComparator("WBT", "NATURAO_ORDER");
    private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");
    private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
+
+   private static final Map<Integer, Class<? extends AbstractFileFormat>> FILE_VERSION_MAP = new HashMap<Integer, Class<? extends AbstractFileFormat>>();
+   static
+   {
+      FILE_VERSION_MAP.put(Integer.valueOf(8020), FileFormat8020.class); // EasyProject 2
+      FILE_VERSION_MAP.put(Integer.valueOf(9006), FileFormat9006.class); // EasyProject 3
+      FILE_VERSION_MAP.put(Integer.valueOf(10008), FileFormat10008.class); // EasyProject 4
+      FILE_VERSION_MAP.put(Integer.valueOf(11004), FileFormat11004.class); // EasyProject 5 and PowerProject 11
+      FILE_VERSION_MAP.put(Integer.valueOf(12002), FileFormat12002.class); // PowerProject 12.0.0.2
+      FILE_VERSION_MAP.put(Integer.valueOf(12005), FileFormat12005.class); // PowerProject 12
+   }
 }
