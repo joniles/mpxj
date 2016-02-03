@@ -10,6 +10,7 @@
 
 	<release version="5.1.19" date="Git HEAD">
 		<action dev="joniles" type="fix" issue="285">Unsupported encoding command ansicpg949</action>	
+		<action dev="joniles" type="fix" issue="288">AvailabilityTable getEntryByDate does not work properly</action>		
 	</release>
 
 	<release version="5.1.18" date="25/01/2016">
