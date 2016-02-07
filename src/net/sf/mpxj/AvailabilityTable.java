@@ -50,7 +50,11 @@ public final class AvailabilityTable extends ArrayList<Availability>
             if (comparisonResult == 0)
             {
                result = entry;
+               break;
             }
+         }
+         else
+         {
             break;
          }
       }

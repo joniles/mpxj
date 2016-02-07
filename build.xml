@@ -45,7 +45,7 @@
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.5.0" />
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.6.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>
