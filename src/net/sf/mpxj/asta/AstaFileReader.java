@@ -24,6 +24,7 @@
 package net.sf.mpxj.asta;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +39,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -109,13 +110,15 @@ public final class AstaFileReader extends AbstractProjectReader
    {
       try
       {
-         Tokenizer tk = new InputStreamTokenizer(is)
+         InputStreamReader reader = new InputStreamReader(is, "UTF-8");
+         Tokenizer tk = new ReaderTokenizer(reader)
          {
             @Override protected boolean startQuotedIsValid(StringBuilder buffer)
             {
                return buffer.length() == 1 && buffer.charAt(0) == '<';
             }
          };
+
          tk.setDelimiter(DELIMITER);
          ArrayList<String> columns = new ArrayList<String>();
          String nextTokenPrefix = null;
