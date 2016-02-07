@@ -301,7 +301,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("NAMK", Types.VARCHAR),
       new ColumnDefinition("DOMINANT_WORK_PATTERN", Types.INTEGER),
       new ColumnDefinition("CALENDAR", Types.INTEGER),
-      new ColumnDefinition("DISPLAY_THRESHOLD", Types.TIMESTAMP),
+      new ColumnDefinition("DISPLAY_THRESHOLD", Types.INTEGER),
       new ColumnDefinition("NO_WORKING_TIME_COLOUR", Types.INTEGER),
       new ColumnDefinition("WORKING_TIME_COLOUR", Types.INTEGER),
       new ColumnDefinition("NUMBERING", Types.INTEGER),
@@ -358,8 +358,8 @@ abstract class AbstractFileFormat
    {
       new ColumnDefinition("TIME_ENTRYID", Types.INTEGER),
       new ColumnDefinition("EXCEPTIOP", Types.INTEGER),
-      new ColumnDefinition("START_TIME", Types.TIMESTAMP),
-      new ColumnDefinition("END_TIME", Types.TIMESTAMP)
+      new ColumnDefinition("START_TIME", Types.TIME),
+      new ColumnDefinition("END_TIME", Types.TIME)
    };
 
    private static final ColumnDefinition[] WORK_PATTERN_COLUMNS = new ColumnDefinition[]

@@ -50,6 +50,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -1059,6 +1060,16 @@ final class AstaReader
       {
          Date startTime = row.getDate("START_TIME");
          Date endTime = row.getDate("END_TIME");
+         if (startTime == null)
+         {
+            startTime = DateHelper.getDayStartDate(new Date(0));
+         }
+
+         if (endTime == null)
+         {
+            endTime = DateHelper.getDayEndDate(new Date(0));
+         }
+
          if (startTime.getTime() > endTime.getTime())
          {
             Calendar cal = Calendar.getInstance();

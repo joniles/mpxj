@@ -221,7 +221,7 @@ public final class AstaFileReader extends AbstractProjectReader
    private void processFileType(String token) throws MPXJException
    {
       String version = token.substring(2).split(" ")[0];
-      System.out.println(version);
+      //      System.out.println(version);
       Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(Integer.valueOf(version));
       if (fileFormatClass == null)
       {
