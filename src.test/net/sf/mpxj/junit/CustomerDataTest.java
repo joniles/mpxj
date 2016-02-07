@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.Locale;
 
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
@@ -165,6 +166,7 @@ public class CustomerDataTest
             MPXReader mpxReader = new MPXReader();
             MSPDIReader mspdiReader = new MSPDIReader();
             PrimaveraXERFileReader primaveraReader = new PrimaveraXERFileReader();
+            AstaFileReader astaReader = new AstaFileReader();
 
             ProjectFile mpxj;
             int failures = 0;
@@ -227,6 +229,13 @@ public class CustomerDataTest
                            if (name.endsWith(".XER") == true)
                            {
                               mpxj = primaveraReader.read(file);
+                           }
+                           else
+                           {
+                              if (name.endsWith(".PP") == true)
+                              {
+                                 mpxj = astaReader.read(file);
+                              }
                            }
                         }
                      }
