@@ -473,7 +473,7 @@
 		<unzip src="../${rtfparserkit.jar}/${rtfparserkit.jar}.zip" dest="${basedir}/maven/src/main/java">
 			 <patternset>
 			    <include name="/${rtfparserkit.jar}/RTF Parser Kit/src/**/*.java"/>
-			 	<exclude name="**/RtfDump.*"/>
+			 	<exclude name="**/RtfDump*.*"/>
 			  </patternset>
 			<regexpmapper from=".*/src/(.*)" to="\1"/>
 		</unzip>
