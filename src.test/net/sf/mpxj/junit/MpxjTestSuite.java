@@ -125,6 +125,7 @@ import org.junit.runners.Suite;
    CalendarCalendarsTest.class,
    PrimaveraDatabaseReaderTest.class,
    TaskContainerTest.class,
+   AvailabilityTableTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
