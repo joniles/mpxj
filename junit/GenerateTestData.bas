@@ -383,6 +383,7 @@ End Sub
 Sub GenerateTaskTextValues()
 
     FileNew SummaryInfo:=False
+    ActiveProject.BuiltinDocumentProperties("Author").value = "Project User"
 
     Dim task As Task
     
@@ -598,6 +599,17 @@ Sub SaveFiles(FilenameBase As String)
     Filename = parentDirectory & "\" & FilenameBase & "\" & FilenameBase
     
     Select Case Application.Version
+        ' Project 2016
+        Case "16.0"
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2016-mpp14.mpp"
+        
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2016-mspdi.xml", FormatID:="MSProject.XML"
+        
+            CalculateAll
+            FileSaveAs name:=Filename & "-project2016-mpp12.mpp", FormatID:="MSProject.MPP.12"
+            
         ' Project 2013
         Case "15.0"
             CalculateAll
