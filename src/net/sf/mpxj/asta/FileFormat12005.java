@@ -50,7 +50,7 @@ class FileFormat12005 extends AbstractFileFormat
 
    @Override protected String[] exceptionColumnsOrder()
    {
-      return EXCEPTION_COLUMNS_ORDER;
+      return EXCEPTIONN_COLUMNS_ORDER;
    }
 
    @Override protected String[] exceptionAssignmentColumnsOrder()
@@ -214,13 +214,14 @@ class FileFormat12005 extends AbstractFileFormat
       "CALENDAV",
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
+      "NO_NEW_ASSIGNMENTS",
       "CREATED_AS_FOLDER",
       "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
 
-   private static final String[] EXCEPTION_COLUMNS_ORDER =
+   private static final String[] EXCEPTIONN_COLUMNS_ORDER =
    {
       "EXCEPTIONNID",
       "ARR_STOUT_STAPPANDARROW_TYPE",
@@ -535,6 +536,8 @@ class FileFormat12005 extends AbstractFileFormat
       "DEFAULTTCONTRIBUTES_T_EFFORT",
       "DEFAULTTMAY_BE_SHORTER__TASK",
       "DEFAULTTSHARED_EFFORT",
+      "UNKNOWN",
+      "UNKNOWN",
       "ABILITY",
       "EFFECTIVENESS",
       "AVAILABLF_FROM",
@@ -586,6 +589,7 @@ class FileFormat12005 extends AbstractFileFormat
       "CALENDAV",
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
+      "NO_NEW_ASSIGNMENTS",
       "CREATED_AS_FOLDER",
       "ALT_ID",
       "LAST_EDITED_DATE",
@@ -615,6 +619,8 @@ class FileFormat12005 extends AbstractFileFormat
       "BALANCINJ_PARAMETER",
       "SHAREE_EFFORT",
       "CONTRIBUTES_TO_ACTIVI_EFFORT",
+      "TIMESHEET_ROUND_UP_IF_UNDER",
+      "TIMESHEET_CAP_IF_OVER",
       "DELAATYPF",
       "DELAAELA_MONTHS",
       "DELAAHOURS",

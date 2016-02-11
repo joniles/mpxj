@@ -271,7 +271,9 @@ abstract class AbstractFileFormat
       new ColumnDefinition("DISPLAY_WBS_BY_CODE", Types.BIT),
       new ColumnDefinition("INHERIT_FROM_NEIGHBOUR", Types.BIT),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("SCALE_SPR_FONTS_CONSISTENTLY", Types.INTEGER)
+
    };
 
    private static final ColumnDefinition[] BAR_COLUMNS = new ColumnDefinition[]
@@ -342,7 +344,8 @@ abstract class AbstractFileFormat
       new ColumnDefinition("TYPG", Types.INTEGER),
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("SORT_ORDER", Types.INTEGER)
    };
 
    private static final ColumnDefinition[] EXCEPTION_ASSIGNMENT_COLUMNS = new ColumnDefinition[]
@@ -435,7 +438,9 @@ abstract class AbstractFileFormat
       new ColumnDefinition("SUBPROJECT_ID", Types.INTEGER),
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("IFC_PRODUCT_SET", Types.INTEGER),
+      new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER),
    };
 
    private static final ColumnDefinition[] MILESTONE_COLUMNS = new ColumnDefinition[]
@@ -494,7 +499,9 @@ abstract class AbstractFileFormat
       new ColumnDefinition("SUBPROJECT_ID", Types.INTEGER),
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("IFC_PRODUCT_SET", Types.INTEGER),
+      new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER),
    };
 
    private static final ColumnDefinition[] EXPANDED_TASK_COLUMNS = new ColumnDefinition[]
@@ -613,6 +620,10 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("NUMBER_OF_ACTIVITIES", Types.INTEGER),
+      new ColumnDefinition("ONLY_PM_MAY_APPROVE", Types.BIT),
+      new ColumnDefinition("IFC_PRODUCT_SET", Types.INTEGER),
+      new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER)
    };
 
    private static final ColumnDefinition[] LINK_COLUMNS = new ColumnDefinition[]
@@ -732,6 +743,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("NO_NEW_ASSIGNMENTS", Types.INTEGER),
    };
 
    private static final ColumnDefinition[] PERMANENT_RESOURCE_COLUMNS = new ColumnDefinition[]
@@ -774,7 +786,8 @@ abstract class AbstractFileFormat
       new ColumnDefinition("CREATED_AS_FOLDER", Types.BIT),
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("NO_NEW_ASSIGNMENTS", Types.INTEGER),
    // Followed by user defined columns which differ by project
    };
 
@@ -833,6 +846,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("DEFAULTTSHARED_EFFORT", Types.BIT),
       new ColumnDefinition("ABILITY", Types.DOUBLE),
       new ColumnDefinition("EFFECTIVENESS", Types.DOUBLE),
+      new ColumnDefinition("AVAILABILITY", Types.DOUBLE),
       new ColumnDefinition("AVAILABLF_FROM", Types.TIMESTAMP),
       new ColumnDefinition("AVAILABLF_TO", Types.TIMESTAMP),
       new ColumnDefinition("SPARO_INTEGER", Types.INTEGER),
@@ -899,5 +913,13 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("TIMESHEET_ROUND_UP_IF_UNDER", Types.INTEGER),
+      new ColumnDefinition("TIMESHEET_CAP_IF_OVER", Types.INTEGER),
+      new ColumnDefinition("BUDGETED_COST_CURRENCY", Types.INTEGER),
+      new ColumnDefinition("BUDGETED_COST_AMOUNT", Types.DOUBLE),
+      new ColumnDefinition("FLAGS", Types.INTEGER),
+      new ColumnDefinition("ALLOCATION_PROFILE", Types.VARCHAR),
+      new ColumnDefinition("RESOURCE_CURVE", Types.INTEGER),
+      new ColumnDefinition("NONLINEAR_TYPE", Types.INTEGER),
    };
 }

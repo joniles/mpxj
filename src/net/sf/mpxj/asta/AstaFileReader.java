@@ -191,7 +191,6 @@ public final class AstaFileReader extends AbstractProjectReader
                //               for (int xx = 0; xx < columns.size(); xx++)
                //               {
                //                  String x = columns.get(xx);
-               //                  //System.out.print(x + ", ");
                //                  String columnName = xx < columnDefs.length ? (columnDefs[xx] == null ? "UNKNOWN" + (unknownIndex++) : columnDefs[xx].getName()) : "?";
                //                  System.out.println(columnName + ": " + x + ", ");
                //               }
@@ -224,7 +223,7 @@ public final class AstaFileReader extends AbstractProjectReader
    private void processFileType(String token) throws MPXJException
    {
       String version = token.substring(2).split(" ")[0];
-      //      System.out.println(version);
+      //System.out.println(version);
       Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(Integer.valueOf(version));
       if (fileFormatClass == null)
       {
@@ -584,5 +583,6 @@ public final class AstaFileReader extends AbstractProjectReader
       FILE_VERSION_MAP.put(Integer.valueOf(11004), FileFormat11004.class); // EasyProject 5 and PowerProject 11
       FILE_VERSION_MAP.put(Integer.valueOf(12002), FileFormat12002.class); // PowerProject 12.0.0.2
       FILE_VERSION_MAP.put(Integer.valueOf(12005), FileFormat12005.class); // PowerProject 12
+      FILE_VERSION_MAP.put(Integer.valueOf(13004), FileFormat13004.class); // PowerProject 13
    }
 }

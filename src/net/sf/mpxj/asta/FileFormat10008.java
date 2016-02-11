@@ -50,7 +50,7 @@ class FileFormat10008 extends AbstractFileFormat
 
    @Override protected String[] exceptionColumnsOrder()
    {
-      return EXCEPTION_COLUMNS_ORDER;
+      return EXCEPTIONN_COLUMNS_ORDER;
    }
 
    @Override protected String[] exceptionAssignmentColumnsOrder()
@@ -121,8 +121,7 @@ class FileFormat10008 extends AbstractFileFormat
       "UNSCHEDULABLE",
       "MARK_FOR_HIDING",
       "SUBPROJECT_ID",
-      "TASKS_MAY_OVERLAP",
-      //"ALT_ID",
+      "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -220,7 +219,7 @@ class FileFormat10008 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] EXCEPTION_COLUMNS_ORDER =
+   private static final String[] EXCEPTIONN_COLUMNS_ORDER =
    {
       "EXCEPTIONNID",
       "ARR_STOUT_STAPPANDARROW_TYPE",
@@ -273,10 +272,10 @@ class FileFormat10008 extends AbstractFileFormat
       "COMM_ATTSSCALE2",
       "COMM_ATTSSCALE3",
       "COMM_ATTSNSCALES",
-      "UNKNOWN", //"SUM_WEIGHTS",
-      "UNKNOWN", //"ISSUE_DATE",
-      "UNKNOWN", // "REVISION_DATE",
-      "UNKNOWN", //"PROJECT_BASELINE_ID",
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN",
       "UNKNOWN",
       "PERCENTAGE_LIKELIHOOD",
       "PROJ_RISK",
@@ -294,8 +293,8 @@ class FileFormat10008 extends AbstractFileFormat
       "PROJ_STATUS",
       "PROGRESU_PERIOD",
       "MANAGER_RESOURCE",
-      "UNKNOWN", //"CONTAINS_PROJECTS",
-      "UNKNOWN", //"CUMULATIVH_COSTCURRENCZ",
+      "UNKNOWN",
+      "UNKNOWN",
       "TYPH",
       "TAG_FIELD",
       "IS_PROJECT",
@@ -351,12 +350,10 @@ class FileFormat10008 extends AbstractFileFormat
       "USER_PERCENT_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
-      //"OVERALL_PERCENT_COMPL_WEIGHT",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",
@@ -399,8 +396,6 @@ class FileFormat10008 extends AbstractFileFormat
       "STARV_DATE",
       "ENF_DATE",
       "CURVATURE_PERCENTAGE",
-      //"START_LAG_PERCENT_FLOAT",
-      //"END_LAG_PERCENT_FLOAT",
       "COMMENTS",
       "LINK_CATEGORY",
       "START_LAG_TIME_UNIT",
@@ -408,11 +403,9 @@ class FileFormat10008 extends AbstractFileFormat
       "MAXIMUM_LAG_TIME_UNIT",
       "START_TASK",
       "END_TASK",
-
       "START_LAG_PERCENT_FLOAT",
       "START_LAG_TYPE",
       "TYPI",
-
       "MAINTAIN_TASK_OFFSETS",
       "END_LAG_TYPE",
       "UNSCHEDULABLF",
@@ -456,14 +449,12 @@ class FileFormat10008 extends AbstractFileFormat
       "SPAVE_INTEGER",
       "SWIM_LANE",
       "USER_PERCENT_COMPLETE",
-      //"OVERALL_PERCENV_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",
@@ -545,7 +536,6 @@ class FileFormat10008 extends AbstractFileFormat
       "DEFAULTTMAY_BE_SHORTER__TASK",
       "DEFAULTTSHARED_EFFORT",
       "ABILITY",
-      //"EFFECTIVENESS",
       "AVAILABLF_FROM",
       "AVAILABLF_TO",
       "SPARO_INTEGER",
@@ -564,7 +554,6 @@ class FileFormat10008 extends AbstractFileFormat
       "EMAIL_ADDRESS",
       "EFFORT_TIME_UNIT",
       "PURE_TREE",
-      //"EXCLUDED_FROM_TIMESHEET",
       "ARR_STOUT_STRES_APARROW_TYPE",
       "ARR_STOUT_STRES_APLENGTH",
       "ARR_STOUT_STRES_APEDGE",
@@ -595,9 +584,10 @@ class FileFormat10008 extends AbstractFileFormat
       "CALENDAV",
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
+      "CREATED_AS_FOLDER",
       "ALT_ID",
       "LAST_EDITED_DATE",
-      "LAST_EDITED_BY",
+      "LAST_EDITED_BY"
    };
 
    private static final String[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS_ORDER =
@@ -627,7 +617,6 @@ class FileFormat10008 extends AbstractFileFormat
       "DELAAELA_MONTHS",
       "DELAAHOURS",
       "GIVEO_DURATIONTYPF",
-      //"GIVEO_DURATIONELA_MONTHS",
       "GIVEO_DURATIONHOURS",
       "DELAY_TIMI_UNIT",
       "RATE_TYPE",
@@ -682,8 +671,6 @@ class FileFormat10008 extends AbstractFileFormat
       "POINT_RELEASE",
       "TIMESHEET_PROJECT_ID",
       "LAST_ID_USED_IN_ARCHIVES",
-      //"PROJECT_VERSION",
-      //"STANDARD_WORK_MIN_FADE",
       "BOOKOUT_SET_UNIQUE_ID",
       "NUMBER_BOOKED_OUT_SETS",
       "SHORT_NAME",
@@ -700,13 +687,10 @@ class FileFormat10008 extends AbstractFileFormat
       "CHART_PATH_SEPARATOR",
       "UTID_PREFIX",
       "TIMESHEET_CONNECTION",
-      //"WBS_PATH_SEPARATOR",
-      //"PROJECT_GUID",
       "DURATION_TIME_UNIT",
       "SECURITY_CODELIBRARY",
       "BOOKOUT_COUNTER",
       "PROGRESS_METHOD",
-      //"FORMULA_DATE_FORMAT",
       "WBN_ENABLED",
       "OLD_START_VALUE",
       "IGNORE_SATISFIED_COSTS",
@@ -714,10 +698,6 @@ class FileFormat10008 extends AbstractFileFormat
       "EXCLUSIVE_CUSTOM_TIME_UNITS",
       "IS_AN_ARCHIVE",
       "SORT_BY_SORT_ORDER",
-      //"USE_PROJECT_BASELINES_FOR_JP",
-      //"USE_ROLLED_UP_OPC_WEIGHTINGS",
-      //"DISPLAY_WBS_BY_CODE",
-      //"INHERIT_FROM_NEIGHBOUR",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -748,14 +728,12 @@ class FileFormat10008 extends AbstractFileFormat
       "SPAVE_INTEGER",
       "SWIM_LANE",
       "USER_PERCENT_COMPLETE",
-      //"OVERALL_PERCENV_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",

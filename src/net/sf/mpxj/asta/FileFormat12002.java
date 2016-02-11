@@ -50,7 +50,7 @@ class FileFormat12002 extends AbstractFileFormat
 
    @Override protected String[] exceptionColumnsOrder()
    {
-      return EXCEPTION_COLUMNS_ORDER;
+      return EXCEPTIONN_COLUMNS_ORDER;
    }
 
    @Override protected String[] exceptionAssignmentColumnsOrder()
@@ -220,7 +220,7 @@ class FileFormat12002 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] EXCEPTION_COLUMNS_ORDER =
+   private static final String[] EXCEPTIONN_COLUMNS_ORDER =
    {
       "EXCEPTIONNID",
       "ARR_STOUT_STAPPANDARROW_TYPE",
@@ -586,10 +586,10 @@ class FileFormat12002 extends AbstractFileFormat
       "CALENDAV",
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
-      //"CREATED_AS_FOLDER",
+      "CREATED_AS_FOLDER",
       "ALT_ID",
       "LAST_EDITED_DATE",
-      "LAST_EDITED_BY",
+      "LAST_EDITED_BY"
    };
 
    private static final String[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS_ORDER =

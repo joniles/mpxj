@@ -50,7 +50,7 @@ class FileFormat9006 extends AbstractFileFormat
 
    @Override protected String[] exceptionColumnsOrder()
    {
-      return EXCEPTION_COLUMNS_ORDER;
+      return EXCEPTIONN_COLUMNS_ORDER;
    }
 
    @Override protected String[] exceptionAssignmentColumnsOrder()
@@ -119,10 +119,8 @@ class FileFormat9006 extends AbstractFileFormat
       "EXPANDED_TASK",
       "PRIORITY",
       "UNSCHEDULABLE",
-      "MARK_FOR_HIDING",
-      //"TASKS_MAY_OVERLAP",
       "SUBPROJECT_ID",
-      //"ALT_ID",
+      "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -140,8 +138,7 @@ class FileFormat9006 extends AbstractFileFormat
       "NUMBERING",
       "SHOW_PAST_DATES",
       "CREATED_AS_FOLDER",
-      "ISO8601_WEEK_NUMBERING",
-      //"ALT_ID",
+      "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -149,7 +146,6 @@ class FileFormat9006 extends AbstractFileFormat
    private static final String[] CONSUMABLE_RESOURCE_COLUMNS_ORDER =
    {
       "CONSUMABLE_RESOURCEID",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
@@ -158,24 +154,20 @@ class FileFormat9006 extends AbstractFileFormat
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
-
       "COST_PER_UNITCURRENCZ",
       "COST_PER_UNITAMOUNT",
       "INCOME_PER_UNITCURRENCZ",
       "INCOME_PER_UNITAMOUNT",
-
       "COST_PER_USEDEFAULTSCURRENCZ",
       "COST_PER_USEDEFAULTSAMOUNT",
       "INCOME_P_USEDEFAULTSCURRENCZ",
       "INCOME_P_USEDEFAULTSAMOUNT",
-
       "DURATIOPDEFAULTSTYPF",
       "DURATIOPDEFAULTSELA_MONTHS",
       "DURATIOPDEFAULTSHOURS",
       "DELAZDEFAULTSTYPF",
       "DELAZDEFAULTSELA_MONTHS",
       "DELAZDEFAULTSHOURS",
-
       "DEFAULTSQUANTITY",
       "DEFAULTSACTIVITY_CONV_FACTOR",
       "DEFAULTSCONSUMPTION_RATE",
@@ -184,18 +176,15 @@ class FileFormat9006 extends AbstractFileFormat
       "DEFAULTSDELAY_TIMF_UNIT",
       "DEFAULTSEXPENDITURE_C_CENTRE",
       "DEFAULTSINCOME_COST_CENTRE",
-
       "DEFAULTSTYPM",
       "DEFAULTSCALCULATEE_PARAMETER",
       "DEFAULTSBALANCINH_PARAMETER",
       "DEFAULTSCONSUMPTION_RAT_TYPE",
       "DEFAULTSUSE_TASL_CALENDAR",
-
       "DEFAULTSALLOD_PROPORTIONALLY",
       "DEFAULTSCONSUMED",
       "DEFAULTSACCOUNTEDA_ELSEWHERE",
       "DEFAULTSMAY_BE_SHORTERA_TASK",
-
       "AVAILABLE_FROM",
       "AVAILABLE_TO",
       "UNKNOWN",
@@ -203,17 +192,14 @@ class FileFormat9006 extends AbstractFileFormat
       "UNKNOWN",
       "UNKNOWN",
       "MEASUREMENT",
-
       "CONSUMABLE_RESOURCE",
       "ARR_STOUT_STRES_APARROW_TYPE",
       "ARR_STOUT_STRES_APLENGTH",
       "ARR_STOUT_STRES_APEDGE",
-
       "ARR_STOUT_STRES_APBORDET_COL",
       "ARR_STOUT_STRES_APINSIDG_COL",
       "ARR_STOUT_STRES_APPLACEMENW",
       "BLI_STOUT_STRES_APBLIP_TYPE",
-
       "BLI_STOUT_STRES_APSCALEY",
       "BLI_STOUT_STRES_APSCALEZ",
       "BLI_STOUT_STRES_APGAP",
@@ -221,18 +207,15 @@ class FileFormat9006 extends AbstractFileFormat
       "BLI_STOUT_STRES_APINSIDF_COL",
       "BLI_STOUT_STRES_APPLACEMENV",
       "LIN_STOUT_STRES_APSCALEX",
-
       "LIN_STOUT_STRES_APWIDTH",
       "LIN_STOUT_STRES_APBORDER_COL",
       "LIN_STOUT_STRES_APINSIDE_COL",
       "LIN_STOUT_STRES_APLINE_TYPE",
       "RES_APFOREGROUND_FILL_COLOUR",
       "RES_APBACKGROUND_FILL_COLOUR",
-
       "RES_APPATTERN",
       "AVAILABILITY",
       "TOTAL_AVAILABILITY",
-
       "SPAWE_INTEGER",
       "NASE",
       "SHORT_NAME_SINGLE",
@@ -246,7 +229,7 @@ class FileFormat9006 extends AbstractFileFormat
       "LAST_EDITED_BY"
    };
 
-   private static final String[] EXCEPTION_COLUMNS_ORDER =
+   private static final String[] EXCEPTIONN_COLUMNS_ORDER =
    {
       "EXCEPTIONNID",
       "ARR_STOUT_STAPPANDARROW_TYPE",
@@ -289,25 +272,18 @@ class FileFormat9006 extends AbstractFileFormat
    private static final String[] EXPANDED_TASK_COLUMNS_ORDER =
    {
       "EXPANDED_TASKID",
-      //      "VAR_DATE1COMM_ATTSFIXED_DATE",
-      //      "VAR_DATE1COMM_ATTSBASE_DATE",
-      //      "VAR_DATE2COMM_ATTSFIXED_DATE",
-      //      "VAR_DATE2COMM_ATTSBASE_DATE",
-      //      "VAR_DATE3COMM_ATTSFIXED_DATE",
-      //      "VAR_DATE3COMM_ATTSBASE_DATE",
       "COMM_ATTSSCALE1",
       "COMM_ATTSSCALE2",
       "COMM_ATTSSCALE3",
       "UNKNOWN",
-      "UNKNOWN", //"SUM_WEIGHTS",
-      "UNKNOWN", //"ISSUE_DATE",
-      "UNKNOWN", // "REVISION_DATE",
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN",
       "PERCENTAGE_LIKELIHOOD",
       "PROJ_RISK",
       "PROJ_PRIORITY",
       "ISSUE_DATE",
       "REVISION_DATE",
-
       "DRAWN_BY",
       "REVISION_COMMENT",
       "CHART_MANAGER",
@@ -319,10 +295,9 @@ class FileFormat9006 extends AbstractFileFormat
       "UNKNOWN",
       "PROGRESU_PERIOD",
       "TYPH",
-      "UNKNOWN", //"CONTAINS_PROJECTS",
-      "UNKNOWN", //"CUMULATIVH_COSTCURRENCZ",
+      "UNKNOWN",
+      "UNKNOWN",
       "MANAGER_RESOURCE",
-
       "CUMULATIVH_COSTCURRENCZ",
       "CUMULATIVH_COSTAMOUNT",
       "CUMULATIVH_INCOMECURRENCZ",
@@ -331,19 +306,16 @@ class FileFormat9006 extends AbstractFileFormat
       "CUMULATIVE_ACTU_COSTAMOUNT",
       "CUMULATIV_DURATIONTYPF",
       "CUMULATIV_DURATIONELA_MONTHS",
-
       "CUMULATIV_DURATIONHOURS",
       "ACTUAL_CU_DURATIONTYPF",
       "ACTUAL_CU_DURATIONELA_MONTHS",
       "ACTUAL_CU_DURATIONHOURS",
       "ACTUAL_CUMULATIVE_QUANTITY",
       "CUMULATIVE_QUANTIT_REMAINING",
-
       "CUMULATIVE_EFFORT_P_COMPLETE",
       "CUMULATIVE_WORK_PER_COMPLETE",
       "CUMULATIVE_QUANTITY_COMPLETE",
       "MILESTONE_PERCENT_COMPLETE",
-
       "FIRST_PREFERRED_START",
       "CALCULATED_PROGRESS_DATE",
       "LATEST_PROGRESS_DATE",
@@ -361,14 +333,12 @@ class FileFormat9006 extends AbstractFileFormat
       "MILESTONES_REMAINING",
       "CUMULATIVE_EFFORT_TIME_UNIT",
       "CUMULATIVE_LATEST_PRO_PERIOD",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
-
       "ACTUAL_DURATIONTYPF",
       "ACTUAL_DURATIONELA_MONTHS",
       "ACTUAL_DURATIONHOURS",
@@ -379,26 +349,21 @@ class FileFormat9006 extends AbstractFileFormat
       "END_CONSTRAINT_DATE",
       "EFFORT_BUDGET",
       "NATURAO_ORDER",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "LOGICAL_PRECEDENCE",
       "UNKNOWN",
       "UNKNOWN",
-
       "SPAVE_INTEGER",
       "SWIM_LANE",
       "USER_PERCENT_COMPLETE",
-
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
-      //"OVERALL_PERCENT_COMPL_WEIGHT",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",
@@ -413,9 +378,6 @@ class FileFormat9006 extends AbstractFileFormat
       "MARK_FOS_HIDING",
       "OWNED_BY_TIMESHEEV_X",
       "START_ON_NEX_DAY",
-      //      "LONGEST_PATH",
-      //      "DURATIOTTYPF",
-      //      "DURATIOTELA_MONTHS",
       "DURATIOTHOURS",
       "STARZ",
       "ENJ",
@@ -442,8 +404,6 @@ class FileFormat9006 extends AbstractFileFormat
       "STARV_DATE",
       "ENF_DATE",
       "CURVATURE_PERCENTAGE",
-      //"START_LAG_PERCENT_FLOAT",
-      //"END_LAG_PERCENT_FLOAT",
       "COMMENTS",
       "LINK_CATEGORY",
       "START_LAG_TIME_UNIT",
@@ -505,21 +465,17 @@ class FileFormat9006 extends AbstractFileFormat
       "SPAVE_INTEGER",
       "SWIM_LANE",
       "USER_PERCENT_COMPLETE",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
-
-      //"OVERALL_PERCENV_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",
@@ -535,10 +491,6 @@ class FileFormat9006 extends AbstractFileFormat
       "MARK_FOS_HIDING",
       "OWNED_BY_TIMESHEEV_X",
       "UNKNOWN",
-      //"LONGEST_PATH",
-      //"DURATIOTTYPF",
-      //"DURATIOTELA_MONTHS",
-      //"DURATIOTHOURS",
       "STARZ",
       "ENJ",
       "DURATION_TIMJ_UNIT",
@@ -552,12 +504,10 @@ class FileFormat9006 extends AbstractFileFormat
    private static final String[] PERMANENT_RESOURCE_SKILL_COLUMNS_ORDER =
    {
       "PERM_RESOURCE_SKILLID",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
-
       "ARR_STOUT_STSKI_APARROW_TYPE",
       "ARR_STOUT_STSKI_APLENGTH",
       "ARR_STOUT_STSKI_APEDGE",
@@ -609,17 +559,14 @@ class FileFormat9006 extends AbstractFileFormat
       "DEFAULTTMAY_BE_SHORTER__TASK",
       "DEFAULTTSHARED_EFFORT",
       "ABILITY",
-      //"EFFECTIVENESS",
       "AVAILABLF_FROM",
       "AVAILABLF_TO",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
-
       "SPARO_INTEGER",
       "EFFORT_TIMF_UNIT",
       "ROLE",
@@ -633,11 +580,8 @@ class FileFormat9006 extends AbstractFileFormat
    private static final String[] PERMANENT_RESOURCE_COLUMNS_ORDER =
    {
       "PERMANENT_RESOURCEID",
-      //"EMAIL_ADDRESS",
       "UNKNOWN",
       "UNKNOWN",
-      //"EXCLUDED_FROM_TIMESHEET",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
@@ -655,7 +599,6 @@ class FileFormat9006 extends AbstractFileFormat
       "UNKNOWN",
       "EFFORT_TIME_UNIT",
       "PURE_TREE",
-
       "ARR_STOUT_STRES_APARROW_TYPE",
       "ARR_STOUT_STRES_APLENGTH",
       "ARR_STOUT_STRES_APEDGE",
@@ -674,7 +617,6 @@ class FileFormat9006 extends AbstractFileFormat
       "LIN_STOUT_STRES_APBORDER_COL",
       "LIN_STOUT_STRES_APINSIDE_COL",
       "LIN_STOUT_STRES_APLINE_TYPE",
-
       "RES_APFOREGROUND_FILL_COLOUR",
       "RES_APBACKGROUND_FILL_COLOUR",
       "RES_APPATTERN",
@@ -688,15 +630,15 @@ class FileFormat9006 extends AbstractFileFormat
       "USE_PARENV_CALENDAR",
       "USE_LINE_STYLE_P_ALLOCATIONS",
       "ALT_ID",
+      "UNKNOWN",
       "LAST_EDITED_DATE",
-      "LAST_EDITED_BY",
+      "LAST_EDITED_BY"
    };
 
    private static final String[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS_ORDER =
    {
       "PERMANENT_SCHEDUL_ALLOCATIONID",
       "REQUIREE_BY",
-      //"OWNED_BY_TIMESHEET_X",
       "EFFORW",
       "GIVEN_EFFORT",
       "UNKNOWN",
@@ -788,8 +730,6 @@ class FileFormat9006 extends AbstractFileFormat
       "POINT_RELEASE",
       "TIMESHEET_PROJECT_ID",
       "LAST_ID_USED_IN_ARCHIVES",
-      //"PROJECT_VERSION",
-      //"STANDARD_WORK_MIN_FADE",
       "BOOKOUT_SET_UNIQUE_ID",
       "NUMBER_BOOKED_OUT_SETS",
       "SHORT_NAME",
@@ -806,24 +746,15 @@ class FileFormat9006 extends AbstractFileFormat
       "CHART_PATH_SEPARATOR",
       "UTID_PREFIX",
       "TIMESHEET_CONNECTION",
-      //"WBS_PATH_SEPARATOR",
-      //"PROJECT_GUID",
       "DURATION_TIME_UNIT",
       "SECURITY_CODELIBRARY",
       "BOOKOUT_COUNTER",
       "PROGRESS_METHOD",
-      //"FORMULA_DATE_FORMAT",
       "WBN_ENABLED",
       "OLD_START_VALUE",
       "IGNORE_SATISFIED_COSTS",
       "UTID_ENABLE_SUB_INCREMENTS",
       "EXCLUSIVE_CUSTOM_TIME_UNITS",
-      //"IS_AN_ARCHIVE",
-      //"SORT_BY_SORT_ORDER",
-      //"USE_PROJECT_BASELINES_FOR_JP",
-      //"USE_ROLLED_UP_OPC_WEIGHTINGS",
-      //"DISPLAY_WBS_BY_CODE",
-      //"INHERIT_FROM_NEIGHBOUR",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
    };
@@ -850,35 +781,28 @@ class FileFormat9006 extends AbstractFileFormat
       "UNKNOWN7",
       "UNKNOWN8",
       "UNKNOWN9",
-
       "EARLY_START_DATE",
       "LATE_START_DATE",
       "FREE_START_DATE",
       "START_CONSTRAINT_DATE",
       "END_CONSTRAINT_DATE",
-
       "EFFORT_BUDGET",
-      "NATURAO_ORDER",
-
+      "USER_PERCENT_COMPLETE",
       "SPAVE_INTEGER",
       "SWIM_LANE",
-      "USER_PERCENT_COMPLETE",
+      "NATURAO_ORDER",
       "LOGICAL_PRECEDENCE",
-
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
-
-      //"OVERALL_PERCENV_COMPLETE",
       "OVERALL_PERCENT_COMPL_WEIGHT",
       "NARE",
       "WBN_CODE",
       "NOTET",
       "UNIQUE_TASK_ID",
       "CALENDAU",
-      //"WBT",
       "EFFORT_TIMI_UNIT",
       "WORL_UNIT",
       "LATEST_ALLOC_PROGRESS_PERIOD",
@@ -887,13 +811,10 @@ class FileFormat9006 extends AbstractFileFormat
       "BAR",
       "CONSTRAINU",
       "PRIORITB",
-      //"CRITICAM",
-      //"USE_PARENU_CALENDAR",
-      //"BUFFER_TASK",
       "MARK_FOS_HIDING",
-      "OWNED_BY_TIMESHEEV_X",
-      "START_ON_NEX_DAY",
       "LONGEST_PATH",
+      "START_ON_NEX_DAY",
+      "OWNED_BY_TIMESHEEV_X",
       "DURATIOTTYPF",
       "DURATIOTELA_MONTHS",
       "DURATIOTHOURS",
