@@ -117,8 +117,20 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          TransformerHandler handler = ((SAXTransformerFactory) transFact).newTransformerHandler(new StreamSource(new ByteArrayInputStream(NILLABLE_STYLESHEET.getBytes())));
          handler.setResult(new StreamResult(stream));
          Transformer transformer = handler.getTransformer();
-         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+         try
+         {
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+         }
+
+         catch (Exception ex)
+         {
+            // https://sourceforge.net/p/mpxj/bugs/291/
+            // Output indentation is a nice to have.
+            // If we're working with a transformer which doesn't
+            // support it, swallow any errors raised trying to configure it.
+         }
 
          m_projectFile = projectFile;
          m_calendar = Calendar.getInstance();

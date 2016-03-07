@@ -9,6 +9,7 @@
    <body>
 
 	<release version="5.2.2" date="Git HEAD">
+		<action dev="joniles" type="fix" issue="291">PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException</action>
 	</release>
 
 	<release version="5.2.1" date="11/02/2016">
