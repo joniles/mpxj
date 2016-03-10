@@ -2639,6 +2639,46 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the stop date.
+    *
+    * @return stop date
+    */
+   public Date getStop()
+   {
+      return ((Date) getCachedValue(AssignmentField.STOP));
+   }
+
+   /**
+    * Set the stop date.
+    *
+    * @param stop stop date
+    */
+   public void setStop(Date stop)
+   {
+      set(AssignmentField.STOP, stop);
+   }
+
+   /**
+    * Retrieve the resume date.
+    *
+    * @return resume date
+    */
+   public Date getResume()
+   {
+      return ((Date) getCachedValue(AssignmentField.RESUME));
+   }
+
+   /**
+    * Set the resume date.
+    *
+    * @param resume resume date
+    */
+   public void setResume(Date resume)
+   {
+      set(AssignmentField.RESUME, resume);
+   }
+
+   /**
     * Maps a field index to an AssignmentField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
