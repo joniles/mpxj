@@ -1350,9 +1350,9 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
             mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
             mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
-            //assignment.getResume()
+            mpx.setResume(DatatypeConverter.parseDate(assignment.getResume()));
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
-            //assignment.getStop()
+            mpx.setStop(DatatypeConverter.parseDate(assignment.getStop()));
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
             mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
