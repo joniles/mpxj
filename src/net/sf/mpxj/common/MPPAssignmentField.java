@@ -135,6 +135,7 @@ public final class MPPAssignmentField
       FIELD_ARRAY[19] = AssignmentField.PEAK;
       FIELD_ARRAY[22] = AssignmentField.ACTUAL_START;
       FIELD_ARRAY[23] = AssignmentField.ACTUAL_FINISH;
+      FIELD_ARRAY[24] = AssignmentField.RESUME;
       FIELD_ARRAY[27] = AssignmentField.OVERTIME_COST;
       FIELD_ARRAY[29] = AssignmentField.REMAINING_COST;
       FIELD_ARRAY[30] = AssignmentField.ACTUAL_OVERTIME_COST;
@@ -286,6 +287,7 @@ public final class MPPAssignmentField
       FIELD_ARRAY[248] = AssignmentField.WORK_VARIANCE;
       FIELD_ARRAY[262] = AssignmentField.START_VARIANCE;
       FIELD_ARRAY[263] = AssignmentField.FINISH_VARIANCE;
+      FIELD_ARRAY[264] = AssignmentField.STOP;
       FIELD_ARRAY[271] = AssignmentField.VAC;
       FIELD_ARRAY[275] = AssignmentField.FIXED_MATERIAL_ASSIGNMENT;
       FIELD_ARRAY[276] = AssignmentField.RESOURCE_TYPE;

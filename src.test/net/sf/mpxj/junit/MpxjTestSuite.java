@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.assignment.AssignmentAssignmentsTest;
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
@@ -126,6 +127,7 @@ import org.junit.runners.Suite;
    PrimaveraDatabaseReaderTest.class,
    TaskContainerTest.class,
    AvailabilityTableTest.class,
+   AssignmentAssignmentsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

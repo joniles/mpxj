@@ -81,6 +81,7 @@ public final class MPPAssignmentField14
    {
       FIELD_ARRAY[28] = AssignmentField.ACTUAL_COST;
       FIELD_ARRAY[23] = AssignmentField.ACTUAL_FINISH;
+      FIELD_ARRAY[24] = AssignmentField.RESUME;
       FIELD_ARRAY[30] = AssignmentField.ACTUAL_OVERTIME_COST;
       FIELD_ARRAY[13] = AssignmentField.ACTUAL_OVERTIME_WORK;
       FIELD_ARRAY[631] = AssignmentField.ACTUAL_OVERTIME_WORK_PROTECTED;
@@ -401,6 +402,7 @@ public final class MPPAssignmentField14
       FIELD_ARRAY[185] = AssignmentField.FINISH8;
       FIELD_ARRAY[186] = AssignmentField.FINISH9;
       FIELD_ARRAY[263] = AssignmentField.FINISH_VARIANCE;
+      FIELD_ARRAY[264] = AssignmentField.STOP;
       FIELD_ARRAY[275] = AssignmentField.FIXED_MATERIAL_ASSIGNMENT;
       FIELD_ARRAY[123] = AssignmentField.FLAG1;
       FIELD_ARRAY[122] = AssignmentField.FLAG10;

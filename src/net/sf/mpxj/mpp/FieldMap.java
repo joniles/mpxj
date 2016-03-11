@@ -1375,6 +1375,8 @@ abstract class FieldMap
       {
          StringBuilder buffer = new StringBuilder();
          buffer.append("[FieldItem type=");
+         buffer.append(m_type.getFieldTypeClass());
+         buffer.append('.');
          buffer.append(m_type);
          buffer.append(" location=");
          buffer.append(m_location);

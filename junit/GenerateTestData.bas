@@ -16,6 +16,7 @@ Sub GenerateAll()
     GenerateBaselines
     GenerateProjectValueLists
     GenerateCalendars
+    GenerateResourceAsignments
 End Sub
 
 Sub NameThatField(value As Long)
@@ -580,6 +581,44 @@ Sub GenerateCalendars
     FileClose pjDoNotSave    
 End Sub
 
+Sub GenerateResourceAsignments
+    FileNew SummaryInfo:=False
+	
+    Dim task1 As task
+    Dim task2 As task
+    Dim task3 As task
+    
+    Set task1 = ActiveProject.Tasks.Add("Task 1")
+    Set task2 = ActiveProject.Tasks.Add("Task 2")
+    Set task3 = ActiveProject.Tasks.Add("Task 3")
+    
+    Dim resource1 As Resource
+    Dim resource2 As Resource
+    Dim resource3 As Resource
+    
+    Set resource1 = ActiveProject.Resources.Add("Resource 1")
+    Set resource2 = ActiveProject.Resources.Add("Resource 2")
+    Set resource3 = ActiveProject.Resources.Add("Resource 3")
+    
+    task1.Start = "04/01/2016 08:00"
+    task2.Start = "04/01/2016 08:00"
+    task3.Start = "04/01/2016 08:00"
+    
+    task1.Duration = "10d"
+    task2.Duration = "10d"
+    task3.Duration = "10d"
+    
+    task1.Assignments.Add ResourceID:=resource1.ID
+    task2.Assignments.Add ResourceID:=resource2.ID
+    task3.Assignments.Add ResourceID:=resource3.ID
+    
+    task2.PercentComplete = 25
+    task3.PercentComplete = 50
+    
+    SaveFiles "assignment-assignments"
+    
+    FileClose pjDoNotSave
+End Sub
 
 Sub SaveFiles(FilenameBase As String)
 
