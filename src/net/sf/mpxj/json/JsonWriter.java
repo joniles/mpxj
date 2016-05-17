@@ -33,10 +33,13 @@ import java.util.Map;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
@@ -88,6 +91,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
          writeCustomFields();
          writeProperties();
+         writeCalendars();
          writeResources();
          writeTasks();
          writeAssignments();
@@ -135,6 +139,71 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeNameValuePair("field_alias", field.getAlias());
          m_writer.writeEndObject();
       }
+   }
+
+   private void writeCalendars() throws IOException
+   {
+      String[] dayName =
+      {
+         "Sunday",
+         "Monday",
+         "Tuesday",
+         "Wednesday",
+         "Thursday",
+         "Friday",
+         "Saturday"
+      };
+
+      m_writer.writeStartList("calendars");
+      for (ProjectCalendar calendar : m_projectFile.getCalendars())
+      {
+         m_writer.writeStartObject(null);
+         m_writer.writeNameValuePair("id", calendar.getUniqueID());
+         m_writer.writeNameValuePair("name", calendar.getName());
+         m_writer.writeNameValuePair("base_calendar_name", calendar.getParent() == null ? "" : calendar.getParent().getName());
+         String resource = calendar.getResource() == null ? "" : calendar.getResource().getName();
+         if (resource == null)
+         {
+            resource = "";
+         }
+         m_writer.writeNameValuePair("resource", resource);
+         m_writer.writeStartList("days");
+         for (int loop = 0; loop < 7; loop++)
+         {
+            m_writer.writeStartObject(null);
+            m_writer.writeNameValuePair("name", dayName[loop]);
+            m_writer.writeNameValuePair("type", calendar.getDays()[loop].toString());
+            m_writer.writeStartList("hours");
+            if (calendar.getHours()[loop] != null)
+            {
+               for (DateRange range : calendar.getHours()[loop])
+               {
+                  m_writer.writeStartObject(null);
+                  m_writer.writeNameValuePair("start", range.getStart());
+                  m_writer.writeNameValuePair("end", range.getEnd());
+                  m_writer.writeEndObject();
+               }
+            }
+            m_writer.writeEndList();
+            m_writer.writeEndObject();
+         }
+         m_writer.writeEndList();
+         m_writer.writeStartList("exceptions");
+         if (!calendar.getCalendarExceptions().isEmpty())
+         {
+            for (ProjectCalendarException ex : calendar.getCalendarExceptions())
+            {
+               m_writer.writeStartObject(null);
+               m_writer.writeNameValuePair("working", ex.getWorking());
+               m_writer.writeNameValuePair("start", ex.getFromDate());
+               m_writer.writeNameValuePair("end", ex.getToDate());
+               m_writer.writeEndObject();
+            }
+         }
+         m_writer.writeEndList();
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    /**

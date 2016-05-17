@@ -8,11 +8,13 @@ module MPXJ
     attr_reader :all_tasks
     attr_reader :child_tasks
     attr_reader :all_assignments
+    attr_reader :calendars
     attr_reader :zone
 
     def initialize(file_name, zone)
       @resources_by_unique_id = {}
       @tasks_by_unique_id = {}
+      @calendar_by_unique_id = {}
 
       @resources_by_id = {}
       @tasks_by_id = {}
@@ -21,6 +23,7 @@ module MPXJ
       @all_tasks = []
       @all_assignments = []
       @child_tasks = []
+      @calendars = []
 
       @zone = zone
 
@@ -30,6 +33,7 @@ module MPXJ
       file = File.read(file_name)
       json_data = JSON.parse(file)
       process_custom_fields(json_data)
+      process_calendars(json_data)
       process_properties(json_data)
       process_resources(json_data)
       process_tasks(json_data)
@@ -52,6 +56,10 @@ module MPXJ
     # @return [nil] if the requested task is not found
     def get_task_by_unique_id(unique_id)
       @tasks_by_unique_id[unique_id]
+    end
+
+    def get_calendar_by_unique_id(unique_id)
+      @calendar_by_unique_id[unique_id]
     end
 
     # Retrieves the resource with the matching id attribute
@@ -135,6 +143,14 @@ module MPXJ
       @properties = Properties.new(self, attribute_types, attribute_values)
     end
 
+    def process_calendars(json_data)
+      json_data['calendars'].each do |calendar|
+        cal = Calendar.new(self, calendar)
+        @calendars << cal
+        @calendar_by_unique_id[calendar['id']] = cal
+      end
+    end
+
     def process_resources(json_data)
       attribute_types = json_data["resource_types"]
       resources = json_data["resources"]
@@ -149,8 +165,9 @@ module MPXJ
     def process_tasks(json_data)
       attribute_types = json_data["task_types"]
       tasks = json_data["tasks"]
-      tasks.each do |attribute_values|
+      tasks.each_with_index do |attribute_values, i|
         task = Task.new(self, attribute_types, attribute_values)
+        task.task_id = i
         @all_tasks << task
         @tasks_by_unique_id[task.unique_id] = task
         @tasks_by_id[task.id] = task

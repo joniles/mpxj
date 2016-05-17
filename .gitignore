@@ -23,6 +23,5 @@
 /src.ruby/mpxj/pkg
 /src.ruby/mpxj/Gemfile.lock
 /src.ruby/mpxj/.yardoc
-/src.ruby/mpxj/lib/mpxj/*.jar
 /classes/
 /classes.test/

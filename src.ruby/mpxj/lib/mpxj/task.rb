@@ -5,6 +5,7 @@ module MPXJ
     attr_reader :predecessors
     attr_reader :successors
     attr_reader :child_tasks
+    attr_accessor :task_id
 
     def initialize(parent_project, attribute_types, attribute_values)
       super(parent_project, attribute_types, attribute_values)
