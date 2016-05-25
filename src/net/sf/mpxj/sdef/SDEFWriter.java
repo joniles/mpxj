@@ -53,12 +53,13 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
  * This class creates a new SDEF file from the contents of
  * a ProjectFile instance.
  */
-public final class SDEFWriter // extends AbstractProjectWriter
+public final class SDEFWriter extends AbstractProjectWriter
 {
    private ProjectFile m_projectFile; // from MPXJ library
    private EventManager m_eventManager;
@@ -75,7 +76,7 @@ public final class SDEFWriter // extends AbstractProjectWriter
     * @param projectFile ProjectFile instance
     * @param out output stream
     */
-   public void write(ProjectFile projectFile, OutputStream out)
+   @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
       m_eventManager = projectFile.getEventManager();
@@ -88,11 +89,11 @@ public final class SDEFWriter // extends AbstractProjectWriter
          write(); // method call a method, this is how MPXJ is structured, so I followed the lead?
       }
 
-      catch (Exception e)
-      { // used during console debugging
-         System.out.println("Caught Exception in SDEFWriter.java");
-         System.out.println(" " + e.toString());
-      }
+      //      catch (Exception e)
+      //      { // used during console debugging
+      //         System.out.println("Caught Exception in SDEFWriter.java");
+      //         System.out.println(" " + e.toString());
+      //      }
 
       finally
       { // keeps things cool after we're done

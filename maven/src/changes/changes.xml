@@ -9,6 +9,7 @@
    <body>
 
 	<release version="5.2.3" date="Git HEAD">
+		<action dev="joniles" type="update">Minor improvements to SDEF support.</action>
 	</release>
 
 	<release version="5.2.2" date="11/03/2016">

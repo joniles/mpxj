@@ -32,6 +32,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.sdef.SDEFWriter;
 
 /**
  * This class contains utility methods for working with ProjectWriters.
@@ -93,5 +94,6 @@ public final class ProjectWriterUtility
       WRITER_MAP.put("PMXML", PrimaveraPMFileWriter.class);
       WRITER_MAP.put("PLANNER", PlannerWriter.class);
       WRITER_MAP.put("JSON", JsonWriter.class);
+      WRITER_MAP.put("SDEF", SDEFWriter.class);
    }
 }
