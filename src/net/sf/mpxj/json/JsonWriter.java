@@ -159,7 +159,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject(null);
          m_writer.writeNameValuePair("id", calendar.getUniqueID());
-         m_writer.writeNameValuePair("name", calendar.getName());
+         m_writer.writeNameValuePair("name", calendar.getName() == null ? "" : calendar.getName());
          m_writer.writeNameValuePair("base_calendar_name", calendar.getParent() == null ? "" : calendar.getParent().getName());
          String resource = calendar.getResource() == null ? "" : calendar.getResource().getName();
          if (resource == null)
