@@ -31,6 +31,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * MPP14 custom field value reader.
@@ -39,7 +40,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     * @param container custom field config
     * @param outlineCodeVarMeta raw mpp data
@@ -60,7 +61,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
       int typeOffset;
       int fieldOffset;
 
-      if (m_properties.getFullApplicationName().equals("Microsoft.Project 15.0"))
+      if (NumberHelper.getInt(m_properties.getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
          typeOffset = 16;
          fieldOffset = 18;
@@ -90,21 +91,21 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-
-         item.setGuid(MPPUtility.getGUID(b2, 0));
-         UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
-         int type = MPPUtility.getShort(b2, typeOffset);
-         item.setValue(getTypedValue(type, value));
-
-         FieldType field = map.get(parentField);
-
-         m_container.getCustomField(field).getLookupTable().add(item);
+         if (b2 != null)
+         {
+            item.setGuid(MPPUtility.getGUID(b2, 0));
+            UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
+            int type = MPPUtility.getShort(b2, typeOffset);
+            item.setValue(getTypedValue(type, value));
+            FieldType field = map.get(parentField);
+            m_container.getCustomField(field).getLookupTable().add(item);
+         }
       }
    }
 
    /**
     * Generate a map of UUID values to field types.
-    * 
+    *
     * @return uUID field value map
     */
    private Map<UUID, FieldType> populateCustomFieldMap()

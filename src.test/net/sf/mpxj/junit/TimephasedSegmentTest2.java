@@ -52,7 +52,7 @@ public class TimephasedSegmentTest2
 {
    /**
     * Timephased segment test for MPP9 files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9() throws Exception
@@ -63,7 +63,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Timephased segment test for MPP9 files saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
@@ -74,7 +74,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Timephased segment test for MPP9 files saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
@@ -85,7 +85,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Timephased segment test for MPP12 files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12() throws Exception
@@ -96,7 +96,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Timephased segment test for MPP12 files saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
@@ -107,7 +107,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Timephased segment test for MPP14 files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14() throws Exception
@@ -118,7 +118,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Suite of tests common to all file types.
-    * 
+    *
     * @param file ProjectFile instance
     * @throws Exception
     */
@@ -736,7 +736,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Common method used to test timephased assignment segments against expected data.
-    * 
+    *
     * @param file parent project file
     * @param assignment parent resource assignment
     * @param startDate start date for segments
@@ -746,7 +746,7 @@ public class TimephasedSegmentTest2
    private void testBaselineWorkSegments(ProjectFile file, ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
    {
       ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
-      //System.out.println(dateList);    
+      //System.out.println(dateList);
       List<TimephasedWork> assignments = assignment.getTimephasedBaselineWork(0);
       ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(file, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
@@ -759,7 +759,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Common method used to test timephased assignment segments against expected data.
-    * 
+    *
     * @param file parent project file
     * @param assignment parent resource assignment
     * @param startDate start date for segments
@@ -769,7 +769,7 @@ public class TimephasedSegmentTest2
    private void testBaselineCostSegments(ProjectFile file, ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
    {
       ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
-      //System.out.println(dateList);    
+      //System.out.println(dateList);
       List<TimephasedCost> assignments = assignment.getTimephasedBaselineCost(0);
       ArrayList<Double> costList = m_timephased.segmentBaselineCost(file, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
@@ -782,7 +782,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Common method used to test timephased assignment segments against expected data.
-    * 
+    *
     * @param assignment parent resource assignment
     * @param startDate start date for segments
     * @param units units of duration for each segment
@@ -795,7 +795,7 @@ public class TimephasedSegmentTest2
 
    /**
     * Common method used to test timephased assignment segments against expected data.
-    * 
+    *
     * @param assignment parent resource assignment
     * @param startDate start date for segments
     * @param units units of duration for each segment
@@ -807,8 +807,8 @@ public class TimephasedSegmentTest2
    }
 
    /**
-    * Common method used to test timephased assignment segments against expected data. 
-    * 
+    * Common method used to test timephased assignment segments against expected data.
+    *
     * @param assignment parent resource assignment
     * @param assignments timephased cost data
     * @param startDate start date for segments
@@ -818,7 +818,7 @@ public class TimephasedSegmentTest2
    private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, Date startDate, TimescaleUnits units, double[] expected)
    {
       ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
-      //System.out.println(dateList);    
+      //System.out.println(dateList);
       ArrayList<Double> costList = m_timephased.segmentCost(assignment.getCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, costList);
       assertEquals(expected.length, costList.size());
@@ -831,11 +831,11 @@ public class TimephasedSegmentTest2
    /*
     * Method used to print segment durations as an array - useful for
     * creating new test cases.
-    * 
+    *
     * @param assignment parent assignment
     * @param list list of durations
     */
-   /*   
+   /*
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
       {
          //System.out.println(assignment);
@@ -854,7 +854,7 @@ public class TimephasedSegmentTest2
             System.out.print(d.getDuration());
          }
          System.out.println("}");
-      }   
+      }
 
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
       {
@@ -874,7 +874,7 @@ public class TimephasedSegmentTest2
             System.out.print(d.doubleValue());
          }
          System.out.println("}");
-      }   
+      }
    */
    private TimescaleUtility m_timescale = new TimescaleUtility();
    private TimephasedUtility m_timephased = new TimephasedUtility();

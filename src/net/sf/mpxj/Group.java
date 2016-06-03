@@ -36,7 +36,7 @@ public final class Group
 {
    /**
     * Constructor.
-    * 
+    *
     * @param id group identifier
     * @param name group name
     * @param showSummaryTasks show summary tasks
@@ -50,7 +50,7 @@ public final class Group
 
    /**
     * Retrieve group ID.
-    * 
+    *
     * @return group ID
     */
    public Integer getID()
@@ -60,7 +60,7 @@ public final class Group
 
    /**
     * Retrieve the group name.
-    * 
+    *
     * @return group name
     */
    public String getName()
@@ -70,7 +70,7 @@ public final class Group
 
    /**
     * Retrieve the show summary tasks flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getShowSummaryTasks()
@@ -80,7 +80,7 @@ public final class Group
 
    /**
     * Adds a clause to the group definition.
-    * 
+    *
     * @param clause group clause
     */
    public void addGroupClause(GroupClause clause)
@@ -90,7 +90,7 @@ public final class Group
 
    /**
     * Retrieve a list of all clauses which define this group.
-    * 
+    *
     * @return list of clauses
     */
    public List<GroupClause> getGroupClauses()

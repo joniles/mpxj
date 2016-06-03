@@ -37,7 +37,7 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
 {
    /**
     * Called to notify subclasses of item addition.
-    * 
+    *
     * @param element added item
     */
    protected void added(T element)
@@ -47,7 +47,7 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
 
    /**
     * Called to notify subclasses of item removal.
-    * 
+    *
     * @param element removed item
     */
    protected void removed(T element)
@@ -57,13 +57,21 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
 
    /**
     * Called to notify subclasses of item replacement.
-    * 
+    *
     * @param oldElement old element
     * @param newElement new element
     */
    protected void replaced(T oldElement, T newElement)
    {
-      // Optional implementation supplied by subclass      
+      // Optional implementation supplied by subclass
+   }
+
+   /**
+    * Clear the list, but don't explicitly "remove" the contents.
+    */
+   @Override public void clear()
+   {
+      m_list.clear();
    }
 
    @Override public T get(int index)

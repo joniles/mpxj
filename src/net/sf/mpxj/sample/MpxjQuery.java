@@ -379,7 +379,7 @@ public class MpxjQuery
    /**
     * Internal utility to dump relationship lists in a structured format
     * that can easily be compared with the tabular data in MS Project.
-    * 
+    *
     * @param relations relation list
     */
    private static void dumpRelationList(List<Relation> relations)
@@ -423,7 +423,7 @@ public class MpxjQuery
 
    /**
     * List the slack values for each task.
-    * 
+    *
     * @param file ProjectFile instance
     */
    private static void listSlack(ProjectFile file)
@@ -436,7 +436,7 @@ public class MpxjQuery
 
    /**
     * List details of all calendars in the file.
-    * 
+    *
     * @param file ProjectFile instance
     */
    private static void listCalendars(ProjectFile file)

@@ -52,8 +52,8 @@ public final class ProjectReaderUtility
 
    /**
     * Retrieves a ProjectReader instance which can read a file of the
-    * type specified by the supplied file name.  
-    * 
+    * type specified by the supplied file name.
+    *
     * @param name file name
     * @return ProjectReader instance
     */
@@ -88,7 +88,7 @@ public final class ProjectReaderUtility
    /**
     * Retrieves a set containing the file extensions supported by the
     * getProjectReader method.
-    * 
+    *
     * @return set of file extensions
     */
    public static Set<String> getSupportedFileExtensions()

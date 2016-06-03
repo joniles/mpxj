@@ -272,7 +272,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Set the working/non-working status of a weekday.
-    * 
+    *
     * @param mpxjCalendar MPXJ calendar
     * @param mpxjDay day of the week
     * @param plannerDay planner day type
@@ -304,7 +304,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Add the appropriate working hours to each working day.
-    * 
+    *
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
@@ -422,7 +422,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Process exception days.
-    * 
+    *
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
@@ -485,7 +485,7 @@ public final class PlannerReader extends AbstractProjectReader
       mpxjResource.setInitials(plannerResource.getShortName());
       mpxjResource.setType(getInt(plannerResource.getType()) == 2 ? ResourceType.MATERIAL : ResourceType.WORK);
       //plannerResource.getStdRate();
-      //plannerResource.getOvtRate();      
+      //plannerResource.getOvtRate();
       //plannerResource.getUnits();
       //plannerResource.getProperties();
 
@@ -778,9 +778,9 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Convert a Planner date-time value into a Java date.
-    * 
+    *
     * 20070222T080000Z
-    * 
+    *
     * @param value Planner date-time
     * @return Java Date instance
     */
@@ -817,9 +817,9 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Convert a Planner date into a Java date.
-    * 
+    *
     * 20070222
-    * 
+    *
     * @param value Planner date
     * @return Java Date instance
     */
@@ -852,9 +852,9 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Convert a Planner time into a Java date.
-    * 
+    *
     * 0800
-    * 
+    *
     * @param value Planner time
     * @return Java Date instance
     */
@@ -882,7 +882,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Convert a string into an Integer.
-    * 
+    *
     * @param value integer represented as a string
     * @return Integer instance
     */
@@ -893,7 +893,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Convert a string into an int.
-    * 
+    *
     * @param value integer represented as a string
     * @return int value
     */
@@ -904,7 +904,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Convert a string into a long.
-    * 
+    *
     * @param value long represented as a string
     * @return long value
     */
@@ -916,7 +916,7 @@ public final class PlannerReader extends AbstractProjectReader
    /**
     * Convert a string representation of the task type
     * into a TaskType instance.
-    * 
+    *
     * @param value string value
     * @return TaskType value
     */
@@ -933,11 +933,11 @@ public final class PlannerReader extends AbstractProjectReader
    /**
     * Converts the string representation of a Planner duration into
     * an MPXJ Duration instance.
-    * 
+    *
     * Planner represents durations as a number of seconds in its
     * file format, however it displays durations as days and hours,
     * and seems to assume that a working day is 8 hours.
-    * 
+    *
     * @param value string representation of a duration
     * @return Duration instance
     */

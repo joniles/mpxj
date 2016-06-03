@@ -37,7 +37,7 @@ public abstract class ViewStateReader
 {
    /**
     * Retrieves the props data using a file format specific method.
-    * 
+    *
     * @param varData var data block
     * @return props data
     * @throws IOException
@@ -46,7 +46,7 @@ public abstract class ViewStateReader
 
    /**
     * Entry point for processing saved view state.
-    * 
+    *
     * @param file project file
     * @param varData view state var data
     * @param fixedData view state fixed data

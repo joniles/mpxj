@@ -41,7 +41,7 @@ final class ResultSetRow extends MapRow
 {
    /**
     * Constructor.
-    * 
+    *
     * @param rs
     *            result set from which data is drawn
     * @param meta

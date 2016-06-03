@@ -47,7 +47,7 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9View() throws Exception
@@ -58,7 +58,7 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9ViewFrom12() throws Exception
@@ -69,7 +69,7 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9ViewFrom14() throws Exception
@@ -80,7 +80,7 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12View() throws Exception
@@ -91,7 +91,7 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12ViewFrom14() throws Exception
@@ -102,7 +102,7 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14View() throws Exception
@@ -112,9 +112,9 @@ public class MppViewTest
    }
 
    /**
-    * Tests MPP's Views. Not an in-depth test, but covers the basics of 
+    * Tests MPP's Views. Not an in-depth test, but covers the basics of
     * Views, like View Names, Column Names, and Column Widths
-    * 
+    *
     * @param mpp The ProjectFile being tested.
     */
    private void testViews(ProjectFile mpp)
@@ -154,7 +154,7 @@ public class MppViewTest
                   assertTrue(width > 0);
                }
 
-               //assertEquals(7, setColumnNames.size()); 
+               //assertEquals(7, setColumnNames.size());
                assertTrue(setColumnNames.contains("ID"));
                assertTrue(setColumnNames.contains("Unique ID"));
                assertTrue(setColumnNames.contains("Task Name"));

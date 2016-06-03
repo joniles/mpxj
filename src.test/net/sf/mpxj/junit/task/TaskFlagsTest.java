@@ -65,7 +65,7 @@ public class TaskFlagsTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskFlags(File file) throws MPXJException
@@ -88,7 +88,7 @@ public class TaskFlagsTest
 
    /**
     * Test the flag values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param trueFlagIndex index of flag which is expected to be true

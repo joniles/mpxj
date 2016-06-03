@@ -38,7 +38,7 @@ final class AvailabilityFactory
 {
    /**
     * Populates a resource availability table.
-    * 
+    *
     * @param table resource availability table
     * @param data file data
     */

@@ -42,7 +42,7 @@ public class TaskDateDump
 
    /**
     * Command line entry point.
-    * 
+    *
     * @param args command line arguments
     */
    public static void main(String[] args)
@@ -68,7 +68,7 @@ public class TaskDateDump
 
    /**
     * Dump data for all non-summary tasks to stdout.
-    *  
+    *
     * @param name file name
     */
    public void process(String name) throws Exception
@@ -97,7 +97,7 @@ public class TaskDateDump
 
    /**
     * Format a date for ease of comparison.
-    * 
+    *
     * @param date raw date
     * @return formatted date
     */

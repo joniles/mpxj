@@ -41,10 +41,10 @@ import net.sf.mpxj.common.TimephasedCostNormaliser;
 public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormaliser
 {
    /**
-    * This method converts the internal representation of timephased 
+    * This method converts the internal representation of timephased
     * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
-    * 
+    * format to make it easy to work with.
+    *
     * @param calendar current calendar
     * @param list list of assignment data
     */
@@ -58,13 +58,13 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
          mergeSameDay(list);
          //dumpList(list);
          mergeSameCost(list);
-         //dumpList(list);         
+         //dumpList(list);
       }
    }
 
    /**
     * This method breaks down spans of time into individual days.
-    * 
+    *
     * @param calendar current project calendar
     * @param list list of assignment data
     */
@@ -89,7 +89,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
             Date startDay = DateHelper.getDayStartDate(assignment.getStart());
             Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
-            // special case - when the finishday time is midnight, it's really the previous day...                 
+            // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
             {
                cal.setTime(finishDay);
@@ -124,7 +124,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
 
    /**
     * This method splits the first day off of a time span.
-    * 
+    *
     * @param calendar current calendar
     * @param assignment timephased assignment span
     * @return first day and remainder assignments
@@ -196,7 +196,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
 
    /**
     * This method merges together assignment data for the same day.
-    * 
+    *
     * @param list assignment data
     */
    private void mergeSameDay(LinkedList<TimephasedCost> list)
@@ -245,7 +245,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
 
    /**
     * This method merges together assignment data for the same cost.
-    * 
+    *
     * @param list assignment data
     */
    protected void mergeSameCost(LinkedList<TimephasedCost> list)

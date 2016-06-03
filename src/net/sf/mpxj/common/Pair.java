@@ -25,7 +25,7 @@ package net.sf.mpxj.common;
 
 /**
  * Represents a pair of values.
- * 
+ *
  * @param <L> first value type
  * @param <R> second value type
  */

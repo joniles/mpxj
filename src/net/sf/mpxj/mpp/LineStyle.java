@@ -40,7 +40,7 @@ public enum LineStyle implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     * @param name name of the enum
     */
@@ -86,7 +86,7 @@ public enum LineStyle implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

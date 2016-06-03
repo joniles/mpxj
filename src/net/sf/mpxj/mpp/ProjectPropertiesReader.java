@@ -51,7 +51,7 @@ public final class ProjectPropertiesReader
 {
    /**
     * The main entry point for processing project properties.
-    * 
+    *
     * @param file parent project file
     * @param props properties data
     * @param rootDir Root of the POI file system.

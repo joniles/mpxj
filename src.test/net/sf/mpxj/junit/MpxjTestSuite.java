@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.assignment.AssignmentAssignmentsTest;
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
@@ -32,6 +33,7 @@ import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
 import net.sf.mpxj.junit.project.ProjectValueListsTest;
+import net.sf.mpxj.junit.project.TaskContainerTest;
 import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskBaselinesTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
@@ -53,10 +55,10 @@ import org.junit.runners.Suite;
 
 /**
  * Test suite to collect together MPXJ tests.
- * 
+ *
  * Ideally this would be generated dynamically, which is fine when running under
  * a JVM, but various approaches to this failed when running under IKVM...
- * so a big list of classes it is! 
+ * so a big list of classes it is!
  */
 @RunWith(Suite.class) @Suite.SuiteClasses(
 {
@@ -123,6 +125,9 @@ import org.junit.runners.Suite;
    ProjectValueListsTest.class,
    CalendarCalendarsTest.class,
    PrimaveraDatabaseReaderTest.class,
+   TaskContainerTest.class,
+   AvailabilityTableTest.class,
+   AssignmentAssignmentsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

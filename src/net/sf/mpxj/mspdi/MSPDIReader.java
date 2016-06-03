@@ -233,6 +233,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       properties.setActualsInSync(BooleanHelper.getBoolean(project.isActualsInSync()));
       properties.setAdminProject(BooleanHelper.getBoolean(project.isAdminProject()));
+      properties.setApplicationVersion(NumberHelper.getInteger(project.getSaveVersion()));
       properties.setAuthor(project.getAuthor());
       properties.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       properties.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
@@ -361,7 +362,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param map Map of calendar UIDs to names
     * @param baseCalendars list of base calendars
     */
-   private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars)
+   private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, List<Pair<ProjectCalendar, BigInteger>> baseCalendars)
    {
       ProjectCalendar bc = m_projectFile.addCalendar();
       bc.setUniqueID(NumberHelper.getInteger(calendar.getUID()));
@@ -500,7 +501,7 @@ public final class MSPDIReader extends AbstractProjectReader
    /**
     * Reads any exceptions present in the file. This is only used in MSPDI
     * file versions saved by Project 2007 and later.
-    * 
+    *
     * @param calendar XML calendar
     * @param bc MPXJ calendar
     */
@@ -544,7 +545,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Read the work weeks associated with this calendar.
-    * 
+    *
     * @param xmlCalendar XML calendar object
     * @param mpxjCalendar MPXJ calendar object
     */
@@ -704,7 +705,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setNotes(xml.getNotes());
       }
       mpx.setNtAccount(xml.getNTAccount());
-      //mpx.setObjects();      
+      //mpx.setObjects();
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
       mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate()));
       mpx.setOvertimeRateUnits(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
@@ -749,7 +750,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads baseline values for the current resource.
-    * 
+    *
     * @param xmlResource MSPDI resource instance
     * @param mpxjResource MPXJ resource instance
     */
@@ -794,7 +795,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads the cost rate tables from the file.
-    * 
+    *
     * @param resource parent resource
     * @param rates XML cot rate tables
     */
@@ -857,7 +858,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads the availability table from the file.
-    * 
+    *
     * @param resource MPXJ resource instance
     * @param periods MSPDI availability periods
     */
@@ -1023,7 +1024,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setNumber3();
          //mpx.setNumber4();
          //mpx.setNumber5();
-         //mpx.setObjects();      
+         //mpx.setObjects();
          mpx.setOutlineLevel(NumberHelper.getInteger(xml.getOutlineLevel()));
          mpx.setOutlineNumber(xml.getOutlineNumber());
          mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
@@ -1102,7 +1103,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads baseline values for the current task.
-    * 
+    *
     * @param xmlTask MSPDI task instance
     * @param mpxjTask MPXJ task instance
     * @param durationFormat duration format to use
@@ -1349,9 +1350,9 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
             mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
             mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
-            //assignment.getResume()
+            mpx.setResume(DatatypeConverter.parseDate(assignment.getResume()));
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
-            //assignment.getStop()
+            mpx.setStop(DatatypeConverter.parseDate(assignment.getStop()));
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
             mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
@@ -1379,7 +1380,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Extracts assignment baseline data.
-    * 
+    *
     * @param assignment xml assignment
     * @param mpx mpxj assignment
     */
@@ -1390,7 +1391,7 @@ public final class MSPDIReader extends AbstractProjectReader
          int number = NumberHelper.getInt(baseline.getNumber());
 
          //baseline.getBCWP()
-         //baseline.getBCWS()         
+         //baseline.getBCWS()
          Number cost = DatatypeConverter.parseExtendedAttributeCurrency(baseline.getCost());
          Date finish = DatatypeConverter.parseExtendedAttributeDate(baseline.getFinish());
          //baseline.getNumber()
@@ -1434,7 +1435,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Test to determine if this is a split task.
-    * 
+    *
     * @param calendar current calendar
     * @param list timephased resource assignment list
     * @return boolean flag
@@ -1459,7 +1460,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads timephased assignment data.
-    * 
+    *
     * @param calendar current calendar
     * @param assignment assignment data
     * @param type flag indicating if this is planned or complete work

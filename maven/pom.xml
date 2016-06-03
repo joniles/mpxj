@@ -8,7 +8,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>5.1.10</version>
+	<!-- MPXJ --><version>5.2.2</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.sourceforge.net/</url>
@@ -60,8 +60,9 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:git://git@github.com:joniles/mpxj.git</connection>
 		<url>https://github.com/joniles/mpxj</url>
+		<connection>scm:git:git://github.com/joniles/mpxj.git</connection>
+		<developerConnection>scm:git:git@github.com:joniles/mpxj.git</developerConnection>
 	</scm>
 
 	<developers>
@@ -113,6 +114,9 @@
 		<contributor>
 			<name>Wade Golden</name>
 		</contributor>
+		<contributor>
+			<name>Lord Helmchen</name>
+		</contributor>		
 		<contributor>
 			<name>Harald Hett</name>
 		</contributor>

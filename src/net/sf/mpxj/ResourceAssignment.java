@@ -46,8 +46,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * Constructor.
     *
     * @param file The parent file to which this record belongs.
+    * @param task The task to which this assignment is being made
     */
-   public ResourceAssignment(ProjectFile file)
+   public ResourceAssignment(ProjectFile file, Task task)
    {
       super(file);
 
@@ -55,17 +56,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       {
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param file The parent file to which this record belongs.
-    * @param task The task to which this assignment is being made
-    */
-   ResourceAssignment(ProjectFile file, Task task)
-   {
-      super(file);
 
       m_task = task;
    }
@@ -92,7 +82,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the unique ID of this resource assignment.
-    * 
+    *
     * @return resource assignment unique ID
     */
    @Override public Integer getUniqueID()
@@ -101,8 +91,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Set the unique ID of this resource assignment. 
-    * 
+    * Set the unique ID of this resource assignment.
+    *
     * @param uniqueID resource assignment unique ID
     */
    @Override public void setUniqueID(Integer uniqueID)
@@ -152,7 +142,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the baseline start date.
-    * 
+    *
     * @return baseline start date
     */
    public Date getBaselineStart()
@@ -162,7 +152,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the baseline start date.
-    * 
+    *
     * @param start baseline start date
     */
    public void setBaselineStart(Date start)
@@ -172,7 +162,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the actual start date.
-    * 
+    *
     * @return actual start date
     */
    public Date getActualStart()
@@ -182,7 +172,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the actual start date.
-    * 
+    *
     * @param start actual start date
     */
    public void setActualStart(Date start)
@@ -192,7 +182,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the baseline finish date.
-    * 
+    *
     * @return baseline finish date
     */
    public Date getBaselineFinish()
@@ -202,7 +192,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the baseline finish date.
-    * 
+    *
     * @param finish baseline finish
     */
    public void setBaselineFinish(Date finish)
@@ -212,7 +202,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the actual finish date.
-    * 
+    *
     * @return actual finish date
     */
    public Date getActualFinish()
@@ -222,7 +212,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the actual finish date.
-    * 
+    *
     * @param finish actual finish
     */
    public void setActualFinish(Date finish)
@@ -526,7 +516,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the leveling delay for this resource assignment.
-    * 
+    *
     * @return leveling delay
     */
    public Duration getLevelingDelay()
@@ -536,7 +526,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Sets the leveling delay for this resource assignment.
-    * 
+    *
     * @param levelingDelay leveling delay
     */
    public void setLevelingDelay(Duration levelingDelay)
@@ -546,8 +536,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the timephased breakdown of the completed work for this
-    * resource assignment. 
-    * 
+    * resource assignment.
+    *
     * @return timephased completed work
     */
    public List<TimephasedWork> getTimephasedActualWork()
@@ -558,7 +548,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Sets the timephased breakdown of the completed work for this
     * resource assignment.
-    * 
+    *
     * @param data timephased data
     */
    public void setTimephasedActualWork(TimephasedWorkContainer data)
@@ -568,8 +558,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the timephased breakdown of the planned work for this
-    * resource assignment. 
-    * 
+    * resource assignment.
+    *
     * @return timephased planned work
     */
    public List<TimephasedWork> getTimephasedWork()
@@ -580,8 +570,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Sets the timephased breakdown of the planned work for this
     * resource assignment.
-    * 
-    * @param data timephased data 
+    *
+    * @param data timephased data
     */
    public void setTimephasedWork(DefaultTimephasedWorkContainer data)
    {
@@ -590,8 +580,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the timephased breakdown of the planned overtime work for this
-    * resource assignment. 
-    * 
+    * resource assignment.
+    *
     * @return timephased planned work
     */
    public List<TimephasedWork> getTimephasedOvertimeWork()
@@ -612,7 +602,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Sets the timephased breakdown of the actual overtime work
     * for this assignment.
-    * 
+    *
     * @param data timephased work
     */
    public void setTimephasedActualOvertimeWork(TimephasedWorkContainer data)
@@ -622,8 +612,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the timephased breakdown of the actual overtime work for this
-    * resource assignment. 
-    * 
+    * resource assignment.
+    *
     * @return timephased planned work
     */
    public List<TimephasedWork> getTimephasedActualOvertimeWork()
@@ -633,7 +623,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the timephased breakdown of cost.
-    * 
+    *
     * @return timephased cost
     */
    public List<TimephasedCost> getTimephasedCost()
@@ -669,7 +659,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the timephased breakdown of actual cost.
-    * 
+    *
     * @return timephased actual cost
     */
    public List<TimephasedCost> getTimephasedActualCost()
@@ -707,9 +697,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Generates timephased costs from timephased work where a single cost rate
     * applies to the whole assignment.
-    * 
+    *
     * @param standardWorkList timephased work
-    * @param overtimeWorkList timephased work 
+    * @param overtimeWorkList timephased work
     * @return timephased cost
     */
    private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
@@ -807,7 +797,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Generates timephased costs from timephased work where multiple cost rates
     * apply to the assignment.
-    * 
+    *
     * @param standardWorkList timephased work
     * @param overtimeWorkList timephased work
     * @return timephased cost
@@ -850,7 +840,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Generates timephased costs from the assignment's cost value. Used for Cost type Resources.
-    * 
+    *
     * @return timephased cost
     */
    private List<TimephasedCost> getTimephasedCostFixedAmount()
@@ -924,7 +914,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Generates timephased actual costs from the assignment's cost value. Used for Cost type Resources.
-    * 
+    *
     * @return timephased cost
     */
    private List<TimephasedCost> getTimephasedActualCostFixedAmount()
@@ -961,11 +951,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Used for Cost type Resources. 
-    * 
+    * Used for Cost type Resources.
+    *
     * Generates a TimphasedCost block for the total amount on the start date. This is useful
-    * for Cost resources that have an AccrueAt value of Start. 
-    * 
+    * for Cost resources that have an AccrueAt value of Start.
+    *
     * @param calendar calendar used by this assignment
     * @param totalAmount cost amount for this block
     * @param start start date of the timephased cost block
@@ -983,11 +973,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Used for Cost type Resources. 
-    * 
+    * Used for Cost type Resources.
+    *
     * Generates a TimphasedCost block for the total amount on the finish date. This is useful
-    * for Cost resources that have an AccrueAt value of End. 
-    * 
+    * for Cost resources that have an AccrueAt value of End.
+    *
     * @param calendar calendar used by this assignment
     * @param totalAmount cost amount for this block
     * @param finish finish date of the timephased cost block
@@ -1005,13 +995,13 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Used for Cost type Resources. 
-    * 
+    * Used for Cost type Resources.
+    *
     * Generates up to two TimephasedCost blocks for a cost amount. The first block will contain
     * all the days using the standardAmountPerDay, and a second block will contain any
     * final amount that is not enough for a complete day. This is useful for Cost resources
     * who have an AccrueAt value of Prorated.
-    * 
+    *
     * @param calendar calendar used by this assignment
     * @param totalAmount cost amount to be prorated
     * @param standardAmountPerDay cost amount for a normal working day
@@ -1059,9 +1049,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Splits timephased work segments in line with cost rates. Note that this is
-    * an approximation - where a rate changes during a working day, the second 
+    * an approximation - where a rate changes during a working day, the second
     * rate is used for the whole day.
-    * 
+    *
     * @param table cost rate table
     * @param calendar calendar used by this assignment
     * @param work timephased work segment
@@ -1100,7 +1090,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Used to determine if multiple cost rates apply to this assignment.
-    * 
+    *
     * @return true if multiple cost rates apply to this assignment
     */
    private boolean hasMultipleCostRates()
@@ -1130,7 +1120,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the cost rate table entry active on a given date.
-    * 
+    *
     * @param date target date
     * @return cost rate table entry
     */
@@ -1161,7 +1151,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the index of a cost rate table entry active on a given date.
-    * 
+    *
     * @param date target date
     * @return cost rate table entry index
     */
@@ -1186,9 +1176,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Retrieve a flag indicating if this resource assignment has timephased 
+    * Retrieve a flag indicating if this resource assignment has timephased
     * data associated with it.
-    * 
+    *
     * @return true if this resource assignment has timephased data
     */
    public boolean getHasTimephasedData()
@@ -1199,7 +1189,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Set timephased baseline work. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
-    * 
+    *
     * @param index baseline index
     * @param data timephased data
     */
@@ -1211,7 +1201,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Set timephased baseline cost. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
-    * 
+    *
     * @param index baseline index
     * @param data timephased data
     */
@@ -1220,10 +1210,10 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       m_timephasedBaselineCost[index] = data;
    }
 
-   /** 
+   /**
     * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
-    * 
+    *
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
@@ -1232,10 +1222,10 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return m_timephasedBaselineWork[index] == null ? null : m_timephasedBaselineWork[index].getData();
    }
 
-   /** 
+   /**
     * Retrieve timephased baseline cost. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
-    * 
+    *
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
@@ -1246,7 +1236,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the calendar used for this resource assignment.
-    * 
+    *
     * @return ProjectCalendar instance
     */
    public ProjectCalendar getCalendar()
@@ -1274,7 +1264,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the variable rate time units, null if fixed rate.
-    * 
+    *
     * @return variable rate time units
     */
    public TimeUnit getVariableRateUnits()
@@ -1284,7 +1274,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the variable rate time units, null if fixed rate.
-    * 
+    *
     * @param variableRateUnits variable rate units
     */
    public void setVariableRateUnits(TimeUnit variableRateUnits)
@@ -1294,7 +1284,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the parent task unique ID.
-    * 
+    *
     * @param id task unique ID
     */
    public void setTaskUniqueID(Integer id)
@@ -1304,7 +1294,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the parent task unique ID.
-    * 
+    *
     * @return task unique ID
     */
    public Integer getTaskUniqueID()
@@ -1314,7 +1304,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the budget cost.
-    * 
+    *
     * @return budget cost
     */
    public Number getBudgetCost()
@@ -1324,7 +1314,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Sets the budget cost.
-    * 
+    *
     * @param cost budget cost
     */
    public void setBudgetCost(Number cost)
@@ -1334,7 +1324,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the budget work value.
-    * 
+    *
     * @return budget work
     */
    public Duration getBudgetWork()
@@ -1344,7 +1334,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Sets the budget work value.
-    * 
+    *
     * @param work budget work
     */
    public void setBudgetWork(Duration work)
@@ -1354,7 +1344,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the baseline budget cost.
-    * 
+    *
     * @return baseline budget cost
     */
    public Number getBaselineBudgetCost()
@@ -1364,7 +1354,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Sets the baseline budget cost.
-    * 
+    *
     * @param cost baseline budget cost
     */
    public void setBaselineBudgetCost(Number cost)
@@ -1374,7 +1364,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the baseline budget work value.
-    * 
+    *
     * @return baseline budget work
     */
    public Duration getBaselineBudgetWork()
@@ -1384,7 +1374,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Sets the baseline budget work value.
-    * 
+    *
     * @param work baseline budget work
     */
    public void setBaselineBudgetWork(Duration work)
@@ -1394,7 +1384,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -1405,7 +1395,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -1416,7 +1406,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -1427,7 +1417,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -1438,7 +1428,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -1449,7 +1439,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -1460,7 +1450,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -1471,7 +1461,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -1482,7 +1472,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -1493,7 +1483,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -1504,7 +1494,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -1515,7 +1505,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -1526,7 +1516,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a text value.
-    * 
+    *
     * @param index text index (1-30)
     * @param value text value
     */
@@ -1537,7 +1527,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a text value.
-    * 
+    *
     * @param index text index (1-30)
     * @return text value
     */
@@ -1548,7 +1538,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a start value.
-    * 
+    *
     * @param index start index (1-10)
     * @param value start value
     */
@@ -1559,7 +1549,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a start value.
-    * 
+    *
     * @param index start index (1-10)
     * @return start value
     */
@@ -1570,7 +1560,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a finish value.
-    * 
+    *
     * @param index finish index (1-10)
     * @param value finish value
     */
@@ -1581,7 +1571,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a finish value.
-    * 
+    *
     * @param index finish index (1-10)
     * @return finish value
     */
@@ -1592,7 +1582,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a date value.
-    * 
+    *
     * @param index date index (1-10)
     * @param value date value
     */
@@ -1603,7 +1593,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a date value.
-    * 
+    *
     * @param index date index (1-10)
     * @return date value
     */
@@ -1614,7 +1604,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a number value.
-    * 
+    *
     * @param index number index (1-20)
     * @param value number value
     */
@@ -1625,7 +1615,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a number value.
-    * 
+    *
     * @param index number index (1-20)
     * @return number value
     */
@@ -1636,7 +1626,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a duration value.
-    * 
+    *
     * @param index duration index (1-10)
     * @param value duration value
     */
@@ -1647,7 +1637,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a duration value.
-    * 
+    *
     * @param index duration index (1-10)
     * @return duration value
     */
@@ -1658,7 +1648,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a cost value.
-    * 
+    *
     * @param index cost index (1-10)
     * @param value cost value
     */
@@ -1669,7 +1659,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a cost value.
-    * 
+    *
     * @param index cost index (1-10)
     * @return cost value
     */
@@ -1680,7 +1670,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set a flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @param value flag value
     */
@@ -1691,7 +1681,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve a flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @return flag value
     */
@@ -1702,7 +1692,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise cost value.
-    * 
+    *
     * @param index cost index (1-30)
     * @param value cost value
     */
@@ -1713,7 +1703,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise cost value.
-    * 
+    *
     * @param index cost index (1-30)
     * @return cost value
     */
@@ -1724,7 +1714,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise date value.
-    * 
+    *
     * @param index date index (1-30)
     * @param value date value
     */
@@ -1735,7 +1725,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise date value.
-    * 
+    *
     * @param index date index (1-30)
     * @return date value
     */
@@ -1746,7 +1736,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise duration value.
-    * 
+    *
     * @param index duration index (1-30)
     * @param value duration value
     */
@@ -1757,7 +1747,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise duration value.
-    * 
+    *
     * @param index duration index (1-30)
     * @return duration value
     */
@@ -1768,7 +1758,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @param value flag value
     */
@@ -1779,7 +1769,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @return flag value
     */
@@ -1790,7 +1780,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise number value.
-    * 
+    *
     * @param index number index (1-40)
     * @param value number value
     */
@@ -1801,7 +1791,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise number value.
-    * 
+    *
     * @param index number index (1-40)
     * @return number value
     */
@@ -1812,7 +1802,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise text value.
-    * 
+    *
     * @param index text index (1-40)
     * @param value text value
     */
@@ -1823,7 +1813,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise text value.
-    * 
+    *
     * @param index text index (1-40)
     * @return text value
     */
@@ -1834,7 +1824,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve an enterprise custom field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -1845,7 +1835,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set an enterprise custom field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -2427,7 +2417,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Calculate the start variance.
-    * 
+    *
     * @return start variance
     */
    public Duration getStartVariance()
@@ -2495,7 +2485,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the task GUID.
-    * 
+    *
     * @return task GUID
     */
    public UUID getGUID()
@@ -2505,7 +2495,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the task GUID.
-    * 
+    *
     * @param value task GUID
     */
    public void setGUID(UUID value)
@@ -2630,7 +2620,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieves the resource request type attribute.
-    * 
+    *
     * @return resource request type
     */
    public ResourceRequestType getResourceRequestType()
@@ -2640,7 +2630,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Sets the resource request type attribute.
-    * 
+    *
     * @param type resource request type
     */
    public void setResourceRequestType(ResourceRequestType type)
@@ -2649,8 +2639,48 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the stop date.
+    *
+    * @return stop date
+    */
+   public Date getStop()
+   {
+      return ((Date) getCachedValue(AssignmentField.STOP));
+   }
+
+   /**
+    * Set the stop date.
+    *
+    * @param stop stop date
+    */
+   public void setStop(Date stop)
+   {
+      set(AssignmentField.STOP, stop);
+   }
+
+   /**
+    * Retrieve the resume date.
+    *
+    * @return resume date
+    */
+   public Date getResume()
+   {
+      return ((Date) getCachedValue(AssignmentField.RESUME));
+   }
+
+   /**
+    * Set the resume date.
+    *
+    * @param resume resume date
+    */
+   public void setResume(Date resume)
+   {
+      set(AssignmentField.RESUME, resume);
+   }
+
+   /**
     * Maps a field index to an AssignmentField instance.
-    * 
+    *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
     * @return AssignmnetField instance
@@ -2703,7 +2733,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * Handle the change in a field value. Reset any cached calculated
     * values affected by this change, pass on the event to any external
     * listeners.
-    * 
+    *
     * @param field field changed
     * @param oldValue old field value
     * @param newValue new field value

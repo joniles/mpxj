@@ -24,8 +24,10 @@
 package net.sf.mpxj.asta;
 
 import java.sql.Types;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,12 +42,13 @@ class FileRow extends MapRow
 {
    /**
     * Constructor.
-    * 
+    *
     * @param table table definition
     * @param data table data
+    * @param epochDateFormat true if date is represented as an offset from an epoch
     * @throws MPXJException
     */
-   public FileRow(TableDefinition table, List<String> data)
+   public FileRow(TableDefinition table, List<String> data, boolean epochDateFormat)
       throws MPXJException
    {
       super(new HashMap<String, Object>());
@@ -56,22 +59,26 @@ class FileRow extends MapRow
          ColumnDefinition column = columns[index];
          if (index < data.size())
          {
-            m_map.put(column.getName(), getColumnValue(table.getName(), column.getName(), data.get(index), column.getType()));
+            if (column != null)
+            {
+               m_map.put(column.getName(), getColumnValue(table.getName(), column.getName(), data.get(index), column.getType(), epochDateFormat));
+            }
          }
       }
    }
 
    /**
     * Maps the text representation of column data to Java types.
-    * 
+    *
     * @param table table name
     * @param column column name
     * @param data text representation of column data
     * @param type column data type
+    * @param epochDateFormat true if date is represented as an offset from an epoch
     * @return Java representation of column data
     * @throws MPXJException
     */
-   private Object getColumnValue(String table, String column, String data, int type) throws MPXJException
+   private Object getColumnValue(String table, String column, String data, int type, boolean epochDateFormat) throws MPXJException
    {
       try
       {
@@ -92,9 +99,22 @@ class FileRow extends MapRow
                break;
             }
 
+            case Types.TIME:
+            {
+               value = parseBasicTime(data);
+               break;
+            }
+
             case Types.TIMESTAMP:
             {
-               value = parseTimestamp(data);
+               if (epochDateFormat)
+               {
+                  value = parseEpochTimestamp(data);
+               }
+               else
+               {
+                  value = parseBasicTimestamp(data);
+               }
                break;
             }
 
@@ -121,13 +141,13 @@ class FileRow extends MapRow
 
       catch (Exception ex)
       {
-         throw new MPXJException("Failed to parse " + table + "." + column + " (data=" + data + ", type=" + type + ")");
+         throw new MPXJException("Failed to parse " + table + "." + column + " (data=" + data + ", type=" + type + ")", ex);
       }
    }
 
    /**
     * Parse a string representation of a Boolean value.
-    * 
+    *
     * @param value string representation
     * @return Boolean value
     */
@@ -145,7 +165,7 @@ class FileRow extends MapRow
 
    /**
     * Parse a string representation of an Integer value.
-    * 
+    *
     * @param value string representation
     * @return Integer value
     */
@@ -171,7 +191,7 @@ class FileRow extends MapRow
 
    /**
     * Parse a string.
-    * 
+    *
     * @param value string representation
     * @return String value
     */
@@ -196,7 +216,7 @@ class FileRow extends MapRow
 
    /**
     * Parse the string representation of a double.
-    * 
+    *
     * @param value string representation
     * @return Java representation
     * @throws ParseException
@@ -238,11 +258,11 @@ class FileRow extends MapRow
 
    /**
     * Parse the string representation of a timestamp.
-    * 
+    *
     * @param value string representation
     * @return Java representation
     */
-   private Date parseTimestamp(String value)
+   private Date parseEpochTimestamp(String value)
    {
       Date result = null;
 
@@ -289,6 +309,101 @@ class FileRow extends MapRow
       return result;
    }
 
+   /**
+    * Parse a timestamp value.
+    *
+    * @param value timestamp as String
+    * @return timestamp as Date
+    */
+   private Date parseBasicTimestamp(String value) throws ParseException
+   {
+      Date result = null;
+
+      if (value.length() > 0)
+      {
+         if (!value.equals("-1 -1") && !value.equals("0"))
+         {
+            DateFormat df;
+            if (value.endsWith(" 0"))
+            {
+               df = DATE_FORMAT1.get();
+               if (df == null)
+               {
+                  df = new SimpleDateFormat("yyyyMMdd 0");
+                  DATE_FORMAT1.set(df);
+               }
+            }
+            else
+            {
+               if (value.indexOf(' ') == -1)
+               {
+                  df = DATE_FORMAT2.get();
+                  if (df == null)
+                  {
+                     df = new SimpleDateFormat("yyyyMMdd");
+                     DATE_FORMAT2.set(df);
+                  }
+               }
+               else
+               {
+                  df = TIMESTAMP_FORMAT.get();
+                  if (df == null)
+                  {
+                     df = new SimpleDateFormat("yyyyMMdd HHmmss");
+                     TIMESTAMP_FORMAT.set(df);
+                  }
+
+                  int timeIndex = value.indexOf(' ') + 1;
+                  if (timeIndex + 6 > value.length())
+                  {
+                     String time = value.substring(timeIndex);
+                     value = value.substring(0, timeIndex) + "0" + time;
+                  }
+               }
+            }
+
+            result = df.parse(value);
+         }
+      }
+
+      //System.out.println(value + "=>" + result);
+      return result;
+   }
+
+   /**
+    * Parse a time value.
+    *
+    * @param value time as String
+    * @return time as Date
+    */
+   private Date parseBasicTime(String value) throws ParseException
+   {
+      Date result = null;
+
+      if (value.length() > 0)
+      {
+         if (!value.equals("0"))
+         {
+            DateFormat df;
+            df = TIME_FORMAT.get();
+            if (df == null)
+            {
+               df = new SimpleDateFormat("HHmmss");
+               TIME_FORMAT.set(df);
+            }
+            value = "000000" + value;
+            value = value.substring(value.length() - 6);
+            result = df.parse(value);
+         }
+      }
+
+      return result;
+   }
+
+   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = new ThreadLocal<DateFormat>();
+   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = new ThreadLocal<DateFormat>();
+   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = new ThreadLocal<DateFormat>();
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
    private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = new ThreadLocal<DecimalFormat>();
    private static final long JAVA_EPOCH = -2208988800000L;
    private static final long ASTA_EPOCH = 2415021L;

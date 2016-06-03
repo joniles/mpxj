@@ -26,6 +26,8 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -43,8 +45,8 @@ import java.util.Set;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -74,6 +76,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    public void setProjectID(int projectID)
    {
       m_projectID = Integer.valueOf(projectID);
+   }
+
+   /**
+    * Sets the character encoding used when reading an XER file.
+    *
+    * @param encoding encoding name
+    */
+   public void setEncoding(String encoding)
+   {
+      m_encoding = encoding;
    }
 
    /**
@@ -124,7 +136,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * This is a convenience method which allows all projects in an
     * XER file to be read in a single pass.
-    * 
+    *
     * @param is input stream
     * @return list of ProjectFile instances
     * @throws MPXJException
@@ -133,13 +145,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         List<ProjectFile> result = new LinkedList<ProjectFile>();
          m_tables = new HashMap<String, List<Row>>();
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
 
          List<Row> rows = getRows("project", null, null);
+         List<ProjectFile> result = new ArrayList<ProjectFile>(rows.size());
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
@@ -211,7 +223,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          bis.reset();
 
-         Tokenizer tk = new InputStreamTokenizer(bis);
+         Charset charset = m_encoding == null ? Charset.defaultCharset() : Charset.forName(m_encoding);
+         InputStreamReader reader = new InputStreamReader(bis, charset);
+         Tokenizer tk = new ReaderTokenizer(reader);
          tk.setDelimiter('\t');
          List<String> record = new ArrayList<String>();
 
@@ -251,7 +265,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Process a currency definition.
-    * 
+    *
     * @param row record from XER file
     */
    private void processCurrency(Row row)
@@ -275,7 +289,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current file.
-    * 
+    *
     * @param is input stream used to read XER file
     * @return Map instance containing ID and name pairs
     * @throws MPXJException
@@ -390,7 +404,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Reads each token from a single record and adds it to a list.
-    * 
+    *
     * @param tk tokenizer
     * @param record list of tokens
     * @throws IOException
@@ -406,8 +420,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Handles a complete record at a time, stores it in a form ready for
-    * further processing. 
-    * 
+    * further processing.
+    *
     * @param record record to be processed
     * @return flag indicating if this is the last record in the file to be processed
     * @throws MPXJException
@@ -594,7 +608,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Extract any useful attributes from the header record.
-    * 
+    *
     * @param record header record
     */
    private void processHeader(List<String> record)
@@ -604,7 +618,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Override the default field name mapping for user defined types.
-    * 
+    *
     * @param type target user defined data type
     * @param fieldName field name
     */
@@ -615,7 +629,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getResourceFieldMap()
@@ -625,7 +639,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getWbsFieldMap()
@@ -635,7 +649,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getTaskFieldMap()
@@ -645,7 +659,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getAssignmentFields()
@@ -655,7 +669,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.
-    * 
+    *
     * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getAliases()
@@ -666,8 +680,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Filters a list of rows from the named table. If a column name and a value
     * are supplied, then use this to filter the rows. If no column name is
-    * supplied, then return all rows. 
-    * 
+    * supplied, then return all rows.
+    *
     * @param tableName table name
     * @param columnName filter column name
     * @param id filter column value
@@ -679,7 +693,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       List<Row> table = m_tables.get(tableName);
       if (table == null)
       {
-         result = EMPTY_TABLE;
+         result = Collections.<Row> emptyList();
       }
       else
       {
@@ -705,8 +719,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
-    * Defaults to true. 
-    * 
+    * Defaults to true.
+    *
     * @return flag value
     */
    public boolean getMatchPrimaveraWBS()
@@ -717,8 +731,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
-    * Defaults to true. 
-    * 
+    * Defaults to true.
+    *
     * @param matchPrimaveraWBS flag value
     */
    public void setMatchPrimaveraWBS(boolean matchPrimaveraWBS)
@@ -726,6 +740,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
 
+   private String m_encoding;
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    boolean m_skipTable;
@@ -738,7 +753,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-   private static final List<Row> EMPTY_TABLE = new LinkedList<Row>();
    private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_udfCounters = new UserFieldCounters();
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();

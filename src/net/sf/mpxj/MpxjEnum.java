@@ -31,7 +31,7 @@ public interface MpxjEnum
    /**
     * This method is used to retrieve the int value (not the ordinal)
     * associated with an enum instance.
-    * 
+    *
     * @return enum value
     */
    public int getValue();

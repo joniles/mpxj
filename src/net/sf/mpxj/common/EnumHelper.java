@@ -35,7 +35,7 @@ public final class EnumHelper
 {
    /**
     * Creates a lookup array based on the "value" associated with an MpxjEnum.
-    * 
+    *
     * @param <E> target enumeration
     * @param c enumeration class
     * @return lookup array
@@ -46,8 +46,8 @@ public final class EnumHelper
    }
 
    /**
-    * Creates a lookup array based on the "value" associated with an MpxjEnum. 
-    * 
+    * Creates a lookup array based on the "value" associated with an MpxjEnum.
+    *
     * @param <E> target enumeration
     * @param c enumeration class
     * @param arraySizeOffset offset to apply to the array size

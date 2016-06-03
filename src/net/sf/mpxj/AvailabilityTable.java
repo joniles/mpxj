@@ -26,16 +26,16 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.Date;
 
-/** 
+/**
  * This class represents a resource's availability table.
  */
 public final class AvailabilityTable extends ArrayList<Availability>
 {
    /**
-    * Retrieve the table entry valid for the supplied date. 
-    * 
+    * Retrieve the table entry valid for the supplied date.
+    *
     * @param date required date
-    * @return cost rate table entry 
+    * @return cost rate table entry
     */
    public Availability getEntryByDate(Date date)
    {
@@ -50,7 +50,11 @@ public final class AvailabilityTable extends ArrayList<Availability>
             if (comparisonResult == 0)
             {
                result = entry;
+               break;
             }
+         }
+         else
+         {
             break;
          }
       }

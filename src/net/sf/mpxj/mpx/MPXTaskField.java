@@ -52,9 +52,9 @@ final class MPXTaskField
    }
 
    /**
-    * Retrieve the integer value used to represent a task field in an 
+    * Retrieve the integer value used to represent a task field in an
     * MPX file.
-    * 
+    *
     * @param value MPXJ task field value
     * @return MPX field value
     */

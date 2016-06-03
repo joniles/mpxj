@@ -37,7 +37,7 @@ public final class Column
 {
    /**
     * Constructor.
-    * 
+    *
     * @param project reference to the parent project
     */
    public Column(ProjectFile project)

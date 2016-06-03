@@ -40,7 +40,7 @@ public class ObjectPropertiesPanel extends JPanel
 
    /**
     * Constructor.
-    * 
+    *
     * @param object the object whose properties we will display
     */
    public ObjectPropertiesPanel(Object object)

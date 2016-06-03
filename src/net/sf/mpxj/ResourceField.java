@@ -636,7 +636,7 @@ public enum ResourceField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     * @param unitsType units type
     */
@@ -648,7 +648,7 @@ public enum ResourceField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     */
    private ResourceField(DataType dataType)

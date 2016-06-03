@@ -31,7 +31,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 
 /**
- * User defined field data types. 
+ * User defined field data types.
  */
 public enum UserFieldDataType
 {
@@ -45,8 +45,8 @@ public enum UserFieldDataType
 
    /**
     * Constructor.
-    * 
-    * @param fieldName default field name used to 
+    *
+    * @param fieldName default field name used to
     * store user defined data of this type.
     */
    private UserFieldDataType(String fieldName)
@@ -56,7 +56,7 @@ public enum UserFieldDataType
 
    /**
     * Retrieve the default field name.
-    * 
+    *
     * @return default field name
     */
    public String getDefaultFieldName()
@@ -66,8 +66,8 @@ public enum UserFieldDataType
 
    /**
     * Infers the Primavera user defined field data type from the MPXJ data type.
-    * 
-    * @author kmahan 
+    *
+    * @author kmahan
     * @date 2014-09-24
     * @param dataType MPXJ data type
     * @return string representation of data type
@@ -92,7 +92,7 @@ public enum UserFieldDataType
 
    /**
     * Infers the Primavera entity type based on the MPXJ field type.
-    * 
+    *
     * @author lsong
     * @date 2015-7-24
     * @param fieldType MPXJ field type

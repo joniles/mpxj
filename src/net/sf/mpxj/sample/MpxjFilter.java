@@ -68,7 +68,7 @@ public class MpxjFilter
     * and displays the filtered list of tasks or resources. If an
     * invalid filter name is supplied, a list of valid filter names
     * is shown.
-    * 
+    *
     * @param filename input file name
     * @param filtername input filter name
     */
@@ -101,7 +101,7 @@ public class MpxjFilter
    /**
     * This utility displays a list of available task filters, and a
     * list of available resource filters.
-    * 
+    *
     * @param project project file
     */
    private static void displayAvailableFilters(ProjectFile project)
@@ -123,7 +123,7 @@ public class MpxjFilter
 
    /**
     * Apply a filter to the list of all tasks, and show the results.
-    * 
+    *
     * @param project project file
     * @param filter filter
     */
@@ -140,7 +140,7 @@ public class MpxjFilter
 
    /**
     * Apply a filter to the list of all resources, and show the results.
-    * 
+    *
     * @param project project file
     * @param filter filter
     */

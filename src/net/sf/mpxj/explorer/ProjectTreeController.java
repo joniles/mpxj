@@ -45,7 +45,7 @@ public class ProjectTreeController
 
    /**
     * Constructor.
-    * 
+    *
     * @param model PoiTree model
     */
    public ProjectTreeController(ProjectTreeModel model)
@@ -55,7 +55,7 @@ public class ProjectTreeController
 
    /**
     * Command to load a file.
-    * 
+    *
     * @param file file to load
     */
    public void loadFile(File file)
@@ -109,7 +109,7 @@ public class ProjectTreeController
 
    /**
     * Add tasks to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param parent parent task container
     */
@@ -132,7 +132,7 @@ public class ProjectTreeController
 
    /**
     * Add resources to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param file resource container
     */
@@ -154,7 +154,7 @@ public class ProjectTreeController
 
    /**
     * Add groups to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param file group container
     */
@@ -176,7 +176,7 @@ public class ProjectTreeController
 
    /**
     * Add assignments to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param file assignments container
     */

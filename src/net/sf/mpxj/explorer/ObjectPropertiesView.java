@@ -37,7 +37,7 @@ public class ObjectPropertiesView extends JPanel
 {
    /**
     * Constructor.
-    * 
+    *
     * @param model model used by this view
     */
    public ObjectPropertiesView(ObjectPropertiesModel model)

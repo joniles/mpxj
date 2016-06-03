@@ -29,11 +29,11 @@ import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Represents the criteria used to define when a Gantt bar is displayed.
- * Note that the value attribute has been chosen to allow the nrmal and 
- * negated types to be determined. value & 0x64 will be zero for normal types, 
- * and non-zero for negative types. value & 0x63 will convert a negative type 
+ * Note that the value attribute has been chosen to allow the nrmal and
+ * negated types to be determined. value & 0x64 will be zero for normal types,
+ * and non-zero for negative types. value & 0x63 will convert a negative type
  * to a normal type, the type can then be retrieved using the getInstance
- * method.  
+ * method.
  */
 public enum GanttBarShowForTasks implements MpxjEnum
 {

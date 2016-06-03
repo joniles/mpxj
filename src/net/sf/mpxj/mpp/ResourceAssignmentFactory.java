@@ -45,14 +45,14 @@ import net.sf.mpxj.common.TimephasedCostNormaliser;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
 
 /**
- * Common implementation detail to extract resource assignment data from 
+ * Common implementation detail to extract resource assignment data from
  * MPP9, MPP12, and MPP14 files.
  */
 public class ResourceAssignmentFactory
 {
    /**
     * Main entry point when called to process assignment data.
-    * 
+    *
     * @param file parent project file
     * @param fieldMap assignment field map
     * @param enterpriseCustomFieldMap enterprise custom field map
@@ -125,7 +125,7 @@ public class ResourceAssignmentFactory
             data2 = assnFixedData2.getByteArrayValue(loop);
          }
 
-         ResourceAssignment assignment = new ResourceAssignment(file);
+         ResourceAssignment assignment = new ResourceAssignment(file, null);
 
          assignment.disableEvents();
 
@@ -270,8 +270,8 @@ public class ResourceAssignmentFactory
    }
 
    /**
-    * Extract assignment hyperlink data. 
-    * 
+    * Extract assignment hyperlink data.
+    *
     * @param assignment assignment instance
     * @param data hyperlink data
     */
@@ -305,7 +305,7 @@ public class ResourceAssignmentFactory
 
    /**
     * Method used to create missing timephased data.
-    * 
+    *
     * @param file project file
     * @param assignment resource assignment
     * @param timephasedPlanned planned timephased data

@@ -1,8 +1,8 @@
 /*
- * file:      Resource.java 
- * author:    Jon Iles 
+ * file:      Resource.java
+ * author:    Jon Iles
  *            Scott Melville
- * copyright: (c) Packwood Software 2002-2003 
+ * copyright: (c) Packwood Software 2002-2003
  * date:      15/08/2002
  */
 
@@ -42,7 +42,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 {
    /**
     * Default constructor.
-    * 
+    *
     * @param file the parent file to which this record belongs.
     */
    Resource(ProjectFile file)
@@ -65,7 +65,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets Name field value.
-    * 
+    *
     * @param val value
     */
    public void setName(String val)
@@ -75,7 +75,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Resource Name field value.
-    * 
+    *
     * @return value
     */
    public String getName()
@@ -85,7 +85,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the resource type. Can be TYPE_MATERIAL, or TYPE_WORK.
-    * 
+    *
     * @param type resource type
     */
    public void setType(ResourceType type)
@@ -95,7 +95,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the resource type. Can return TYPE_MATERIAL, or TYPE_WORK.
-    * 
+    *
     * @return resource type
     */
    public ResourceType getType()
@@ -105,7 +105,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the flag indicating that this is a null resource.
-    * 
+    *
     * @param isNull null resource flag
     */
    public void setIsNull(boolean isNull)
@@ -115,7 +115,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a flag indicating if this is a null resource.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getNull()
@@ -125,7 +125,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets Initials field value.
-    * 
+    *
     * @param val value
     */
    public void setInitials(String val)
@@ -135,7 +135,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Initials of name field value.
-    * 
+    *
     * @return value
     */
    public String getInitials()
@@ -145,7 +145,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets phonetic information for the Japanese version of MS Project.
-    * 
+    *
     * @param phonetics Japanese phonetic information
     */
    public void setPhonetics(String phonetics)
@@ -155,7 +155,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves phonetic information for the Japanese version of MS Project.
-    * 
+    *
     * @return Japanese phonetic information
     */
    public String getPhonetics()
@@ -165,7 +165,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the Windows account name for a resource.
-    * 
+    *
     * @param ntAccount windows account name
     */
    public void setNtAccount(String ntAccount)
@@ -175,7 +175,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the Windows account name for a resource.
-    * 
+    *
     * @return windows account name
     */
    public String getNtAccount()
@@ -185,7 +185,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the units label for a material resource.
-    * 
+    *
     * @param materialLabel material resource units label
     */
    public void setMaterialLabel(String materialLabel)
@@ -195,7 +195,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the units label for a material resource.
-    * 
+    *
     * @return material resource units label
     */
    public String getMaterialLabel()
@@ -205,7 +205,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets code field value.
-    * 
+    *
     * @param val value
     */
    public void setCode(String val)
@@ -215,7 +215,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets code field value.
-    * 
+    *
     * @return value
     */
    public String getCode()
@@ -225,7 +225,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets Group field value.
-    * 
+    *
     * @param val value
     */
    public void setGroup(String val)
@@ -235,7 +235,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Group field value.
-    * 
+    *
     * @return value
     */
    public String getGroup()
@@ -245,7 +245,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the messaging method used to communicate with a project team.
-    * 
+    *
     * @param workGroup messaging method
     */
    public void setWorkGroup(WorkGroup workGroup)
@@ -255,7 +255,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the messaging method used to communicate with a project team.
-    * 
+    *
     * @return messaging method
     */
    public WorkGroup getWorkGroup()
@@ -265,7 +265,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the resource's email address.
-    * 
+    *
     * @param emailAddress email address
     */
    public void setEmailAddress(String emailAddress)
@@ -275,7 +275,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the resource's email address.
-    * 
+    *
     * @return email address
     */
    public String getEmailAddress()
@@ -285,7 +285,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the hyperlink text.
-    * 
+    *
     * @param hyperlink hyperlink text
     */
    public void setHyperlink(String hyperlink)
@@ -295,7 +295,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the hyperlink text.
-    * 
+    *
     * @return hyperlink text
     */
    public String getHyperlink()
@@ -305,7 +305,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the hyperlink address.
-    * 
+    *
     * @param hyperlinkAddress hyperlink address
     */
    public void setHyperlinkAddress(String hyperlinkAddress)
@@ -315,7 +315,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the hyperlink address.
-    * 
+    *
     * @return hyperlink address
     */
    public String getHyperlinkAddress()
@@ -325,7 +325,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the hyperlink sub-address.
-    * 
+    *
     * @param hyperlinkSubAddress hyperlink sub-address
     */
    public void setHyperlinkSubAddress(String hyperlinkSubAddress)
@@ -335,7 +335,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the hyperlink sub-address.
-    * 
+    *
     * @return hyperlink sub-address
     */
    public String getHyperlinkSubAddress()
@@ -345,7 +345,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the maximum availability of a resource.
-    * 
+    *
     * @param maxUnits maximum availability
     */
    public void setMaxUnits(Number maxUnits)
@@ -355,7 +355,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the maximum availability of a resource.
-    * 
+    *
     * @return maximum availability
     */
    public Number getMaxUnits()
@@ -365,7 +365,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets peak resource utilisation.
-    * 
+    *
     * @param peakUnits peak resource utilisation
     */
    public void setPeakUnits(Number peakUnits)
@@ -375,7 +375,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the peak resource utilisation.
-    * 
+    *
     * @return peak resource utilisation
     */
    public Number getPeakUnits()
@@ -385,7 +385,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the overallocated flag.
-    * 
+    *
     * @param overallocated overallocated flag
     */
    public void setOverAllocated(boolean overallocated)
@@ -395,7 +395,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the overallocated flag.
-    * 
+    *
     * @return overallocated flag
     */
    public boolean getOverAllocated()
@@ -413,7 +413,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the "available from" date.
-    * 
+    *
     * @return available from date
     */
    public Date getAvailableFrom()
@@ -423,7 +423,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the "available from" date.
-    * 
+    *
     * @param date available from date
     */
    public void setAvailableFrom(Date date)
@@ -433,7 +433,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the "available to" date.
-    * 
+    *
     * @return available from date
     */
    public Date getAvailableTo()
@@ -443,7 +443,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the "available to" date.
-    * 
+    *
     * @param date available to date
     */
    public void setAvailableTo(Date date)
@@ -453,7 +453,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the earliest start date for all assigned tasks.
-    * 
+    *
     * @return start date
     */
    public Date getStart()
@@ -471,7 +471,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the latest finish date for all assigned tasks.
-    * 
+    *
     * @return finish date
     */
    public Date getFinish()
@@ -490,7 +490,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Sets the flag indicating if the resource levelling can be applied to this
     * resource.
-    * 
+    *
     * @param canLevel boolean flag
     */
    public void setCanLevel(boolean canLevel)
@@ -501,7 +501,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Retrieves the flag indicating if the resource levelling can be applied to
     * this resource.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getCanLevel()
@@ -513,7 +513,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the Accrue at type.The Accrue At field provides choices for how and
     * when resource standard and overtime costs are to be charged, or accrued,
     * to the cost of a task. The options are: Start, End and Prorated (Default)
-    * 
+    *
     * @param type accrue type
     */
    public void setAccrueAt(AccrueType type)
@@ -525,7 +525,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Gets the Accrue at type.The Accrue At field provides choices for how and
     * when resource standard and overtime costs are to be charged, or accrued,
     * to the cost of a task. The options are: Start, End and Proraetd (Default)
-    * 
+    *
     * @return accrue type
     */
    public AccrueType getAccrueAt()
@@ -535,7 +535,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * This field is ignored on import into MS Project.
-    * 
+    *
     * @param val - value to be set
     */
    public void setWork(Duration val)
@@ -545,7 +545,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Work field value.
-    * 
+    *
     * @return value
     */
    public Duration getWork()
@@ -556,7 +556,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Retrieve the value of the regular work field. Note that this value is an
     * extension to the MPX specification.
-    * 
+    *
     * @return Regular work value
     */
    public Duration getRegularWork()
@@ -567,7 +567,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Set the value of the regular work field. Note that this value is an
     * extension to the MPX specification.
-    * 
+    *
     * @param duration Regular work value
     */
    public void setRegularWork(Duration duration)
@@ -578,7 +578,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Sets the Actual Work field contains the amount of work that has already
     * been done for all assignments assigned to a resource.
-    * 
+    *
     * @param val duration value
     */
    public void setActualWork(Duration val)
@@ -589,7 +589,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Retrieves the Actual Work field contains the amount of work that has
     * already been done for all assignments assigned to a resource.
-    * 
+    *
     * @return Actual work value
     */
    public Duration getActualWork()
@@ -599,7 +599,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the amount of overtime work.
-    * 
+    *
     * @param overtimeWork overtime work
     */
    public void setOvertimeWork(Duration overtimeWork)
@@ -609,7 +609,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the amount of overtime work.
-    * 
+    *
     * @return overtime work
     */
    public Duration getOvertimeWork()
@@ -619,7 +619,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * This field is ignored on import into MS Project.
-    * 
+    *
     * @param val - value to be set
     */
    public void setRemainingWork(Duration val)
@@ -629,7 +629,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Remaining Work field value.
-    * 
+    *
     * @return value
     */
    public Duration getRemainingWork()
@@ -639,7 +639,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the value of the actual overtime work field.
-    * 
+    *
     * @return actual overtime work value
     */
    public Duration getActualOvertimeWork()
@@ -649,7 +649,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of the actual overtime work field.
-    * 
+    *
     * @param duration actual overtime work value
     */
    public void setActualOvertimeWork(Duration duration)
@@ -659,7 +659,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the value of the remaining overtime work field.
-    * 
+    *
     * @return remaining overtime work value
     */
    public Duration getRemainingOvertimeWork()
@@ -669,7 +669,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of the remaining overtime work field.
-    * 
+    *
     * @param duration remaining overtime work value
     */
    public void setRemainingOvertimeWork(Duration duration)
@@ -679,7 +679,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of the percent work complete field.
-    * 
+    *
     * @param percentWorkComplete percent work complete
     */
    public void setPercentWorkComplete(Number percentWorkComplete)
@@ -689,7 +689,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of the percent work complete field.
-    * 
+    *
     * @return percent work complete
     */
    public Number getPercentWorkComplete()
@@ -699,7 +699,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets standard rate for this resource.
-    * 
+    *
     * @param val value
     */
    public void setStandardRate(Rate val)
@@ -709,7 +709,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Standard Rate field value.
-    * 
+    *
     * @return Rate
     */
    public Rate getStandardRate()
@@ -719,7 +719,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the format of the standard rate.
-    * 
+    *
     * @param units standard rate format
     */
    public void setStandardRateUnits(TimeUnit units)
@@ -729,7 +729,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the format of the standard rate.
-    * 
+    *
     * @return standard rate format
     */
    public TimeUnit getStandardRateUnits()
@@ -739,7 +739,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the cost field value.
-    * 
+    *
     * @param cost cost field value
     */
    public void setCost(Number cost)
@@ -749,7 +749,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the cost field value.
-    * 
+    *
     * @return cost field value
     */
    public Number getCost()
@@ -759,7 +759,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the overtime rate for this resource.
-    * 
+    *
     * @param overtimeRate overtime rate value
     */
    public void setOvertimeRate(Rate overtimeRate)
@@ -769,7 +769,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the overtime rate for this resource.
-    * 
+    *
     * @return overtime rate
     */
    public Rate getOvertimeRate()
@@ -779,7 +779,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the format of the overtime rate.
-    * 
+    *
     * @param units overtime rate format
     */
    public void setOvertimeRateUnits(TimeUnit units)
@@ -789,7 +789,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the format of the overtime rate.
-    * 
+    *
     * @return overtime rate format
     */
    public TimeUnit getOvertimeRateUnits()
@@ -799,7 +799,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the value of the overtime cost field.
-    * 
+    *
     * @return Overtime cost value
     */
    public Number getOvertimeCost()
@@ -809,7 +809,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the value of the overtime cost field.
-    * 
+    *
     * @param currency Overtime cost
     */
    public void setOvertimeCost(Number currency)
@@ -819,7 +819,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the cost per use.
-    * 
+    *
     * @param costPerUse cost per use
     */
    public void setCostPerUse(Number costPerUse)
@@ -829,7 +829,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the cost per use.
-    * 
+    *
     * @return cost per use
     */
    public Number getCostPerUse()
@@ -839,7 +839,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the actual cost for the work already performed by this resource.
-    * 
+    *
     * @param actualCost actual cost
     */
    public void setActualCost(Number actualCost)
@@ -849,7 +849,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the actual cost for the work already performed by this resource.
-    * 
+    *
     * @return actual cost
     */
    public Number getActualCost()
@@ -859,7 +859,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve actual overtime cost.
-    * 
+    *
     * @return actual overtime cost
     */
    public Number getActualOvertimeCost()
@@ -869,7 +869,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the actual overtime cost.
-    * 
+    *
     * @param actualOvertimeCost actual overtime cost
     */
    public void setActualOvertimeCost(Number actualOvertimeCost)
@@ -879,7 +879,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the remaining cost for this resource.
-    * 
+    *
     * @param remainingCost remaining cost
     */
    public void setRemainingCost(Number remainingCost)
@@ -889,7 +889,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the remaining cost for this resource.
-    * 
+    *
     * @return remaining cost
     */
    public Number getRemainingCost()
@@ -899,7 +899,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the remaining overtime cost.
-    * 
+    *
     * @return remaining overtime cost
     */
    public Number getRemainingOvertimeCost()
@@ -909,7 +909,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the remaining overtime cost.
-    * 
+    *
     * @param remainingOvertimeCost remaining overtime cost
     */
    public void setRemainingOvertimeCost(Number remainingOvertimeCost)
@@ -919,7 +919,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the work variance.
-    * 
+    *
     * @param workVariance work variance
     */
    public void setWorkVariance(Duration workVariance)
@@ -929,7 +929,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the work variance.
-    * 
+    *
     * @return work variance
     */
    public Duration getWorkVariance()
@@ -950,7 +950,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the cost variance.
-    * 
+    *
     * @param costVariance cost variance
     */
    public void setCostVariance(Number costVariance)
@@ -960,7 +960,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the cost variance.
-    * 
+    *
     * @return cost variance
     */
    public Number getCostVariance()
@@ -981,7 +981,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the schedule variance.
-    * 
+    *
     * @param sv schedule variance
     */
    public void setSV(Number sv)
@@ -991,7 +991,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the schedule variance.
-    * 
+    *
     * @return schedule variance
     */
    public Number getSV()
@@ -1012,7 +1012,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the cost variance.
-    * 
+    *
     * @param cv cost variance
     */
    public void setCV(Number cv)
@@ -1022,7 +1022,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the cost variance.
-    * 
+    *
     * @return cost variance
     */
    public Number getCV()
@@ -1038,7 +1038,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the actual cost of work performed.
-    * 
+    *
     * @param acwp actual cost of work performed
     */
    public void setACWP(Number acwp)
@@ -1048,7 +1048,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the actual cost of work performed.
-    * 
+    *
     * @return actual cost of work performed
     */
    public Number getACWP()
@@ -1058,7 +1058,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the notes text for this resource.
-    * 
+    *
     * @param notes notes to be added
     */
    public void setNotes(String notes)
@@ -1068,7 +1068,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the notes text for this resource.
-    * 
+    *
     * @return notes text
     */
    public String getNotes()
@@ -1079,7 +1079,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the budgeted cost of work scheduled.
-    * 
+    *
     * @param bcws budgeted cost of work scheduled
     */
    public void setBCWS(Number bcws)
@@ -1089,7 +1089,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the budgeted cost of work scheduled.
-    * 
+    *
     * @return budgeted cost of work scheduled
     */
    public Number getBCWS()
@@ -1099,7 +1099,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the budgeted cost of work performed.
-    * 
+    *
     * @param bcwp budgeted cost of work performed
     */
    public void setBCWP(Number bcwp)
@@ -1109,7 +1109,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrievesthe budgeted cost of work performed.
-    * 
+    *
     * @return budgeted cost of work performed
     */
    public Number getBCWP()
@@ -1119,7 +1119,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the generic flag.
-    * 
+    *
     * @param isGeneric generic flag
     */
    public void setIsGeneric(boolean isGeneric)
@@ -1129,7 +1129,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the generic flag.
-    * 
+    *
     * @return generic flag
     */
    public boolean getGeneric()
@@ -1139,7 +1139,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the inactive flag.
-    * 
+    *
     * @param isInactive inactive flag
     */
    public void setIsInactive(boolean isInactive)
@@ -1149,7 +1149,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the inactive flag.
-    * 
+    *
     * @return inactive flag
     */
    public boolean getInactive()
@@ -1159,7 +1159,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the active directory GUID for this resource.
-    * 
+    *
     * @param guid active directory GUID
     */
    public void setActveDirectoryGUID(String guid)
@@ -1169,7 +1169,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the active directory GUID for this resource.
-    * 
+    *
     * @return active directory GUID
     */
    public String getActiveDirectoryGUID()
@@ -1179,7 +1179,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the actual overtime work protected duration.
-    * 
+    *
     * @param duration actual overtime work protected
     */
    public void setActualOvertimeWorkProtected(Duration duration)
@@ -1189,7 +1189,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the actual overtime work protected duration.
-    * 
+    *
     * @return actual overtime work protected
     */
    public Duration getActualOvertimeWorkProtected()
@@ -1199,7 +1199,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the actual work protected duration.
-    * 
+    *
     * @param duration actual work protected
     */
    public void setActualWorkProtected(Duration duration)
@@ -1209,7 +1209,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the actual work protected duration.
-    * 
+    *
     * @return actual work protected
     */
    public Duration getActualWorkProtected()
@@ -1219,7 +1219,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the booking type.
-    * 
+    *
     * @param bookingType booking type
     */
    public void setBookingType(BookingType bookingType)
@@ -1229,7 +1229,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the booking type.
-    * 
+    *
     * @return booking type
     */
    public BookingType getBookingType()
@@ -1239,7 +1239,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the creation date.
-    * 
+    *
     * @param creationDate creation date
     */
    public void setCreationDate(Date creationDate)
@@ -1249,7 +1249,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the creation date.
-    * 
+    *
     * @return creation date
     */
    public Date getCreationDate()
@@ -1259,7 +1259,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets a flag indicating that a resource is an enterprise resource.
-    * 
+    *
     * @param enterprise boolean flag
     */
    public void setIsEnterprise(boolean enterprise)
@@ -1269,7 +1269,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves a flag indicating that a resource is an enterprise resource.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getEnterprise()
@@ -1279,7 +1279,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * This method retrieves the calendar associated with this resource.
-    * 
+    *
     * @return ProjectCalendar instance
     */
    public ProjectCalendar getResourceCalendar()
@@ -1290,7 +1290,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * This method allows a pre-existing resource calendar to be attached to a
     * resource.
-    * 
+    *
     * @param calendar resource calendar
     */
    public void setResourceCalendar(ProjectCalendar calendar)
@@ -1304,7 +1304,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * This method allows a resource calendar to be added to a resource.
-    * 
+    *
     * @return ResourceCalendar
     * @throws MPXJException if more than one calendar is added
     */
@@ -1325,7 +1325,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * for a resource calendar. The list includes the three built-in calendars,
     * as well as any new base calendars you have created in the Change Working
     * Time dialog box.
-    * 
+    *
     * @param val calendar name
     */
    public void setBaseCalendar(String val)
@@ -1335,7 +1335,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the baseline cost. This field is ignored on import into MS Project
-    * 
+    *
     * @param val - value to be set
     */
    public void setBaselineCost(Number val)
@@ -1346,7 +1346,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Sets the baseline work duration. This field is ignored on import into MS
     * Project.
-    * 
+    *
     * @param val - value to be set
     */
    public void setBaselineWork(Duration val)
@@ -1356,7 +1356,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets ID field value.
-    * 
+    *
     * @param val value
     */
    @Override public void setID(Integer val)
@@ -1374,7 +1374,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * This field is ignored on import into MS Project.
-    * 
+    *
     * @param val - value to be set
     */
    public void setLinkedFields(boolean val)
@@ -1384,7 +1384,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set objects.
-    * 
+    *
     * @param val - value to be set
     */
    public void setObjects(Integer val)
@@ -1394,7 +1394,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a text value.
-    * 
+    *
     * @param index text index (1-30)
     * @param value text value
     */
@@ -1405,7 +1405,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a text value.
-    * 
+    *
     * @param index text index (1-30)
     * @return text value
     */
@@ -1416,7 +1416,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets Unique ID of this resource.
-    * 
+    *
     * @param val Unique ID
     */
    @Override public void setUniqueID(Integer val)
@@ -1427,7 +1427,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Retrieves Base Calendar name associated with this resource. This field
     * indicates which calendar is the base calendar for a resource calendar.
-    * 
+    *
     * @return Base calendar name
     */
    public String getBaseCalendar()
@@ -1439,7 +1439,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the Baseline Cost value. This value is the total planned cost
     * for a resource for all assigned tasks. Baseline cost is also referred to
     * as budget at completion (BAC).
-    * 
+    *
     * @return Baseline cost value
     */
    public Number getBaselineCost()
@@ -1449,7 +1449,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the Baseline Work value.
-    * 
+    *
     * @return Baseline work value
     */
    public Duration getBaselineWork()
@@ -1459,7 +1459,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets ID field value.
-    * 
+    *
     * @return value
     */
    @Override public Integer getID()
@@ -1469,7 +1469,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Linked Fields field value.
-    * 
+    *
     * @return value
     */
    public boolean getLinkedFields()
@@ -1479,7 +1479,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets objects field value.
-    * 
+    *
     * @return value
     */
    public Integer getObjects()
@@ -1489,7 +1489,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Gets Unique ID field value.
-    * 
+    *
     * @return value
     */
    @Override public Integer getUniqueID()
@@ -1499,7 +1499,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a start value.
-    * 
+    *
     * @param index start index (1-10)
     * @param value start value
     */
@@ -1510,7 +1510,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a start value.
-    * 
+    *
     * @param index start index (1-10)
     * @return start value
     */
@@ -1521,7 +1521,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a finish value.
-    * 
+    *
     * @param index finish index (1-10)
     * @param value finish value
     */
@@ -1532,7 +1532,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a finish value.
-    * 
+    *
     * @param index finish index (1-10)
     * @return finish value
     */
@@ -1543,7 +1543,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a number value.
-    * 
+    *
     * @param index number index (1-20)
     * @param value number value
     */
@@ -1554,7 +1554,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a number value.
-    * 
+    *
     * @param index number index (1-20)
     * @return number value
     */
@@ -1565,7 +1565,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a duration value.
-    * 
+    *
     * @param index duration index (1-10)
     * @param value duration value
     */
@@ -1576,7 +1576,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a duration value.
-    * 
+    *
     * @param index duration index (1-10)
     * @return duration value
     */
@@ -1587,7 +1587,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a date value.
-    * 
+    *
     * @param index date index (1-10)
     * @param value date value
     */
@@ -1598,7 +1598,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a date value.
-    * 
+    *
     * @param index date index (1-10)
     * @return date value
     */
@@ -1609,7 +1609,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a cost value.
-    * 
+    *
     * @param index cost index (1-10)
     * @param value cost value
     */
@@ -1620,7 +1620,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a cost value.
-    * 
+    *
     * @param index cost index (1-10)
     * @return cost value
     */
@@ -1631,7 +1631,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @param value flag value
     */
@@ -1642,7 +1642,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @return flag value
     */
@@ -1653,7 +1653,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode1(String value)
@@ -1663,7 +1663,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode1()
@@ -1673,7 +1673,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode2(String value)
@@ -1683,7 +1683,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode2()
@@ -1693,7 +1693,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode3(String value)
@@ -1703,7 +1703,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode3()
@@ -1713,7 +1713,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode4(String value)
@@ -1723,7 +1723,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode4()
@@ -1733,7 +1733,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode5(String value)
@@ -1743,7 +1743,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode5()
@@ -1753,7 +1753,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode6(String value)
@@ -1763,7 +1763,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode6()
@@ -1773,7 +1773,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode7(String value)
@@ -1783,7 +1783,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode7()
@@ -1793,7 +1793,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode8(String value)
@@ -1803,7 +1803,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode8()
@@ -1813,7 +1813,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode9(String value)
@@ -1823,7 +1823,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode9()
@@ -1833,7 +1833,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the value of an outline code field.
-    * 
+    *
     * @param value outline code value
     */
    public void setOutlineCode10(String value)
@@ -1843,7 +1843,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode10()
@@ -1861,7 +1861,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the value of a field using its alias.
-    * 
+    *
     * @param alias field alias
     * @return field value
     */
@@ -1872,7 +1872,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the value of a field using its alias.
-    * 
+    *
     * @param alias field alias
     * @param value field value
     */
@@ -1884,7 +1884,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * This method is used internally within MPXJ to track tasks which are
     * assigned to a particular resource.
-    * 
+    *
     * @param assignment resource assignment instance
     */
    public void addResourceAssignment(ResourceAssignment assignment)
@@ -1895,7 +1895,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Internal method used as part of the process of removing a resource
     * assignment.
-    * 
+    *
     * @param assignment resource assignment to be removed
     */
    void removeResourceAssignment(ResourceAssignment assignment)
@@ -1909,7 +1909,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * the resources assignments before the tasks and resources to which the
     * assignments relate, then these assignments may not appear in this list.
     * Caveat emptor!
-    * 
+    *
     * @return list of tasks assigned to this resource
     */
    public List<ResourceAssignment> getTaskAssignments()
@@ -1922,9 +1922,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * this value will be non-zero. The value itself is the unique ID value shown
     * in the parent project. To retrieve the value of the resource unique ID in
     * the child project, remove the top two bytes:
-    * 
+    *
     * resourceID = (subprojectUniqueID & 0xFFFF)
-    * 
+    *
     * @return sub project unique resource ID
     */
    public Integer getSubprojectResourceUniqueID()
@@ -1934,7 +1934,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the sub project unique resource ID.
-    * 
+    *
     * @param subprojectUniqueResourceID subproject unique resource ID
     */
    public void setSubprojectResourceUniqueID(Integer subprojectUniqueResourceID)
@@ -1944,7 +1944,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -1955,7 +1955,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -1966,7 +1966,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -1977,7 +1977,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -1988,7 +1988,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -1999,7 +1999,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -2010,7 +2010,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -2021,7 +2021,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -2032,7 +2032,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -2043,7 +2043,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -2054,7 +2054,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -2065,7 +2065,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -2076,7 +2076,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve an enterprise custom field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -2087,7 +2087,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set an enterprise custom field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -2098,7 +2098,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -2109,7 +2109,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -2120,7 +2120,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -2131,7 +2131,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -2142,7 +2142,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the budget flag.
-    * 
+    *
     * @return budget flag
     */
    public boolean getBudget()
@@ -2152,7 +2152,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the budget flag.
-    * 
+    *
     * @param budget budget flag
     */
    public void setBudget(boolean budget)
@@ -2162,7 +2162,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieves the resource GUID.
-    * 
+    *
     * @return resource GUID.
     */
    public UUID getGUID()
@@ -2172,7 +2172,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Sets the resource GUID.
-    * 
+    *
     * @param value resource GUID
     */
    public void setGUID(UUID value)
@@ -2185,7 +2185,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * current resource. Note that the index corresponds with the
     * letter label used by MS Project to identify each table.
     * For example 0=Table A, 1=Table B, 2=Table C, and so on.
-    * 
+    *
     * @param index table index
     * @param crt table instance
     */
@@ -2199,7 +2199,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Note that the index corresponds with the
     * letter label used by MS Project to identify each table.
     * For example 0=Table A, 1=Table B, 2=Table C, and so on.
-    * 
+    *
     * @param index table index
     * @return table instance
     */
@@ -2210,7 +2210,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the availability table for this resource.
-    * 
+    *
     * @return availability table
     */
    public AvailabilityTable getAvailability()
@@ -2220,7 +2220,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Maps a field index to a ResourceField instance.
-    * 
+    *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
     * @return ResourceField instance
@@ -2316,7 +2316,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Handle the change in a field value. Reset any cached calculated
     * values affected by this change, pass on the event to any external
     * listeners.
-    * 
+    *
     * @param field field changed
     * @param oldValue old field value
     * @param newValue new field value
@@ -2425,7 +2425,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * This method is used to set the value of a field in the resource.
-    * 
+    *
     * @param field field to be set
     * @param value new value for field.
     */
@@ -2457,7 +2457,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * always be in the correct sequence. The Unique ID value will not
     * necessarily be in the correct sequence as task insertions and deletions
     * will change the order.
-    * 
+    *
     * @param o object to compare this instance with
     * @return result of comparison
     */

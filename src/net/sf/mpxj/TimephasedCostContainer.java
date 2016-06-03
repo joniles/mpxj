@@ -32,14 +32,14 @@ public interface TimephasedCostContainer
 {
    /**
     * Retrieves the timephased data.
-    * 
+    *
     * @return timephased data
     */
    public List<TimephasedCost> getData();
 
    /**
     * Indicates if any timephased data is present.
-    * 
+    *
     * @return boolean flag
     */
    public boolean hasData();

@@ -67,7 +67,7 @@ public class TableContainer extends ListWithCallbacks<Table>
 
    /**
     * Retrieve the correct index for the supplied Table instance.
-    * 
+    *
     * @param table Table instance
     * @return index
     */

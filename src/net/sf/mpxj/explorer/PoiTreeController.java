@@ -39,7 +39,7 @@ public class PoiTreeController
 
    /**
     * Constructor.
-    * 
+    *
     * @param model PoiTree model
     */
    public PoiTreeController(PoiTreeModel model)
@@ -49,7 +49,7 @@ public class PoiTreeController
 
    /**
     * Command to load a file.
-    * 
+    *
     * @param file file to load
     */
    public void loadFile(File file)

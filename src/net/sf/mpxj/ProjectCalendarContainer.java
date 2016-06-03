@@ -32,7 +32,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public ProjectCalendarContainer(ProjectFile projectFile)
@@ -53,7 +53,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
    /**
     * Add a calendar to the project.
-    * 
+    *
     * @return new task instance
     */
    public ProjectCalendar add()

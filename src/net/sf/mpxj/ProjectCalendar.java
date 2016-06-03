@@ -61,8 +61,88 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Retrieve the number of minutes per day for this calendar.
+    *
+    * @return minutes per day
+    */
+   public int getMinutesPerDay()
+   {
+      return m_minutesPerDay == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerDay()) : m_minutesPerDay.intValue();
+   }
+
+   /**
+    * Retrieve the number of minutes per week for this calendar.
+    *
+    * @return minutes per week
+    */
+   public int getMinutesPerWeek()
+   {
+      return m_minutesPerWeek == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerWeek()) : m_minutesPerWeek.intValue();
+   }
+
+   /**
+    * Retrieve the number of minutes per month for this calendar.
+    *
+    * @return minutes per month
+    */
+   public int getMinutesPerMonth()
+   {
+      return m_minutesPerMonth == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerMonth()) : m_minutesPerMonth.intValue();
+   }
+
+   /**
+    * Retrieve the number of minutes per year for this calendar.
+    *
+    * @return minutes per year
+    */
+   public int getMinutesPerYear()
+   {
+      return m_minutesPerYear == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerYear()) : m_minutesPerYear.intValue();
+   }
+
+   /**
+    * Set the number of minutes per day for this calendar.
+    *
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerDay(Integer minutes)
+   {
+      m_minutesPerDay = minutes;
+   }
+
+   /**
+    * Set the number of minutes per week for this calendar.
+    *
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerWeek(Integer minutes)
+   {
+      m_minutesPerWeek = minutes;
+   }
+
+   /**
+    * Set the number of minutes per month for this calendar.
+    *
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerMonth(Integer minutes)
+   {
+      m_minutesPerMonth = minutes;
+   }
+
+   /**
+    * Set the number of minutes per year for this calendar.
+    *
+    * @param minutes number of minutes
+    */
+   public void setMinutesPerYear(Integer minutes)
+   {
+      m_minutesPerYear = minutes;
+   }
+
+   /**
     * Add an empty work week.
-    * 
+    *
     * @return new work week
     */
    public ProjectCalendarWeek addWorkWeek()
@@ -75,7 +155,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the work weeks associated with this calendar.
-    * 
+    *
     * @return list of work weeks
     */
    public List<ProjectCalendarWeek> getWorkWeeks()
@@ -246,7 +326,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Retrieves the time at which work starts on the given date, or returns
     * null if this is a non-working day.
-    * 
+    *
     * @param date Date instance
     * @return start time, or null for non-working day
     */
@@ -273,7 +353,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Retrieves the time at which work finishes on the given date, or returns
     * null if this is a non-working day.
-    * 
+    *
     * @param date Date instance
     * @return finish time, or null for non-working day
     */
@@ -320,10 +400,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * days and calendar exceptions. If the returnNextWorkStart parameter is
     * set to true, the method will return the start date and time of the next
     * working period if the end date is at the end of a working period.
-    * 
+    *
     * @param startDate start date
     * @param duration duration
-    * @param returnNextWorkStart if set to true will return start of next working period 
+    * @param returnNextWorkStart if set to true will return start of next working period
     * @return end date
     */
    public Date getDate(Date startDate, Duration duration, boolean returnNextWorkStart)
@@ -341,7 +421,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       while (remainingMinutes > 0)
       {
          //
-         // Get the current date and time and determine how many 
+         // Get the current date and time and determine how many
          // working hours remain
          //
          Date currentDate = cal.getTime();
@@ -362,7 +442,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
             //
             // Move the calendar forward to the next working day
-            //            
+            //
             Day day;
             int nonWorkingDayCount = 0;
             do
@@ -390,7 +470,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          {
             //
             // We have less hours to allocate than there are working hours
-            // in this day. We need to calculate the time of day at which 
+            // in this day. We need to calculate the time of day at which
             // our work ends.
             //
             ProjectCalendarDateRanges ranges = getRanges(cal.getTime(), cal, null);
@@ -435,9 +515,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
                }
 
                //
-               // Move the start of the range if our current start is 
+               // Move the start of the range if our current start is
                // past the range start
-               //               
+               //
                if (firstRange && canonicalRangeStart.getTime() < currentDateStartTime.getTime())
                {
                   canonicalRangeStart = currentDateStartTime;
@@ -487,10 +567,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Given a finish date and a duration, this method calculates backwards to the 
+    * Given a finish date and a duration, this method calculates backwards to the
     * start date. It takes account of working hours in each day, non working
-    * days and calendar exceptions. 
-    * 
+    * days and calendar exceptions.
+    *
     * @param finishDate finish date
     * @param duration duration
     * @return start date
@@ -510,7 +590,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       while (remainingMinutes > 0)
       {
          //
-         // Get the current date and time and determine how many 
+         // Get the current date and time and determine how many
          // working hours remain
          //
          Date currentDate = cal.getTime();
@@ -531,7 +611,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
             //
             // Move the calendar backward to the previous working day
-            //            
+            //
             int count = 0;
             Day day;
             do
@@ -562,7 +642,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          {
             //
             // We have less hours to allocate than there are working hours
-            // in this day. We need to calculate the time of day at which 
+            // in this day. We need to calculate the time of day at which
             // our work starts.
             //
             ProjectCalendarDateRanges ranges = getRanges(cal.getTime(), cal, null);
@@ -609,9 +689,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
                }
 
                //
-               // Move the end of the range if our current end is 
+               // Move the end of the range if our current end is
                // before the range end
-               //               
+               //
                if (firstRange && canonicalRangeEnd.getTime() > currentDateFinishTime.getTime())
                {
                   canonicalRangeEnd = currentDateFinishTime;
@@ -651,7 +731,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * This method finds the start of the next working period.
-    * 
+    *
     * @param cal current Calendar instance
     */
    private void updateToNextWorkStart(Calendar cal)
@@ -660,14 +740,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       //
       // Find the date ranges for the current day
-      //      
+      //
       ProjectCalendarDateRanges ranges = getRanges(originalDate, cal, null);
 
       if (ranges != null)
       {
          //
          // Do we have a start time today?
-         // 
+         //
          Date calTime = DateHelper.getCanonicalTime(cal.getTime());
          Date startTime = null;
          for (DateRange range : ranges)
@@ -729,7 +809,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * This method finds the finish of the previous working period.
-    * 
+    *
     * @param cal current Calendar instance
     */
    private void updateToPreviousWorkFinish(Calendar cal)
@@ -738,13 +818,13 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       //
       // Find the date ranges for the current day
-      //      
+      //
       ProjectCalendarDateRanges ranges = getRanges(originalDate, cal, null);
       if (ranges != null)
       {
          //
          // Do we have a start time today?
-         // 
+         //
          Date calTime = DateHelper.getCanonicalTime(cal.getTime());
          Date finishTime = null;
          for (DateRange range : ranges)
@@ -799,7 +879,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Utility method to retrieve the next working date start time, given
     * a date and time as a starting point.
-    * 
+    *
     * @param date date and time start point
     * @return date and time of next work start
     */
@@ -814,7 +894,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Utility method to retrieve the previous working date finish time, given
     * a date and time as a starting point.
-    * 
+    *
     * @param date date and time start point
     * @return date and time of previous work finish
     */
@@ -1021,7 +1101,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Retrieves the amount of work on a given day, and
     * returns it in the specified format.
-    * 
+    *
     * @param date target date
     * @param format required format
     * @return work duration
@@ -1036,7 +1116,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * This method retrieves a Duration instance representing the amount of
     * work between two dates based on this calendar.
-    * 
+    *
     * @param startDate start date
     * @param endDate end date
     * @param format required duration format
@@ -1051,10 +1131,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       if (cachedResult == null)
       {
          //
-         // We want the start date to be the earliest date, and the end date 
+         // We want the start date to be the earliest date, and the end date
          // to be the latest date. Set a flag here to indicate if we have swapped
          // the order of the supplied date.
-         //        
+         //
          boolean invert = false;
          if (startDate.getTime() > endDate.getTime())
          {
@@ -1157,9 +1237,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Utility method used to convert an integer time representation into a 
+    * Utility method used to convert an integer time representation into a
     * Duration instance.
-    * 
+    *
     * @param totalTime integer time representation
     * @param format required time format
     * @return new Duration instance
@@ -1167,9 +1247,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private Duration convertFormat(long totalTime, TimeUnit format)
    {
       double duration = totalTime;
-      double minutesPerDay = getParentFile().getProjectProperties().getMinutesPerDay().doubleValue();
-      double minutesPerWeek = getParentFile().getProjectProperties().getMinutesPerWeek().doubleValue();
-      double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
 
       switch (format)
       {
@@ -1189,6 +1266,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case DAYS:
          {
+            double minutesPerDay = getMinutesPerDay();
             if (minutesPerDay != 0)
             {
                duration /= (minutesPerDay * 60 * 1000);
@@ -1202,6 +1280,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case WEEKS:
          {
+            double minutesPerWeek = getMinutesPerWeek();
             if (minutesPerWeek != 0)
             {
                duration /= (minutesPerWeek * 60 * 1000);
@@ -1215,6 +1294,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case MONTHS:
          {
+            double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
+            double minutesPerDay = getMinutesPerDay();
             if (daysPerMonth != 0 && minutesPerDay != 0)
             {
                duration /= (daysPerMonth * minutesPerDay * 60 * 1000);
@@ -1256,7 +1337,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Retrieves the amount of time represented by a calendar exception
     * before or after an intersection point.
-    * 
+    *
     * @param exception calendar exception
     * @param date intersection time
     * @param after true to report time after intersection, false to report time before
@@ -1276,7 +1357,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Retrieves the amount of working time represented by
     * a calendar exception.
-    * 
+    *
     * @param exception calendar exception
     * @return length of time in milliseconds
     */
@@ -1293,7 +1374,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * This method calculates the total amount of working time in a single
     * day, which intersects with the supplied time range.
-    * 
+    *
     * @param hours collection of working hours in a day
     * @param startDate time range start
     * @param endDate time range end
@@ -1349,7 +1430,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Calculates how much of a time range is before or after a
     * target intersection point.
-    * 
+    *
     * @param start time range start
     * @param end time range end
     * @param target target intersection point
@@ -1406,7 +1487,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Retrieves the amount of time between two date time values. Note that
     * these values are converted into canonical values to remove the
     * date component.
-    * 
+    *
     * @param start start time
     * @param end end time
     * @return length of time
@@ -1442,7 +1523,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * This method returns the length of overlapping time between two time
     * ranges.
-    * 
+    *
     * @param start1 start of first range
     * @param end1 end of first range
     * @param start2 start start of second range
@@ -1487,7 +1568,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Add a reference to a calendar derived from this one.
-    * 
+    *
     * @param calendar derived calendar instance
     */
    protected void addDerivedCalendar(ProjectCalendar calendar)
@@ -1497,7 +1578,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Remove a reference to a derived calendar.
-    * 
+    *
     * @param calendar derived calendar instance
     */
    protected void removeDerivedCalendar(ProjectCalendar calendar)
@@ -1507,7 +1588,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve a list of derived calendars.
-    * 
+    *
     * @return list of derived calendars
     */
    public List<ProjectCalendar> getDerivedCalendars()
@@ -1667,7 +1748,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Copy the settings from another calendar to this calendar.
-    * 
+    *
     * @param cal calendar data source
     */
    public void copy(ProjectCalendar cal)
@@ -1712,7 +1793,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieves the working hours on the given date.
-    * 
+    *
     * @param date required date
     * @param cal optional calendar instance
     * @param day optional day instance
@@ -1787,6 +1868,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Work week definitions.
     */
    private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<ProjectCalendarWeek>();
+
+   private Integer m_minutesPerDay;
+   private Integer m_minutesPerWeek;
+   private Integer m_minutesPerMonth;
+   private Integer m_minutesPerYear;
 
    /**
     * Default base calendar name to use when none is supplied.

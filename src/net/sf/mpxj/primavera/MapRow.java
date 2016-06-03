@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
@@ -38,7 +39,7 @@ class MapRow implements Row
 {
    /**
     * Constructor.
-    * 
+    *
     * @param map map to be wrapped by this instance
     */
    public MapRow(Map<String, Object> map)
@@ -142,8 +143,16 @@ class MapRow implements Row
    }
 
    /**
+    * {@inheritDoc}
+    */
+   @Override public final UUID getUUID(String name)
+   {
+      return DatatypeConverter.parseUUID(getString(name));
+   }
+
+   /**
     * Retrieve a value from the map.
-    * 
+    *
     * @param name column name
     * @return column value
     */

@@ -24,6 +24,7 @@
 package net.sf.mpxj.primavera;
 
 import java.util.Date;
+import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 
@@ -39,7 +40,7 @@ interface Row
 {
    /**
     * Retrieve a string attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -47,7 +48,7 @@ interface Row
 
    /**
     * Retrieve an Integer attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -55,7 +56,7 @@ interface Row
 
    /**
     * Retrieve a Double attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -63,7 +64,7 @@ interface Row
 
    /**
     * Retrieve a boolean attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -71,7 +72,7 @@ interface Row
 
    /**
     * Retrieve an in attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -79,7 +80,7 @@ interface Row
 
    /**
     * Retrieve a date attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -87,9 +88,17 @@ interface Row
 
    /**
     * Retrieve a duration attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
    public Duration getDuration(String name);
+
+   /**
+    * Retrieve a UUID attribute.
+    *
+    * @param name attribute name
+    * @return attribute value
+    */
+   public UUID getUUID(String name);
 }

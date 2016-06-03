@@ -44,7 +44,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
 
    /**
     * Sets the task unique ID.
-    * 
+    *
     * @param id task unique ID
     */
    public void setTaskUniqueID(int id)
@@ -71,7 +71,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
 
    /**
     * Sets the bar style index.
-    * 
+    *
     * @param index bar style index
     */
    public void setBarStyleIndex(int index)

@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.Locale;
 
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
@@ -44,7 +45,7 @@ public class CustomerDataTest
 {
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData1() throws Exception
@@ -54,7 +55,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData2() throws Exception
@@ -64,7 +65,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData3() throws Exception
@@ -74,7 +75,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData4() throws Exception
@@ -84,7 +85,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData5() throws Exception
@@ -94,7 +95,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData6() throws Exception
@@ -104,7 +105,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData7() throws Exception
@@ -114,7 +115,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData8() throws Exception
@@ -124,7 +125,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData9() throws Exception
@@ -134,7 +135,7 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testCustomerData10() throws Exception
@@ -150,7 +151,7 @@ public class CustomerDataTest
     * test will attempt of read each of the files in turn.
     *
     * @param index current chunk
-    * @param max maximum number of chunks 
+    * @param max maximum number of chunks
     * @throws Exception
     */
    private void testCustomerData(int index, int max) throws Exception
@@ -165,6 +166,7 @@ public class CustomerDataTest
             MPXReader mpxReader = new MPXReader();
             MSPDIReader mspdiReader = new MSPDIReader();
             PrimaveraXERFileReader primaveraReader = new PrimaveraXERFileReader();
+            AstaFileReader astaReader = new AstaFileReader();
 
             ProjectFile mpxj;
             int failures = 0;
@@ -227,6 +229,13 @@ public class CustomerDataTest
                            if (name.endsWith(".XER") == true)
                            {
                               mpxj = primaveraReader.read(file);
+                           }
+                           else
+                           {
+                              if (name.endsWith(".PP") == true)
+                              {
+                                 mpxj = astaReader.read(file);
+                              }
                            }
                         }
                      }

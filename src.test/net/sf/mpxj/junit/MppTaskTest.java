@@ -58,7 +58,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9Task() throws Exception
@@ -69,7 +69,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9TaskFrom12() throws Exception
@@ -80,7 +80,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9TaskFrom14() throws Exception
@@ -91,7 +91,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12Task() throws Exception
@@ -102,7 +102,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12TaskFrom14() throws Exception
@@ -113,7 +113,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14Task() throws Exception
@@ -124,7 +124,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14TaskFromProject2013() throws Exception
@@ -135,7 +135,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPD9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpd9Task() throws Exception
@@ -147,7 +147,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9Baseline() throws Exception
@@ -158,7 +158,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved from Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9BaselineFrom12() throws Exception
@@ -169,7 +169,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved from Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9BaselineFrom14() throws Exception
@@ -180,7 +180,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12Baseline() throws Exception
@@ -191,7 +191,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12BaselineFrom14() throws Exception
@@ -202,7 +202,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14Baseline() throws Exception
@@ -213,7 +213,7 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPD9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpd9Baseline() throws Exception
@@ -302,7 +302,7 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPD9 file.
-    * 
+    *
     * Currently split tasks are not supported in MPD files.
     *
     * @throws Exception
@@ -502,7 +502,7 @@ public class MppTaskTest
       assertEquals(expectedStart, df.format(task.getStart()));
       assertEquals(expectedFinish, df.format(task.getFinish()));
       // no predecessors
-      assertTrue(task.getPredecessors() == null);
+      assertTrue(task.getPredecessors().isEmpty());
       // duration
       Duration expectedDuration = Duration.getInstance(1, TimeUnit.WEEKS);
       // note that this is a direct comparison - TimeUnit must match
@@ -788,9 +788,9 @@ public class MppTaskTest
    }
 
    /**
-    * Tests fields related to Baseline information, as well as actual 
+    * Tests fields related to Baseline information, as well as actual
     * dates, estimated, and other fields (see below).
-    * 
+    *
     * @param mpp The ProjectFile being tested.
     * @throws Exception
     *
@@ -937,7 +937,7 @@ public class MppTaskTest
 
    /**
     * Tests Split Tasks.
-    * 
+    *
     * @param mpp MPP file
     */
    private void testSplitTasks(ProjectFile mpp)
@@ -964,7 +964,7 @@ public class MppTaskTest
 
    /**
     * Utility method to test a split task date range.
-    * 
+    *
     * @param range DateRange instance
     * @param start expected start date
     * @param end expected end date
@@ -977,7 +977,7 @@ public class MppTaskTest
 
    /**
     * Tests Relations.
-    * 
+    *
     * @param mpp mpp file
     */
    private void testRelations(ProjectFile mpp)

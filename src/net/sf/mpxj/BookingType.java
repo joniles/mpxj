@@ -35,7 +35,7 @@ public enum BookingType implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private BookingType(int type)
@@ -59,7 +59,7 @@ public enum BookingType implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

@@ -134,9 +134,9 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
    /**
     * Extract the flags indicating which task types this bar style
     * is relevant for. Note that this work for the "normal" task types
-    * and the "negated" task types (e.g. Normal Task, Not Normal task). 
+    * and the "negated" task types (e.g. Normal Task, Not Normal task).
     * The set of values used is determined by the baseCriteria argument.
-    * 
+    *
     * @param style parent bar style
     * @param baseCriteria determines if the normal or negated enums are used
     * @param flagValue flag data

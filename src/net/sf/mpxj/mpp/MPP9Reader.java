@@ -123,7 +123,7 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Populate member data used by the rest of the reader.
-    * 
+    *
     * @param reader parent file reader
     * @param file parent MPP file
     * @param root Root of the POI file system.
@@ -151,7 +151,7 @@ final class MPP9Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      //  
+      //
       if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
       {
          // File is password protected for reading, let's read the password
@@ -268,11 +268,11 @@ final class MPP9Reader implements MPPVariantReader
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
             //            System.out.println ();
-            //            System.out.println ();            
+            //            System.out.println ();
             //            System.out.println ("offset=" + offset);
             //            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
             //            System.out.println ("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
-            //            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));            
+            //            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
 
             byte subProjectType = itemHeader[16];
             switch (subProjectType)
@@ -444,7 +444,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
-                  // 0x02 looks to be the link FROM the resource pool to a project that uses it 
+                  // 0x02 looks to be the link FROM the resource pool to a project that uses it
                   if (subProjectType == 0x04)
                   {
                      m_file.getSubProjects().setResourceSubProject(sp);
@@ -761,7 +761,7 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has 
+    * This method will return null if no descriptions for the value list has
     * been defined for this field.
     *
     * @param data data block
@@ -786,7 +786,7 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has 
+    * This method will return null if no descriptions for the value list has
     * been defined for this field.
     *
     * @param properties project properties
@@ -864,7 +864,7 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Retrieve any resource field aliases defined in the MPP file.
     *
-    * @param map index to field map 
+    * @param map index to field map
     * @param data resource field name alias data
     */
    private void processFieldNameAliases(Map<Integer, FieldType> map, byte[] data)
@@ -956,9 +956,9 @@ final class MPP9Reader implements MPPVariantReader
                else
                {
                   //
-                  // We apply a heuristic here - if we have more than 75% of the data, we assume 
+                  // We apply a heuristic here - if we have more than 75% of the data, we assume
                   // the task is valid.
-                  //                  
+                  //
                   int maxSize = fieldMap.getMaxFixedDataSize(0);
                   if (maxSize == 0 || ((data.length * 100) / maxSize) > 75)
                   {
@@ -1108,7 +1108,7 @@ final class MPP9Reader implements MPPVariantReader
     * day.
     *
     * @param data calendar data block
-    * @param defaultCalendar calendar to use for default values 
+    * @param defaultCalendar calendar to use for default values
     * @param cal calendar instance
     * @param isBaseCalendar true if this is a base calendar
     */
@@ -1437,7 +1437,7 @@ final class MPP9Reader implements MPPVariantReader
          //
          // Adjust the start and finish dates if the task
          // is constrained to start as late as possible.
-         //            
+         //
             case AS_LATE_AS_POSSIBLE:
             {
                if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
@@ -1543,8 +1543,8 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
-         // Unfortunately it looks like 'null' tasks sometimes make it through, 
-         // so let's check for to see if we need to mark this task as a null 
+         // Unfortunately it looks like 'null' tasks sometimes make it through,
+         // so let's check for to see if we need to mark this task as a null
          // task after all.
          //
          if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
@@ -1567,7 +1567,7 @@ final class MPP9Reader implements MPPVariantReader
          //
          m_eventManager.fireTaskReadEvent(task);
          //System.out.println(task);
-         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
 
       //
@@ -1587,8 +1587,8 @@ final class MPP9Reader implements MPPVariantReader
    }
 
    /**
-    * Extracts task enterprise column values. 
-    * 
+    * Extracts task enterprise column values.
+    *
     * @param fieldMap fieldMap
     * @param task task instance
     * @param taskVarData task var data
@@ -1715,7 +1715,7 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Extracts resource enterprise column data.
-    * 
+    *
     * @param fieldMap field map
     * @param resource resource instance
     * @param resourceVarData resource var data
@@ -1840,7 +1840,7 @@ final class MPP9Reader implements MPPVariantReader
     * This method iterates through the list of tasks marked as external
     * and attempts to ensure that the correct external project data (in the
     * form of a SubProject object) is linked to the task.
-    * 
+    *
     * @param externalTasks list of tasks marked as external
     */
    private void processExternalTasks(List<Task> externalTasks)
@@ -1852,7 +1852,7 @@ final class MPP9Reader implements MPPVariantReader
 
       //
       // Find any external tasks which don't have a sub project
-      // object, and set this attribute using the most recent 
+      // object, and set this attribute using the most recent
       // value.
       //
       SubProject currentSubProject = null;
@@ -2168,10 +2168,10 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts table data from the MPP file.
-    * 
-    * @todo This implementation does not deal with MPP9 files saved by later 
+    *
+    * @todo This implementation does not deal with MPP9 files saved by later
     * versions of MS Project
-    * 
+    *
     * @throws IOException
     */
    private void processTableData() throws IOException
@@ -2196,7 +2196,7 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Read filter definitions.
-    * 
+    *
     * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
     * @throws IOException
     */
@@ -2220,14 +2220,14 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Read group definitions.
-    * 
-    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010 
+    *
+    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
     * @throws IOException
     */
    private void processGroupData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
-      //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);      
+      //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
       FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
@@ -2235,7 +2235,7 @@ final class MPP9Reader implements MPPVariantReader
       //      System.out.println(fixedMeta);
       //      System.out.println(fixedData);
       //      System.out.println(varMeta);
-      //      System.out.println(varData);  
+      //      System.out.println(varData);
 
       GroupReader reader = new GroupReader9();
       reader.process(m_file, fixedData, varData, m_fontBases);
@@ -2243,7 +2243,7 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Read saved view state from an MPP file.
-    * 
+    *
     * @throws IOException
     */
    private void processSavedViewState() throws IOException
@@ -2310,11 +2310,11 @@ final class MPP9Reader implements MPPVariantReader
    //   {
    //      {36, 4},
    //      {42, 18},
-   //      {116, 4},      
+   //      {116, 4},
    //      {134, 14},
-   //      {144, 4},   
-   //      {148, 4},   
-   //      {152, 4},   
+   //      {144, 4},
+   //      {148, 4},
+   //      {152, 4},
    //      {156, 4},
    //      {248, 8},
    //   };

@@ -37,7 +37,7 @@ public abstract class AbstractView implements View
 {
    /**
     * Constructor.
-    * 
+    *
     * @param parent parent file
     */
    public AbstractView(ProjectFile parent)
@@ -94,7 +94,7 @@ public abstract class AbstractView implements View
    /**
     * This method dumps the contents of this View as a String.
     * Note that this facility is provided as a debugging aid.
-    *    
+    *
     * @return formatted contents of this view
     */
    @Override public String toString()

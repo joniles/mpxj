@@ -38,7 +38,7 @@ public final class MPXJTimeFormat extends SimpleDateFormat
    /**
     * This method allows the null text value to be set. In an English
     * locale this is typically "NA".
-    * 
+    *
     * @param nullText null text value
     */
    public void setNullText(String nullText)
@@ -74,7 +74,7 @@ public final class MPXJTimeFormat extends SimpleDateFormat
 
    /**
     * Allows the AM/PM text to be set.
-    * 
+    *
     * @param am AM text
     * @param pm PM text
     */

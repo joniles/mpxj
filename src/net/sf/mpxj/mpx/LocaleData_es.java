@@ -119,7 +119,7 @@ public final class LocaleData_es extends ListResourceBundle
    {
       "FF", // FF - Fin a fin (FF)
       "FC", // FS - Fin a comienzo (FC)
-      "CF", // SF - Comienzo a fin (CF) 
+      "CF", // SF - Comienzo a fin (CF)
       "CC" // SS - Comienzo a comienzo (CC)
    };
 
@@ -141,12 +141,12 @@ public final class LocaleData_es extends ListResourceBundle
    {
       "Lo antes posible", // As Soon As Possible
       "Lo m\u00E1s tarde posible", // As Late As Possible
-      "Debe comenzar el", // Must Start On 
+      "Debe comenzar el", // Must Start On
       "Debe finalizar el", // Must Finish On
       "No comenzar antes del", // Start No Earlier Than
       "No comenzar despu\u00E9s del", // Start No Later Than
       "No finalizar antes del", // Finish No Earlier Than
-      "No finalizar despu\u00E9s del" // Finish No Later Than 
+      "No finalizar despu\u00E9s del" // Finish No Later Than
    };
 
    // TODO Complete TASK_NAMES_DATA translation

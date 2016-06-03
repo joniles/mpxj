@@ -40,7 +40,7 @@ final class CostRateTableFactory
 {
    /**
     * Creates a CostRateTable instance from a block of data.
-    * 
+    *
     * @param resource parent resource
     * @param index cost rate table index
     * @param data data block
@@ -69,7 +69,7 @@ final class CostRateTableFactory
          //
          // MS Project economises by not actually storing the first cost rate
          // table if it doesn't need to, so we take this into account here.
-         //         
+         //
          if (index == 0)
          {
             Rate standardRate = resource.getStandardRate();
@@ -89,7 +89,7 @@ final class CostRateTableFactory
 
    /**
     * Converts an integer into a time format.
-    * 
+    *
     * @param format integer format value
     * @return TimeUnit instance
     */

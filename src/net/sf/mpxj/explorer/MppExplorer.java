@@ -42,7 +42,7 @@ import javax.swing.UIManager;
 import com.jgoodies.binding.beans.PropertyAdapter;
 
 /**
- * MppExplorer is a Swing UI used to examine the contents of an MPP file. 
+ * MppExplorer is a Swing UI used to examine the contents of an MPP file.
  */
 public class MppExplorer
 {
@@ -50,7 +50,7 @@ public class MppExplorer
 
    /**
     * Launch the application.
-    * 
+    *
     * @param args command line arguments.
     */
    public static void main(String[] args)
