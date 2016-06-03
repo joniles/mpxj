@@ -318,16 +318,15 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       if (!mpxj.getCalendarExceptions().isEmpty())
       {
-         Calendar cal = Calendar.getInstance();
          for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
          {
-            cal.setTime(mpxjException.getFromDate());
-            while (cal.getTimeInMillis() < mpxjException.getToDate().getTime())
+            m_calendar.setTime(mpxjException.getFromDate());
+            while (m_calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
             {
                HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
                xmlExceptions.getHolidayOrException().add(xmlException);
 
-               xmlException.setDate(cal.getTime());
+               xmlException.setDate(m_calendar.getTime());
 
                for (DateRange range : mpxjException)
                {
@@ -337,7 +336,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
                   xmlHours.setStart(range.getStart());
                   xmlHours.setFinish(getEndTime(range.getEnd()));
                }
-               cal.add(Calendar.DAY_OF_YEAR, 1);
+               m_calendar.add(Calendar.DAY_OF_YEAR, 1);
             }
          }
       }
@@ -717,9 +716,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private Date getEndTime(Date date)
    {
-      m_calendar.setTime(date);
-      m_calendar.add(Calendar.MINUTE, -1);
-      return m_calendar.getTime();
+      return new Date(date.getTime() - 60000);
    }
 
    /**
