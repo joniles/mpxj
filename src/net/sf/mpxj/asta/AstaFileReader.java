@@ -63,13 +63,12 @@ public final class AstaFileReader extends AbstractProjectReader
       {
          BufferedInputStream is = new BufferedInputStream(inputStream);
          is.mark(100);
-         String sqliteText = "SQLite format";
-         byte[] buffer = new byte[sqliteText.length()];
+         byte[] buffer = new byte[SQLITE_TEXT.length()];
          is.read(buffer);
          is.reset();
          String actualText = new String(buffer);
          ProjectFile result;
-         if (sqliteText.equals(actualText))
+         if (SQLITE_TEXT.equals(actualText))
          {
             result = readDatabaseFile(is);
          }
@@ -121,10 +120,14 @@ public final class AstaFileReader extends AbstractProjectReader
     * @param inputStream file input stream
     * @return ProjectFile instance
     */
-   private ProjectFile readDatabaseFile(InputStream inputStream)
+   private ProjectFile readDatabaseFile(InputStream inputStream) throws MPXJException
    {
-      throw new UnsupportedOperationException();
+      ProjectReader reader = new AstaDatabaseFileReader();
+      addListeners(reader);
+      return reader.read(inputStream);
    }
 
    private List<ProjectListener> m_projectListeners;
+
+   private static final String SQLITE_TEXT = "SQLite format";
 }

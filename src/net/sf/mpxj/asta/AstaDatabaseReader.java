@@ -373,7 +373,7 @@ public final class AstaDatabaseReader implements ProjectReader
          populateMetaData();
          while (m_rs.next())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            result.add(new MpdResultSetRow(m_rs, m_meta));
          }
 
          return (result);
@@ -408,7 +408,7 @@ public final class AstaDatabaseReader implements ProjectReader
          populateMetaData();
          while (m_rs.next())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            result.add(new MpdResultSetRow(m_rs, m_meta));
          }
 
          return (result);
