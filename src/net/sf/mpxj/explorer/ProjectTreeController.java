@@ -29,6 +29,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Group;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -99,6 +100,7 @@ public class ProjectTreeController
 
       DefaultMutableTreeNode calendarsFolder = new DefaultMutableTreeNode("Calendars");
       projectNode.add(calendarsFolder);
+      addCalendars(calendarsFolder, projectFile);
 
       DefaultMutableTreeNode groupsFolder = new DefaultMutableTreeNode("Groups");
       projectNode.add(groupsFolder);
@@ -146,6 +148,28 @@ public class ProjectTreeController
             @Override public String toString()
             {
                return r.getName();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add calendars to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file calendar container
+    */
+   private void addCalendars(DefaultMutableTreeNode parentNode, ProjectFile file)
+   {
+      for (ProjectCalendar calendar : file.getCalendars())
+      {
+         final ProjectCalendar c = calendar;
+         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(calendar)
+         {
+            @Override public String toString()
+            {
+               return c.getName();
             }
          };
          parentNode.add(childNode);

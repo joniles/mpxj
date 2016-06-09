@@ -280,7 +280,7 @@ final class AstaReader
          //FREE_START_DATE
          //START_CONSTRAINT_DATE
          //END_CONSTRAINT_DATE
-         task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
+         //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
          //NATURAO_ORDER
          //LOGICAL_PRECEDENCE
          //SPAVE_INTEGER
@@ -959,7 +959,7 @@ final class AstaReader
    }
 
    /**
-    * Creates a map between a calendar ID and a list of time entry rows.
+    * Creates a map between a work pattern ID and a list of time entry rows.
     *
     * @param rows time entry rows
     * @return time entry map
@@ -969,12 +969,12 @@ final class AstaReader
       Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
       for (Row row : rows)
       {
-         Integer calendarID = row.getInteger("TIME_ENTRYID");
-         List<Row> list = map.get(calendarID);
+         Integer workPatternID = row.getInteger("TIME_ENTRYID");
+         List<Row> list = map.get(workPatternID);
          if (list == null)
          {
             list = new LinkedList<Row>();
-            map.put(calendarID, list);
+            map.put(workPatternID, list);
          }
          list.add(row);
       }
@@ -1015,7 +1015,7 @@ final class AstaReader
             {
                ProjectCalendarWeek week = calendar.addWorkWeek();
                week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
-               processWorkPattern(week, row.getInteger("WORK_PATTERN"), workPatternMap, timeEntryMap, exceptionTypeMap);
+               processWorkPattern(week, workPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
             }
          }
       }
@@ -1051,47 +1051,50 @@ final class AstaReader
       week.setName(workPatternMap.get(workPatternID).getString("NAMN"));
 
       List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
-      long lastEndTime = Long.MIN_VALUE;
-      Day currentDay = Day.SUNDAY;
-      ProjectCalendarHours hours = week.addCalendarHours(currentDay);
-      Arrays.fill(week.getDays(), DayType.NON_WORKING);
-
-      for (Row row : timeEntryRows)
+      if (timeEntryRows != null)
       {
-         Date startTime = row.getDate("START_TIME");
-         Date endTime = row.getDate("END_TIME");
-         if (startTime == null)
-         {
-            startTime = DateHelper.getDayStartDate(new Date(0));
-         }
+         long lastEndTime = Long.MIN_VALUE;
+         Day currentDay = Day.SUNDAY;
+         ProjectCalendarHours hours = week.addCalendarHours(currentDay);
+         Arrays.fill(week.getDays(), DayType.NON_WORKING);
 
-         if (endTime == null)
+         for (Row row : timeEntryRows)
          {
-            endTime = DateHelper.getDayEndDate(new Date(0));
-         }
+            Date startTime = row.getDate("START_TIME");
+            Date endTime = row.getDate("END_TIME");
+            if (startTime == null)
+            {
+               startTime = DateHelper.getDayStartDate(new Date(0));
+            }
 
-         if (startTime.getTime() > endTime.getTime())
-         {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(endTime);
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            endTime = cal.getTime();
-         }
+            if (endTime == null)
+            {
+               endTime = DateHelper.getDayEndDate(new Date(0));
+            }
 
-         if (startTime.getTime() < lastEndTime)
-         {
-            currentDay = currentDay.getNextDay();
-            hours = week.addCalendarHours(currentDay);
-         }
+            if (startTime.getTime() > endTime.getTime())
+            {
+               Calendar cal = Calendar.getInstance();
+               cal.setTime(endTime);
+               cal.add(Calendar.DAY_OF_YEAR, 1);
+               endTime = cal.getTime();
+            }
 
-         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
-         if (type == DayType.WORKING)
-         {
-            hours.addRange(new DateRange(startTime, endTime));
-            week.setWorkingDay(currentDay, DayType.WORKING);
-         }
+            if (startTime.getTime() < lastEndTime)
+            {
+               currentDay = currentDay.getNextDay();
+               hours = week.addCalendarHours(currentDay);
+            }
 
-         lastEndTime = endTime.getTime();
+            DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
+            if (type == DayType.WORKING)
+            {
+               hours.addRange(new DateRange(startTime, endTime));
+               week.setWorkingDay(currentDay, DayType.WORKING);
+            }
+
+            lastEndTime = endTime.getTime();
+         }
       }
    }
 

@@ -8,5 +8,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/poi-3.12-20150511.jar"/>
 	<classpathentry kind="lib" path="lib/rtfparserkit-1.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.10.1.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

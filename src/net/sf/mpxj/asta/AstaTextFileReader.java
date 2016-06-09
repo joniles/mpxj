@@ -196,7 +196,7 @@ public final class AstaTextFileReader extends AbstractProjectReader
                //               }
                //               System.out.println();
 
-               FileRow row = new FileRow(table, columns, m_epochDateFormat);
+               TextFileRow row = new TextFileRow(table, columns, m_epochDateFormat);
                List<Row> rows = m_tables.get(table.getName());
                if (rows == null)
                {
