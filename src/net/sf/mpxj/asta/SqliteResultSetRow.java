@@ -171,12 +171,12 @@ final class SqliteResultSetRow extends MapRow
          throw new IllegalArgumentException("Unexpected duration value: " + value);
       }
 
-      String item = parseString(items[2]);
+      String item = AstaDataType.parseString(items[2]);
       Number durationValue;
 
       try
       {
-         durationValue = parseDouble(item);
+         durationValue = AstaDataType.parseDouble(item);
       }
 
       catch (ParseException ex)

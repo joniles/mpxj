@@ -1015,7 +1015,7 @@ final class AstaReader
             {
                ProjectCalendarWeek week = calendar.addWorkWeek();
                week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
-               processWorkPattern(week, row.getInteger("WORK_PATTERN"), workPatternMap, timeEntryMap, exceptionTypeMap);
+               processWorkPattern(week, workPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
             }
          }
       }

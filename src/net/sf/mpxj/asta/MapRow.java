@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.asta;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
@@ -186,74 +184,5 @@ class MapRow implements Row
       return m_map;
    }
 
-   /**
-    * Parse a string.
-    *
-    * @param value string representation
-    * @return String value
-    */
-   protected String parseString(String value)
-   {
-      if (value != null)
-      {
-         // Strip angle brackets if present
-         if (!value.isEmpty() && value.charAt(0) == '<')
-         {
-            value = value.substring(1, value.length() - 1);
-         }
-
-         // Strip quotes if present
-         if (!value.isEmpty() && value.charAt(0) == '"')
-         {
-            value = value.substring(1, value.length() - 1);
-         }
-      }
-      return value;
-   }
-
-   /**
-    * Parse the string representation of a double.
-    *
-    * @param value string representation
-    * @return Java representation
-    * @throws ParseException
-    */
-   protected Number parseDouble(String value) throws ParseException
-   {
-
-      Number result = null;
-      value = parseString(value);
-
-      // If we still have a value
-      if (value != null && !value.isEmpty() && !value.equals("-1 -1"))
-      {
-         int index = value.indexOf("E+");
-         if (index != -1)
-         {
-            value = value.substring(0, index) + 'E' + value.substring(index + 2, value.length());
-         }
-
-         if (value.indexOf('E') != -1)
-         {
-            DecimalFormat df = DOUBLE_FORMAT.get();
-            if (df == null)
-            {
-               df = new DecimalFormat("#.#E0");
-               DOUBLE_FORMAT.set(df);
-            }
-
-            result = df.parse(value);
-         }
-         else
-         {
-            result = Double.valueOf(value);
-         }
-      }
-
-      return result;
-   }
-
    protected Map<String, Object> m_map;
-
-   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = new ThreadLocal<DecimalFormat>();
 }

@@ -32,7 +32,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -173,6 +176,12 @@ public final class AstaDatabaseFileReader implements ProjectReader
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
+
+      catch (ParseException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
    }
 
    /**
@@ -193,8 +202,9 @@ public final class AstaDatabaseFileReader implements ProjectReader
     * Process calendars.
     *
     * @throws SQLException
+    * @throws ParseException
     */
-   private void processCalendars() throws SQLException
+   private void processCalendars() throws SQLException, ParseException
    {
       List<Row> rows = getRows("select * from exceptionn");
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
@@ -202,9 +212,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
       rows = getRows("select id as work_patternid, name as namn, * from work_pattern");
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
-      //      rows = getRows("select * from work_pattern_assignment");
-      //      Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
-      Map<Integer, List<Row>> workPatternAssignmentMap = Collections.emptyMap();
+      rows = getRows("select id, work_patterns from calendar");
+      Map<Integer, List<Row>> workPatternAssignmentMap = createWorkPatternAssignmentMap(rows);
 
       //      rows = getRows("select * from exception_assignment order by exception_assignmentid, ordf");
       //      Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
@@ -463,6 +472,54 @@ public final class AstaDatabaseFileReader implements ProjectReader
       {
          updateBlankNames(task, child);
       }
+   }
+
+   /**
+    * Create the work pattern assignment map.
+    *
+    * @param rows calendar rows
+    * @return work pattern assignment map
+    */
+   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows) throws ParseException
+   {
+      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      for (Row row : rows)
+      {
+         Integer calendarID = row.getInteger("ID");
+         String workPatterns = row.getString("WORK_PATTERNS");
+         map.put(calendarID, createWorkPatternAssignmentRowList(workPatterns));
+      }
+      return map;
+   }
+
+   /**
+    * Extract a list of work pattern assignments.
+    *
+    * @param workPatterns string representation of work pattern assignments
+    * @return list of work pattern assignment rows
+    */
+   private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
+   {
+      List<Row> list = new ArrayList<Row>();
+      String[] patterns = workPatterns.split(",|:");
+      int index = 1;
+      while (index < patterns.length)
+      {
+         Integer workPattern = Integer.valueOf(patterns[index + 1]);
+         Date startDate = AstaDataType.parseBasicTimestamp(patterns[index + 3]);
+         Date endDate = AstaDataType.parseBasicTimestamp(patterns[index + 4]);
+
+         Map<String, Object> map = new HashMap<String, Object>();
+         map.put("WORK_PATTERN", workPattern);
+         map.put("START_DATE", startDate);
+         map.put("END_DATE", endDate);
+
+         list.add(new MapRow(map));
+
+         index += 5;
+      }
+
+      return list;
    }
 
    private AstaReader m_reader;
