@@ -34,7 +34,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -206,7 +205,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private void processCalendars() throws SQLException, ParseException
    {
-      List<Row> rows = getRows("select * from exceptionn");
+      List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
 
       rows = getRows("select id as work_patternid, name as namn, * from work_pattern");
@@ -218,9 +217,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
       rows = getRows("select id, exceptions from calendar");
       Map<Integer, List<Row>> exceptionAssignmentMap = createExceptionAssignmentMap(rows);
 
-      //      rows = getRows("select * from time_entry order by time_entryid, ordf");
-      //      Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
-      Map<Integer, List<Row>> timeEntryMap = Collections.emptyMap();
+      rows = getRows("select id, shifts from work_pattern");
+      Map<Integer, List<Row>> timeEntryMap = createTimeEntryMap(rows);
 
       rows = getRows("select id as calendarid, name as namk, * from calendar where projid=? order by id", m_projectID);
       for (Row row : rows)
@@ -568,6 +566,60 @@ public final class AstaDatabaseFileReader implements ProjectReader
       return list;
    }
 
+   /**
+    * Create the time entry map.
+    *
+    * @param rows work pattern rows
+    * @return time entry map
+    */
+   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows) throws ParseException
+   {
+      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      for (Row row : rows)
+      {
+         Integer workPatternID = row.getInteger("ID");
+         String shifts = row.getString("SHIFTS");
+         map.put(workPatternID, createTimeEntryRowList(shifts));
+      }
+      return map;
+   }
+
+   /**
+    * Extract a list of time entries.
+    *
+    * @param shiftData string representation of time entries
+    * @return list of time entry rows
+    */
+   private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
+   {
+      List<Row> list = new ArrayList<Row>();
+      String[] shifts = shiftData.split(",|:");
+      int index = 1;
+      while (index < shifts.length)
+      {
+         index += 2;
+         int entryCount = Integer.parseInt(shifts[index]);
+         index++;
+
+         for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
+         {
+            Integer exceptionTypeID = Integer.valueOf(shifts[index + 0]);
+            Date startTime = AstaDataType.parseBasicTime(shifts[index + 1]);
+            Date endTime = AstaDataType.parseBasicTime(shifts[index + 2]);
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("START_TIME", startTime);
+            map.put("END_TIME", endTime);
+            map.put("EXCEPTIOP", exceptionTypeID);
+
+            list.add(new MapRow(map));
+
+            index += 3;
+         }
+      }
+
+      return list;
+   }
    private AstaReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";

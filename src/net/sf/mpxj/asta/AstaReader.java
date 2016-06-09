@@ -959,7 +959,7 @@ final class AstaReader
    }
 
    /**
-    * Creates a map between a calendar ID and a list of time entry rows.
+    * Creates a map between a work pattern ID and a list of time entry rows.
     *
     * @param rows time entry rows
     * @return time entry map
@@ -969,12 +969,12 @@ final class AstaReader
       Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
       for (Row row : rows)
       {
-         Integer calendarID = row.getInteger("TIME_ENTRYID");
-         List<Row> list = map.get(calendarID);
+         Integer workPatternID = row.getInteger("TIME_ENTRYID");
+         List<Row> list = map.get(workPatternID);
          if (list == null)
          {
             list = new LinkedList<Row>();
-            map.put(calendarID, list);
+            map.put(workPatternID, list);
          }
          list.add(row);
       }
