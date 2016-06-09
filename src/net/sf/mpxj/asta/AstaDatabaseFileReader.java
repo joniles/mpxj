@@ -207,7 +207,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
    private void processCalendars() throws SQLException, ParseException
    {
       List<Row> rows = getRows("select * from exceptionn");
-      Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
+      Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
 
       rows = getRows("select id as work_patternid, name as namn, * from work_pattern");
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
@@ -215,9 +215,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
       rows = getRows("select id, work_patterns from calendar");
       Map<Integer, List<Row>> workPatternAssignmentMap = createWorkPatternAssignmentMap(rows);
 
-      //      rows = getRows("select * from exception_assignment order by exception_assignmentid, ordf");
-      //      Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
-      Map<Integer, List<Row>> exceptionAssignmentMap = Collections.emptyMap();
+      rows = getRows("select id, exceptions from calendar");
+      Map<Integer, List<Row>> exceptionAssignmentMap = createExceptionAssignmentMap(rows);
 
       //      rows = getRows("select * from time_entry order by time_entryid, ordf");
       //      Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
@@ -226,7 +225,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
       rows = getRows("select id as calendarid, name as namk, * from calendar where projid=? order by id", m_projectID);
       for (Row row : rows)
       {
-         m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
+         m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionTypeMap);
       }
 
       //
@@ -517,6 +516,53 @@ public final class AstaDatabaseFileReader implements ProjectReader
          list.add(new MapRow(map));
 
          index += 5;
+      }
+
+      return list;
+   }
+
+   /**
+    * Create the exception assignment map.
+    *
+    * @param rows calendar rows
+    * @return exception assignment map
+    */
+   private Map<Integer, List<Row>> createExceptionAssignmentMap(List<Row> rows)
+   {
+      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      for (Row row : rows)
+      {
+         Integer calendarID = row.getInteger("ID");
+         String exceptions = row.getString("EXCEPTIONS");
+         map.put(calendarID, createExceptionAssignmentRowList(exceptions));
+      }
+      return map;
+   }
+
+   /**
+    * Extract a list of exception assignments.
+    *
+    * @param exceptionData string representation of exception assignments
+    * @return list of exception assignment rows
+    */
+   private List<Row> createExceptionAssignmentRowList(String exceptionData)
+   {
+      List<Row> list = new ArrayList<Row>();
+      String[] exceptions = exceptionData.split(",|:");
+      int index = 1;
+      while (index < exceptions.length)
+      {
+         Date startDate = AstaDataType.parseEpochTimestamp(exceptions[index + 0]);
+         Date endDate = AstaDataType.parseEpochTimestamp(exceptions[index + 1]);
+         //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
+
+         Map<String, Object> map = new HashMap<String, Object>();
+         map.put("STARU_DATE", startDate);
+         map.put("ENE_DATE", endDate);
+
+         list.add(new MapRow(map));
+
+         index += 3;
       }
 
       return list;
