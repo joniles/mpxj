@@ -18,5 +18,8 @@
     	<file src="..\lib.net\rtfparserkit*.*" target="lib"/>
     	<file src="..\lib.net\sqlite-jdbc*.*" target="lib"/>
     	<file src="..\lib.net\MpxjUtilities.*" target="lib"/>
+    	<file src="..\lib.net\ikvm-native-win32-x86.dll" target="build"/>
+    	<file src="..\lib.net\ikvm-native-win32-x64.dll" target="build"/>
+    	<file src="net.sf.mpxj-for-csharp.targets" target="build"/>    	
     </files>
 </package>
