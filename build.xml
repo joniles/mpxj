@@ -50,16 +50,23 @@
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>
 
+		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.8.10.1" />
+		<path id="sqlite-jdbc.path">
+			<pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" />
+		</path>
+		
 		<path id="junit.path">
 			<pathelement location="${junit.jar}" />
 		</path>
 
 		<property name="poi.classpath" refid="poi.path" />
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
+		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
 		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
 		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
+		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
 		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
 		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
@@ -251,6 +258,10 @@
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${sqlite-jdbc.jar}.jar" />
+		</exec>
+		
+		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
 		</exec>
 
@@ -415,6 +426,7 @@
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
 		<delete file="${rtfparserkit.dll}" />
+		<delete file="${sqlite-jdbc.dll}" />
 		<delete file="${mpxj-utilities.dll}" />
 
 		<delete>

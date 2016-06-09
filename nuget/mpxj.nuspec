@@ -12,10 +12,11 @@
         <summary>MPXJ reads and writes schedule data in a variety of formats.</summary>
     </metadata>
     <files>
-    	<file src="..\lib.net\mpxj.*" target="lib"/>  
+    	<file src="..\lib.net\mpxj.*" target="lib"/>
     	<file src="..\lib.net\IKVM.*" target="lib"/>
-    	<file src="..\lib.net\poi*.*" target="lib"/>    
-    	<file src="..\lib.net\rtfparserkit*.*" target="lib"/>	  
+    	<file src="..\lib.net\poi*.*" target="lib"/>
+    	<file src="..\lib.net\rtfparserkit*.*" target="lib"/>
+    	<file src="..\lib.net\sqlite-jdbc*.*" target="lib"/>
     	<file src="..\lib.net\MpxjUtilities.*" target="lib"/>
     </files>
 </package>

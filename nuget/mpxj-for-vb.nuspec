@@ -15,7 +15,8 @@
     	<file src="..\lib.net\mpxj-for-vb.*" target="lib"/>
     	<file src="..\lib.net\IKVM.*" target="lib"/>
     	<file src="..\lib.net\poi*.*" target="lib"/>
-    	<file src="..\lib.net\rtfparserkit*.*" target="lib"/>  
+    	<file src="..\lib.net\rtfparserkit*.*" target="lib"/> 
+    	<file src="..\lib.net\sqlite-jdbc*.*" target="lib"/>
     	<file src="..\lib.net\MpxjUtilities.*" target="lib"/>  	
     </files>
 </package>

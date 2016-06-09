@@ -30,6 +30,12 @@
 		</dependency>
 
 		<dependency>
+		    <groupId>org.xerial</groupId>
+		    <artifactId>sqlite-jdbc</artifactId>
+		    <version>3.8.10.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-binding</artifactId>
 			<version>2.10.0</version>
