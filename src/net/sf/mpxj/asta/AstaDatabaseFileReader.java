@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -83,18 +82,15 @@ public final class AstaDatabaseFileReader implements ProjectReader
    {
       try
       {
-         Class.forName("org.sqlite.JDBC");
          String url = "jdbc:sqlite:" + file.getAbsolutePath();
          Properties props = new Properties();
          props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-         m_connection = DriverManager.getConnection(url, props);
+         // Note that we use the JDBC driver class directly here.
+         // This ensures that it is an explicit dependency of MPXJ
+         // and will work as expected in .Net.
+         m_connection = org.sqlite.JDBC.createConnection(url, props);
          m_projectID = Integer.valueOf(0);
          return read();
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
       }
 
       catch (SQLException ex)
