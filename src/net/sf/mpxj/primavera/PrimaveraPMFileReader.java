@@ -679,8 +679,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * The end of a Primavera time range finishes on the last minute
     * of the period, so a range of 12:00 -> 13:00 is represented by
     * Primavera as 12:00 -> 12:59.
-    * 
-    * @param Primavera end time
+    *
+    * @param date Primavera end time
     * @return date MPXJ end time
     */
    private Date getEndTime(Date date)
