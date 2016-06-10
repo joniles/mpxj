@@ -539,23 +539,39 @@
 			<arg value="-self"/>
 		</exec>
 
+		<replace dir="nuget" token="0.0.0" value="${current.version}">
+			<include name="*.nuspec" />
+		</replace>
+
 		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="nuget/mpxj.nuspec"/>
+			<param name="nuget.spec" value="mpxj-ikvm"/>
 		</antcall>
 
 		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="nuget/mpxj-for-csharp.nuspec"/>
+			<param name="nuget.spec" value="mpxj-common"/>
+		</antcall>
+		
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="mpxj"/>
 		</antcall>
 
 		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="nuget/mpxj-for-vb.nuspec"/>
+			<param name="nuget.spec" value="mpxj-for-csharp"/>
 		</antcall>
+
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="mpxj-for-vb"/>
+		</antcall>
+		
+		<replace dir="nuget" token="${current.version}" value="0.0.0">
+			<include name="*.nuspec" />
+		</replace>		
 	</target>
 
 	<target name="nuget-pack">
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="pack"/>
-			<arg value="${nuget.spec}"/>
+			<arg value="nuget/${nuget.spec}.nuspec"/>
 			<arg value="-outputdirectory"/>
 			<arg value="${basedir}/.."/>
 			<arg value="-version"/>
@@ -565,39 +581,39 @@
 		</exec>
 	</target>
 
+	<target name="nuget-push">
+		<exec executable="${nuget.dir}/nuget.exe">
+			<arg value="push"/>
+			<arg value="-Source"/>
+			<arg value="https://www.nuget.org/api/v2/package"/>
+			<arg value="-Timeout"/>
+			<arg value="1200"/>
+			<arg value="-Verbosity"/>
+			<arg value="Detailed"/>									
+			<arg value="${basedir}/../net.sf.${nuget.package}.${current.version}.nupkg"/>
+		</exec>		
+	</target>
+	
 	<target name="nuget-deploy" depends="init-props" description="Deploy NuGet packages">
-		<exec executable="${nuget.dir}/nuget.exe">
-			<arg value="push"/>
-			<arg value="-Source"/>
-			<arg value="https://www.nuget.org/api/v2/package"/>
-			<arg value="-Timeout"/>
-			<arg value="2147483"/>
-			<arg value="-Verbosity"/>
-			<arg value="Detailed"/>						
-			<arg value="${basedir}/../net.sf.mpxj.${current.version}.nupkg"/>			
-		</exec>
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-ikvm"/>
+		</antcall>
+		
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-common"/>
+		</antcall>
+		
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj"/>
+		</antcall>
+		
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-for-csharp"/>
+		</antcall>
 
-		<exec executable="${nuget.dir}/nuget.exe">
-			<arg value="push"/>
-			<arg value="-Source"/>
-			<arg value="https://www.nuget.org/api/v2/package"/>
-			<arg value="-Timeout"/>
-			<arg value="2147483"/>
-			<arg value="-Verbosity"/>
-			<arg value="Detailed"/>							
-			<arg value="${basedir}/../net.sf.mpxj-for-csharp.${current.version}.nupkg"/>			
-		</exec>
-
-		<exec executable="${nuget.dir}/nuget.exe">
-			<arg value="push"/>
-			<arg value="-Source"/>
-			<arg value="https://www.nuget.org/api/v2/package"/>
-			<arg value="-Timeout"/>
-			<arg value="2147483"/>			
-			<arg value="-Verbosity"/>
-			<arg value="Detailed"/>
-			<arg value="${basedir}/../net.sf.mpxj-for-vb.${current.version}.nupkg"/>
-		</exec>
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-for-vb"/>
+		</antcall>
 	</target>
 
 	<target name="gem-setup" depends="jar" description="Build jars required by ruby gem and copy to correct location">
