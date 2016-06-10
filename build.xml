@@ -603,4 +603,20 @@
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
+	
+	<!-- Experimental - work in progress -->
+	<target name="j2objc">
+		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
+	    <fileset 
+	    	id="source.fileset" 
+	    	dir="src"  
+	    	includes="**/*.java" 
+	    	excludes="net/sf/mpxj/explorer/**,net/sf/mpxj/mspdi/**,net/sf/mpxj/primavera/**,net/sf/mpxj/ikvm/**"
+	    />
+	    <pathconvert property="source.files" refid="source.fileset" pathsep=" "/>
+		<java jar="${j2objc.dir}/lib/j2objc.jar" fork="true">
+			<arg line="-Xbootclasspath:${j2objc.dir}/lib/jre_emul.jar -d src.objc"/>
+			<arg line=" ${source.files}"/>			
+		</java>
+	</target>
 </project>
