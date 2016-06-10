@@ -568,16 +568,34 @@
 	<target name="nuget-deploy" depends="init-props" description="Deploy NuGet packages">
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="push"/>
-			<arg value="${basedir}/../net.sf.mpxj.${current.version}.nupkg"/>
+			<arg value="-Source"/>
+			<arg value="https://www.nuget.org/api/v2/package"/>
+			<arg value="-Timeout"/>
+			<arg value="2147483"/>
+			<arg value="-Verbosity"/>
+			<arg value="Detailed"/>						
+			<arg value="${basedir}/../net.sf.mpxj.${current.version}.nupkg"/>			
 		</exec>
 
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="push"/>
-			<arg value="${basedir}/../net.sf.mpxj-for-csharp.${current.version}.nupkg"/>
+			<arg value="-Source"/>
+			<arg value="https://www.nuget.org/api/v2/package"/>
+			<arg value="-Timeout"/>
+			<arg value="2147483"/>
+			<arg value="-Verbosity"/>
+			<arg value="Detailed"/>							
+			<arg value="${basedir}/../net.sf.mpxj-for-csharp.${current.version}.nupkg"/>			
 		</exec>
 
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="push"/>
+			<arg value="-Source"/>
+			<arg value="https://www.nuget.org/api/v2/package"/>
+			<arg value="-Timeout"/>
+			<arg value="2147483"/>			
+			<arg value="-Verbosity"/>
+			<arg value="Detailed"/>
 			<arg value="${basedir}/../net.sf.mpxj-for-vb.${current.version}.nupkg"/>
 		</exec>
 	</target>
