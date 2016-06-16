@@ -229,6 +229,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setCreateDate(mpxj.getCreationDate());
       m_project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
       m_project.setCriticalActivityPathType("Critical Float");
+      m_project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       m_project.setDefaultPriceTimeUnits("Hour");
       m_project.setDiscountApplicationPeriod("Month");
       m_project.setEarnedValueComputeType("Activity Percent Complete");
@@ -541,13 +542,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
 
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
-      xml.setActualCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
+      xml.setActualCost(getDouble(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
       xml.setAtCompletionUnits(getDuration(mpxj.getRemainingWork()));
-      xml.setPlannedCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
+      xml.setPlannedCost(getDouble(mpxj.getActualCost()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
@@ -557,7 +558,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPlannedUnits(getDuration(mpxj.getWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
-      xml.setRemainingCost(Double.valueOf(mpxj.getActualCost().doubleValue()));
+      xml.setRemainingCost(getDouble(mpxj.getActualCost()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingFinishDate(mpxj.getFinish());
       xml.setRemainingStartDate(mpxj.getStart());
@@ -701,6 +702,24 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       if (number != null)
       {
          result = Double.valueOf(number.doubleValue() / 100);
+      }
+
+      return result;
+   }
+
+   /**
+    * Formats a double value.
+    *
+    * @param number numeric value
+    * @return Double instance
+    */
+   private Double getDouble(Number number)
+   {
+      Double result = null;
+
+      if (number != null)
+      {
+         result = Double.valueOf(number.doubleValue());
       }
 
       return result;
