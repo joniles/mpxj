@@ -95,7 +95,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
    /**
     * Set the task field which will be used to populate the Activity ID attribute
-    * in the PMXML file.
+    * in the PMXML file. Currently this defaults to TaskField.WBS. If you are
+    * reading in a project from Primavera, typically the original Activity ID will
+    * be in the Text1 field, so calling this method with TaskField.TEXT1 will write
+    * the original Activity ID values in the PMXML file.
     *
     * @param field TaskField instance
     */
