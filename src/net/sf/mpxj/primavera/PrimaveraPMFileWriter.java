@@ -65,6 +65,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -92,6 +93,28 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
+   /**
+    * Set the task field which will be used to populate the Activity ID attribute
+    * in the PMXML file.
+    *
+    * @param field TaskField instance
+    */
+   public void setActivityIdField(TaskField field)
+   {
+      m_activityIDField = field;
+   }
+
+   /**
+    * Retrieve the task field which will be used to populate the Activity ID attribute
+    * in the PMXML file.
+    *
+    * @return TaskField instance
+    */
+   public TaskField getActivityIdField()
+   {
+      return m_activityIDField;
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -483,7 +506,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationType("Fixed Units/Time");
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId(mpxj.getWBS());
+      xml.setId(getActivityID(mpxj));
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
@@ -777,6 +800,25 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
+    * Retrieve the Activity ID value for this task.
+    * @param task Task instance
+    * @return Activity ID value
+    */
+   private String getActivityID(Task task)
+   {
+      String result = null;
+      if (m_activityIDField != null)
+      {
+         Object value = task.getCachedValue(m_activityIDField);
+         if (value != null)
+         {
+            result = value.toString();
+         }
+      }
+      return result;
+   }
+
+   /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
     *
@@ -865,4 +907,5 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_wbsSequence;
    private int m_relationshipObjectID;
    private Calendar m_calendar;
+   private TaskField m_activityIDField = TaskField.WBS;
 }
