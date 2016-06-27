@@ -12,6 +12,7 @@
 		<action dev="joniles" type="add">Add data date attribute to PMXML output.</action>
 		<action dev="joniles" type="update">Update PMXML writer to avoid NPE.</action>
 		<action dev="joniles" type="update">Update PMXML writer to allow task field used for Activity ID to be chosen.</action>
+		<action dev="joniles" type="update">Updated to avoid NPE when reading an XER file where project not under EPS.</action>
 	</release>
 
 	<release version="5.3.0" date="10/06/2016">
