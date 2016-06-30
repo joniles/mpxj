@@ -890,14 +890,30 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Tasks tasks = project.getTasks();
       if (tasks != null)
       {
+         int tasksWithoutIDCount = 0;
+
          for (Project.Tasks.Task task : tasks.getTask())
          {
-            readTask(task);
+            Task mpxjTask = readTask(task);
+            if (mpxjTask.getID() == null)
+            {
+               ++tasksWithoutIDCount;
+            }
          }
 
          for (Project.Tasks.Task task : tasks.getTask())
          {
             readPredecessors(task);
+         }
+
+         //
+         // MS Project will happily read tasks from an MSPDI file without IDs,
+         // it will just generate ID values based on the task order in the file.
+         // If we find that there are no ID values present, we'll do the same.
+         //
+         if (tasksWithoutIDCount == tasks.getTask().size())
+         {
+            m_projectFile.renumberTaskIDs();
          }
       }
 
@@ -908,8 +924,9 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts data for a single task from an MSPDI file.
     *
     * @param xml Task data
+    * @return Task instance
     */
-   private void readTask(Project.Tasks.Task xml)
+   private Task readTask(Project.Tasks.Task xml)
    {
       Task mpx = m_projectFile.addTask();
       mpx.setNull(BooleanHelper.getBoolean(xml.isIsNull()));
@@ -1099,6 +1116,8 @@ public final class MSPDIReader extends AbstractProjectReader
       }
 
       m_eventManager.fireTaskReadEvent(mpx);
+
+      return mpx;
    }
 
    /**
