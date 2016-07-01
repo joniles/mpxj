@@ -8,7 +8,10 @@
 
    <body>
 
-	<release version="5.3.1" date="Git HEAD">
+	<release version="5.3.2" date="Git HEAD">
+	</release>
+
+	<release version="5.3.1" date="01/07/2016">
 		<action dev="joniles" type="add">Add data date attribute to PMXML output.</action>
 		<action dev="joniles" type="update">Update PMXML writer to avoid NPE.</action>
 		<action dev="joniles" type="update">Update PMXML writer to allow task field used for Activity ID to be chosen.</action>
