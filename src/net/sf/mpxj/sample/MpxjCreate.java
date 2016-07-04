@@ -35,9 +35,8 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.mpx.MPXWriter;
-import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.writer.ProjectWriter;
+import net.sf.mpxj.writer.ProjectWriterUtility;
 
 /**
  * This example illustrates creation of an MPX or an MSPDI file from scratch.
@@ -70,38 +69,6 @@ public class MpxjCreate
       {
          ex.printStackTrace(System.out);
       }
-   }
-
-   /**
-    * Creates a writer which will generate the required type of output file.
-    *
-    * @param filename file name
-    * @return ProjectWriter instance
-    */
-   private static ProjectWriter getWriter(String filename)
-   {
-      ProjectWriter result;
-      String suffix;
-
-      if (filename.length() < 4)
-      {
-         suffix = ".MPX";
-      }
-      else
-      {
-         suffix = filename.substring(filename.length() - 4).toUpperCase();
-      }
-
-      if (suffix.equals(".XML") == true)
-      {
-         result = new MSPDIWriter();
-      }
-      else
-      {
-         result = new MPXWriter();
-      }
-
-      return (result);
    }
 
    /**
@@ -154,6 +121,12 @@ public class MpxjCreate
       //
       ProjectProperties properties = file.getProjectProperties();
       properties.setStartDate(df.parse("01/01/2003"));
+
+      //
+      // Set a couple more properties just for fun
+      //
+      properties.setProjectTitle("Created by MPXJ");
+      properties.setAuthor("Jon Iles");
 
       //
       // Add resources
@@ -270,8 +243,7 @@ public class MpxjCreate
       //
       // Write the file
       //
-      ProjectWriter writer = getWriter(filename);
+      ProjectWriter writer = ProjectWriterUtility.getProjectWriter(filename);
       writer.write(file, filename);
    }
-
 }
