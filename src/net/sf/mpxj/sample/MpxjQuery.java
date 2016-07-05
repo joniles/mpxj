@@ -24,9 +24,11 @@
 package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -36,8 +38,11 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.mpp.TimescaleUnits;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.utility.TimephasedUtility;
+import net.sf.mpxj.utility.TimescaleUtility;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
@@ -253,9 +258,44 @@ public class MpxjQuery
          }
 
          System.out.println("Assignment: Task=" + taskName + " Resource=" + resourceName);
+         if (task != null)
+         {
+            listTimephasedWork(assignment);
+         }
       }
 
       System.out.println();
+   }
+
+   /**
+    * Dump timephased work for an assignment.
+    *
+    * @param assignment resource assignment
+    */
+   private static void listTimephasedWork(ResourceAssignment assignment)
+   {
+      Task task = assignment.getTask();
+      int days = (int) ((task.getFinish().getTime() - task.getStart().getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      if (days > 1)
+      {
+         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
+
+         TimescaleUtility timescale = new TimescaleUtility();
+         ArrayList<DateRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+         TimephasedUtility timephased = new TimephasedUtility();
+
+         ArrayList<Duration> durations = timephased.segmentWork(assignment.getCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
+         for (DateRange range : dates)
+         {
+            System.out.print(df.format(range.getStart()) + "\t");
+         }
+         System.out.println();
+         for (Duration duration : durations)
+         {
+            System.out.print(duration.toString() + "        ".substring(0, 7) + "\t");
+         }
+         System.out.println();
+      }
    }
 
    /**
