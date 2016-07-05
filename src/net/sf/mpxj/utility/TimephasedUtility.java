@@ -56,7 +56,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<DateRange> dateList)
    {
       ArrayList<Duration> result = new ArrayList<Duration>(dateList.size());
       int lastStartIndex = 0;
