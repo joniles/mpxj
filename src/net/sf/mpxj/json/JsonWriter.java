@@ -127,12 +127,23 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomField(CustomField field) throws IOException
    {
-      if (field.getAlias() != null)
+      if ((field != null) && (field.getAlias() != null))
       {
          m_writer.writeStartObject(null);
-         m_writer.writeNameValuePair("field_type_class", field.getFieldType().getFieldTypeClass().name().toLowerCase());
-         m_writer.writeNameValuePair("field_type", field.getFieldType().name().toLowerCase());
-         m_writer.writeNameValuePair("field_alias", field.getAlias());
+         if (field.getFieldType() != null)
+         {
+            m_writer.writeNameValuePair("field_type_class", (field.getFieldType().getFieldTypeClass() == null)
+                    || (field.getFieldType().getFieldTypeClass().name() == null) ? ""
+                    : field.getFieldType().getFieldTypeClass().name().toLowerCase());
+            m_writer.writeNameValuePair("field_type", field.getFieldType().name() == null ? "" :
+                    field.getFieldType().name().toLowerCase());
+         }
+         else
+         {
+            m_writer.writeNameValuePair("field_type_class", "");
+            m_writer.writeNameValuePair("field_type", "");
+         }
+         m_writer.writeNameValuePair("field_alias", field.getAlias() == null ? "" : field.getAlias());
          m_writer.writeEndObject();
       }
    }
