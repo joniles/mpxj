@@ -647,6 +647,12 @@
 		</exec>
 	</target>
 
+	<target name="gem-pkg" depends="gem-setup" description="Build rubygem package">
+		<exec executable="${bundle.exec}" dir="${basedir}/src.ruby/mpxj">
+			<arg line="exec rake build" />
+		</exec>
+	</target>
+
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
 		<exec executable="${bundle.exec}" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rspec spec" />
