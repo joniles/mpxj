@@ -2,17 +2,35 @@
 
 <project name="net.sf.mpxj" default="archive" basedir=".">
 
+  <condition property="isWindows">
+    <os family="windows"/>
+  </condition>
+
+  <condition property="isUnix">
+    <os family="unix"/>
+  </condition>
+
 	<target name="init" depends="init-props,init-dirs">
 		<tstamp />
-	</target>
+  </target>
 
-	<target name="init-props" description="Initialize properties">
+  <target name="initWin" if="isWindows">
+    <property name="bundle.exec" value="C:/Ruby21/bin/bundle.bat"/>
+  </target>
+
+  <target name="initUnix" if="isUnix">
+    <exec executable="/bin/bash" outputproperty="bundle.exec">
+      <arg value="-c"/>
+      <arg value="which bundle"/>
+    </exec>
+  </target>
+
+	<target name="init-props" description="Initialize properties" depends="initWin,initUnix">
 		<tstamp />
 
 		<property name="current.version" value="5.3.1" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
-		<property name="ruby.dir" value="C:/Ruby21"/>
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
 		<property name="msbuild.dir" value="C:/Windows/Microsoft.NET/Framework/v3.5" />
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
@@ -54,7 +72,7 @@
 		<path id="sqlite-jdbc.path">
 			<pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" />
 		</path>
-		
+
 		<path id="junit.path">
 			<pathelement location="${junit.jar}" />
 		</path>
@@ -262,7 +280,7 @@
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${sqlite-jdbc.jar}.jar" />
 		</exec>
-		
+
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
 		</exec>
@@ -550,7 +568,7 @@
 		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj-common"/>
 		</antcall>
-		
+
 		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj"/>
 		</antcall>
@@ -562,10 +580,10 @@
 		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj-for-vb"/>
 		</antcall>
-		
+
 		<replace dir="nuget" token="${current.version}" value="0.0.0">
 			<include name="*.nuspec" />
-		</replace>		
+		</replace>
 	</target>
 
 	<target name="nuget-pack">
@@ -589,24 +607,24 @@
 			<arg value="-Timeout"/>
 			<arg value="1200"/>
 			<arg value="-Verbosity"/>
-			<arg value="Detailed"/>									
+			<arg value="Detailed"/>
 			<arg value="${basedir}/../net.sf.${nuget.package}.${current.version}.nupkg"/>
-		</exec>		
+		</exec>
 	</target>
-	
+
 	<target name="nuget-deploy" depends="init-props" description="Deploy NuGet packages">
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj-ikvm"/>
 		</antcall>
-		
+
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj-common"/>
 		</antcall>
-		
+
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj"/>
 		</antcall>
-		
+
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj-for-csharp"/>
 		</antcall>
@@ -624,33 +642,36 @@
 		<copy todir="${basedir}/src.ruby/mpxj/legal">
 			<fileset dir="${basedir}/legal" includes="*" />
 		</copy>
+		<exec executable="${bundle.exec}" dir="${basedir}/src.ruby/mpxj">
+			<arg line="install" />
+		</exec>
 	</target>
 
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
-		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${bundle.exec}" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rspec spec" />
 		</exec>
 	</target>
 
 	<target name="gem-deploy" depends="gem-setup" description="Deploy rubygem to rubygems.org">
-		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${bundle.exec}" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
-	
+
 	<!-- Experimental - work in progress -->
 	<target name="j2objc">
 		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
-	    <fileset 
-	    	id="source.fileset" 
-	    	dir="src"  
-	    	includes="**/*.java" 
+	    <fileset
+	    	id="source.fileset"
+	    	dir="src"
+	    	includes="**/*.java"
 	    	excludes="net/sf/mpxj/explorer/**,net/sf/mpxj/mspdi/**,net/sf/mpxj/primavera/**,net/sf/mpxj/ikvm/**"
 	    />
 	    <pathconvert property="source.files" refid="source.fileset" pathsep=" "/>
 		<java jar="${j2objc.dir}/lib/j2objc.jar" fork="true">
 			<arg line="-Xbootclasspath:${j2objc.dir}/lib/jre_emul.jar -d src.objc"/>
-			<arg line=" ${source.files}"/>			
+			<arg line=" ${source.files}"/>
 		</java>
 	</target>
 </project>
