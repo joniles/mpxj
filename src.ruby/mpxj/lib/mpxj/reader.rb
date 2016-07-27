@@ -14,19 +14,18 @@ module MPXJ
     # @return [Project] new Project instance
     def self.read(file_name, zone = nil)
       project = nil
-      json_file = Tempfile.new([File.basename(file_name, ".*"), '.json'])
+      json_file = Dir::Tmpname.make_tmpname([File.basename(file_name, ".*"), '.json'], nil)
       tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
 
       begin
         classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
-        java_output = `java -cp \"#{classpath}\" net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
+        java_output = `java -cp \"#{classpath}\" net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file}\"`
         if $?.exitstatus != 0
           raise "Failed to read file: #{java_output}"
         end
         project = Project.new(json_file, tz)
       ensure
-        json_file.close
-        json_file.unlink
+        File::delete(json_file)
       end
       project
     end
