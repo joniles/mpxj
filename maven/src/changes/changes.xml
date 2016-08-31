@@ -8,7 +8,10 @@
 
    <body>
 
-	<release version="5.3.3" date="Git HEAD">
+	<release version="5.3.4" date="Git HEAD">
+	</release>
+
+	<release version="5.3.3" date="31/08/2016">
 		<action dev="joniles" type="update">Avoid NPE when field type is unknown.</action>
 		<action dev="joniles" type="update">Improve Ruby error reporting.</action>
 		<action dev="joniles" type="update">Improve support for non-standard time formats in MPX files</action>
