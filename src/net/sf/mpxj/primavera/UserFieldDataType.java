@@ -40,7 +40,7 @@ public enum UserFieldDataType
    FT_END_DATE("FINISH"),
    FT_FLOAT_2_DECIMALS("NUMBER"),
    FT_INT("NUMBER"),
-   FT_STATICTYPE("FLAG"),
+   FT_STATICTYPE("TEXT"),
    FT_MONEY("COST");
 
    /**
