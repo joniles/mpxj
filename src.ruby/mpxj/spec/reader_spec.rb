@@ -16,5 +16,21 @@ describe MPXJ::Reader do
     it 'will raise an exception when an MPXJ error occurs' do
       expect { MPXJ::Reader.read("idontexist.mpp") }.to raise_error
     end
+    
+    it 'will extract the error message from the Java output' do
+      begin
+        MPXJ::Reader.read("idontexist.mpp")
+      rescue Exception => e
+        expect(e.message.split(/\n/).first).to eq("net.sf.mpxj.MPXJException: Error reading file") 
+      end
+    end
+
+    it 'will raise a specific exception when the file type is not supported' do
+      begin
+        MPXJ::Reader.read("unsupportedfiletype.xxx")
+      rescue ArgumentError => e
+        expect(e.message.split(/\n/).first).to eq("java.lang.IllegalArgumentException: Cannot read files of type: XXX") 
+      end
+    end        
   end
 end

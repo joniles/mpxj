@@ -61,7 +61,10 @@ public final class MpxjConvert
 
       catch (Exception ex)
       {
+         System.out.println();
+         System.out.print("Conversion Error: ");
          ex.printStackTrace(System.out);
+         System.out.println();
          System.exit(1);
       }
    }
