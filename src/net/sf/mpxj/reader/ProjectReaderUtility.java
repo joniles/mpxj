@@ -70,7 +70,7 @@ public final class ProjectReaderUtility
       Class<? extends ProjectReader> fileClass = READER_MAP.get(extension);
       if (fileClass == null)
       {
-         throw new IllegalArgumentException("Cannot read files of type: " + name);
+         throw new IllegalArgumentException("Cannot read files of type: " + extension);
       }
 
       try
