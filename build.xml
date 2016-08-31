@@ -413,6 +413,12 @@
 		<delete dir="${basedir}/src.ruby/mpxj/legal" />
 		<delete dir="${basedir}/src.ruby/mpxj/pkg" />
 		<delete dir="${basedir}/src.ruby/mpxj/Gemfile.lock" />
+		
+		<delete includeemptydirs="true">
+			<fileset dir="${basedir}/src.ruby/mpxj" defaultexcludes="false">
+				<include name="**/*.jar" />
+			</fileset>
+		</delete>		
 	</target>
 
 	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, maven-clean, clean-ruby" description="Clean up all files">
