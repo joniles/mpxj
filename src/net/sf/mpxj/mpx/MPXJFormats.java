@@ -209,7 +209,7 @@ public final class MPXJFormats
    {
       String datePattern = "";
       String dateTimePattern = "";
-      String timePattern = getTimeElement(properties);
+      String[] timePatterns = getTimeElement(properties);
 
       char datesep = properties.getDateSeparator();
       DateOrder dateOrder = properties.getDateOrder();
@@ -243,19 +243,19 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  dateTimePattern = "dd" + datesep + "MM" + datesep + "yy " + timePattern;
+                  dateTimePattern = "dd" + datesep + "MM" + datesep + "yy " + timePatterns[0];
                   break;
                }
 
                case MDY:
                {
-                  dateTimePattern = "MM" + datesep + "dd" + datesep + "yy " + timePattern;
+                  dateTimePattern = "MM" + datesep + "dd" + datesep + "yy " + timePatterns[0];
                   break;
                }
 
                case YMD:
                {
-                  dateTimePattern = "yy" + datesep + "MM" + datesep + "dd " + timePattern;
+                  dateTimePattern = "yy" + datesep + "MM" + datesep + "dd " + timePatterns[0];
                   break;
                }
             }
@@ -294,19 +294,19 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  dateTimePattern = "dd MMMMM yyyy " + timePattern;
+                  dateTimePattern = "dd MMMMM yyyy " + timePatterns[0];
                   break;
                }
 
                case MDY:
                {
-                  dateTimePattern = "MMMMM dd yyyy " + timePattern;
+                  dateTimePattern = "MMMMM dd yyyy " + timePatterns[0];
                   break;
                }
 
                case YMD:
                {
-                  dateTimePattern = "yyyy MMMMM dd " + timePattern;
+                  dateTimePattern = "yyyy MMMMM dd " + timePatterns[0];
                   break;
                }
             }
@@ -344,14 +344,14 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  dateTimePattern = "dd MMM " + timePattern;
+                  dateTimePattern = "dd MMM " + timePatterns[0];
                   break;
                }
 
                case YMD:
                case MDY:
                {
-                  dateTimePattern = " MMM dd " + timePattern;
+                  dateTimePattern = " MMM dd " + timePatterns[0];
                   break;
                }
             }
@@ -429,19 +429,19 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  dateTimePattern = "EEE " + "dd" + datesep + "MM" + datesep + "yy " + timePattern;
+                  dateTimePattern = "EEE " + "dd" + datesep + "MM" + datesep + "yy " + timePatterns[0];
                   break;
                }
 
                case MDY:
                {
-                  dateTimePattern = "EEE " + "MM" + datesep + "dd" + datesep + "yy " + timePattern;
+                  dateTimePattern = "EEE " + "MM" + datesep + "dd" + datesep + "yy " + timePatterns[0];
                   break;
                }
 
                case YMD:
                {
-                  dateTimePattern = "EEE " + "yy" + datesep + "MM" + datesep + "dd " + timePattern;
+                  dateTimePattern = "EEE " + "yy" + datesep + "MM" + datesep + "dd " + timePatterns[0];
                   break;
                }
             }
@@ -500,7 +500,7 @@ public final class MPXJFormats
 
          case EEE_HH_MM:
          {
-            dateTimePattern = "EEE " + timePattern;
+            dateTimePattern = "EEE " + timePatterns[0];
             break;
          }
 
@@ -532,7 +532,7 @@ public final class MPXJFormats
 
          case HH_MM:
          {
-            dateTimePattern = timePattern;
+            dateTimePattern = timePatterns[0];
             break;
          }
 
@@ -590,7 +590,7 @@ public final class MPXJFormats
 
          case DD_WWW_YY_HH_MM:
          {
-            dateTimePattern = "F" + datesep + "'W'ww" + datesep + "yy " + timePattern;
+            dateTimePattern = "F" + datesep + "'W'ww" + datesep + "yy " + timePatterns[0];
             break;
          }
 
@@ -622,7 +622,7 @@ public final class MPXJFormats
 
       m_dateTimeFormat.applyPattern(dateTimePattern);
       m_dateFormat.applyPattern(datePattern);
-      m_timeFormat.applyPattern(timePattern);
+      m_timeFormat.applyPatterns(timePatterns);
 
       m_dateTimeFormat.setLocale(m_locale, m_nullText);
       m_dateFormat.setLocale(m_locale, m_nullText);
@@ -638,22 +638,29 @@ public final class MPXJFormats
     * @param properties project properties
     * @return time formatting String
     */
-   private String getTimeElement(ProjectProperties properties)
+   private String[] getTimeElement(ProjectProperties properties)
    {
-      String time;
+      String[] result;
       char timesep = properties.getTimeSeparator();
       ProjectTimeFormat format = properties.getTimeFormat();
 
       if (format == null || format == ProjectTimeFormat.TWELVE_HOUR)
       {
-         time = "hh" + timesep + "mm a";
+         result = new String[]
+         {
+            "hh" + timesep + "mm a"
+         };
       }
       else
       {
-         time = "HH" + timesep + "mm";
+         result = new String[]
+         {
+            "HH" + timesep + "mm",
+            "HH",
+         };
       }
 
-      return (time);
+      return result;
    }
 
    /**
