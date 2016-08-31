@@ -21,6 +21,7 @@ describe MPXJ::Reader do
       begin
         MPXJ::Reader.read("idontexist.mpp")
       rescue Exception => e
+        expect(e.class).to eq(MPXJ::RuntimeError)
         expect(e.message.split(/\n/).first).to eq("net.sf.mpxj.MPXJException: Error reading file") 
       end
     end
@@ -28,7 +29,8 @@ describe MPXJ::Reader do
     it 'will raise a specific exception when the file type is not supported' do
       begin
         MPXJ::Reader.read("unsupportedfiletype.xxx")
-      rescue ArgumentError => e
+      rescue Exception => e
+        expect(e.class).to eq(MPXJ::ArgumentError)
         expect(e.message.split(/\n/).first).to eq("java.lang.IllegalArgumentException: Cannot read files of type: XXX") 
       end
     end        

@@ -50,12 +50,12 @@ module MPXJ
       if java_output.include?('Conversion Error: ')
         message = java_output.split('Conversion Error: ')[1]
         if message.include?('Cannot read files of type:')
-          raise ArgumentError, message
+          raise MPXJ::ArgumentError, message
         else
-          raise message
+          raise MPXJ::RuntimeError, message
         end
       else        
-        raise "Failed to read file: #{java_output}"
+        raise MPXJ::UnknownError, "Failed to read file: #{java_output}"
       end
     end
   end
