@@ -9,10 +9,11 @@
    <body>
 
 	<release version="5.3.3" date="Git HEAD">
+		<action dev="joniles" type="update">Avoid NPE when field type is unknown.</action>
 	</release>
 
 	<release version="5.3.2" date="31/08/2016">
-		<action dev="joniles" type="add">When reading an XER file, treat FT_STATICTPYE user defined fields as text.</action>
+		<action dev="joniles" type="update">When reading an XER file, treat FT_STATICTPYE user defined fields as text.</action>
 	</release>
 
 	<release version="5.3.1" date="01/07/2016">

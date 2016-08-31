@@ -225,7 +225,7 @@ public final class FieldTypeHelper
 
          @Override public String name()
          {
-            return null;
+            return "UNKNOWN";
          }
 
          @Override public int getValue()
