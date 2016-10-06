@@ -40,7 +40,7 @@
 		-->
 		<property name="target-jvm-version" value="1.6" />
 
-		<property name="poi.jar" value="poi-3.12-20150511" />
+		<property name="poi.jar" value="poi-3.15" />
 		<path id="poi.path">
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>

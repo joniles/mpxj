@@ -72,13 +72,11 @@ interface VarMeta
    public Integer getOffset(Integer id, Integer type);
 
    /**
-    * This method retrieves the offset of the data item at
-    * the position defined by the index parameter.
+    * Retrieve the offsets array.
     *
-    * @param index index of item in the block
-    * @return offset of the item in the block
+    * @return offsets array
     */
-   public int getOffset(int index);
+   public int[] getOffsets();
 
    /**
     * Retrieves a set containing the types defined

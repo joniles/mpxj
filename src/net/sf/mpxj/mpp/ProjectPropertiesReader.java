@@ -111,7 +111,7 @@ public final class ProjectPropertiesReader
          ph.setLastPrinted(summaryInformation.getLastPrinted());
 
          ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
-         ExtendedDocumentSummaryInformation documentSummaryInformation = new ExtendedDocumentSummaryInformation(ps);
+         DocumentSummaryInformation documentSummaryInformation = new DocumentSummaryInformation(ps);
          ph.setCategory(documentSummaryInformation.getCategory());
          ph.setPresentationFormat(documentSummaryInformation.getPresentationFormat());
          ph.setManager(documentSummaryInformation.getManager());

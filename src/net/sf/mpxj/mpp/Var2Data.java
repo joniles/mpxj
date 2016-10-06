@@ -52,23 +52,30 @@ final class Var2Data extends MPPComponent
       m_meta = meta;
       byte[] data;
 
-      int itemCount = m_meta.getItemCount();
+      int currentOffset = 0;
 
-      int itemOffset;
-
-      for (int loop = 0; loop < itemCount; loop++)
+      for (int itemOffset : meta.getOffsets())
       {
-         itemOffset = meta.getOffset(loop);
-         is.reset();
-         is.skip(itemOffset);
+         if (currentOffset > itemOffset)
+         {
+            is.reset();
+            is.skip(itemOffset);
+         }
+         else
+         {
+            if (currentOffset < itemOffset)
+            {
+               is.skip(itemOffset - currentOffset);
+            }
+         }
 
          int size = readInt(is);
 
          data = readByteArray(is, size);
 
          m_map.put(Integer.valueOf(itemOffset), data);
+         currentOffset = itemOffset + 4 + size;
       }
-
    }
 
    /**

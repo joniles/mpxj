@@ -208,6 +208,7 @@ public class MppCleanUtility
       fs.writeFilesystem(os);
       os.flush();
       os.close();
+      fs.close();
    }
 
    /**

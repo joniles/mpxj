@@ -154,8 +154,8 @@
     <Reference Include="mpxj-test">
       <HintPath>..\..\lib.net\mpxj-test.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.12-20150511">
-      <HintPath>..\..\lib.net\poi-3.12-20150511.dll</HintPath>
+    <Reference Include="poi-3.15">
+      <HintPath>..\..\lib.net\poi-3.15.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.8.0">
       <HintPath>..\..\lib.net\rtfparserkit-1.8.0.dll</HintPath>

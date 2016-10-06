@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -61,7 +62,7 @@ final class VarMeta9 extends AbstractVarMeta
       Integer type;
       Integer offset;
       Map<Integer, Integer> map;
-      m_offsets = new int[m_itemCount];
+      int[] offsets = new int[m_itemCount];
 
       //
       // There appears to be some Microsoft weirdness here. The unique ID
@@ -86,8 +87,11 @@ final class VarMeta9 extends AbstractVarMeta
             m_table.put(uniqueID, map);
          }
          map.put(type, offset);
-         m_offsets[loop] = offset.intValue();
+         offsets[loop] = offset.intValue();
       }
+
+      Arrays.sort(offsets);
+      setOffsets(offsets);
    }
 
    private static final int MAGIC = 0xFADFADBA;

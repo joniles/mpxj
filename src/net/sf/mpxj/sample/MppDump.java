@@ -91,6 +91,7 @@ public class MppDump
       is.close();
       pw.flush();
       pw.close();
+      fs.close();
    }
 
    /**
