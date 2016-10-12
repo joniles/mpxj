@@ -25,7 +25,7 @@ package net.sf.mpxj.sample;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
@@ -80,7 +80,7 @@ public final class MpxjConvert
    {
       System.out.println("Reading input file started.");
       long start = System.currentTimeMillis();
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
+      ProjectReader reader = new UniversalProjectReader();
       ProjectFile projectFile = reader.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading input file completed in " + elapsed + "ms.");
