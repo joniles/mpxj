@@ -8,13 +8,16 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.InputStreamHelper;
@@ -23,7 +26,9 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.planner.PlannerReader;
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 public class UniversalProjectReader extends AbstractProjectReader
 {
@@ -68,6 +73,11 @@ public class UniversalProjectReader extends AbstractProjectReader
             return new MPXReader().read(bis);
          }
 
+         if (matchesFingerprint(buffer, XER_FINGERPRINT))
+         {
+            return new PrimaveraXERFileReader().read(bis);
+         }
+
          if (matchesFingerprint(buffer, PLANNER_FINGERPRINT))
          {
             return new PlannerReader().read(bis);
@@ -81,6 +91,11 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, MDB_FINGERPRINT))
          {
             return handleMDBFile(bis);
+         }
+
+         if (matchesFingerprint(buffer, SQLITE_FINGERPRINT))
+         {
+            return handleSQLiteFile(bis);
          }
 
          return null;
@@ -110,34 +125,7 @@ public class UniversalProjectReader extends AbstractProjectReader
       {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getCanonicalPath();
-
-         Set<String> tableNames = new HashSet<String>();
-         Connection connection = null;
-         ResultSet rs = null;
-
-         try
-         {
-            connection = DriverManager.getConnection(url);
-            DatabaseMetaData dmd = connection.getMetaData();
-            rs = dmd.getTables(null, null, null, null);
-            while (rs.next())
-            {
-               tableNames.add(rs.getString("TABLE_NAME").toUpperCase());
-            }
-         }
-
-         finally
-         {
-            if (rs != null)
-            {
-               rs.close();
-            }
-
-            if (connection != null)
-            {
-               connection.close();
-            }
-         }
+         Set<String> tableNames = populateTableNames(url);
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
@@ -157,6 +145,85 @@ public class UniversalProjectReader extends AbstractProjectReader
          file.delete();
       }
    }
+
+   private ProjectFile handleSQLiteFile(InputStream is) throws Exception
+   {
+      File file = InputStreamHelper.writeStreamToTempFile(is, ".sqlite");
+
+      try
+      {
+         Class.forName("org.sqlite.JDBC");
+         String url = "jdbc:sqlite:" + file.getCanonicalPath();
+         Set<String> tableNames = populateTableNames(url);
+
+         if (tableNames.contains("EXCEPTIONN"))
+         {
+            return new AstaDatabaseFileReader().read(file);
+         }
+
+         if (tableNames.contains("PROJWBS"))
+         {
+            Connection connection = null;
+            try
+            {
+               Properties props = new Properties();
+               props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
+               connection = DriverManager.getConnection(url, props);
+               PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+               reader.setConnection(connection);
+               return reader.read();
+            }
+            finally
+            {
+               if (connection != null)
+               {
+                  connection.close();
+               }
+            }
+         }
+
+         return null;
+      }
+
+      finally
+      {
+         file.delete();
+      }
+   }
+
+   private Set<String> populateTableNames(String url) throws SQLException
+   {
+      Set<String> tableNames = new HashSet<String>();
+      Connection connection = null;
+      ResultSet rs = null;
+
+      try
+      {
+         connection = DriverManager.getConnection(url);
+         DatabaseMetaData dmd = connection.getMetaData();
+         rs = dmd.getTables(null, null, null, null);
+         while (rs.next())
+         {
+            tableNames.add(rs.getString("TABLE_NAME").toUpperCase());
+         }
+      }
+
+      finally
+      {
+         if (rs != null)
+         {
+            rs.close();
+         }
+
+         if (connection != null)
+         {
+            connection.close();
+         }
+      }
+
+      return tableNames;
+   }
+
    private static final int BUFFER_SIZE = 255;
 
    private byte[] MPP_FINGERPRINT =
@@ -212,6 +279,33 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) ' ',
       (byte) 'D',
       (byte) 'B',
+   };
+
+   private static final byte[] SQLITE_FINGERPRINT =
+   {
+      (byte) 'S',
+      (byte) 'Q',
+      (byte) 'L',
+      (byte) 'i',
+      (byte) 't',
+      (byte) 'e',
+      (byte) ' ',
+      (byte) 'f',
+      (byte) 'o',
+      (byte) 'r',
+      (byte) 'm',
+      (byte) 'a',
+      (byte) 't'
+   };
+
+   private static final byte[] XER_FINGERPRINT =
+   {
+      (byte) 'E',
+      (byte) 'R',
+      (byte) 'M',
+      (byte) 'H',
+      (byte) 'D',
+      (byte) 'R'
    };
 
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
