@@ -39,8 +39,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.TimescaleUnits;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.utility.TimephasedUtility;
 import net.sf.mpxj.utility.TimescaleUtility;
 
@@ -84,8 +83,7 @@ public class MpxjQuery
     */
    private static void query(String filename) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
-      ProjectFile mpx = reader.read(filename);
+      ProjectFile mpx = new UniversalProjectReader().read(filename);
 
       listProjectProperties(mpx);
 

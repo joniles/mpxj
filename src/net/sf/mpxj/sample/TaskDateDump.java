@@ -29,8 +29,7 @@ import java.util.Date;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * Simple data dump utility. Originally written to allow simple comparison
@@ -73,8 +72,7 @@ public class TaskDateDump
     */
    public void process(String name) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(name);
-      ProjectFile file = reader.read(name);
+      ProjectFile file = new UniversalProjectReader().read(name);
       for (Task task : file.getAllTasks())
       {
          if (!task.getSummary())

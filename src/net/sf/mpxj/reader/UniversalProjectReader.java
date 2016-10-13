@@ -1,3 +1,25 @@
+/*
+ * file:       UniversalProjectReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2016
+ * date:       2016-10-13
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.reader;
 
@@ -25,6 +47,7 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
+import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
@@ -61,6 +84,11 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, MPP_FINGERPRINT))
          {
             return new MPPReader().read(bis);
+         }
+
+         if (matchesFingerprint(buffer, MSPDI_FINGERPRINT))
+         {
+            return new MSPDIReader().read(bis);
          }
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
@@ -226,7 +254,7 @@ public class UniversalProjectReader extends AbstractProjectReader
 
    private static final int BUFFER_SIZE = 255;
 
-   private byte[] MPP_FINGERPRINT =
+   private static final byte[] MPP_FINGERPRINT =
    {
       (byte) 0xD0,
       (byte) 0xCF,
@@ -311,4 +339,7 @@ public class UniversalProjectReader extends AbstractProjectReader
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
 
    private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*<APIBusinessObjects.*", Pattern.DOTALL);
+
+   private static final Pattern MSPDI_FINGERPRINT = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project\".*", Pattern.DOTALL);
+
 }
