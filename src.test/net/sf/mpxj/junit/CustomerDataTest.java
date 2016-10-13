@@ -26,14 +26,14 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.asta.AstaFileReader;
-import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
-import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 import org.junit.Test;
 
@@ -160,99 +160,109 @@ public class CustomerDataTest
       if (dirName != null && dirName.length() != 0)
       {
          File dir = new File(dirName);
-         if (dir.exists() == true && dir.isDirectory() == true)
+         if (dir.exists() && dir.isDirectory())
          {
-            MPPReader mppReader = new MPPReader();
-            MPXReader mpxReader = new MPXReader();
-            MSPDIReader mspdiReader = new MSPDIReader();
-            PrimaveraXERFileReader primaveraReader = new PrimaveraXERFileReader();
-            AstaFileReader astaReader = new AstaFileReader();
+            List<File> files = new ArrayList<File>();
+            listFiles(files, dir);
 
-            ProjectFile mpxj;
-            int failures = 0;
-            File[] files = dir.listFiles();
-
-            int interval = files.length / max;
+            int interval = files.size() / max;
             int startIndex = (index - 1) * interval;
             int endIndex;
             if (index == max)
             {
-               endIndex = files.length;
+               endIndex = files.size();
             }
             else
             {
                endIndex = startIndex + interval;
             }
 
-            //System.out.println(startIndex + " " + (endIndex-1));
+            testFiles(files.subList(startIndex, endIndex));
+         }
+      }
+   }
 
-            for (int loop = startIndex; loop < endIndex; loop++)
+   /**
+    * Recursively descend through the test data directory adding files to the list.
+    *
+    * @param list file list
+    * @param parent parent directory
+    */
+   private void listFiles(List<File> list, File parent)
+   {
+      for (File file : parent.listFiles())
+      {
+         if (file.isDirectory())
+         {
+            listFiles(list, file);
+         }
+         else
+         {
+            list.add(file);
+         }
+      }
+   }
+
+   /**
+    * Validate that all of the files in the list can be read by MPXJ.
+    *
+    * @param files file list
+    */
+   private void testFiles(List<File> files)
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      MPXReader mpxReader = new MPXReader();
+
+      int failures = 0;
+      for (File file : files)
+      {
+         String name = file.getName().toUpperCase();
+         ProjectFile mpxj = null;
+         //System.out.println(name);
+
+         try
+         {
+            if (name.endsWith(".MPX") == true)
             {
-               File file = files[loop];
-               String name = file.getName().toUpperCase();
+               mpxReader.setLocale(Locale.ENGLISH);
 
-               //System.out.println(name);
-
-               try
+               if (name.indexOf(".DE.") != -1)
                {
-                  if (name.endsWith(".MPP") == true)
-                  {
-                     mpxj = mppReader.read(file);
-                     validateMpp(file.getCanonicalPath(), mpxj);
-                  }
-                  else
-                  {
-                     if (name.endsWith(".MPX") == true)
-                     {
-                        mpxReader.setLocale(Locale.ENGLISH);
-
-                        if (name.indexOf(".DE.") != -1)
-                        {
-                           mpxReader.setLocale(Locale.GERMAN);
-                        }
-
-                        if (name.indexOf(".SV.") != -1)
-                        {
-                           mpxReader.setLocale(new Locale("sv"));
-                        }
-
-                        mpxj = mpxReader.read(file);
-                     }
-                     else
-                     {
-                        if (name.endsWith(".XML") == true && name.indexOf(".MPP.") == -1)
-                        {
-                           mpxj = mspdiReader.read(file);
-                        }
-                        else
-                        {
-                           if (name.endsWith(".XER") == true)
-                           {
-                              mpxj = primaveraReader.read(file);
-                           }
-                           else
-                           {
-                              if (name.endsWith(".PP") == true)
-                              {
-                                 mpxj = astaReader.read(file);
-                              }
-                           }
-                        }
-                     }
-                  }
+                  mpxReader.setLocale(Locale.GERMAN);
                }
 
-               catch (Exception ex)
+               if (name.indexOf(".SV.") != -1)
                {
-                  System.out.println("Failed to read " + name);
-                  ex.printStackTrace();
-                  ++failures;
+                  mpxReader.setLocale(new Locale("sv"));
+               }
+
+               mpxj = mpxReader.read(file);
+            }
+            else
+            {
+               mpxj = reader.read(file);
+               if (name.endsWith(".MPP"))
+               {
+                  validateMpp(file.getCanonicalPath(), mpxj);
                }
             }
 
-            assertEquals("Failed to read " + failures + " files", 0, failures);
+            if (mpxj == null)
+            {
+               System.out.println("Failed to read " + name);
+               ++failures;
+            }
+         }
+
+         catch (Exception ex)
+         {
+            System.out.println("Failed to read " + name);
+            ex.printStackTrace();
+            ++failures;
          }
       }
+
+      assertEquals("Failed to read " + failures + " files", 0, failures);
    }
 
    /**

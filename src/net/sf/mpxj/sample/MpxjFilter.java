@@ -27,8 +27,7 @@ import net.sf.mpxj.Filter;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * This example shows tasks or resources being read from a project file,
@@ -74,8 +73,7 @@ public class MpxjFilter
     */
    private static void filter(String filename, String filtername) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
-      ProjectFile project = reader.read(filename);
+      ProjectFile project = new UniversalProjectReader().read(filename);
       Filter filter = project.getFilters().getFilterByName(filtername);
 
       if (filter == null)

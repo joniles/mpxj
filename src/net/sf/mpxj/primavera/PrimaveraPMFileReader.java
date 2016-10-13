@@ -641,9 +641,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             assignment.setBaselineFinish(row.getPlannedFinishDate());
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
 
-            task.setActualCost(Double.valueOf(task.getActualCost().doubleValue() + assignment.getActualCost().doubleValue()));
-            task.setRemainingCost(Double.valueOf(task.getRemainingCost().doubleValue() + assignment.getRemainingCost().doubleValue()));
-            task.setBaselineCost(Double.valueOf(task.getBaselineCost().doubleValue() + assignment.getBaselineCost().doubleValue()));
+            task.setActualCost(Double.valueOf(NumberHelper.getDouble(task.getActualCost()) + NumberHelper.getDouble(assignment.getActualCost())));
+            task.setRemainingCost(Double.valueOf(NumberHelper.getDouble(task.getRemainingCost()) + NumberHelper.getDouble(assignment.getRemainingCost())));
+            task.setBaselineCost(Double.valueOf(NumberHelper.getDouble(task.getBaselineCost()) + NumberHelper.getDouble(assignment.getBaselineCost())));
 
             populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
             populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
