@@ -12,6 +12,7 @@
 		<action dev="joniles" type="add">Universal project reader.</action>
 		<action dev="joniles" type="update">Avoid NPE when reading PMXML files.</action>
 		<action dev="joniles" type="fix" issue="297">Missing extended attributes</action>
+		<action dev="joniles" type="fix" issue="300">CrossProject field omission causes issues when importing to P6</action>
 	</release>
 
 	<release version="5.4.0" date="06/10/2016">

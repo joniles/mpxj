@@ -1358,6 +1358,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       link.setPredecessorUID(NumberHelper.getBigInteger(taskID));
       link.setType(BigInteger.valueOf(type.getValue()));
+      link.setCrossProject(Boolean.FALSE); // SF-300: required to keep P6 happy when importing MSPDI files
 
       if (lag != null && lag.getDuration() != 0)
       {
