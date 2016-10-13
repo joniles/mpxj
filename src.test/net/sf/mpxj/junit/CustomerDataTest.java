@@ -190,6 +190,9 @@ public class CustomerDataTest
     */
    private void listFiles(List<File> list, File parent)
    {
+      String runtime = System.getProperty("java.runtime.name");
+      boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
+
       for (File file : parent.listFiles())
       {
          if (file.isDirectory())
@@ -198,6 +201,11 @@ public class CustomerDataTest
          }
          else
          {
+            String name = file.getName().toLowerCase();
+            if (isIKVM && (name.endsWith(".mpd") || name.endsWith(".mdb")))
+            {
+               continue;
+            }
             list.add(file);
          }
       }
