@@ -8,7 +8,10 @@
 
    <body>
 
-	<release version="5.4.1" date="Git HEAD">
+	<release version="5.6.0" date="Git HEAD">
+	</release>
+
+	<release version="5.5.0" date="13/10/2016">
 		<action dev="joniles" type="add">Universal project reader.</action>
 		<action dev="joniles" type="update">Avoid NPE when reading PMXML files.</action>
 		<action dev="joniles" type="fix" issue="297">Missing extended attributes</action>
