@@ -296,18 +296,32 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
-      for (CustomField field : m_projectFile.getCustomFields())
+      Set<FieldType> customFields = new HashSet<FieldType>();
+      for (CustomField customField : m_projectFile.getCustomFields())
       {
-         FieldType fieldType = field.getFieldType();
-         String alias = field.getAlias();
-
-         if (m_extendedAttributesInUse.contains(fieldType) || alias != null)
+         FieldType fieldType = customField.getFieldType();
+         if (fieldType != null)
          {
-            Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
-            list.add(attribute);
-            attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
-            attribute.setFieldName(fieldType.getName());
-            attribute.setAlias(alias);
+            customFields.add(fieldType);
+         }
+      }
+
+      customFields.addAll(m_extendedAttributesInUse);
+
+      for (FieldType fieldType : customFields)
+      {
+         Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
+         list.add(attribute);
+         attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
+         attribute.setFieldName(fieldType.getName());
+
+         CustomField customField = m_projectFile.getCustomFields().getCustomField(fieldType);
+         if (customField != null)
+         {
+            String alias = customField.getAlias();
+            {
+               attribute.setAlias(alias);
+            }
          }
       }
    }
