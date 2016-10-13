@@ -9,6 +9,7 @@
    <body>
 
 	<release version="5.4.1" date="Git HEAD">
+		<action dev="joniles" type="add">Universal project reader.</action>
 	</release>
 
 	<release version="5.4.0" date="06/10/2016">

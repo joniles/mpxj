@@ -55,9 +55,16 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
+/**
+ * This class implements a universal project reader: given a file or a stream this reader
+ * will sample the content and determine the type of file it has been given. It will then
+ * instantiate the correct reader for that file type and proceed to read the file.
+ */
 public class UniversalProjectReader extends AbstractProjectReader
 {
-
+   /**
+    * {@inheritDoc}
+    */
    @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
@@ -67,6 +74,11 @@ public class UniversalProjectReader extends AbstractProjectReader
       m_projectListeners.add(listener);
    }
 
+   /**
+    * Note that this method returns null if we can't determine the file type.
+    *
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       try
@@ -140,31 +152,67 @@ public class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Determine if the start of the buffer matches a fingerprint byte array.
+    *
+    * @param buffer bytes from file
+    * @param fingerprint fingerprint bytes
+    * @return true if the file matches the fingerprint
+    */
    private boolean matchesFingerprint(byte[] buffer, byte[] fingerprint)
    {
       return Arrays.equals(fingerprint, Arrays.copyOf(buffer, fingerprint.length));
    }
 
+   /**
+    * Determine if the buffer, when expressed as text, matches a fingerprint regular expression.
+    *
+    * @param buffer bytes from file
+    * @param fingerprint fingerprint regular expression
+    * @return true if the file matches the fingerprint
+    */
    private boolean matchesFingerprint(byte[] buffer, Pattern fingerprint)
    {
       return fingerprint.matcher(new String(buffer)).matches();
    }
 
+   /**
+    * Adds listeners and reads from a stream.
+    *
+    * @param reader reader for file type
+    * @param stream schedule data
+    * @return ProjectFile instance
+    */
    private ProjectFile readProjectFile(ProjectReader reader, InputStream stream) throws MPXJException
    {
       addListeners(reader);
       return reader.read(stream);
    }
 
+   /**
+    * Adds listeners and reads from a file.
+    *
+    * @param reader reader for file type
+    * @param file schedule data
+    * @return ProjectFile instance
+    */
    private ProjectFile readProjectFile(ProjectReader reader, File file) throws MPXJException
    {
       addListeners(reader);
       return reader.read(file);
    }
 
-   private ProjectFile handleMDBFile(InputStream is) throws Exception
+   /**
+    * We have identified that we have an MDB file. This could be a Microsoft Project database
+    * or an Asta database. Open the database and use the table names present to determine
+    * which type this is.
+    *
+    * @param stream schedule data
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleMDBFile(InputStream stream) throws Exception
    {
-      File file = InputStreamHelper.writeStreamToTempFile(is, ".mdb");
+      File file = InputStreamHelper.writeStreamToTempFile(stream, ".mdb");
 
       try
       {
@@ -191,9 +239,17 @@ public class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   private ProjectFile handleSQLiteFile(InputStream is) throws Exception
+   /**
+    * We have identified that we have a SQLite file. This could be a Primavera Project database
+    * or an Asta database. Open the database and use the table names present to determine
+    * which type this is.
+    *
+    * @param stream schedule data
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleSQLiteFile(InputStream stream) throws Exception
    {
-      File file = InputStreamHelper.writeStreamToTempFile(is, ".sqlite");
+      File file = InputStreamHelper.writeStreamToTempFile(stream, ".sqlite");
 
       try
       {
@@ -237,6 +293,12 @@ public class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Open a database and build a set of table names.
+    *
+    * @param url database URL
+    * @return set containing table names
+    */
    private Set<String> populateTableNames(String url) throws SQLException
    {
       Set<String> tableNames = new HashSet<String>();

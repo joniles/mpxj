@@ -65,6 +65,10 @@ public class ProjectTreeController
       try
       {
          projectFile = new UniversalProjectReader().read(file);
+         if (projectFile == null)
+         {
+            throw new IllegalArgumentException("Unsupported file type");
+         }
       }
 
       catch (Exception ex)

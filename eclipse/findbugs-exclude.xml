@@ -134,5 +134,26 @@
 		<Class name="~.*\.AstaDatabaseFileReader" />	
 		<Method name="read" />
 	</Match>
+
+	<!-- Don't care if the file is not deleted -->	 			 
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+		<Class name="~.*\.UniversalProjectReader" />	
+		<Method name="handleMDBFile" />
+	</Match>
+
+	<!-- Don't care if the file is not deleted -->	 			 
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+		<Class name="~.*\.UniversalProjectReader" />	
+		<Method name="handleSQLiteFile" />
+	</Match>
+
+	<!-- Oh yes it is! -->	 			 
+	<Match>
+		<Bug pattern="ODR_OPEN_DATABASE_RESOURCE_EXCEPTION_PATH" />
+		<Class name="~.*\.UniversalProjectReader" />	
+		<Method name="populateTableNames" />
+	</Match>
 	 			 
 </FindBugsFilter>
