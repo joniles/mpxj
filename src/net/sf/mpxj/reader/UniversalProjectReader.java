@@ -33,6 +33,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -58,8 +60,11 @@ public class UniversalProjectReader extends AbstractProjectReader
 
    @Override public void addProjectListener(ProjectListener listener)
    {
-      // TODO Auto-generated method stub
-
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList<ProjectListener>();
+      }
+      m_projectListeners.add(listener);
    }
 
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
@@ -74,7 +79,7 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          //
          // If the file is smaller than the buffer we are peeking into,
-         // it's not a valid schedule file.
+         // it's probably not a valid schedule file.
          //
          if (bytesRead != BUFFER_SIZE)
          {
@@ -83,7 +88,7 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, MPP_FINGERPRINT))
          {
-            return new MPPReader().read(bis);
+            return readProjectFile(new MPPReader(), bis);
          }
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT))
@@ -93,27 +98,27 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
          {
-            return new AstaFileReader().read(bis);
+            return readProjectFile(new AstaFileReader(), bis);
          }
 
          if (matchesFingerprint(buffer, MPX_FINGERPRINT))
          {
-            return new MPXReader().read(bis);
+            return readProjectFile(new MPXReader(), bis);
          }
 
          if (matchesFingerprint(buffer, XER_FINGERPRINT))
          {
-            return new PrimaveraXERFileReader().read(bis);
+            return readProjectFile(new PrimaveraXERFileReader(), bis);
          }
 
          if (matchesFingerprint(buffer, PLANNER_FINGERPRINT))
          {
-            return new PlannerReader().read(bis);
+            return readProjectFile(new PlannerReader(), bis);
          }
 
          if (matchesFingerprint(buffer, PMXML_FINGERPRINT))
          {
-            return new PrimaveraPMFileReader().read(bis);
+            return readProjectFile(new PrimaveraPMFileReader(), bis);
          }
 
          if (matchesFingerprint(buffer, MDB_FINGERPRINT))
@@ -145,6 +150,18 @@ public class UniversalProjectReader extends AbstractProjectReader
       return fingerprint.matcher(new String(buffer)).matches();
    }
 
+   private ProjectFile readProjectFile(ProjectReader reader, InputStream stream) throws MPXJException
+   {
+      addListeners(reader);
+      return reader.read(stream);
+   }
+
+   private ProjectFile readProjectFile(ProjectReader reader, File file) throws MPXJException
+   {
+      addListeners(reader);
+      return reader.read(file);
+   }
+
    private ProjectFile handleMDBFile(InputStream is) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(is, ".mdb");
@@ -157,12 +174,12 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
-            return new MPDDatabaseReader().read(file);
+            return readProjectFile(new MPDDatabaseReader(), file);
          }
 
          if (tableNames.contains("EXCEPTIONN"))
          {
-            return new AstaDatabaseReader().read(file);
+            return readProjectFile(new AstaDatabaseReader(), file);
          }
 
          return null;
@@ -186,7 +203,7 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (tableNames.contains("EXCEPTIONN"))
          {
-            return new AstaDatabaseFileReader().read(file);
+            return readProjectFile(new AstaDatabaseFileReader(), file);
          }
 
          if (tableNames.contains("PROJWBS"))
@@ -199,6 +216,7 @@ public class UniversalProjectReader extends AbstractProjectReader
                connection = DriverManager.getConnection(url, props);
                PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
                reader.setConnection(connection);
+               addListeners(reader);
                return reader.read();
             }
             finally
@@ -251,6 +269,24 @@ public class UniversalProjectReader extends AbstractProjectReader
 
       return tableNames;
    }
+
+   /**
+    * Adds any listeners attached to this reader to the reader created internally.
+    *
+    * @param reader internal project reader
+    */
+   private void addListeners(ProjectReader reader)
+   {
+      if (m_projectListeners != null)
+      {
+         for (ProjectListener listener : m_projectListeners)
+         {
+            reader.addProjectListener(listener);
+         }
+      }
+   }
+
+   private List<ProjectListener> m_projectListeners;
 
    private static final int BUFFER_SIZE = 255;
 
