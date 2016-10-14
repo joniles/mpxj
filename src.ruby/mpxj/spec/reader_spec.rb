@@ -28,10 +28,10 @@ describe MPXJ::Reader do
 
     it 'will raise a specific exception when the file type is not supported' do
       begin
-        MPXJ::Reader.read("unsupportedfiletype.xxx")
+        MPXJ::Reader.read("#{File.dirname(__FILE__)}/reader_spec.rb")
       rescue Exception => e
         expect(e.class).to eq(MPXJ::ArgumentError)
-        expect(e.message.split(/\n/).first).to eq("java.lang.IllegalArgumentException: Cannot read files of type: XXX") 
+        expect(e.message.split(/\n/).first).to eq("java.lang.IllegalArgumentException: Unsupported file type") 
       end
     end        
   end

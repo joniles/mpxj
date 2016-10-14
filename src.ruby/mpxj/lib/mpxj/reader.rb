@@ -49,7 +49,7 @@ module MPXJ
     def self.report_error(java_output)
       if java_output.include?('Conversion Error: ')
         message = java_output.split('Conversion Error: ')[1]
-        if message.include?('Cannot read files of type:')
+        if message.include?('Unsupported file type')
           raise MPXJ::ArgumentError, message
         else
           raise MPXJ::RuntimeError, message
