@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -141,6 +143,11 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, SQLITE_FINGERPRINT))
          {
             return handleSQLiteFile(bis);
+         }
+
+         if (matchesFingerprint(buffer, ZIP_FINGERPRINT))
+         {
+            return handleZipFile(bis);
          }
 
          return null;
@@ -294,6 +301,25 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    /**
+    * We have identified that we have a zip file. Let's assume that it contains just one
+    * entry so pass the stream representing that entry to UniversalProjectReader to
+    * see if we recognise the file type.
+    *
+    * @param stream schedule data
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleZipFile(InputStream stream) throws Exception
+   {
+      ZipInputStream zip = new ZipInputStream(stream);
+      ZipEntry entry = zip.getNextEntry();
+      if (entry != null)
+      {
+         return new UniversalProjectReader().read(zip);
+      }
+      return null;
+   }
+
+   /**
     * Open a database and build a set of table names.
     *
     * @param url database URL
@@ -432,6 +458,12 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) 'H',
       (byte) 'D',
       (byte) 'R'
+   };
+
+   private static final byte[] ZIP_FINGERPRINT =
+   {
+      (byte) 'P',
+      (byte) 'K'
    };
 
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
