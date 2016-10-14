@@ -7,8 +7,10 @@
    </properties> 
 
    <body>
+	<release version="5.5.2" date="Git HEAD">
+	</release>
 
-	<release version="5.5.1" date="Git HEAD">
+	<release version="5.5.1" date="14/10/2016">
 		<action dev="joniles" type="add">Update universal project reader to support zip files.</action>
 		<action dev="joniles" type="update">Update ruby to align error handling with universal project reader.</action>
 	</release>
