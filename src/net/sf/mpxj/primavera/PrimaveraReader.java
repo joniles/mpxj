@@ -1204,7 +1204,7 @@ final class PrimaveraReader
       map.put(ResourceField.CREATED, "create_date");
       map.put(ResourceField.TYPE, "rsrc_type");
       map.put(ResourceField.INITIALS, "rsrc_short_name");
-      map.put(ResourceField.NUMBER1, "parent_rsrc_id");
+      map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
 
       return map;
    }
@@ -1308,7 +1308,6 @@ final class PrimaveraReader
    {
       Map<FieldType, String> map = new HashMap<FieldType, String>();
 
-      map.put(ResourceField.NUMBER1, "Parent Resource Unique ID");
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
       map.put(TaskField.TEXT1, "Code");

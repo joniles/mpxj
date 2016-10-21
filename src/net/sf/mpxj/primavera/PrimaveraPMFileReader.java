@@ -352,6 +352,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
+         resource.setParentID(xml.getParentObjectId());
 
          Integer calendarID = xml.getCalendarObjectId();
          if (calendarID != null)
@@ -397,7 +398,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             }
          }
 
-         writeUDFTypes(resource, xml.getUDF());
+         readUDFTypes(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -529,7 +530,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
 
-         writeUDFTypes(task, row.getUDF());
+         readUDFTypes(task, row.getUDF());
 
          m_eventManager.fireTaskReadEvent(task);
       }
@@ -650,7 +651,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
 
-            writeUDFTypes(assignment, row.getUDF());
+            readUDFTypes(assignment, row.getUDF());
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
@@ -706,7 +707,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * @param udfs user defined fields
     * @author lsong
     */
-   private void writeUDFTypes(ProjectEntityWithUniqueID mpxj, List<UDFAssignmentType> udfs)
+   private void readUDFTypes(ProjectEntityWithUniqueID mpxj, List<UDFAssignmentType> udfs)
    {
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
       for (UDFAssignmentType udf : udfs)
