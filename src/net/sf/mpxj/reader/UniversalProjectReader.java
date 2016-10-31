@@ -376,7 +376,7 @@ public class UniversalProjectReader extends AbstractProjectReader
 
    private List<ProjectListener> m_projectListeners;
 
-   private static final int BUFFER_SIZE = 255;
+   private static final int BUFFER_SIZE = 512;
 
    private static final byte[] MPP_FINGERPRINT =
    {
