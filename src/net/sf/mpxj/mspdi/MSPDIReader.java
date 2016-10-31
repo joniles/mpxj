@@ -514,28 +514,35 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
             Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
-            ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
 
-            Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
-            if (times != null)
+            // Vico Schedule Planner seems to write start and end dates to FromeTime and ToTime
+            // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
+            // so we will ignore it too!
+            if (fromDate != null && toDate != null)
             {
-               List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
-               for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
+               ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+
+               Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
+               if (times != null)
                {
-                  Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-                  Date endTime = DatatypeConverter.parseTime(period.getToTime());
-
-                  if (startTime != null && endTime != null)
+                  List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
+                  for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
                   {
-                     if (startTime.getTime() >= endTime.getTime())
-                     {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(endTime);
-                        cal.add(Calendar.DAY_OF_YEAR, 1);
-                        endTime = cal.getTime();
-                     }
+                     Date startTime = DatatypeConverter.parseTime(period.getFromTime());
+                     Date endTime = DatatypeConverter.parseTime(period.getToTime());
 
-                     bce.addRange(new DateRange(startTime, endTime));
+                     if (startTime != null && endTime != null)
+                     {
+                        if (startTime.getTime() >= endTime.getTime())
+                        {
+                           Calendar cal = Calendar.getInstance();
+                           cal.setTime(endTime);
+                           cal.add(Calendar.DAY_OF_YEAR, 1);
+                           endTime = cal.getTime();
+                        }
+
+                        bce.addRange(new DateRange(startTime, endTime));
+                     }
                   }
                }
             }
