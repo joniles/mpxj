@@ -48,6 +48,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
@@ -76,6 +77,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
+import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
@@ -168,6 +170,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
 
+         writeCurrency();
          writeUserFieldDefinitions();
          writeProjectProperties();
          writeCalendars();
@@ -203,6 +206,99 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
+    * Create a handful of default currencies to keep Primavera happy.
+    */
+   private void writeCurrency()
+   {
+      ProjectProperties props = m_projectFile.getProjectProperties();
+      CurrencyType currency = m_factory.createCurrencyType();
+      m_apibo.getCurrency().add(currency);
+
+      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
+      String negativeSymbol = "(" + positiveSymbol + ")";
+
+      currency.setDecimalPlaces(props.getCurrencyDigits());
+      currency.setDecimalSymbol(getSymbolName(props.getDecimalSeparator()));
+      currency.setDigitGroupingSymbol(getSymbolName(props.getThousandsSeparator()));
+      currency.setExchangeRate(Double.valueOf(1.0));
+      currency.setId("CUR");
+      currency.setName("Default Currency");
+      currency.setNegativeSymbol(negativeSymbol);
+      currency.setObjectId(DEFAULT_CURRENCY_ID);
+      currency.setPositiveSymbol(positiveSymbol);
+      currency.setSymbol(props.getCurrencySymbol());
+   }
+
+   /**
+    * Map the currency separator character to a symbol name.
+    *
+    * @param c currency separator character
+    * @return symbol name
+    */
+   private String getSymbolName(char c)
+   {
+      String result = null;
+
+      switch (c)
+      {
+         case ',':
+         {
+            result = "Comma";
+            break;
+         }
+
+         case '.':
+         {
+            result = "Period";
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Generate a currency format.
+    *
+    * @param position currency symbol position
+    * @return currency format
+    */
+   private String getCurrencyFormat(CurrencySymbolPosition position)
+   {
+      String result;
+
+      switch (position)
+      {
+         case AFTER:
+         {
+            result = "1.1#";
+            break;
+         }
+
+         case AFTER_WITH_SPACE:
+         {
+            result = "1.1 #";
+            break;
+         }
+
+         case BEFORE_WITH_SPACE:
+         {
+            result = "# 1.1";
+            break;
+         }
+
+         default:
+         case BEFORE:
+         {
+            result = "#1.1";
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
     * Add UDFType objects to a PM XML file.
     *
     * @author kmahan
@@ -214,13 +310,16 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       for (CustomField cf : m_projectFile.getCustomFields())
       {
-         UDFTypeType udf = m_factory.createUDFTypeType();
-         udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
+         if (cf.getFieldType() != null)
+         {
+            UDFTypeType udf = m_factory.createUDFTypeType();
+            udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
 
-         udf.setDataType(UserFieldDataType.inferUserFieldDataType(cf.getFieldType().getDataType()));
-         udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
-         udf.setTitle(cf.getAlias());
-         m_apibo.getUDFType().add(udf);
+            udf.setDataType(UserFieldDataType.inferUserFieldDataType(cf.getFieldType().getDataType()));
+            udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
+            udf.setTitle(cf.getAlias());
+            m_apibo.getUDFType().add(udf);
+         }
       }
    }
 
@@ -396,6 +495,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.TRUE);
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getResourceCalendar()));
+      xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -404,6 +504,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
+      xml.setParentObjectId(mpxj.getParentID());
       xml.setResourceNotes(mpxj.getNotes());
       xml.setResourceType(getResourceType(mpxj));
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
@@ -513,6 +614,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
+      xml.setPercentCompleteType("Duration");
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPlannedDuration(getDuration(mpxj.getDuration()));
@@ -570,6 +672,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
       xml.setActualCost(getDouble(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
+      xml.setActualOvertimeUnits(getDuration(mpxj.getActualOvertimeWork()));
       xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
@@ -584,6 +687,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPlannedUnits(getDuration(mpxj.getWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setRateSource("Resource");
       xml.setRemainingCost(getDouble(mpxj.getActualCost()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingFinishDate(mpxj.getFinish());
@@ -634,7 +738,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       for (CustomField cf : customFields)
       {
          FieldType fieldType = cf.getFieldType();
-         if (type == fieldType.getFieldTypeClass())
+         if (fieldType != null && type == fieldType.getFieldTypeClass())
          {
             UDFAssignmentType udf = m_factory.createUDFAssignmentType();
             udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
@@ -869,6 +973,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private static final String PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
    private static final String DEFAULT_WBS_CODE = "WBS";
+   private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =
    {

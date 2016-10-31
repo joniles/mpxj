@@ -1425,6 +1425,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Sets Parent ID of this resource.
+    *
+    * @param val Parent ID
+    */
+   public void setParentID(Integer val)
+   {
+      set(ResourceField.PARENT_ID, val);
+   }
+
+   /**
     * Retrieves Base Calendar name associated with this resource. This field
     * indicates which calendar is the base calendar for a resource calendar.
     *
@@ -1495,6 +1505,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    @Override public Integer getUniqueID()
    {
       return ((Integer) getCachedValue(ResourceField.UNIQUE_ID));
+   }
+
+   /**
+    * Gets Parent ID field value.
+    *
+    * @return value
+    */
+   public Integer getParentID()
+   {
+      return (Integer) getCachedValue(ResourceField.PARENT_ID);
    }
 
    /**
