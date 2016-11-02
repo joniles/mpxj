@@ -6,14 +6,16 @@
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
-   <body>
+   <body>   
 	<release version="5.5.2" date="Git HEAD">
 		<action dev="joniles" type="update">Add Primavera Parent Resource ID as a specific resource attribute (Based on a contribution by Dave McKay).</action>
 		<action dev="joniles" type="update">PMXML writer generates currency record (Based on a contribution by Dave McKay).</action>
 		<action dev="joniles" type="update">PMXML writer defaults Activity PercentCompleteType to Duration (Based on a contribution by Dave McKay).</action>
 		<action dev="joniles" type="update">PMXML writer records currency and parent attributes for Resource (Based on a contribution by Dave McKay).</action>
 		<action dev="joniles" type="update">PMXML writer resource assignments include RateSource and ActualOvertimeUnits attributes(Based on a contribution by Dave McKay).</action>		
-		<action dev="joniles" type="update">Gracefully handle invalid calendar exceptions in the MSPDI reader.</action>
+		<action dev="joniles" type="update">MSPDI reader: gracefully handle invalid calendar exceptions..</action>
+		<action dev="joniles" type="update">PMXML writer: gracefully handle missing data.</action>
+		<action dev="joniles" type="update">Planner writer: gracefully handle missing data.</action>
 	</release>
 
 	<release version="5.5.1" date="14/10/2016">
