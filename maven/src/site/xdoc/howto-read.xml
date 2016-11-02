@@ -15,18 +15,14 @@
 provided by MPXJ which will select the correct Reader to open the file
 for you, or you can use a Reader class directly.</p>
 
-<p>The example below illustrates how MPXJ can select the correct Reader class
-for you. The example assumes that you have provided the file name in the
-inputFile variable.</p>
-
 <source>
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 ...
 
-ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
+ProjectReader reader = new UniversalProjectReader();
 ProjectFile projectFile = reader.read(inputFile);
 </source>
 

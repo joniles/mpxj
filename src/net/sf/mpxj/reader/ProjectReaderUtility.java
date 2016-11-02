@@ -38,7 +38,9 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 /**
- * This class contains utility methods for working with ProjectReaderss.
+ * This class contains utility methods for working with ProjectReaders.
+ * Note that you should probably be using the UniversalProjectReader instead
+ * as it can distinguish the correct file type based on content.
  */
 public final class ProjectReaderUtility
 {
