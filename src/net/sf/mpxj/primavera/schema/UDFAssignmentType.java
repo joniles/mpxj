@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -313,6 +315,19 @@ import net.sf.mpxj.common.NumberHelper;
    {
       switch (dataType)
       {
+         case DURATION:
+            udf.setTextValue(value != null ? ((Duration) value).toString() : "");
+            break;
+         case CURRENCY:
+            if (value != null && !(value instanceof Double))
+            {
+               value = Double.valueOf(((Number) value).doubleValue());
+            }
+            udf.setCostValue((Double) value);
+            break;
+         case BINARY:
+            udf.setTextValue("");
+            break;
          case STRING:
             // write empty string instead of null to make sure we get a value
             // node in the XML output
@@ -327,6 +342,9 @@ import net.sf.mpxj.common.NumberHelper;
                value = Double.valueOf(((Number) value).doubleValue());
             }
             udf.setDoubleValue((Double) value);
+            break;
+         case BOOLEAN:
+            udf.setIntegerValue(BooleanHelper.getBoolean((Boolean) value) ? Integer.valueOf(1) : Integer.valueOf(0));
             break;
          case INTEGER:
          case SHORT:

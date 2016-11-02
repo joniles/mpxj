@@ -76,15 +76,20 @@ public enum UserFieldDataType
    {
       switch (dataType)
       {
+         case BINARY:
          case STRING:
+         case DURATION:
             return "Text";
          case DATE:
             return "Start Date";
          case NUMERIC:
             return "Double";
+         case BOOLEAN:
          case INTEGER:
          case SHORT:
             return "Integer";
+         case CURRENCY:
+            return "Cost";
          default:
             throw new RuntimeException("Unconvertible data type: " + dataType);
       }

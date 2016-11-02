@@ -310,7 +310,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       for (CustomField cf : m_projectFile.getCustomFields())
       {
-         if (cf.getFieldType() != null)
+         if (cf.getFieldType() != null && cf.getFieldType().getDataType() != null)
          {
             UDFTypeType udf = m_factory.createUDFTypeType();
             udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
@@ -460,7 +460,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
                   xmlException.getWorkTime().add(xmlHours);
 
                   xmlHours.setStart(range.getStart());
-                  xmlHours.setFinish(getEndTime(range.getEnd()));
+
+                  if (range.getEnd() != null)
+                  {
+                     xmlHours.setFinish(getEndTime(range.getEnd()));
+                  }
                }
                m_calendar.add(Calendar.DAY_OF_YEAR, 1);
             }
@@ -794,8 +798,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private String getResourceType(Resource resource)
    {
       String result;
+      net.sf.mpxj.ResourceType type = resource.getType();
+      if (type == null)
+      {
+         type = net.sf.mpxj.ResourceType.WORK;
+      }
 
-      switch (resource.getType())
+      switch (type)
       {
          case MATERIAL:
          {
