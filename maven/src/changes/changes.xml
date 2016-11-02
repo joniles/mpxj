@@ -7,7 +7,10 @@
    </properties> 
 
    <body>   
-	<release version="5.5.2" date="Git HEAD">
+   	<release version="5.5.3" date="Git HEAD">
+	</release>
+   
+	<release version="5.5.2" date="02/11/2016">
 		<action dev="joniles" type="update">Add Primavera Parent Resource ID as a specific resource attribute (Based on a contribution by Dave McKay).</action>
 		<action dev="joniles" type="update">PMXML writer generates currency record (Based on a contribution by Dave McKay).</action>
 		<action dev="joniles" type="update">PMXML writer defaults Activity PercentCompleteType to Duration (Based on a contribution by Dave McKay).</action>
