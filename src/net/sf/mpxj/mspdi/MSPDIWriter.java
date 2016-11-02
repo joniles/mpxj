@@ -316,12 +316,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
          attribute.setFieldName(fieldType.getName());
 
          CustomField customField = m_projectFile.getCustomFields().getCustomField(fieldType);
-         if (customField != null)
+         String alias = customField.getAlias();
          {
-            String alias = customField.getAlias();
-            {
-               attribute.setAlias(alias);
-            }
+            attribute.setAlias(alias);
          }
       }
    }
