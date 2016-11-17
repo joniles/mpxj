@@ -98,7 +98,7 @@ public class UniversalProjectReader extends AbstractProjectReader
          //
          if (bytesRead != BUFFER_SIZE)
          {
-            throw new MPXJException(MPXJException.INVALID_FILE);
+            return null;
          }
 
          if (matchesFingerprint(buffer, MPP_FINGERPRINT))
