@@ -155,7 +155,6 @@ class MapRow implements Row
       else
       {
          result = new Date(EPOCH + (value.longValue() * 1000));
-         System.out.println("Date: " + name + " " + result);
       }
       return result;
    }
@@ -174,7 +173,6 @@ class MapRow implements Row
       else
       {
          result = parseDuration(value);
-         System.out.println("Duration: " + value + " " + result);
       }
       return result;
    }
@@ -193,7 +191,6 @@ class MapRow implements Row
       else
       {
          result = parseDuration(value);
-         System.out.println("Work: " + value + " " + result);
       }
       return result;
    }
