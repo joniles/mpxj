@@ -617,7 +617,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
       return list;
    }
    private AstaReader m_reader;
-   private Integer m_projectID;
+   private Integer m_projectID = Integer.valueOf(1);
    private String m_schema = "";
    private Connection m_connection;
    private PreparedStatement m_ps;
