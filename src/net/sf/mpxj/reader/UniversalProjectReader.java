@@ -48,6 +48,7 @@ import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
+import net.sf.mpxj.merlin.MerlinReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
@@ -291,6 +292,11 @@ public class UniversalProjectReader extends AbstractProjectReader
             }
          }
 
+         if (tableNames.contains("ZSCHEDULEITEM"))
+         {
+            return readProjectFile(new MerlinReader(), file);
+         }
+
          return null;
       }
 
@@ -301,9 +307,10 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    /**
-    * We have identified that we have a zip file. Let's assume that it contains just one
-    * entry so pass the stream representing that entry to UniversalProjectReader to
-    * see if we recognise the file type.
+    * We have identified that we have a zip file. Work our way through the entries in the
+    * file passing the stream representing that entry to UniversalProjectReader to
+    * see if we recognise a file type. Keep doing that until we have processed all of
+    * the entries, or we have found an entry we can read.
     *
     * @param stream schedule data
     * @return ProjectFile instance
@@ -311,10 +318,24 @@ public class UniversalProjectReader extends AbstractProjectReader
    private ProjectFile handleZipFile(InputStream stream) throws Exception
    {
       ZipInputStream zip = new ZipInputStream(stream);
-      ZipEntry entry = zip.getNextEntry();
-      if (entry != null)
+      while (true)
       {
-         return new UniversalProjectReader().read(zip);
+         ZipEntry entry = zip.getNextEntry();
+         if (entry == null)
+         {
+            break;
+         }
+
+         if (entry.isDirectory())
+         {
+            continue;
+         }
+
+         ProjectFile result = new UniversalProjectReader().read(zip);
+         if (result != null)
+         {
+            return result;
+         }
       }
       return null;
    }
