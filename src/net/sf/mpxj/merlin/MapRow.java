@@ -248,6 +248,18 @@ class MapRow implements Row
             break;
          }
 
+         case 2:
+         {
+            result = RelationType.FINISH_FINISH;
+            break;
+         }
+
+         case 3:
+         {
+            result = RelationType.START_FINISH;
+            break;
+         }
+
          case 0:
          default:
          {
