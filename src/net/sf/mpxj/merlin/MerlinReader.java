@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -44,9 +45,11 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -181,6 +184,7 @@ public class MerlinReader implements ProjectReader
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
+      processProject();
       processCalendars();
       processResources();
       processTasks();
@@ -188,6 +192,24 @@ public class MerlinReader implements ProjectReader
       processDependencies();
 
       return m_project;
+   }
+
+   /**
+    * Read project properties.
+    */
+   private void processProject() throws SQLException
+   {
+      ProjectProperties props = m_project.getProjectProperties();
+      Row row = getRows("select * from zproject where z_pk=?", m_projectID).get(0);
+      props.setWeekStartDay(Day.getInstance(row.getInt("ZFIRSTDAYOFWEEK") + 1));
+      props.setScheduleFrom(row.getInt("ZSCHEDULINGDIRECTION") == 1 ? ScheduleFrom.START : ScheduleFrom.FINISH);
+      props.setMinutesPerDay(Integer.valueOf(row.getInt("ZHOURSPERDAY") * 60));
+      props.setDaysPerMonth(row.getInteger("ZDAYSPERMONTH"));
+      props.setMinutesPerWeek(Integer.valueOf(row.getInt("ZHOURSPERWEEK") * 60));
+      props.setStatusDate(row.getDate("ZGIVENSTATUSDATE"));
+      props.setCurrencySymbol(row.getString("ZCURRENCYSYMBOL"));
+      props.setName(row.getString("ZTITLE"));
+      props.setUniqueID(row.getUUID("ZUNIQUEID").toString());
    }
 
    /**
