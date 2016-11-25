@@ -26,23 +26,38 @@ package net.sf.mpxj.merlin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -55,6 +70,11 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /**
  * This class reads Merlin Project files. As Merlin is a Mac application, the "file"
@@ -142,12 +162,19 @@ public class MerlinReader implements ProjectReader
          String url = "jdbc:sqlite:" + file.getAbsolutePath();
          Properties props = new Properties();
          m_connection = org.sqlite.JDBC.createConnection(url, props);
+
+         m_documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+         XPathFactory xPathfactory = XPathFactory.newInstance();
+         XPath xpath = xPathfactory.newXPath();
+         m_dayTimeIntervals = xpath.compile("/array/dayTimeInterval");
+
          return read();
       }
 
-      catch (SQLException ex)
+      catch (Exception ex)
       {
-         throw new MPXJException("Failed to create connection", ex);
+         throw new MPXJException(MPXJException.INVALID_FORMAT, ex);
       }
 
       finally
@@ -164,6 +191,9 @@ public class MerlinReader implements ProjectReader
                // silently ignore exceptions when closing connection
             }
          }
+
+         m_documentBuilder = null;
+         m_dayTimeIntervals = null;
       }
    }
 
@@ -172,7 +202,7 @@ public class MerlinReader implements ProjectReader
     *
     * @return ProjectFile instance
     */
-   private ProjectFile read() throws SQLException
+   private ProjectFile read() throws Exception
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -206,7 +236,7 @@ public class MerlinReader implements ProjectReader
       props.setMinutesPerDay(Integer.valueOf(row.getInt("ZHOURSPERDAY") * 60));
       props.setDaysPerMonth(row.getInteger("ZDAYSPERMONTH"));
       props.setMinutesPerWeek(Integer.valueOf(row.getInt("ZHOURSPERWEEK") * 60));
-      props.setStatusDate(row.getDate("ZGIVENSTATUSDATE"));
+      props.setStatusDate(row.getTimestamp("ZGIVENSTATUSDATE"));
       props.setCurrencySymbol(row.getString("ZCURRENCYSYMBOL"));
       props.setName(row.getString("ZTITLE"));
       props.setUniqueID(row.getUUID("ZUNIQUEID").toString());
@@ -215,7 +245,7 @@ public class MerlinReader implements ProjectReader
    /**
     * Read calendar data.
     */
-   private void processCalendars() throws SQLException
+   private void processCalendars() throws Exception
    {
       List<Row> rows = getRows("select * from zcalendar where zproject=?", m_projectID);
       for (Row row : rows)
@@ -223,8 +253,89 @@ public class MerlinReader implements ProjectReader
          ProjectCalendar calendar = m_project.addCalendar();
          calendar.setUniqueID(row.getInteger("Z_PK"));
          calendar.setName(row.getString("ZTITLE"));
-         // TODO: populate the calendar detail
+         processDays(calendar);
+         processExceptions(calendar);
          m_eventManager.fireCalendarReadEvent(calendar);
+      }
+   }
+
+   /**
+    * Process normal calendar working and non-working days.
+    *
+    * @param calendar parent calendar
+    */
+   private void processDays(ProjectCalendar calendar) throws Exception
+   {
+      List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=13", calendar.getUniqueID());
+      for (Row row : rows)
+      {
+         Day day = row.getDay("ZWEEKDAY");
+         String timeIntervals = row.getString("ZTIMEINTERVALS");
+         if (timeIntervals == null)
+         {
+            calendar.setWorkingDay(day, false);
+         }
+         else
+         {
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
+            NodeList nodes = getNodeList(timeIntervals, m_dayTimeIntervals);
+            calendar.setWorkingDay(day, nodes.getLength() > 0);
+
+            for (int loop = 0; loop < nodes.getLength(); loop++)
+            {
+               NamedNodeMap attributes = nodes.item(loop).getAttributes();
+               Date startTime = m_calendarTimeFormat.parse(attributes.getNamedItem("startTime").getTextContent());
+               Date endTime = m_calendarTimeFormat.parse(attributes.getNamedItem("endTime").getTextContent());
+
+               if (startTime.getTime() >= endTime.getTime())
+               {
+                  Calendar cal = Calendar.getInstance();
+                  cal.setTime(endTime);
+                  cal.add(Calendar.DAY_OF_YEAR, 1);
+                  endTime = cal.getTime();
+               }
+
+               hours.addRange(new DateRange(startTime, endTime));
+            }
+         }
+      }
+   }
+
+   /**
+    * Process calendar exceptions.
+    *
+    * @param calendar parent calendar.
+    */
+   private void processExceptions(ProjectCalendar calendar) throws Exception
+   {
+      List<Row> rows = getRows("select * from zcalendarrule where zcalendar=? and z_ent=12", calendar.getUniqueID());
+      for (Row row : rows)
+      {
+         Date startDay = row.getDate("ZSTARTDAY");
+         Date endDay = row.getDate("ZENDDAY");
+         ProjectCalendarException exception = calendar.addCalendarException(startDay, endDay);
+
+         String timeIntervals = row.getString("ZTIMEINTERVALS");
+         if (timeIntervals != null)
+         {
+            NodeList nodes = getNodeList(timeIntervals, m_dayTimeIntervals);
+            for (int loop = 0; loop < nodes.getLength(); loop++)
+            {
+               NamedNodeMap attributes = nodes.item(loop).getAttributes();
+               Date startTime = m_calendarTimeFormat.parse(attributes.getNamedItem("startTime").getTextContent());
+               Date endTime = m_calendarTimeFormat.parse(attributes.getNamedItem("endTime").getTextContent());
+
+               if (startTime.getTime() >= endTime.getTime())
+               {
+                  Calendar cal = Calendar.getInstance();
+                  cal.setTime(endTime);
+                  cal.add(Calendar.DAY_OF_YEAR, 1);
+                  endTime = cal.getTime();
+               }
+
+               exception.addRange(new DateRange(startTime, endTime));
+            }
+         }
       }
    }
 
@@ -306,12 +417,12 @@ public class MerlinReader implements ProjectReader
       task.setName(row.getString("ZTITLE"));
       task.setPriority(Priority.getInstance(row.getInt("ZPRIORITY")));
       task.setMilestone(row.getBoolean("ZISMILESTONE"));
-      task.setLateFinish(row.getDate("ZGIVENENDDATEMAX_"));
-      task.setEarlyFinish(row.getDate("ZGIVENENDDATEMIN_"));
-      task.setLateStart(row.getDate("ZGIVENSTARTDATEMAX_"));
-      task.setEarlyStart(row.getDate("ZGIVENSTARTDATEMIN_"));
-      task.setActualFinish(row.getDate("ZGIVENACTUALENDDATE_"));
-      task.setActualStart(row.getDate("ZGIVENACTUALSTARTDATE_"));
+      task.setLateFinish(row.getTimestamp("ZGIVENENDDATEMAX_"));
+      task.setEarlyFinish(row.getTimestamp("ZGIVENENDDATEMIN_"));
+      task.setLateStart(row.getTimestamp("ZGIVENSTARTDATEMAX_"));
+      task.setEarlyStart(row.getTimestamp("ZGIVENSTARTDATEMIN_"));
+      task.setActualFinish(row.getTimestamp("ZGIVENACTUALENDDATE_"));
+      task.setActualStart(row.getTimestamp("ZGIVENACTUALSTARTDATE_"));
       task.setNotes(row.getString("ZOBJECTDESCRIPTION"));
       task.setDuration(row.getDuration("ZGIVENDURATION_"));
       task.setOvertimeWork(row.getWork("ZGIVENWORKOVERTIME_"));
@@ -351,8 +462,8 @@ public class MerlinReader implements ProjectReader
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             assignment.setGUID(row.getUUID("ZUNIQUEID"));
-            assignment.setActualFinish(row.getDate("ZGIVENACTUALENDDATE_"));
-            assignment.setActualStart(row.getDate("ZGIVENACTUALSTARTDATE_"));
+            assignment.setActualFinish(row.getTimestamp("ZGIVENACTUALENDDATE_"));
+            assignment.setActualStart(row.getTimestamp("ZGIVENACTUALSTARTDATE_"));
             //ZGIVENWORK_ -> Units?
             // TODO: populate more attributes
          }
@@ -420,6 +531,19 @@ public class MerlinReader implements ProjectReader
       }
    }
 
+   /**
+    * Retrieve a node list based on an XPath expression.
+    *
+    * @param document XML document to process
+    * @param expression compiled XPath expression
+    * @return node list
+    */
+   private NodeList getNodeList(String document, XPathExpression expression) throws Exception
+   {
+      Document doc = m_documentBuilder.parse(new InputSource(new StringReader(document)));
+      return (NodeList) expression.evaluate(doc, XPathConstants.NODESET);
+   }
+
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private Integer m_projectID = Integer.valueOf(1);
@@ -428,4 +552,8 @@ public class MerlinReader implements ProjectReader
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
+   private DocumentBuilder m_documentBuilder;
+   private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
+   private XPathExpression m_dayTimeIntervals;
+
 }

@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.merlin;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.TimeUnit;
@@ -143,7 +145,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public Date getDate(String name)
+   @Override public Date getTimestamp(String name)
    {
       Date result;
       // They are stored as seconds since Jan 1st, 2001 00:00
@@ -154,7 +156,26 @@ class MapRow implements Row
       }
       else
       {
-         result = new Date(EPOCH + (value.longValue() * 1000));
+         result = new Date(TIMESTAMP_EPOCH + (value.longValue() * 1000));
+      }
+      return result;
+   }
+
+   @Override public Date getDate(String name)
+   {
+      Date result;
+      // They are stored as days since Jan 7th, 2001 00:00
+      Integer value = getInteger(name);
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTimeInMillis(DATE_EPOCH);
+         cal.add(Calendar.DAY_OF_YEAR, value.intValue());
+         result = cal.getTime();
       }
       return result;
    }
@@ -362,10 +383,29 @@ class MapRow implements Row
       return Duration.getInstance(durationValue, durationUnits);
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public Day getDay(String name)
+   {
+      Day result = null;
+      Integer value = getInteger(name);
+      if (value != null)
+      {
+         result = Day.getInstance(value.intValue() + 1);
+      }
+      return result;
+   }
+
    protected Map<String, Object> m_map;
 
    /**
     * 01/01/2001 00:00.
     */
-   private static final long EPOCH = 978307200000L;
+   private static final long TIMESTAMP_EPOCH = 978307200000L;
+
+   /**
+    * 07/01/2001 00:00.
+    */
+   private static final long DATE_EPOCH = 978825600000L;
 }

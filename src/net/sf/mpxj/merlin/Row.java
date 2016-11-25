@@ -26,6 +26,7 @@ package net.sf.mpxj.merlin;
 import java.util.Date;
 import java.util.UUID;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 
@@ -88,12 +89,12 @@ interface Row
    public int getInt(String name);
 
    /**
-    * Retrieve a date attribute.
+    * Retrieve a timestamp attribute.
     *
     * @param name attribute name
     * @return attribute value
     */
-   public Date getDate(String name);
+   public Date getTimestamp(String name);
 
    /**
     * Retrieve a duration attribute.
@@ -126,4 +127,20 @@ interface Row
     * @return attribute value
     */
    public RelationType getRelationType(String name);
+
+   /**
+    * Retrieve a day type attribute.
+    *
+    * @param name attribute name
+    * @return attribute value
+    */
+   public Day getDay(String name);
+
+   /**
+    * Retrieve a date attribute.
+    *
+    * @param name attribute name
+    * @return attribute value
+    */
+   public Date getDate(String name);
 }
