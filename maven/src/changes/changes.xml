@@ -7,8 +7,11 @@
    </properties> 
 
    <body>   
-   	<release version="5.5.3" date="Git HEAD">
-   		<action dev="joniles" type="update">Correctly read text from MP files when default charset is not UTF-8.</action>
+    <release version="5.5.4" date="Git HEAD">
+	</release>
+   
+   	<release version="5.5.3" date="29/11/2016">
+   		<action dev="joniles" type="update">Correctly read text from MPP files when default charset is not UTF-8.</action>
    		<action dev="joniles" type="update">Improve accuracy when reading MPP9 files.</action>
 	</release>
    
