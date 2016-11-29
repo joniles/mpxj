@@ -8,6 +8,7 @@
 
    <body>   
    	<release version="5.5.3" date="Git HEAD">
+   	<action dev="joniles" type="update">Improve accuracy when reading MPP9 files.</action>
 	</release>
    
 	<release version="5.5.2" date="02/11/2016">
