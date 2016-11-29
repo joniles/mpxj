@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -414,24 +415,8 @@ public final class MPPUtility
     */
    public static final String getUnicodeString(byte[] data, int offset)
    {
-      StringBuilder buffer = new StringBuilder();
-      if (data != null)
-      {
-         char c;
-
-         for (int loop = offset; loop < (data.length - 1); loop += 2)
-         {
-            c = (char) getShort(data, loop);
-
-            if (c == 0)
-            {
-               break;
-            }
-
-            buffer.append(c);
-         }
-      }
-      return (buffer.toString());
+      int length = getUnicodeStringLengthInBytes(data, offset);
+      return length == 0 ? "" : new String(data, offset, length, UTF16LE);
    }
 
    /**
@@ -444,32 +429,47 @@ public final class MPPUtility
     *
     * @param data byte array of data
     * @param offset start point of unicode string
-    * @param length length in bytes of the string
+    * @param maxLength length in bytes of the string
     * @return string value
     */
-   public static final String getUnicodeString(byte[] data, int offset, int length)
+   public static final String getUnicodeString(byte[] data, int offset, int maxLength)
    {
-      StringBuilder buffer = new StringBuilder();
-      char c;
-      int loop = offset;
-      int byteLength = 0;
-
-      while (loop < (data.length - 1) && byteLength < length)
+      int length = getUnicodeStringLengthInBytes(data, offset);
+      if (maxLength > 0 && length > maxLength)
       {
-         c = (char) getShort(data, loop);
-
-         if (c == 0)
-         {
-            break;
-         }
-
-         buffer.append(c);
-
-         loop += 2;
-         byteLength += 2;
+         length = maxLength;
       }
+      return length == 0 ? "" : new String(data, offset, length, UTF16LE);
+   }
 
-      return (buffer.toString());
+   /**
+    * Determine the length of a nul terminated UTF16LE string in bytes.
+    *
+    * @param data string data
+    * @param offset offset into string data
+    * @return length in bytes
+    */
+   private static final int getUnicodeStringLengthInBytes(byte[] data, int offset)
+   {
+      int result;
+      if (data == null || offset >= data.length)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = data.length - offset;
+
+         for (int loop = offset; loop < (data.length - 1); loop += 2)
+         {
+            if (data[loop] == 0 && data[loop + 1] == 0)
+            {
+               result = loop - offset;
+               break;
+            }
+         }
+      }
+      return result;
    }
 
    /**
@@ -1462,4 +1462,6 @@ public final class MPPUtility
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
+
+   private static final Charset UTF16LE = Charset.forName("UTF-16LE");
 }
