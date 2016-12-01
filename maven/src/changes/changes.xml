@@ -7,7 +7,9 @@
    </properties> 
 
    <body>   
+
     <release version="5.5.4" date="Git HEAD">
+    	<action dev="joniles" type="update">Default to UTF-8 encoding when generating JSON files</action>
 	</release>
    
    	<release version="5.5.3" date="29/11/2016">

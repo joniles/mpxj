@@ -26,6 +26,7 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,10 +42,11 @@ public class JsonStreamWriter
     * Constructor.
     *
     * @param stream target output stream
+    * @param encoding target encoding
     */
-   public JsonStreamWriter(OutputStream stream)
+   public JsonStreamWriter(OutputStream stream, Charset encoding)
    {
-      m_writer = new OutputStreamWriter(stream);
+      m_writer = new OutputStreamWriter(stream, encoding);
       m_firstNameValuePair.push(Boolean.TRUE);
    }
 
