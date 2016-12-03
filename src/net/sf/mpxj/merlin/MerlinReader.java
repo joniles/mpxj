@@ -49,6 +49,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -64,6 +65,7 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.InputStreamHelper;
@@ -266,6 +268,12 @@ public class MerlinReader implements ProjectReader
     */
    private void processDays(ProjectCalendar calendar) throws Exception
    {
+      // Default all days to non-working
+      for (Day day : Day.values())
+      {
+         calendar.setWorkingDay(day, false);
+      }
+
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=13", calendar.getUniqueID());
       for (Row row : rows)
       {
@@ -353,6 +361,13 @@ public class MerlinReader implements ProjectReader
          resource.setInitials(row.getString("ZINITIALS"));
          resource.setName(row.getString("ZTITLE_"));
          resource.setGUID(row.getUUID("ZUNIQUEID"));
+         resource.setType(row.getResourceType("ZTYPE"));
+         resource.setMaterialLabel(row.getString("ZMATERIALUNIT"));
+
+         if (resource.getType() == ResourceType.WORK)
+         {
+            resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("ZAVAILABLEUNITS_")) * 100.0));
+         }
 
          Integer calendarID = row.getInteger("ZRESOURCECALENDAR");
          if (calendarID != null)
@@ -364,8 +379,6 @@ public class MerlinReader implements ProjectReader
                resource.setResourceCalendar(calendar);
             }
          }
-
-         // TODO: populate more attributes
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -417,10 +430,6 @@ public class MerlinReader implements ProjectReader
       task.setName(row.getString("ZTITLE"));
       task.setPriority(Priority.getInstance(row.getInt("ZPRIORITY")));
       task.setMilestone(row.getBoolean("ZISMILESTONE"));
-      task.setLateFinish(row.getTimestamp("ZGIVENENDDATEMAX_"));
-      task.setEarlyFinish(row.getTimestamp("ZGIVENENDDATEMIN_"));
-      task.setLateStart(row.getTimestamp("ZGIVENSTARTDATEMAX_"));
-      task.setEarlyStart(row.getTimestamp("ZGIVENSTARTDATEMIN_"));
       task.setActualFinish(row.getTimestamp("ZGIVENACTUALENDDATE_"));
       task.setActualStart(row.getTimestamp("ZGIVENACTUALSTARTDATE_"));
       task.setNotes(row.getString("ZOBJECTDESCRIPTION"));
@@ -443,9 +452,69 @@ public class MerlinReader implements ProjectReader
          }
       }
 
-      // TODO: populate more attributes
+      populateConstraints(row, task);
+
+      // Percent complete is calculated bottom up from assignments and actual work vs. planned work
 
       m_eventManager.fireTaskReadEvent(task);
+   }
+
+   /**
+    * Populate the constraint type and constraint date.
+    * Note that Merlin allows both start and end constraints simultaneously.
+    * As we can't have both, we'll prefer the start constraint.
+    *
+    * @param row task data from database
+    * @param task Task instance
+    */
+   private void populateConstraints(Row row, Task task)
+   {
+      Date endDateMax = row.getTimestamp("ZGIVENENDDATEMAX_");
+      Date endDateMin = row.getTimestamp("ZGIVENENDDATEMIN_");
+      Date startDateMax = row.getTimestamp("ZGIVENSTARTDATEMAX_");
+      Date startDateMin = row.getTimestamp("ZGIVENSTARTDATEMIN_");
+
+      ConstraintType constraintType = null;
+      Date constraintDate = null;
+
+      if (endDateMax != null)
+      {
+         constraintType = ConstraintType.FINISH_NO_LATER_THAN;
+         constraintDate = endDateMax;
+      }
+
+      if (endDateMin != null)
+      {
+         constraintType = ConstraintType.FINISH_NO_EARLIER_THAN;
+         constraintDate = endDateMin;
+      }
+
+      if (endDateMin != null && endDateMin == endDateMax)
+      {
+         constraintType = ConstraintType.MUST_FINISH_ON;
+         constraintDate = endDateMin;
+      }
+
+      if (startDateMax != null)
+      {
+         constraintType = ConstraintType.START_NO_LATER_THAN;
+         constraintDate = startDateMax;
+      }
+
+      if (startDateMin != null)
+      {
+         constraintType = ConstraintType.START_NO_EARLIER_THAN;
+         constraintDate = startDateMin;
+      }
+
+      if (startDateMin != null && startDateMin == endDateMax)
+      {
+         constraintType = ConstraintType.MUST_START_ON;
+         constraintDate = endDateMin;
+      }
+
+      task.setConstraintType(constraintType);
+      task.setConstraintDate(constraintDate);
    }
 
    /**
@@ -464,8 +533,13 @@ public class MerlinReader implements ProjectReader
             assignment.setGUID(row.getUUID("ZUNIQUEID"));
             assignment.setActualFinish(row.getTimestamp("ZGIVENACTUALENDDATE_"));
             assignment.setActualStart(row.getTimestamp("ZGIVENACTUALSTARTDATE_"));
-            //ZGIVENWORK_ -> Units?
-            // TODO: populate more attributes
+            assignment.setActualWork(row.getWork("ZGIVENACTUALWORK_"));
+            assignment.setRemainingWork(row.getWork("ZGIVENREMAININGWORK_"));
+
+            if (resource.getType() == ResourceType.WORK)
+            {
+               assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("ZRESOURCEUNITS_")) * 100.0));
+            }
          }
       }
    }

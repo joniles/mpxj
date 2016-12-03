@@ -31,6 +31,7 @@ import java.util.UUID;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -92,9 +93,16 @@ class MapRow implements Row
       Object result = getObject(name);
       if (result != null)
       {
-         if (result instanceof Double == false)
+         if (!(result instanceof Double))
          {
-            result = Double.valueOf(((Number) result).doubleValue());
+            if (result instanceof byte[])
+            {
+               result = Double.valueOf(new String((byte[]) result));
+            }
+            else
+            {
+               result = Double.valueOf(((Number) result).doubleValue());
+            }
          }
       }
       return ((Double) result);
@@ -286,6 +294,32 @@ class MapRow implements Row
          {
             result = RelationType.FINISH_START;
             break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public ResourceType getResourceType(String name)
+   {
+      ResourceType result;
+      Integer value = getInteger(name);
+      if (value == null)
+      {
+         result = ResourceType.WORK;
+      }
+      else
+      {
+         if (value.intValue() == 1)
+         {
+            result = ResourceType.MATERIAL;
+         }
+         else
+         {
+            result = ResourceType.WORK;
          }
       }
 

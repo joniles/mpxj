@@ -29,6 +29,7 @@ import java.util.UUID;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
+import net.sf.mpxj.ResourceType;
 
 /**
  * This interface represents a row in a database table. It is envisaged that
@@ -143,4 +144,12 @@ interface Row
     * @return attribute value
     */
    public Date getDate(String name);
+
+   /**
+    * Retrieve a resource type attribute.
+    *
+    * @param name attribute name
+    * @return attribute value
+    */
+   public ResourceType getResourceType(String name);
 }
