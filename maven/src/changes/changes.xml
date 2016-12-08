@@ -8,6 +8,7 @@
 
    <body>   
    	<release version="5.5.3" date="Git HEAD">
+   		<action dev="joniles" type="add">Experimental support for reading Merlin Project schedules.</action>
 	</release>
    
 	<release version="5.5.2" date="02/11/2016">
