@@ -68,6 +68,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -533,8 +534,19 @@ public class MerlinReader implements ProjectReader
             assignment.setGUID(row.getUUID("ZUNIQUEID"));
             assignment.setActualFinish(row.getTimestamp("ZGIVENACTUALENDDATE_"));
             assignment.setActualStart(row.getTimestamp("ZGIVENACTUALSTARTDATE_"));
-            assignment.setActualWork(row.getWork("ZGIVENACTUALWORK_"));
-            assignment.setRemainingWork(row.getWork("ZGIVENREMAININGWORK_"));
+
+            assignment.setWork(assignmentDuration(task, row.getWork("ZGIVENWORK_")));
+            assignment.setOvertimeWork(assignmentDuration(task, row.getWork("ZGIVENWORKOVERTIME_")));
+            assignment.setActualWork(assignmentDuration(task, row.getWork("ZGIVENACTUALWORK_")));
+            assignment.setActualOvertimeWork(assignmentDuration(task, row.getWork("ZGIVENACTUALWORKOVERTIME_")));
+            assignment.setRemainingWork(assignmentDuration(task, row.getWork("ZGIVENREMAININGWORK_")));
+
+            assignment.setLevelingDelay(row.getDuration("ZLEVELINGDELAY_"));
+
+            if (assignment.getRemainingWork() == null)
+            {
+               assignment.setRemainingWork(assignment.getWork());
+            }
 
             if (resource.getType() == ResourceType.WORK)
             {
@@ -542,6 +554,29 @@ public class MerlinReader implements ProjectReader
             }
          }
       }
+   }
+
+   /**
+    * Extract a duration amount from the assignment, converting a percentage
+    * into an actual duration.
+    *
+    * @param task parent task
+    * @param work duration from assignment
+    * @return Duration instance
+    */
+   private Duration assignmentDuration(Task task, Duration work)
+   {
+      Duration result = work;
+
+      if (result != null)
+      {
+         if (result.getUnits() == TimeUnit.PERCENT)
+         {
+            Duration taskWork = task.getWork();
+            result = Duration.getInstance(taskWork.getDuration() * result.getDuration(), taskWork.getUnits());
+         }
+      }
+      return result;
    }
 
    /**
@@ -557,7 +592,6 @@ public class MerlinReader implements ProjectReader
          Duration lag = row.getDuration("ZLAG_");
          RelationType type = row.getRelationType("ZTYPE");
          nextTask.addPredecessor(prevTask, type, lag);
-         // TODO: populate more attributes
       }
    }
 
@@ -629,5 +663,4 @@ public class MerlinReader implements ProjectReader
    private DocumentBuilder m_documentBuilder;
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;
-
 }
