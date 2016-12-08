@@ -7,8 +7,8 @@
    </properties> 
 
    <body>   
-
     <release version="5.5.5" date="Git HEAD">
+    	<action dev="joniles" type="add">Experimental support for reading Merlin Project schedules.</action>
 	</release>
 
     <release version="5.5.4" date="01/12/2016">
