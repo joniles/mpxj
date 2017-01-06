@@ -862,99 +862,99 @@ final class PrimaveraReader
     */
    private void updateDates(Task parentTask)
    {
-      int finished = 0;
-      Date plannedStartDate = parentTask.getStart();
-      Date plannedFinishDate = parentTask.getFinish();
-      Date actualStartDate = parentTask.getActualStart();
-      Date actualFinishDate = parentTask.getActualFinish();
-      Date earlyStartDate = parentTask.getEarlyStart();
-      Date earlyFinishDate = parentTask.getEarlyFinish();
-      Date lateStartDate = parentTask.getLateStart();
-      Date lateFinishDate = parentTask.getLateFinish();
-      Date baselineStartDate = parentTask.getBaselineStart();
-      Date baselineFinishDate = parentTask.getBaselineFinish();
-
-      for (Task task : parentTask.getChildTasks())
-      {
-         updateDates(task);
-
-         if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
-         {
-            plannedStartDate = task.getStart();
-         }
-
-         if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
-         {
-            actualStartDate = task.getActualStart();
-         }
-
-         if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
-         {
-            plannedFinishDate = task.getFinish();
-         }
-
-         if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
-         {
-            actualFinishDate = task.getActualFinish();
-         }
-
-         if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
-         {
-            earlyStartDate = task.getEarlyStart();
-         }
-
-         if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
-         {
-            earlyFinishDate = task.getEarlyFinish();
-         }
-
-         if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
-         {
-            lateStartDate = task.getLateStart();
-         }
-
-         if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
-         {
-            lateFinishDate = task.getLateFinish();
-         }
-
-         if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
-         {
-            baselineStartDate = task.getBaselineStart();
-         }
-
-         if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
-         {
-            baselineFinishDate = task.getBaselineFinish();
-         }
-
-         if (task.getActualFinish() != null)
-         {
-            ++finished;
-         }
-      }
-
-      parentTask.setStart(plannedStartDate);
-      parentTask.setFinish(plannedFinishDate);
-      parentTask.setActualStart(actualStartDate);
-      parentTask.setEarlyStart(earlyStartDate);
-      parentTask.setEarlyFinish(earlyFinishDate);
-      parentTask.setLateStart(lateStartDate);
-      parentTask.setLateFinish(lateFinishDate);
-      parentTask.setBaselineStart(baselineStartDate);
-      parentTask.setBaselineFinish(baselineFinishDate);
-
-      //
-      // Only if all child tasks have actual finish dates do we
-      // set the actual finish date on the parent task.
-      //
-      if (finished == parentTask.getChildTasks().size())
-      {
-         parentTask.setActualFinish(actualFinishDate);
-      }
-
       if (parentTask.getSummary())
       {
+         int finished = 0;
+         Date plannedStartDate = parentTask.getStart();
+         Date plannedFinishDate = parentTask.getFinish();
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+         Date baselineStartDate = parentTask.getBaselineStart();
+         Date baselineFinishDate = parentTask.getBaselineFinish();
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+
+            if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
+            {
+               plannedStartDate = task.getStart();
+            }
+
+            if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
+            {
+               actualStartDate = task.getActualStart();
+            }
+
+            if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
+            {
+               plannedFinishDate = task.getFinish();
+            }
+
+            if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
+            {
+               actualFinishDate = task.getActualFinish();
+            }
+
+            if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
+            {
+               earlyStartDate = task.getEarlyStart();
+            }
+
+            if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
+            {
+               earlyFinishDate = task.getEarlyFinish();
+            }
+
+            if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
+            {
+               lateStartDate = task.getLateStart();
+            }
+
+            if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
+            {
+               lateFinishDate = task.getLateFinish();
+            }
+
+            if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
+            {
+               baselineStartDate = task.getBaselineStart();
+            }
+
+            if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
+            {
+               baselineFinishDate = task.getBaselineFinish();
+            }
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
+         }
+
+         parentTask.setStart(plannedStartDate);
+         parentTask.setFinish(plannedFinishDate);
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+         parentTask.setBaselineStart(baselineStartDate);
+         parentTask.setBaselineFinish(baselineFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
+         {
+            parentTask.setActualFinish(actualFinishDate);
+         }
+
          Duration baselineDuration = null;
          if (baselineStartDate != null && baselineFinishDate != null)
          {

@@ -6,9 +6,14 @@
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
-   <body>   
-    <release version="5.5.6" date="Git HEAD">
+   <body>
+    <release version="5.5.7" date="Git HEAD">
 	</release>   
+      
+    <release version="5.5.6" date="06/01/2017">
+    	<action dev="joniles" type="fix">Fix incorrectly set critical flag for primavera schedules.</action>
+	</release>
+   
     <release version="5.5.5" date="06/01/2017">
         <action dev="joniles" type="update">Updated to rtfparserkit 1.9.0 for improved RTF parsing</action>
         <action dev="joniles" type="update">Improve calendar exception parsing for Primavera XER and database readers.</action>
