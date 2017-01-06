@@ -25,6 +25,8 @@ package net.sf.mpxj.primavera;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +44,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
@@ -535,7 +538,206 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_eventManager.fireTaskReadEvent(task);
       }
 
+      sortActivities(TaskField.TEXT1, m_projectFile);
       updateStructure();
+      updateDates();
+   }
+
+   /**
+    * Ensure activities are sorted into Activity ID order to match Primavera.
+    *
+    * @param activityIDField field containing the Activity ID value
+    * @param container object containing the tasks to process
+    */
+   private void sortActivities(final FieldType activityIDField, ChildTaskContainer container)
+   {
+      // Do we have any tasks?
+      List<Task> tasks = container.getChildTasks();
+      if (!tasks.isEmpty())
+      {
+         for (Task task : tasks)
+         {
+            //
+            // Sort child activities
+            //
+            sortActivities(activityIDField, task);
+
+            //
+            // Sort Order:
+            // 1. Activities come first
+            // 2. WBS come last
+            // 3. Activities ordered by activity ID
+            // 4. WBS ordered by ID
+            //
+            Collections.sort(tasks, new Comparator<Task>()
+            {
+               @Override public int compare(Task t1, Task t2)
+               {
+                  boolean t1HasChildren = !t1.getChildTasks().isEmpty();
+                  boolean t2HasChildren = !t2.getChildTasks().isEmpty();
+
+                  // Both are WBS
+                  if (t1HasChildren && t2HasChildren)
+                  {
+                     return t1.getID().compareTo(t2.getID());
+                  }
+
+                  // Both are activities
+                  if (!t1HasChildren && !t2HasChildren)
+                  {
+                     String activityID1 = (String) t1.getCurrentValue(activityIDField);
+                     String activityID2 = (String) t2.getCurrentValue(activityIDField);
+                     return activityID1.compareTo(activityID2);
+                  }
+
+                  // One activity one WBS
+                  return t1HasChildren ? 1 : -1;
+               }
+            });
+         }
+      }
+   }
+
+   /**
+    * The Primavera WBS entries we read in as tasks have user-entered start and end dates
+    * which aren't calculated or adjusted based on the child task dates. We try
+    * to compensate for this by using these user-entered dates as baseline dates, and
+    * deriving the planned start, actual start, planned finish and actual finish from
+    * the child tasks. This method recursively descends through the tasks to do this.
+    */
+   private void updateDates()
+   {
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task.
+    */
+   private void updateDates(Task parentTask)
+   {
+      int finished = 0;
+      Date actualStartDate = parentTask.getActualStart();
+      Date actualFinishDate = parentTask.getActualFinish();
+      Date earlyStartDate = parentTask.getEarlyStart();
+      Date earlyFinishDate = parentTask.getEarlyFinish();
+      Date lateStartDate = parentTask.getLateStart();
+      Date lateFinishDate = parentTask.getLateFinish();
+      Date baselineStartDate = parentTask.getBaselineStart();
+      Date baselineFinishDate = parentTask.getBaselineFinish();
+
+      for (Task task : parentTask.getChildTasks())
+      {
+         updateDates(task);
+
+         if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
+         {
+            actualStartDate = task.getActualStart();
+         }
+
+         if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
+         {
+            actualFinishDate = task.getActualFinish();
+         }
+
+         if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
+         {
+            earlyStartDate = task.getEarlyStart();
+         }
+
+         if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
+         {
+            earlyFinishDate = task.getEarlyFinish();
+         }
+
+         if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
+         {
+            lateStartDate = task.getLateStart();
+         }
+
+         if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
+         {
+            lateFinishDate = task.getLateFinish();
+         }
+
+         if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
+         {
+            baselineStartDate = task.getBaselineStart();
+         }
+
+         if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
+         {
+            baselineFinishDate = task.getBaselineFinish();
+         }
+
+         if (task.getActualFinish() != null)
+         {
+            ++finished;
+         }
+      }
+
+      parentTask.setActualStart(actualStartDate);
+      parentTask.setEarlyStart(earlyStartDate);
+      parentTask.setEarlyFinish(earlyFinishDate);
+      parentTask.setLateStart(lateStartDate);
+      parentTask.setLateFinish(lateFinishDate);
+      parentTask.setBaselineStart(baselineStartDate);
+      parentTask.setBaselineFinish(baselineFinishDate);
+
+      //
+      // Only if all child tasks have actual finish dates do we
+      // set the actual finish date on the parent task.
+      //
+      if (finished == parentTask.getChildTasks().size())
+      {
+         parentTask.setActualFinish(actualFinishDate);
+      }
+
+      if (parentTask.getSummary())
+      {
+         Duration baselineDuration = null;
+         if (baselineStartDate != null && baselineFinishDate != null)
+         {
+            baselineDuration = m_projectFile.getDefaultCalendar().getWork(baselineStartDate, baselineFinishDate, TimeUnit.HOURS);
+            parentTask.setBaselineDuration(baselineDuration);
+         }
+
+         Duration remainingDuration = null;
+         if (parentTask.getActualFinish() == null)
+         {
+            Date startDate = parentTask.getEarlyStart();
+            if (startDate == null)
+            {
+               startDate = baselineStartDate;
+            }
+
+            Date finishDate = parentTask.getEarlyFinish();
+            if (finishDate == null)
+            {
+               finishDate = baselineFinishDate;
+            }
+
+            if (startDate != null && finishDate != null)
+            {
+               remainingDuration = m_projectFile.getDefaultCalendar().getWork(startDate, finishDate, TimeUnit.HOURS);
+            }
+         }
+         else
+         {
+            remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+         parentTask.setRemainingDuration(remainingDuration);
+
+         if (baselineDuration != null && remainingDuration != null)
+         {
+            double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
+         }
+      }
    }
 
    /**
@@ -583,6 +785,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
+      task.setSummary(task.getChildTasks().size() != 0);
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {

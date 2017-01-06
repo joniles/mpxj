@@ -8,11 +8,11 @@
 
    <body>   
     <release version="5.5.5" date="Git HEAD">
-        <action dev="joniles" type="update">Updated to rtfparserkit 1.9.0</action>
+        <action dev="joniles" type="update">Updated to rtfparserkit 1.9.0 for improved RTF parsing</action>
         <action dev="joniles" type="update">Improve calendar exception parsing for Primavera XER and database readers.</action>
-        <action dev="joniles" type="update">Ensure the task summary flag is set correctly for Primavera XER and database readers.</action>
-        <action dev="joniles" type="update">Rollup baseline, early and late start and finish dates to WBS for Primavera XER and database readers.</action>
-        <action dev="joniles" type="update">Rollup baseline duration, remaining duration and percent complete to WBS for Primavera XER and database readers.</action>
+        <action dev="joniles" type="update">Ensure the task summary flag is set correctly for Primavera schedules.</action>
+        <action dev="joniles" type="update">Rollup baseline, early and late start and finish dates to WBS for Primavera schedules.</action>
+        <action dev="joniles" type="update">Rollup baseline duration, remaining duration and percent complete to WBS for Primavera schedules.</action>
         <action dev="joniles" type="add">Use the project's critical slack limit value when setting the critical flag on a task.</action>
     	<action dev="joniles" type="add">Experimental support for reading Merlin Project schedules.</action>
 	</release>
