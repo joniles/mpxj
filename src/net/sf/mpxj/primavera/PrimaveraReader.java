@@ -66,6 +66,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -280,8 +281,20 @@ final class PrimaveraReader
                String[] wh = recWorkingHours.getValue().split("\\|");
                try
                {
-                  Date start = m_calendarTimeFormat.parse(wh[1]);
-                  Date end = m_calendarTimeFormat.parse(wh[3]);
+                  Date start;
+                  Date end;
+
+                  if (wh[0].equals("s"))
+                  {
+                     start = m_calendarTimeFormat.parse(wh[1]);
+                     end = m_calendarTimeFormat.parse(wh[3]);
+                  }
+                  else
+                  {
+                     start = m_calendarTimeFormat.parse(wh[3]);
+                     end = m_calendarTimeFormat.parse(wh[1]);
+                  }
+
                   hours.addRange(new DateRange(start, end));
                }
                catch (ParseException e)
@@ -818,6 +831,7 @@ final class PrimaveraReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
+      task.setSummary(task.getChildTasks().size() != 0);
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {
@@ -853,6 +867,12 @@ final class PrimaveraReader
       Date plannedFinishDate = parentTask.getFinish();
       Date actualStartDate = parentTask.getActualStart();
       Date actualFinishDate = parentTask.getActualFinish();
+      Date earlyStartDate = parentTask.getEarlyStart();
+      Date earlyFinishDate = parentTask.getEarlyFinish();
+      Date lateStartDate = parentTask.getLateStart();
+      Date lateFinishDate = parentTask.getLateFinish();
+      Date baselineStartDate = parentTask.getBaselineStart();
+      Date baselineFinishDate = parentTask.getBaselineFinish();
 
       for (Task task : parentTask.getChildTasks())
       {
@@ -875,7 +895,37 @@ final class PrimaveraReader
 
          if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
          {
-            actualFinishDate = task.getFinish();
+            actualFinishDate = task.getActualFinish();
+         }
+
+         if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
+         {
+            earlyStartDate = task.getEarlyStart();
+         }
+
+         if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
+         {
+            earlyFinishDate = task.getEarlyFinish();
+         }
+
+         if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
+         {
+            lateStartDate = task.getLateStart();
+         }
+
+         if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
+         {
+            lateFinishDate = task.getLateFinish();
+         }
+
+         if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
+         {
+            baselineStartDate = task.getBaselineStart();
+         }
+
+         if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
+         {
+            baselineFinishDate = task.getBaselineFinish();
          }
 
          if (task.getActualFinish() != null)
@@ -887,6 +937,12 @@ final class PrimaveraReader
       parentTask.setStart(plannedStartDate);
       parentTask.setFinish(plannedFinishDate);
       parentTask.setActualStart(actualStartDate);
+      parentTask.setEarlyStart(earlyStartDate);
+      parentTask.setEarlyFinish(earlyFinishDate);
+      parentTask.setLateStart(lateStartDate);
+      parentTask.setLateFinish(lateFinishDate);
+      parentTask.setBaselineStart(baselineStartDate);
+      parentTask.setBaselineFinish(baselineFinishDate);
 
       //
       // Only if all child tasks have actual finish dates do we
@@ -895,6 +951,48 @@ final class PrimaveraReader
       if (finished == parentTask.getChildTasks().size())
       {
          parentTask.setActualFinish(actualFinishDate);
+      }
+
+      if (parentTask.getSummary())
+      {
+         Duration baselineDuration = null;
+         if (baselineStartDate != null && baselineFinishDate != null)
+         {
+            baselineDuration = m_project.getDefaultCalendar().getWork(baselineStartDate, baselineFinishDate, TimeUnit.HOURS);
+            parentTask.setBaselineDuration(baselineDuration);
+         }
+
+         Duration remainingDuration = null;
+         if (parentTask.getActualFinish() == null)
+         {
+            Date startDate = parentTask.getEarlyStart();
+            if (startDate == null)
+            {
+               startDate = baselineStartDate;
+            }
+
+            Date finishDate = parentTask.getEarlyFinish();
+            if (finishDate == null)
+            {
+               finishDate = baselineFinishDate;
+            }
+
+            if (startDate != null && finishDate != null)
+            {
+               remainingDuration = m_project.getDefaultCalendar().getWork(startDate, finishDate, TimeUnit.HOURS);
+            }
+         }
+         else
+         {
+            remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+         parentTask.setRemainingDuration(remainingDuration);
+
+         if (baselineDuration != null && remainingDuration != null)
+         {
+            double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
+         }
       }
    }
 
