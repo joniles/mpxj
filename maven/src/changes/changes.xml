@@ -8,6 +8,7 @@
 
    <body>
     <release version="5.5.7" date="Git HEAD">
+   		<action dev="joniles" type="fix">Fix percent complete NaN value for some Primavera schedules.</action>
 	</release>   
       
     <release version="5.5.6" date="06/01/2017">
