@@ -7,8 +7,11 @@
    </properties> 
 
    <body>
-   	<release version="5.5.8" date="Git HEAD">
-   	<action dev="joniles" type="fix">Fix NPE when reading graphical indicators with unknown field type.</action>
+   	<release version="5.5.9" date="Git HEAD">
+	</release>   
+   
+   	<release version="5.5.8" date="23/01/2017">
+   		<action dev="joniles" type="fix">Fix NPE when reading graphical indicators with unknown field type.</action>
 	</release>   
    
     <release version="5.5.7" date="13/01/2017">
