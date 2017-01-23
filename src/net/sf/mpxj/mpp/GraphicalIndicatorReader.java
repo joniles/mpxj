@@ -33,8 +33,6 @@ import net.sf.mpxj.GraphicalIndicatorCriteria;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TestOperator;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * This class allows graphical indicator definitions to be read from an MPP
@@ -71,34 +69,26 @@ public final class GraphicalIndicatorReader
     */
    private void processColumns()
    {
-      int fieldType = MPPUtility.getShort(m_data, m_headerOffset);
-      m_headerOffset += 2;
-
-      // unknown bytes
-      m_headerOffset += 1;
-
-      int entityType = MPPUtility.getByte(m_data, m_headerOffset);
-      m_headerOffset += 1;
+      int fieldID = MPPUtility.getInt(m_data, m_headerOffset);
+      m_headerOffset += 4;
 
       m_dataOffset = MPPUtility.getInt(m_data, m_headerOffset);
       m_headerOffset += 4;
 
-      FieldType type = null;
-      switch (entityType)
+      FieldType type = FieldTypeHelper.getInstance(fieldID);
+      if (type.getDataType() != null)
       {
-         case 0x0B:
-         {
-            type = MPPTaskField.getInstance(fieldType);
-            break;
-         }
-
-         case 0x0C:
-         {
-            type = MPPResourceField.getInstance(fieldType);
-            break;
-         }
+         processKnownType(type);
       }
+   }
 
+   /**
+    * Process a graphical indicator definition for a known type.
+    *
+    * @param type field type
+    */
+   private void processKnownType(FieldType type)
+   {
       //System.out.println("Header: " + type);
       //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
 
