@@ -218,8 +218,11 @@ public final class MPXJFormats
       m_dateFormat.applyPatterns(datePatterns);
       m_timeFormat.applyPatterns(timePatterns);
 
-      m_dateTimeFormat.setLocale(m_locale, m_nullText);
-      m_dateFormat.setLocale(m_locale, m_nullText);
+      m_dateTimeFormat.setLocale(m_locale);
+      m_dateFormat.setLocale(m_locale);
+
+      m_dateTimeFormat.setNullText(m_nullText);
+      m_dateFormat.setNullText(m_nullText);
       m_timeFormat.setNullText(m_nullText);
 
       m_dateTimeFormat.setAmPmText(properties.getAMText(), properties.getPMText());
