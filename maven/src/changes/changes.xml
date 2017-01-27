@@ -8,6 +8,7 @@
 
    <body>
    	<release version="5.5.9" date="Git HEAD">
+   	   <action dev="joniles" type="update">Improve robustness of date parsing for MPX files.</action>
 	</release>   
    
    	<release version="5.5.8" date="23/01/2017">

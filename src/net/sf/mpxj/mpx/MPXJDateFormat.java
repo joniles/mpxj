@@ -29,7 +29,9 @@ import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -48,26 +50,28 @@ public final class MPXJDateFormat extends DateFormat
     */
    public void setLocale(Locale locale, String nullText)
    {
-      m_format = new SimpleDateFormat(m_format.toPattern(), locale);
-      m_alternativeFormat = new SimpleDateFormat(m_alternativeFormat.toPattern(), locale);
+      List<SimpleDateFormat> formats = new ArrayList<SimpleDateFormat>();
+      for (SimpleDateFormat format : m_formats)
+      {
+         formats.add(new SimpleDateFormat(format.toPattern(), locale));
+      }
+
+      m_formats = formats.toArray(new SimpleDateFormat[formats.size()]);
       m_null = nullText;
    }
 
    /**
     * This method is used to configure the format pattern.
     *
-    * @param pattern new format pattern
+    * @param patterns new format patterns
     */
-   public void applyPattern(String pattern)
+   public void applyPatterns(String[] patterns)
    {
-      m_format.applyPattern(pattern);
-
-      if (pattern.endsWith(" a") == true)
+      m_formats = new SimpleDateFormat[patterns.length];
+      for (int index = 0; index < patterns.length; index++)
       {
-         pattern = pattern.substring(0, pattern.length() - 2) + "a";
+         m_formats[index] = new SimpleDateFormat(patterns[index]);
       }
-
-      m_alternativeFormat.applyPattern(pattern);
    }
 
    /**
@@ -91,24 +95,20 @@ public final class MPXJDateFormat extends DateFormat
          }
          else
          {
-            Date javaDate = m_format.parse(str, pos);
-            if (pos.getIndex() == 0)
+            result = null;
+            for (int index = 0; index < m_formats.length; index++)
             {
-               javaDate = m_alternativeFormat.parse(str, pos);
-            }
-
-            if (pos.getIndex() != 0)
-            {
-               result = javaDate;
-            }
-            else
-            {
+               result = m_formats[index].parse(str, pos);
+               if (pos.getIndex() != 0)
+               {
+                  break;
+               }
                result = null;
             }
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -116,7 +116,7 @@ public final class MPXJDateFormat extends DateFormat
     */
    @Override public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
    {
-      return (m_format.format(date, toAppendTo, fieldPosition));
+      return (m_formats[0].format(date, toAppendTo, fieldPosition));
    }
 
    /**
@@ -127,19 +127,16 @@ public final class MPXJDateFormat extends DateFormat
     */
    public void setAmPmText(String am, String pm)
    {
-      String[] symbolData = new String[]
+      for (SimpleDateFormat format : m_formats)
       {
-         am,
-         pm
-      };
-
-      DateFormatSymbols symbols = m_format.getDateFormatSymbols();
-      symbols.setAmPmStrings(symbolData);
-      m_format.setDateFormatSymbols(symbols);
-
-      symbols = m_alternativeFormat.getDateFormatSymbols();
-      symbols.setAmPmStrings(symbolData);
-      m_alternativeFormat.setDateFormatSymbols(symbols);
+         DateFormatSymbols symbols = format.getDateFormatSymbols();
+         symbols.setAmPmStrings(new String[]
+         {
+            am,
+            pm
+         });
+         format.setDateFormatSymbols(symbols);
+      }
    }
 
    /**
@@ -151,7 +148,10 @@ public final class MPXJDateFormat extends DateFormat
     * MPX files that can be moved between locales, we default to using the
     * English day names.
     */
-   private SimpleDateFormat m_format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-   private SimpleDateFormat m_alternativeFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+   private SimpleDateFormat[] m_formats =
+   {
+      new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+   };
+
    private String m_null = "NA";
 }
