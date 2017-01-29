@@ -43,7 +43,7 @@ public enum WorkContour implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private WorkContour(int type)
@@ -87,7 +87,7 @@ public enum WorkContour implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

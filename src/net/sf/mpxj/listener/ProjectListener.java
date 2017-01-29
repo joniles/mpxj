@@ -72,7 +72,7 @@ public interface ProjectListener
 
    /**
     * This method is called when a calendar is written to a file.
-    * 
+    *
     * @param calendar calendar instance
     */
    public void calendarWritten(ProjectCalendar calendar);
@@ -86,7 +86,7 @@ public interface ProjectListener
 
    /**
     * This method is called when an assignment is written to a file.
-    * 
+    *
     * @param assignment assignment instance
     */
    public void assignmentWritten(ResourceAssignment assignment);
@@ -100,7 +100,7 @@ public interface ProjectListener
 
    /**
     * This method is called when a relation is written to a file.
-    * 
+    *
     * @param relation relation instance
     */
    public void relationWritten(Relation relation);

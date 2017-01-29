@@ -33,7 +33,7 @@ public final class ViewState
 {
    /**
     * Constructor.
-    * 
+    *
     * @param file parent project file
     * @param viewName view name
     * @param uniqueIdList unique ID list
@@ -49,7 +49,7 @@ public final class ViewState
 
    /**
     * Retrieve the name of the view associated with this state.
-    * 
+    *
     * @return view name
     */
    public String getViewName()
@@ -59,7 +59,7 @@ public final class ViewState
 
    /**
     * Retrieve a list of unique IDs representing the contents of this view.
-    * 
+    *
     * @return unique ID list
     */
    public List<Integer> getUniqueIdList()
@@ -68,8 +68,8 @@ public final class ViewState
    }
 
    /**
-    * Retrieve the currently applied filter. 
-    * 
+    * Retrieve the currently applied filter.
+    *
     * @return filter instance
     */
    public Filter getFilter()

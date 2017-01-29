@@ -39,7 +39,7 @@ public class ProjectWriterUtilityTest
 {
    /**
     * Exercise the GetProjectWriter method.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testGetProjectWriter() throws Exception

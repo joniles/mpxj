@@ -117,7 +117,7 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * Populate member data used by the rest of the reader.
-    * 
+    *
     * @param reader parent file reader
     * @param file parent MPP file
     * @param root Root of the POI file system.
@@ -1230,14 +1230,14 @@ final class MPP8Reader implements MPPVariantReader
             processColumnData(table, columnData);
          }
 
-         //System.out.println(table);         
+         //System.out.println(table);
       }
    }
 
    /**
     * This method processes the column data associated with the
     * current table.
-    * 
+    *
     * @param table current table
     * @param data raw column data
     */

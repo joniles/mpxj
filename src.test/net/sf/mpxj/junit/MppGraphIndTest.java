@@ -45,7 +45,7 @@ public class MppGraphIndTest
 {
    /**
     * Test the graphical indicator evaluation code for an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GraphInd() throws Exception
@@ -56,7 +56,7 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GraphIndFrom12() throws Exception
@@ -67,7 +67,7 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GraphIndFrom14() throws Exception
@@ -78,7 +78,7 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12GraphInd() throws Exception
@@ -89,7 +89,7 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12GraphIndFrom14() throws Exception
@@ -100,7 +100,7 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14GraphInd() throws Exception
@@ -111,7 +111,7 @@ public class MppGraphIndTest
 
    /**
     * Common graphical indicator tests.
-    * 
+    *
     * @param project project to test
     */
    private void testGraphicalIndicators(ProjectFile project)
@@ -156,7 +156,7 @@ public class MppGraphIndTest
    /**
     * For a particular field type, ensure that the correct set of graphical
     * indicators are being generated.
-    * 
+    *
     * @param project parent project
     * @param fieldType target field type
     * @param rows array of rows containing field data

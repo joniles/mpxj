@@ -33,7 +33,7 @@ public final class CustomFieldValueItem
 {
    /**
     * Constructor.
-    * 
+    *
     * @param uniqueID item unique ID
     */
    public CustomFieldValueItem(Integer uniqueID)
@@ -43,7 +43,7 @@ public final class CustomFieldValueItem
 
    /**
     * Get the unique id for this item.
-    * 
+    *
     * @return item unique ID
     */
    public Integer getUniqueID()
@@ -53,7 +53,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set the value of this item.
-    * 
+    *
     * @param value item value
     */
    public void setValue(Object value)
@@ -63,7 +63,7 @@ public final class CustomFieldValueItem
 
    /**
     * Get the value of this item.
-    * 
+    *
     * @return item value
     */
    public Object getValue()
@@ -73,7 +73,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set the description for this item.
-    * 
+    *
     * @param description item description
     */
    public void setDescription(String description)
@@ -83,7 +83,7 @@ public final class CustomFieldValueItem
 
    /**
     * Get the description for this item.
-    * 
+    *
     * @return item description
     */
    public String getDescription()
@@ -93,7 +93,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set an Unknown property for this item.
-    * 
+    *
     * @param unknown unknown data block
     */
    public void setUnknown(byte[] unknown)
@@ -103,7 +103,7 @@ public final class CustomFieldValueItem
 
    /**
     * Get an unknown property for this item.
-    * 
+    *
     * @return unknown data block
     */
    public byte[] getUnknown()
@@ -113,7 +113,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set the parent ID.
-    * 
+    *
     * @param id parent ID
     */
    public void setParent(Integer id)
@@ -123,7 +123,7 @@ public final class CustomFieldValueItem
 
    /**
     * Retrieve the parent ID.
-    * 
+    *
     * @return parent IDs
     */
    public Integer getParent()
@@ -133,7 +133,7 @@ public final class CustomFieldValueItem
 
    /**
     * Retrieve the GUID for this value.
-    * 
+    *
     * @return value GUID
     */
    public UUID getGuid()
@@ -143,7 +143,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set the GUID for this value.
-    * 
+    *
     * @param guid value GUID
     */
    public void setGuid(UUID guid)

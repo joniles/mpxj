@@ -99,7 +99,7 @@ public final class Duration implements Comparable<Duration>
     * units. It does take into account the project defaults for number of hours
     * in a day and a week, but it does not take account of calendar details.
     * The results obtained from it should therefore be treated with caution.
-    * 
+    *
     * @param duration duration value
     * @param fromUnits units to convert from
     * @param toUnits units to convert to
@@ -369,7 +369,7 @@ public final class Duration implements Comparable<Duration>
    /**
     * Equality test for duration component of a Duration instance.
     * Note that this does not take into account the units - use with care!
-    * 
+    *
     * @param rhs duration to compare
     * @return true if duration components are equal, within the allowable delta
     */
@@ -380,7 +380,7 @@ public final class Duration implements Comparable<Duration>
 
    /**
     * Equality test for two duration values.
-    * 
+    *
     * @param lhs duration value
     * @param rhs duration value
     * @return true if duration values are equal, within the allowable delta

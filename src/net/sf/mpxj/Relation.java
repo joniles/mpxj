@@ -78,7 +78,7 @@ public final class Relation
 
    /**
     * Retrieve the source task of this relationship.
-    * 
+    *
     * @return source task
     */
    public Task getSourceTask()
@@ -105,7 +105,7 @@ public final class Relation
    }
 
    /**
-    * Parent task file. 
+    * Parent task file.
     */
    private Task m_sourceTask;
 

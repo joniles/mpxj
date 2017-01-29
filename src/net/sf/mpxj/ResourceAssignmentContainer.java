@@ -30,7 +30,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public ResourceAssignmentContainer(ProjectFile projectFile)

@@ -26,6 +26,8 @@ package net.sf.mpxj.primavera;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomFieldContainer;
@@ -63,6 +66,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -75,7 +79,7 @@ final class PrimaveraReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param udfCounters user defined field data types
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
@@ -111,7 +115,7 @@ final class PrimaveraReader
 
    /**
     * Retrieves the project data read from this file.
-    * 
+    *
     * @return project data
     */
    public ProjectFile getProject()
@@ -121,7 +125,7 @@ final class PrimaveraReader
 
    /**
     * Process project properties.
-    * 
+    *
     * @param rows project properties data.
     */
    public void processProjectProperties(List<Row> rows)
@@ -142,7 +146,7 @@ final class PrimaveraReader
 
    /**
     * Process User Defined Fields (UDF).
-    * 
+    *
     * @param userDefinedFields UDFs rows
     */
    public void processUserDefinedFields(List<Row> userDefinedFields)
@@ -158,7 +162,7 @@ final class PrimaveraReader
 
    /**
     * Process project calendars.
-    * 
+    *
     * @param rows project calendar data
     */
    public void processCalendars(List<Row> rows)
@@ -171,7 +175,7 @@ final class PrimaveraReader
 
    /**
     * Process data for an individual calendar.
-    * 
+    *
     * @param row calendar data
     */
    public void processCalendar(Row row)
@@ -203,7 +207,7 @@ final class PrimaveraReader
 
    /**
     * Create a structured calendar Record instance from the flat calendar data.
-    * 
+    *
     * @param calendarData flat calendar data
     * @return calendar Record instance
     */
@@ -231,7 +235,7 @@ final class PrimaveraReader
 
    /**
     * Process calendar days of the week.
-    * 
+    *
     * @param calendar project calendar
     * @param root calendar data
     */
@@ -250,7 +254,7 @@ final class PrimaveraReader
 
    /**
     * Process hours in a working day.
-    * 
+    *
     * @param calendar project calendar
     * @param dayRecord working day data
     */
@@ -277,8 +281,20 @@ final class PrimaveraReader
                String[] wh = recWorkingHours.getValue().split("\\|");
                try
                {
-                  Date start = m_calendarTimeFormat.parse(wh[1]);
-                  Date end = m_calendarTimeFormat.parse(wh[3]);
+                  Date start;
+                  Date end;
+
+                  if (wh[0].equals("s"))
+                  {
+                     start = m_calendarTimeFormat.parse(wh[1]);
+                     end = m_calendarTimeFormat.parse(wh[3]);
+                  }
+                  else
+                  {
+                     start = m_calendarTimeFormat.parse(wh[3]);
+                     end = m_calendarTimeFormat.parse(wh[1]);
+                  }
+
                   hours.addRange(new DateRange(start, end));
                }
                catch (ParseException e)
@@ -292,7 +308,7 @@ final class PrimaveraReader
 
    /**
     * Process calendar exceptions.
-    * 
+    *
     * @param calendar project calendar
     * @param root calendar data
     */
@@ -317,7 +333,7 @@ final class PrimaveraReader
 
    /**
     * Process resources.
-    * 
+    *
     * @param rows resource data
     */
    public void processResources(List<Row> rows)
@@ -333,7 +349,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the correct calendar for a resource.
-    * 
+    *
     * @param calendarID calendar ID
     * @return calendar for resource
     */
@@ -388,7 +404,7 @@ final class PrimaveraReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @param wbs WBS task data
     * @param tasks task data
     * @param costs task costs
@@ -400,7 +416,7 @@ final class PrimaveraReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @param wbs WBS task data
     * @param tasks task data
     * @param costs task costs
@@ -412,7 +428,8 @@ final class PrimaveraReader
       Map<Integer, TaskCosts> taskCostsMap = processCosts(costs);
 
       //
-      // Read WBS entries and create tasks
+      // Read WBS entries and create tasks.
+      // Note that the wbs list is supplied to us in the correct order.
       //
       for (Row row : wbs)
       {
@@ -522,13 +539,14 @@ final class PrimaveraReader
          m_eventManager.fireTaskReadEvent(task);
       }
 
+      sortActivities(activityIDField, m_project);
       updateStructure();
       updateDates();
    }
 
    /**
     * Determine which field the Activity ID has been mapped to.
-    * 
+    *
     * @param map field map
     * @return field
     */
@@ -548,7 +566,7 @@ final class PrimaveraReader
 
    /**
     * Summarise cost values for each task.
-    * 
+    *
     * @param costs list of cost rows
     * @return map of task IDs to costs
     */
@@ -609,7 +627,7 @@ final class PrimaveraReader
 
    /**
     * Parse a user defined field for a task.
-    * 
+    *
     * @param row UDF data
     */
    private void parseTaskUDF(Row row)
@@ -624,7 +642,7 @@ final class PrimaveraReader
 
    /**
     * Adds a user defined field value to a task.
-    * 
+    *
     * @param task Task instance
     * @param row UDF data
     */
@@ -674,7 +692,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the user defined values for a given task.
-    * 
+    *
     * @param taskID target task ID
     * @param udfs user defined fields
     * @return user defined fields for the target task
@@ -697,7 +715,7 @@ final class PrimaveraReader
       return udf;
    }
 
-   /*   
+   /*
       private String getNotes(List<Row> notes, String keyField, int keyValue, String notesField)
       {
          String result = null;
@@ -715,7 +733,7 @@ final class PrimaveraReader
 
    /**
     * Populates a field based on baseline and actual values.
-    * 
+    *
     * @param container field container
     * @param target target field
     * @param baseline baseline field
@@ -729,6 +747,61 @@ final class PrimaveraReader
          value = container.getCachedValue(baseline);
       }
       container.set(target, value);
+   }
+
+   /**
+    * Ensure activities are sorted into Activity ID order to match Primavera.
+    *
+    * @param activityIDField field containing the Activity ID value
+    * @param container object containing the tasks to process
+    */
+   private void sortActivities(final FieldType activityIDField, ChildTaskContainer container)
+   {
+      // Do we have any tasks?
+      List<Task> tasks = container.getChildTasks();
+      if (!tasks.isEmpty())
+      {
+         for (Task task : tasks)
+         {
+            //
+            // Sort child activities
+            //
+            sortActivities(activityIDField, task);
+
+            //
+            // Sort Order:
+            // 1. Activities come first
+            // 2. WBS come last
+            // 3. Activities ordered by activity ID
+            // 4. WBS ordered by ID
+            //
+            Collections.sort(tasks, new Comparator<Task>()
+            {
+               @Override public int compare(Task t1, Task t2)
+               {
+                  boolean t1HasChildren = !t1.getChildTasks().isEmpty();
+                  boolean t2HasChildren = !t2.getChildTasks().isEmpty();
+
+                  // Both are WBS
+                  if (t1HasChildren && t2HasChildren)
+                  {
+                     return t1.getID().compareTo(t2.getID());
+                  }
+
+                  // Both are activities
+                  if (!t1HasChildren && !t2HasChildren)
+                  {
+                     String activityID1 = (String) t1.getCurrentValue(activityIDField);
+                     String activityID2 = (String) t2.getCurrentValue(activityIDField);
+                     return activityID1.compareTo(activityID2);
+                  }
+
+                  // One activity one WBS
+                  return t1HasChildren ? 1 : -1;
+               }
+            });
+         }
+      }
    }
 
    /**
@@ -747,8 +820,8 @@ final class PrimaveraReader
 
    /**
     * Iterates through the tasks setting the correct
-    * outline level and ID values. 
-    * 
+    * outline level and ID values.
+    *
     * @param id current ID value
     * @param task current task
     * @param outlineLevel current outline level
@@ -758,6 +831,7 @@ final class PrimaveraReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
+      task.setSummary(task.getChildTasks().size() != 0);
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {
@@ -783,64 +857,148 @@ final class PrimaveraReader
 
    /**
     * See the notes above.
-    * 
+    *
     * @param parentTask parent task.
     */
    private void updateDates(Task parentTask)
    {
-      int finished = 0;
-      Date plannedStartDate = parentTask.getStart();
-      Date plannedFinishDate = parentTask.getFinish();
-      Date actualStartDate = parentTask.getActualStart();
-      Date actualFinishDate = parentTask.getActualFinish();
-
-      for (Task task : parentTask.getChildTasks())
+      if (parentTask.getSummary())
       {
-         updateDates(task);
+         int finished = 0;
+         Date plannedStartDate = parentTask.getStart();
+         Date plannedFinishDate = parentTask.getFinish();
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+         Date baselineStartDate = parentTask.getBaselineStart();
+         Date baselineFinishDate = parentTask.getBaselineFinish();
 
-         if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
+         for (Task task : parentTask.getChildTasks())
          {
-            plannedStartDate = task.getStart();
+            updateDates(task);
+
+            if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
+            {
+               plannedStartDate = task.getStart();
+            }
+
+            if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
+            {
+               actualStartDate = task.getActualStart();
+            }
+
+            if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
+            {
+               plannedFinishDate = task.getFinish();
+            }
+
+            if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
+            {
+               actualFinishDate = task.getActualFinish();
+            }
+
+            if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
+            {
+               earlyStartDate = task.getEarlyStart();
+            }
+
+            if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
+            {
+               earlyFinishDate = task.getEarlyFinish();
+            }
+
+            if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
+            {
+               lateStartDate = task.getLateStart();
+            }
+
+            if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
+            {
+               lateFinishDate = task.getLateFinish();
+            }
+
+            if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
+            {
+               baselineStartDate = task.getBaselineStart();
+            }
+
+            if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
+            {
+               baselineFinishDate = task.getBaselineFinish();
+            }
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
          }
 
-         if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
+         parentTask.setStart(plannedStartDate);
+         parentTask.setFinish(plannedFinishDate);
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+         parentTask.setBaselineStart(baselineStartDate);
+         parentTask.setBaselineFinish(baselineFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
          {
-            actualStartDate = task.getActualStart();
+            parentTask.setActualFinish(actualFinishDate);
          }
 
-         if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
+         Duration baselineDuration = null;
+         if (baselineStartDate != null && baselineFinishDate != null)
          {
-            plannedFinishDate = task.getFinish();
+            baselineDuration = m_project.getDefaultCalendar().getWork(baselineStartDate, baselineFinishDate, TimeUnit.HOURS);
+            parentTask.setBaselineDuration(baselineDuration);
          }
 
-         if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
+         Duration remainingDuration = null;
+         if (parentTask.getActualFinish() == null)
          {
-            actualFinishDate = task.getFinish();
-         }
+            Date startDate = parentTask.getEarlyStart();
+            if (startDate == null)
+            {
+               startDate = baselineStartDate;
+            }
 
-         if (task.getActualFinish() != null)
+            Date finishDate = parentTask.getEarlyFinish();
+            if (finishDate == null)
+            {
+               finishDate = baselineFinishDate;
+            }
+
+            if (startDate != null && finishDate != null)
+            {
+               remainingDuration = m_project.getDefaultCalendar().getWork(startDate, finishDate, TimeUnit.HOURS);
+            }
+         }
+         else
          {
-            ++finished;
+            remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
-      }
+         parentTask.setRemainingDuration(remainingDuration);
 
-      parentTask.setStart(plannedStartDate);
-      parentTask.setFinish(plannedFinishDate);
-      parentTask.setActualStart(actualStartDate);
-
-      //
-      // Only if all child tasks have actual finish dates do we
-      // set the actual finish date on the parent task.
-      //
-      if (finished == parentTask.getChildTasks().size())
-      {
-         parentTask.setActualFinish(actualFinishDate);
+         if (baselineDuration != null && baselineDuration.getDuration() != 0 && remainingDuration != null)
+         {
+            double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
+         }
       }
    }
 
    /**
     * Processes predecessor data.
-    * 
+    *
     * @param rows predecessor data
     */
    public void processPredecessors(List<Row> rows)
@@ -861,7 +1019,7 @@ final class PrimaveraReader
 
    /**
     * Process assignment data.
-    * 
+    *
     * @param rows assignment data
     */
    public void processAssignments(List<Row> rows)
@@ -886,9 +1044,9 @@ final class PrimaveraReader
    }
 
    /**
-    * Code common to both XER and database readers to extract 
+    * Code common to both XER and database readers to extract
     * currency format data.
-    * 
+    *
     * @param row row containing currency data
     */
    public void processDefaultCurrency(Row row)
@@ -903,7 +1061,7 @@ final class PrimaveraReader
 
    /**
     * Generic method to extract Primavera fields and assign to MPXJ fields.
-    * 
+    *
     * @param map map of MPXJ field types and Primavera field names
     * @param row Primavera data container
     * @param container MPXJ data contain
@@ -995,7 +1153,7 @@ final class PrimaveraReader
 
    /**
     * Deals with the case where we have had to map a task ID to a new value.
-    * 
+    *
     * @param id task ID from database
     * @return mapped task ID
     */
@@ -1011,7 +1169,7 @@ final class PrimaveraReader
 
    /**
     * Apply aliases to task and resource fields.
-    * 
+    *
     * @param aliases map of aliases
     */
    private void applyAliases(Map<FieldType, String> aliases)
@@ -1026,7 +1184,7 @@ final class PrimaveraReader
    /**
     * Determine which type of percent complete is used on on this task,
     * and calculate the required value.
-    * 
+    *
     * @param row task data
     * @return percent complete value
     */
@@ -1059,7 +1217,7 @@ final class PrimaveraReader
 
    /**
     * Calculate the physical percent complete.
-    * 
+    *
     * @param row task data
     * @return percent complete
     */
@@ -1070,7 +1228,7 @@ final class PrimaveraReader
 
    /**
     * Calculate the units percent complete.
-    * 
+    *
     * @param row task data
     * @return percent complete
     */
@@ -1095,7 +1253,7 @@ final class PrimaveraReader
 
    /**
     * Calculate the duration percent complete.
-    * 
+    *
     * @param row task data
     * @return percent complete
     */
@@ -1128,7 +1286,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultResourceFieldMap()
@@ -1144,14 +1302,14 @@ final class PrimaveraReader
       map.put(ResourceField.CREATED, "create_date");
       map.put(ResourceField.TYPE, "rsrc_type");
       map.put(ResourceField.INITIALS, "rsrc_short_name");
-      map.put(ResourceField.NUMBER1, "parent_rsrc_id");
+      map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
 
       return map;
    }
 
    /**
     * Retrieve the default mapping between MPXJ task fields and Primavera wbs field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultWbsFieldMap()
@@ -1176,7 +1334,7 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default mapping between MPXJ task fields and Primavera task field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultTaskFieldMap()
@@ -1209,13 +1367,14 @@ final class PrimaveraReader
       map.put(TaskField.TEXT1, "task_code");
       map.put(TaskField.TEXT2, "task_type");
       map.put(TaskField.TEXT3, "status_code");
+      map.put(TaskField.NUMBER1, "rsrc_id");
 
       return map;
    }
 
    /**
     * Retrieve the default mapping between MPXJ assignment fields and Primavera assignment field names.
-    * 
+    *
     * @return mapping
     */
    public static Map<FieldType, String> getDefaultAssignmentFieldMap()
@@ -1240,19 +1399,19 @@ final class PrimaveraReader
 
    /**
     * Retrieve the default aliases to be applied to MPXJ task and resource fields.
-    * 
+    *
     * @return map of aliases
     */
    public static Map<FieldType, String> getDefaultAliases()
    {
       Map<FieldType, String> map = new HashMap<FieldType, String>();
 
-      map.put(ResourceField.NUMBER1, "Parent Resource Unique ID");
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
       map.put(TaskField.TEXT1, "Code");
       map.put(TaskField.TEXT2, "Activity Type");
       map.put(TaskField.TEXT3, "Status");
+      map.put(TaskField.NUMBER1, "Primary Resource Unique ID");
 
       return map;
    }

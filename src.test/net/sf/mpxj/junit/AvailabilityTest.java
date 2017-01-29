@@ -45,7 +45,7 @@ public class AvailabilityTest
 {
    /**
     * Test MPP9 file cost resource availability.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9() throws Exception
@@ -56,7 +56,7 @@ public class AvailabilityTest
 
    /**
     * Test MPP9 file cost resource availability saved from Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
@@ -67,7 +67,7 @@ public class AvailabilityTest
 
    /**
     * Test MPP9 file cost resource availability saved from Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
@@ -78,7 +78,7 @@ public class AvailabilityTest
 
    /**
     * Test MPP12 file resource availability.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12() throws Exception
@@ -89,7 +89,7 @@ public class AvailabilityTest
 
    /**
     * Test MPP12 file resource availability saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
@@ -100,7 +100,7 @@ public class AvailabilityTest
 
    /**
     * Test MPP14 file resource availability.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14() throws Exception
@@ -111,7 +111,7 @@ public class AvailabilityTest
 
    /**
     * Test MSPDI file resource availability.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMspdi() throws Exception
@@ -122,7 +122,7 @@ public class AvailabilityTest
 
    /**
     * Common availability tests.
-    * 
+    *
     * @param file project file
     */
    private void testAvailability(ProjectFile file) throws Exception
@@ -164,7 +164,7 @@ public class AvailabilityTest
 
    /**
     * Test a single row from an availability table.
-    * 
+    *
     * @param startDate expected start date
     * @param endDate expected end date
     * @param units expected units
@@ -179,7 +179,7 @@ public class AvailabilityTest
 
    /**
     * Test a single row from an availability table.
-    * 
+    *
     * @param startDate expected start date
     * @param endDate expected end date
     * @param units expected units

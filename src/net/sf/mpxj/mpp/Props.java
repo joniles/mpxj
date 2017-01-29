@@ -222,7 +222,7 @@ class Props extends MPPComponent
 
    /**
     * Retrieve the set of keys represented by this instance.
-    * 
+    *
     * @return key set
     */
    public Set<Integer> keySet()
@@ -267,6 +267,7 @@ class Props extends MPPComponent
    public static final Integer CURRENCY_PLACEMENT = Integer.valueOf(37748753);
    public static final Integer CURRENCY_DIGITS = Integer.valueOf(37748754);
 
+   public static final Integer CRITICAL_SLACK_LIMIT = Integer.valueOf(37748756);
    public static final Integer DURATION_UNITS = Integer.valueOf(37748757);
    public static final Integer WORK_UNITS = Integer.valueOf(37748758);
    public static final Integer TASK_UPDATES_RESOURCE = Integer.valueOf(37748761);
@@ -325,7 +326,7 @@ class Props extends MPPComponent
 
    public static final Integer TASK_FIELD_MAP = Integer.valueOf(131092);
    public static final Integer TASK_FIELD_MAP2 = Integer.valueOf(50331668);
-   public static final Integer ENTERPRISE_CUSTOM_FIELD_MAP = Integer.valueOf(37753797); // MPP14 37753768?      
+   public static final Integer ENTERPRISE_CUSTOM_FIELD_MAP = Integer.valueOf(37753797); // MPP14 37753768?
 
    public static final Integer RESOURCE_FIELD_MAP = Integer.valueOf(131093);
    public static final Integer RESOURCE_FIELD_MAP2 = Integer.valueOf(50331669);

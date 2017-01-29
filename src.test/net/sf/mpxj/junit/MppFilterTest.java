@@ -48,7 +48,7 @@ public class MppFilterTest
 {
    /**
     * Test filter data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9Filters() throws Exception
@@ -59,7 +59,7 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9FiltersFrom12() throws Exception
@@ -70,7 +70,7 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9FiltersFrom14() throws Exception
@@ -81,7 +81,7 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12Filters() throws Exception
@@ -92,7 +92,7 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12FiltersFrom14() throws Exception
@@ -103,7 +103,7 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14Filters() throws Exception
@@ -114,7 +114,7 @@ public class MppFilterTest
 
    /**
     * Main entry point to execute all tests.
-    * 
+    *
     * @param mpp project file
     */
    private void executeTests(ProjectFile mpp)
@@ -127,7 +127,7 @@ public class MppFilterTest
 
    /**
     * Test filter data.
-    * 
+    *
     * @param mpp ProjectFile instance
     */
    private void testFilters(ProjectFile mpp)
@@ -167,7 +167,7 @@ public class MppFilterTest
 
    /**
     * Validate filter evaluation.
-    * 
+    *
     * @param mpp project file
     */
    private void testFilterEvaluation(ProjectFile mpp)
@@ -208,7 +208,7 @@ public class MppFilterTest
       assertTrue(filter.evaluate(task1, null));
       assertFalse(filter.evaluate(task2, null));
 
-      //       
+      //
       // Test different operator types
       //
       Task task3 = mpp.getTaskByID(Integer.valueOf(3));
@@ -308,7 +308,7 @@ public class MppFilterTest
 
    /**
     * Validate filter logical operator evaluation.
-    * 
+    *
     * @param mpp project file
     */
    private void testLogicalOperatorEvaluation(ProjectFile mpp)
@@ -345,7 +345,7 @@ public class MppFilterTest
 
    /**
     * Validate the prompts for user supplied values.
-    * 
+    *
     * @param mpp project file
     */
    private void testParameters(ProjectFile mpp)

@@ -41,9 +41,9 @@ class FieldMap14 extends FieldMap
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
-    * @param customFields custom field values 
+    * @param customFields custom field values
     */
    public FieldMap14(ProjectProperties properties, CustomFieldContainer customFields)
    {
@@ -1442,7 +1442,7 @@ class FieldMap14 extends FieldMap
    /**
     * The values for these field types as read from the file, don't
     * correspond to the values actually used in the var data blocks.
-    * It's not clear why, or whether these values are actually 
+    * It's not clear why, or whether these values are actually
     * present somewhere in the file.
     */
    private static final Object[][] VAR_DATA_MAP_CONTENT =

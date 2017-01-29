@@ -216,26 +216,38 @@ final class Record
     */
    public Date getDateTime(int field) throws MPXJException
    {
-      try
-      {
-         Date result;
+      Date result = null;
 
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
+         try
          {
             result = m_formats.getDateTimeFormat().parse(m_fields[field]);
          }
-         else
+
+         catch (ParseException ex)
          {
-            result = null;
+            // Failed to parse a full date time.
          }
 
-         return (result);
+         //
+         // Fall back to trying just parsing the date component
+         //
+         if (result == null)
+         {
+            try
+            {
+               result = m_formats.getDateFormat().parse(m_fields[field]);
+            }
+
+            catch (ParseException ex)
+            {
+               throw new MPXJException("Failed to parse date time", ex);
+            }
+         }
       }
 
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date time", ex);
-      }
+      return result;
    }
 
    /**

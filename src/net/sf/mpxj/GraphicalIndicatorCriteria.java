@@ -31,7 +31,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     */
    public GraphicalIndicatorCriteria(ProjectProperties properties)
@@ -41,7 +41,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
 
    /**
     * Retrieve the number of the indicator to be displayed.
-    * 
+    *
     * @return indicator number
     */
    public int getIndicator()
@@ -51,7 +51,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
 
    /**
     * Set the number of the indicator to be displayed.
-    * 
+    *
     * @param indicator indicator number
     */
    public void setIndicator(int indicator)
@@ -64,7 +64,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
     * be displayed. This method will return -1 if no indicator should
     * be displayed, or it will return a positive integer identifying the
     * required indicator.
-    * 
+    *
     * @param container field container
     * @return boolean flag
     */

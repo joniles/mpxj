@@ -1,6 +1,6 @@
 /*
  * file:       ProjectEntityWithUniqueID.java
- * author:     Jon Iles             
+ * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2015
  * date:       15/04/2015
  */
@@ -30,14 +30,14 @@ public interface ProjectEntityWithUniqueID
 {
    /**
     * Retrieve the Unique ID value of the entity.
-    * 
+    *
     * @return Unique ID value
     */
    public Integer getUniqueID();
 
    /**
     * Set the Unique ID value of the entity.
-    * 
+    *
     * @param id Unique ID value
     */
    public void setUniqueID(Integer id);

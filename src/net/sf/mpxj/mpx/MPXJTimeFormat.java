@@ -24,80 +24,22 @@
 
 package net.sf.mpxj.mpx;
 
-import java.text.DateFormatSymbols;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the time conventions used in MPX files.
  */
-public final class MPXJTimeFormat extends SimpleDateFormat
+public final class MPXJTimeFormat extends MPXJBaseFormat
 {
    /**
-    * This method allows the null text value to be set. In an English
-    * locale this is typically "NA".
-    * 
-    * @param nullText null text value
+    * Constructor.
     */
-   public void setNullText(String nullText)
+   public MPXJTimeFormat()
    {
-      m_null = nullText;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public Date parse(String str) throws ParseException
-   {
-      Date result;
-
-      if (str == null || str.trim().length() == 0)
+      m_formats = new SimpleDateFormat[]
       {
-         result = null;
-      }
-      else
-      {
-         if (str.equals(m_null) == true)
-         {
-            result = null;
-         }
-         else
-         {
-            result = super.parse(str);
-         }
-      }
-
-      return (result);
+         new SimpleDateFormat("HH:mm")
+      };
    }
-
-   /**
-    * Allows the AM/PM text to be set.
-    * 
-    * @param am AM text
-    * @param pm PM text
-    */
-   public void setAmPmText(String am, String pm)
-   {
-      DateFormatSymbols symbols = getDateFormatSymbols();
-      symbols.setAmPmStrings(new String[]
-      {
-         am,
-         pm
-      });
-      setDateFormatSymbols(symbols);
-   }
-
-   @Override public int hashCode()
-   {
-      return super.hashCode();
-   }
-
-   @Override public boolean equals(Object obj)
-   {
-      return super.equals(obj);
-   }
-
-   private String m_null = "NA";
 }

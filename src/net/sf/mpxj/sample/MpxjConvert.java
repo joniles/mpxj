@@ -23,9 +23,10 @@
 
 package net.sf.mpxj.sample;
 
+import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
@@ -61,7 +62,10 @@ public final class MpxjConvert
 
       catch (Exception ex)
       {
+         System.out.println();
+         System.out.print("Conversion Error: ");
          ex.printStackTrace(System.out);
+         System.out.println();
          System.exit(1);
       }
    }
@@ -77,8 +81,7 @@ public final class MpxjConvert
    {
       System.out.println("Reading input file started.");
       long start = System.currentTimeMillis();
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
-      ProjectFile projectFile = reader.read(inputFile);
+      ProjectFile projectFile = readFile(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading input file completed in " + elapsed + "ms.");
 
@@ -88,5 +91,23 @@ public final class MpxjConvert
       writer.write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
       System.out.println("Writing output completed in " + elapsed + "ms.");
+   }
+
+   /**
+    * Use the universal project reader to open the file.
+    * Throw an exception if we can't determine the file type.
+    *
+    * @param inputFile file name
+    * @return ProjectFile instance
+    */
+   private ProjectFile readFile(String inputFile) throws MPXJException
+   {
+      ProjectReader reader = new UniversalProjectReader();
+      ProjectFile projectFile = reader.read(inputFile);
+      if (projectFile == null)
+      {
+         throw new IllegalArgumentException("Unsupported file type");
+      }
+      return projectFile;
    }
 }

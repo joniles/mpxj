@@ -7,8 +7,139 @@
    </properties> 
 
    <body>
+    <release version="5.5.10" date="Git HEAD">
+	</release>   
+   
+   	<release version="5.5.9" date="27/01/2017">
+   	   <action dev="joniles" type="update">Improve robustness of date parsing for MPX files.</action>
+	</release>   
+   
+   	<release version="5.5.8" date="23/01/2017">
+   		<action dev="joniles" type="fix">Fix NPE when reading graphical indicators with unknown field type.</action>
+	</release>   
+   
+    <release version="5.5.7" date="13/01/2017">
+   		<action dev="joniles" type="fix">Fix percent complete NaN value for some Primavera schedules.</action>
+	</release>   
+      
+    <release version="5.5.6" date="06/01/2017">
+    	<action dev="joniles" type="fix">Fix incorrectly set critical flag for primavera schedules.</action>
+	</release>
+   
+    <release version="5.5.5" date="06/01/2017">
+        <action dev="joniles" type="update">Updated to rtfparserkit 1.9.0 for improved RTF parsing</action>
+        <action dev="joniles" type="update">Improve calendar exception parsing for Primavera XER and database readers.</action>
+        <action dev="joniles" type="update">Ensure the task summary flag is set correctly for Primavera schedules.</action>
+        <action dev="joniles" type="update">Rollup baseline, early and late start and finish dates to WBS for Primavera schedules.</action>
+        <action dev="joniles" type="update">Rollup baseline duration, remaining duration and percent complete to WBS for Primavera schedules.</action>
+        <action dev="joniles" type="add">Use the project's critical slack limit value when setting the critical flag on a task.</action>
+    	<action dev="joniles" type="add">Experimental support for reading Merlin Project schedules.</action>
+	</release>
 
-	<release version="5.1.13" date="Git HEAD">
+    <release version="5.5.4" date="01/12/2016">
+    	<action dev="joniles" type="update">Default to UTF-8 encoding when generating JSON files</action>
+	</release>
+   
+   	<release version="5.5.3" date="29/11/2016">
+   		<action dev="joniles" type="update">Correctly read text from MPP files when default charset is not UTF-8.</action>
+   		<action dev="joniles" type="update">Improve accuracy when reading MPP9 files.</action>
+	</release>
+   
+	<release version="5.5.2" date="02/11/2016">
+		<action dev="joniles" type="update">Add Primavera Parent Resource ID as a specific resource attribute (Based on a contribution by Dave McKay).</action>
+		<action dev="joniles" type="update">PMXML writer generates currency record (Based on a contribution by Dave McKay).</action>
+		<action dev="joniles" type="update">PMXML writer defaults Activity PercentCompleteType to Duration (Based on a contribution by Dave McKay).</action>
+		<action dev="joniles" type="update">PMXML writer records currency and parent attributes for Resource (Based on a contribution by Dave McKay).</action>
+		<action dev="joniles" type="update">PMXML writer resource assignments include RateSource and ActualOvertimeUnits attributes(Based on a contribution by Dave McKay).</action>		
+		<action dev="joniles" type="update">MSPDI reader: gracefully handle invalid calendar exceptions..</action>
+		<action dev="joniles" type="update">PMXML writer: gracefully handle missing data.</action>
+		<action dev="joniles" type="update">Planner writer: gracefully handle missing data.</action>
+	</release>
+
+	<release version="5.5.1" date="14/10/2016">
+		<action dev="joniles" type="add">Update universal project reader to support zip files.</action>
+		<action dev="joniles" type="update">Update ruby to align error handling with universal project reader.</action>
+	</release>
+
+	<release version="5.5.0" date="13/10/2016">
+		<action dev="joniles" type="add">Universal project reader.</action>
+		<action dev="joniles" type="update">Avoid NPE when reading PMXML files.</action>
+		<action dev="joniles" type="fix" issue="297">Missing extended attributes</action>
+		<action dev="joniles" type="fix" issue="300">CrossProject field omission causes issues when importing to P6</action>
+	</release>
+
+	<release version="5.4.0" date="06/10/2016">
+		<action dev="joniles" type="update">Updated to use POI 3.15.</action>
+	</release>
+
+	<release version="5.3.3" date="31/08/2016">
+		<action dev="joniles" type="update">Avoid NPE when field type is unknown.</action>
+		<action dev="joniles" type="update">Improve Ruby error reporting.</action>
+		<action dev="joniles" type="update">Improve support for non-standard time formats in MPX files</action>
+		<action dev="joniles" type="update">Improve support for MPP14 files with very large numbers of blank tasks</action>
+	</release>
+
+	<release version="5.3.2" date="31/08/2016">
+		<action dev="joniles" type="update">When reading an XER file, treat FT_STATICTPYE user defined fields as text.</action>
+	</release>
+
+	<release version="5.3.1" date="01/07/2016">
+		<action dev="joniles" type="add">Add data date attribute to PMXML output.</action>
+		<action dev="joniles" type="update">Update PMXML writer to avoid NPE.</action>
+		<action dev="joniles" type="update">Update PMXML writer to allow task field used for Activity ID to be chosen.</action>
+		<action dev="joniles" type="update">Updated to avoid NPE when reading an XER file where project not under EPS.</action>
+		<action dev="joniles" type="update">Generate Task IDs if missing from MSPDI file</action>
+	</release>
+
+	<release version="5.3.0" date="10/06/2016">
+		<action dev="joniles" type="add">Add support for PP files generated by Asta Powerproject from version 13.0.0.3 onwards</action>
+		<action dev="joniles" type="update">Minor improvements to SDEF support.</action>
+		<action dev="joniles" type="update">Updated to rtfparserkit 1.8.0</action>
+		<action dev="joniles" type="update">Improve finish time handling in PMXML files (contributed by lobmeleon)</action>
+	</release>
+
+	<release version="5.2.2" date="11/03/2016">
+		<action dev="joniles" type="add">Add support for resource assignment Stop and Resume attributes for MPP and MSPDI files</action>
+		<action dev="joniles" type="fix" issue="291">PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException</action>
+		<action dev="joniles" type="fix" issue="292">Microsoft Project 2016 : Need to set 'Stop' and 'Resume'  properties for net.sf.mpxj.ResourceAssignment</action>		 
+	</release>
+
+	<release version="5.2.1" date="11/02/2016">
+		<action dev="joniles" type="add">Add support for PP files generated by Asta Powerproject up to version 13.0.0.3</action>
+	</release>
+
+	<release version="5.2.0" date="08/02/2016">
+		<action dev="joniles" type="add">Add support for PP files generated by Asta Powerproject 11, Powerproject 12, Easyplan 2, Easyplan 3, Easyplan 4, Easyplan 5 and Easyplan 6</action>
+		<action dev="joniles" type="fix" issue="285">Unsupported encoding command ansicpg949</action>	
+		<action dev="joniles" type="fix" issue="288">AvailabilityTable getEntryByDate does not work properly</action>		
+	</release>
+
+	<release version="5.1.18" date="25/01/2016">
+		<action dev="joniles" type="fix" issue="285">Unsupported encoding command ansicpg1254</action>
+		<action dev="joniles" type="fix" issue="286">NullPointerException in CriteriaReader.getConstantValue</action>
+		<action dev="joniles" type="update" issue="287">Allow a character encoding to be specified when reading an XER file</action>
+		<action dev="joniles" type="add">Write Primavera Primary Resource Unique ID to Task field Number1</action>
+	</release>
+
+	<release version="5.1.17" date="30/12/2015">
+		<action dev="joniles" type="update">Improve support for reading MPP files generated by Project 2016</action>
+		<action dev="joniles" type="fix">Handle missing time component of a time stamp field when reading an MPX file.</action>	
+	</release>
+
+	<release version="5.1.16" date="18/12/2015">
+		<action dev="joniles" type="update">Improve support for reading MPX files generated by SureTrak</action>
+	</release>
+
+	<release version="5.1.15" date="16/12/2015">
+		<action dev="joniles" type="fix">Fix WBS and Activity ordering for tasks from Primavera.</action>
+	</release>
+
+	<release version="5.1.14" date="09/12/2015">
+		<action dev="joniles" type="fix">Strip unescaped control characters from JSON output.</action>
+	</release>
+
+	<release version="5.1.13" date="26/11/2015">
+		<action dev="joniles" type="update">For schedules imported from Primavera ensure tasks representing activities are ordered by Activity ID within the WBS to match Primavera.</action>
 	</release>
 	
     <release version="5.1.12" date="16/11/2015">

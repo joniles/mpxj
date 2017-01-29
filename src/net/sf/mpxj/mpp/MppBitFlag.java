@@ -11,10 +11,10 @@ public class MppBitFlag
 {
    /**
     * Constructor.
-    * 
+    *
     * @param type field type
     * @param offset offset in buffer
-    * @param mask bit mask 
+    * @param mask bit mask
     * @param zeroValue value to return if expression is zero
     * @param nonZeroValue value to return if expression is non-zero
     */
@@ -30,7 +30,7 @@ public class MppBitFlag
    /**
     * Extracts the value of this bit flag from the supplied byte array
     * and sets the value in the supplied container.
-    * 
+    *
     * @param container container
     * @param data byte array
     */

@@ -249,7 +249,7 @@ public class MppBarStyleTest
    /**
     * Used to compare Gantt bar style data retrieved from an MPP
     * file to expected reference data.
-    * 
+    *
     * @param expected reference data
     * @param actual file data
     */
@@ -266,7 +266,7 @@ public class MppBarStyleTest
    /**
     * Used to compare Gantt bar style data retrieved from an MPP
     * file to expected reference data.
-    * 
+    *
     * @param expected reference data
     * @param actual file data
     */
@@ -280,7 +280,7 @@ public class MppBarStyleTest
    /**
     * Used to compare Gantt bar style data retrieved from an MPP
     * file to expected reference data.
-    * 
+    *
     * @param expected reference data
     * @param actual file data
     */
@@ -307,7 +307,7 @@ public class MppBarStyleTest
 
    /**
     * Compares colors.
-    * 
+    *
     * @param expected expected color
     * @param actual actual color
     */
@@ -2418,7 +2418,7 @@ public class MppBarStyleTest
       TaskField.START,
       TaskField.FINISH,
       "[Normal, Active, Not Manually Scheduled]"
-   },       
+   },
    */
    };
 

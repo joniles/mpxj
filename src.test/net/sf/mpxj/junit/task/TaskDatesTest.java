@@ -67,7 +67,7 @@ public class TaskDatesTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskDates(File file) throws Exception
@@ -90,11 +90,11 @@ public class TaskDatesTest
 
    /**
     * Test the date values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
-    * @param maxIndex maximum number of custom fields to expect in this file 
+    * @param maxIndex maximum number of custom fields to expect in this file
     */
    private void testTaskDates(File file, Task task, int testIndex, int maxIndex) throws ParseException
    {

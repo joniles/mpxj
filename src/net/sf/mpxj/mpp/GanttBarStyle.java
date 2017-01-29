@@ -48,7 +48,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
    /**
     * Set the field used to determine the start date of this bar.
-    * 
+    *
     * @param field from field
     */
    public void setFromField(TaskField field)
@@ -68,7 +68,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
    /**
     * Sets the name of this style.
-    * 
+    *
     * @param name style name
     */
    public void setName(String name)
@@ -88,7 +88,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
    /**
     * Sets the row number of this style.
-    * 
+    *
     * @param row row number
     */
    public void setRow(int row)
@@ -108,7 +108,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
    /**
     * Sets the field used to determine the end date of this bar.
-    * 
+    *
     * @param field to field
     */
    public void setToField(TaskField field)
@@ -128,7 +128,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
    /**
     * Adds a Show For criteria entry for this style.
-    * 
+    *
     * @param tasks Show For entry criteria
     */
    public void addShowForTasks(GanttBarShowForTasks tasks)

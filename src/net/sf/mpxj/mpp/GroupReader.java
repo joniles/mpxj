@@ -38,14 +38,14 @@ public abstract class GroupReader
 {
    /**
     * Retrieves the type used for the VarData lookup.
-    * 
+    *
     * @return VarData type
     */
    protected abstract Integer getVarDataType();
 
    /**
     * Entry point for processing group definitions.
-    * 
+    *
     * @param file project file
     * @param fixedData group fixed data
     * @param varData group var data
@@ -77,7 +77,7 @@ public abstract class GroupReader
 
          // header=4 byte int for unique id
          // short 4 = show summary tasks
-         // short int at byte 6 for number of clauses         
+         // short int at byte 6 for number of clauses
          //Integer groupUniqueID = Integer.valueOf(MPPUtility.getInt(groupVarData, 0));
          boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
 
@@ -106,7 +106,7 @@ public abstract class GroupReader
             // 4th byte in clause is 1=asc 0=desc
             // offset+8=font index, from font bases
             // offset+12=color, byte
-            // offset+13=pattern, byte            
+            // offset+13=pattern, byte
 
             boolean ascending = (MPPUtility.getByte(groupVarData, offset + 4) != 0);
             clause.setAscending(ascending);

@@ -1,8 +1,8 @@
 /*
  * This is a modified version of the MapFileGenerator from
- * http://www.frijters.net/MapFileGenerator.java. 
- * 
- * The original copyright notice appears below.  
+ * http://www.frijters.net/MapFileGenerator.java.
+ *
+ * The original copyright notice appears below.
  */
 
 /*
@@ -60,7 +60,7 @@ public class MapFileGenerator
 {
    /**
     * Command line entry point.
-    * 
+    *
     * @param args command line arguments
     * @throws ClassNotFoundException
     * @throws XMLStreamException
@@ -82,8 +82,8 @@ public class MapFileGenerator
 
    /**
     * Generate a map file from a jar file.
-    * 
-    * @param jarFile jar file 
+    *
+    * @param jarFile jar file
     * @param mapFileName map file name
     * @param mapClassMethods true if we want to produce .Net style class method names
     * @throws XMLStreamException
@@ -99,7 +99,7 @@ public class MapFileGenerator
 
    /**
     * Generate an IKVM map file.
-    * 
+    *
     * @param mapFileName map file name
     * @param jarFile jar file containing code to be mapped
     * @param mapClassMethods true if we want to produce .Net style class method names
@@ -133,7 +133,7 @@ public class MapFileGenerator
 
    /**
     * Add classes to the map file.
-    * 
+    *
     * @param writer XML stream writer
     * @param jarFile jar file
     * @param mapClassMethods true if we want to produce .Net style class method names
@@ -166,7 +166,7 @@ public class MapFileGenerator
 
    /**
     * Add an individual class to the map file.
-    * 
+    *
     * @param loader jar file class loader
     * @param jarEntry jar file entry
     * @param writer XML stream writer
@@ -195,7 +195,7 @@ public class MapFileGenerator
 
    /**
     * Process class properties.
-    * 
+    *
     * @param writer output stream
     * @param methodSet set of methods processed
     * @param aClass class being processed
@@ -239,7 +239,7 @@ public class MapFileGenerator
 
    /**
     * Add a simple property to the map file.
-    * 
+    *
     * @param writer xml stream writer
     * @param name property name
     * @param propertyType property type
@@ -281,7 +281,7 @@ public class MapFileGenerator
 
    /**
     * Converts a class into a signature token.
-    * 
+    *
     * @param c class
     * @return signature token text
     */
@@ -302,7 +302,7 @@ public class MapFileGenerator
    /**
     * Where bean introspection is confused by getProperty() and getProperty(int index), this method determines the correct
     * properties to add.
-    * 
+    *
     * @param writer XML stream writer
     * @param methodSet set of methods processed
     * @param aClass Java class
@@ -353,12 +353,12 @@ public class MapFileGenerator
     * Hides the original Java-style method name using an attribute
     * which should be respected by Visual Studio, the creates a new
     * wrapper method using a .Net style method name.
-    * 
+    *
     * Note that this does not work for VB as it is case insensitive. Even
     * though Visual Studio won't show you the Java-style method name,
-    * the VB compiler sees both and thinks they are the same... which 
+    * the VB compiler sees both and thinks they are the same... which
     * causes it to fail.
-    * 
+    *
     * @param writer output stream
     * @param aClass class being processed
     * @param methodSet set of methods which have been processed.
@@ -459,7 +459,7 @@ public class MapFileGenerator
 
    /**
     * Used to determine if the current method should be ignored.
-    * 
+    *
     * @param name method name
     * @return true if the method should be ignored
     */
@@ -481,7 +481,7 @@ public class MapFileGenerator
 
    /**
     * Creates a method signature.
-    * 
+    *
     * @param method Method instance
     * @return method signature
     */

@@ -32,7 +32,7 @@ public class FileChooserController
 
    /**
     * Constructor.
-    * 
+    *
     * @param model file chooser model
     */
    public FileChooserController(FileChooserModel model)

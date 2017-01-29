@@ -1031,7 +1031,7 @@ public enum TaskField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     * @param unitsType field units type
     */
@@ -1043,7 +1043,7 @@ public enum TaskField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     */
    private TaskField(DataType dataType)

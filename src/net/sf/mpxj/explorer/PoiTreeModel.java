@@ -47,7 +47,7 @@ public class PoiTreeModel implements TreeModel
 
    /**
     * Point the model to a file.
-    *  
+    *
     * @param file POIFS file
     */
    public void setFile(POIFSFileSystem file)
@@ -129,7 +129,7 @@ public class PoiTreeModel implements TreeModel
 
    /**
     * Retrieves child nodes from a directory entry.
-    * 
+    *
     * @param parent parent directory entry
     * @return list of child nodes
     */

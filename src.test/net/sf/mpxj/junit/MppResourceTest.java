@@ -55,7 +55,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9Resource() throws Exception
@@ -71,7 +71,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9ResourceFrom12() throws Exception
@@ -87,7 +87,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9ResourceFrom14() throws Exception
@@ -103,7 +103,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12Resource() throws Exception
@@ -119,7 +119,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP1 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12ResourceFrom14() throws Exception
@@ -135,7 +135,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14Resource() throws Exception
@@ -151,7 +151,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MSPDI file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMspdiResource() throws Exception
@@ -166,7 +166,7 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPD9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpd9Resource() throws Exception
@@ -183,7 +183,7 @@ public class MppResourceTest
 
    /**
     * Tests fields related to Resources.
-    * 
+    *
     * @param mpp The ProjectFile being tested.
     * @throws Exception
     */
@@ -378,7 +378,7 @@ public class MppResourceTest
 
    /**
     * Test resource outline codes.
-    * 
+    *
     * @param mpp project file
     * @throws Exception
     */
@@ -399,7 +399,7 @@ public class MppResourceTest
 
    /**
     * Tests fields related to Resource Assignments.
-    * 
+    *
     * @param mpp The ProjectFile being tested.
     */
    private void testResourceAssignments(ProjectFile mpp)
@@ -467,7 +467,7 @@ public class MppResourceTest
 
    /**
     * Validates that we are retrieving the notes correctly for each resource.
-    * 
+    *
     * @param file project file
     */
    private void testNotes(ProjectFile file)
@@ -500,7 +500,7 @@ public class MppResourceTest
 
    /**
     * Validate the ID, Unique ID and name attributes.
-    * 
+    *
     * @param file project file
     */
    private void validateIdValues(ProjectFile file)

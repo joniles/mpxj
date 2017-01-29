@@ -273,7 +273,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Inserts a child task prior to a given sibling task.
-    * 
+    *
     * @param child new child task
     * @param previousSibling sibling task
     */
@@ -382,7 +382,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Add a resource assignment which has been populated elsewhere.
-    * 
+    *
     * @param assignment resource assignment
     */
    public void addResourceAssignment(ResourceAssignment assignment)
@@ -403,7 +403,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Retrieves an existing resource assignment if one is present,
     * to prevent duplicate resource assignments being added.
-    * 
+    *
     * @param resource resource to test for
     * @return existing resource assignment
     */
@@ -795,7 +795,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a cost value.
-    * 
+    *
     * @param index cost index (1-10)
     * @param value cost value
     */
@@ -806,7 +806,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a cost value.
-    * 
+    *
     * @param index cost index (1-10)
     * @return cost value
     */
@@ -889,7 +889,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the duration text used for a manually scheduled task.
-    * 
+    *
     * @param val text
     */
    public void setDurationText(String val)
@@ -899,7 +899,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the manual duration attribute.
-    * 
+    *
     * @param dur manual duration
     */
    public void setManualDuration(Duration dur)
@@ -909,7 +909,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Read the manual duration attribute.
-    * 
+    *
     * @return manual duration
     */
    public Duration getManualDuration()
@@ -968,7 +968,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the finish text used for a manually scheduled task.
-    * 
+    *
     * @param val text
     */
    public void setFinishText(String val)
@@ -1250,8 +1250,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * Note that MS Project 98 does not normally populate this field when
     * it generates an MPX file, and will therefore not expect to see values
     * in this field when it reads an MPX file. Supplying values for this
-    * field when writing an MPX file will cause MS Project 98, 2000, and 2002 
-    * to create new resources and ignore any other resource assignments 
+    * field when writing an MPX file will cause MS Project 98, 2000, and 2002
+    * to create new resources and ignore any other resource assignments
     * that have been defined in the MPX file.
     *
     * @param val String containing a comma separated list of names
@@ -1301,7 +1301,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the start text used for a manually scheduled task.
-    * 
+    *
     * @param val text
     */
    public void setStartText(String val)
@@ -1561,7 +1561,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the text value for the baseline duration.
-    * 
+    *
     * @return baseline duration text
     */
    public String getBaselineDurationText()
@@ -1581,7 +1581,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the baseline duration text value.
-    * 
+    *
     * @param value baseline duration text
     */
    public void setBaselineDurationText(String value)
@@ -1613,7 +1613,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the baseline finish text value.
-    * 
+    *
     * @return baseline finish text
     */
    public String getBaselineFinishText()
@@ -1633,7 +1633,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the baseline finish text value.
-    * 
+    *
     * @param value baseline finish text
     */
    public void setBaselineFinishText(String value)
@@ -1665,7 +1665,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the baseline start text value.
-    * 
+    *
     * @return baseline start value
     */
    public String getBaselineStartText()
@@ -1685,7 +1685,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the baseline start text value.
-    * 
+    *
     * @param value baseline start text
     */
    public void setBaselineStartText(String value)
@@ -1838,7 +1838,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (critical == null)
       {
          Duration totalSlack = getTotalSlack();
-         critical = Boolean.valueOf(totalSlack.getDuration() <= 0 && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
+         ProjectProperties props = getParentFile().getProjectProperties();
+         int criticalSlackLimit = NumberHelper.getInt(props.getCriticalSlackLimit());
+         if (criticalSlackLimit != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != TimeUnit.DAYS)
+         {
+            totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, props);
+         }
+         critical = Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
          set(TaskField.CRITICAL, critical);
       }
       return (BooleanHelper.getBoolean(critical));
@@ -1891,7 +1897,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the duration text of a manually scheduled task.
-    * 
+    *
     * @return duration text
     */
    public String getDurationText()
@@ -1901,7 +1907,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a duration value.
-    * 
+    *
     * @param index duration index (1-10)
     * @param value duration value
     */
@@ -1912,7 +1918,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a duration value.
-    * 
+    *
     * @param index duration index (1-10)
     * @return duration value
     */
@@ -1984,7 +1990,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the finish text of a manually scheduled task.
-    * 
+    *
     * @return finish text
     */
    public String getFinishText()
@@ -1994,7 +2000,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a finish value.
-    * 
+    *
     * @param index finish index (1-10)
     * @param value finish value
     */
@@ -2005,7 +2011,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a finish value.
-    * 
+    *
     * @param index finish index (1-10)
     * @return finish value
     */
@@ -2044,7 +2050,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @param value flag value
     */
@@ -2055,7 +2061,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a flag value.
-    * 
+    *
     * @param index flag index (1-20)
     * @return flag value
     */
@@ -2187,7 +2193,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a number value.
-    * 
+    *
     * @param index number index (1-20)
     * @param value number value
     */
@@ -2198,7 +2204,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a number value.
-    * 
+    *
     * @param index number index (1-20)
     * @return number value
     */
@@ -2248,7 +2254,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the list of predecessors for this task.
-    * 
+    *
     * @return list of predecessor Relation instances
     */
    @SuppressWarnings("unchecked") public List<Relation> getPredecessors()
@@ -2258,7 +2264,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the list of successors for this task.
-    * 
+    *
     * @return list of successor Relation instances
     */
    @SuppressWarnings("unchecked") public List<Relation> getSuccessors()
@@ -2416,7 +2422,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the start text for a manually scheduled task.
-    * 
+    *
     * @return start text
     */
    public String getStartText()
@@ -2426,7 +2432,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a start value.
-    * 
+    *
     * @param index start index (1-10)
     * @param value start value
     */
@@ -2437,7 +2443,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a start value.
-    * 
+    *
     * @param index start index (1-10)
     * @return start value
     */
@@ -2448,7 +2454,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Calculate the start variance.
-    * 
+    *
     * @return start variance
     */
    public Duration getStartVariance()
@@ -2522,7 +2528,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a text value.
-    * 
+    *
     * @param index text index (1-30)
     * @param value text value
     */
@@ -2533,7 +2539,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a text value.
-    * 
+    *
     * @param index text index (1-30)
     * @return text value
     */
@@ -2544,7 +2550,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an outline code value.
-    * 
+    *
     * @param index outline code index (1-10)
     * @param value outline code value
     */
@@ -2555,7 +2561,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an outline code value.
-    * 
+    *
     * @param index outline code index (1-10)
     * @return outline code value
     */
@@ -3228,7 +3234,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a date value.
-    * 
+    *
     * @param index date index (1-10)
     * @param value date value
     */
@@ -3239,7 +3245,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a date value.
-    * 
+    *
     * @param index date index (1-10)
     * @return date value
     */
@@ -3578,7 +3584,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the start slack.
-    * 
+    *
     * @param duration start slack
     */
    public void setStartSlack(Duration duration)
@@ -3588,7 +3594,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the finish slack.
-    * 
+    *
     * @param duration finish slack
     */
    public void setFinishSlack(Duration duration)
@@ -3598,7 +3604,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the start slack.
-    * 
+    *
     * @return start slack
     */
    public Duration getStartSlack()
@@ -3618,7 +3624,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the finish slack.
-    * 
+    *
     * @return finish slack
     */
    public Duration getFinishSlack()
@@ -3732,7 +3738,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3743,7 +3749,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3754,7 +3760,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3765,7 +3771,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3776,7 +3782,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3787,7 +3793,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3798,7 +3804,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3809,7 +3815,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3820,7 +3826,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3831,7 +3837,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3842,7 +3848,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3853,7 +3859,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3864,7 +3870,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve an enterprise custom field value.
-    * 
+    *
     * @param index field index
     * @return field value
     */
@@ -3875,7 +3881,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set an enterprise custom field value.
-    * 
+    *
     * @param index field index
     * @param value field value
     */
@@ -3886,7 +3892,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -3897,7 +3903,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -3908,7 +3914,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -3919,7 +3925,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -3930,7 +3936,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -3941,7 +3947,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -3952,7 +3958,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -3973,7 +3979,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the baseline duration text value.
-    * 
+    *
     * @param baselineNumber baseline number
     * @return baseline duration text value
     */
@@ -3994,7 +4000,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the baseline duration text value.
-    * 
+    *
     * @param baselineNumber baseline number
     * @param value baseline duration text value
     */
@@ -4005,7 +4011,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4026,7 +4032,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the baseline finish text value.
-    * 
+    *
     * @param baselineNumber baseline number
     * @return baseline finish text value
     */
@@ -4047,7 +4053,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the baseline finish text value.
-    * 
+    *
     * @param baselineNumber baseline number
     * @param value baseline finish text value
     */
@@ -4058,7 +4064,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4079,7 +4085,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the baseline start text value.
-    * 
+    *
     * @param baselineNumber baseline number
     * @return baseline start text value
     */
@@ -4100,7 +4106,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the baseline start text value.
-    * 
+    *
     * @param baselineNumber baseline number
     * @param value baseline start text value
     */
@@ -4111,7 +4117,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4122,7 +4128,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the "complete through" date.
-    * 
+    *
     * @return complete through date
     */
    public Date getCompleteThrough()
@@ -4170,7 +4176,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the summary progress date.
-    * 
+    *
     * @return summary progress date
     */
    public Date getSummaryProgress()
@@ -4181,7 +4187,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the summary progress date.
-    * 
+    *
     * @param value summary progress date
     */
    public void setSummaryProgress(Date value)
@@ -4191,7 +4197,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the task GUID.
-    * 
+    *
     * @return task GUID
     */
    public UUID getGUID()
@@ -4201,7 +4207,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the task GUID.
-    * 
+    *
     * @param value task GUID
     */
    public void setGUID(UUID value)
@@ -4211,7 +4217,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the task mode.
-    * 
+    *
     * @return task mode
     */
    public TaskMode getTaskMode()
@@ -4221,7 +4227,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the task mode.
-    * 
+    *
     * @param mode task mode
     */
    public void setTaskMode(TaskMode mode)
@@ -4231,7 +4237,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieves the active flag.
-    * 
+    *
     * @return active flag value
     */
    public boolean getActive()
@@ -4241,7 +4247,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Sets the active flag.
-    * 
+    *
     * @param active active flag value
     */
    public void setActive(boolean active)
@@ -4251,7 +4257,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the baseline estimated duration.
-    * 
+    *
     * @return baseline estimated duration
     */
    public Duration getBaselineEstimatedDuration()
@@ -4261,7 +4267,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the baseline estimated duration.
-    * 
+    *
     * @param duration baseline estimated duration
     */
    public void setBaselineEstimatedDuration(Duration duration)
@@ -4271,7 +4277,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -4282,7 +4288,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4298,7 +4304,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the baseline estimated start.
-    * 
+    *
     * @return baseline estimated start
     */
    public Date getBaselineEstimatedStart()
@@ -4308,7 +4314,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the baseline estimated start.
-    * 
+    *
     * @param date baseline estimated start
     */
    public void setBaselineEstimatedStart(Date date)
@@ -4318,7 +4324,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4334,7 +4340,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -4345,7 +4351,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the baseline estimated finish.
-    * 
+    *
     * @return baseline estimated finish
     */
    public Date getBaselineEstimatedFinish()
@@ -4355,7 +4361,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the baseline estimated finish.
-    * 
+    *
     * @param date baseline estimated finish
     */
    public void setBaselineEstimatedFinish(Date date)
@@ -4365,7 +4371,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4381,7 +4387,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -4414,7 +4420,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -4425,7 +4431,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4456,7 +4462,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
@@ -4467,7 +4473,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve a baseline value.
-    * 
+    *
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
@@ -4478,7 +4484,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * This method allows a predecessor relationship to be removed from this
-    * task instance.  It will only delete relationships that exactly match the 
+    * task instance.  It will only delete relationships that exactly match the
     * given targetTask, type and lag time.
     *
     * @param targetTask the predecessor task
@@ -4535,8 +4541,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Internal method used to locate an remove an item from a list Relations. 
-    * 
+    * Internal method used to locate an remove an item from a list Relations.
+    *
     * @param relationList list of Relation instances
     * @param targetTask target relationship task
     * @param type target relationship type
@@ -4562,7 +4568,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Maps a field index to a TaskField instance.
-    * 
+    *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
     * @return TaskField instance
@@ -4704,7 +4710,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * Handle the change in a field value. Reset any cached calculated
     * values affected by this change, pass on the event to any external
     * listeners.
-    * 
+    *
     * @param field field changed
     * @param oldValue old field value
     * @param newValue new field value
@@ -4878,7 +4884,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Utility method used to determine if the supplied task
     * is a predecessor of the current task.
-    * 
+    *
     * @param task potential predecessor task
     * @return Boolean flag
     */
@@ -4890,7 +4896,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Utility method used to determine if the supplied task
     * is a successor of the current task.
-    * 
+    *
     * @param task potential successor task
     * @return Boolean flag
     */
@@ -4902,7 +4908,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Internal method used to test for the existence of a relationship
     * with a task.
-    * 
+    *
     * @param task target task
     * @param list list of relationships
     * @return boolean flag

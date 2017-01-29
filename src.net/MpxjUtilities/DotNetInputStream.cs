@@ -11,7 +11,7 @@ namespace net.sf.mpxj.MpxjUtilities
     /// where a Java InputStream is expected.
     /// This code is based on DotNetInputStream.java from the Saxon project http://www.sf.net/projects/saxon
     /// Note that I've provided this class as a convenience so there are a matching pair of
-    /// input/output stream wraper shopped with MPXJ. IKVM also ships with an input stream wrapper:
+    /// input/output stream wrapper shopped with MPXJ. IKVM also ships with an input stream wrapper:
     /// ikvm.io.InputStreamWrapper, which you could use instead of this one.
     /// </summary>
     public class DotNetInputStream : java.io.InputStream

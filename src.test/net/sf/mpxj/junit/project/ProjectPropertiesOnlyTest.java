@@ -62,7 +62,7 @@ public class ProjectPropertiesOnlyTest
    /**
     * Test a single file to ensure that tasks are read by default, and are not read
     * when the properties only flag is set.
-    * 
+    *
     * @param file file to test
     */
    private void testPropertiesOnly(File file) throws MPXJException

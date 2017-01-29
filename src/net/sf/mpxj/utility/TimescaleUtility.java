@@ -41,10 +41,10 @@ public final class TimescaleUtility
     * selected as the timescale units, this method will create an array of
     * ranges, each one representing a month. The number of entries in the
     * array is determined by the segment count.
-    * 
+    *
     * Each of these date ranges is equivalent one of the columns displayed by
     * MS Project when viewing data with a "timescale" at the top of the page.
-    * 
+    *
     * @param startDate start date
     * @param segmentUnit units to be represented by each segment (column)
     * @param segmentCount number of segments (columns) required
@@ -174,7 +174,7 @@ public final class TimescaleUtility
 
    /**
     * Set the day on which the week starts. Defaults to Calendar.MONDAY.
-    * 
+    *
     * @param weekStartDay week start day
     */
    public void setWeekStartDay(int weekStartDay)
@@ -183,8 +183,8 @@ public final class TimescaleUtility
    }
 
    /**
-    * Retrieves the day on which the week starts. 
-    * 
+    * Retrieves the day on which the week starts.
+    *
     * @return week start day
     */
    public int getWeekStartDay()

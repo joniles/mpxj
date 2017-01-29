@@ -48,7 +48,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the text appearing at the bottom of the bar.
-    * 
+    *
     * @param field bottom text
     */
    public void setBottomText(TaskField field)
@@ -68,7 +68,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the color of the end of the bar.
-    * 
+    *
     * @param color end color
     */
    public void setEndColor(Color color)
@@ -88,7 +88,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the text appearing inside the Gantt bar.
-    * 
+    *
     * @param field inside text
     */
    public void setInsideText(TaskField field)
@@ -108,7 +108,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the text appearing to the left of the bar.
-    * 
+    *
     * @param field left text
     */
    public void setLeftText(TaskField field)
@@ -128,7 +128,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the color of the middle section of the bar.
-    * 
+    *
     * @param color middle color
     */
    public void setMiddleColor(Color color)
@@ -148,7 +148,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the pattern appearing in the middle section of the bar.
-    * 
+    *
     * @param pattern middle pattern
     */
    public void setMiddlePattern(ChartPattern pattern)
@@ -168,7 +168,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the shape of the middle section of the bar.
-    * 
+    *
     * @param shape middle shape
     */
    public void setMiddleShape(GanttBarMiddleShape shape)
@@ -188,7 +188,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the text appearing to the right of the bar.
-    * 
+    *
     * @param field right text
     */
    public void setRightText(TaskField field)
@@ -208,7 +208,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the color of the start of the bar.
-    * 
+    *
     * @param color start color
     */
    public void setStartColor(Color color)
@@ -218,7 +218,7 @@ public class GanttBarCommonStyle
 
    /**
     * Retrieve the bar start shape.
-    * 
+    *
     * @return bar start shape
     */
    public GanttBarStartEndShape getStartShape()
@@ -228,7 +228,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the bar start shape.
-    * 
+    *
     * @param shape start shape
     */
    public void setStartShape(GanttBarStartEndShape shape)
@@ -238,7 +238,7 @@ public class GanttBarCommonStyle
 
    /**
     * Retrieve the bar end shape.
-    * 
+    *
     * @return bar end shape
     */
    public GanttBarStartEndShape getEndShape()
@@ -248,7 +248,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the bar end shape.
-    * 
+    *
     * @param shape end shape
     */
    public void setEndShape(GanttBarStartEndShape shape)
@@ -258,7 +258,7 @@ public class GanttBarCommonStyle
 
    /**
     * Retrieve the bar start type.
-    * 
+    *
     * @return bar start type
     */
    public GanttBarStartEndType getStartType()
@@ -268,7 +268,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the bar start type.
-    * 
+    *
     * @param type bar start type
     */
    public void setStartType(GanttBarStartEndType type)
@@ -278,7 +278,7 @@ public class GanttBarCommonStyle
 
    /**
     * Retrieve the bar end type.
-    * 
+    *
     * @return bar end type
     */
    public GanttBarStartEndType getEndType()
@@ -288,7 +288,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the bar end type.
-    * 
+    *
     * @param type bar end type
     */
    public void setEndType(GanttBarStartEndType type)
@@ -308,7 +308,7 @@ public class GanttBarCommonStyle
 
    /**
     * Sets the top text.
-    * 
+    *
     * @param field top text
     */
    public void setTopText(TaskField field)

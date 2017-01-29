@@ -25,14 +25,14 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-/** 
+/**
  * This class represents a row from a resource's availability table.
  */
 public final class Availability implements Comparable<Availability>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param startDate start date
     * @param endDate end date
     * @param units units for the period
@@ -45,7 +45,7 @@ public final class Availability implements Comparable<Availability>
 
    /**
     * Retrieves the date range of the availability period.
-    * 
+    *
     * @return start date
     */
    public DateRange getRange()
@@ -55,7 +55,7 @@ public final class Availability implements Comparable<Availability>
 
    /**
     * Retrieves the units for the availability period.
-    * 
+    *
     * @return units
     */
    public Number getUnits()

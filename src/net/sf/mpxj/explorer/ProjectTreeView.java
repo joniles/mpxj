@@ -32,7 +32,7 @@ public class ProjectTreeView extends JTree
 {
    /**
     * Constructor.
-    * 
+    *
     * @param model tree model to display
     */
    public ProjectTreeView(final ProjectTreeModel model)

@@ -59,10 +59,10 @@ public enum Day implements MpxjEnum
    }
 
    /**
-    * This method provides a simple mechanism to retrieve 
+    * This method provides a simple mechanism to retrieve
     * the next day in correct sequence, including the transition
-    * from Sunday to Monday. 
-    * 
+    * from Sunday to Monday.
+    *
     * @return Day instance
     */
    public Day getNextDay()

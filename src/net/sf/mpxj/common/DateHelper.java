@@ -93,7 +93,7 @@ public final class DateHelper
     * This method resets the date part of a date time value to
     * a standard date (1/1/1). This is used to allow times to
     * be compared and manipulated.
-    * 
+    *
     * @param date date time value
     * @return date time with date set to a standard value
     */
@@ -116,7 +116,7 @@ public final class DateHelper
     * return 0 if the date is within the range, less than zero if the date
     * is before the range starts, and greater than zero if the date is after
     * the range ends.
-    * 
+    *
     * @param startDate range start date
     * @param endDate range end date
     * @param targetDate target date
@@ -132,7 +132,7 @@ public final class DateHelper
     * return 0 if the date is within the range, less than zero if the date
     * is before the range starts, and greater than zero if the date is after
     * the range ends.
-    * 
+    *
     * @param startDate range start date
     * @param endDate range end date
     * @param targetDate target date in milliseconds
@@ -157,8 +157,8 @@ public final class DateHelper
 
    /**
     * Compare two dates, handling null values.
-    * TODO: correct the comparison order to align with Date.compareTo 
-    * 
+    * TODO: correct the comparison order to align with Date.compareTo
+    *
     * @param d1 Date instance
     * @param d2 Date instance
     * @return int comparison result
@@ -181,7 +181,7 @@ public final class DateHelper
    /**
     * This utility method calculates the difference in working
     * time between two dates, given the context of a task.
-    * 
+    *
     * @param task parent task
     * @param date1 first date
     * @param date2 second date
@@ -215,9 +215,9 @@ public final class DateHelper
    }
 
    /**
-    * Creates a date from the equivalent long value. This conversion 
+    * Creates a date from the equivalent long value. This conversion
     * takes account of the time zone.
-    * 
+    *
     * @param date date expressed as a long integer
     * @return new Date instance
     */
@@ -230,7 +230,7 @@ public final class DateHelper
    /**
     * Creates a timestamp from the equivalent long value. This conversion
     * takes account of the time zone and any daylight savings time.
-    * 
+    *
     * @param timestamp timestamp expressed as a long integer
     * @return new Date instance
     */
@@ -259,7 +259,7 @@ public final class DateHelper
 
    /**
     * Create a Date instance representing a specific time.
-    * 
+    *
     * @param hour hour 0-23
     * @param minutes minutes 0-59
     * @return new Date instance
@@ -277,7 +277,7 @@ public final class DateHelper
     * Given a date represented by a Calendar instance, set the time
     * component of the date based on the hours and minutes of the
     * time supplied by the Date instance.
-    * 
+    *
     * @param cal Calendar instance representing the date
     * @param time Date instance representing the time of day
     */
@@ -297,7 +297,7 @@ public final class DateHelper
     * Given a date represented by a Date instance, set the time
     * component of the date based on the hours and minutes of the
     * time supplied by the Date instance.
-    * 
+    *
     * @param date Date instance representing the date
     * @param canonicalTime Date instance representing the time of day
     * @return new Date instance with the required time set
@@ -348,13 +348,13 @@ public final class DateHelper
       return result;
    }
 
-   /** 
-    * First date supported by Microsoft Project: January 01 00:00:00 1984. 
+   /**
+    * First date supported by Microsoft Project: January 01 00:00:00 1984.
     */
    public static final Date FIRST_DATE = DateHelper.getTimestampFromLong(441763200000L);
 
-   /** 
-    * Last date supported by Microsoft Project: Friday December 31 23:59:00 2049. 
+   /**
+    * Last date supported by Microsoft Project: Friday December 31 23:59:00 2049.
     */
    public static final Date LAST_DATE = DateHelper.getTimestampFromLong(2524607946000L);
 

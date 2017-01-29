@@ -28,16 +28,16 @@ import java.util.Date;
 
 import net.sf.mpxj.common.DateHelper;
 
-/** 
+/**
  * This class represents a resource's cost rate table.
  */
 public class CostRateTable extends ArrayList<CostRateTableEntry>
 {
    /**
-    * Retrieve the table entry valid for the supplied date. 
-    * 
+    * Retrieve the table entry valid for the supplied date.
+    *
     * @param date required date
-    * @return cost rate table entry 
+    * @return cost rate table entry
     */
    public CostRateTableEntry getEntryByDate(Date date)
    {
@@ -56,10 +56,10 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
    }
 
    /**
-    * Retrieve the index of the table entry valid for the supplied date. 
-    * 
+    * Retrieve the index of the table entry valid for the supplied date.
+    *
     * @param date required date
-    * @return cost rate table entry index 
+    * @return cost rate table entry index
     */
    public int getIndexByDate(Date date)
    {

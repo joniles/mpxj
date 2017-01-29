@@ -89,8 +89,8 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * Alternative entry point allowing an MPP file to be read from
-    * a user-supplied POI file stream. 
-    * 
+    * a user-supplied POI file stream.
+    *
     * @param fs POI file stream
     * @return ProjectFile instance
     * @throws MPXJException
@@ -185,9 +185,9 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * This method validates all relationships for a task, removing
-    * any which have been incorrectly read from the MPP file and 
+    * any which have been incorrectly read from the MPP file and
     * point to a parent task.
-    * 
+    *
     * @param task task under test
     */
    private void validationRelations(Task task)
@@ -242,7 +242,7 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * If this flag is true, raw timephased data will be retrieved
     * from MS Project: no normalisation will take place.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getUseRawTimephasedData()
@@ -252,8 +252,8 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * If this flag is true, raw timephased data will be retrieved
-    * from MS Project: no normalisation will take place. 
-    * 
+    * from MS Project: no normalisation will take place.
+    *
     * @param useRawTimephasedData boolean flag
     */
    public void setUseRawTimephasedData(boolean useRawTimephasedData)
@@ -263,8 +263,8 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * Retrieves a flag which indicates whether presentation data will
-    * be read from the MPP file. Not reading this data saves time and memory. 
-    * 
+    * be read from the MPP file. Not reading this data saves time and memory.
+    *
     * @return presentation data flag
     */
    public boolean getReadPresentationData()
@@ -274,8 +274,8 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * Flag to allow time and memory to be saved by not reading
-    * presentation data from the MPP file. 
-    * 
+    * presentation data from the MPP file.
+    *
     * @param readPresentationData set to false to prevent presentation data being read
     */
    public void setReadPresentationData(boolean readPresentationData)
@@ -287,8 +287,8 @@ public final class MPPReader extends AbstractProjectReader
     * Flag to determine if the reader should only read the project properties.
     * This allows for rapid access to the document properties, without the
     * cost of reading the entire contents of the project file.
-    *    
-    * @return true if the reader should only read the project properties 
+    *
+    * @return true if the reader should only read the project properties
     */
    public boolean getReadPropertiesOnly()
    {
@@ -299,7 +299,7 @@ public final class MPPReader extends AbstractProjectReader
     * Flag to determine if the reader should only read the project properties.
     * This allows for rapid access to the document properties, without the
     * cost of reading the entire contents of the project file.
-    * 
+    *
     * @param readPropertiesOnly true if the reader should only read the project properties
     */
    public void setReadPropertiesOnly(boolean readPropertiesOnly)
@@ -310,9 +310,9 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * Set the read password for this Project file. This is needed in order to
     * be allowed to read a read-protected Project file.
-    * 
+    *
     * Note: Set this each time before calling the read method.
-    * 
+    *
     * @param password password text
     */
    public void setReadPassword(String password)
@@ -321,9 +321,9 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
-    * Internal only. Get the read password for this Project file. This is 
+    * Internal only. Get the read password for this Project file. This is
     * needed in order to be allowed to read a read-protected Project file.
-    * 
+    *
     * @return password password text
     */
    public String getReadPassword()
@@ -333,7 +333,7 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * Set the write password for this Project file. Currently not used.
-    * 
+    *
     * Note: Set this each time before calling the read method.
     *
     * @param password password text
@@ -344,9 +344,9 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
-    * Internal only. Get the write password for this Project file. 
+    * Internal only. Get the write password for this Project file.
     * Currently not used.
-    * 
+    *
     * @return password
     */
    public String getWritePassword()
@@ -361,7 +361,7 @@ public final class MPPReader extends AbstractProjectReader
    private boolean m_preserveNoteFormatting;
 
    /**
-    * Setting this flag to true allows raw timephased data to be retrieved. 
+    * Setting this flag to true allows raw timephased data to be retrieved.
     */
    private boolean m_useRawTimephasedData;
 

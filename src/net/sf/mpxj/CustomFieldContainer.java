@@ -37,7 +37,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 {
    /**
     * Retrieve configuration details for a given custom field.
-    * 
+    *
     * @param field required custom field
     * @return configuration detail
     */
@@ -54,7 +54,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * Return the number of custom fields.
-    * 
+    *
     * @return number of custom fields
     */
    public int size()
@@ -69,7 +69,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * Retrieve a custom field value by its unique ID.
-    * 
+    *
     * @param uniqueID custom field value unique ID
     * @return custom field value
     */
@@ -80,7 +80,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * Add a value to the custom field value index.
-    * 
+    *
     * @param item custom field value
     */
    public void registerValue(CustomFieldValueItem item)
@@ -90,7 +90,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * Remove a value from the custom field value index.
-    * 
+    *
     * @param item custom field value
     */
    public void deregisterValue(CustomFieldValueItem item)
@@ -100,7 +100,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * When an alias for a field is added, index it here to allow lookup by alias and type.
-    * 
+    *
     * @param type field type
     * @param alias field alias
     */

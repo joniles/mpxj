@@ -122,7 +122,7 @@ public class BasicTest
    /**
     * Test to ensure that files without tasks or resources generate
     * correct MPX files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testRewrite4() throws Exception
@@ -141,7 +141,7 @@ public class BasicTest
 
    /**
     * Exercise PlannerWriter.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testRewrite5() throws Exception

@@ -41,7 +41,7 @@ public class GraphicalIndicator
     * This method evaluates a if a graphical indicator should
     * be displayed, given a set of Task or Resource data. The
     * method will return -1 if no indicator should be displayed.
-    * 
+    *
     * @param container Task or Resource instance
     * @return indicator index
     */
@@ -125,7 +125,7 @@ public class GraphicalIndicator
 
    /**
     * Sets the field type to which this indicator applies.
-    * 
+    *
     * @param fieldType field type
     */
    public void setFieldType(FieldType fieldType)
@@ -135,7 +135,7 @@ public class GraphicalIndicator
 
    /**
     * Retrieves the field type to which this indicator applies.
-    * 
+    *
     * @return field type
     */
    public FieldType getFieldType()
@@ -146,7 +146,7 @@ public class GraphicalIndicator
    /**
     * Retrieves a flag indicating if graphical indicators should be displayed
     * for this column, rather than the actual values.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getDisplayGraphicalIndicators()
@@ -157,7 +157,7 @@ public class GraphicalIndicator
    /**
     * Sets a flag indicating if graphical indicators should be displayed
     * for this column, rather than the actual values.
-    * 
+    *
     * @param displayGraphicalIndicators boolean flag
     */
    public void setDisplayGraphicalIndicators(boolean displayGraphicalIndicators)
@@ -167,7 +167,7 @@ public class GraphicalIndicator
 
    /**
     * Retrieve the criteria to be applied to non-summary rows.
-    * 
+    *
     * @return list of non-summary row criteria
     */
    public List<GraphicalIndicatorCriteria> getNonSummaryRowCriteria()
@@ -177,7 +177,7 @@ public class GraphicalIndicator
 
    /**
     * Retrieve the criteria to be applied to the project summary.
-    * 
+    *
     * @return list of project summary criteria
     */
    public List<GraphicalIndicatorCriteria> getProjectSummaryCriteria()
@@ -187,7 +187,7 @@ public class GraphicalIndicator
 
    /**
     * Retrieve the criteria to be applied to summary rows.
-    * 
+    *
     * @return list of summary row criteria
     */
    public List<GraphicalIndicatorCriteria> getSummaryRowCriteria()
@@ -198,7 +198,7 @@ public class GraphicalIndicator
    /**
     * Retrieves a flag which indicates if the project summary row inherits
     * criteria from the summary row.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getProjectSummaryInheritsFromSummaryRows()
@@ -209,7 +209,7 @@ public class GraphicalIndicator
    /**
     * Sets a flag which indicates if the project summary row inherits
     * criteria from the summary row.
-    * 
+    *
     * @param projectSummaryInheritsFromSummaryRows boolean flag
     */
    public void setProjectSummaryInheritsFromSummaryRows(boolean projectSummaryInheritsFromSummaryRows)
@@ -220,7 +220,7 @@ public class GraphicalIndicator
    /**
     * Retrieves a flag which indicates if summary rows inherit
     * criteria from non-summary rows.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getSummaryRowsInheritFromNonSummaryRows()
@@ -231,7 +231,7 @@ public class GraphicalIndicator
    /**
     * Sets a flag which indicates if summary rows inherit
     * criteria from non-summary rows.
-    * 
+    *
     * @param summaryRowsInheritFromNonSummaryRows boolean flag
     */
    public void setSummaryRowsInheritFromNonSummaryRows(boolean summaryRowsInheritFromNonSummaryRows)
@@ -242,7 +242,7 @@ public class GraphicalIndicator
    /**
     * Retrieve the flag which indicates that data values should be shown
     * as tool tips.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getShowDataValuesInToolTips()
@@ -253,7 +253,7 @@ public class GraphicalIndicator
    /**
     * Set the flag which indicates that data values should be shown
     * as tool tips.
-    * 
+    *
     * @param showDataValuesInToolTips boolean flag
     */
    public void setShowDataValuesInToolTips(boolean showDataValuesInToolTips)
@@ -263,7 +263,7 @@ public class GraphicalIndicator
 
    /**
     * Add criteria relating to non summary rows.
-    * 
+    *
     * @param criteria indicator criteria
     */
    public void addNonSummaryRowCriteria(GraphicalIndicatorCriteria criteria)
@@ -273,7 +273,7 @@ public class GraphicalIndicator
 
    /**
     * Add criteria relating to summary rows.
-    * 
+    *
     * @param criteria indicator criteria
     */
    public void addSummaryRowCriteria(GraphicalIndicatorCriteria criteria)
@@ -283,7 +283,7 @@ public class GraphicalIndicator
 
    /**
     * Add criteria relating to project summary.
-    * 
+    *
     * @param criteria indicator criteria
     */
    public void addProjectSummaryCriteria(GraphicalIndicatorCriteria criteria)

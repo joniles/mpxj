@@ -31,14 +31,14 @@ import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Common implementation shared by project entities, providing storage, iteration and lookup.
- * 
+ *
  * @param <T> concrete entity type
  */
 public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID & Comparable<T>> extends ProjectEntityContainer<T>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public ProjectEntityWithIDContainer(ProjectFile projectFile)
@@ -75,7 +75,7 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
 
    /**
     * Retrieve an entity by its ID.
-    * 
+    *
     * @param id entity ID
     * @return entity instance or null
     */
@@ -86,7 +86,7 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
 
    /**
     * Remove the ID to instance mapping.
-    * 
+    *
     * @param id ID to remove
     */
    public void unmapID(Integer id)
@@ -96,7 +96,7 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
 
    /**
     * Add an ID to instance mapping.
-    * 
+    *
     * @param id ID
     * @param entity instance
     */

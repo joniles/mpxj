@@ -71,7 +71,7 @@ public class HexDumpController
 
    /**
     * Constructor.
-    * 
+    *
     * @param model HexDump model
     */
    public HexDumpController(HexDumpModel model)
@@ -105,7 +105,7 @@ public class HexDumpController
 
    /**
     * Command to select a document from the POIFS for viewing.
-    * 
+    *
     * @param entry document to view
     */
    public void viewDocument(DocumentEntry entry)
@@ -282,7 +282,7 @@ public class HexDumpController
          longSixValueLabel = Long.toString(MPPUtility.getLong6(data, selectionIndex + offset));
       }
 
-      // 
+      //
       // 8 bytes
       //
       if (selectionIndex + offset + 8 <= data.length)

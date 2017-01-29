@@ -38,7 +38,7 @@ public final class TimephasedWork extends TimephasedItem<Duration>
 
    /**
     * Copy constructor.
-    * 
+    *
     * @param sourceItem item to copy
     */
    public TimephasedWork(TimephasedWork sourceItem)
@@ -52,7 +52,7 @@ public final class TimephasedWork extends TimephasedItem<Duration>
 
    /**
     * Copy constructor, allowing scaling.
-    * 
+    *
     * @param sourceItem item to copy
     * @param totalFactor total amount factor
     * @param perDayFactor per day factor

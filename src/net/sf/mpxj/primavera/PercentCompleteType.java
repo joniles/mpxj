@@ -37,7 +37,7 @@ public enum PercentCompleteType
 
    /**
     * Retrieve a PercentCompleteType type based on its name.
-    * 
+    *
     * @param value name
     * @return PercentCompleteType instance
     */
@@ -48,7 +48,7 @@ public enum PercentCompleteType
 
    /**
     * Constructor.
-    * 
+    *
     * @param value name
     */
    private PercentCompleteType(String value)

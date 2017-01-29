@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="5.1.12" />
+		<property name="current.version" value="5.5.9" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
@@ -17,14 +17,14 @@
 		<property name="msbuild.dir" value="C:/Windows/Microsoft.NET/Framework/v3.5" />
 		<property name="junit.jar" value="${basedir}/../junit-4.11/junit-4.11.jar"/>
 		<property name="hamcrest.jar" value="${basedir}/../junit-4.11/hamcrest-core-1.3.jar"/>
-		
+
 		<!-- These properties are only required if rebuilding JAXB generated source -->
 		<property name="mspdi.xsd" value="mspdi_pj14-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 		
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
 		<property name="maven.dir" value="c:/java/apache-maven-3.2.3"/>
-		
+
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
@@ -34,20 +34,25 @@
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
 		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 
-		<!-- 
+		<!--
 		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
-		match this, we use this setting. 
+		match this, we use this setting.
 		-->
 		<property name="target-jvm-version" value="1.6" />
 
-		<property name="poi.jar" value="poi-3.12-20150511" />		
+		<property name="poi.jar" value="poi-3.15" />
 		<path id="poi.path">
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.4.0" />
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.9.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
+		</path>
+
+		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.8.10.1" />
+		<path id="sqlite-jdbc.path">
+			<pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" />
 		</path>
 		
 		<path id="junit.path">
@@ -56,17 +61,19 @@
 
 		<property name="poi.classpath" refid="poi.path" />
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
+		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
 		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
 		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
+		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
 		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
 		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
 		<property name="mpxj-for-vb.dll" value="${lib.net.dir}\mpxj-for-vb.dll" />
 		<property name="mpxj-for-csharp.dll" value="${lib.net.dir}\mpxj-for-csharp.dll" />
 		<property name="mpxj-utilities.dll" value="${lib.net.dir}\MpxjUtilities.dll" />
-		
+
 		<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.exe" value="${ikvm.dir}/bin/ikvmstub.exe" />
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
@@ -75,14 +82,14 @@
 
 		<property name="tlbexp.exe" value="${windows.tools.dir}/tlbexp.exe" />
 		<available file="${tlbexp.exe}" property="tlbexp.available" />
-		
-		<property name="msbuild.exe" value="${msbuild.dir}/msbuild.exe" />	
+
+		<property name="msbuild.exe" value="${msbuild.dir}/msbuild.exe" />
 		<condition property="msbuild.available">
 		    <and>
 				<available file="${msbuild.exe}" property="msbuild.available" />
 		  		<isset property="ikvm.available"/>
 		    </and>
-		</condition>		
+		</condition>
 	</target>
 
 
@@ -112,18 +119,18 @@
 
 		<delete>
 			<fileset dir="${basedir}" includes="*.xjb" defaultexcludes="no" />
-		</delete>		
+		</delete>
 	</target>
 
 	<target name="compile" depends="init,update-version-numbers" description="Compile Everything">
-		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
 		</javac>
-		<javac srcdir="${basedir}/src.test" destdir="${classes.test.dir}" classpath="${classpath}:${classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${basedir}/src.test" destdir="${classes.test.dir}" classpath="${classpath}:${classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
-		</javac>		
+		</javac>
 	</target>
 
 	<target name="update-version-numbers" depends="init-props" description="Ensure that version numbers in the code are up-to-date">
@@ -132,25 +139,25 @@
 		               replace="&lt;!-- MPXJ --&gt;&lt;version&gt;${current.version}&lt;/version&gt;"
 		               byline="true"
 		/>
-		
-		<replaceregexp 
+
+		<replaceregexp
 		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
 		               replace='\1${current.version}.0\3'
 		               byline="true">
-			<fileset dir="${basedir}/src.net" includes="**/*.cs" />			
+			<fileset dir="${basedir}/src.net" includes="**/*.cs" />
 		</replaceregexp>
 
 		<replaceregexp file="${basedir}/src.ruby/mpxj/lib/mpxj/version.rb"
 		               match='VERSION = ".*"'
 		               replace='VERSION = "${current.version}"'
 		               byline="true"
-		/>		
+		/>
 	</target>
-		
+
 	<target name="document" depends="init-props" description="Generate documentation">
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
-		<javadoc sourcepath="${basedir}/src" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${junit.classpath}" packagenames="net.sf.mpxj.*" destdir="${doc.dir}" verbose="no" access="public">
+		<javadoc sourcepath="${basedir}/src" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}" packagenames="net.sf.mpxj.*" destdir="${doc.dir}" verbose="no" access="public">
 		</javadoc>
 	</target>
 
@@ -186,7 +193,7 @@
 		<copy todir="${ikvm.src.test.dir}">
 			<fileset dir="${basedir}/src.test" includes="**" />
 		</copy>
-		
+
 		<replace dir="${ikvm.src.dir}" token="public class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ">
 			<include name="**/*.java" />
 			<exclude name="**/schema/*.java" />
@@ -209,14 +216,14 @@
 			<include name="**/*.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
-		
+
 		<jar jarfile="${ikvm.working.dir}/mpxj.jar" basedir="${ikvm.classes.dir}" />
 		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
 	</target>
@@ -232,6 +239,7 @@
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
+				<pathelement location="${sqlite-jdbc.classpath}" />
 			</classpath>
 		</java>
 
@@ -245,6 +253,7 @@
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
+				<pathelement location="${sqlite-jdbc.classpath}" />
 			</classpath>
 		</java>
 
@@ -255,6 +264,10 @@
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
 		</exec>
+
+		<exec executable="${ikvmc.exe}" dir="${basedir}">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${sqlite-jdbc.jar}.jar" />
+		</exec>
 		
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
@@ -262,21 +275,21 @@
 
 		<!-- Generate the original unmapped DLL -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
-		
+
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
@@ -321,17 +334,17 @@
 		<replace file="${lib.net.dir}\mpxj-gac-uninstall.bat" token='" "' value="" />
 
 		<!-- Generate a batch file to register the assemblies -->
-		<echo file="${lib.net.dir}\mpxj-register-assemblies.bat" message="@echo off${line.separator}echo This batch file registers the .Net assemblies used by MPXJ so that they can be called from COM${line.separator}pause${line.separator}"/>		
+		<echo file="${lib.net.dir}\mpxj-register-assemblies.bat" message="@echo off${line.separator}echo This batch file registers the .Net assemblies used by MPXJ so that they can be called from COM${line.separator}pause${line.separator}"/>
 		<apply executable="cmd.exe" parallel="false" relative="true">
 			<arg value="/c" />
-			<srcfile prefix="echo regasm " />				
+			<srcfile prefix="echo regasm " />
 			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-register-assemblies.bat" />
 			<fileset dir="${lib.net.dir}">
 				<include name="**/*.dll" />
 			</fileset>
 		</apply>
 		<replace file="${lib.net.dir}\mpxj-register-assemblies.bat" token='" "' value="" />
-		
+
 		<!-- Generate a batch file to unregister the assemblies -->
 		<echo file="${lib.net.dir}\mpxj-unregister-assemblies.bat" message="@echo off${line.separator}echo This batch file deregisters the .Net assemblies used by MPXJ so that they are no longer available to be called from COM${line.separator}pause${line.separator}"/>
 		<apply executable="cmd.exe" parallel="false" relative="true">
@@ -357,16 +370,16 @@
 		<copy todir="${vs.src.dir}">
 			<fileset dir="${basedir}/src.net" includes="**" />
 		</copy>
-		
+
 		<exec executable="${msbuild.exe}" dir="${basedir}">
 			<arg line="${vs.src.dir}/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
-		
+
 		<copy file="${vs.src.dir}/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
-		
+
 		<delete dir="${vs.working.dir}" />
 	</target>
-	
+
 	<target name="archive" depends="jar,ikvm-dll,vs-dll" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
@@ -396,7 +409,7 @@
 				<include name="**/*.user" />
 			</fileset>
 		</delete>
-				
+
 		<delete dir="${ikvm.working.dir}" />
 		<delete dir="${vs.working.dir}" />
 	</target>
@@ -404,16 +417,22 @@
 	<target name="clean-ruby" depends="init-props" description="Clean up Ruby files">
 		<delete dir="${basedir}/src.ruby/mpxj/doc" />
 		<delete dir="${basedir}/src.ruby/mpxj/legal" />
-		<delete dir="${basedir}/src.ruby/mpxj/pkg" />		
+		<delete dir="${basedir}/src.ruby/mpxj/pkg" />
 		<delete dir="${basedir}/src.ruby/mpxj/Gemfile.lock" />
+		
+		<delete includeemptydirs="true">
+			<fileset dir="${basedir}/src.ruby/mpxj" defaultexcludes="false">
+				<include name="**/*.jar" />
+			</fileset>
+		</delete>		
 	</target>
-	
+
 	<target name="clean" depends="init-props, clean-temp, clean-java, clean-dot-net, maven-clean, clean-ruby" description="Clean up all files">
 
 		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
 		<delete file="${basedir}/mpxj-test.jar" />
-		
+
 		<delete file="${mpxj.dll}" />
 		<delete file="${mpxj-for-csharp.dll}" />
 		<delete file="${mpxj-for-vb.dll}" />
@@ -421,15 +440,16 @@
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
 		<delete file="${rtfparserkit.dll}" />
+		<delete file="${sqlite-jdbc.dll}" />
 		<delete file="${mpxj-utilities.dll}" />
-		
+
 		<delete>
-			<fileset dir="${lib.net.dir}">				
+			<fileset dir="${lib.net.dir}">
 				<include name="*.tlb"/>
 				<include name="*.bat"/>
 			</fileset>
-		</delete>			
-		
+		</delete>
+
 	</target>
 
 	<target name="coverage" depends="archive" description="Code coverage using Emma">
@@ -438,6 +458,7 @@
 		<path id="emmarun.path">
 			<path refid="poi.path" />
 			<path refid="rtfparserkit.path" />
+			<path refid="sqlite-jdbc.path" />
 			<path refid="junit.path" />
 			<pathelement location="${basedir}/mpxj.jar" />
 		</path>
@@ -454,7 +475,7 @@
 	<target name="maven-clean" description="Cleans the maven directory">
 		<delete dir="${basedir}/maven/src/main" />
 		<delete dir="${basedir}/maven/src/test" />
-		<delete dir="${basedir}/maven/target" />		
+		<delete dir="${basedir}/maven/target" />
 	</target>
 
 	<target name="maven-populate" depends="maven-clean" description="Populates the maven directory ready for use">
@@ -462,52 +483,52 @@
 		<mkdir dir="${basedir}/maven/src/main/resources" />
 		<mkdir dir="${basedir}/maven/src/test/java" />
 		<mkdir dir="${basedir}/maven/src/test/resources" />
-		
-		<copy todir="${basedir}/maven/src/main/java" >  
-		        <fileset dir="${basedir}/src" includes="**"/>  
+
+		<copy todir="${basedir}/maven/src/main/java" >
+		        <fileset dir="${basedir}/src" includes="**"/>
 		</copy>
-		
-		<copy todir="${basedir}/maven/src/test/java" >  
-		        <fileset dir="${basedir}/src.test" includes="**"/>  
-		</copy>		
-		
-		<copy todir="${basedir}/maven/src/main/resources" >  
-		        <fileset dir="${lib.dir}" includes="${rtfparserkit.jar}.jar"/>  
-		</copy>		
-		
+
+		<copy todir="${basedir}/maven/src/test/java" >
+		        <fileset dir="${basedir}/src.test" includes="**"/>
+		</copy>
+
+		<copy todir="${basedir}/maven/src/main/resources" >
+		        <fileset dir="${lib.dir}" includes="${rtfparserkit.jar}.jar"/>
+		</copy>
+
 		<!-- This is horrible... but I don't want the hassle of having to put rtfparserkit into Maven too -->
 		<unzip src="../${rtfparserkit.jar}/${rtfparserkit.jar}.zip" dest="${basedir}/maven/src/main/java">
 			 <patternset>
 			    <include name="/${rtfparserkit.jar}/RTF Parser Kit/src/**/*.java"/>
-			 	<exclude name="**/RtfDump.*"/>
+			 	<exclude name="**/RtfDump*.*"/>
 			  </patternset>
 			<regexpmapper from=".*/src/(.*)" to="\1"/>
 		</unzip>
-		
+
 		<mkdir dir="${basedir}/maven/target" />
 	</target>
-		
+
 	<target name="maven-site-build" depends="init-props,maven-populate" description="Execute maven to produce the web site">
 		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
 			<arg line="post-site" />
-		</exec>		
+		</exec>
 	</target>
 
 	<target name="maven-site-publish" depends="maven-site-build" description="Publishes the web site to SourceForge">
-		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>				
+		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>
 	</target>
 
 	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and run tests">
 		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
 			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
-		</exec>		
-	</target>	
-	
+		</exec>
+	</target>
+
 	<target name="maven-deploy" depends="init-props,maven-populate" description="Execute maven and deploy to OSSRH">
 		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
 			<arg line="-DskipTests=true clean deploy" />
-		</exec>		
-	</target>	
+		</exec>
+	</target>
 
 	<!-- Adapted from http://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
 	<target name="git.revision" description="Store git revision in ${repository.version}">
@@ -529,50 +550,84 @@
 			<arg value="update"/>
 			<arg value="-self"/>
 		</exec>
-		
+
+		<replace dir="nuget" token="0.0.0" value="${current.version}">
+			<include name="*.nuspec" />
+		</replace>
+
 		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="nuget/mpxj.nuspec"/>
+			<param name="nuget.spec" value="mpxj-ikvm"/>
+		</antcall>
+
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="mpxj-common"/>
 		</antcall>
 		
 		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="nuget/mpxj-for-csharp.nuspec"/>
-		</antcall>				
-		
-		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="nuget/mpxj-for-vb.nuspec"/>
+			<param name="nuget.spec" value="mpxj"/>
 		</antcall>
+
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="mpxj-for-csharp"/>
+		</antcall>
+
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="mpxj-for-vb"/>
+		</antcall>
+		
+		<replace dir="nuget" token="${current.version}" value="0.0.0">
+			<include name="*.nuspec" />
+		</replace>		
 	</target>
-	
+
 	<target name="nuget-pack">
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="pack"/>
-			<arg value="${nuget.spec}"/>
+			<arg value="nuget/${nuget.spec}.nuspec"/>
 			<arg value="-outputdirectory"/>
 			<arg value="${basedir}/.."/>
 			<arg value="-version"/>
 			<arg value="${current.version}"/>
 			<arg value="-verbosity"/>
 			<arg value="quiet"/>
-		</exec>				
-	</target>
-	
-	<target name="nuget-deploy" depends="init-props" description="Deploy NuGet packages">		
-		<exec executable="${nuget.dir}/nuget.exe">
-			<arg value="push"/>
-			<arg value="${basedir}/../net.sf.mpxj.${current.version}.nupkg"/>
-		</exec>						
-		
-		<exec executable="${nuget.dir}/nuget.exe">
-			<arg value="push"/>
-			<arg value="${basedir}/../net.sf.mpxj-for-csharp.${current.version}.nupkg"/>
 		</exec>
-		
+	</target>
+
+	<target name="nuget-push">
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="push"/>
-			<arg value="${basedir}/../net.sf.mpxj-for-vb.${current.version}.nupkg"/>
+			<arg value="-Source"/>
+			<arg value="https://www.nuget.org/api/v2/package"/>
+			<arg value="-Timeout"/>
+			<arg value="1200"/>
+			<arg value="-Verbosity"/>
+			<arg value="Detailed"/>									
+			<arg value="${basedir}/../net.sf.${nuget.package}.${current.version}.nupkg"/>
 		</exec>		
 	</target>
+	
+	<target name="nuget-deploy" depends="init-props" description="Deploy NuGet packages">
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-ikvm"/>
+		</antcall>
 		
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-common"/>
+		</antcall>
+		
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj"/>
+		</antcall>
+		
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-for-csharp"/>
+		</antcall>
+
+		<antcall target="nuget-push">
+			<param name="nuget.package" value="mpxj-for-vb"/>
+		</antcall>
+	</target>
+
 	<target name="gem-setup" depends="jar" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
 		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
@@ -582,17 +637,32 @@
 			<fileset dir="${basedir}/legal" includes="*" />
 		</copy>
 	</target>
-	
+
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
 		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rspec spec" />
 		</exec>
 	</target>
-		
+
 	<target name="gem-deploy" depends="gem-setup" description="Deploy rubygem to rubygems.org">
 		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
+	
+	<!-- Experimental - work in progress -->
+	<target name="j2objc">
+		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
+	    <fileset 
+	    	id="source.fileset" 
+	    	dir="src"  
+	    	includes="**/*.java" 
+	    	excludes="net/sf/mpxj/explorer/**,net/sf/mpxj/mspdi/**,net/sf/mpxj/primavera/**,net/sf/mpxj/ikvm/**"
+	    />
+	    <pathconvert property="source.files" refid="source.fileset" pathsep=" "/>
+		<java jar="${j2objc.dir}/lib/j2objc.jar" fork="true">
+			<arg line="-Xbootclasspath:${j2objc.dir}/lib/jre_emul.jar -d src.objc"/>
+			<arg line=" ${source.files}"/>			
+		</java>
+	</target>
 </project>
-

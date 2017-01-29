@@ -37,10 +37,10 @@ import net.sf.mpxj.TimephasedWork;
 public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWorkNormaliser
 {
    /**
-    * This method converts the internal representation of timephased 
+    * This method converts the internal representation of timephased
     * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
-    * 
+    * format to make it easy to work with.
+    *
     * @param calendar current calendar
     * @param list list of assignment data
     */
@@ -49,7 +49,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
    /**
     * Merges individual days together into time spans where the
     * same work is undertaken each day.
-    * 
+    *
     * @param list assignment data
     */
    protected void mergeSameWork(LinkedList<TimephasedWork> list)
@@ -102,7 +102,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
 
    /**
     * Converts assignment duration values from minutes to hours.
-    * 
+    *
     * @param list assignment data
     */
    protected void convertToHours(LinkedList<TimephasedWork> list)

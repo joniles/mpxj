@@ -29,12 +29,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Group;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * Implements the controller component of the ProjectTree MVC.
@@ -45,7 +45,7 @@ public class ProjectTreeController
 
    /**
     * Constructor.
-    * 
+    *
     * @param model PoiTree model
     */
    public ProjectTreeController(ProjectTreeModel model)
@@ -55,7 +55,7 @@ public class ProjectTreeController
 
    /**
     * Command to load a file.
-    * 
+    *
     * @param file file to load
     */
    public void loadFile(File file)
@@ -64,8 +64,11 @@ public class ProjectTreeController
 
       try
       {
-         ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-         projectFile = reader.read(file);
+         projectFile = new UniversalProjectReader().read(file);
+         if (projectFile == null)
+         {
+            throw new IllegalArgumentException("Unsupported file type");
+         }
       }
 
       catch (Exception ex)
@@ -99,6 +102,7 @@ public class ProjectTreeController
 
       DefaultMutableTreeNode calendarsFolder = new DefaultMutableTreeNode("Calendars");
       projectNode.add(calendarsFolder);
+      addCalendars(calendarsFolder, projectFile);
 
       DefaultMutableTreeNode groupsFolder = new DefaultMutableTreeNode("Groups");
       projectNode.add(groupsFolder);
@@ -109,7 +113,7 @@ public class ProjectTreeController
 
    /**
     * Add tasks to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param parent parent task container
     */
@@ -132,7 +136,7 @@ public class ProjectTreeController
 
    /**
     * Add resources to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param file resource container
     */
@@ -153,8 +157,30 @@ public class ProjectTreeController
    }
 
    /**
+    * Add calendars to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file calendar container
+    */
+   private void addCalendars(DefaultMutableTreeNode parentNode, ProjectFile file)
+   {
+      for (ProjectCalendar calendar : file.getCalendars())
+      {
+         final ProjectCalendar c = calendar;
+         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(calendar)
+         {
+            @Override public String toString()
+            {
+               return c.getName();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
     * Add groups to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param file group container
     */
@@ -176,7 +202,7 @@ public class ProjectTreeController
 
    /**
     * Add assignments to the tree.
-    * 
+    *
     * @param parentNode parent tree node
     * @param file assignments container
     */

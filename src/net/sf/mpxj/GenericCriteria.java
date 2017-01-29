@@ -37,7 +37,7 @@ public class GenericCriteria
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     */
    public GenericCriteria(ProjectProperties properties)
@@ -47,7 +47,7 @@ public class GenericCriteria
 
    /**
     * Sets the LHS of the expression.
-    * 
+    *
     * @param value LHS value
     */
    public void setLeftValue(FieldType value)
@@ -57,7 +57,7 @@ public class GenericCriteria
 
    /**
     * Retrieves the LHS of the expression.
-    * 
+    *
     * @return LHS value
     */
    public FieldType getLeftValue()
@@ -67,7 +67,7 @@ public class GenericCriteria
 
    /**
     * Retrieve the operator used in the test.
-    * 
+    *
     * @return test operator
     */
    public TestOperator getOperator()
@@ -77,7 +77,7 @@ public class GenericCriteria
 
    /**
     * Set the operator used in the test.
-    * 
+    *
     * @param operator test operator
     */
    public void setOperator(TestOperator operator)
@@ -88,7 +88,7 @@ public class GenericCriteria
    /**
     * Add the value to list of values to be used as part of the
     * evaluation of this indicator.
-    * 
+    *
     * @param index position in the list
     * @param value evaluation value
     */
@@ -116,7 +116,7 @@ public class GenericCriteria
 
    /**
     * Retrieve the first value.
-    * 
+    *
     * @param index position in the list
     * @return first value
     */
@@ -127,7 +127,7 @@ public class GenericCriteria
 
    /**
     * Evaluate the criteria and return a boolean result.
-    * 
+    *
     * @param container field container
     * @param promptValues responses to prompts
     * @return boolean flag
@@ -223,7 +223,7 @@ public class GenericCriteria
 
    /**
     * Evalutes AND and OR operators.
-    * 
+    *
     * @param container data context
     * @param promptValues responses to prompts
     * @return operator result
@@ -255,7 +255,7 @@ public class GenericCriteria
     * This method is called to create a new list of values, converting from
     * any symbolic values (represented by FieldType instances) to actual
     * values retrieved from a Task or Resource instance.
-    * 
+    *
     * @param oldValues list of old values containing symbolic items
     * @param container Task or Resource instance
     * @param promptValues response to prompts
@@ -329,7 +329,7 @@ public class GenericCriteria
 
    /**
     * Retrieves the list of child criteria associated with the current criteria.
-    * 
+    *
     * @return list of criteria
     */
    public List<GenericCriteria> getCriteriaList()
@@ -339,7 +339,7 @@ public class GenericCriteria
 
    /**
     * Adds a an item to the list of child criteria.
-    * 
+    *
     * @param criteria criteria item to add
     */
    public void addCriteria(GenericCriteria criteria)

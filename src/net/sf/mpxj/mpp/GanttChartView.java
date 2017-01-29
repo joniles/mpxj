@@ -48,28 +48,28 @@ public abstract class GanttChartView extends GenericView
 {
    /**
     * Extract the Gantt bar styles.
-    * 
+    *
     * @param props props structure containing the style definitions
     */
    protected abstract void processDefaultBarStyles(Props props);
 
    /**
     * Extract the exception Gantt bar styles.
-    * 
+    *
     * @param props props structure containing the style definitions
     */
    protected abstract void processExceptionBarStyles(Props props);
 
    /**
     * Extract autofilter definitions.
-    * 
+    *
     * @param data autofilters data block
     */
    protected abstract void processAutoFilters(byte[] data);
 
    /**
     * Extract view properties.
-    * 
+    *
     * @param fontBases font defintions
     * @param props Gantt chart view props
     */
@@ -77,7 +77,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Extract table font styles.
-    * 
+    *
     * @param fontBases font bases
     * @param data column data
     */
@@ -85,7 +85,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Extract progress line properties.
-    * 
+    *
     * @param fontBases font bases
     * @param data column data
     */
@@ -378,8 +378,8 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve the number of timescale tiers to display. 
-    * 
+    * Retrieve the number of timescale tiers to display.
+    *
     * @return number of timescale tiers to show
     */
    public int getTimescaleShowTiers()
@@ -523,7 +523,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieve the name of the filter applied to this view.
-    * 
+    *
     * @return filter name
     */
    public String getDefaultFilterName()
@@ -534,7 +534,7 @@ public abstract class GanttChartView extends GenericView
    /**
     * Convenience method used to retrieve the default filter instance
     * associated with this view.
-    * 
+    *
     * @return filter instance, null if no filter associated with view
     */
    public Filter getDefaultFilter()
@@ -544,7 +544,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieve the name of the grouping applied to this view.
-    * 
+    *
     * @return group name
     */
    public String getGroupName()
@@ -554,7 +554,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieve the highlight filter flag.
-    * 
+    *
     * @return highlight filter flag
     */
    public boolean getHighlightFilter()
@@ -564,7 +564,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieve the show in menu flag.
-    * 
+    *
     * @return show in menu flag
     */
    public boolean getShowInMenu()
@@ -946,7 +946,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieves the progress lines month number for the monthly first last type.
-    * 
+    *
     * @return month number
     */
    public int getProgressLinesIntervalMonthlyFirstLastMonthNumber()
@@ -976,7 +976,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieves the progress line month number for the monthly day type.
-    * 
+    *
     * @return month number
     */
    public int getProgressLinesIntervalMonthlyDayMonthNumber()
@@ -1184,7 +1184,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieves a list of all auto filters associated with this view.
-    * 
+    *
     * @return list of filter instances
     */
    public List<Filter> getAutoFilters()
@@ -1193,10 +1193,10 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieves the auto filter definition associated with an 
+    * Retrieves the auto filter definition associated with an
     * individual column. Returns null if there is no filter defined for
     * the supplied column type.
-    * 
+    *
     * @param type field type
     * @return filter instance
     */

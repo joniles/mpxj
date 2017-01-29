@@ -65,7 +65,7 @@ public class TaskTextTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskText(File file) throws MPXJException
@@ -88,7 +88,7 @@ public class TaskTextTest
 
    /**
     * Test the text field values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested

@@ -52,7 +52,7 @@ public class TimephasedSegmentTest
 {
    /**
     * Timephased segment test for MPP9 files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9() throws Exception
@@ -63,7 +63,7 @@ public class TimephasedSegmentTest
 
    /**
     * Timephased segment test for MPP9 files saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
@@ -74,7 +74,7 @@ public class TimephasedSegmentTest
 
    /**
     * Timephased segment test for MPP9 files saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
@@ -85,7 +85,7 @@ public class TimephasedSegmentTest
 
    /**
     * Timephased segment test for MPP12 files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12() throws Exception
@@ -96,7 +96,7 @@ public class TimephasedSegmentTest
 
    /**
     * Timephased segment test for MPP12 files saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
@@ -107,7 +107,7 @@ public class TimephasedSegmentTest
 
    /**
     * Timephased segment test for MPP14 files.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14() throws Exception
@@ -118,7 +118,7 @@ public class TimephasedSegmentTest
 
    /**
     * Timephased segment test for MSPDI files.
-    * 
+    *
     * @throws Exception
     */
    //   @Test public void testMspdi () throws Exception
@@ -129,7 +129,7 @@ public class TimephasedSegmentTest
 
    /**
     * Suite of tests common to all file types.
-    * 
+    *
     * @param file ProjectFile instance
     * @throws Exception
     */
@@ -1039,7 +1039,7 @@ public class TimephasedSegmentTest
 
       //
       // Tests of timescale units
-      //      
+      //
       task = file.getTaskByID(Integer.valueOf(18));
       assertEquals("Task Eighteen", task.getName());
       assignments = task.getResourceAssignments();
@@ -1103,7 +1103,7 @@ public class TimephasedSegmentTest
 
    /**
     * Common method used to test timephased assignment segments against expected data.
-    * 
+    *
     * @param assignment parent resource assignment
     * @param startDate start date for segments
     * @param units units of duration for each segment
@@ -1128,11 +1128,11 @@ public class TimephasedSegmentTest
    /*
     * Method used to print segment durations as an array - useful for
     * creating new test cases.
-    * 
+    *
     * @param assignment parent assignment
     * @param list list of durations
     */
-   /*   
+   /*
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
       {
          //System.out.println(assignment);

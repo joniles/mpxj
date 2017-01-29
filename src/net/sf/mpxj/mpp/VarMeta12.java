@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -61,7 +62,7 @@ final class VarMeta12 extends AbstractVarMeta
       Integer type;
       Integer offset;
       Map<Integer, Integer> map;
-      m_offsets = new int[m_itemCount];
+      int[] offsets = new int[m_itemCount];
 
       for (int loop = 0; loop < m_itemCount; loop++)
       {
@@ -78,8 +79,11 @@ final class VarMeta12 extends AbstractVarMeta
          }
 
          map.put(type, offset);
-         m_offsets[loop] = offset.intValue();
+         offsets[loop] = offset.intValue();
       }
+
+      Arrays.sort(offsets);
+      setOffsets(offsets);
    }
 
    private static final int MAGIC = 0xFADFADBA;

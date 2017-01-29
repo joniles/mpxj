@@ -52,7 +52,7 @@ public class MppFilePanel extends JPanel
 
    /**
     * Constructor.
-    * 
+    *
     * @param file MPP file to be displayed in this view.
     */
    public MppFilePanel(File file)

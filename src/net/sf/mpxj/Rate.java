@@ -103,7 +103,7 @@ public final class Rate
    /**
     * Equality test for amount component of a Rate instance.
     * Note that this does not take into account the units - use with care!
-    * 
+    *
     * @param rhs rate to compare
     * @return true if amount components are equal, within the allowable delta
     */

@@ -578,6 +578,7 @@ public enum ResourceField implements FieldType
    ENTERPRISE_MULTI_VALUE29(DataType.STRING),
    ACTUAL_WORK_PROTECTED(DataType.WORK),
    ACTUAL_OVERTIME_WORK_PROTECTED(DataType.WORK),
+   PARENT_ID(DataType.INTEGER),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),
@@ -636,7 +637,7 @@ public enum ResourceField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     * @param unitsType units type
     */
@@ -648,7 +649,7 @@ public enum ResourceField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     */
    private ResourceField(DataType dataType)

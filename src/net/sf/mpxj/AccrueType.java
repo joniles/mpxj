@@ -40,7 +40,7 @@ public enum AccrueType implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private AccrueType(int type)
@@ -84,7 +84,7 @@ public enum AccrueType implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

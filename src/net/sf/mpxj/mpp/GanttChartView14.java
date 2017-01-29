@@ -119,7 +119,7 @@ public final class GanttChartView14 extends GanttChartView
 
    /**
     * Retrieves a field type from a location in a data block.
-    * 
+    *
     * @param data data block
     * @param offset offset into data block
     * @return field type
@@ -223,7 +223,7 @@ public final class GanttChartView14 extends GanttChartView
 
    /**
     * Creates a new GridLines instance.
-    * 
+    *
     * @param data data block
     * @param offset offset into data block
     * @return new GridLines instance

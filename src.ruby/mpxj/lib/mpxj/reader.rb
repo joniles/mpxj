@@ -21,7 +21,7 @@ module MPXJ
         classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
         java_output = `java -cp \"#{classpath}\" net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
-          raise "Failed to read file: #{java_output}"
+          report_error(java_output)
         end
         project = Project.new(json_file, tz)
       ensure
@@ -43,6 +43,20 @@ module MPXJ
     # @private
     def self.windows?
       (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    end
+    
+     # @private
+    def self.report_error(java_output)
+      if java_output.include?('Conversion Error: ')
+        message = java_output.split('Conversion Error: ')[1]
+        if message.include?('Unsupported file type')
+          raise MPXJ::ArgumentError, message
+        else
+          raise MPXJ::RuntimeError, message
+        end
+      else        
+        raise MPXJ::UnknownError, "Failed to read file: #{java_output}"
+      end
     end
   end
 end

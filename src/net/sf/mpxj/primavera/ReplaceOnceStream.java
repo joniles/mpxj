@@ -33,14 +33,14 @@ import net.sf.mpxj.MPXJException;
  * This trivial stream wrapper class finds the first instance of a
  * given regular expression in the first N bytes of a stream, and replaces
  * it with the supplied replacement. Once it has done this, it empties its
- * internal buffer, then delegates all further read() calls straight to the 
+ * internal buffer, then delegates all further read() calls straight to the
  * parent stream.
  */
 class ReplaceOnceStream extends InputStream
 {
    /**
     * Constructor.
-    * 
+    *
     * @param parent the input stream we're wrapping
     * @param regex pattern to match
     * @param replacement replacement for the pattern

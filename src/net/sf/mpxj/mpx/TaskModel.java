@@ -167,7 +167,7 @@ final class TaskModel
 
    /**
     * Determine if a task field contains data.
-    * 
+    *
     * @param task task instance
     * @param field target field
     * @return true if the field contains data

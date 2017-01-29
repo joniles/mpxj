@@ -29,17 +29,17 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimephasedWork;
 
 /**
- * Classes implementing this interface are used to normalise timephased 
+ * Classes implementing this interface are used to normalise timephased
  * resource assignment data.
  */
 public interface TimephasedWorkNormaliser
 {
 
    /**
-    * This method converts the internal representation of timephased 
+    * This method converts the internal representation of timephased
     * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
-    * 
+    * format to make it easy to work with.
+    *
     * @param calendar current calendar
     * @param list list of assignment data
     */

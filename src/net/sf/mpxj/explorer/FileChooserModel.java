@@ -39,7 +39,7 @@ public class FileChooserModel
 
    /**
     * Retrieves the show dialog flag.
-    * 
+    *
     * @return show dialog flag
     */
    public boolean getShowDialog()
@@ -49,7 +49,7 @@ public class FileChooserModel
 
    /**
     * Sets the show dialog flag.
-    * 
+    *
     * @param showDialog show dialog flag
     */
    public void setShowDialog(boolean showDialog)
@@ -59,7 +59,7 @@ public class FileChooserModel
 
    /**
     * Retrieves the file selected by the user.
-    * 
+    *
     * @return file selected by the user
     */
    public File getFile()
@@ -69,7 +69,7 @@ public class FileChooserModel
 
    /**
     * Sets the file selected by the user.
-    * 
+    *
     * @param file file selected by the user.
     */
    public void setFile(File file)
@@ -79,7 +79,7 @@ public class FileChooserModel
 
    /**
     * Retrieves the file extensions used by the file chooser.
-    * 
+    *
     * @return file extensions
     */
    public String[] getExtensions()
@@ -89,7 +89,7 @@ public class FileChooserModel
 
    /**
     * Sets the file extensions used by the file chooser.
-    * 
+    *
     * @param extensions file extensions
     */
    public void setExtensions(String... extensions)
@@ -99,7 +99,7 @@ public class FileChooserModel
 
    /**
     * Add a property change listener.
-    * 
+    *
     * @param listener property change listener
     */
    public void addPropertyChangeListener(PropertyChangeListener listener)
@@ -109,7 +109,7 @@ public class FileChooserModel
 
    /**
     * Add a property change listener for a named property.
-    * 
+    *
     * @param propertyName property name
     * @param listener listener
     */
@@ -120,7 +120,7 @@ public class FileChooserModel
 
    /**
     * Remove a property change listener.
-    * 
+    *
     * @param listener property change listener
     */
    public void removePropertyChangeListener(PropertyChangeListener listener)

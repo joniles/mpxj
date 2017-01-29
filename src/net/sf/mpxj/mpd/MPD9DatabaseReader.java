@@ -54,7 +54,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 {
    /**
     * Add a listener to receive events as a project is being read.
-    * 
+    *
     * @param listener ProjectListener instance
     */
    public void addProjectListener(ProjectListener listener)
@@ -69,7 +69,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
-    * 
+    *
     * @return Map instance containing ID and name pairs
     * @throws MPXJException
     */
@@ -96,7 +96,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Read a project from the current data source.
-    * 
+    *
     * @return ProjectFile instance
     * @throws MPXJException
     */
@@ -164,7 +164,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Select the project properties from the database.
-    * 
+    *
     * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
@@ -178,7 +178,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Select calendar data from the database.
-    * 
+    *
     * @throws SQLException
     */
    private void processCalendars() throws SQLException
@@ -195,7 +195,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process calendar hours and exception data from the database.
-    * 
+    *
     * @param calendars all calendars for the project
     */
    private void processCalendarData(List<ProjectCalendar> calendars) throws SQLException
@@ -208,7 +208,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process the hours and exceptions for an individual calendar.
-    * 
+    *
     * @param calendar project calendar
     * @param calendarData hours and exception rows for this calendar
     */
@@ -222,7 +222,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resources.
-    * 
+    *
     * @throws SQLException
     */
    private void processResources() throws SQLException
@@ -235,7 +235,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resource baseline values.
-    * 
+    *
     * @throws SQLException
     */
    private void processResourceBaselines() throws SQLException
@@ -251,7 +251,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @throws SQLException
     */
    private void processTasks() throws SQLException
@@ -264,7 +264,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process task baseline values.
-    * 
+    *
     * @throws SQLException
     */
    private void processTaskBaselines() throws SQLException
@@ -280,7 +280,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process links.
-    * 
+    *
     * @throws SQLException
     */
    private void processLinks() throws SQLException
@@ -293,7 +293,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resource assignments.
-    * 
+    *
     * @throws SQLException
     */
    private void processAssignments() throws SQLException
@@ -306,7 +306,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resource assignment baseline values.
-    * 
+    *
     * @throws SQLException
     */
    private void processAssignmentBaselines() throws SQLException
@@ -322,7 +322,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * This method reads the extended task and resource attributes.
-    * 
+    *
     * @throws SQLException
     */
    private void processExtendedAttributes() throws SQLException
@@ -370,7 +370,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads text field extended attributes.
-    * 
+    *
     * @throws SQLException
     */
    private void processTextFields() throws SQLException
@@ -383,7 +383,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads number field extended attributes.
-    * 
+    *
     * @throws SQLException
     */
    private void processNumberFields() throws SQLException
@@ -396,7 +396,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads flag field extended attributes.
-    * 
+    *
     * @throws SQLException
     */
    private void processFlagFields() throws SQLException
@@ -422,7 +422,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads date field extended attributes.
-    * 
+    *
     * @throws SQLException
     */
    private void processDateFields() throws SQLException
@@ -435,7 +435,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process outline code fields.
-    * 
+    *
     * @throws SQLException
     */
    private void processOutlineCodeFields() throws SQLException
@@ -448,7 +448,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process a single outline code.
-    * 
+    *
     * @param parentRow outline code to task mapping table
     * @throws SQLException
     */
@@ -464,8 +464,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query. 
-    * 
+    * Retrieve a number of rows matching the supplied query.
+    *
     * @param sql query statement
     * @return result set
     * @throws SQLException
@@ -496,9 +496,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query 
+    * Retrieve a number of rows matching the supplied query
     * which takes a single parameter.
-    * 
+    *
     * @param sql query statement
     * @param var bind variable value
     * @return result set
@@ -531,9 +531,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Retrieve a number of rows matching the supplied query 
+    * Retrieve a number of rows matching the supplied query
     * which takes two parameters.
-    * 
+    *
     * @param sql query statement
     * @param var1 bind variable value
     * @param var2 bind variable value
@@ -569,7 +569,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Allocates a database connection.
-    * 
+    *
     * @throws SQLException
     */
    private void allocateConnection() throws SQLException
@@ -621,7 +621,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Retrieves basic meta data from the result set.
-    * 
+    *
     * @throws SQLException
     */
    private void populateMetaData() throws SQLException
@@ -640,7 +640,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Sets the data source used to read the project data.
-    * 
+    *
     * @param dataSource data source
     */
    public void setDataSource(DataSource dataSource)
@@ -650,7 +650,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Sets the connection to be used to read the project data.
-    * 
+    *
     * @param connection database connection
     */
    public void setConnection(Connection connection)
@@ -660,7 +660,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Queries database meta data to check for the existence of 
+    * Queries database meta data to check for the existence of
     * specific tables.
     */
    private void queryDatabaseMetaData()

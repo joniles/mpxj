@@ -45,7 +45,7 @@ public enum ConstraintType implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private ConstraintType(int type)
@@ -89,7 +89,7 @@ public enum ConstraintType implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

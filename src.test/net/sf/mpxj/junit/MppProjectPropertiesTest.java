@@ -46,7 +46,7 @@ public class MppProjectPropertiesTest
 {
    /**
     * Test project properties read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9() throws Exception
@@ -57,7 +57,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
@@ -68,7 +68,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
@@ -79,7 +79,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12() throws Exception
@@ -90,7 +90,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
@@ -101,7 +101,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14() throws Exception
@@ -112,7 +112,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPD9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpd9() throws Exception
@@ -124,7 +124,7 @@ public class MppProjectPropertiesTest
 
    /**
     * Test the project properties as read from an MPP file.
-    * 
+    *
     * @param mpp project file
     * @param isMPP is the source an MPP file
     */
@@ -138,7 +138,7 @@ public class MppProjectPropertiesTest
 
       //
       // Check the values of project properties.
-      // The order of these tests should be the same as the order 
+      // The order of these tests should be the same as the order
       // in which the attributes are read from the MPP file
       // for ease of reference.
       //

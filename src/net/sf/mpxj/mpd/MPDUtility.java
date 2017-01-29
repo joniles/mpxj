@@ -335,7 +335,7 @@ public final class MPDUtility
 
    /**
     * Dump the contents of a row from an MPD file.
-    * 
+    *
     * @param row row data
     */
    public static void dumpRow(Map<String, Object> row)

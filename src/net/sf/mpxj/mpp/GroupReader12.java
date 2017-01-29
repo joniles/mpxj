@@ -30,7 +30,7 @@ public final class GroupReader12 extends GroupReader
 {
    /**
     * Retrieves the type used for the VarData lookup.
-    * 
+    *
     * @return VarData type
     */
    @Override protected Integer getVarDataType()

@@ -39,7 +39,7 @@ class MapRow implements Row
 {
    /**
     * Constructor.
-    * 
+    *
     * @param map map to be wrapped by this instance
     */
    public MapRow(Map<String, Object> map)
@@ -152,7 +152,7 @@ class MapRow implements Row
 
    /**
     * Retrieve a value from the map.
-    * 
+    *
     * @param name column name
     * @return column value
     */

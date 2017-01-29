@@ -72,18 +72,16 @@ interface VarMeta
    public Integer getOffset(Integer id, Integer type);
 
    /**
-    * This method retrieves the offset of the data item at
-    * the position defined by the index parameter.
+    * Retrieve the offsets array.
     *
-    * @param index index of item in the block
-    * @return offset of the item in the block
+    * @return offsets array
     */
-   public int getOffset(int index);
+   public int[] getOffsets();
 
    /**
     * Retrieves a set containing the types defined
     * in the var data for a given ID.
-    * 
+    *
     * @param id unique ID
     * @return set of types
     */
@@ -91,7 +89,7 @@ interface VarMeta
 
    /**
     * This method is used to check if a given key is present.
-    * 
+    *
     * @param key key to test
     * @return Boolean flag
     */
