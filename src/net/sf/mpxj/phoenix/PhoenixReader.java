@@ -53,6 +53,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.phoenix.schema.Project;
 import net.sf.mpxj.phoenix.schema.Project.Settings;
@@ -103,11 +104,13 @@ public final class PhoenixReader extends AbstractProjectReader
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
-         config.setAutoTaskUniqueID(false);
          config.setAutoResourceUniqueID(true);
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
+
+         // Equivalent to Primavera's Activity ID
+         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
@@ -347,7 +350,7 @@ public final class PhoenixReader extends AbstractProjectReader
    private void processActivity(Activity activity)
    {
       Task task = getParentTask(activity).addTask();
-      task.setUniqueID(activity.getId());
+      task.setText(1, activity.getId());
 
       task.setActualDuration(activity.getActualDuration());
       //activity.getBaseunit()
