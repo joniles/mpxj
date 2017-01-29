@@ -49,7 +49,7 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @return new task object
     */
-   public Task addTask()
+   @Override public Task addTask()
    {
       return m_tasks.add();
    }

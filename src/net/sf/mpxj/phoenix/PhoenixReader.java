@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.phoenix;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -108,7 +107,8 @@ public final class PhoenixReader extends AbstractProjectReader
          //factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(new PhoenixInputStream(stream)));
+         //SAXSource doc = new SAXSource(xmlReader, new InputSource(new PhoenixInputStream(stream)));
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
 
          if (CONTEXT == null)
          {
@@ -132,11 +132,6 @@ public final class PhoenixReader extends AbstractProjectReader
          config.updateUniqueCounters();
 
          return (m_projectFile);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
       }
 
       catch (ParserConfigurationException ex)
@@ -165,7 +160,7 @@ public final class PhoenixReader extends AbstractProjectReader
     *
     * @param phoenixSettings Phoenix settings
     */
-   private void readProjectProperties(Settings phoenixSettings) throws MPXJException
+   private void readProjectProperties(Settings phoenixSettings)
    {
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
@@ -252,7 +247,7 @@ public final class PhoenixReader extends AbstractProjectReader
 
    /**
     * Set the working/non-working status of a weekday.
-    * 
+    *
     * @param mpxjCalendar MPXJ calendar
     * @param mpxjDay day of the week
     * @param plannerDay planner day type
@@ -284,7 +279,7 @@ public final class PhoenixReader extends AbstractProjectReader
 
    /**
     * Add the appropriate working hours to each working day.
-    * 
+    *
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
@@ -402,7 +397,7 @@ public final class PhoenixReader extends AbstractProjectReader
 
    /**
     * Process exception days.
-    * 
+    *
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
@@ -434,7 +429,7 @@ public final class PhoenixReader extends AbstractProjectReader
    /**
     * This method extracts resource data from a Phoenix file.
     *
-    * @param phoenixProject Root node of the Planner file
+    * @param phoenixProject parent node for resources
     */
    private void readResources(Storepoint phoenixProject)
    {
@@ -452,7 +447,8 @@ public final class PhoenixReader extends AbstractProjectReader
    /**
     * This method extracts data for a single resource from a Phoenix file.
     *
-    * @param phoenixResource Resource data
+    * @param phoenixResource resource data
+    * @return Resource instance
     */
    private Resource readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
    {
@@ -473,12 +469,23 @@ public final class PhoenixReader extends AbstractProjectReader
       return mpxjResource;
    }
 
-   private void readTasks(Storepoint phoenixProject) throws MPXJException
+   /**
+    * Read phases and activities from the Phoenix file to create the task hierarchy.
+    *
+    * @param phoenixProject project data
+    */
+   private void readTasks(Storepoint phoenixProject)
    {
       Map<String, Task> phases = processPhases(phoenixProject);
       processActivities(phases, phoenixProject);
    }
 
+   /**
+    * Read phases from the Phoenix file.
+    *
+    * @param phoenixProject project data
+    * @return phase name to task map
+    */
    private Map<String, Task> processPhases(Storepoint phoenixProject)
    {
       Map<String, Task> map = new HashMap<String, Task>();
@@ -499,12 +506,19 @@ public final class PhoenixReader extends AbstractProjectReader
          {
             Task task = m_projectFile.addTask();
             task.setName(value.getName());
+            task.setGUID(value.getUuid());
             map.put(value.getName(), task);
          }
       }
       return map;
    }
 
+   /**
+    * Process the set of activities from the Phoenix file.
+    *
+    * @param phaseMap map of phase names to tasks
+    * @param phoenixProject project data
+    */
    private void processActivities(Map<String, Task> phaseMap, Storepoint phoenixProject)
    {
       for (Activity activity : phoenixProject.getActivities().getActivity())
@@ -513,6 +527,12 @@ public final class PhoenixReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Create a Task instance from a Phoenix activity.
+    *
+    * @param phaseMap map of phase names to tasks
+    * @param activity Phoenix activity data
+    */
    private void processActivity(Map<String, Task> phaseMap, Activity activity)
    {
       Task task = getParentTask(phaseMap, activity).addTask();
@@ -545,12 +565,25 @@ public final class PhoenixReader extends AbstractProjectReader
       task.setGUID(activity.getUuid());
    }
 
+   /**
+    * Returns true if the activity is a milestone.
+    *
+    * @param activity Phoenix activity
+    * @return true if the activity is a milestone
+    */
    private boolean activityIsMilestone(Activity activity)
    {
       String type = activity.getType();
       return type != null && type.indexOf("Milestone") != -1;
    }
 
+   /**
+    * Retrieves the parent task for a Phoenix activity.
+    *
+    * @param phaseMap phase name to task map
+    * @param activity Phoenix activity
+    * @return parent task
+    */
    private ChildTaskContainer getParentTask(Map<String, Task> phaseMap, Activity activity)
    {
       ChildTaskContainer result = m_projectFile;
@@ -565,9 +598,10 @@ public final class PhoenixReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts assignment data from a Planner file.
+    * Reads Phoenix resource assignments.
     *
-    * @param plannerProject Root node of the Planner file
+    * @param mpxjResource MPXJ resource
+    * @param res Phoenix resource
     */
    private void readAssignments(Resource mpxjResource, net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res)
    {
@@ -577,6 +611,12 @@ public final class PhoenixReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a single resource assignment.
+    *
+    * @param resource MPXJ resource
+    * @param assignment Phoenix assignment
+    */
    private void readAssignment(Resource resource, Assignment assignment)
    {
       Task task = m_projectFile.getTaskByUniqueID(assignment.getActivity());
@@ -586,6 +626,11 @@ public final class PhoenixReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read task relationships from a Phoenix file.
+    *
+    * @param phoenixProject Phoenix project data
+    */
    private void readRelationships(Storepoint phoenixProject)
    {
       for (Relationship relation : phoenixProject.getRelationships().getRelationship())
@@ -594,6 +639,11 @@ public final class PhoenixReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read an individual Phoenix task relationship.
+    *
+    * @param relation Phoenix task relationship
+    */
    private void readRelation(Relationship relation)
    {
       Task predecessor = m_projectFile.getTaskByUniqueID(relation.getPredecessor());

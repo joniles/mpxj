@@ -83,10 +83,11 @@
                                                                                                    <xs:element name="value" maxOccurs="unbounded">
                                                                                                          <xs:complexType>
                                                                                                                <xs:attribute name="name" type="xs:string"></xs:attribute>
+                                                                                                               <xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
                                                                                                          </xs:complexType>
                                                                                                    </xs:element>
                                                                                              </xs:sequence>
-                                                                                             <xs:attribute name="name" type="xs:string"></xs:attribute>
+                                                                                             <xs:attribute name="name" type="xs:string"></xs:attribute>                                                                                             
                                                                                        </xs:complexType>
                                                                                  </xs:element>
                                                                            </xs:sequence>

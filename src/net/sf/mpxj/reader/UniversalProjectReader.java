@@ -53,6 +53,8 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+import net.sf.mpxj.phoenix.PhoenixInputStream;
+import net.sf.mpxj.phoenix.PhoenixReader;
 import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
@@ -149,6 +151,16 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, ZIP_FINGERPRINT))
          {
             return handleZipFile(bis);
+         }
+
+         if (matchesFingerprint(buffer, PHOENIX_FINGERPRINT))
+         {
+            return readProjectFile(new PhoenixReader(), new PhoenixInputStream(bis));
+         }
+
+         if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT))
+         {
+            return readProjectFile(new PhoenixReader(), bis);
          }
 
          return null;
@@ -487,10 +499,22 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) 'K'
    };
 
+   private static final byte[] PHOENIX_FINGERPRINT =
+   {
+      (byte) 'P',
+      (byte) 'P',
+      (byte) 'X',
+      (byte) '!',
+      (byte) '!',
+      (byte) '!',
+      (byte) '!'
+   };
+
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
 
    private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*<APIBusinessObjects.*", Pattern.DOTALL);
 
    private static final Pattern MSPDI_FINGERPRINT = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project\".*", Pattern.DOTALL);
 
+   private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile("application=\"Phoenix Project Manager\"", Pattern.DOTALL);
 }

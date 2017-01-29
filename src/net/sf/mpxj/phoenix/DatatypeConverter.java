@@ -45,7 +45,7 @@ public final class DatatypeConverter
 {
    /**
     * Convert the Phoenix representation of a UUID into a Java UUID instance.
-    * 
+    *
     * @param value Phoenix UUID
     * @return Java UUID instance
     */
@@ -56,7 +56,7 @@ public final class DatatypeConverter
 
    /**
     * Retrieve a UUID in the form required by Phoenix.
-    * 
+    *
     * @param guid UUID instance
     * @return formatted UUID
     */
@@ -65,51 +65,111 @@ public final class DatatypeConverter
       return guid.toString();
    }
 
+   /**
+    * Retrieve an integer in the form required by Phoenix.
+    *
+    * @param value integer value
+    * @return formatted integer
+    */
    public static final String printInteger(Integer value)
    {
       return value == null ? null : value.toString();
    }
 
+   /**
+    * Convert the Phoenix representation of an integer into a Java Integer instance.
+    *
+    * @param value Phoenix integer
+    * @return Java Integer instance
+    */
    public static final Integer parseInteger(String value)
    {
       return Integer.valueOf(value);
    }
 
+   /**
+    * Convert the Phoenix representation of a resource type into a ResourceType instance.
+    *
+    * @param value Phoenix resource type
+    * @return ResourceType instance
+    */
    public static final ResourceType parseResourceType(String value)
    {
       return STRING_TO_RESOURCE_TYPE_MAP.get(value);
    }
 
+   /**
+    * Retrieve a resource type in the form required by Phoenix.
+    *
+    * @param type ResourceType instance
+    * @return formatted resource type
+    */
    public static final String printResourceType(ResourceType type)
    {
       return RESOURCE_TYPE_TO_STRING_MAP.get(type);
    }
 
+   /**
+    * Convert the Phoenix representation of a task relationship type into a RelationType instance.
+    *
+    * @param value Phoenix relationship type
+    * @return RelationType instance
+    */
    public static final RelationType parseRelationType(String value)
    {
       return NAME_TO_RELATION_TYPE.get(value);
    }
 
+   /**
+    * Retrieve a relation type in the form required by Phoenix.
+    *
+    * @param type RelationType instance
+    * @return formatted relation type
+    */
    public static final String printRelationType(RelationType type)
    {
       return RELATION_TYPE_TO_NAME.get(type);
    }
 
+   /**
+    * Convert the Phoenix representation of a time unit into a TimeUnit instance.
+    *
+    * @param value Phoenix time unit
+    * @return TimeUnit instance
+    */
    public static final TimeUnit parseTimeUnits(String value)
    {
       return STRING_TO_TIME_UNITS_MAP.get(value);
    }
 
+   /**
+    * Retrieve a time unit in the form required by Phoenix.
+    *
+    * @param type TimeUnit instance
+    * @return formatted time unit
+    */
    public static final String printTimeUnits(TimeUnit type)
    {
       return TIME_UNITS_TO_STRING_MAP.get(type);
    }
 
+   /**
+    * Retrieve a date time in the form required by Phoenix.
+    *
+    * @param value Date instance
+    * @return formatted date time
+    */
    public static final String printDateTime(Date value)
    {
       return (value == null ? null : getDateFormat().format(value));
    }
 
+   /**
+    * Convert the Phoenix representation of a date time into a Date instance.
+    *
+    * @param value Phoenix date time
+    * @return Date instance
+    */
    public static final Date parseDateTime(String value)
    {
       Date result = null;
@@ -130,6 +190,11 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Retrieve the date format used to parse Phoenix formatted dates.
+    *
+    * @return DateFormat instance
+    */
    private static final DateFormat getDateFormat()
    {
       DateFormat df = DATE_FORMAT.get();
@@ -137,11 +202,18 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
          df.setLenient(false);
+         DATE_FORMAT.set(df);
       }
       return (df);
 
    }
 
+   /**
+    * Convert the Phoenix representation of a duration into a Duration instance.
+    *
+    * @param value Phoenix duration
+    * @return Duration instance
+    */
    public static final Duration parseDuration(String value)
    {
       Duration result = null;
@@ -160,6 +232,12 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Retrieve a duration in the form required by Phoenix.
+    *
+    * @param duration Duration instance
+    * @return formatted duration
+    */
    public static final String printDuration(Duration duration)
    {
       String result = null;
