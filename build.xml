@@ -21,7 +21,7 @@
 		<!-- These properties are only required if rebuilding JAXB generated source -->
 		<property name="mspdi.xsd" value="mspdi_pj14-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
-		
+
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
 		<property name="maven.dir" value="c:/java/apache-maven-3.2.3"/>
 
@@ -102,7 +102,6 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
-		<!--
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
@@ -112,7 +111,6 @@
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema ${primavera.xsd}" />
 		</exec>
-		-->
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/phoenix-binding.xjb -p net.sf.mpxj.phoenix.schema ${basedir}/jaxb/phoenix-4.5.xsd" />
 		</exec>
