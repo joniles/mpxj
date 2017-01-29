@@ -9,6 +9,7 @@
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
     <filter-data value="src/net/sf/mpxj/mspdi/schema"/>
+    <filter-data value="src/net/sf/mpxj/phoenix/schema"/>
     <filter-data value="src/net/sf/mpxj/planner/schema"/>
     <filter-data value="src/net/sf/mpxj/primavera/schema"/>
   </filter>

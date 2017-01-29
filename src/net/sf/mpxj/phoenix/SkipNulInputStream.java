@@ -1,8 +1,8 @@
 /*
- * file:       ChildTaskContainer.java
+ * file:       SkipNulInputStream.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2013
- * date:       08/11/2013
+ * copyright:  (c) Packwood Software 2015
+ * date:       28 November 2015
  */
 
 /*
@@ -21,26 +21,41 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.phoenix;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * Interface implemented by classes which have child tasks.
+ * Input stream used to handle Phoenix XML files.
+ * These files may have a trailing NUL character which XML parsers object to.
  */
-public interface ChildTaskContainer
+public class SkipNulInputStream extends InputStream
 {
    /**
-    * Retrieve a list of child tasks held by this object.
+    * Constructor.
     *
-    * @return list of child tasks
+    * @param stream input stream we're wrapping
     */
-   public List<Task> getChildTasks();
+   public SkipNulInputStream(InputStream stream)
+   {
+      m_stream = stream;
+   }
 
    /**
-    * Creates and adds a task to the list of tasks held by this object.
-    *
-    * @return newly created task
+    * {@inheritDoc}
     */
-   public Task addTask();
+   @Override public int read() throws IOException
+   {
+      while (true)
+      {
+         int c = m_stream.read();
+         if (c != 0)
+         {
+            return c;
+         }
+      }
+   }
+
+   private final InputStream m_stream;
 }

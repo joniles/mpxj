@@ -209,7 +209,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return new task
     */
-   public Task addTask()
+   @Override public Task addTask()
    {
       ProjectFile parent = getParentFile();
 
