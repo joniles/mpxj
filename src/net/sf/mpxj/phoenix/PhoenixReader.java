@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -38,9 +39,13 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -56,10 +61,12 @@ import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Acti
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars.Calendar;
+import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.Relationship;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
-import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 import org.xml.sax.InputSource;
@@ -91,6 +98,8 @@ public final class PhoenixReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
+         m_phaseNameMap = new HashMap<String, Task>();
+         m_phaseUuidMap = new HashMap<UUID, Task>();
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -103,12 +112,9 @@ public final class PhoenixReader extends AbstractProjectReader
          m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
-         //factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-         //factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         //SAXSource doc = new SAXSource(xmlReader, new InputSource(new PhoenixInputStream(stream)));
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(new SkipNulInputStream(stream)));
 
          if (CONTEXT == null)
          {
@@ -152,6 +158,8 @@ public final class PhoenixReader extends AbstractProjectReader
       finally
       {
          m_projectFile = null;
+         m_phaseNameMap = null;
+         m_phaseUuidMap = null;
       }
    }
 
@@ -174,257 +182,64 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void readCalendars(Storepoint phoenixProject)
    {
-      //      Calendars calendars = phoenixProject.getCalendars();
-      //      if (calendars != null)
-      //      {
-      //         for (net.sf.mpxj.planner.schema.Calendar cal : calendars.getCalendar())
-      //         {
-      //            readCalendar(cal, null);
-      //         }
-      //
-      //         Integer defaultCalendarID = getInteger(phoenixProject.getCalendar());
-      //         m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
-      //         if (m_defaultCalendar != null)
-      //         {
-      //            m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
-      //         }
-      //      }
+      Calendars calendars = phoenixProject.getCalendars();
+      if (calendars != null)
+      {
+         for (Calendar calendar : calendars.getCalendar())
+         {
+            readCalendar(calendar);
+         }
+
+         ProjectCalendar defaultCalendar = m_projectFile.getCalendarByName(phoenixProject.getDefaultCalendar());
+         if (defaultCalendar != null)
+         {
+            m_projectFile.getProjectProperties().setDefaultCalendarName(defaultCalendar.getName());
+         }
+      }
    }
 
    /**
-    * This method extracts data for a single calendar from a Planner file.
+    * This method extracts data for a single calendar from a Phoenix file.
     *
-    * @param plannerCalendar Calendar data
-    * @param parentMpxjCalendar parent of derived calendar
+    * @param calendar calendar data
     */
-   //   private void readCalendar(net.sf.mpxj.planner.schema.Calendar plannerCalendar, ProjectCalendar parentMpxjCalendar) throws MPXJException
-   //   {
-   //      //
-   //      // Create a calendar instance
-   //      //
-   //      ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
-   //
-   //      //
-   //      // Populate basic details
-   //      //
-   //      mpxjCalendar.setUniqueID(getInteger(plannerCalendar.getId()));
-   //      mpxjCalendar.setName(plannerCalendar.getName());
-   //      mpxjCalendar.setParent(parentMpxjCalendar);
-   //
-   //      //
-   //      // Set working and non working days
-   //      //
-   //      DefaultWeek dw = plannerCalendar.getDefaultWeek();
-   //      setWorkingDay(mpxjCalendar, Day.MONDAY, dw.getMon());
-   //      setWorkingDay(mpxjCalendar, Day.TUESDAY, dw.getTue());
-   //      setWorkingDay(mpxjCalendar, Day.WEDNESDAY, dw.getWed());
-   //      setWorkingDay(mpxjCalendar, Day.THURSDAY, dw.getThu());
-   //      setWorkingDay(mpxjCalendar, Day.FRIDAY, dw.getFri());
-   //      setWorkingDay(mpxjCalendar, Day.SATURDAY, dw.getSat());
-   //      setWorkingDay(mpxjCalendar, Day.SUNDAY, dw.getSun());
-   //
-   //      //
-   //      // Set working hours
-   //      //
-   //      processWorkingHours(mpxjCalendar, plannerCalendar);
-   //
-   //      //
-   //      // Process exception days
-   //      //
-   //      processExceptionDays(mpxjCalendar, plannerCalendar);
-   //
-   //      m_eventManager.fireCalendarReadEvent(mpxjCalendar);
-   //
-   //      //
-   //      // Process any derived calendars
-   //      //
-   //      List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
-   //      for (net.sf.mpxj.planner.schema.Calendar cal : calendarList)
-   //      {
-   //         readCalendar(cal, mpxjCalendar);
-   //      }
-   //   }
+   private void readCalendar(Calendar calendar)
+   {
+      // Create the calendar
+      ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
+      mpxjCalendar.setName(calendar.getName());
 
-   /**
-    * Set the working/non-working status of a weekday.
-    *
-    * @param mpxjCalendar MPXJ calendar
-    * @param mpxjDay day of the week
-    * @param plannerDay planner day type
-    */
-   //   private void setWorkingDay(ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
-   //   {
-   //      DayType dayType = DayType.DEFAULT;
-   //
-   //      if (plannerDay != null)
-   //      {
-   //         switch (getInt(plannerDay))
-   //         {
-   //            case 0:
-   //            {
-   //               dayType = DayType.WORKING;
-   //               break;
-   //            }
-   //
-   //            case 1:
-   //            {
-   //               dayType = DayType.NON_WORKING;
-   //               break;
-   //            }
-   //         }
-   //      }
-   //
-   //      mpxjCalendar.setWorkingDay(mpxjDay, dayType);
-   //   }
+      // Default all days to working
+      for (Day day : Day.values())
+      {
+         mpxjCalendar.setWorkingDay(day, true);
+      }
 
-   /**
-    * Add the appropriate working hours to each working day.
-    *
-    * @param mpxjCalendar MPXJ calendar
-    * @param plannerCalendar Planner calendar
-    */
-   //   private void processWorkingHours(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
-   //   {
-   //      OverriddenDayTypes types = plannerCalendar.getOverriddenDayTypes();
-   //      if (types != null)
-   //      {
-   //         List<OverriddenDayType> typeList = types.getOverriddenDayType();
-   //         Iterator<OverriddenDayType> iter = typeList.iterator();
-   //         OverriddenDayType odt = null;
-   //         while (iter.hasNext())
-   //         {
-   //            odt = iter.next();
-   //            if (getInt(odt.getId()) != 0)
-   //            {
-   //               odt = null;
-   //               continue;
-   //            }
-   //
-   //            break;
-   //         }
-   //
-   //         if (odt != null)
-   //         {
-   //            List<Interval> intervalList = odt.getInterval();
-   //            ProjectCalendarHours mondayHours = null;
-   //            ProjectCalendarHours tuesdayHours = null;
-   //            ProjectCalendarHours wednesdayHours = null;
-   //            ProjectCalendarHours thursdayHours = null;
-   //            ProjectCalendarHours fridayHours = null;
-   //            ProjectCalendarHours saturdayHours = null;
-   //            ProjectCalendarHours sundayHours = null;
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.MONDAY))
-   //            {
-   //               mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
-   //            }
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
-   //            {
-   //               tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
-   //            }
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
-   //            {
-   //               wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
-   //            }
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
-   //            {
-   //               thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
-   //            }
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
-   //            {
-   //               fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
-   //            }
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
-   //            {
-   //               saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
-   //            }
-   //
-   //            if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
-   //            {
-   //               sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
-   //            }
-   //
-   //            for (Interval interval : intervalList)
-   //            {
-   //               Date startTime = getTime(interval.getStart());
-   //               Date endTime = getTime(interval.getEnd());
-   //
-   //               m_defaultWorkingHours.add(new DateRange(startTime, endTime));
-   //
-   //               if (mondayHours != null)
-   //               {
-   //                  mondayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //
-   //               if (tuesdayHours != null)
-   //               {
-   //                  tuesdayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //
-   //               if (wednesdayHours != null)
-   //               {
-   //                  wednesdayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //
-   //               if (thursdayHours != null)
-   //               {
-   //                  thursdayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //
-   //               if (fridayHours != null)
-   //               {
-   //                  fridayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //
-   //               if (saturdayHours != null)
-   //               {
-   //                  saturdayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //
-   //               if (sundayHours != null)
-   //               {
-   //                  sundayHours.addRange(new DateRange(startTime, endTime));
-   //               }
-   //            }
-   //         }
-   //      }
-   //   }
+      // Mark non-working days
+      List<NonWork> nonWorkingDays = calendar.getNonWork();
+      if (nonWorkingDays != null)
+      {
+         for (NonWork nonWorkingDay : nonWorkingDays)
+         {
+            // TODO: handle recurring exceptions
+            if (nonWorkingDay.getType().equals("internal_weekly"))
+            {
+               mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
+            }
+         }
+      }
 
-   /**
-    * Process exception days.
-    *
-    * @param mpxjCalendar MPXJ calendar
-    * @param plannerCalendar Planner calendar
-    */
-   //   private void processExceptionDays(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
-   //   {
-   //      Days days = plannerCalendar.getDays();
-   //      if (days != null)
-   //      {
-   //         List<net.sf.mpxj.planner.schema.Day> dayList = days.getDay();
-   //         for (net.sf.mpxj.planner.schema.Day day : dayList)
-   //         {
-   //            if (day.getType().equals("day-type"))
-   //            {
-   //               Date exceptionDate = getDate(day.getDate());
-   //               ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
-   //               if (getInt(day.getId()) == 0)
-   //               {
-   //                  for (int hoursIndex = 0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
-   //                  {
-   //                     DateRange range = m_defaultWorkingHours.get(hoursIndex);
-   //                     exception.addRange(range);
-   //                  }
-   //               }
-   //            }
-   //         }
-   //      }
-   //   }
+      // Add default working hours for working days
+      for (Day day : Day.values())
+      {
+         if (mpxjCalendar.isWorkingDay(day))
+         {
+            ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
+            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+         }
+      }
+   }
 
    /**
     * This method extracts resource data from a Phoenix file.
@@ -476,19 +291,17 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void readTasks(Storepoint phoenixProject)
    {
-      Map<String, Task> phases = processPhases(phoenixProject);
-      processActivities(phases, phoenixProject);
+      processPhases(phoenixProject);
+      processActivities(phoenixProject);
    }
 
    /**
     * Read phases from the Phoenix file.
     *
     * @param phoenixProject project data
-    * @return phase name to task map
     */
-   private Map<String, Task> processPhases(Storepoint phoenixProject)
+   private void processPhases(Storepoint phoenixProject)
    {
-      Map<String, Task> map = new HashMap<String, Task>();
       Code phase = null;
 
       for (Code code : phoenixProject.getActivityCodes().getCode())
@@ -507,35 +320,33 @@ public final class PhoenixReader extends AbstractProjectReader
             Task task = m_projectFile.addTask();
             task.setName(value.getName());
             task.setGUID(value.getUuid());
-            map.put(value.getName(), task);
+            m_phaseNameMap.put(value.getName(), task);
+            m_phaseUuidMap.put(value.getUuid(), task);
          }
       }
-      return map;
    }
 
    /**
     * Process the set of activities from the Phoenix file.
     *
-    * @param phaseMap map of phase names to tasks
     * @param phoenixProject project data
     */
-   private void processActivities(Map<String, Task> phaseMap, Storepoint phoenixProject)
+   private void processActivities(Storepoint phoenixProject)
    {
       for (Activity activity : phoenixProject.getActivities().getActivity())
       {
-         processActivity(phaseMap, activity);
+         processActivity(activity);
       }
    }
 
    /**
     * Create a Task instance from a Phoenix activity.
     *
-    * @param phaseMap map of phase names to tasks
     * @param activity Phoenix activity data
     */
-   private void processActivity(Map<String, Task> phaseMap, Activity activity)
+   private void processActivity(Activity activity)
    {
-      Task task = getParentTask(phaseMap, activity).addTask();
+      Task task = getParentTask(activity).addTask();
       task.setUniqueID(activity.getId());
 
       task.setActualDuration(activity.getActualDuration());
@@ -580,19 +391,37 @@ public final class PhoenixReader extends AbstractProjectReader
    /**
     * Retrieves the parent task for a Phoenix activity.
     *
-    * @param phaseMap phase name to task map
     * @param activity Phoenix activity
     * @return parent task
     */
-   private ChildTaskContainer getParentTask(Map<String, Task> phaseMap, Activity activity)
+   private ChildTaskContainer getParentTask(Activity activity)
    {
-      ChildTaskContainer result = m_projectFile;
+      ChildTaskContainer result = null;
       for (CodeAssignment ca : activity.getCodeAssignment())
       {
-         if (ca.getCode().equals("Phase"))
+         UUID uuid = ca.getValueUuid();
+         if (uuid != null)
          {
-            result = phaseMap.get(ca.getValue());
+            result = m_phaseUuidMap.get(uuid);
          }
+         else
+         {
+            String code = ca.getCode();
+            if (code != null && code.equals("Phase"))
+            {
+               result = m_phaseNameMap.get(ca.getValue());
+            }
+         }
+
+         if (result != null)
+         {
+            break;
+         }
+      }
+
+      if (result == null)
+      {
+         result = m_projectFile;
       }
       return result;
    }
@@ -657,6 +486,8 @@ public final class PhoenixReader extends AbstractProjectReader
    }
 
    private ProjectFile m_projectFile;
+   private Map<String, Task> m_phaseNameMap;
+   private Map<UUID, Task> m_phaseUuidMap;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
 
@@ -682,7 +513,7 @@ public final class PhoenixReader extends AbstractProjectReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.phoenix.schema", PlannerReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.phoenix.schema", PhoenixReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

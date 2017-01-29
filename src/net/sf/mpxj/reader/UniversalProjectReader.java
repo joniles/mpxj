@@ -516,5 +516,5 @@ public class UniversalProjectReader extends AbstractProjectReader
 
    private static final Pattern MSPDI_FINGERPRINT = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project\".*", Pattern.DOTALL);
 
-   private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile("application=\"Phoenix Project Manager\"", Pattern.DOTALL);
+   private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*application=\"Phoenix Project Manager\".*", Pattern.DOTALL);
 }

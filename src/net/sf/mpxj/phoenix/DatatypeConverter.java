@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -248,6 +249,28 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Convert the Phoenix representation of a day into a Day instance.
+    *
+    * @param value Phoenix day
+    * @return Day instance
+    */
+   public static final Day parseDaye(String value)
+   {
+      return NAME_TO_DAY.get(value);
+   }
+
+   /**
+    * Retrieve a day in the form required by Phoenix.
+    *
+    * @param value Day instance
+    * @return formatted day
+    */
+   public static final String printDay(Day value)
+   {
+      return DAY_TO_NAME.get(value);
+   }
+
    private static final Map<String, ResourceType> STRING_TO_RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
    static
    {
@@ -293,6 +316,30 @@ public final class DatatypeConverter
       RELATION_TYPE_TO_NAME.put(RelationType.FINISH_START, "FinishToStart");
       RELATION_TYPE_TO_NAME.put(RelationType.START_FINISH, "StartToFinish");
       RELATION_TYPE_TO_NAME.put(RelationType.START_START, "StartToStart");
+   }
+
+   private static Map<String, Day> NAME_TO_DAY = new HashMap<String, Day>();
+   static
+   {
+      NAME_TO_DAY.put("Mon", Day.MONDAY);
+      NAME_TO_DAY.put("Tue", Day.TUESDAY);
+      NAME_TO_DAY.put("Wed", Day.WEDNESDAY);
+      NAME_TO_DAY.put("Thu", Day.THURSDAY);
+      NAME_TO_DAY.put("Fri", Day.FRIDAY);
+      NAME_TO_DAY.put("Sat", Day.SATURDAY);
+      NAME_TO_DAY.put("Sun", Day.SUNDAY);
+   }
+
+   private static Map<Day, String> DAY_TO_NAME = new HashMap<Day, String>();
+   static
+   {
+      DAY_TO_NAME.put(Day.MONDAY, "Mon");
+      DAY_TO_NAME.put(Day.TUESDAY, "Tue");
+      DAY_TO_NAME.put(Day.WEDNESDAY, "Wed");
+      DAY_TO_NAME.put(Day.THURSDAY, "Thu");
+      DAY_TO_NAME.put(Day.FRIDAY, "Fri");
+      DAY_TO_NAME.put(Day.SATURDAY, "Sat");
+      DAY_TO_NAME.put(Day.SUNDAY, "Sun");
    }
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();

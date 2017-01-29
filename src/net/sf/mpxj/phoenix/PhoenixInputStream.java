@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.zip.InflaterInputStream;
 
 /**
- * Input stream used to handle compressed Phoneix files.
+ * Input stream used to handle compressed Phoenix files.
  */
 public class PhoenixInputStream extends InputStream
 {
