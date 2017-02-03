@@ -13,7 +13,7 @@
 	<name>MPXJ</name>
 	<url>http://mpxj.sourceforge.net/</url>
 
-	<description>Library that provides facilities to allow project information to be manipulated in Java and .Net. Supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), Asta Powerproject (PP, MDB), and the Standard Data Exchange Format (SDEF).</description>
+	<description>Library that provides facilities to allow project information to be manipulated in Java and .Net. Supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), Asta Powerproject (PP, MDB), Asta Easyplan (PP), Phoenix Project Manager (PPX), and the Standard Data Exchange Format (SDEF).</description>
 
 	<organization>
 		<name>Packwood Software</name>
