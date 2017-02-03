@@ -320,11 +320,22 @@ public final class PhoenixReader extends AbstractProjectReader
       {
          for (Value value : phase.getValue())
          {
+            String name = value.getName();
+            UUID uuid = value.getUuid();
+
+            // Phases in compressed ppx files don't appear to have uuids
+            // The name is used as the unique identifier.
+            // Construct a UUID from the name
+            if (uuid == null)
+            {
+               uuid = UUID.nameUUIDFromBytes(name.getBytes());
+            }
+
             Task task = m_projectFile.addTask();
-            task.setName(value.getName());
-            task.setGUID(value.getUuid());
-            m_phaseNameMap.put(value.getName(), task);
-            m_phaseUuidMap.put(value.getUuid(), task);
+            task.setName(name);
+            task.setGUID(uuid);
+            m_phaseNameMap.put(name, task);
+            m_phaseUuidMap.put(uuid, task);
          }
       }
    }
