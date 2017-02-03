@@ -8,6 +8,7 @@
 
    <body>
     <release version="5.6.1" date="Git HEAD">
+    	<action dev="joniles" type="fix">Correct resource assignment handling for Phoenix Project Manager schedules.</action>
 	</release>   
    
     <release version="5.6.0" date="29/01/2017">

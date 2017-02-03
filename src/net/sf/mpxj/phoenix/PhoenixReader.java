@@ -101,6 +101,7 @@ public final class PhoenixReader extends AbstractProjectReader
          m_projectFile = new ProjectFile();
          m_phaseNameMap = new HashMap<String, Task>();
          m_phaseUuidMap = new HashMap<UUID, Task>();
+         m_activityMap = new HashMap<String, Task>();
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -163,6 +164,7 @@ public final class PhoenixReader extends AbstractProjectReader
          m_projectFile = null;
          m_phaseNameMap = null;
          m_phaseUuidMap = null;
+         m_activityMap = null;
       }
    }
 
@@ -388,6 +390,8 @@ public final class PhoenixReader extends AbstractProjectReader
       task.setMilestone(activityIsMilestone(activity));
       //activity.getUserDefined()
       task.setGUID(activity.getUuid());
+
+      m_activityMap.put(activity.getId(), task);
    }
 
    /**
@@ -462,7 +466,7 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void readAssignment(Resource resource, Assignment assignment)
    {
-      Task task = m_projectFile.getTaskByUniqueID(assignment.getActivity());
+      Task task = m_activityMap.get(assignment.getActivity());
       if (task != null)
       {
          task.addResourceAssignment(resource);
@@ -502,6 +506,7 @@ public final class PhoenixReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private Map<String, Task> m_phaseNameMap;
    private Map<UUID, Task> m_phaseUuidMap;
+   private Map<String, Task> m_activityMap;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
 
