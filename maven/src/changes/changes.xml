@@ -8,6 +8,7 @@
 
    <body>
     <release version="5.6.2" date="Git HEAD">
+      <action dev="joniles" type="fix" issue="305">Failed to Parse error with Primavera 15.2 or 16.1 XML files</action>
 	</release>   
    
     <release version="5.6.1" date="03/02/2017">
