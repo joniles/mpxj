@@ -7,7 +7,10 @@
    </properties> 
 
    <body>
-    <release version="5.6.2" date="Git HEAD">
+    <release version="5.6.3" date="Git HEAD">
+	</release>   
+
+    <release version="5.6.2" date="06/02/2017">
       <action dev="joniles" type="fix" issue="305">Failed to Parse error with Primavera 15.2 or 16.1 XML files</action>
 	</release>   
    
