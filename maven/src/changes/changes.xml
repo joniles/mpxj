@@ -7,7 +7,10 @@
    </properties> 
 
    <body>
-    <release version="5.6.3" date="Git HEAD">
+   	<release version="5.6.4" date="Git HEAD">
+	</release>   
+   
+    <release version="5.6.3" date="08/02/2017">
     	<action dev="joniles" type="update">Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.</action>
     	<action dev="joniles" type="update">Updated to rtfparserkit 1.10.0 for improved RTF parsing.</action>
 	</release>   

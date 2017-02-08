@@ -1,7 +1,10 @@
 # Changelog
 
-## 5.6.3 (Git HEAD)
-* Updated to rtfparserkit 1.10.0 for improved RTF parsing
+## 5.6.4 (Git HEAD)
+
+## 5.6.3 (08/02/2017)
+* Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.
+* Updated to rtfparserkit 1.10.0 for improved RTF parsing.
 
 ## 5.6.2 (06/02/2017)
 * Failed to Parse error with Primavera 15.2 or 16.1 XML files
