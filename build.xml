@@ -378,7 +378,11 @@
 		<delete dir="${vs.working.dir}" />
 	</target>
 
-	<target name="archive" depends="jar,ikvm-dll,vs-dll" description="Create library files"/>
+	<target name="changelog" description="Update changelog">
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/> 
+	</target>
+
+	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
