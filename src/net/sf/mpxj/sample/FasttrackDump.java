@@ -185,6 +185,12 @@ public class FasttrackDump
                break;
             }
 
+            case (byte) 0x6D:
+            {
+               offset += dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex + offset, 18, 0);
+               break;
+            }
+
             case (byte) 0x46:
             case (byte) 0x70:
             {
@@ -397,8 +403,18 @@ public class FasttrackDump
       offset += 4;
       pw.write("Index Number: " + indexNumber + "\n");
 
-      pw.write(hexdump(buffer, startIndex + offset, 36, false, 16, ""));
-      offset += 36;
+      int nextOffset = offset;
+      while (getShort(buffer, startIndex + nextOffset) != 0x000F)
+      {
+         ++nextOffset;
+      }
+      nextOffset += 2;
+
+      pw.write(hexdump(buffer, startIndex + offset, (nextOffset - offset), false, 16, ""));
+      offset = nextOffset;
+
+      //      pw.write(hexdump(buffer, startIndex + offset, 36, false, 16, ""));
+      //      offset += 36;
 
       int numberOfItems = getInt(buffer, startIndex + offset);
       offset += 4;
