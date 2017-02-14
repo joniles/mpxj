@@ -128,21 +128,6 @@ public class FasttrackDump
       pw.write(hexdump(buffer, startIndex, blockLength, true, 16, ""));
       pw.write("\n\n");
 
-      //      switch (buffer[startIndex])
-      //      {
-      //         case (byte) 0xFD:
-      //         {
-      //            dumpFD(pw, buffer, startIndex);
-      //            break;
-      //         }
-      //
-      //         case (byte) 0xFC:
-      //         {
-      //            dumpFC(pw, buffer, startIndex);
-      //            break;
-      //         }
-      //      }
-
       if (blockIndex == 2)
       {
          dumpData(pw, buffer, startIndex, 10303);
@@ -274,23 +259,7 @@ public class FasttrackDump
 
    private static int dumpFixedDataBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int unknownBlockSize, int trailerLength)
    {
-      int offset = 0;
-      pw.write("Fixed Data Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Fixed Data", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, unknownBlockSize, false, 16, ""));
       offset += unknownBlockSize;
@@ -326,63 +295,17 @@ public class FasttrackDump
 
    private static int dumpAssignmentBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Assignment Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Assignment", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 34, false, 16, ""));
       offset += 34;
 
-      int numberOfItems = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of items: " + numberOfItems + "\n");
-
-      for (int index = 0; index < numberOfItems; index++)
-      {
-         pw.write("Item " + index + "\n");
-         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-         offset += 2;
-         int itemNameLength = getInt(buffer, startIndex + offset);
-         offset += 4;
-         pw.write("  Item Name Length: " + itemNameLength + "\n");
-         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-         offset += itemNameLength;
-         pw.write("  Item Name: " + itemName + "\n");
-      }
+      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 8, true, 16, ""));
       offset += 8;
 
-      int numberOfFullNames = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of full names: " + numberOfFullNames + "\n");
-
-      for (int index = 0; index < numberOfFullNames; index++)
-      {
-         pw.write("Full Name " + index + "\n");
-         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-         offset += 2;
-         int itemNameLength = getInt(buffer, startIndex + offset);
-         offset += 4;
-         pw.write("  Full Name Length: " + itemNameLength + "\n");
-         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-         offset += itemNameLength;
-         pw.write("  Full Name: " + itemName + "\n");
-      }
+      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 8, true, 16, ""));
       offset += 8;
@@ -394,36 +317,8 @@ public class FasttrackDump
 
    private static int dumpCreatedBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Assignment Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
-
-      int nextOffset = offset;
-      while (getShort(buffer, startIndex + nextOffset) != 0x000F)
-      {
-         ++nextOffset;
-      }
-      nextOffset += 2;
-
-      pw.write(hexdump(buffer, startIndex + offset, (nextOffset - offset), false, 16, ""));
-      offset = nextOffset;
-
-      //      pw.write(hexdump(buffer, startIndex + offset, 36, false, 16, ""));
-      //      offset += 36;
+      int offset = dumpBlockHeader("Created", blockStartIndex, pw, buffer, startIndex);
+      offset = skipTo(pw, offset, buffer, startIndex, 0x000F);
 
       int numberOfItems = getInt(buffer, startIndex + offset);
       offset += 4;
@@ -468,43 +363,12 @@ public class FasttrackDump
 
    private static int dumpOptionsBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Options Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Options", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 34, false, 16, ""));
       offset += 34;
 
-      int numberOfOptions = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of options: " + numberOfOptions + "\n");
-
-      for (int index = 0; index < numberOfOptions; index++)
-      {
-         pw.write("Item " + index + "\n");
-         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-         offset += 2;
-         int itemNameLength = getInt(buffer, startIndex + offset);
-         offset += 4;
-         pw.write("  Item Name Length: " + itemNameLength + "\n");
-         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-         offset += itemNameLength;
-         pw.write("  Item Name: " + itemName + "\n");
-      }
+      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 10, false, 16, ""));
       offset += 10;
@@ -541,56 +405,14 @@ public class FasttrackDump
 
    private static int dumpBooleanOptionsBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Boolean Options Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Boolean Options", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 34, false, 16, ""));
       offset += 34;
 
-      int numberOfOptions = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of options: " + numberOfOptions + "\n");
+      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex);
 
-      for (int index = 0; index < numberOfOptions; index++)
-      {
-         pw.write("Item " + index + "\n");
-         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-         offset += 2;
-         int itemNameLength = getInt(buffer, startIndex + offset);
-         offset += 4;
-         pw.write("  Item Name Length: " + itemNameLength + "\n");
-         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-         offset += itemNameLength;
-         pw.write("  Item Name: " + itemName + "\n");
-      }
-
-      //      pw.write(hexdump(buffer, startIndex + offset, 36, false, 16, ""));
-      //      offset += 36;
-
-      int nextOffset = offset;
-      while (getShort(buffer, startIndex + nextOffset) != 0x000F)
-      {
-         ++nextOffset;
-      }
-      nextOffset += 2;
-
-      pw.write(hexdump(buffer, startIndex + offset, (nextOffset - offset), false, 16, ""));
-      offset = nextOffset;
+      offset = skipTo(pw, offset, buffer, startIndex, 0x000F);
 
       int numberOfItems1 = getInt(buffer, startIndex + offset);
       offset += 4;
@@ -628,23 +450,7 @@ public class FasttrackDump
 
    private static int dumpDurationBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Duration Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Duration", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 16, false, 16, ""));
       offset += 16;
@@ -670,23 +476,7 @@ public class FasttrackDump
 
    private static int dumpIDBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("ID Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("ID", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 58, false, 16, ""));
       offset += 58;
@@ -698,23 +488,7 @@ public class FasttrackDump
 
    private static int dumpTotalCostBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Duration Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Total Cost", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 16, false, 16, ""));
       offset += 16;
@@ -740,43 +514,12 @@ public class FasttrackDump
 
    private static int dumpLinkBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Link Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
+      int offset = dumpBlockHeader("Link", blockStartIndex, pw, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 16, false, 16, ""));
       offset += 16;
 
-      int numberOfOptions = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of links: " + numberOfOptions + "\n");
-
-      for (int index = 0; index <= numberOfOptions; index++)
-      {
-         pw.write("Item " + index + "\n");
-         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-         offset += 2;
-         int itemNameLength = getInt(buffer, startIndex + offset);
-         offset += 4;
-         pw.write("  Item Name Length: " + itemNameLength + "\n");
-         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-         offset += itemNameLength;
-         pw.write("  Item Name: " + itemName + "\n");
-      }
+      offset = NEWdumpStringsWithLengths(pw, offset, buffer, startIndex);
 
       pw.write(hexdump(buffer, startIndex + offset, 2, false, 16, ""));
       offset += 2;
@@ -788,36 +531,8 @@ public class FasttrackDump
 
    private static int dumpTableBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
    {
-      int offset = 0;
-      pw.write("Assignment Block at " + (startIndex - blockStartIndex) + "\n");
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-      offset += 8;
-
-      int nameLength = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Name Length: " + nameLength + "\n");
-
-      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
-      offset += nameLength;
-      pw.write("Name: " + name + "\n");
-
-      int indexNumber = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Index Number: " + indexNumber + "\n");
-
-      int nextOffset = offset;
-      while (getShort(buffer, startIndex + nextOffset) != 0x000F)
-      {
-         ++nextOffset;
-      }
-      nextOffset += 2;
-
-      pw.write(hexdump(buffer, startIndex + offset, (nextOffset - offset), false, 16, ""));
-      offset = nextOffset;
-
-      //      pw.write(hexdump(buffer, startIndex + offset, 36, false, 16, ""));
-      //      offset += 36;
+      int offset = dumpBlockHeader("Table", blockStartIndex, pw, buffer, startIndex);
+      offset = skipTo(pw, offset, buffer, startIndex, 0x000F);
 
       int numberOfItems = getInt(buffer, startIndex + offset);
       offset += 4;
@@ -855,6 +570,85 @@ public class FasttrackDump
 
       pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
 
+      return offset;
+   }
+
+   private static int dumpBlockHeader(String blockType, int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
+   {
+      int offset = 0;
+      pw.write(blockType + " Block at " + (startIndex - blockStartIndex) + "\n");
+
+      pw.write(hexdump(buffer, startIndex + offset, 8, false, 16, ""));
+      offset += 8;
+
+      int nameLength = getInt(buffer, startIndex + offset);
+      offset += 4;
+      pw.write("Name Length: " + nameLength + "\n");
+
+      String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
+      offset += nameLength;
+      pw.write("Name: " + name + "\n");
+
+      int indexNumber = getInt(buffer, startIndex + offset);
+      offset += 4;
+      pw.write("Index Number: " + indexNumber + "\n");
+
+      return offset;
+   }
+
+   private static int skipTo(PrintWriter pw, int offset, byte[] buffer, int startIndex, int value)
+   {
+      int nextOffset = offset;
+      while (getShort(buffer, startIndex + nextOffset) != value)
+      {
+         ++nextOffset;
+      }
+      nextOffset += 2;
+
+      pw.write(hexdump(buffer, startIndex + offset, (nextOffset - offset), false, 16, ""));
+
+      return nextOffset;
+   }
+
+   private static int dumpStringsWithLengths(PrintWriter pw, int offset, byte[] buffer, int startIndex)
+   {
+      int numberOfItems = getInt(buffer, startIndex + offset);
+      offset += 4;
+      pw.write("Number of items: " + numberOfItems + "\n");
+
+      for (int index = 0; index < numberOfItems; index++)
+      {
+         pw.write("Item " + index + "\n");
+         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
+         offset += 2;
+         int itemNameLength = getInt(buffer, startIndex + offset);
+         offset += 4;
+         pw.write("  Item Name Length: " + itemNameLength + "\n");
+         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
+         offset += itemNameLength;
+         pw.write("  Item Name: " + itemName + "\n");
+      }
+      return offset;
+   }
+
+   private static int NEWdumpStringsWithLengths(PrintWriter pw, int offset, byte[] buffer, int startIndex)
+   {
+      int numberOfItems = getInt(buffer, startIndex + offset);
+      offset += 4;
+      pw.write("Number of items: " + numberOfItems + "\n");
+
+      for (int index = 0; index <= numberOfItems; index++)
+      {
+         pw.write("Item " + index + "\n");
+         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
+         offset += 2;
+         int itemNameLength = getInt(buffer, startIndex + offset);
+         offset += 4;
+         pw.write("  Item Name Length: " + itemNameLength + "\n");
+         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
+         offset += itemNameLength;
+         pw.write("  Item Name: " + itemName + "\n");
+      }
       return offset;
    }
 
@@ -896,54 +690,6 @@ public class FasttrackDump
          pw.write(hexdump(buffer, startIndex + offset, 4, false, 16, ""));
          offset += 4;
       }
-   }
-
-   private static final void dumpFC(PrintWriter pw, byte[] buffer, int startIndex)
-   {
-      pw.write("FC BLOCK\n");
-      int offset = 1;
-      pw.write(hexdump(buffer, startIndex + offset, 16, true, 16, ""));
-      offset += 16;
-
-      //      offset = dumpFcBlock(pw, buffer, startIndex, offset);
-      //      offset = dumpFcBlock(pw, buffer, startIndex, offset);
-      //offset = dumpFcBlock(pw, buffer, startIndex, offset);
-
-      //      pw.write(hexdump(buffer, startIndex + offset, 6, true, 16, ""));
-      //      offset += 6;
-      //
-      //      int itemCount = getInt(buffer, startIndex + offset);
-      //      offset += 4;
-      //      pw.write("Item Count: " + itemCount + "\n");
-      //
-      //      int itemSize = getShort(buffer, startIndex + offset);
-      //      offset += 2;
-      //      pw.write("Item Size: " + itemSize + "\n");
-      //
-      //      int dataSize = getInt(buffer, startIndex + offset);
-      //      offset += 4;
-      //      pw.write("Data Size: " + dataSize + "\n");
-      //
-      //      if (dataSize != 0)
-      //      {
-      //         pw.write("Data:\n");
-      //         pw.write(hexdump(buffer, startIndex + offset, dataSize, true, 16, ""));
-      //         offset += dataSize;
-      //      }
-
-      //      // First Item
-      //      pw.write("Item 1\n");
-      //      pw.write(hexdump(buffer, startIndex + offset, 4, false, 4, ""));
-      //      offset += 4;
-      //
-      //      int itemNameLength = getInt(buffer, startIndex + offset);
-      //      offset += 4;
-      //      pw.write("Item Name Length: " + itemNameLength + "\n");
-      //      String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-      //      offset += itemNameLength;
-      //      pw.write("Item Name: " + itemName + "\n");
-
-      pw.write("\n");
    }
 
    private static int dumpFcBlock(PrintWriter pw, byte[] buffer, int startIndex, int offset)
