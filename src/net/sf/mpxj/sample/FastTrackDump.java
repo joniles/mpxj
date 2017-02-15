@@ -30,9 +30,9 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class FastTrackDump
 {
@@ -130,7 +130,37 @@ public class FastTrackDump
       pw.write("\n");
       pw.write(hexdump(buffer, startIndex, blockLength, true, 16, ""));
       pw.write("\n\n");
-      dumpChildBlocks(pw, buffer, startIndex, blockLength);
+
+      if (blockLength < 128)
+      {
+         dumpPreambleBlock(pw, buffer, startIndex, blockLength);
+      }
+      else
+      {
+         dumpChildBlocks(pw, buffer, startIndex, blockLength);
+      }
+
+   }
+
+   private void dumpPreambleBlock(PrintWriter pw, byte[] buffer, int startIndex, int blockLength)
+   {
+      pw.println("PREAMBLE");
+
+      for (int index = startIndex; index < (startIndex + blockLength - 11); index++)
+      {
+         if (matchPattern(PREAMBLE_BLOCK_PATTERNS, buffer, index))
+         {
+
+            int offset = index + 7;
+            int nameLength = getInt(buffer, offset);
+            pw.write("Preamble Name Length: " + nameLength + "\n");
+            offset += 4;
+            String name = new String(buffer, offset, nameLength, UTF16LE);
+            pw.println("Preamble Name: " + name);
+            m_currentPreambleName = name;
+            break;
+         }
+      }
    }
 
    private void dumpChildBlocks(PrintWriter pw, byte[] buffer, int startIndex, int blockLength)
@@ -177,41 +207,21 @@ public class FastTrackDump
       //         }
 
          case (byte) 0x73:
-         {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, 6);
-            break;
-         }
-
-         case (byte) 0x71:
-         {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, 3);
-            break;
-         }
-
          case (byte) 0x6C:
-         {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, 2);
-            break;
-         }
-
+         case (byte) 0x71:
          case (byte) 0x40:
          case (byte) 0x5C:
          case (byte) 0x6D:
-         {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, 0);
-            break;
-         }
-
          case (byte) 0x46:
          case (byte) 0x70:
          {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, 11);
+            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, length);
             break;
          }
 
          case (byte) 0x4B:
          {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 40, 0);
+            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 40, length);
             break;
          }
 
@@ -288,7 +298,7 @@ public class FastTrackDump
       }
    }
 
-   private int dumpFixedDataBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int unknownBlockSize, int trailerLength)
+   private int dumpFixedDataBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int unknownBlockSize, int length)
    {
       int offset = dumpBlockHeader("Fixed Data", blockStartIndex, pw, buffer, startIndex);
 
@@ -297,8 +307,8 @@ public class FastTrackDump
 
       offset = dumpFixedSizeItems(pw, offset, buffer, startIndex);
 
-      pw.write(hexdump(buffer, startIndex + offset, trailerLength, true, 16, ""));
-      offset += trailerLength;
+      pw.write(hexdump(buffer, startIndex + offset, (length - offset), true, 16, ""));
+      offset = length;
 
       pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
       return offset;
@@ -661,8 +671,9 @@ public class FastTrackDump
       {
          String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
          offset += nameLength;
-         pw.write("Name: " + name + "\n");
-         m_childBlockNames.add(name);
+         String fullName = m_currentPreambleName + "." + name;
+         pw.write("Name: " + fullName + "\n");
+         m_childBlockNames.add(fullName);
 
          int indexNumber = getInt(buffer, startIndex + offset);
          offset += 4;
@@ -980,7 +991,8 @@ public class FastTrackDump
       return (sb.toString());
    }
 
-   private final Set<String> m_childBlockNames = new HashSet<String>();
+   private String m_currentPreambleName = "";
+   private final Set<String> m_childBlockNames = new TreeSet<String>();
 
    private static final char[] HEX_DIGITS =
    {
@@ -1052,6 +1064,19 @@ public class FastTrackDump
          0x05,
          0x00,
          0x00,
+         0x00,
+         0x01,
+         0x00
+      }
+   };
+
+   private static final byte[][] PREAMBLE_BLOCK_PATTERNS =
+   {
+      {
+         0x00,
+         0x00,
+         0x00,
+         0x65,
          0x00,
          0x01,
          0x00
