@@ -701,6 +701,12 @@ public final class MPPUtility
             break;
          }
 
+         case 20:
+         {
+            units = TimeUnit.ELAPSED_PERCENT;
+            break;
+         }
+
          case 7:
          {
             units = TimeUnit.DAYS;
