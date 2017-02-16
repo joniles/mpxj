@@ -26,6 +26,7 @@ package net.sf.mpxj.reader;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -46,6 +47,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.merlin.MerlinReader;
@@ -88,6 +90,17 @@ public class UniversalProjectReader extends AbstractProjectReader
    void setSkipBytes(int skipBytes)
    {
       m_skipBytes = skipBytes;
+   }
+
+   /**
+    * Package private method used when handling byte order mark.
+    * Notes the charset indicated by the byte order mark.
+    *
+    * @param charset character set indicated by byte order mark
+    */
+   void setCharset(Charset charset)
+   {
+      m_charset = charset;
    }
 
    /**
@@ -137,7 +150,9 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, XER_FINGERPRINT))
          {
-            return readProjectFile(new PrimaveraXERFileReader(), bis);
+            PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+            reader.setCharset(m_charset);
+            return readProjectFile(reader, bis);
          }
 
          if (matchesFingerprint(buffer, PLANNER_FINGERPRINT))
@@ -177,17 +192,17 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, UTF8_BOM_FINGERPRINT))
          {
-            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length);
+            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length, CharsetHelper.UTF8);
          }
 
          if (matchesFingerprint(buffer, UTF16_BOM_FINGERPRINT))
          {
-            return handleByteOrderMark(bis, UTF16_BOM_FINGERPRINT.length);
+            return handleByteOrderMark(bis, UTF16_BOM_FINGERPRINT.length, CharsetHelper.UTF16);
          }
 
          if (matchesFingerprint(buffer, UTF16LE_BOM_FINGERPRINT))
          {
-            return handleByteOrderMark(bis, UTF16LE_BOM_FINGERPRINT.length);
+            return handleByteOrderMark(bis, UTF16LE_BOM_FINGERPRINT.length, CharsetHelper.UTF16LE);
          }
 
          return null;
@@ -384,12 +399,14 @@ public class UniversalProjectReader extends AbstractProjectReader
     *
     * @param stream schedule data
     * @param length length of the byte order mark
+    * @param charset charset indicated by byte order mark
     * @return ProjectFile instance
     */
-   private ProjectFile handleByteOrderMark(InputStream stream, int length) throws Exception
+   private ProjectFile handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       reader.setSkipBytes(length);
+      reader.setCharset(charset);
       return reader.read(stream);
    }
 
@@ -449,6 +466,7 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    private int m_skipBytes;
+   private Charset m_charset;
    private List<ProjectListener> m_projectListeners;
 
    private static final int BUFFER_SIZE = 512;
