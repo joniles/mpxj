@@ -47,6 +47,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -541,7 +542,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private boolean m_pretty;
    private Charset m_encoding = DEFAULT_ENCODING;
 
-   private static final Charset DEFAULT_ENCODING = Charset.forName("UTF-8");
+   private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
 
    private static Map<String, DataType> TYPE_MAP = new HashMap<String, DataType>();
    static

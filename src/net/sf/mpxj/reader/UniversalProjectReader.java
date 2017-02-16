@@ -182,7 +182,12 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, UTF16_BOM_FINGERPRINT))
          {
-            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length);
+            return handleByteOrderMark(bis, UTF16_BOM_FINGERPRINT.length);
+         }
+
+         if (matchesFingerprint(buffer, UTF16LE_BOM_FINGERPRINT))
+         {
+            return handleByteOrderMark(bis, UTF16LE_BOM_FINGERPRINT.length);
          }
 
          return null;
@@ -555,6 +560,12 @@ public class UniversalProjectReader extends AbstractProjectReader
    };
 
    private static final byte[] UTF16_BOM_FINGERPRINT =
+   {
+      (byte) 0xFE,
+      (byte) 0xFF
+   };
+
+   private static final byte[] UTF16LE_BOM_FINGERPRINT =
    {
       (byte) 0xFE,
       (byte) 0xFF
