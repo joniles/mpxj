@@ -661,8 +661,13 @@ public final class PlannerWriter extends AbstractProjectWriter
    private String getWorkingDayString(ProjectCalendar mpxjCalendar, Day day)
    {
       String result = null;
+      net.sf.mpxj.DayType type = mpxjCalendar.getWorkingDay(day);
+      if (type == null)
+      {
+         type = net.sf.mpxj.DayType.DEFAULT;
+      }
 
-      switch (mpxjCalendar.getWorkingDay(day))
+      switch (type)
       {
          case WORKING:
          {
