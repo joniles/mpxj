@@ -80,6 +80,17 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    /**
+    * Package private method used when handling byte order mark.
+    * Tells the reader to skip a number of bytes before starting to read from the stream.
+    *
+    * @param skipBytes number of bytes to skip
+    */
+   void setSkipBytes(int skipBytes)
+   {
+      m_skipBytes = skipBytes;
+   }
+
+   /**
     * Note that this method returns null if we can't determine the file type.
     *
     * {@inheritDoc}
@@ -89,6 +100,7 @@ public class UniversalProjectReader extends AbstractProjectReader
       try
       {
          BufferedInputStream bis = new BufferedInputStream(inputStream);
+         bis.skip(m_skipBytes);
          bis.mark(BUFFER_SIZE);
          byte[] buffer = new byte[BUFFER_SIZE];
          int bytesRead = bis.read(buffer);
@@ -161,6 +173,16 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT))
          {
             return readProjectFile(new PhoenixReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, UTF8_BOM_FINGERPRINT))
+         {
+            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length);
+         }
+
+         if (matchesFingerprint(buffer, UTF16_BOM_FINGERPRINT))
+         {
+            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length);
          }
 
          return null;
@@ -353,6 +375,20 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    /**
+    * The file we are working with has a byte order mark. Skip this and try again to read the file.
+    *
+    * @param stream schedule data
+    * @param length length of the byte order mark
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleByteOrderMark(InputStream stream, int length) throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      reader.setSkipBytes(length);
+      return reader.read(stream);
+   }
+
+   /**
     * Open a database and build a set of table names.
     *
     * @param url database URL
@@ -407,6 +443,7 @@ public class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
+   private int m_skipBytes;
    private List<ProjectListener> m_projectListeners;
 
    private static final int BUFFER_SIZE = 512;
@@ -508,6 +545,19 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) '!',
       (byte) '!',
       (byte) '!'
+   };
+
+   private static final byte[] UTF8_BOM_FINGERPRINT =
+   {
+      (byte) 0xEF,
+      (byte) 0xBB,
+      (byte) 0xBF
+   };
+
+   private static final byte[] UTF16_BOM_FINGERPRINT =
+   {
+      (byte) 0xFE,
+      (byte) 0xFF
    };
 
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
