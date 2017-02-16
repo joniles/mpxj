@@ -89,6 +89,17 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
+    * Alternative way to set the file encoding. If both an encoding name and a Charset instance
+    * are supplied, the Charset instance is used.
+    *
+    * @param charset Charset used when reading the file
+    */
+   public void setCharset(Charset charset)
+   {
+      m_charset = charset;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream is) throws MPXJException
@@ -223,8 +234,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          bis.reset();
 
-         Charset charset = m_encoding == null ? Charset.defaultCharset() : Charset.forName(m_encoding);
-         InputStreamReader reader = new InputStreamReader(bis, charset);
+         InputStreamReader reader = new InputStreamReader(bis, getCharset());
          Tokenizer tk = new ReaderTokenizer(reader);
          tk.setDelimiter('\t');
          List<String> record = new ArrayList<String>();
@@ -244,6 +254,21 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.READ_ERROR + " (failed at line " + line + ")", ex);
       }
+   }
+
+   /**
+    * Retrieve the Charset used to read the file.
+    *
+    * @return Charset instance
+    */
+   private Charset getCharset()
+   {
+      Charset result = m_charset;
+      if (result == null)
+      {
+         result = m_encoding == null ? Charset.defaultCharset() : Charset.forName(m_encoding);
+      }
+      return result;
    }
 
    /**
@@ -741,6 +766,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    private String m_encoding;
+   private Charset m_charset;
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    boolean m_skipTable;
