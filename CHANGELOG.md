@@ -1,6 +1,10 @@
 # Changelog
 
-## 5.6.4 (Git HEAD)
+## 5.6.5 (Git HEAD)
+
+## 5.6.4 (16/02/2017)
+* UniversalProjectReader now recognises and handles byte order marks
+* TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files
 
 ## 5.6.3 (08/02/2017)
 * Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.

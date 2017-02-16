@@ -7,9 +7,12 @@
    </properties> 
 
    <body>
-   	<release version="5.6.4" date="Git HEAD">
-   	<action dev="joniles" type="update">UniversalProjectReader now recognises and handle byte order marks</action>
-   	<action dev="joniles" type="fix" issue="307">TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files</action>
+   	<release version="5.6.5" date="Git HEAD">
+	</release>   
+   
+   	<release version="5.6.4" date="16/02/2017">
+   		<action dev="joniles" type="update">UniversalProjectReader now recognises and handles byte order marks</action>
+   		<action dev="joniles" type="fix" issue="307">TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files</action>
 	</release>   
    
     <release version="5.6.3" date="08/02/2017">
