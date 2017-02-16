@@ -902,7 +902,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieve the encoding used to write teh file. If this value is null,
+    * Retrieve the encoding used to write the file. If this value is null,
     * UTF-8 is used.
     *
     * @return encoding name
