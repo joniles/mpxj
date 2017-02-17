@@ -31,6 +31,42 @@ public final class FastTrackUtility
       return result;
    }
 
+   /**
+    * This method reads an eight byte integer from the input array.
+    *
+    * @param data the input array
+    * @param offset offset of integer data in the array
+    * @return integer value
+    */
+   public static final long getLong(byte[] data, int offset)
+   {
+      long result = 0;
+      int i = offset;
+      for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
+      {
+         result |= ((long) (data[i] & 0xff)) << shiftBy;
+         ++i;
+      }
+      return result;
+   }
+
+   /**
+    * This method reads an eight byte double from the input array.
+    *
+    * @param data the input array
+    * @param offset offset of double data in the array
+    * @return double value
+    */
+   public static final double getDouble(byte[] data, int offset)
+   {
+      double result = Double.longBitsToDouble(getLong(data, offset));
+      if (Double.isNaN(result))
+      {
+         result = 0;
+      }
+      return result;
+   }
+
    public static int skipTo(int offset, byte[] buffer, int startIndex, int value)
    {
       int nextOffset = offset;

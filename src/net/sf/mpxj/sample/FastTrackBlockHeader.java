@@ -43,11 +43,11 @@ public class FastTrackBlockHeader
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
-      pw.println("[BlockHeader");
-      pw.print("  Header: " + FastTrackUtility.hexdump(m_header, 0, m_header.length, false, 16, ""));
-      pw.println("  Name: " + m_name);
-      pw.println("  Index: " + m_indexNumber);
-      pw.println("]");
+      pw.println("  [BlockHeader");
+      pw.print("    Header: " + FastTrackUtility.hexdump(m_header, 0, m_header.length, false, 16, ""));
+      pw.println("    Name: " + m_name);
+      pw.println("    Index: " + m_indexNumber);
+      pw.println("  ]");
       pw.flush();
       return (os.toString());
 
