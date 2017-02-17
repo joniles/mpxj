@@ -210,6 +210,11 @@ public class FastTrackDump
       switch (value)
       {
          case (byte) 0x6E:
+         {
+            readDates(blockStartIndex, pw, buffer, startIndex, length);
+            break;
+         }
+
          case (byte) 0x6F:
          {
             dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 48, length);
@@ -291,6 +296,13 @@ public class FastTrackDump
 
       pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
       return offset;
+   }
+
+   private void readDates(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      DateBlock block = new DateBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
    }
 
    private void readEnums(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
