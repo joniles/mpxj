@@ -67,6 +67,29 @@ public final class FastTrackUtility
       return result;
    }
 
+   public static String[] getStringsWithLengths(int offset, byte[] buffer, int startIndex, boolean inclusive)
+   {
+      int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
+      offset += 4;
+
+      if (inclusive)
+      {
+         ++numberOfItems;
+      }
+
+      String[] result = new String[numberOfItems];
+      for (int index = 0; index < numberOfItems; index++)
+      {
+         // Two bytes
+         offset += 2;
+         int itemNameLength = FastTrackUtility.getInt(buffer, startIndex + offset);
+         offset += 4;
+         result[index] = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
+         offset += itemNameLength;
+      }
+      return result;
+   }
+
    public static int skipTo(int offset, byte[] buffer, int startIndex, int value)
    {
       int nextOffset = offset;
