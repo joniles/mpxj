@@ -233,12 +233,11 @@ public class FastTrackDump
             break;
          }
 
-         case (byte) 0x73:
-         case (byte) 0x6C:
-         case (byte) 0x40:
-         case (byte) 0x5C:
-         case (byte) 0x6D:
-         case (byte) 0x70:
+         case (byte) 0x73: // integer
+         case (byte) 0x6C: // integer
+         case (byte) 0x5C: // calendar
+         case (byte) 0x6D: // timestamp, version
+         case (byte) 0x70: // double (priority, cost, work)
          {
             dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, length);
             break;
@@ -246,7 +245,7 @@ public class FastTrackDump
 
          case (byte) 0x4B:
          {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 40, length);
+            readIntegers(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
@@ -332,6 +331,13 @@ public class FastTrackDump
    private void readPercents(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
       PercentBlock block = new PercentBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
+   private void readIntegers(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      IntegerBlock block = new IntegerBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
