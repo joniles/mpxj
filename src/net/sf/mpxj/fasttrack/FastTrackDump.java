@@ -237,7 +237,7 @@ public class FastTrackDump
 
          case (byte) 0x49:
          {
-            dumpAssignmentBlock(blockStartIndex, pw, buffer, startIndex);
+            readAssignments(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
@@ -261,22 +261,10 @@ public class FastTrackDump
             break;
          }
 
-         case (byte) 0x5A:
-         {
-            dumpStatusBlock(blockStartIndex, pw, buffer, startIndex);
-            break;
-         }
-
-         case (byte) 0x52:
-         {
-            dumpIDBlock(blockStartIndex, pw, buffer, startIndex);
-            break;
-         }
-
          case (byte) 0x57:
          case (byte) 0x58:
          {
-            dumpLinkBlock(blockStartIndex, pw, buffer, startIndex);
+            readRelations(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
@@ -285,19 +273,6 @@ public class FastTrackDump
          {
             readStrings(pw, buffer, startIndex, length);
             break;
-         }
-
-         case (byte) 0x55:
-         case (byte) 0x56:
-         {
-            dumpTableBlock(blockStartIndex, pw, buffer, startIndex);
-            break;
-         }
-
-         default:
-         {
-            dumpUnknownBlock(blockStartIndex, pw, buffer, startIndex, length);
-            return;
          }
       }
    }
@@ -325,26 +300,11 @@ public class FastTrackDump
       pw.println(block.toString());
    }
 
-   private int dumpAssignmentBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
+   private void readAssignments(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      int offset = dumpBlockHeader("Assignment", blockStartIndex, pw, buffer, startIndex);
-
-      pw.write(hexdump(buffer, startIndex + offset, 34, false, 16, ""));
-      offset += 34;
-
-      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex, true);
-
-      pw.write(hexdump(buffer, startIndex + offset, 2, true, 16, ""));
-      offset += 2;
-
-      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex, true);
-
-      pw.write(hexdump(buffer, startIndex + offset, 2, true, 16, ""));
-      offset += 2;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
+      AssignmentBlock block = new AssignmentBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
    }
 
    private void readStrings(PrintWriter pw, byte[] buffer, int startIndex, int length)
@@ -368,112 +328,11 @@ public class FastTrackDump
       pw.println(block.toString());
    }
 
-   private int dumpStatusBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
+   private void readRelations(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      int offset = dumpBlockHeader("Status", blockStartIndex, pw, buffer, startIndex);
-
-      pw.write(hexdump(buffer, startIndex + offset, 16, false, 16, ""));
-      offset += 16;
-
-      int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of items: " + numberOfItems + "\n");
-
-      for (int index = 0; index < numberOfItems; index++)
-      {
-         pw.write("Item " + index + "\n");
-         pw.write("  " + hexdump(buffer, startIndex + offset, 8, false, 16, ""));
-         offset += 8;
-      }
-
-      pw.write(hexdump(buffer, startIndex + offset, 6, true, 16, ""));
-      offset += 6;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
-   }
-
-   private int dumpIDBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
-   {
-      int offset = dumpBlockHeader("ID", blockStartIndex, pw, buffer, startIndex);
-
-      pw.write(hexdump(buffer, startIndex + offset, 58, false, 16, ""));
-      offset += 58;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
-   }
-
-   private int dumpLinkBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
-   {
-      int offset = dumpBlockHeader("Link", blockStartIndex, pw, buffer, startIndex);
-
-      pw.write(hexdump(buffer, startIndex + offset, 16, false, 16, ""));
-      offset += 16;
-
-      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex, true);
-
-      pw.write(hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-      offset += 2;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
-   }
-
-   private int dumpTableBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
-   {
-      int offset = dumpBlockHeader("Table", blockStartIndex, pw, buffer, startIndex);
-      offset = skipTo(pw, offset, buffer, startIndex, 0x000F);
-
-      int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of items: " + numberOfItems + "\n");
-
-      int offsetToData = FastTrackUtility.getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Offset to data: " + offsetToData + "\n");
-
-      int[] blockOffsets = new int[numberOfItems + 1];
-      for (int index = 0; index <= numberOfItems; index++)
-      {
-         int offsetInBlock = FastTrackUtility.getInt(buffer, startIndex + offset);
-         blockOffsets[index] = offsetInBlock;
-         offset += 4;
-         pw.write("Item " + index + " offset in block:" + offsetInBlock + "\n");
-      }
-
-      int dataSize = FastTrackUtility.getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Data size: " + dataSize + "\n");
-
-      for (int index = 0; index < numberOfItems; index++)
-      {
-         pw.write("Item " + index + "\n");
-         int dataLength = blockOffsets[index + 1] - blockOffsets[index];
-         pw.write("  Data Length: " + dataLength + "\n");
-         pw.write(hexdump(buffer, startIndex + offset, dataLength, false, 16, ""));
-         offset += dataLength;
-      }
-
-      pw.write(hexdump(buffer, startIndex + offset, 4, true, 16, ""));
-      offset += 4;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
-   }
-
-   private int dumpUnknownBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      int offset = dumpBlockHeader("Unknown", blockStartIndex, pw, buffer, startIndex);
-      pw.write(hexdump(buffer, startIndex + offset, (length - offset), true, 16, ""));
-
-      pw.write("Total Block Size: " + length + "(" + Integer.toHexString(length) + ")\n\n");
-
-      return length;
+      RelationBlock block = new RelationBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
    }
 
    private int dumpBlockHeader(String blockType, int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
