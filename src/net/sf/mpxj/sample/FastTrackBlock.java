@@ -1,0 +1,45 @@
+
+package net.sf.mpxj.sample;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+
+public abstract class FastTrackBlock
+{
+   public void read(byte[] buffer, int startIndex, int length)
+   {
+      m_header = new FastTrackBlockHeader().read(buffer, startIndex);
+      int offset = readData(buffer, startIndex, m_header.getOffset());
+
+      if (length > offset)
+      {
+         m_trailer = new byte[length - offset];
+         System.arraycopy(buffer, startIndex + offset, m_trailer, 0, m_trailer.length);
+      }
+      else
+      {
+         m_trailer = new byte[0];
+      }
+   }
+
+   protected abstract int readData(byte[] buffer, int startIndex, int offset);
+
+   protected abstract void dumpData(PrintWriter pw);
+
+   @Override public String toString()
+   {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("[" + getClass().getSimpleName());
+      pw.println(m_header.toString());
+      dumpData(pw);
+      pw.print("  Trailer: " + FastTrackUtility.hexdump(m_trailer, 0, m_trailer.length, false, 16, ""));
+      pw.println("]");
+      pw.flush();
+      return (os.toString());
+
+   }
+
+   private FastTrackBlockHeader m_header;
+   private byte[] m_trailer;
+}
