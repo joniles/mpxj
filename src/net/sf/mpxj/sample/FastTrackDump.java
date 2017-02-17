@@ -30,7 +30,9 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -155,9 +157,10 @@ public class FastTrackDump
             int nameLength = getInt(buffer, offset);
             pw.write("Preamble Name Length: " + nameLength + "\n");
             offset += 4;
-            String name = new String(buffer, offset, nameLength, UTF16LE);
+            String name = new String(buffer, offset, nameLength, UTF16LE).toUpperCase();
             pw.println("Preamble Name: " + name);
-            m_currentPreambleName = name;
+            m_currentTable = new FastTrackTable(name);
+            m_tables.put(name, m_currentTable);
             break;
          }
       }
@@ -186,7 +189,15 @@ public class FastTrackDump
          {
             int childblockLength = childBlockEnd - childBlockStart;
             pw.flush();
-            dumpChildBlock(pw, buffer, startIndex, childBlockStart, childblockLength);
+
+            try
+            {
+               dumpChildBlock(pw, buffer, startIndex, childBlockStart, childblockLength);
+            }
+            catch (UnexpectedStructureException ex)
+            {
+               pw.println("ABORTED CHILD BLOCK - unexpected structure");
+            }
          }
          childBlockStart = childBlockEnd;
       }
@@ -199,12 +210,12 @@ public class FastTrackDump
       byte value = buffer[startIndex];
       switch (value)
       {
-      //case (byte) 0x6E:
-      //case (byte) 0x6F:
-      //         {
-      //            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 48, 4);
-      //            break;
-      //         }
+         case (byte) 0x6E:
+         case (byte) 0x6F:
+         {
+            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 48, length);
+            break;
+         }
 
          case (byte) 0x73:
          case (byte) 0x6C:
@@ -273,7 +284,7 @@ public class FastTrackDump
          case (byte) 0x68:
          case (byte) 0x69:
          {
-            dumpCreatedBlock(blockStartIndex, pw, buffer, startIndex);
+            readStrings(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
@@ -358,49 +369,54 @@ public class FastTrackDump
       return offset;
    }
 
-   private int dumpCreatedBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
+   private void readStrings(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      int offset = dumpBlockHeader("Created", blockStartIndex, pw, buffer, startIndex);
-      offset = skipTo(pw, offset, buffer, startIndex, 0x000F);
+      FastTrackStringBlock block = new FastTrackStringBlock().read(buffer, startIndex, length);
+      pw.println(block.toString());
 
-      int numberOfItems = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Number of items: " + numberOfItems + "\n");
-
-      int offsetToData = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Offset to data: " + offsetToData + "\n");
-
-      int[] blockOffsets = new int[numberOfItems + 1];
-      for (int index = 0; index <= numberOfItems; index++)
-      {
-         int offsetInBlock = getInt(buffer, startIndex + offset);
-         blockOffsets[index] = offsetInBlock;
-         offset += 4;
-         pw.write("Item " + index + " offset in block:" + offsetInBlock + "\n");
-      }
-
-      int dataSize = getInt(buffer, startIndex + offset);
-      offset += 4;
-      pw.write("Data size: " + dataSize + "\n");
-
-      for (int index = 0; index < numberOfItems; index++)
-      {
-         pw.write("Item " + index + "\n");
-         int itemNameLength = blockOffsets[index + 1] - blockOffsets[index];
-         pw.write("  Item Name Length: " + itemNameLength + "\n");
-         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-         offset += itemNameLength;
-         pw.write("  Item Name: " + itemName + "\n");
-
-      }
-
-      pw.write(hexdump(buffer, startIndex + offset, 8, true, 16, ""));
-      offset += 8;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
+      //      FastTrackBlockHeader header = new FastTrackBlockHeader().read(buffer, startIndex);
+      //      pw.println(header.toString());
+      //      int offset = header.getOffset();
+      //      offset = skipTo(pw, offset, buffer, startIndex, 0x000F);
+      //
+      //      int numberOfItems = getInt(buffer, startIndex + offset);
+      //      offset += 4;
+      //      pw.write("Number of items: " + numberOfItems + "\n");
+      //
+      //      int offsetToData = getInt(buffer, startIndex + offset);
+      //      offset += 4;
+      //      pw.write("Offset to data: " + offsetToData + "\n");
+      //
+      //      int[] blockOffsets = new int[numberOfItems + 1];
+      //      for (int index = 0; index <= numberOfItems; index++)
+      //      {
+      //         int offsetInBlock = getInt(buffer, startIndex + offset);
+      //         blockOffsets[index] = offsetInBlock;
+      //         offset += 4;
+      //         pw.write("Item " + index + " offset in block:" + offsetInBlock + "\n");
+      //      }
+      //
+      //      int dataSize = getInt(buffer, startIndex + offset);
+      //      offset += 4;
+      //      pw.write("Data size: " + dataSize + "\n");
+      //
+      //      for (int index = 0; index < numberOfItems; index++)
+      //      {
+      //         pw.write("Item " + index + "\n");
+      //         int itemNameLength = blockOffsets[index + 1] - blockOffsets[index];
+      //         pw.write("  Item Name Length: " + itemNameLength + "\n");
+      //         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
+      //         offset += itemNameLength;
+      //         pw.write("  Item Name: " + itemName + "\n");
+      //
+      //      }
+      //
+      //      pw.write(hexdump(buffer, startIndex + offset, 8, true, 16, ""));
+      //      offset += 8;
+      //
+      //      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
+      //
+      //      return offset;
    }
 
    private int dumpBooleanOptionsBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
@@ -476,8 +492,6 @@ public class FastTrackDump
          pw.write("Item 1: " + hexdump(buffer, startIndex + offset, 8, false, 16, ""));
          offset += 8;
       }
-      //      pw.write(hexdump(buffer, startIndex + offset, 25, true, 16, ""));
-      //      offset += 25;
 
       pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
 
@@ -671,7 +685,7 @@ public class FastTrackDump
       {
          String name = new String(buffer, startIndex + offset, nameLength, UTF16LE);
          offset += nameLength;
-         String fullName = m_currentPreambleName + "." + name;
+         String fullName = m_currentTable.getName() + "." + name;
          pw.write("Name: " + fullName + "\n");
          m_childBlockNames.add(fullName);
 
@@ -748,6 +762,10 @@ public class FastTrackDump
       int numberOfItems = getInt(buffer, startIndex + offset);
       offset += 4;
       pw.write("Number of items: " + numberOfItems + "\n");
+      if (numberOfItems < 0 || numberOfItems > 1000000)
+      {
+         throw new UnexpectedStructureException();
+      }
 
       int itemLength = getShort(buffer, startIndex + offset);
       offset += 2;
@@ -991,7 +1009,8 @@ public class FastTrackDump
       return (sb.toString());
    }
 
-   private String m_currentPreambleName = "";
+   private final Map<String, FastTrackTable> m_tables = new HashMap<String, FastTrackTable>();
+   private FastTrackTable m_currentTable;
    private final Set<String> m_childBlockNames = new TreeSet<String>();
 
    private static final char[] HEX_DIGITS =
