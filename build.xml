@@ -303,6 +303,7 @@
 			<srcfile />
 			<fileset dir="${lib.net.dir}">
 				<include name="**/*.dll" />
+				<exclude name="**/ikvm-native*.dll" />
 			</fileset>
 		</apply>
 
@@ -592,6 +593,7 @@
 			<arg value="${current.version}"/>
 			<arg value="-verbosity"/>
 			<arg value="quiet"/>
+			<arg value="-nopackageanalysis"/>
 		</exec>
 	</target>
 
