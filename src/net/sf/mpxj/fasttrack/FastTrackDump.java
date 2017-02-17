@@ -217,17 +217,27 @@ public class FastTrackDump
 
          case (byte) 0x6F:
          {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 48, length);
+            readTimes(blockStartIndex, pw, buffer, startIndex, length);
+            break;
+         }
+
+         case (byte) 0x71:
+         {
+            readDurations(blockStartIndex, pw, buffer, startIndex, length);
+            break;
+         }
+
+         case (byte) 0x46:
+         {
+            readPercents(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
          case (byte) 0x73:
          case (byte) 0x6C:
-         case (byte) 0x71:
          case (byte) 0x40:
          case (byte) 0x5C:
          case (byte) 0x6D:
-         case (byte) 0x46:
          case (byte) 0x70:
          {
             dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, length);
@@ -301,6 +311,27 @@ public class FastTrackDump
    private void readDates(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
       DateBlock block = new DateBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
+   private void readTimes(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      TimeBlock block = new TimeBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
+   private void readDurations(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      DurationBlock block = new DurationBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
+   private void readPercents(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      PercentBlock block = new PercentBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
