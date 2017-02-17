@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.sample;
+package net.sf.mpxj.fasttrack;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -243,7 +243,7 @@ public class FastTrackDump
 
          case (byte) 0x59:
          {
-            readEnums(blockStartIndex, pw, buffer, startIndex);
+            readEnums(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
@@ -294,12 +294,6 @@ public class FastTrackDump
             break;
          }
 
-         //         case (byte) 0x79:
-         //         {
-         //            dumpCalculationBlock(blockStartIndex, pw, buffer, startIndex);
-         //            break;
-         //         }
-
          default:
          {
             dumpUnknownBlock(blockStartIndex, pw, buffer, startIndex, length);
@@ -324,26 +318,11 @@ public class FastTrackDump
       return offset;
    }
 
-   private int readEnums(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
+   private void readEnums(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      int offset = dumpBlockHeader("Options", blockStartIndex, pw, buffer, startIndex);
-
-      pw.write(hexdump(buffer, startIndex + offset, 34, false, 16, ""));
-      offset += 34;
-
-      offset = dumpStringsWithLengths(pw, offset, buffer, startIndex, true);
-
-      pw.write(hexdump(buffer, startIndex + offset, 4, false, 16, ""));
-      offset += 4;
-
-      offset = dumpFixedSizeItems(pw, offset, buffer, startIndex);
-
-      pw.write(hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-      offset += 2;
-
-      pw.write("Total Block Size: " + offset + "(" + Integer.toHexString(offset) + ")\n\n");
-
-      return offset;
+      EnumBlock block = new EnumBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
    }
 
    private int dumpAssignmentBlock(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex)
@@ -370,21 +349,21 @@ public class FastTrackDump
 
    private void readStrings(PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      FastTrackStringBlock block = new FastTrackStringBlock();
+      StringBlock block = new StringBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
 
    private void readBooleans(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      FastTrackBooleanBlock block = new FastTrackBooleanBlock();
+      BooleanBlock block = new BooleanBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
 
    private void readDoubles(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
-      FastTrackDoubleBlock block = new FastTrackDoubleBlock();
+      DoubleBlock block = new DoubleBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
@@ -563,27 +542,6 @@ public class FastTrackDump
       }
       return offset;
    }
-
-   //   private int NEWdumpStringsWithLengths(PrintWriter pw, int offset, byte[] buffer, int startIndex)
-   //   {
-   //      int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
-   //      offset += 4;
-   //      pw.write("Number of items: " + numberOfItems + "\n");
-   //
-   //      for (int index = 0; index <= numberOfItems; index++)
-   //      {
-   //         pw.write("Item " + index + "\n");
-   //         pw.write("  " + hexdump(buffer, startIndex + offset, 2, false, 16, ""));
-   //         offset += 2;
-   //         int itemNameLength = FastTrackUtility.getInt(buffer, startIndex + offset);
-   //         offset += 4;
-   //         pw.write("  Item Name Length: " + itemNameLength + "\n");
-   //         String itemName = new String(buffer, startIndex + offset, itemNameLength, UTF16LE);
-   //         offset += itemNameLength;
-   //         pw.write("  Item Name: " + itemName + "\n");
-   //      }
-   //      return offset;
-   //   }
 
    private int dumpFixedSizeItems(PrintWriter pw, int offset, byte[] buffer, int startIndex)
    {

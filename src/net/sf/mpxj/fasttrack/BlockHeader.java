@@ -1,13 +1,13 @@
 
-package net.sf.mpxj.sample;
+package net.sf.mpxj.fasttrack;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
-public class FastTrackBlockHeader
+public class BlockHeader
 {
 
-   public FastTrackBlockHeader read(byte[] buffer, int startIndex)
+   public BlockHeader read(byte[] buffer, int startIndex)
    {
       m_offset = 0;
 

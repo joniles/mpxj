@@ -1,14 +1,14 @@
 
-package net.sf.mpxj.sample;
+package net.sf.mpxj.fasttrack;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
-public abstract class FastTrackBlock
+public abstract class AbstractBlock
 {
    public void read(byte[] buffer, int startIndex, int length)
    {
-      m_header = new FastTrackBlockHeader().read(buffer, startIndex);
+      m_header = new BlockHeader().read(buffer, startIndex);
       int offset = readData(buffer, startIndex, m_header.getOffset());
 
       if (length > offset)
@@ -40,6 +40,6 @@ public abstract class FastTrackBlock
 
    }
 
-   private FastTrackBlockHeader m_header;
+   private BlockHeader m_header;
    private byte[] m_trailer;
 }

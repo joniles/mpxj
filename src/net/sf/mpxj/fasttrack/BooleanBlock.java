@@ -1,16 +1,19 @@
 
-package net.sf.mpxj.sample;
+package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-public class FastTrackBooleanBlock extends FastTrackBlock
+public class BooleanBlock extends AbstractBlock
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
       // Skip bytes
       offset += 34;
-      m_options = FastTrackUtility.getStringsWithLengths(offset, buffer, startIndex, false);
+
+      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
+      m_options = options.getData();
+      offset = options.getOffset();
 
       offset = FastTrackUtility.skipTo(offset, buffer, startIndex, 0x000F);
 

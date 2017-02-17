@@ -1,9 +1,9 @@
 
-package net.sf.mpxj.sample;
+package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-public class FastTrackStringBlock extends FastTrackBlock
+public class StringBlock extends AbstractBlock
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
