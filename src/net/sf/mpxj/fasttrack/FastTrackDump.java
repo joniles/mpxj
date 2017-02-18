@@ -125,8 +125,6 @@ public class FastTrackDump
 
    private final void dumpBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer)
    {
-      // Offset is not being stored in the block
-      //pw.write("Offset: " + startIndex + " (" + Integer.toHexString(startIndex) + ")\n");
       pw.write("Block Index: " + blockIndex + "\n");
       pw.write("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")\n");
       pw.write("\n");
@@ -233,13 +231,27 @@ public class FastTrackDump
             break;
          }
 
-         case (byte) 0x73: // integer
-         case (byte) 0x6C: // integer
-         case (byte) 0x5C: // calendar
+         case (byte) 0x6C:
+         case (byte) 0x73:
+         {
+            readShorts(blockStartIndex, pw, buffer, startIndex, length);
+            break;
+         }
+
          case (byte) 0x6D: // timestamp, version
          case (byte) 0x70: // double (priority, cost, work)
          {
             dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, length);
+            break;
+         }
+
+         case (byte) 0x5C: // calendar
+         {
+            pw.println("Calendar");
+            pw.write(hexdump(buffer, startIndex, length, true, 16, ""));
+            pw.flush();
+            readCalendars(blockStartIndex, pw, buffer, startIndex, length);
+
             break;
          }
 
@@ -342,9 +354,23 @@ public class FastTrackDump
       pw.println(block.toString());
    }
 
+   private void readShorts(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      ShortBlock block = new ShortBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
    private void readEnums(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
       EnumBlock block = new EnumBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
+   private void readCalendars(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      CalendarBlock block = new CalendarBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
