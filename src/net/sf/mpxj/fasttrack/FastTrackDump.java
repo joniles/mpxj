@@ -238,20 +238,21 @@ public class FastTrackDump
             break;
          }
 
-         case (byte) 0x6D: // timestamp, version
-         case (byte) 0x70: // double (priority, cost, work)
+         case (byte) 0x6D:
          {
-            dumpFixedDataBlock(blockStartIndex, pw, buffer, startIndex, 18, length);
+            readIdentifiers(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
-         case (byte) 0x5C: // calendar
+         case (byte) 0x70:
          {
-            pw.println("Calendar");
-            pw.write(hexdump(buffer, startIndex, length, true, 16, ""));
-            pw.flush();
-            readCalendars(blockStartIndex, pw, buffer, startIndex, length);
+            readNumbers(blockStartIndex, pw, buffer, startIndex, length);
+            break;
+         }
 
+         case (byte) 0x5C:
+         {
+            readCalendars(blockStartIndex, pw, buffer, startIndex, length);
             break;
          }
 
@@ -354,6 +355,13 @@ public class FastTrackDump
       pw.println(block.toString());
    }
 
+   private void readIdentifiers(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      IdentifierBlock block = new IdentifierBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
    private void readShorts(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
       ShortBlock block = new ShortBlock();
@@ -399,6 +407,13 @@ public class FastTrackDump
    private void readDoubles(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
    {
       DoubleBlock block = new DoubleBlock();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+   }
+
+   private void readNumbers(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
+   {
+      NumberBlock block = new NumberBlock();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
    }
