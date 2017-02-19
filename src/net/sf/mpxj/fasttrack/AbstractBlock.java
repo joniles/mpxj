@@ -4,7 +4,7 @@ package net.sf.mpxj.fasttrack;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
-public abstract class AbstractBlock
+public abstract class AbstractBlock implements FastTrackBlock
 {
    public void read(byte[] buffer, int startIndex, int length)
    {
@@ -26,6 +26,11 @@ public abstract class AbstractBlock
 
    protected abstract void dumpData(PrintWriter pw);
 
+   @Override public Object[] getData()
+   {
+      return m_data;
+   }
+
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -42,4 +47,5 @@ public abstract class AbstractBlock
 
    private BlockHeader m_header;
    private byte[] m_trailer;
+   protected Object[] m_data;
 }

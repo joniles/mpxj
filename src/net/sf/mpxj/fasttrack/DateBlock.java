@@ -36,14 +36,12 @@ public class DateBlock extends AbstractBlock
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       pw.println("  [Data");
-      for (Date item : m_data)
+      for (Object item : m_data)
       {
-         pw.println("    " + df.format(item));
+         pw.println("    " + df.format((Date) item));
       }
       pw.println("  ]");
    }
-
-   private Date[] m_data;
 
    /**
     * 31/12/1979 00:00.

@@ -20,12 +20,10 @@ public class RelationBlock extends AbstractBlock
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");
-      for (String item : m_data)
+      for (Object item : m_data)
       {
          pw.println("    " + item);
       }
       pw.println("  ]");
    }
-
-   private String[] m_data;
 }

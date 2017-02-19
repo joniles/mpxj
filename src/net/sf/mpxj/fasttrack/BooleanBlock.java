@@ -17,7 +17,7 @@ public class BooleanBlock extends AbstractBlock
 
       offset = FastTrackUtility.skipTo(offset, buffer, startIndex, 0x000F);
 
-      m_data = new boolean[FastTrackUtility.getInt(buffer, startIndex + offset) + 1];
+      m_data = new Boolean[FastTrackUtility.getInt(buffer, startIndex + offset) + 1];
       offset += 4;
 
       // Data length
@@ -33,7 +33,7 @@ public class BooleanBlock extends AbstractBlock
       {
          int value = FastTrackUtility.getShort(buffer, startIndex + offset);
          offset += 2;
-         m_data[index] = (value == 2);
+         m_data[index] = Boolean.valueOf(value == 2);
       }
 
       return offset;
@@ -49,7 +49,7 @@ public class BooleanBlock extends AbstractBlock
       pw.println("  ]");
 
       pw.println("  [Data");
-      for (boolean item : m_data)
+      for (Object item : m_data)
       {
          pw.println("    " + item);
       }
@@ -57,5 +57,4 @@ public class BooleanBlock extends AbstractBlock
    }
 
    private String[] m_options;
-   private boolean[] m_data;
 }

@@ -15,10 +15,10 @@ public class PercentBlock extends AbstractBlock
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();
-      m_data = new double[rawData.length];
+      m_data = new Double[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         m_data[index] = FastTrackUtility.getDouble(rawData[index], 0);
+         m_data[index] = Double.valueOf(FastTrackUtility.getDouble(rawData[index], 0));
       }
 
       return offset;
@@ -27,12 +27,10 @@ public class PercentBlock extends AbstractBlock
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");
-      for (double item : m_data)
+      for (Object item : m_data)
       {
          pw.println("    " + item);
       }
       pw.println("  ]");
    }
-
-   private double[] m_data;
 }

@@ -37,12 +37,10 @@ public class DurationBlock extends AbstractBlock
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");
-      for (Duration item : m_data)
+      for (Object item : m_data)
       {
          pw.println("    " + item);
       }
       pw.println("  ]");
    }
-
-   private Duration[] m_data;
 }

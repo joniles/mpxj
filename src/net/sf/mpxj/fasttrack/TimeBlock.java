@@ -38,12 +38,10 @@ public class TimeBlock extends AbstractBlock
    {
       DateFormat df = new SimpleDateFormat("HH:mm:ss");
       pw.println("  [Data");
-      for (Date item : m_data)
+      for (Object item : m_data)
       {
-         pw.println("    " + df.format(item));
+         pw.println("    " + df.format((Date) item));
       }
       pw.println("  ]");
    }
-
-   private Date[] m_data;
 }

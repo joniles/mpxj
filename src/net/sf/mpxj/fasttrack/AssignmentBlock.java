@@ -35,7 +35,7 @@ public class AssignmentBlock extends AbstractBlock
       pw.println("  ]");
 
       pw.println("  [Data");
-      for (String item : m_data)
+      for (Object item : m_data)
       {
          pw.println("    " + item);
       }
@@ -43,5 +43,4 @@ public class AssignmentBlock extends AbstractBlock
    }
 
    private String[] m_options;
-   private String[] m_data;
 }

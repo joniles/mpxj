@@ -15,10 +15,10 @@ public class ShortBlock extends AbstractBlock
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();
-      m_data = new int[rawData.length];
+      m_data = new Integer[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         m_data[index] = FastTrackUtility.getShort(rawData[index], 0);
+         m_data[index] = Integer.valueOf(FastTrackUtility.getShort(rawData[index], 0));
       }
 
       return offset;
@@ -27,12 +27,10 @@ public class ShortBlock extends AbstractBlock
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");
-      for (int item : m_data)
+      for (Object item : m_data)
       {
          pw.println("    " + item);
       }
       pw.println("  ]");
    }
-
-   private int[] m_data;
 }

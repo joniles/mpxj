@@ -96,7 +96,7 @@ public class FastTrackDump
          if (matchPattern(PARENT_BLOCK_PATTERNS, buffer, index))
          {
             System.out.println("Block start: " + index);
-            blocks.add(index);
+            blocks.add(Integer.valueOf(index));
          }
       }
 
