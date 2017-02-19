@@ -24,9 +24,12 @@ public class DateBlock extends AbstractBlock
       for (int index = 0; index < rawData.length; index++)
       {
          int value = FastTrackUtility.getInt(rawData[index], 0);
-         cal.setTimeInMillis(DATE_EPOCH);
-         cal.add(Calendar.DAY_OF_YEAR, value);
-         m_data[index] = cal.getTime();
+         if (value > 0)
+         {
+            cal.setTimeInMillis(DATE_EPOCH);
+            cal.add(Calendar.DAY_OF_YEAR, value);
+            m_data[index] = cal.getTime();
+         }
       }
 
       return offset;
@@ -38,7 +41,8 @@ public class DateBlock extends AbstractBlock
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         pw.println("    " + df.format((Date) item));
+         Object value = item == null ? "" : df.format((Date) item);
+         pw.println("    " + value);
       }
       pw.println("  ]");
    }

@@ -8,6 +8,13 @@ import net.sf.mpxj.TimeUnit;
 
 public final class FastTrackUtility
 {
+   public static final void validateSize(int size)
+   {
+      if (size < 0 || size > 100000)
+      {
+         throw new UnexpectedStructureException();
+      }
+   }
 
    public static final int getInt(byte[] data, int offset)
    {

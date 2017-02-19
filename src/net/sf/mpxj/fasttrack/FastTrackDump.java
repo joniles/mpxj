@@ -123,7 +123,7 @@ public class FastTrackDump
       pw.close();
    }
 
-   private final void dumpBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer)
+   private final void dumpBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer) throws Exception
    {
       pw.write("Block Index: " + blockIndex + "\n");
       pw.write("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")\n");
@@ -164,7 +164,7 @@ public class FastTrackDump
       }
    }
 
-   private void dumpChildBlocks(PrintWriter pw, byte[] buffer, int startIndex, int blockLength)
+   private void dumpChildBlocks(PrintWriter pw, byte[] buffer, int startIndex, int blockLength) throws Exception
    {
       int endIndex = startIndex + blockLength;
       List<Integer> blocks = new ArrayList<Integer>();
@@ -200,213 +200,17 @@ public class FastTrackDump
       }
    }
 
-   private void dumpChildBlock(PrintWriter pw, byte[] buffer, int blockStartIndex, int startIndex, int length)
+   private void dumpChildBlock(PrintWriter pw, byte[] buffer, int blockStartIndex, int startIndex, int length) throws Exception
    {
-      pw.write("Child Block\n");
-
-      byte value = buffer[startIndex];
-      switch (value)
+      int value = FastTrackUtility.getByte(buffer, startIndex);
+      Class<?> klass = COLUMN_MAP[value];
+      if (klass != null)
       {
-         case (byte) 0x6E:
-         {
-            readDates(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x6F:
-         {
-            readTimes(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x71:
-         {
-            readDurations(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x46:
-         {
-            readPercents(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x6C:
-         case (byte) 0x73:
-         {
-            readShorts(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x6D:
-         {
-            readIdentifiers(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x70:
-         {
-            readNumbers(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x5C:
-         {
-            readCalendars(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x4B:
-         {
-            readIntegers(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x49:
-         {
-            readAssignments(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x59:
-         {
-            readEnums(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x53:
-         {
-            readBooleans(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x5b:
-         case (byte) 0x4A:
-         case (byte) 0x54:
-         {
-            readDoubles(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x57:
-         case (byte) 0x58:
-         {
-            readRelations(blockStartIndex, pw, buffer, startIndex, length);
-            break;
-         }
-
-         case (byte) 0x68:
-         case (byte) 0x69:
-         {
-            readStrings(pw, buffer, startIndex, length);
-            break;
-         }
+         FastTrackBlock block = (FastTrackBlock) klass.newInstance();
+         block.read(buffer, startIndex, length);
+         pw.println(block.toString());
+         m_currentTable.addColumn(block);
       }
-   }
-
-   private void readDates(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      DateBlock block = new DateBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readTimes(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      TimeBlock block = new TimeBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readDurations(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      DurationBlock block = new DurationBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readPercents(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      PercentBlock block = new PercentBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readIntegers(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      IntegerBlock block = new IntegerBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readIdentifiers(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      IdentifierBlock block = new IdentifierBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readShorts(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      ShortBlock block = new ShortBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readEnums(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      EnumBlock block = new EnumBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readCalendars(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      CalendarBlock block = new CalendarBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readAssignments(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      AssignmentBlock block = new AssignmentBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readStrings(PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      StringBlock block = new StringBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readBooleans(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      BooleanBlock block = new BooleanBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readDoubles(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      DoubleBlock block = new DoubleBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readNumbers(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      NumberBlock block = new NumberBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-   }
-
-   private void readRelations(int blockStartIndex, PrintWriter pw, byte[] buffer, int startIndex, int length)
-   {
-      RelationBlock block = new RelationBlock();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
    }
 
    private final boolean matchPattern(byte[][] patterns, byte[] buffer, int bufferIndex)
@@ -591,6 +395,31 @@ public class FastTrackDump
          0x00
       }
    };
+
+   private static final Class<?>[] COLUMN_MAP = new Class<?>[256];
+   static
+   {
+      COLUMN_MAP[0x6E] = DateBlock.class;
+      COLUMN_MAP[0x6F] = TimeBlock.class;
+      COLUMN_MAP[0x71] = DurationBlock.class;
+      COLUMN_MAP[0x46] = PercentBlock.class;
+      COLUMN_MAP[0x6C] = ShortBlock.class;
+      COLUMN_MAP[0x73] = ShortBlock.class;
+      COLUMN_MAP[0x6D] = IdentifierBlock.class;
+      COLUMN_MAP[0x70] = NumberBlock.class;
+      COLUMN_MAP[0x5C] = CalendarBlock.class;
+      COLUMN_MAP[0x4B] = IntegerBlock.class;
+      COLUMN_MAP[0x49] = AssignmentBlock.class;
+      COLUMN_MAP[0x59] = EnumBlock.class;
+      COLUMN_MAP[0x53] = BooleanBlock.class;
+      COLUMN_MAP[0x5b] = DoubleBlock.class;
+      COLUMN_MAP[0x4A] = DoubleBlock.class;
+      COLUMN_MAP[0x54] = DoubleBlock.class;
+      COLUMN_MAP[0x57] = RelationBlock.class;
+      COLUMN_MAP[0x58] = RelationBlock.class;
+      COLUMN_MAP[0x68] = StringBlock.class;
+      COLUMN_MAP[0x69] = StringBlock.class;
+   }
 
    private static final Charset UTF16LE = Charset.forName("UTF-16LE");
 }

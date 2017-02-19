@@ -26,6 +26,11 @@ public abstract class AbstractBlock implements FastTrackBlock
 
    protected abstract void dumpData(PrintWriter pw);
 
+   public String getName()
+   {
+      return m_header.getName();
+   }
+
    @Override public Object[] getData()
    {
       return m_data;

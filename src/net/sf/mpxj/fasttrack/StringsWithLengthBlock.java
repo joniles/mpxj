@@ -9,6 +9,8 @@ public class StringsWithLengthBlock
       int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
       offset += 4;
 
+      FastTrackUtility.validateSize(numberOfItems);
+
       if (inclusive)
       {
          ++numberOfItems;

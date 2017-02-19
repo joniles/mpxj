@@ -12,10 +12,7 @@ public class FixedSizeItemsBlock
       int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
       offset += 4;
 
-      if (numberOfItems < 0 || numberOfItems > 1000000)
-      {
-         throw new UnexpectedStructureException();
-      }
+      FastTrackUtility.validateSize(numberOfItems);
 
       int itemLength = FastTrackUtility.getShort(buffer, startIndex + offset);
       offset += 2;
