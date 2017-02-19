@@ -4,6 +4,8 @@ package net.sf.mpxj.fasttrack;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 
+import net.sf.mpxj.TimeUnit;
+
 public final class FastTrackUtility
 {
 
@@ -64,6 +66,66 @@ public final class FastTrackUtility
       {
          result = 0;
       }
+      return result;
+   }
+
+   public static final int getByte(byte[] data, int offset)
+   {
+      int result = (data[offset] & 0xFF);
+      return result;
+   }
+
+   public static final TimeUnit getTimeUnit(int value)
+   {
+      TimeUnit result = null;
+
+      switch (value)
+      {
+         case 1:
+         {
+            // TEMP - means same as document format?
+            result = TimeUnit.ELAPSED_DAYS;
+            break;
+         }
+
+         case 2:
+         {
+            result = TimeUnit.HOURS;
+            break;
+         }
+
+         case 4:
+         {
+            result = TimeUnit.DAYS;
+            break;
+         }
+
+         case 6:
+         {
+            result = TimeUnit.WEEKS;
+            break;
+         }
+
+         case 8:
+         case 10:
+         {
+            result = TimeUnit.MONTHS;
+            break;
+         }
+
+         case 12:
+         {
+            result = TimeUnit.YEARS;
+            break;
+         }
+
+         default:
+         {
+            System.out.println("FIXME: " + value);
+            break;
+         }
+      }
+
       return result;
    }
 

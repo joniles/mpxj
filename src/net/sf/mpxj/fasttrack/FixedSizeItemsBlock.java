@@ -32,9 +32,6 @@ public class FixedSizeItemsBlock
          offset += itemLength;
       }
 
-      // Skip extra row
-      offset += itemLength;
-
       m_offset = offset;
 
       return this;

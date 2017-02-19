@@ -3,6 +3,9 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
+
 public class DurationBlock extends AbstractBlock
 {
 
@@ -13,12 +16,19 @@ public class DurationBlock extends AbstractBlock
 
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
+      int timeUnitValue = FastTrackUtility.getByte(buffer, startIndex + offset);
+      TimeUnit unit = FastTrackUtility.getTimeUnit(timeUnitValue);
 
       byte[][] rawData = data.getData();
-      m_data = new double[rawData.length];
+      m_data = new Duration[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         m_data[index] = FastTrackUtility.getDouble(rawData[index], 0);
+         double durationValue = FastTrackUtility.getDouble(rawData[index], 0);
+         if (timeUnitValue == 10)
+         {
+            durationValue *= 3;
+         }
+         m_data[index] = Duration.getInstance(durationValue, unit);
       }
 
       return offset;
@@ -27,12 +37,12 @@ public class DurationBlock extends AbstractBlock
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");
-      for (double item : m_data)
+      for (Duration item : m_data)
       {
          pw.println("    " + item);
       }
       pw.println("  ]");
    }
 
-   private double[] m_data;
+   private Duration[] m_data;
 }
