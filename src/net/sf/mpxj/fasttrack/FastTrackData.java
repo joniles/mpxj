@@ -5,11 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.mpxj.common.CharsetHelper;
 
 public class FastTrackData
 {
@@ -79,6 +80,12 @@ public class FastTrackData
       int blockLength = buffer.length - startIndex;
       dumpBlock(blockIndex, pw, startIndex, blockLength, buffer);
 
+      pw.println("TABLES");
+      for (String tableName : m_tables.keySet())
+      {
+         pw.println(tableName);
+      }
+
       is.close();
       pw.flush();
       pw.close();
@@ -116,12 +123,11 @@ public class FastTrackData
       {
          if (matchPattern(PREAMBLE_BLOCK_PATTERNS, buffer, index))
          {
-
             int offset = index + 7;
             int nameLength = FastTrackUtility.getInt(buffer, offset);
             pw.write("Preamble Name Length: " + nameLength + "\n");
             offset += 4;
-            String name = new String(buffer, offset, nameLength, UTF16LE).toUpperCase();
+            String name = new String(buffer, offset, nameLength, CharsetHelper.UTF16LE).toUpperCase();
             pw.println("Preamble Name: " + name);
             m_currentTable = new FastTrackTable(name);
             m_tables.put(name, m_currentTable);
@@ -299,6 +305,4 @@ public class FastTrackData
       COLUMN_MAP[0x68] = StringBlock.class;
       COLUMN_MAP[0x69] = StringBlock.class;
    }
-
-   private static final Charset UTF16LE = Charset.forName("UTF-16LE");
 }

@@ -93,6 +93,12 @@ public class FastTrackReader implements ProjectReader
       return m_project;
    }
 
+   private void processResources()
+   {
+      FastTrackTable table = m_data.getTable("RESOURCES");
+
+   }
+
    private FastTrackData m_data;
    private ProjectFile m_project;
    private EventManager m_eventManager;
