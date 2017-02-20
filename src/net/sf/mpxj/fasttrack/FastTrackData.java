@@ -1,25 +1,3 @@
-/*
- * file:       FastTrackDump.java
- * author:     Jon Iles
- * copyright:  (c) Packwood Software 2017
- * date:       01/02/2017
- */
-
-/*
- * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your
- * option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- */
 
 package net.sf.mpxj.fasttrack;
 
@@ -28,15 +6,12 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
-public class FastTrackDump
+public class FastTrackData
 {
    /**
     * Main method.
@@ -47,16 +22,16 @@ public class FastTrackDump
    {
       try
       {
-         if (args.length != 2)
+         if (args.length != 1)
          {
-            System.out.println("Usage: FasttrackDump <input FastTrack file name> <output text file name>");
+            System.out.println("Usage: FasttrackDump <input FastTrack file name>");
          }
          else
          {
             System.out.println("Dump started.");
             long start = System.currentTimeMillis();
-            FastTrackDump dump = new FastTrackDump();
-            dump.process(args[0], args[1]);
+            FastTrackData dump = new FastTrackData();
+            dump.process(new File(args[0]));
             long elapsed = System.currentTimeMillis() - start;
             System.out.println("Dump completed in " + elapsed + "ms");
          }
@@ -68,21 +43,13 @@ public class FastTrackDump
       }
    }
 
-   /**
-    * This method opens the input and output files and kicks
-    * off the processing.
-    *
-    * @param input Name of the input file
-    * @param output Name of the output file
-    * @throws Exception Thrown on file read errors
-    */
-   private void process(String input, String output) throws Exception
+   public void process(File file) throws Exception
    {
+      String output = "c:/temp/project1.txt";
       int blockIndex = 0;
-      File file = new File(input);
       int length = (int) file.length();
       byte[] buffer = new byte[length];
-      FileInputStream is = new FileInputStream(input);
+      FileInputStream is = new FileInputStream(file);
       PrintWriter pw = new PrintWriter(new FileWriter(output));
       int bytesRead = is.read(buffer);
       if (bytesRead != length)
@@ -112,15 +79,14 @@ public class FastTrackDump
       int blockLength = buffer.length - startIndex;
       dumpBlock(blockIndex, pw, startIndex, blockLength, buffer);
 
-      pw.write("\n\nChild Block Names\n");
-      for (String name : m_childBlockNames)
-      {
-         pw.write(name + "\n");
-      }
-
       is.close();
       pw.flush();
       pw.close();
+   }
+
+   public FastTrackTable getTable(String name)
+   {
+      return m_tables.get(name);
    }
 
    private final void dumpBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer) throws Exception
@@ -128,7 +94,7 @@ public class FastTrackDump
       pw.write("Block Index: " + blockIndex + "\n");
       pw.write("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")\n");
       pw.write("\n");
-      pw.write(hexdump(buffer, startIndex, blockLength, true, 16, ""));
+      pw.write(FastTrackUtility.hexdump(buffer, startIndex, blockLength, true, 16, ""));
       pw.write("\n\n");
 
       if (blockLength < 128)
@@ -237,95 +203,8 @@ public class FastTrackDump
       return match;
    }
 
-   public final String hexdump(byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
-   {
-      StringBuilder sb = new StringBuilder();
-      if (buffer != null)
-      {
-         int index = offset;
-         DecimalFormat df = new DecimalFormat("00000");
-
-         while (index < (offset + length))
-         {
-            if (index + columns > (offset + length))
-            {
-               columns = (offset + length) - index;
-            }
-
-            sb.append(prefix);
-            sb.append(df.format(index - offset));
-            sb.append(":");
-            sb.append(hexdump(buffer, index, columns, ascii));
-            sb.append('\n');
-
-            index += columns;
-         }
-      }
-
-      return (sb.toString());
-   }
-
-   public final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
-   {
-      StringBuilder sb = new StringBuilder();
-
-      if (buffer != null)
-      {
-         char c;
-         int loop;
-         int count = offset + length;
-
-         for (loop = offset; loop < count; loop++)
-         {
-            sb.append(" ");
-            sb.append(HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
-            sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
-         }
-
-         if (ascii == true)
-         {
-            sb.append("   ");
-
-            for (loop = offset; loop < count; loop++)
-            {
-               c = (char) buffer[loop];
-
-               if ((c > 200) || (c < 27))
-               {
-                  c = ' ';
-               }
-
-               sb.append(c);
-            }
-         }
-      }
-
-      return (sb.toString());
-   }
-
    private final Map<String, FastTrackTable> m_tables = new HashMap<String, FastTrackTable>();
    private FastTrackTable m_currentTable;
-   private final Set<String> m_childBlockNames = new TreeSet<String>();
-
-   private static final char[] HEX_DIGITS =
-   {
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F'
-   };
 
    private static final byte[][] PARENT_BLOCK_PATTERNS =
    {
