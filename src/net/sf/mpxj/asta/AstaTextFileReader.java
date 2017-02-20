@@ -39,6 +39,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
@@ -110,7 +111,7 @@ public final class AstaTextFileReader extends AbstractProjectReader
    {
       try
       {
-         InputStreamReader reader = new InputStreamReader(is, "UTF-8");
+         InputStreamReader reader = new InputStreamReader(is, CharsetHelper.UTF8);
          Tokenizer tk = new ReaderTokenizer(reader)
          {
             @Override protected boolean startQuotedIsValid(StringBuilder buffer)

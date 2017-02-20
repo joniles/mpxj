@@ -24,7 +24,6 @@
 package net.sf.mpxj.primavera;
 
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -71,6 +70,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -126,7 +126,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          // This is a hack to ensure that the incoming file has a namespace
          // which JAXB will accept.
          //
-         InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, UTF8);
+         InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, CharsetHelper.UTF8);
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -973,9 +973,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
 
-   private static final Charset UTF8 = Charset.forName("UTF8");
    private static final int NAMESPACE_SCOPE = 512;
-   private static final String NAMESPACE_REGEX = "xmlns=\\\".*\\\"";
+   private static final String NAMESPACE_REGEX = "xmlns=\\\".*BusinessObjects\\\"";
    private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects\"";
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();

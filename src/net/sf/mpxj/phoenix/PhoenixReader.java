@@ -101,6 +101,7 @@ public final class PhoenixReader extends AbstractProjectReader
          m_projectFile = new ProjectFile();
          m_phaseNameMap = new HashMap<String, Task>();
          m_phaseUuidMap = new HashMap<UUID, Task>();
+         m_activityMap = new HashMap<String, Task>();
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -163,6 +164,7 @@ public final class PhoenixReader extends AbstractProjectReader
          m_projectFile = null;
          m_phaseNameMap = null;
          m_phaseUuidMap = null;
+         m_activityMap = null;
       }
    }
 
@@ -320,11 +322,22 @@ public final class PhoenixReader extends AbstractProjectReader
       {
          for (Value value : phase.getValue())
          {
+            String name = value.getName();
+            UUID uuid = value.getUuid();
+
+            // Phases in compressed ppx files don't appear to have uuids
+            // The name is used as the unique identifier.
+            // Construct a UUID from the name
+            if (uuid == null)
+            {
+               uuid = UUID.nameUUIDFromBytes(name.getBytes());
+            }
+
             Task task = m_projectFile.addTask();
-            task.setName(value.getName());
-            task.setGUID(value.getUuid());
-            m_phaseNameMap.put(value.getName(), task);
-            m_phaseUuidMap.put(value.getUuid(), task);
+            task.setName(name);
+            task.setGUID(uuid);
+            m_phaseNameMap.put(name, task);
+            m_phaseUuidMap.put(uuid, task);
          }
       }
    }
@@ -377,6 +390,8 @@ public final class PhoenixReader extends AbstractProjectReader
       task.setMilestone(activityIsMilestone(activity));
       //activity.getUserDefined()
       task.setGUID(activity.getUuid());
+
+      m_activityMap.put(activity.getId(), task);
    }
 
    /**
@@ -451,7 +466,7 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void readAssignment(Resource resource, Assignment assignment)
    {
-      Task task = m_projectFile.getTaskByUniqueID(assignment.getActivity());
+      Task task = m_activityMap.get(assignment.getActivity());
       if (task != null)
       {
          task.addResourceAssignment(resource);
@@ -491,6 +506,7 @@ public final class PhoenixReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private Map<String, Task> m_phaseNameMap;
    private Map<UUID, Task> m_phaseUuidMap;
+   private Map<String, Task> m_activityMap;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
 

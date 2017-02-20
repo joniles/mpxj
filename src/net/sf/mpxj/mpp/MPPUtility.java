@@ -27,7 +27,6 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +36,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -416,7 +416,7 @@ public final class MPPUtility
    public static final String getUnicodeString(byte[] data, int offset)
    {
       int length = getUnicodeStringLengthInBytes(data, offset);
-      return length == 0 ? "" : new String(data, offset, length, UTF16LE);
+      return length == 0 ? "" : new String(data, offset, length, CharsetHelper.UTF16LE);
    }
 
    /**
@@ -439,7 +439,7 @@ public final class MPPUtility
       {
          length = maxLength;
       }
-      return length == 0 ? "" : new String(data, offset, length, UTF16LE);
+      return length == 0 ? "" : new String(data, offset, length, CharsetHelper.UTF16LE);
    }
 
    /**
@@ -698,6 +698,12 @@ public final class MPPUtility
          case 19:
          {
             units = TimeUnit.PERCENT;
+            break;
+         }
+
+         case 20:
+         {
+            units = TimeUnit.ELAPSED_PERCENT;
             break;
          }
 
@@ -1462,6 +1468,4 @@ public final class MPPUtility
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
-
-   private static final Charset UTF16LE = Charset.forName("UTF-16LE");
 }

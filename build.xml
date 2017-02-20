@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="5.6.0" />
+		<property name="current.version" value="5.6.4" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
@@ -45,7 +45,7 @@
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.9.0" />
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.10.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>
@@ -303,6 +303,7 @@
 			<srcfile />
 			<fileset dir="${lib.net.dir}">
 				<include name="**/*.dll" />
+				<exclude name="**/ikvm-native*.dll" />
 			</fileset>
 		</apply>
 
@@ -378,7 +379,11 @@
 		<delete dir="${vs.working.dir}" />
 	</target>
 
-	<target name="archive" depends="jar,ikvm-dll,vs-dll" description="Create library files"/>
+	<target name="changelog" description="Update changelog">
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/> 
+	</target>
+
+	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -588,6 +593,7 @@
 			<arg value="${current.version}"/>
 			<arg value="-verbosity"/>
 			<arg value="quiet"/>
+			<arg value="-nopackageanalysis"/>
 		</exec>
 	</target>
 

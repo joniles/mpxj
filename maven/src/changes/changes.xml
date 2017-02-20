@@ -7,7 +7,25 @@
    </properties> 
 
    <body>
-    <release version="5.6.1" date="Git HEAD">
+   	<release version="5.6.5" date="Git HEAD">
+	</release>   
+   
+   	<release version="5.6.4" date="16/02/2017">
+   		<action dev="joniles" type="update">UniversalProjectReader now recognises and handles byte order marks</action>
+   		<action dev="joniles" type="fix" issue="307">TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files</action>
+	</release>   
+   
+    <release version="5.6.3" date="08/02/2017">
+    	<action dev="joniles" type="update">Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.</action>
+    	<action dev="joniles" type="update">Updated to rtfparserkit 1.10.0 for improved RTF parsing.</action>
+	</release>   
+
+    <release version="5.6.2" date="06/02/2017">
+      <action dev="joniles" type="fix" issue="305">Failed to Parse error with Primavera 15.2 or 16.1 XML files</action>
+	</release>   
+   
+    <release version="5.6.1" date="03/02/2017">
+    	<action dev="joniles" type="fix">Correct resource assignment handling for Phoenix Project Manager schedules.</action>
 	</release>   
    
     <release version="5.6.0" date="29/01/2017">

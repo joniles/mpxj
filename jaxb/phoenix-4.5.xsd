@@ -169,7 +169,7 @@
 															<xs:sequence>
 																<xs:element name="assignment" maxOccurs="unbounded">
 																	<xs:complexType>
-																		<xs:attribute name="activity" type="xs:int"></xs:attribute>
+																		<xs:attribute name="activity" type="xs:string"></xs:attribute>
 																		<xs:attribute name="fixedfield" type="xs:string"></xs:attribute>
 																		<xs:attribute name="allocation" type="xs:int"></xs:attribute>
 																		<xs:attribute name="accrueat" type="xs:string"></xs:attribute>

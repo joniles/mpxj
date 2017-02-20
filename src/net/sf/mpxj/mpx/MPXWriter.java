@@ -342,11 +342,14 @@ public final class MPXWriter extends AbstractProjectWriter
             m_buffer.append(record.getParent().getName());
          }
 
-         DayType[] days = record.getDays();
-         for (int loop = 0; loop < days.length; loop++)
+         for (DayType day : record.getDays())
          {
+            if (day == null)
+            {
+               day = DayType.DEFAULT;
+            }
             m_buffer.append(m_delimiter);
-            m_buffer.append(days[loop].getValue());
+            m_buffer.append(day.getValue());
          }
 
          m_buffer.append(MPXConstants.EOL);
