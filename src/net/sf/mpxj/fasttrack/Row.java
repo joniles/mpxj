@@ -64,13 +64,7 @@ interface Row
     */
    public int getInt(String name);
 
-   /**
-    * Retrieve a timestamp attribute.
-    *
-    * @param name attribute name
-    * @return attribute value
-    */
-   //public Date getTimestamp(String name);
+   public Date getTimestamp(String dateName, String timeName);
 
    /**
     * Retrieve a duration attribute.

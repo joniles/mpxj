@@ -23,12 +23,16 @@ public class DateBlock extends AbstractBlock
       m_data = new Date[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         int value = FastTrackUtility.getInt(rawData[index], 0);
-         if (value > 0)
+         byte[] rawValue = rawData[index];
+         if (rawValue != null && rawValue.length >= 4)
          {
-            cal.setTimeInMillis(DATE_EPOCH);
-            cal.add(Calendar.DAY_OF_YEAR, value);
-            m_data[index] = cal.getTime();
+            int value = FastTrackUtility.getInt(rawValue, 0);
+            if (value > 0)
+            {
+               cal.setTimeInMillis(DATE_EPOCH);
+               cal.add(Calendar.DAY_OF_YEAR, value);
+               m_data[index] = cal.getTime();
+            }
          }
       }
 

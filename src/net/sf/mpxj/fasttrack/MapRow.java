@@ -1,6 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -78,24 +79,31 @@ class MapRow implements Row
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   /**
-    * {@inheritDoc}
-    */
-   //   @Override public Date getTimestamp(String name)
-   //   {
-   //      Date result;
-   //      // They are stored as seconds since Jan 1st, 2001 00:00
-   //      Integer value = getInteger(name);
-   //      if (value == null)
-   //      {
-   //         result = null;
-   //      }
-   //      else
-   //      {
-   //         result = new Date(TIMESTAMP_EPOCH + (value.longValue() * 1000));
-   //      }
-   //      return result;
-   //   }
+   @Override public Date getTimestamp(String dateName, String timeName)
+   {
+      Date result = null;
+      Date date = getDate(dateName);
+      if (date != null)
+      {
+         Calendar dateCal = Calendar.getInstance();
+         dateCal.setTime(date);
+
+         Date time = getDate(timeName);
+         if (time != null)
+         {
+            Calendar timeCal = Calendar.getInstance();
+            timeCal.setTime(time);
+            dateCal.set(Calendar.HOUR, timeCal.get(Calendar.HOUR));
+            dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
+            dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
+            dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
+         }
+
+         result = dateCal.getTime();
+      }
+
+      return result;
+   }
 
    @Override public Date getDate(String name)
    {
@@ -136,7 +144,7 @@ class MapRow implements Row
    @Override public UUID getUUID(String name)
    {
       String value = getString(name);
-      return UUID.fromString(value.substring(1, value.length() - 1));
+      return value == null ? null : UUID.fromString(value.substring(1, value.length() - 1));
    }
 
    /**

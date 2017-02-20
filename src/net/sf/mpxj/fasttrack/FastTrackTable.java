@@ -3,8 +3,9 @@ package net.sf.mpxj.fasttrack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class FastTrackTable
+public class FastTrackTable implements Iterable<MapRow>
 {
    public FastTrackTable(String name)
    {
@@ -25,6 +26,11 @@ public class FastTrackTable
          MapRow row = getRow(index);
          row.getMap().put(name, data[index]);
       }
+   }
+
+   @Override public Iterator<MapRow> iterator()
+   {
+      return m_rows.iterator();
    }
 
    private MapRow getRow(int index)
