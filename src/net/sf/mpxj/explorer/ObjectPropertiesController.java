@@ -98,16 +98,23 @@ public class ObjectPropertiesController
       int rowIndex = 0;
       for (Method method : methods)
       {
-         data[rowIndex][0] = getPropertyName(method);
+         String name = getPropertyName(method);
+         Object value;
          try
          {
-            data[rowIndex][1] = String.valueOf(method.invoke(object));
+            value = method.invoke(object);
          }
          catch (Exception ex)
          {
-            data[rowIndex][1] = ex.toString();
+            value = ex.toString();
          }
-         rowIndex++;
+
+         if (value != null)
+         {
+            data[rowIndex][0] = name;
+            data[rowIndex][1] = String.valueOf(value);
+            rowIndex++;
+         }
       }
 
       TableModel tableModel = new DefaultTableModel(data, headings)
