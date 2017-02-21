@@ -80,7 +80,7 @@ public class FastTrackReader implements ProjectReader
 
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoCalendarUniqueID(false);
-      config.setAutoTaskUniqueID(false);
+      config.setAutoTaskID(false);
       config.setAutoResourceUniqueID(false);
 
       m_eventManager.addProjectListeners(m_projectListeners);
@@ -147,11 +147,48 @@ public class FastTrackReader implements ProjectReader
 
    private void processTasks()
    {
-      // TODO: hierarchy, created (string timestamp format)
+      // TODO: work values, hierarchy, created (string timestamp format), hyperlinks
+      FastTrackTable activities = m_data.getTable("ACTIVITIES");
+      for (MapRow row : activities)
+      {
+         Task task = m_project.addTask();
+         task.setName(row.getString("Activity Name"));
+         task.setID(row.getInteger("Activity Row ID"));
+         //  Activity Row Number
+         task.setFlag(1, row.getBoolean("Flag 1"));
+         task.setFlag(2, row.getBoolean("Flag 2"));
+         task.setFlag(3, row.getBoolean("Flag 3"));
+         task.setFlag(4, row.getBoolean("Flag 4"));
+         task.setFlag(5, row.getBoolean("Flag 5"));
+         task.setFlag(6, row.getBoolean("Flag 6"));
+         task.setFlag(7, row.getBoolean("Flag 7"));
+         task.setFlag(8, row.getBoolean("Flag 8"));
+         task.setFlag(9, row.getBoolean("Flag 9"));
+         task.setFlag(10, row.getBoolean("Flag 10"));
+         task.setFlag(11, row.getBoolean("Flag 11"));
+         task.setFlag(12, row.getBoolean("Flag 12"));
+         task.setFlag(13, row.getBoolean("Flag 13"));
+         task.setFlag(14, row.getBoolean("Flag 14"));
+         task.setFlag(15, row.getBoolean("Flag 15"));
+         task.setFlag(16, row.getBoolean("Flag 16"));
+         task.setFlag(17, row.getBoolean("Flag 17"));
+         task.setFlag(18, row.getBoolean("Flag 18"));
+         task.setFlag(19, row.getBoolean("Flag 19"));
+         task.setFlag(20, row.getBoolean("Flag 20"));
+         //   Parent Tree
+         task.setText(1, row.getString("Text 1"));
+         task.setText(2, row.getString("Text 2"));
+         task.setText(3, row.getString("Text 3"));
+         task.setText(4, row.getString("Text 4"));
+         task.setText(5, row.getString("Text 5"));
+         task.setWBS(row.getString("WBS"));
+         task.setGUID(row.getUUID("_Activity GUID"));
+      }
+
       FastTrackTable table = m_data.getTable("ACTBARS");
       for (MapRow row : table)
       {
-         Task task = m_project.addTask();
+         Task task = m_project.getTaskByID(row.getInteger("Activity Row ID"));
          // % Used
          task.setActualDuration(row.getDuration("Actual Duration"));
          task.setActualFinish(row.getTimestamp("Actual Finish Date", "Actual Finish Time"));
@@ -214,12 +251,9 @@ public class FastTrackReader implements ProjectReader
          // Is fixed cost a boolean or a currency?
          // Is fixed duration a duration or a currency
          // what is free float?
-         task.setGUID(row.getUUID("_ActBar GUID"));
-         task.setID(row.getInteger("Activity Row ID"));
          task.setIgnoreResourceCalendar(row.getBoolean("Ignore Resource Calendars"));
          task.setLateFinish(row.getTimestamp("Late Finish Date", "Late Finish Time"));
          task.setLateStart(row.getTimestamp("Late Start Date", "Late Start Time"));
-         task.setName(row.getString("Activity Name"));
          task.setNumber(1, row.getDouble("Number 1"));
          task.setNumber(2, row.getDouble("Number 2"));
          task.setNumber(3, row.getDouble("Number 3"));
@@ -252,6 +286,8 @@ public class FastTrackReader implements ProjectReader
          // _BarStl
          // _yOffset
       }
+
+      m_project.updateStructure();
    }
 
    private FastTrackData m_data;
