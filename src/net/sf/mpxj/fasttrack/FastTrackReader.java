@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -82,6 +83,7 @@ public class FastTrackReader implements ProjectReader
       config.setAutoCalendarUniqueID(false);
       config.setAutoTaskID(false);
       config.setAutoResourceUniqueID(false);
+      config.setAutoWBS(false);
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
@@ -183,11 +185,14 @@ public class FastTrackReader implements ProjectReader
          task.setText(5, row.getString("Text 5"));
          task.setWBS(row.getString("WBS"));
          task.setGUID(row.getUUID("_Activity GUID"));
+
+         System.out.println(task);
       }
 
       FastTrackTable table = m_data.getTable("ACTBARS");
       for (MapRow row : table)
       {
+         System.out.println(row.getInteger("_Activity") + " " + row.getDuration("Duration"));
          Task task = m_project.getTaskByID(row.getInteger("Activity Row ID"));
          // % Used
          task.setActualDuration(row.getDuration("Actual Duration"));
@@ -285,13 +290,33 @@ public class FastTrackReader implements ProjectReader
          // _BarBits
          // _BarStl
          // _yOffset
+
+         //System.out.println(task.getName() + ": " + task.getWBS() + ": " + parentWBS(task.getWBS()));
       }
 
       m_project.updateStructure();
+   }
+
+   private String parentWBS(String value)
+   {
+      String result = null;
+      if (value != null && value.length() > 0)
+      {
+         String[] path = WBS_SPLIT_REGEX.split(value);
+         if (path.length > 1)
+         {
+            int lastLength = path[path.length - 1].length();
+            result = value.substring(0, value.length() - lastLength);
+         }
+      }
+      return result;
    }
 
    private FastTrackData m_data;
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+
+   private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
+
 }

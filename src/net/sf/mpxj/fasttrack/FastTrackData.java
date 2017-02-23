@@ -176,13 +176,15 @@ public class FastTrackData
    {
       int value = FastTrackUtility.getByte(buffer, startIndex);
       Class<?> klass = COLUMN_MAP[value];
-      if (klass != null)
+      if (klass == null)
       {
-         FastTrackBlock block = (FastTrackBlock) klass.newInstance();
-         block.read(buffer, startIndex, length);
-         pw.println(block.toString());
-         m_currentTable.addColumn(block);
+         klass = UnknownBlock.class;
       }
+
+      FastTrackBlock block = (FastTrackBlock) klass.newInstance();
+      block.read(buffer, startIndex, length);
+      pw.println(block.toString());
+      m_currentTable.addColumn(block);
    }
 
    private final boolean matchPattern(byte[][] patterns, byte[] buffer, int bufferIndex)
