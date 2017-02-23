@@ -16,6 +16,14 @@ public final class FastTrackUtility
       }
    }
 
+   public static final void validateOffset(byte[] buffer, int offset)
+   {
+      if (offset >= buffer.length)
+      {
+         throw new UnexpectedStructureException();
+      }
+   }
+
    public static final int getInt(byte[] data, int offset)
    {
       int result = 0;

@@ -4,8 +4,10 @@ package net.sf.mpxj.fasttrack;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.sf.mpxj.EventManager;
@@ -84,6 +86,7 @@ public class FastTrackReader implements ProjectReader
       config.setAutoTaskID(false);
       config.setAutoResourceUniqueID(false);
       config.setAutoWBS(false);
+      config.setAutoOutlineNumber(false);
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
@@ -149,7 +152,8 @@ public class FastTrackReader implements ProjectReader
 
    private void processTasks()
    {
-      // TODO: work values, hierarchy, created (string timestamp format), hyperlinks
+      Map<String, Task> wbsMap = new HashMap<String, Task>();
+      // TODO: validate time handling, work values, created (string timestamp format), hyperlinks
       FastTrackTable activities = m_data.getTable("ACTIVITIES");
       for (MapRow row : activities)
       {
@@ -185,15 +189,15 @@ public class FastTrackReader implements ProjectReader
          task.setText(5, row.getString("Text 5"));
          task.setWBS(row.getString("WBS"));
          task.setGUID(row.getUUID("_Activity GUID"));
-
-         System.out.println(task);
+         task.setOutlineLevel(getOutlineLevel(task));
+         wbsMap.put(task.getWBS(), task);
       }
 
+      // TODO: handle multiple bars per activity
       FastTrackTable table = m_data.getTable("ACTBARS");
       for (MapRow row : table)
       {
-         System.out.println(row.getInteger("_Activity") + " " + row.getDuration("Duration"));
-         Task task = m_project.getTaskByID(row.getInteger("Activity Row ID"));
+         Task task = m_project.getTaskByID(row.getInteger("_Activity"));
          // % Used
          task.setActualDuration(row.getDuration("Actual Duration"));
          task.setActualFinish(row.getTimestamp("Actual Finish Date", "Actual Finish Time"));
@@ -284,30 +288,25 @@ public class FastTrackReader implements ProjectReader
          // Total Cost
          // Total Float
          // Total Resource Duration
-         task.setUniqueID(row.getInteger("Bar ID"));
+         //task.setUniqueID(row.getInteger("Bar ID"));
          //task.setWork(row.getWork("Work"));
          // _Activity
          // _BarBits
          // _BarStl
          // _yOffset
-
-         //System.out.println(task.getName() + ": " + task.getWBS() + ": " + parentWBS(task.getWBS()));
       }
 
       m_project.updateStructure();
    }
 
-   private String parentWBS(String value)
+   private Integer getOutlineLevel(Task task)
    {
-      String result = null;
+      String value = task.getWBS();
+      Integer result = Integer.valueOf(1);
       if (value != null && value.length() > 0)
       {
          String[] path = WBS_SPLIT_REGEX.split(value);
-         if (path.length > 1)
-         {
-            int lastLength = path[path.length - 1].length();
-            result = value.substring(0, value.length() - lastLength);
-         }
+         result = Integer.valueOf(path.length);
       }
       return result;
    }

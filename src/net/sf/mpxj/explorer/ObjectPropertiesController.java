@@ -25,9 +25,10 @@ package net.sf.mpxj.explorer;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -80,25 +81,9 @@ public class ObjectPropertiesController
          }
       }
 
-      Collections.sort(methods, new Comparator<Method>()
-      {
-         @Override public int compare(Method o1, Method o2)
-         {
-            return o1.getName().compareTo(o2.getName());
-         }
-      });
-
-      String[] headings = new String[]
-      {
-         "Property",
-         "Value"
-      };
-
-      String[][] data = new String[methods.size()][2];
-      int rowIndex = 0;
+      Map<String, String> map = new TreeMap<String, String>();
       for (Method method : methods)
       {
-         String name = getPropertyName(method);
          Object value;
          try
          {
@@ -111,10 +96,23 @@ public class ObjectPropertiesController
 
          if (value != null)
          {
-            data[rowIndex][0] = name;
-            data[rowIndex][1] = String.valueOf(value);
-            rowIndex++;
+            map.put(getPropertyName(method), String.valueOf(value));
          }
+      }
+
+      String[] headings = new String[]
+      {
+         "Property",
+         "Value"
+      };
+
+      String[][] data = new String[map.size()][2];
+      int rowIndex = 0;
+      for (Entry<String, String> entry : map.entrySet())
+      {
+         data[rowIndex][0] = entry.getKey();
+         data[rowIndex][1] = entry.getValue();
+         ++rowIndex;
       }
 
       TableModel tableModel = new DefaultTableModel(data, headings)

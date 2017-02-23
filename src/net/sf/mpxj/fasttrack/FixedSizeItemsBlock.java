@@ -17,6 +17,8 @@ public class FixedSizeItemsBlock
       int itemLength = FastTrackUtility.getShort(buffer, startIndex + offset);
       offset += 2;
 
+      FastTrackUtility.validateSize(itemLength);
+
       // Offset to end
       offset += 4;
 
@@ -25,6 +27,9 @@ public class FixedSizeItemsBlock
       {
          byte[] item = new byte[itemLength];
          m_data[index] = item;
+
+         FastTrackUtility.validateOffset(buffer, startIndex + offset + itemLength);
+
          System.arraycopy(buffer, startIndex + offset, item, 0, itemLength);
          offset += itemLength;
       }

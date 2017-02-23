@@ -144,7 +144,7 @@ class MapRow implements Row
    @Override public UUID getUUID(String name)
    {
       String value = getString(name);
-      return value == null ? null : UUID.fromString(value.substring(1, value.length() - 1));
+      return value == null || value.isEmpty() ? null : UUID.fromString(value.substring(1, value.length() - 1));
    }
 
    /**
