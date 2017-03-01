@@ -3,7 +3,7 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-public class IdentifierBlock extends AbstractBlock
+public class ShortColumn extends AbstractColumn
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
@@ -18,7 +18,7 @@ public class IdentifierBlock extends AbstractBlock
       m_data = new Integer[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         m_data[index] = Integer.valueOf(FastTrackUtility.getInt(rawData[index], 0));
+         m_data[index] = Integer.valueOf(FastTrackUtility.getShort(rawData[index], 0));
       }
 
       return offset;

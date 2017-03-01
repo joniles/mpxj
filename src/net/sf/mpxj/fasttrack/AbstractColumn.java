@@ -4,7 +4,7 @@ package net.sf.mpxj.fasttrack;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
-public abstract class AbstractBlock implements FastTrackBlock
+public abstract class AbstractColumn implements FastTrackColumn
 {
    public void read(byte[] buffer, int startIndex, int length)
    {

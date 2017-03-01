@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
-public interface FastTrackBlock
+public interface FastTrackColumn
 {
    public void read(byte[] buffer, int startIndex, int length);
 

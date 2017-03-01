@@ -17,7 +17,7 @@ public class FastTrackTable implements Iterable<MapRow>
       return m_name;
    }
 
-   public void addColumn(FastTrackBlock column)
+   public void addColumn(FastTrackColumn column)
    {
       String name = column.getName();
       Object[] data = column.getData();

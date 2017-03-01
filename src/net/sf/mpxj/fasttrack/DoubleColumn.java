@@ -3,7 +3,7 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-public class DoubleBlock extends AbstractBlock
+public class DoubleColumn extends AbstractColumn
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)

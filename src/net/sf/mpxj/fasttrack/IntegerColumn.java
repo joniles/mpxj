@@ -3,22 +3,22 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-public class NumberBlock extends AbstractBlock
+public class IntegerColumn extends AbstractColumn
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
       // Skip bytes
-      offset += 18;
+      offset += 40;
 
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();
-      m_data = new Double[rawData.length];
+      m_data = new Integer[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         m_data[index] = Double.valueOf(FastTrackUtility.getDouble(rawData[index], 0));
+         m_data[index] = Integer.valueOf(FastTrackUtility.getInt(rawData[index], 0));
       }
 
       return offset;

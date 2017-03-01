@@ -3,10 +3,7 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
-
-public class DurationBlock extends AbstractBlock
+public class IdentifierColumn extends AbstractColumn
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
@@ -16,19 +13,12 @@ public class DurationBlock extends AbstractBlock
 
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
-      int timeUnitValue = FastTrackUtility.getByte(buffer, startIndex + offset);
-      TimeUnit unit = FastTrackUtility.getTimeUnit(timeUnitValue);
 
       byte[][] rawData = data.getData();
-      m_data = new Duration[rawData.length];
+      m_data = new Integer[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         double durationValue = FastTrackUtility.getDouble(rawData[index], 0);
-         if (timeUnitValue == 10)
-         {
-            durationValue *= 3;
-         }
-         m_data[index] = Duration.getInstance(durationValue, unit);
+         m_data[index] = Integer.valueOf(FastTrackUtility.getInt(rawData[index], 0));
       }
 
       return offset;

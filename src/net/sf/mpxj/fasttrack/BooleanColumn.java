@@ -3,7 +3,7 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-public class EnumBlock extends AbstractBlock
+public class BooleanColumn extends AbstractColumn
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
@@ -15,21 +15,25 @@ public class EnumBlock extends AbstractBlock
       m_options = options.getData();
       offset = options.getOffset();
 
-      // Skip bytes
+      offset = FastTrackUtility.skipTo(offset, buffer, startIndex, 0x000F);
+
+      m_data = new Boolean[FastTrackUtility.getInt(buffer, startIndex + offset) + 1];
       offset += 4;
 
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
-      offset = data.getOffset();
+      // Data length
+      offset += 4;
 
-      byte[][] rawData = data.getData();
-      m_data = new String[rawData.length];
-      for (int index = 0; index < rawData.length; index++)
+      // Offsets to data
+      offset += (m_data.length * 4);
+
+      // Data length
+      offset += 4;
+
+      for (int index = 0; index < m_data.length; index++)
       {
-         int optionIndex = FastTrackUtility.getShort(rawData[index], 0) - 1;
-         if (optionIndex >= 0 && optionIndex < m_options.length)
-         {
-            m_data[index] = m_options[optionIndex];
-         }
+         int value = FastTrackUtility.getShort(buffer, startIndex + offset);
+         offset += 2;
+         m_data[index] = Boolean.valueOf(value == 2);
       }
 
       return offset;

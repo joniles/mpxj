@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateBlock extends AbstractBlock
+public class TimeColumn extends AbstractColumn
 {
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
@@ -23,17 +23,12 @@ public class DateBlock extends AbstractBlock
       m_data = new Date[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         byte[] rawValue = rawData[index];
-         if (rawValue != null && rawValue.length >= 4)
-         {
-            int value = FastTrackUtility.getInt(rawValue, 0);
-            if (value > 0)
-            {
-               cal.setTimeInMillis(DATE_EPOCH);
-               cal.add(Calendar.DAY_OF_YEAR, value);
-               m_data[index] = cal.getTime();
-            }
-         }
+         int value = FastTrackUtility.getShort(rawData[index], 0);
+         cal.set(Calendar.HOUR_OF_DAY, (value / 60));
+         cal.set(Calendar.MINUTE, (value % 60));
+         cal.set(Calendar.SECOND, 0);
+         cal.set(Calendar.MILLISECOND, 0);
+         m_data[index] = cal.getTime();
       }
 
       return offset;
@@ -41,18 +36,12 @@ public class DateBlock extends AbstractBlock
 
    @Override protected void dumpData(PrintWriter pw)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateFormat df = new SimpleDateFormat("HH:mm:ss");
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         Object value = item == null ? "" : df.format((Date) item);
-         pw.println("    " + value);
+         pw.println("    " + df.format((Date) item));
       }
       pw.println("  ]");
    }
-
-   /**
-    * 31/12/1979 00:00.
-    */
-   private static final long DATE_EPOCH = 315446400000L;
 }

@@ -178,10 +178,10 @@ public class FastTrackData
       Class<?> klass = COLUMN_MAP[value];
       if (klass == null)
       {
-         klass = UnknownBlock.class;
+         klass = UnknownColumn.class;
       }
 
-      FastTrackBlock block = (FastTrackBlock) klass.newInstance();
+      FastTrackColumn block = (FastTrackColumn) klass.newInstance();
       block.read(buffer, startIndex, length);
       pw.println(block.toString());
       m_currentTable.addColumn(block);
@@ -286,25 +286,25 @@ public class FastTrackData
    private static final Class<?>[] COLUMN_MAP = new Class<?>[256];
    static
    {
-      COLUMN_MAP[0x6E] = DateBlock.class;
-      COLUMN_MAP[0x6F] = TimeBlock.class;
-      COLUMN_MAP[0x71] = DurationBlock.class;
-      COLUMN_MAP[0x46] = PercentBlock.class;
-      COLUMN_MAP[0x6C] = ShortBlock.class;
-      COLUMN_MAP[0x73] = ShortBlock.class;
-      COLUMN_MAP[0x6D] = IdentifierBlock.class;
-      COLUMN_MAP[0x70] = NumberBlock.class;
-      COLUMN_MAP[0x5C] = CalendarBlock.class;
-      COLUMN_MAP[0x4B] = IntegerBlock.class;
-      COLUMN_MAP[0x49] = AssignmentBlock.class;
-      COLUMN_MAP[0x59] = EnumBlock.class;
-      COLUMN_MAP[0x53] = BooleanBlock.class;
-      COLUMN_MAP[0x5b] = DoubleBlock.class;
-      COLUMN_MAP[0x4A] = DoubleBlock.class;
-      COLUMN_MAP[0x54] = DoubleBlock.class;
-      COLUMN_MAP[0x57] = RelationBlock.class;
-      COLUMN_MAP[0x58] = RelationBlock.class;
-      COLUMN_MAP[0x68] = StringBlock.class;
-      COLUMN_MAP[0x69] = StringBlock.class;
+      COLUMN_MAP[0x6E] = DateColumn.class;
+      COLUMN_MAP[0x6F] = TimeColumn.class;
+      COLUMN_MAP[0x71] = DurationColumn.class;
+      COLUMN_MAP[0x46] = PercentColumn.class;
+      COLUMN_MAP[0x6C] = ShortColumn.class;
+      COLUMN_MAP[0x73] = ShortColumn.class;
+      COLUMN_MAP[0x6D] = IdentifierColumn.class;
+      COLUMN_MAP[0x70] = NumberColumn.class;
+      COLUMN_MAP[0x5C] = CalendarColumn.class;
+      COLUMN_MAP[0x4B] = IntegerColumn.class;
+      COLUMN_MAP[0x49] = AssignmentColumn.class;
+      COLUMN_MAP[0x59] = EnumColumn.class;
+      COLUMN_MAP[0x53] = BooleanColumn.class;
+      COLUMN_MAP[0x5b] = DoubleColumn.class;
+      COLUMN_MAP[0x4A] = DoubleColumn.class;
+      COLUMN_MAP[0x54] = DoubleColumn.class;
+      COLUMN_MAP[0x57] = RelationColumn.class;
+      COLUMN_MAP[0x58] = RelationColumn.class;
+      COLUMN_MAP[0x68] = StringColumn.class;
+      COLUMN_MAP[0x69] = StringColumn.class;
    }
 }
