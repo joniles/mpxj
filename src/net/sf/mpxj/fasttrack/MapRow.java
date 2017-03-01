@@ -93,7 +93,7 @@ class MapRow implements Row
          {
             Calendar timeCal = Calendar.getInstance();
             timeCal.setTime(time);
-            dateCal.set(Calendar.HOUR, timeCal.get(Calendar.HOUR));
+            dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
             dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
             dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
             dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
