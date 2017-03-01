@@ -4,17 +4,25 @@ package net.sf.mpxj.fasttrack;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
@@ -88,12 +96,12 @@ public class FastTrackReader implements ProjectReader
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
-      //      processProject();
-      //      processCalendars();
+      // processProject();
+      // processCalendars();
       processResources();
       processTasks();
-      //      processAssignments();
-      //      processDependencies();
+      processDependencies();
+      // processAssignments();
 
       return m_project;
    }
@@ -312,6 +320,52 @@ public class FastTrackReader implements ProjectReader
       m_project.updateStructure();
    }
 
+   private void processDependencies()
+   {
+      // TODO: handle multiple bars per activity
+      FastTrackTable table = m_data.getTable("ACTBARS");
+      for (MapRow row : table)
+      {
+         Task task = m_project.getTaskByID(row.getInteger("_Activity"));
+         if (task == null)
+         {
+            continue;
+         }
+
+         String predecessors = row.getString("Predecessors");
+         if (predecessors == null || predecessors.isEmpty())
+         {
+            continue;
+         }
+
+         Matcher matcher = RELATION_REGEX.matcher(predecessors);
+         matcher.matches();
+
+         Integer id = Integer.valueOf(matcher.group(1));
+         RelationType type = RELATION_TYPE_MAP.get(matcher.group(2));
+         if (type == null)
+         {
+            type = RelationType.FINISH_START;
+         }
+
+         String sign = matcher.group(3);
+         double lag = NumberHelper.getDouble(matcher.group(4));
+         if ("-".equals(sign))
+         {
+            lag = -lag;
+         }
+
+         Task targetTask = m_project.getTaskByID(id);
+         if (targetTask != null)
+         {
+            // TODO: USE THE PROJECT DURATION TYPE!!!!!!
+            Duration lagDuration = Duration.getInstance(lag, TimeUnit.DAYS);
+            Relation r = task.addPredecessor(targetTask, type, lagDuration);
+            System.out.println(r);
+         }
+      }
+   }
+
    private Integer getOutlineLevel(Task task)
    {
       String value = task.getWBS();
@@ -340,5 +394,15 @@ public class FastTrackReader implements ProjectReader
    private List<ProjectListener> m_projectListeners;
 
    private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
+   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
+
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+   static
+   {
+      RELATION_TYPE_MAP.put("FS", RelationType.FINISH_START);
+      RELATION_TYPE_MAP.put("FF", RelationType.FINISH_FINISH);
+      RELATION_TYPE_MAP.put("SS", RelationType.START_START);
+      RELATION_TYPE_MAP.put("SF", RelationType.START_FINISH);
+   }
 
 }

@@ -55,6 +55,11 @@ public final class NumberHelper
       return (value == null || value.length() == 0 ? 0 : Integer.parseInt(value));
    }
 
+   public static final double getDouble(String value)
+   {
+      return (value == null || value.length() == 0 ? 0 : Double.parseDouble(value));
+   }
+
    /**
     * Utility method used to convert an arbitrary Number into an Integer.
     *
