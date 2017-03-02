@@ -16,15 +16,15 @@ public class DurationColumn extends AbstractColumn
 
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
-      int timeUnitValue = FastTrackUtility.getByte(buffer, startIndex + offset);
-      TimeUnit unit = FastTrackUtility.getTimeUnit(timeUnitValue);
+      m_timeUnitValue = FastTrackUtility.getByte(buffer, startIndex + offset);
+      TimeUnit unit = FastTrackUtility.getTimeUnit(m_timeUnitValue);
 
       byte[][] rawData = data.getData();
       m_data = new Duration[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
          double durationValue = FastTrackUtility.getDouble(rawData[index], 0);
-         if (timeUnitValue == 10)
+         if (m_timeUnitValue == 10)
          {
             durationValue *= 3;
          }
@@ -43,4 +43,11 @@ public class DurationColumn extends AbstractColumn
       }
       pw.println("  ]");
    }
+
+   public int getTimeUnitValue()
+   {
+      return m_timeUnitValue;
+   }
+
+   private int m_timeUnitValue;
 }

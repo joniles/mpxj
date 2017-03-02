@@ -16,7 +16,6 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
@@ -359,9 +358,9 @@ public class FastTrackReader implements ProjectReader
          if (targetTask != null)
          {
             // TODO: USE THE PROJECT DURATION TYPE!!!!!!
+            // TODO: HANDLE MULTIPLE RELATIONS!
             Duration lagDuration = Duration.getInstance(lag, TimeUnit.DAYS);
-            Relation r = task.addPredecessor(targetTask, type, lagDuration);
-            System.out.println(r);
+            task.addPredecessor(targetTask, type, lagDuration);
          }
       }
    }
