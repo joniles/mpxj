@@ -163,7 +163,7 @@ public class FastTrackReader implements ProjectReader
 
    private void processTasks()
    {
-      // TODO: validate time handling, work values, created (string timestamp format), hyperlinks
+      // TODO: created (string timestamp format), hyperlinks
       FastTrackTable activities = m_data.getTable("ACTIVITIES");
       for (MapRow row : activities)
       {
@@ -212,12 +212,18 @@ public class FastTrackReader implements ProjectReader
       FastTrackTable table = m_data.getTable("ACTBARS");
       for (MapRow row : table)
       {
+         if (row.getInt("Bar ID") < 1)
+         {
+            continue;
+         }
+
          Task task = m_project.getTaskByID(row.getInteger("_Activity"));
          if (task == null)
          {
             continue;
          }
 
+         System.out.println(task + ": " + row.getString("Created"));
          // % Used
          task.setActualDuration(row.getDuration("Actual Duration"));
          task.setActualFinish(row.getTimestamp("Actual Finish Date", "Actual Finish Time"));
@@ -243,11 +249,11 @@ public class FastTrackReader implements ProjectReader
          task.setBaselineStart(3, row.getTimestamp("Baseline Start Date 3", "Baseline Start Time 1"));
          task.setBaselineStart(4, row.getTimestamp("Baseline Start Date 4", "Baseline Start Time 1"));
          task.setBaselineStart(5, row.getTimestamp("Baseline Start Date 5", "Baseline Start Time 1"));
-         //         task.setBaselineWork(1, row.getWork("Baseline Work 1"));
-         //         task.setBaselineWork(2, row.getWork("Baseline Work 2"));
-         //         task.setBaselineWork(3, row.getWork("Baseline Work 3"));
-         //         task.setBaselineWork(4, row.getWork("Baseline Work 4"));
-         //         task.setBaselineWork(5, row.getWork("Baseline Work 5"));
+         task.setBaselineWork(1, row.getWork("Baseline Work 1"));
+         task.setBaselineWork(2, row.getWork("Baseline Work 2"));
+         task.setBaselineWork(3, row.getWork("Baseline Work 3"));
+         task.setBaselineWork(4, row.getWork("Baseline Work 4"));
+         task.setBaselineWork(5, row.getWork("Baseline Work 5"));
          task.setConstraintDate(row.getTimestamp("Constraint Date", "Constraint Time"));
          task.setCost(1, row.getCurrency("Cost 1"));
          task.setCost(2, row.getCurrency("Cost 2"));
@@ -276,10 +282,10 @@ public class FastTrackReader implements ProjectReader
          task.setFinish(3, row.getTimestamp("Finish Date 3", "Finish Time 3"));
          task.setFinish(4, row.getTimestamp("Finish Date 4", "Finish Time 4"));
          task.setFinish(5, row.getTimestamp("Finish Date 5", "Finish Time 5"));
-         // Finish Slack = Finish Float ?
-         // Is fixed cost a boolean or a currency?
-         // Is fixed duration a duration or a currency
-         // what is free float?
+         // Finish Slack
+         // Fixed Cost
+         // Fixed Duration
+         // Free Float
          task.setIgnoreResourceCalendar(row.getBoolean("Ignore Resource Calendars"));
          task.setLateFinish(row.getTimestamp("Late Finish Date", "Late Finish Time"));
          task.setLateStart(row.getTimestamp("Late Start Date", "Late Start Time"));
@@ -308,8 +314,7 @@ public class FastTrackReader implements ProjectReader
          // Total Cost
          // Total Float
          // Total Resource Duration
-         //task.setUniqueID(row.getInteger("Bar ID"));
-         //task.setWork(row.getWork("Work"));
+         task.setWork(row.getWork("Work"));
          // _Activity
          // _BarBits
          // _BarStl

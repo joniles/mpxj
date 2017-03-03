@@ -74,12 +74,17 @@ public final class FastTrackUtility
     * @param offset offset of double data in the array
     * @return double value
     */
-   public static final double getDouble(byte[] data, int offset)
+   public static final Double getDouble(byte[] data, int offset)
    {
-      double result = Double.longBitsToDouble(getLong(data, offset));
-      if (Double.isNaN(result))
+      Double result = null;
+      long longValue = getLong(data, offset);
+      if (longValue != NULL_DOUBLE)
       {
-         result = 0;
+         double doubleValue = Double.longBitsToDouble(longValue);
+         if (!Double.isNaN(doubleValue))
+         {
+            result = Double.valueOf(doubleValue);
+         }
       }
       return result;
    }
@@ -221,6 +226,8 @@ public final class FastTrackUtility
 
       return (sb.toString());
    }
+
+   private static final long NULL_DOUBLE = 0x3949F623D5A8A733L;
 
    public static final Charset UTF16LE = Charset.forName("UTF-16LE");
 

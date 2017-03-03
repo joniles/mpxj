@@ -3,9 +3,6 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
-
 public class DurationColumn extends AbstractColumn
 {
 
@@ -17,18 +14,17 @@ public class DurationColumn extends AbstractColumn
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
       m_timeUnitValue = FastTrackUtility.getByte(buffer, startIndex + offset);
-      TimeUnit unit = FastTrackUtility.getTimeUnit(m_timeUnitValue);
 
       byte[][] rawData = data.getData();
-      m_data = new Duration[rawData.length];
+      m_data = new Double[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         double durationValue = FastTrackUtility.getDouble(rawData[index], 0);
-         if (m_timeUnitValue == 10)
+         Double durationValue = FastTrackUtility.getDouble(rawData[index], 0);
+         if (durationValue != null && m_timeUnitValue == 10)
          {
-            durationValue *= 3;
+            durationValue = Double.valueOf(durationValue.doubleValue() * 3);
          }
-         m_data[index] = Duration.getInstance(durationValue, unit);
+         m_data[index] = durationValue;
       }
 
       return offset;

@@ -5,16 +5,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class FastTrackTable implements Iterable<MapRow>
+import net.sf.mpxj.TimeUnit;
+
+class FastTrackTable implements Iterable<MapRow>
 {
-   public FastTrackTable(String name)
+   public FastTrackTable(FastTrackData data, String name)
    {
+      m_data = data;
       m_name = name;
    }
 
    public String getName()
    {
       return m_name;
+   }
+
+   public TimeUnit getDurationTimeUnit()
+   {
+      return m_data.getDurationTimeUnit();
+   }
+
+   public TimeUnit getWorkTimeUnit()
+   {
+      return m_data.getWorkTimeUnit();
    }
 
    public void addColumn(FastTrackColumn column)
@@ -39,7 +52,7 @@ public class FastTrackTable implements Iterable<MapRow>
 
       if (index == m_rows.size())
       {
-         result = new MapRow(new HashMap<String, Object>());
+         result = new MapRow(this, new HashMap<String, Object>());
          m_rows.add(result);
       }
       else
@@ -49,6 +62,8 @@ public class FastTrackTable implements Iterable<MapRow>
 
       return result;
    }
+
+   private final FastTrackData m_data;
    private final String m_name;
    private final ArrayList<MapRow> m_rows = new ArrayList<MapRow>();
 }

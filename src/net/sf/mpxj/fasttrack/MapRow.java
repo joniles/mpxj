@@ -20,8 +20,9 @@ class MapRow implements Row
     *
     * @param map map to be wrapped by this instance
     */
-   public MapRow(Map<String, Object> map)
+   public MapRow(FastTrackTable table, Map<String, Object> map)
    {
+      m_table = table;
       m_map = map;
    }
 
@@ -115,7 +116,8 @@ class MapRow implements Row
     */
    @Override public Duration getDuration(String name)
    {
-      return (Duration) getObject(name);
+      Double value = (Double) getObject(name);
+      return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getDurationTimeUnit());
    }
 
    /**
@@ -123,7 +125,8 @@ class MapRow implements Row
     */
    @Override public Duration getWork(String name)
    {
-      return (Duration) getObject(name);
+      Double value = (Double) getObject(name);
+      return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getWorkTimeUnit());
    }
 
    /**
@@ -236,15 +239,6 @@ class MapRow implements Row
    //      return result;
    //   }
 
-   protected Map<String, Object> m_map;
-
-   /**
-    * 01/01/2001 00:00.
-    */
-   private static final long TIMESTAMP_EPOCH = 978307200000L;
-
-   /**
-    * 07/01/2001 00:00.
-    */
-   private static final long DATE_EPOCH = 978825600000L;
+   protected final Map<String, Object> m_map;
+   private final FastTrackTable m_table;
 }

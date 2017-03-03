@@ -18,7 +18,7 @@ public class NumberColumn extends AbstractColumn
       m_data = new Double[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         m_data[index] = Double.valueOf(FastTrackUtility.getDouble(rawData[index], 0));
+         m_data[index] = FastTrackUtility.getDouble(rawData[index], 0);
       }
 
       return offset;

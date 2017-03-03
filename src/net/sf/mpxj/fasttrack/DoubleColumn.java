@@ -16,7 +16,7 @@ public class DoubleColumn extends AbstractColumn
 
       for (int index = 0; index < m_data.length; index++)
       {
-         m_data[index] = Double.valueOf(FastTrackUtility.getDouble(buffer, startIndex + offset));
+         m_data[index] = FastTrackUtility.getDouble(buffer, startIndex + offset);
          offset += 8;
       }
 

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 
 public class FastTrackData
@@ -49,8 +50,8 @@ public class FastTrackData
       int blockLength = buffer.length - startIndex;
       dumpBlock(blockIndex, pw, startIndex, blockLength, buffer);
 
-      System.out.println("Duration units: " + m_durationTimeUnitValue);
-      System.out.println("Work units: " + m_workTimeUnitValue);
+      System.out.println("Duration units: " + m_durationTimeUnit);
+      System.out.println("Work units: " + m_workTimeUnit);
 
       is.close();
       pw.flush();
@@ -60,6 +61,16 @@ public class FastTrackData
    public FastTrackTable getTable(String name)
    {
       return m_tables.get(name);
+   }
+
+   TimeUnit getDurationTimeUnit()
+   {
+      return m_durationTimeUnit == null ? TimeUnit.DAYS : m_durationTimeUnit;
+   }
+
+   TimeUnit getWorkTimeUnit()
+   {
+      return m_workTimeUnit == null ? TimeUnit.HOURS : m_workTimeUnit;
    }
 
    private final void dumpBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer) throws Exception
@@ -90,7 +101,7 @@ public class FastTrackData
             int nameLength = FastTrackUtility.getInt(buffer, offset);
             offset += 4;
             String name = new String(buffer, offset, nameLength, CharsetHelper.UTF16LE).toUpperCase();
-            m_currentTable = new FastTrackTable(name);
+            m_currentTable = new FastTrackTable(this, name);
             m_tables.put(name, m_currentTable);
             break;
          }
@@ -121,7 +132,7 @@ public class FastTrackData
 
             try
             {
-               dumpChildBlock(pw, buffer, startIndex, childBlockStart, childblockLength);
+               readColumn(pw, buffer, startIndex, childBlockStart, childblockLength);
             }
             catch (UnexpectedStructureException ex)
             {
@@ -132,7 +143,7 @@ public class FastTrackData
       }
    }
 
-   private void dumpChildBlock(PrintWriter pw, byte[] buffer, int blockStartIndex, int startIndex, int length) throws Exception
+   private void readColumn(PrintWriter pw, byte[] buffer, int blockStartIndex, int startIndex, int length) throws Exception
    {
       int value = FastTrackUtility.getByte(buffer, startIndex);
       Class<?> klass = COLUMN_MAP[value];
@@ -141,13 +152,15 @@ public class FastTrackData
          klass = UnknownColumn.class;
       }
 
-      FastTrackColumn block = (FastTrackColumn) klass.newInstance();
-      block.read(buffer, startIndex, length);
-      pw.println(block.toString());
-      m_currentTable.addColumn(block);
+      FastTrackColumn column = (FastTrackColumn) klass.newInstance();
+      column.read(buffer, startIndex, length);
+      m_currentTable.addColumn(column);
 
-      updateDurationUnits(block);
-      updateWorkUnits(block);
+      updateDurationTimeUnit(column);
+      updateWorkTimeUnit(column);
+
+      pw.println("TABLE: " + m_currentTable.getName());
+      pw.println(column.toString());
    }
 
    private final boolean matchPattern(byte[][] patterns, byte[] buffer, int bufferIndex)
@@ -174,26 +187,26 @@ public class FastTrackData
       return match;
    }
 
-   private void updateDurationUnits(FastTrackColumn column)
+   private void updateDurationTimeUnit(FastTrackColumn column)
    {
-      if (m_durationTimeUnitValue == 1 && isDurationColumn(column))
+      if (m_durationTimeUnit == null && isDurationColumn(column))
       {
          int value = ((DurationColumn) column).getTimeUnitValue();
          if (value != 1)
          {
-            m_durationTimeUnitValue = value;
+            m_durationTimeUnit = FastTrackUtility.getTimeUnit(value);
          }
       }
    }
 
-   private void updateWorkUnits(FastTrackColumn column)
+   private void updateWorkTimeUnit(FastTrackColumn column)
    {
-      if (m_workTimeUnitValue == 1 && isWorkColumn(column))
+      if (m_workTimeUnit == null && isWorkColumn(column))
       {
          int value = ((DurationColumn) column).getTimeUnitValue();
          if (value != 1)
          {
-            m_workTimeUnitValue = ((DurationColumn) column).getTimeUnitValue();
+            m_workTimeUnit = FastTrackUtility.getTimeUnit(value);
          }
       }
    }
@@ -210,8 +223,8 @@ public class FastTrackData
 
    private final Map<String, FastTrackTable> m_tables = new HashMap<String, FastTrackTable>();
    private FastTrackTable m_currentTable;
-   private int m_durationTimeUnitValue = 1;
-   private int m_workTimeUnitValue = 1;
+   private TimeUnit m_durationTimeUnit;
+   private TimeUnit m_workTimeUnit;
 
    private static final byte[][] PARENT_BLOCK_PATTERNS =
    {
