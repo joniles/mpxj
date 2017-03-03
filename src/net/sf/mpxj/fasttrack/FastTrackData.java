@@ -42,13 +42,13 @@ public class FastTrackData
       for (int endIndex : blocks)
       {
          int blockLength = endIndex - startIndex;
-         dumpBlock(blockIndex, pw, startIndex, blockLength, buffer);
+         readBlock(blockIndex, pw, startIndex, blockLength, buffer);
          startIndex = endIndex;
          ++blockIndex;
       }
 
       int blockLength = buffer.length - startIndex;
-      dumpBlock(blockIndex, pw, startIndex, blockLength, buffer);
+      readBlock(blockIndex, pw, startIndex, blockLength, buffer);
 
       System.out.println("Duration units: " + m_durationTimeUnit);
       System.out.println("Work units: " + m_workTimeUnit);
@@ -73,7 +73,7 @@ public class FastTrackData
       return m_workTimeUnit == null ? TimeUnit.HOURS : m_workTimeUnit;
    }
 
-   private final void dumpBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer) throws Exception
+   private final void readBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer) throws Exception
    {
       pw.write("Block Index: " + blockIndex + "\n");
       pw.write("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")\n");
@@ -161,11 +161,6 @@ public class FastTrackData
 
       pw.println("TABLE: " + m_currentTable.getName());
       pw.println(column.toString());
-
-      if ("Resources Assigned".equals(column.getName()))
-      {
-         System.out.println(FastTrackUtility.hexdump(buffer, startIndex, length, true, 16, ""));
-      }
    }
 
    private final boolean matchPattern(byte[][] patterns, byte[] buffer, int bufferIndex)

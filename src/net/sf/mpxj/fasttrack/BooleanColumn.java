@@ -33,7 +33,10 @@ public class BooleanColumn extends AbstractColumn
       {
          int value = FastTrackUtility.getShort(buffer, startIndex + offset);
          offset += 2;
-         m_data[index] = Boolean.valueOf(value == 2);
+         if (value != 2)
+         {
+            m_data[index] = Boolean.valueOf(value == 1);
+         }
       }
 
       return offset;
