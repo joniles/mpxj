@@ -11,12 +11,12 @@ public class AssignmentColumn extends AbstractColumn
       // Skip bytes
       offset += 34;
 
-      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, true);
+      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
       m_options = options.getData();
       offset = options.getOffset();
 
       // Skip bytes
-      offset += 2;
+      offset += 8;
 
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, startIndex, offset, true);
       m_data = data.getData();

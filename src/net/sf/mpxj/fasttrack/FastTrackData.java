@@ -161,6 +161,11 @@ public class FastTrackData
 
       pw.println("TABLE: " + m_currentTable.getName());
       pw.println(column.toString());
+
+      if ("Resources Assigned".equals(column.getName()))
+      {
+         System.out.println(FastTrackUtility.hexdump(buffer, startIndex, length, true, 16, ""));
+      }
    }
 
    private final boolean matchPattern(byte[][] patterns, byte[] buffer, int bufferIndex)

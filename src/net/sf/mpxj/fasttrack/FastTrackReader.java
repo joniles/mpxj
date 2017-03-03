@@ -31,6 +31,9 @@ import net.sf.mpxj.reader.ProjectReader;
 // 2. Task created attribute parse
 // 3. Resource rates
 // 4. Hyperlinks
+// 5. Project header data
+// 6. Parse calendars
+// 7. Handle resources with embedded commas
 
 public class FastTrackReader implements ProjectReader
 {
@@ -107,7 +110,7 @@ public class FastTrackReader implements ProjectReader
       processResources();
       processTasks();
       processDependencies();
-      // processAssignments();
+      processAssignments();
 
       return m_project;
    }
@@ -223,7 +226,7 @@ public class FastTrackReader implements ProjectReader
             continue;
          }
 
-         Task task = m_project.getTaskByID(row.getInteger("_Activity"));
+         Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
          if (task == null || tasksWithBars.contains(task))
          {
             continue;
@@ -336,7 +339,7 @@ public class FastTrackReader implements ProjectReader
       FastTrackTable table = m_data.getTable("ACTBARS");
       for (MapRow row : table)
       {
-         Task task = m_project.getTaskByID(row.getInteger("_Activity"));
+         Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
          if (task == null || tasksWithBars.contains(task))
          {
             continue;
@@ -373,6 +376,42 @@ public class FastTrackReader implements ProjectReader
             {
                Duration lagDuration = Duration.getInstance(lag, m_data.getDurationTimeUnit());
                task.addPredecessor(targetTask, type, lagDuration);
+            }
+         }
+      }
+   }
+
+   private void processAssignments()
+   {
+      Set<Task> tasksWithBars = new HashSet<Task>();
+      FastTrackTable table = m_data.getTable("ACTBARS");
+      Map<String, Resource> resources = new HashMap<String, Resource>();
+      for (Resource resource : m_project.getAllResources())
+      {
+         resources.put(resource.getName(), resource);
+      }
+
+      for (MapRow row : table)
+      {
+         Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
+         if (task == null || tasksWithBars.contains(task))
+         {
+            continue;
+         }
+         tasksWithBars.add(task);
+
+         String assignments = row.getString("Resources Assigned");
+         if (assignments == null || assignments.isEmpty())
+         {
+            continue;
+         }
+
+         for (String assignment : assignments.split(", "))
+         {
+            Resource resource = resources.get(assignment);
+            if (resource != null)
+            {
+               task.addResourceAssignment(resource);
             }
          }
       }
