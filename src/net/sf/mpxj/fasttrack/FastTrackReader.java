@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,11 +21,16 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
+
+// TODO:
+// 1. Handle multiple bars per activity
+// 2. Task created attribute parse
+// 3. Resource rates
+// 4. Hyperlinks
 
 public class FastTrackReader implements ProjectReader
 {
@@ -107,7 +114,6 @@ public class FastTrackReader implements ProjectReader
 
    private void processResources()
    {
-      // TODO: hyperlinks, rates
       FastTrackTable table = m_data.getTable("RESOURCES");
       for (MapRow row : table)
       {
@@ -163,12 +169,11 @@ public class FastTrackReader implements ProjectReader
 
    private void processTasks()
    {
-      // TODO: created (string timestamp format), hyperlinks
       FastTrackTable activities = m_data.getTable("ACTIVITIES");
       for (MapRow row : activities)
       {
          Integer id = row.getInteger("Activity Row ID");
-         if (id == null)
+         if (id == null || id.intValue() < 1)
          {
             continue;
          }
@@ -208,8 +213,9 @@ public class FastTrackReader implements ProjectReader
          task.setOutlineLevel(getOutlineLevel(task));
       }
 
-      // TODO: handle multiple bars per activity
       FastTrackTable table = m_data.getTable("ACTBARS");
+      Set<Task> tasksWithBars = new HashSet<Task>();
+
       for (MapRow row : table)
       {
          if (row.getInt("Bar ID") < 1)
@@ -218,12 +224,12 @@ public class FastTrackReader implements ProjectReader
          }
 
          Task task = m_project.getTaskByID(row.getInteger("_Activity"));
-         if (task == null)
+         if (task == null || tasksWithBars.contains(task))
          {
             continue;
          }
+         tasksWithBars.add(task);
 
-         System.out.println(task + ": " + row.getString("Created"));
          // % Used
          task.setActualDuration(row.getDuration("Actual Duration"));
          task.setActualFinish(row.getTimestamp("Actual Finish Date", "Actual Finish Time"));
@@ -260,7 +266,7 @@ public class FastTrackReader implements ProjectReader
          task.setCost(3, row.getCurrency("Cost 3"));
          task.setCost(4, row.getCurrency("Cost 4"));
          task.setCost(5, row.getCurrency("Cost 5"));
-         //task.setCreateDate(val)
+         // Created
          task.setCritical(row.getBoolean("Critical"));
          task.setDate(1, row.getDate("Date 1"));
          task.setDate(2, row.getDate("Date 2"));
@@ -326,15 +332,16 @@ public class FastTrackReader implements ProjectReader
 
    private void processDependencies()
    {
-      // TODO: handle multiple bars per activity
+      Set<Task> tasksWithBars = new HashSet<Task>();
       FastTrackTable table = m_data.getTable("ACTBARS");
       for (MapRow row : table)
       {
          Task task = m_project.getTaskByID(row.getInteger("_Activity"));
-         if (task == null)
+         if (task == null || tasksWithBars.contains(task))
          {
             continue;
          }
+         tasksWithBars.add(task);
 
          String predecessors = row.getString("Predecessors");
          if (predecessors == null || predecessors.isEmpty())
@@ -342,30 +349,31 @@ public class FastTrackReader implements ProjectReader
             continue;
          }
 
-         Matcher matcher = RELATION_REGEX.matcher(predecessors);
-         matcher.matches();
-
-         Integer id = Integer.valueOf(matcher.group(1));
-         RelationType type = RELATION_TYPE_MAP.get(matcher.group(2));
-         if (type == null)
+         for (String predecessor : predecessors.split(", "))
          {
-            type = RelationType.FINISH_START;
-         }
+            Matcher matcher = RELATION_REGEX.matcher(predecessor);
+            matcher.matches();
 
-         String sign = matcher.group(3);
-         double lag = NumberHelper.getDouble(matcher.group(4));
-         if ("-".equals(sign))
-         {
-            lag = -lag;
-         }
+            Integer id = Integer.valueOf(matcher.group(1));
+            RelationType type = RELATION_TYPE_MAP.get(matcher.group(2));
+            if (type == null)
+            {
+               type = RelationType.FINISH_START;
+            }
 
-         Task targetTask = m_project.getTaskByID(id);
-         if (targetTask != null)
-         {
-            // TODO: USE THE PROJECT DURATION TYPE!!!!!!
-            // TODO: HANDLE MULTIPLE RELATIONS!
-            Duration lagDuration = Duration.getInstance(lag, TimeUnit.DAYS);
-            task.addPredecessor(targetTask, type, lagDuration);
+            String sign = matcher.group(3);
+            double lag = NumberHelper.getDouble(matcher.group(4));
+            if ("-".equals(sign))
+            {
+               lag = -lag;
+            }
+
+            Task targetTask = m_project.getTaskByID(id);
+            if (targetTask != null)
+            {
+               Duration lagDuration = Duration.getInstance(lag, m_data.getDurationTimeUnit());
+               task.addPredecessor(targetTask, type, lagDuration);
+            }
          }
       }
    }
