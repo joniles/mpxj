@@ -227,6 +227,12 @@ public final class FastTrackUtility
       return (sb.toString());
    }
 
+   public static final String nameToConstant(String name)
+   {
+      String result = name.toUpperCase();
+      return result.replace(' ', '_');
+   }
+
    private static final long NULL_DOUBLE = 0x3949F623D5A8A733L;
 
    public static final Charset UTF16LE = Charset.forName("UTF-16LE");
