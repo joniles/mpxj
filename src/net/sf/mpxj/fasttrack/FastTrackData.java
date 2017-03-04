@@ -1,9 +1,32 @@
+/*
+ * file:       FastTrackData.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software
+ * date:       04/03/2017
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,26 +36,41 @@ import java.util.Map;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 
-public class FastTrackData
+/**
+ * Read tables of data from a FastTrack file.
+ */
+class FastTrackData
 {
+   /**
+    * Read a FastTrack file.
+    *
+    * @param file FastTrack file
+    */
    public void process(File file) throws Exception
    {
-      String output = "c:/temp/project1.txt";
+      openLogFile();
+
       int blockIndex = 0;
       int length = (int) file.length();
-      byte[] buffer = new byte[length];
+      m_buffer = new byte[length];
       FileInputStream is = new FileInputStream(file);
-      PrintWriter pw = new PrintWriter(new FileWriter(output));
-      int bytesRead = is.read(buffer);
-      if (bytesRead != length)
+      try
       {
-         throw new RuntimeException("Read count different");
+         int bytesRead = is.read(m_buffer);
+         if (bytesRead != length)
+         {
+            throw new RuntimeException("Read count different");
+         }
+      }
+      finally
+      {
+         is.close();
       }
 
       List<Integer> blocks = new ArrayList<Integer>();
-      for (int index = 64; index < buffer.length - 11; index++)
+      for (int index = 64; index < m_buffer.length - 11; index++)
       {
-         if (matchPattern(PARENT_BLOCK_PATTERNS, buffer, index))
+         if (matchPattern(PARENT_BLOCK_PATTERNS, index))
          {
             blocks.add(Integer.valueOf(index));
          }
@@ -42,65 +80,86 @@ public class FastTrackData
       for (int endIndex : blocks)
       {
          int blockLength = endIndex - startIndex;
-         readBlock(blockIndex, pw, startIndex, blockLength, buffer);
+         readBlock(blockIndex, startIndex, blockLength);
          startIndex = endIndex;
          ++blockIndex;
       }
 
-      int blockLength = buffer.length - startIndex;
-      readBlock(blockIndex, pw, startIndex, blockLength, buffer);
+      int blockLength = m_buffer.length - startIndex;
+      readBlock(blockIndex, startIndex, blockLength);
 
-      System.out.println("Duration units: " + m_durationTimeUnit);
-      System.out.println("Work units: " + m_workTimeUnit);
-
-      is.close();
-      pw.flush();
-      pw.close();
+      closeLogFile();
    }
 
+   /**
+    * Retrieve a named table of data.
+    *
+    * @param name table name
+    * @return FastTrackTable instance
+    */
    public FastTrackTable getTable(String name)
    {
       return m_tables.get(name);
    }
 
+   /**
+    * Retrieve the time units used for durations in this FastTrack file.
+    *
+    * @return TimeUnit instance
+    */
    TimeUnit getDurationTimeUnit()
    {
       return m_durationTimeUnit == null ? TimeUnit.DAYS : m_durationTimeUnit;
    }
 
+   /**
+    * Retrieve the time units used for work in this FastTrack file.
+    *
+    * @return TimeUnit instance
+    */
    TimeUnit getWorkTimeUnit()
    {
       return m_workTimeUnit == null ? TimeUnit.HOURS : m_workTimeUnit;
    }
 
-   private final void readBlock(int blockIndex, PrintWriter pw, int startIndex, int blockLength, byte[] buffer) throws Exception
+   /**
+    * Read a block of data from the FastTrack file and determine if
+    * it contains a table definition, or columns.
+    *
+    * @param blockIndex index of the current block
+    * @param startIndex start index of the block in the file
+    * @param blockLength block length
+    */
+   private void readBlock(int blockIndex, int startIndex, int blockLength) throws Exception
    {
-      pw.write("Block Index: " + blockIndex + "\n");
-      pw.write("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")\n");
-      pw.write("\n");
-      pw.write(FastTrackUtility.hexdump(buffer, startIndex, blockLength, true, 16, ""));
-      pw.write("\n\n");
+      logBlock(blockIndex, startIndex, blockLength);
 
       if (blockLength < 128)
       {
-         readTableBlock(pw, buffer, startIndex, blockLength);
+         readTableBlock(startIndex, blockLength);
       }
       else
       {
-         readColumns(pw, buffer, startIndex, blockLength);
+         readColumnBlock(startIndex, blockLength);
       }
    }
 
-   private void readTableBlock(PrintWriter pw, byte[] buffer, int startIndex, int blockLength)
+   /**
+    * Read the name of a table and prepare to populate it with column data.
+    *
+    * @param startIndex start of the block
+    * @param blockLength length of the block
+    */
+   private void readTableBlock(int startIndex, int blockLength)
    {
       for (int index = startIndex; index < (startIndex + blockLength - 11); index++)
       {
-         if (matchPattern(TABLE_BLOCK_PATTERNS, buffer, index))
+         if (matchPattern(TABLE_BLOCK_PATTERNS, index))
          {
             int offset = index + 7;
-            int nameLength = FastTrackUtility.getInt(buffer, offset);
+            int nameLength = FastTrackUtility.getInt(m_buffer, offset);
             offset += 4;
-            String name = new String(buffer, offset, nameLength, CharsetHelper.UTF16LE).toUpperCase();
+            String name = new String(m_buffer, offset, nameLength, CharsetHelper.UTF16LE).toUpperCase();
             m_currentTable = new FastTrackTable(this, name);
             m_tables.put(name, m_currentTable);
             break;
@@ -108,13 +167,19 @@ public class FastTrackData
       }
    }
 
-   private void readColumns(PrintWriter pw, byte[] buffer, int startIndex, int blockLength) throws Exception
+   /**
+    * Read multiple columns from a block.
+    *
+    * @param startIndex start of the block
+    * @param blockLength length of the block
+    */
+   private void readColumnBlock(int startIndex, int blockLength) throws Exception
    {
       int endIndex = startIndex + blockLength;
       List<Integer> blocks = new ArrayList<Integer>();
       for (int index = startIndex; index < endIndex - 11; index++)
       {
-         if (matchPattern(CHILD_BLOCK_PATTERNS, buffer, index))
+         if (matchPattern(CHILD_BLOCK_PATTERNS, index))
          {
             int childBlockStart = index - 2;
             blocks.add(Integer.valueOf(childBlockStart));
@@ -128,24 +193,28 @@ public class FastTrackData
          if (childBlockStart != -1)
          {
             int childblockLength = childBlockEnd - childBlockStart;
-            pw.flush();
-
             try
             {
-               readColumn(pw, buffer, startIndex, childBlockStart, childblockLength);
+               readColumn(childBlockStart, childblockLength);
             }
             catch (UnexpectedStructureException ex)
             {
-               pw.println("ABORTED COLUMN - unexpected structure");
+               logUnexpectedStructure();
             }
          }
          childBlockStart = childBlockEnd;
       }
    }
 
-   private void readColumn(PrintWriter pw, byte[] buffer, int blockStartIndex, int startIndex, int length) throws Exception
+   /**
+    * Read data for a single column.
+    *
+    * @param startIndex block start
+    * @param length block length
+    */
+   private void readColumn(int startIndex, int length) throws Exception
    {
-      int value = FastTrackUtility.getByte(buffer, startIndex);
+      int value = FastTrackUtility.getByte(m_buffer, startIndex);
       Class<?> klass = COLUMN_MAP[value];
       if (klass == null)
       {
@@ -153,17 +222,23 @@ public class FastTrackData
       }
 
       FastTrackColumn column = (FastTrackColumn) klass.newInstance();
-      column.read(buffer, startIndex, length);
+      column.read(m_buffer, startIndex, length);
       m_currentTable.addColumn(column);
 
       updateDurationTimeUnit(column);
       updateWorkTimeUnit(column);
 
-      pw.println("TABLE: " + m_currentTable.getName());
-      pw.println(column.toString());
+      logColumn(column);
    }
 
-   private final boolean matchPattern(byte[][] patterns, byte[] buffer, int bufferIndex)
+   /**
+    * Locate a feature in the file by match a byte pattern.
+    *
+    * @param patterns patterns to match
+    * @param bufferIndex start index
+    * @return true if the bytes at the position match a pattern
+    */
+   private final boolean matchPattern(byte[][] patterns, int bufferIndex)
    {
       boolean match = false;
       for (byte[] pattern : patterns)
@@ -172,7 +247,7 @@ public class FastTrackData
          match = true;
          for (byte b : pattern)
          {
-            if (b != buffer[bufferIndex + index])
+            if (b != m_buffer[bufferIndex + index])
             {
                match = false;
                break;
@@ -187,6 +262,11 @@ public class FastTrackData
       return match;
    }
 
+   /**
+    * Update the default time unit for durations based on data read from the file.
+    *
+    * @param column column data
+    */
    private void updateDurationTimeUnit(FastTrackColumn column)
    {
       if (m_durationTimeUnit == null && isDurationColumn(column))
@@ -199,6 +279,11 @@ public class FastTrackData
       }
    }
 
+   /**
+    * Update the default time unit for work based on data read from the file.
+    *
+    * @param column column data
+    */
    private void updateWorkTimeUnit(FastTrackColumn column)
    {
       if (m_workTimeUnit == null && isWorkColumn(column))
@@ -211,16 +296,107 @@ public class FastTrackData
       }
    }
 
+   /**
+    * Determines if this is a duration column.
+    *
+    * @param column column to test
+    * @return true if this is a duration column
+    */
    private boolean isDurationColumn(FastTrackColumn column)
    {
       return column instanceof DurationColumn && column.getName().indexOf("Duration") != -1;
    }
 
+   /**
+    * Determines if this is a work column.
+    *
+    * @param column column to test
+    * @return true if this is a work column
+    */
    private boolean isWorkColumn(FastTrackColumn column)
    {
       return column instanceof DurationColumn && column.getName().indexOf("Work") != -1;
    }
 
+   /**
+    * Provide the file path for rudimentary logging to support development.
+    *
+    * @param logFile full path to log file
+    */
+   public void setLogFile(String logFile)
+   {
+      m_logFile = logFile;
+   }
+
+   /**
+    * Open the log file for writing.
+    */
+   private void openLogFile() throws IOException
+   {
+      if (m_logFile != null)
+      {
+         m_log = new PrintWriter(new FileWriter(m_logFile));
+      }
+   }
+
+   /**
+    * Close the log file.
+    */
+   private void closeLogFile()
+   {
+      if (m_logFile != null)
+      {
+         m_log.flush();
+         m_log.close();
+      }
+   }
+
+   /**
+    * Log block data.
+    *
+    * @param blockIndex current block index
+    * @param startIndex start index
+    * @param blockLength length
+    */
+   private void logBlock(int blockIndex, int startIndex, int blockLength)
+   {
+      if (m_log != null)
+      {
+         m_log.println("Block Index: " + blockIndex);
+         m_log.println("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")");
+         m_log.println();
+         m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, blockLength, true, 16, ""));
+      }
+   }
+
+   /**
+    * Log unexpected column structure.
+    */
+   private void logUnexpectedStructure()
+   {
+      if (m_log != null)
+      {
+         m_log.println("ABORTED COLUMN - unexpected structure");
+      }
+   }
+
+   /**
+    * Log column data.
+    *
+    * @param column column data
+    */
+   private void logColumn(FastTrackColumn column)
+   {
+      if (m_log != null)
+      {
+         m_log.println("TABLE: " + m_currentTable.getName());
+         m_log.println(column.toString());
+      }
+   }
+
+   private byte[] m_buffer;
+   private String m_logFile;
+   private PrintWriter m_log;
    private final Map<String, FastTrackTable> m_tables = new HashMap<String, FastTrackTable>();
    private FastTrackTable m_currentTable;
    private TimeUnit m_durationTimeUnit;

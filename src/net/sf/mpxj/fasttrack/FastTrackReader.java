@@ -27,6 +27,7 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
 // TODO:
+// 0. Customized column names
 // 1. Handle multiple bars per activity
 // 2. Task created attribute parse
 // 3. Resource rates
@@ -78,6 +79,8 @@ public class FastTrackReader implements ProjectReader
       try
       {
          m_data = new FastTrackData();
+         // TODO: temp log file
+         m_data.setLogFile("c:/temp/project1.txt");
          m_data.process(file);
          return read();
       }
