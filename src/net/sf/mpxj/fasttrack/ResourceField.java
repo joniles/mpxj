@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
-enum ResourceField
+enum ResourceField implements FastTrackField
 {
    RESOURCE_ID(1),
    RESOURCE_NAME(2),
@@ -329,4 +329,28 @@ enum ResourceField
    }
 
    private final int m_value;
+
+   public static final ResourceField getInstance(int value)
+   {
+      ResourceField result;
+      if (value < 0 || value >= MAP.length)
+      {
+         result = null;
+      }
+      else
+      {
+         result = MAP[value];
+      }
+      return result;
+   }
+
+   private static final ResourceField[] MAP = new ResourceField[IMAGE_10.m_value + 1];
+   static
+   {
+      for (ResourceField field : ResourceField.values())
+      {
+         MAP[field.m_value] = field;
+      }
+   }
+
 }

@@ -6,9 +6,10 @@ import java.io.PrintWriter;
 
 abstract class AbstractColumn implements FastTrackColumn
 {
-   public void read(byte[] buffer, int startIndex, int length)
+   public void read(FastTrackTableType tableType, byte[] buffer, int startIndex, int length)
    {
       m_header = new BlockHeader().read(buffer, startIndex, postHeaderSkipBytes());
+      setFieldType(tableType);
       int offset = readData(buffer, startIndex, m_header.getOffset());
 
       if (length > offset)
@@ -43,6 +44,11 @@ abstract class AbstractColumn implements FastTrackColumn
       return m_header.getFlags();
    }
 
+   @Override public FastTrackField getType()
+   {
+      return m_type;
+   }
+
    @Override public Object[] getData()
    {
       return m_data;
@@ -62,7 +68,30 @@ abstract class AbstractColumn implements FastTrackColumn
 
    }
 
+   private void setFieldType(FastTrackTableType tableType)
+   {
+      switch (tableType)
+      {
+         case ACTBARS:
+         {
+            m_type = ActBarField.getInstance(m_header.getIndexNumber());
+            break;
+         }
+         case ACTIVITIES:
+         {
+            m_type = ActivityField.getInstance(m_header.getIndexNumber());
+            break;
+         }
+         case RESOURCES:
+         {
+            m_type = ResourceField.getInstance(m_header.getIndexNumber());
+            break;
+         }
+      }
+   }
+
    private BlockHeader m_header;
    private byte[] m_trailer;
+   private FastTrackField m_type;
    protected Object[] m_data;
 }

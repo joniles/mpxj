@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
-enum ActBarField
+enum ActBarField implements FastTrackField
 {
    START_DATE(1),
    START_TIME(2),
@@ -371,4 +371,27 @@ enum ActBarField
    }
 
    private final int m_value;
+
+   public static final ActBarField getInstance(int value)
+   {
+      ActBarField result;
+      if (value < 0 || value >= MAP.length)
+      {
+         result = null;
+      }
+      else
+      {
+         result = MAP[value];
+      }
+      return result;
+   }
+
+   private static final ActBarField[] MAP = new ActBarField[CALCULATION_100.m_value + 1];
+   static
+   {
+      for (ActBarField field : ActBarField.values())
+      {
+         MAP[field.m_value] = field;
+      }
+   }
 }

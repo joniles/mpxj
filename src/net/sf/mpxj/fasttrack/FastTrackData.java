@@ -29,6 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,9 +98,9 @@ class FastTrackData
     * @param name table name
     * @return FastTrackTable instance
     */
-   public FastTrackTable getTable(String name)
+   public FastTrackTable getTable(FastTrackTableType type)
    {
-      return m_tables.get(name);
+      return m_tables.get(type);
    }
 
    /**
@@ -160,8 +161,16 @@ class FastTrackData
             int nameLength = FastTrackUtility.getInt(m_buffer, offset);
             offset += 4;
             String name = new String(m_buffer, offset, nameLength, CharsetHelper.UTF16LE).toUpperCase();
-            m_currentTable = new FastTrackTable(this, name);
-            m_tables.put(name, m_currentTable);
+            FastTrackTableType type = REQUIRED_TABLES.get(name);
+            if (type != null)
+            {
+               m_currentTable = new FastTrackTable(this, type);
+               m_tables.put(type, m_currentTable);
+            }
+            else
+            {
+               m_currentTable = null;
+            }
             break;
          }
       }
@@ -214,21 +223,24 @@ class FastTrackData
     */
    private void readColumn(int startIndex, int length) throws Exception
    {
-      int value = FastTrackUtility.getByte(m_buffer, startIndex);
-      Class<?> klass = COLUMN_MAP[value];
-      if (klass == null)
+      if (m_currentTable != null)
       {
-         klass = UnknownColumn.class;
+         int value = FastTrackUtility.getByte(m_buffer, startIndex);
+         Class<?> klass = COLUMN_MAP[value];
+         if (klass == null)
+         {
+            klass = UnknownColumn.class;
+         }
+
+         FastTrackColumn column = (FastTrackColumn) klass.newInstance();
+         column.read(m_currentTable.getType(), m_buffer, startIndex, length);
+         m_currentTable.addColumn(column);
+         System.out.println(m_currentTable.getType() + "." + column.getName() + "\t" + column.getIndexNumber() + "\t" + column.getFlags() + "\t" + column.getType());
+         updateDurationTimeUnit(column);
+         updateWorkTimeUnit(column);
+
+         logColumn(column);
       }
-
-      FastTrackColumn column = (FastTrackColumn) klass.newInstance();
-      column.read(m_buffer, startIndex, length);
-      m_currentTable.addColumn(column);
-      System.out.println(m_currentTable.getName() + "." + column.getName() + "\t" + column.getIndexNumber() + "\t" + column.getFlags() + "\t" + FastTrackUtility.nameToConstant(column.getName()) + "(" + column.getIndexNumber() + "),");
-      updateDurationTimeUnit(column);
-      updateWorkTimeUnit(column);
-
-      logColumn(column);
    }
 
    /**
@@ -389,7 +401,7 @@ class FastTrackData
    {
       if (m_log != null)
       {
-         m_log.println("TABLE: " + m_currentTable.getName());
+         m_log.println("TABLE: " + m_currentTable.getType());
          m_log.println(column.toString());
       }
    }
@@ -397,7 +409,7 @@ class FastTrackData
    private byte[] m_buffer;
    private String m_logFile;
    private PrintWriter m_log;
-   private final Map<String, FastTrackTable> m_tables = new HashMap<String, FastTrackTable>();
+   private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<FastTrackTableType, FastTrackTable>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
@@ -494,5 +506,13 @@ class FastTrackData
       COLUMN_MAP[0x58] = RelationColumn.class;
       COLUMN_MAP[0x68] = StringColumn.class;
       COLUMN_MAP[0x69] = StringColumn.class;
+   }
+
+   private static final Map<String, FastTrackTableType> REQUIRED_TABLES = new HashMap<String, FastTrackTableType>();
+   static
+   {
+      REQUIRED_TABLES.put("ACTBARS", FastTrackTableType.ACTBARS);
+      REQUIRED_TABLES.put("ACTIVITIES", FastTrackTableType.ACTIVITIES);
+      REQUIRED_TABLES.put("RESOURCES", FastTrackTableType.RESOURCES);
    }
 }

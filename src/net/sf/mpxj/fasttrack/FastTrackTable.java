@@ -9,15 +9,15 @@ import net.sf.mpxj.TimeUnit;
 
 class FastTrackTable implements Iterable<MapRow>
 {
-   public FastTrackTable(FastTrackData data, String name)
+   public FastTrackTable(FastTrackData data, FastTrackTableType type)
    {
       m_data = data;
-      m_name = name;
+      m_type = type;
    }
 
-   public String getName()
+   public FastTrackTableType getType()
    {
-      return m_name;
+      return m_type;
    }
 
    public TimeUnit getDurationTimeUnit()
@@ -64,6 +64,6 @@ class FastTrackTable implements Iterable<MapRow>
    }
 
    private final FastTrackData m_data;
-   private final String m_name;
+   private final FastTrackTableType m_type;
    private final ArrayList<MapRow> m_rows = new ArrayList<MapRow>();
 }

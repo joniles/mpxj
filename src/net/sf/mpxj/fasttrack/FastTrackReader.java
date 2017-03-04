@@ -120,7 +120,7 @@ public class FastTrackReader implements ProjectReader
 
    private void processResources()
    {
-      FastTrackTable table = m_data.getTable("RESOURCES");
+      FastTrackTable table = m_data.getTable(FastTrackTableType.RESOURCES);
       for (MapRow row : table)
       {
          int uniqueID = row.getInt("Resource ID");
@@ -175,7 +175,7 @@ public class FastTrackReader implements ProjectReader
 
    private void processTasks()
    {
-      FastTrackTable activities = m_data.getTable("ACTIVITIES");
+      FastTrackTable activities = m_data.getTable(FastTrackTableType.ACTIVITIES);
       for (MapRow row : activities)
       {
          Integer id = row.getInteger("Activity Row ID");
@@ -219,7 +219,7 @@ public class FastTrackReader implements ProjectReader
          task.setOutlineLevel(getOutlineLevel(task));
       }
 
-      FastTrackTable table = m_data.getTable("ACTBARS");
+      FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
       Set<Task> tasksWithBars = new HashSet<Task>();
 
       for (MapRow row : table)
@@ -339,7 +339,7 @@ public class FastTrackReader implements ProjectReader
    private void processDependencies()
    {
       Set<Task> tasksWithBars = new HashSet<Task>();
-      FastTrackTable table = m_data.getTable("ACTBARS");
+      FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
       for (MapRow row : table)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
@@ -387,7 +387,7 @@ public class FastTrackReader implements ProjectReader
    private void processAssignments()
    {
       Set<Task> tasksWithBars = new HashSet<Task>();
-      FastTrackTable table = m_data.getTable("ACTBARS");
+      FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
       Map<String, Resource> resources = new HashMap<String, Resource>();
       for (Resource resource : m_project.getAllResources())
       {

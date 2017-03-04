@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
-enum ActivityField
+enum ActivityField implements FastTrackField
 {
    _ADATA(1),
    ACTIVITY_NAME(2),
@@ -167,4 +167,28 @@ enum ActivityField
    }
 
    private final int m_value;
+
+   public static final ActivityField getInstance(int value)
+   {
+      ActivityField result;
+      if (value < 0 || value >= MAP.length)
+      {
+         result = null;
+      }
+      else
+      {
+         result = MAP[value];
+      }
+      return result;
+   }
+
+   private static final ActivityField[] MAP = new ActivityField[IMAGE_10.m_value + 1];
+   static
+   {
+      for (ActivityField field : ActivityField.values())
+      {
+         MAP[field.m_value] = field;
+      }
+   }
+
 }
