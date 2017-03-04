@@ -5,12 +5,13 @@ import java.io.PrintWriter;
 
 public class CalendarColumn extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 34;
+   }
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      // Skip bytes
-      offset += 34;
-
       StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
       m_options = options.getData();
       offset = options.getOffset();

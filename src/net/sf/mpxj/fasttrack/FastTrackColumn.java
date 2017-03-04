@@ -7,5 +7,9 @@ public interface FastTrackColumn
 
    public String getName();
 
+   public int getIndexNumber();
+
+   public int getFlags();
+
    public Object[] getData();
 }

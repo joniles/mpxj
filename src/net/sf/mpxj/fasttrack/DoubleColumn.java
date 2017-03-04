@@ -5,12 +5,13 @@ import java.io.PrintWriter;
 
 public class DoubleColumn extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 16;
+   }
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      // Skip bytes
-      offset += 16;
-
       m_data = new Double[FastTrackUtility.getInt(buffer, startIndex + offset)];
       offset += 4;
 

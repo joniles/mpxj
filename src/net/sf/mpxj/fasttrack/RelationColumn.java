@@ -5,11 +5,13 @@ import java.io.PrintWriter;
 
 public class RelationColumn extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 16;
+   }
+
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      // Skip bytes
-      offset += 16;
-
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, startIndex, offset, true);
       m_data = data.getData();
       offset = data.getOffset();

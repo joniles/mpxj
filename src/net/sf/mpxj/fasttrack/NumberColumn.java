@@ -5,12 +5,13 @@ import java.io.PrintWriter;
 
 public class NumberColumn extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 18;
+   }
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      // Skip bytes
-      offset += 18;
-
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
 

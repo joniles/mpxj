@@ -5,6 +5,10 @@ import java.io.PrintWriter;
 
 public class StringColumn extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 0;
+   }
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {

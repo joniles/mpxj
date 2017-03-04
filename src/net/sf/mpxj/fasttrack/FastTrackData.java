@@ -224,7 +224,7 @@ class FastTrackData
       FastTrackColumn column = (FastTrackColumn) klass.newInstance();
       column.read(m_buffer, startIndex, length);
       m_currentTable.addColumn(column);
-
+      System.out.println(m_currentTable.getName() + "." + column.getName() + "\t" + column.getIndexNumber() + "\t" + column.getFlags());
       updateDurationTimeUnit(column);
       updateWorkTimeUnit(column);
 

@@ -9,12 +9,13 @@ import java.util.Date;
 
 public class TimeColumn extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 48;
+   }
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      // Skip bytes
-      offset += 48;
-
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
       offset = data.getOffset();
 
