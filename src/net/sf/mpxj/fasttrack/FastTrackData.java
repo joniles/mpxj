@@ -33,6 +33,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
@@ -171,6 +173,7 @@ class FastTrackData
             {
                m_currentTable = null;
             }
+            m_currentFields.clear();
             break;
          }
       }
@@ -234,12 +237,23 @@ class FastTrackData
 
          FastTrackColumn column = (FastTrackColumn) klass.newInstance();
          column.read(m_currentTable.getType(), m_buffer, startIndex, length);
-         m_currentTable.addColumn(column);
-         System.out.println(m_currentTable.getType() + "." + column.getName() + "\t" + column.getIndexNumber() + "\t" + column.getFlags() + "\t" + column.getType());
-         updateDurationTimeUnit(column);
-         updateWorkTimeUnit(column);
+         FastTrackField type = column.getType();
 
-         logColumn(column);
+         //
+         // Don't try to add this data if:
+         // 1. We don't know what type it is
+         // 2. We have seen the type already
+         //
+         if (type != null && !m_currentFields.contains(type))
+         {
+            m_currentFields.add(type);
+            m_currentTable.addColumn(column);
+            System.out.println(m_currentTable.getType() + "." + column.getName() + "\t" + column.getIndexNumber() + "\t" + column.getFlags() + "\t" + column.getType());
+            updateDurationTimeUnit(column);
+            updateWorkTimeUnit(column);
+
+            logColumn(column);
+         }
       }
    }
 
@@ -411,6 +425,7 @@ class FastTrackData
    private PrintWriter m_log;
    private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<FastTrackTableType, FastTrackTable>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;
+   private final Set<FastTrackField> m_currentFields = new TreeSet<FastTrackField>();
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
 
