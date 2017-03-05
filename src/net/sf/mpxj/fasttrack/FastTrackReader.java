@@ -123,52 +123,92 @@ public class FastTrackReader implements ProjectReader
       FastTrackTable table = m_data.getTable(FastTrackTableType.RESOURCES);
       for (MapRow row : table)
       {
-         int uniqueID = row.getInt("Resource ID");
+         int uniqueID = row.getInt(ResourceField.RESOURCE_ID);
          if (uniqueID <= 0)
          {
             continue;
          }
 
          Resource resource = m_project.addResource();
-         resource.setCode(row.getString("Code"));
-         resource.setCostPerUse(row.getCurrency("Per Use Cost"));
-         resource.setEmailAddress(row.getString("E-mail Address"));
-         resource.setFlag(1, row.getBoolean("Flag 1"));
-         resource.setFlag(2, row.getBoolean("Flag 2"));
-         resource.setFlag(3, row.getBoolean("Flag 3"));
-         resource.setFlag(4, row.getBoolean("Flag 4"));
-         resource.setFlag(5, row.getBoolean("Flag 5"));
-         resource.setFlag(6, row.getBoolean("Flag 6"));
-         resource.setFlag(7, row.getBoolean("Flag 7"));
-         resource.setFlag(8, row.getBoolean("Flag 8"));
-         resource.setFlag(9, row.getBoolean("Flag 9"));
-         resource.setFlag(10, row.getBoolean("Flag 10"));
-         resource.setFlag(11, row.getBoolean("Flag 11"));
-         resource.setFlag(12, row.getBoolean("Flag 12"));
-         resource.setFlag(13, row.getBoolean("Flag 13"));
-         resource.setFlag(14, row.getBoolean("Flag 14"));
-         resource.setFlag(15, row.getBoolean("Flag 15"));
-         resource.setFlag(16, row.getBoolean("Flag 16"));
-         resource.setFlag(17, row.getBoolean("Flag 17"));
-         resource.setFlag(18, row.getBoolean("Flag 18"));
-         resource.setFlag(19, row.getBoolean("Flag 19"));
-         resource.setFlag(20, row.getBoolean("Flag 20"));
-         resource.setGroup(row.getString("Group"));
-         resource.setGUID(row.getUUID("_Resource GUID"));
-         resource.setInitials(row.getString("Initials"));
-         resource.setMaterialLabel(row.getString("Material Label"));
-         resource.setName(row.getString("Resource Name"));
-         resource.setNotes(row.getString("Resource Notes"));
-         resource.setNumber(1, row.getDouble("Number 1"));
-         resource.setNumber(2, row.getDouble("Number 2"));
-         resource.setNumber(3, row.getDouble("Number 3"));
-         resource.setNumber(4, row.getDouble("Number 4"));
-         resource.setNumber(5, row.getDouble("Number 5"));
-         resource.setText(1, row.getString("Text 1"));
-         resource.setText(2, row.getString("Text 2"));
-         resource.setText(3, row.getString("Text 3"));
-         resource.setText(4, row.getString("Text 4"));
-         resource.setText(5, row.getString("Text 5"));
+         resource.setCode(row.getString(ResourceField.CODE));
+         resource.setCostPerUse(row.getCurrency(ResourceField.PER_USE_COST));
+         resource.setEmailAddress(row.getString(ResourceField.EMAIL_ADDRESS));
+         resource.setFlag(1, row.getBoolean(ResourceField.FLAG_1));
+         resource.setFlag(2, row.getBoolean(ResourceField.FLAG_2));
+         resource.setFlag(3, row.getBoolean(ResourceField.FLAG_3));
+         resource.setFlag(4, row.getBoolean(ResourceField.FLAG_4));
+         resource.setFlag(5, row.getBoolean(ResourceField.FLAG_5));
+         resource.setFlag(6, row.getBoolean(ResourceField.FLAG_6));
+         resource.setFlag(7, row.getBoolean(ResourceField.FLAG_7));
+         resource.setFlag(8, row.getBoolean(ResourceField.FLAG_8));
+         resource.setFlag(9, row.getBoolean(ResourceField.FLAG_9));
+         resource.setFlag(10, row.getBoolean(ResourceField.FLAG_10));
+         resource.setFlag(11, row.getBoolean(ResourceField.FLAG_11));
+         resource.setFlag(12, row.getBoolean(ResourceField.FLAG_12));
+         resource.setFlag(13, row.getBoolean(ResourceField.FLAG_13));
+         resource.setFlag(14, row.getBoolean(ResourceField.FLAG_14));
+         resource.setFlag(15, row.getBoolean(ResourceField.FLAG_15));
+         resource.setFlag(16, row.getBoolean(ResourceField.FLAG_16));
+         resource.setFlag(17, row.getBoolean(ResourceField.FLAG_17));
+         resource.setFlag(18, row.getBoolean(ResourceField.FLAG_18));
+         resource.setFlag(19, row.getBoolean(ResourceField.FLAG_19));
+         resource.setFlag(20, row.getBoolean(ResourceField.FLAG_20));
+         resource.setGroup(row.getString(ResourceField.GROUP));
+         resource.setGUID(row.getUUID(ResourceField._RESOURCE_GUID));
+         resource.setInitials(row.getString(ResourceField.INITIALS));
+         resource.setMaterialLabel(row.getString(ResourceField.MATERIAL_LABEL));
+         resource.setName(row.getString(ResourceField.RESOURCE_NAME));
+         resource.setNotes(row.getString(ResourceField.RESOURCE_NOTES));
+         resource.setNumber(1, row.getDouble(ResourceField.NUMBER_1));
+         resource.setNumber(2, row.getDouble(ResourceField.NUMBER_2));
+         resource.setNumber(3, row.getDouble(ResourceField.NUMBER_3));
+         resource.setNumber(4, row.getDouble(ResourceField.NUMBER_4));
+         resource.setNumber(5, row.getDouble(ResourceField.NUMBER_5));
+         resource.setNumber(6, row.getDouble(ResourceField.NUMBER_6));
+         resource.setNumber(7, row.getDouble(ResourceField.NUMBER_7));
+         resource.setNumber(8, row.getDouble(ResourceField.NUMBER_8));
+         resource.setNumber(9, row.getDouble(ResourceField.NUMBER_9));
+         resource.setNumber(10, row.getDouble(ResourceField.NUMBER_10));
+         resource.setNumber(11, row.getDouble(ResourceField.NUMBER_11));
+         resource.setNumber(12, row.getDouble(ResourceField.NUMBER_12));
+         resource.setNumber(13, row.getDouble(ResourceField.NUMBER_13));
+         resource.setNumber(14, row.getDouble(ResourceField.NUMBER_14));
+         resource.setNumber(15, row.getDouble(ResourceField.NUMBER_15));
+         resource.setNumber(16, row.getDouble(ResourceField.NUMBER_16));
+         resource.setNumber(17, row.getDouble(ResourceField.NUMBER_17));
+         resource.setNumber(18, row.getDouble(ResourceField.NUMBER_18));
+         resource.setNumber(19, row.getDouble(ResourceField.NUMBER_19));
+         resource.setNumber(20, row.getDouble(ResourceField.NUMBER_20));
+         resource.setText(1, row.getString(ResourceField.TEXT_1));
+         resource.setText(2, row.getString(ResourceField.TEXT_2));
+         resource.setText(3, row.getString(ResourceField.TEXT_3));
+         resource.setText(4, row.getString(ResourceField.TEXT_4));
+         resource.setText(5, row.getString(ResourceField.TEXT_5));
+         resource.setText(6, row.getString(ResourceField.TEXT_6));
+         resource.setText(7, row.getString(ResourceField.TEXT_7));
+         resource.setText(8, row.getString(ResourceField.TEXT_8));
+         resource.setText(9, row.getString(ResourceField.TEXT_9));
+         resource.setText(10, row.getString(ResourceField.TEXT_10));
+         resource.setText(11, row.getString(ResourceField.TEXT_11));
+         resource.setText(12, row.getString(ResourceField.TEXT_12));
+         resource.setText(13, row.getString(ResourceField.TEXT_13));
+         resource.setText(14, row.getString(ResourceField.TEXT_14));
+         resource.setText(15, row.getString(ResourceField.TEXT_15));
+         resource.setText(16, row.getString(ResourceField.TEXT_16));
+         resource.setText(17, row.getString(ResourceField.TEXT_17));
+         resource.setText(18, row.getString(ResourceField.TEXT_18));
+         resource.setText(19, row.getString(ResourceField.TEXT_19));
+         resource.setText(20, row.getString(ResourceField.TEXT_20));
+         resource.setText(21, row.getString(ResourceField.TEXT_21));
+         resource.setText(22, row.getString(ResourceField.TEXT_22));
+         resource.setText(23, row.getString(ResourceField.TEXT_23));
+         resource.setText(24, row.getString(ResourceField.TEXT_24));
+         resource.setText(25, row.getString(ResourceField.TEXT_25));
+         resource.setText(26, row.getString(ResourceField.TEXT_26));
+         resource.setText(27, row.getString(ResourceField.TEXT_27));
+         resource.setText(28, row.getString(ResourceField.TEXT_28));
+         resource.setText(29, row.getString(ResourceField.TEXT_29));
+         resource.setText(30, row.getString(ResourceField.TEXT_30));
          resource.setUniqueID(Integer.valueOf(uniqueID));
       }
    }
@@ -178,44 +218,70 @@ public class FastTrackReader implements ProjectReader
       FastTrackTable activities = m_data.getTable(FastTrackTableType.ACTIVITIES);
       for (MapRow row : activities)
       {
-         Integer id = row.getInteger("Activity Row ID");
+         Integer id = row.getInteger(ActivityField.ACTIVITY_ROW_ID);
          if (id == null || id.intValue() < 1)
          {
             continue;
          }
 
          Task task = m_project.addTask();
-         task.setName(getTaskName(row));
+         task.setName(row.getString(ActivityField.ACTIVITY_NAME));
          task.setID(id);
          //  Activity Row Number
-         task.setFlag(1, row.getBoolean("Flag 1"));
-         task.setFlag(2, row.getBoolean("Flag 2"));
-         task.setFlag(3, row.getBoolean("Flag 3"));
-         task.setFlag(4, row.getBoolean("Flag 4"));
-         task.setFlag(5, row.getBoolean("Flag 5"));
-         task.setFlag(6, row.getBoolean("Flag 6"));
-         task.setFlag(7, row.getBoolean("Flag 7"));
-         task.setFlag(8, row.getBoolean("Flag 8"));
-         task.setFlag(9, row.getBoolean("Flag 9"));
-         task.setFlag(10, row.getBoolean("Flag 10"));
-         task.setFlag(11, row.getBoolean("Flag 11"));
-         task.setFlag(12, row.getBoolean("Flag 12"));
-         task.setFlag(13, row.getBoolean("Flag 13"));
-         task.setFlag(14, row.getBoolean("Flag 14"));
-         task.setFlag(15, row.getBoolean("Flag 15"));
-         task.setFlag(16, row.getBoolean("Flag 16"));
-         task.setFlag(17, row.getBoolean("Flag 17"));
-         task.setFlag(18, row.getBoolean("Flag 18"));
-         task.setFlag(19, row.getBoolean("Flag 19"));
-         task.setFlag(20, row.getBoolean("Flag 20"));
+         task.setFlag(1, row.getBoolean(ActivityField.FLAG_1));
+         task.setFlag(2, row.getBoolean(ActivityField.FLAG_2));
+         task.setFlag(3, row.getBoolean(ActivityField.FLAG_3));
+         task.setFlag(4, row.getBoolean(ActivityField.FLAG_4));
+         task.setFlag(5, row.getBoolean(ActivityField.FLAG_5));
+         task.setFlag(6, row.getBoolean(ActivityField.FLAG_6));
+         task.setFlag(7, row.getBoolean(ActivityField.FLAG_7));
+         task.setFlag(8, row.getBoolean(ActivityField.FLAG_8));
+         task.setFlag(9, row.getBoolean(ActivityField.FLAG_9));
+         task.setFlag(10, row.getBoolean(ActivityField.FLAG_10));
+         task.setFlag(11, row.getBoolean(ActivityField.FLAG_11));
+         task.setFlag(12, row.getBoolean(ActivityField.FLAG_12));
+         task.setFlag(13, row.getBoolean(ActivityField.FLAG_13));
+         task.setFlag(14, row.getBoolean(ActivityField.FLAG_14));
+         task.setFlag(15, row.getBoolean(ActivityField.FLAG_15));
+         task.setFlag(16, row.getBoolean(ActivityField.FLAG_16));
+         task.setFlag(17, row.getBoolean(ActivityField.FLAG_17));
+         task.setFlag(18, row.getBoolean(ActivityField.FLAG_18));
+         task.setFlag(19, row.getBoolean(ActivityField.FLAG_19));
+         task.setFlag(20, row.getBoolean(ActivityField.FLAG_20));
          //   Parent Tree
-         task.setText(1, row.getString("Text 1"));
-         task.setText(2, row.getString("Text 2"));
-         task.setText(3, row.getString("Text 3"));
-         task.setText(4, row.getString("Text 4"));
-         task.setText(5, row.getString("Text 5"));
-         task.setWBS(row.getString("WBS"));
-         task.setGUID(row.getUUID("_Activity GUID"));
+         task.setText(1, row.getString(ActivityField.TEXT_1));
+         task.setText(2, row.getString(ActivityField.TEXT_2));
+         task.setText(3, row.getString(ActivityField.TEXT_3));
+         task.setText(4, row.getString(ActivityField.TEXT_4));
+         task.setText(5, row.getString(ActivityField.TEXT_5));
+         task.setText(6, row.getString(ActivityField.TEXT_6));
+         task.setText(7, row.getString(ActivityField.TEXT_7));
+         task.setText(8, row.getString(ActivityField.TEXT_8));
+         task.setText(9, row.getString(ActivityField.TEXT_9));
+         task.setText(10, row.getString(ActivityField.TEXT_10));
+         task.setText(11, row.getString(ActivityField.TEXT_11));
+         task.setText(12, row.getString(ActivityField.TEXT_12));
+         task.setText(13, row.getString(ActivityField.TEXT_13));
+         task.setText(14, row.getString(ActivityField.TEXT_14));
+         task.setText(15, row.getString(ActivityField.TEXT_15));
+         task.setText(16, row.getString(ActivityField.TEXT_16));
+         task.setText(17, row.getString(ActivityField.TEXT_17));
+         task.setText(18, row.getString(ActivityField.TEXT_18));
+         task.setText(19, row.getString(ActivityField.TEXT_19));
+         task.setText(20, row.getString(ActivityField.TEXT_20));
+         task.setText(21, row.getString(ActivityField.TEXT_21));
+         task.setText(22, row.getString(ActivityField.TEXT_22));
+         task.setText(23, row.getString(ActivityField.TEXT_23));
+         task.setText(24, row.getString(ActivityField.TEXT_24));
+         task.setText(25, row.getString(ActivityField.TEXT_25));
+         task.setText(26, row.getString(ActivityField.TEXT_26));
+         task.setText(27, row.getString(ActivityField.TEXT_27));
+         task.setText(28, row.getString(ActivityField.TEXT_28));
+         task.setText(29, row.getString(ActivityField.TEXT_29));
+         task.setText(30, row.getString(ActivityField.TEXT_30));
+
+         task.setWBS(row.getString(ActivityField.WBS));
+         task.setGUID(row.getUUID(ActivityField._ACTIVITY_GUID));
          task.setOutlineLevel(getOutlineLevel(task));
       }
 
@@ -224,12 +290,12 @@ public class FastTrackReader implements ProjectReader
 
       for (MapRow row : table)
       {
-         if (row.getInt("Bar ID") < 1)
+         if (row.getInt(ActBarField.BAR_ID) < 1)
          {
             continue;
          }
 
-         Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
+         Task task = m_project.getTaskByUniqueID(row.getInteger(ActBarField._ACTIVITY));
          if (task == null || tasksWithBars.contains(task))
          {
             continue;
@@ -237,96 +303,161 @@ public class FastTrackReader implements ProjectReader
          tasksWithBars.add(task);
 
          // % Used
-         task.setActualDuration(row.getDuration("Actual Duration"));
-         task.setActualFinish(row.getTimestamp("Actual Finish Date", "Actual Finish Time"));
-         task.setActualStart(row.getTimestamp("Actual Start Date", "Actual Start Time"));
+         task.setActualDuration(row.getDuration(ActBarField.ACTUAL_DURATION));
+         task.setActualFinish(row.getTimestamp(ActBarField.ACTUAL_FINISH_DATE, ActBarField.ACTUAL_FINISH_TIME));
+         task.setActualStart(row.getTimestamp(ActBarField.ACTUAL_START_DATE, ActBarField.ACTUAL_START_TIME));
          // Attendees
-         task.setBaselineCost(1, row.getCurrency("Baseline Cost 1"));
-         task.setBaselineCost(2, row.getCurrency("Baseline Cost 2"));
-         task.setBaselineCost(3, row.getCurrency("Baseline Cost 3"));
-         task.setBaselineCost(4, row.getCurrency("Baseline Cost 4"));
-         task.setBaselineCost(5, row.getCurrency("Baseline Cost 5"));
-         task.setBaselineDuration(1, row.getDuration("Baseline Duration 1"));
-         task.setBaselineDuration(2, row.getDuration("Baseline Duration 2"));
-         task.setBaselineDuration(3, row.getDuration("Baseline Duration 3"));
-         task.setBaselineDuration(4, row.getDuration("Baseline Duration 4"));
-         task.setBaselineDuration(5, row.getDuration("Baseline Duration 5"));
-         task.setBaselineFinish(1, row.getTimestamp("Baseline Finish Date 1", "Baseline Finish Time 1"));
-         task.setBaselineFinish(2, row.getTimestamp("Baseline Finish Date 2", "Baseline Finish Time 2"));
-         task.setBaselineFinish(3, row.getTimestamp("Baseline Finish Date 3", "Baseline Finish Time 3"));
-         task.setBaselineFinish(4, row.getTimestamp("Baseline Finish Date 4", "Baseline Finish Time 4"));
-         task.setBaselineFinish(5, row.getTimestamp("Baseline Finish Date 5", "Baseline Finish Time 5"));
-         task.setBaselineStart(1, row.getTimestamp("Baseline Start Date 1", "Baseline Start Time 1"));
-         task.setBaselineStart(2, row.getTimestamp("Baseline Start Date 2", "Baseline Start Time 1"));
-         task.setBaselineStart(3, row.getTimestamp("Baseline Start Date 3", "Baseline Start Time 1"));
-         task.setBaselineStart(4, row.getTimestamp("Baseline Start Date 4", "Baseline Start Time 1"));
-         task.setBaselineStart(5, row.getTimestamp("Baseline Start Date 5", "Baseline Start Time 1"));
-         task.setBaselineWork(1, row.getWork("Baseline Work 1"));
-         task.setBaselineWork(2, row.getWork("Baseline Work 2"));
-         task.setBaselineWork(3, row.getWork("Baseline Work 3"));
-         task.setBaselineWork(4, row.getWork("Baseline Work 4"));
-         task.setBaselineWork(5, row.getWork("Baseline Work 5"));
-         task.setConstraintDate(row.getTimestamp("Constraint Date", "Constraint Time"));
-         task.setCost(1, row.getCurrency("Cost 1"));
-         task.setCost(2, row.getCurrency("Cost 2"));
-         task.setCost(3, row.getCurrency("Cost 3"));
-         task.setCost(4, row.getCurrency("Cost 4"));
-         task.setCost(5, row.getCurrency("Cost 5"));
+         task.setBaselineCost(1, row.getCurrency(ActBarField.BASELINE_COST_1));
+         task.setBaselineCost(2, row.getCurrency(ActBarField.BASELINE_COST_2));
+         task.setBaselineCost(3, row.getCurrency(ActBarField.BASELINE_COST_3));
+         task.setBaselineCost(4, row.getCurrency(ActBarField.BASELINE_COST_4));
+         task.setBaselineCost(5, row.getCurrency(ActBarField.BASELINE_COST_5));
+         task.setBaselineCost(6, row.getCurrency(ActBarField.BASELINE_COST_6));
+         task.setBaselineCost(7, row.getCurrency(ActBarField.BASELINE_COST_7));
+         task.setBaselineCost(8, row.getCurrency(ActBarField.BASELINE_COST_8));
+         task.setBaselineCost(9, row.getCurrency(ActBarField.BASELINE_COST_9));
+         task.setBaselineCost(10, row.getCurrency(ActBarField.BASELINE_COST_10));
+         task.setBaselineDuration(1, row.getDuration(ActBarField.BASELINE_DURATION_1));
+         task.setBaselineDuration(2, row.getDuration(ActBarField.BASELINE_DURATION_2));
+         task.setBaselineDuration(3, row.getDuration(ActBarField.BASELINE_DURATION_3));
+         task.setBaselineDuration(4, row.getDuration(ActBarField.BASELINE_DURATION_4));
+         task.setBaselineDuration(5, row.getDuration(ActBarField.BASELINE_DURATION_5));
+         task.setBaselineDuration(6, row.getDuration(ActBarField.BASELINE_DURATION_6));
+         task.setBaselineDuration(7, row.getDuration(ActBarField.BASELINE_DURATION_7));
+         task.setBaselineDuration(8, row.getDuration(ActBarField.BASELINE_DURATION_8));
+         task.setBaselineDuration(9, row.getDuration(ActBarField.BASELINE_DURATION_9));
+         task.setBaselineDuration(10, row.getDuration(ActBarField.BASELINE_DURATION_10));
+         task.setBaselineFinish(1, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_1, ActBarField.BASELINE_FINISH_TIME_1));
+         task.setBaselineFinish(2, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_2, ActBarField.BASELINE_FINISH_TIME_2));
+         task.setBaselineFinish(3, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_3, ActBarField.BASELINE_FINISH_TIME_3));
+         task.setBaselineFinish(4, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_4, ActBarField.BASELINE_FINISH_TIME_4));
+         task.setBaselineFinish(5, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_5, ActBarField.BASELINE_FINISH_TIME_5));
+         task.setBaselineFinish(6, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_6, ActBarField.BASELINE_FINISH_TIME_6));
+         task.setBaselineFinish(7, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_7, ActBarField.BASELINE_FINISH_TIME_7));
+         task.setBaselineFinish(8, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_8, ActBarField.BASELINE_FINISH_TIME_8));
+         task.setBaselineFinish(9, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_9, ActBarField.BASELINE_FINISH_TIME_9));
+         task.setBaselineFinish(10, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_10, ActBarField.BASELINE_FINISH_TIME_10));
+         task.setBaselineFinish(1, row.getTimestamp(ActBarField.BASELINE_START_DATE_1, ActBarField.BASELINE_START_TIME_1));
+         task.setBaselineFinish(2, row.getTimestamp(ActBarField.BASELINE_START_DATE_2, ActBarField.BASELINE_START_TIME_2));
+         task.setBaselineFinish(3, row.getTimestamp(ActBarField.BASELINE_START_DATE_3, ActBarField.BASELINE_START_TIME_3));
+         task.setBaselineFinish(4, row.getTimestamp(ActBarField.BASELINE_START_DATE_4, ActBarField.BASELINE_START_TIME_4));
+         task.setBaselineFinish(5, row.getTimestamp(ActBarField.BASELINE_START_DATE_5, ActBarField.BASELINE_START_TIME_5));
+         task.setBaselineFinish(6, row.getTimestamp(ActBarField.BASELINE_START_DATE_6, ActBarField.BASELINE_START_TIME_6));
+         task.setBaselineFinish(7, row.getTimestamp(ActBarField.BASELINE_START_DATE_7, ActBarField.BASELINE_START_TIME_7));
+         task.setBaselineFinish(8, row.getTimestamp(ActBarField.BASELINE_START_DATE_8, ActBarField.BASELINE_START_TIME_8));
+         task.setBaselineFinish(9, row.getTimestamp(ActBarField.BASELINE_START_DATE_9, ActBarField.BASELINE_START_TIME_9));
+         task.setBaselineFinish(10, row.getTimestamp(ActBarField.BASELINE_START_DATE_10, ActBarField.BASELINE_START_TIME_10));
+         task.setBaselineWork(1, row.getWork(ActBarField.BASELINE_WORK_1));
+         task.setBaselineWork(2, row.getWork(ActBarField.BASELINE_WORK_2));
+         task.setBaselineWork(3, row.getWork(ActBarField.BASELINE_WORK_3));
+         task.setBaselineWork(4, row.getWork(ActBarField.BASELINE_WORK_4));
+         task.setBaselineWork(5, row.getWork(ActBarField.BASELINE_WORK_5));
+         task.setBaselineWork(6, row.getWork(ActBarField.BASELINE_WORK_6));
+         task.setBaselineWork(7, row.getWork(ActBarField.BASELINE_WORK_7));
+         task.setBaselineWork(8, row.getWork(ActBarField.BASELINE_WORK_8));
+         task.setBaselineWork(9, row.getWork(ActBarField.BASELINE_WORK_9));
+         task.setBaselineWork(10, row.getWork(ActBarField.BASELINE_WORK_10));
+         task.setConstraintDate(row.getTimestamp(ActBarField.CONSTRAINT_DATE, ActBarField.CONSTRAINT_TIME));
+         task.setCost(1, row.getCurrency(ActBarField.COST_1));
+         task.setCost(2, row.getCurrency(ActBarField.COST_2));
+         task.setCost(3, row.getCurrency(ActBarField.COST_3));
+         task.setCost(4, row.getCurrency(ActBarField.COST_4));
+         task.setCost(5, row.getCurrency(ActBarField.COST_5));
+         task.setCost(6, row.getCurrency(ActBarField.COST_6));
+         task.setCost(7, row.getCurrency(ActBarField.COST_7));
+         task.setCost(8, row.getCurrency(ActBarField.COST_8));
+         task.setCost(9, row.getCurrency(ActBarField.COST_9));
+         task.setCost(10, row.getCurrency(ActBarField.COST_10));
          // Created
-         task.setCritical(row.getBoolean("Critical"));
-         task.setDate(1, row.getDate("Date 1"));
-         task.setDate(2, row.getDate("Date 2"));
-         task.setDate(3, row.getDate("Date 3"));
-         task.setDate(4, row.getDate("Date 4"));
-         task.setDate(5, row.getDate("Date 5"));
-         task.setDuration(row.getDuration("Duration"));
-         task.setDuration(1, row.getDuration("Duration 1"));
-         task.setDuration(2, row.getDuration("Duration 2"));
-         task.setDuration(3, row.getDuration("Duration 3"));
-         task.setDuration(4, row.getDuration("Duration 4"));
-         task.setDuration(5, row.getDuration("Duration 5"));
-         task.setEarlyFinish(row.getTimestamp("Early Finish Date", "Early Finish Time"));
-         task.setEarlyStart(row.getTimestamp("Early Start Date", "Early Start Time"));
-         task.setEffortDriven(row.getBoolean("Effort Driven"));
-         task.setFinish(row.getTimestamp("Finish Date", "Finish Time"));
-         task.setFinish(1, row.getTimestamp("Finish Date 1", "Finish Time 1"));
-         task.setFinish(2, row.getTimestamp("Finish Date 2", "Finish Time 2"));
-         task.setFinish(3, row.getTimestamp("Finish Date 3", "Finish Time 3"));
-         task.setFinish(4, row.getTimestamp("Finish Date 4", "Finish Time 4"));
-         task.setFinish(5, row.getTimestamp("Finish Date 5", "Finish Time 5"));
+         task.setCritical(row.getBoolean(ActBarField.CRITICAL));
+         task.setDate(1, row.getDate(ActBarField.DATE_1));
+         task.setDate(2, row.getDate(ActBarField.DATE_2));
+         task.setDate(3, row.getDate(ActBarField.DATE_3));
+         task.setDate(4, row.getDate(ActBarField.DATE_4));
+         task.setDate(5, row.getDate(ActBarField.DATE_5));
+         task.setDate(6, row.getDate(ActBarField.DATE_6));
+         task.setDate(7, row.getDate(ActBarField.DATE_7));
+         task.setDate(8, row.getDate(ActBarField.DATE_8));
+         task.setDate(9, row.getDate(ActBarField.DATE_9));
+         task.setDate(10, row.getDate(ActBarField.DATE_10));
+         task.setDuration(row.getDuration(ActBarField.DURATION));
+         task.setDuration(1, row.getDuration(ActBarField.DURATION_1));
+         task.setDuration(2, row.getDuration(ActBarField.DURATION_2));
+         task.setDuration(3, row.getDuration(ActBarField.DURATION_3));
+         task.setDuration(4, row.getDuration(ActBarField.DURATION_4));
+         task.setDuration(5, row.getDuration(ActBarField.DURATION_5));
+         task.setDuration(6, row.getDuration(ActBarField.DURATION_6));
+         task.setDuration(7, row.getDuration(ActBarField.DURATION_7));
+         task.setDuration(8, row.getDuration(ActBarField.DURATION_8));
+         task.setDuration(9, row.getDuration(ActBarField.DURATION_9));
+         task.setDuration(10, row.getDuration(ActBarField.DURATION_10));
+         task.setEarlyFinish(row.getTimestamp(ActBarField.EARLY_FINISH_DATE, ActBarField.EARLY_FINISH_TIME));
+         task.setEarlyStart(row.getTimestamp(ActBarField.EARLY_START_DATE, ActBarField.EARLY_START_TIME));
+         task.setEffortDriven(row.getBoolean(ActBarField.EFFORT_DRIVEN));
+         task.setFinish(row.getTimestamp(ActBarField.FINISH_DATE, ActBarField.FINISH_TIME));
+         task.setFinish(1, row.getTimestamp(ActBarField.FINISH_DATE_1, ActBarField.FINISH_TIME_1));
+         task.setFinish(2, row.getTimestamp(ActBarField.FINISH_DATE_2, ActBarField.FINISH_TIME_2));
+         task.setFinish(3, row.getTimestamp(ActBarField.FINISH_DATE_3, ActBarField.FINISH_TIME_3));
+         task.setFinish(4, row.getTimestamp(ActBarField.FINISH_DATE_4, ActBarField.FINISH_TIME_4));
+         task.setFinish(5, row.getTimestamp(ActBarField.FINISH_DATE_5, ActBarField.FINISH_TIME_5));
+         task.setFinish(6, row.getTimestamp(ActBarField.FINISH_DATE_6, ActBarField.FINISH_TIME_6));
+         task.setFinish(7, row.getTimestamp(ActBarField.FINISH_DATE_7, ActBarField.FINISH_TIME_7));
+         task.setFinish(8, row.getTimestamp(ActBarField.FINISH_DATE_8, ActBarField.FINISH_TIME_8));
+         task.setFinish(9, row.getTimestamp(ActBarField.FINISH_DATE_9, ActBarField.FINISH_TIME_9));
+         task.setFinish(10, row.getTimestamp(ActBarField.FINISH_DATE_10, ActBarField.FINISH_TIME_10));
          // Finish Slack
          // Fixed Cost
          // Fixed Duration
          // Free Float
-         task.setIgnoreResourceCalendar(row.getBoolean("Ignore Resource Calendars"));
-         task.setLateFinish(row.getTimestamp("Late Finish Date", "Late Finish Time"));
-         task.setLateStart(row.getTimestamp("Late Start Date", "Late Start Time"));
-         task.setNumber(1, row.getDouble("Number 1"));
-         task.setNumber(2, row.getDouble("Number 2"));
-         task.setNumber(3, row.getDouble("Number 3"));
-         task.setNumber(4, row.getDouble("Number 4"));
-         task.setNumber(5, row.getDouble("Number 5"));
-         task.setPercentageComplete(row.getDouble("% Complete"));
+         task.setIgnoreResourceCalendar(row.getBoolean(ActBarField.IGNORE_RESOURCE_CALENDARS));
+         task.setLateFinish(row.getTimestamp(ActBarField.LATE_FINISH_DATE, ActBarField.LATE_FINISH_TIME));
+         task.setLateStart(row.getTimestamp(ActBarField.LATE_START_DATE, ActBarField.LATE_START_TIME));
+         task.setNumber(1, row.getDouble(ActBarField.NUMBER_1));
+         task.setNumber(2, row.getDouble(ActBarField.NUMBER_2));
+         task.setNumber(3, row.getDouble(ActBarField.NUMBER_3));
+         task.setNumber(4, row.getDouble(ActBarField.NUMBER_4));
+         task.setNumber(5, row.getDouble(ActBarField.NUMBER_5));
+         task.setNumber(6, row.getDouble(ActBarField.NUMBER_6));
+         task.setNumber(7, row.getDouble(ActBarField.NUMBER_7));
+         task.setNumber(8, row.getDouble(ActBarField.NUMBER_8));
+         task.setNumber(9, row.getDouble(ActBarField.NUMBER_9));
+         task.setNumber(10, row.getDouble(ActBarField.NUMBER_10));
+         task.setNumber(11, row.getDouble(ActBarField.NUMBER_11));
+         task.setNumber(12, row.getDouble(ActBarField.NUMBER_12));
+         task.setNumber(13, row.getDouble(ActBarField.NUMBER_13));
+         task.setNumber(14, row.getDouble(ActBarField.NUMBER_14));
+         task.setNumber(15, row.getDouble(ActBarField.NUMBER_15));
+         task.setNumber(16, row.getDouble(ActBarField.NUMBER_16));
+         task.setNumber(17, row.getDouble(ActBarField.NUMBER_17));
+         task.setNumber(18, row.getDouble(ActBarField.NUMBER_18));
+         task.setNumber(19, row.getDouble(ActBarField.NUMBER_19));
+         task.setNumber(20, row.getDouble(ActBarField.NUMBER_20));
+         task.setPercentageComplete(row.getDouble(ActBarField.PERCENT_COMPLETE));
          // Priority
          // Resource Cost
-         task.setResourceNames(row.getString("Resources Assigned"));
+         task.setResourceNames(row.getString(ActBarField.RESOURCES_ASSIGNED));
          // Revised Duration
          // Revised Finish Date
          // Revised Finish Time
          // Revised Start Date
          // Revised Start Time
-         task.setStart(row.getTimestamp("Start Date", "Start Time"));
+         task.setStart(row.getTimestamp(ActBarField.START_DATE, ActBarField.START_TIME));
          // Start Float
-         task.setStart(1, row.getTimestamp("Start Date 1", "Start Time 1"));
-         task.setStart(2, row.getTimestamp("Start Date 2", "Start Time 1"));
-         task.setStart(3, row.getTimestamp("Start Date 3", "Start Time 1"));
-         task.setStart(4, row.getTimestamp("Start Date 4", "Start Time 1"));
-         task.setStart(5, row.getTimestamp("Start Date 5", "Start Time 1"));
+         task.setStart(1, row.getTimestamp(ActBarField.START_DATE_1, ActBarField.START_TIME_1));
+         task.setStart(2, row.getTimestamp(ActBarField.START_DATE_2, ActBarField.START_TIME_2));
+         task.setStart(3, row.getTimestamp(ActBarField.START_DATE_3, ActBarField.START_TIME_3));
+         task.setStart(4, row.getTimestamp(ActBarField.START_DATE_4, ActBarField.START_TIME_4));
+         task.setStart(5, row.getTimestamp(ActBarField.START_DATE_5, ActBarField.START_TIME_5));
+         task.setStart(6, row.getTimestamp(ActBarField.START_DATE_6, ActBarField.START_TIME_6));
+         task.setStart(7, row.getTimestamp(ActBarField.START_DATE_7, ActBarField.START_TIME_7));
+         task.setStart(8, row.getTimestamp(ActBarField.START_DATE_8, ActBarField.START_TIME_8));
+         task.setStart(9, row.getTimestamp(ActBarField.START_DATE_9, ActBarField.START_TIME_9));
+         task.setStart(10, row.getTimestamp(ActBarField.START_DATE_10, ActBarField.START_TIME_10));
          // Task Calendar
          // Total Cost
          // Total Float
          // Total Resource Duration
-         task.setWork(row.getWork("Work"));
+         task.setWork(row.getWork(ActBarField.WORK));
          // _Activity
          // _BarBits
          // _BarStl
@@ -342,14 +473,14 @@ public class FastTrackReader implements ProjectReader
       FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
       for (MapRow row : table)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
+         Task task = m_project.getTaskByUniqueID(row.getInteger(ActBarField._ACTIVITY));
          if (task == null || tasksWithBars.contains(task))
          {
             continue;
          }
          tasksWithBars.add(task);
 
-         String predecessors = row.getString("Predecessors");
+         String predecessors = row.getString(ActBarField.PREDECESSORS);
          if (predecessors == null || predecessors.isEmpty())
          {
             continue;
@@ -357,6 +488,7 @@ public class FastTrackReader implements ProjectReader
 
          for (String predecessor : predecessors.split(", "))
          {
+            System.err.println(task + ": " + predecessor);
             Matcher matcher = RELATION_REGEX.matcher(predecessor);
             matcher.matches();
 
@@ -396,14 +528,14 @@ public class FastTrackReader implements ProjectReader
 
       for (MapRow row : table)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("_Activity"));
+         Task task = m_project.getTaskByUniqueID(row.getInteger(ActBarField._ACTIVITY));
          if (task == null || tasksWithBars.contains(task))
          {
             continue;
          }
          tasksWithBars.add(task);
 
-         String assignments = row.getString("Resources Assigned");
+         String assignments = row.getString(ActBarField.RESOURCES_ASSIGNED);
          if (assignments == null || assignments.isEmpty())
          {
             continue;
@@ -430,16 +562,6 @@ public class FastTrackReader implements ProjectReader
          result = Integer.valueOf(path.length);
       }
       return result;
-   }
-
-   private String getTaskName(MapRow row)
-   {
-      String name = row.getString("Activity Name");
-      if (name == null || name.length() == 0)
-      {
-         name = row.getString("Activity");
-      }
-      return name;
    }
 
    private FastTrackData m_data;

@@ -13,14 +13,14 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Implementation of the Row interface, wrapping a Map.
  */
-class MapRow implements Row
+class MapRow
 {
    /**
     * Constructor.
     *
     * @param map map to be wrapped by this instance
     */
-   public MapRow(FastTrackTable table, Map<String, Object> map)
+   public MapRow(FastTrackTable table, Map<FastTrackField, Object> map)
    {
       m_table = table;
       m_map = map;
@@ -29,7 +29,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public String getString(String name)
+   public String getString(FastTrackField name)
    {
       return (String) getObject(name);
    }
@@ -37,7 +37,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public Integer getInteger(String name)
+   public Integer getInteger(FastTrackField name)
    {
       return (Integer) getObject(name);
    }
@@ -45,7 +45,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public Double getDouble(String name)
+   public Double getDouble(FastTrackField name)
    {
       return (Double) getObject(name);
    }
@@ -53,7 +53,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public Double getCurrency(String name)
+   public Double getCurrency(FastTrackField name)
    {
       return getDouble(name);
    }
@@ -61,7 +61,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public boolean getBoolean(String name)
+   public boolean getBoolean(FastTrackField name)
    {
       boolean result = false;
       Object value = getObject(name);
@@ -75,12 +75,12 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public int getInt(String name)
+   public int getInt(FastTrackField name)
    {
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   @Override public Date getTimestamp(String dateName, String timeName)
+   public Date getTimestamp(FastTrackField dateName, FastTrackField timeName)
    {
       Date result = null;
       Date date = getDate(dateName);
@@ -106,7 +106,7 @@ class MapRow implements Row
       return result;
    }
 
-   @Override public Date getDate(String name)
+   public Date getDate(FastTrackField name)
    {
       return (Date) getObject(name);
    }
@@ -114,7 +114,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public Duration getDuration(String name)
+   public Duration getDuration(FastTrackField name)
    {
       Double value = (Double) getObject(name);
       return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getDurationTimeUnit());
@@ -123,7 +123,7 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public Duration getWork(String name)
+   public Duration getWork(FastTrackField name)
    {
       Double value = (Double) getObject(name);
       return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getWorkTimeUnit());
@@ -135,7 +135,7 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   public Object getObject(String name)
+   public Object getObject(FastTrackField name)
    {
       Object result = m_map.get(name);
       return (result);
@@ -144,101 +144,22 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
-   @Override public UUID getUUID(String name)
+   public UUID getUUID(FastTrackField name)
    {
       String value = getString(name);
       return value == null || value.isEmpty() ? null : UUID.fromString(value.substring(1, value.length() - 1));
    }
 
    /**
-    * {@inheritDoc}
-    */
-   //   @Override public RelationType getRelationType(String name)
-   //   {
-   //      RelationType result;
-   //      int type = getInt(name);
-   //
-   //      switch (type)
-   //      {
-   //         case 1:
-   //         {
-   //            result = RelationType.START_START;
-   //            break;
-   //         }
-   //
-   //         case 2:
-   //         {
-   //            result = RelationType.FINISH_FINISH;
-   //            break;
-   //         }
-   //
-   //         case 3:
-   //         {
-   //            result = RelationType.START_FINISH;
-   //            break;
-   //         }
-   //
-   //         case 0:
-   //         default:
-   //         {
-   //            result = RelationType.FINISH_START;
-   //            break;
-   //         }
-   //      }
-   //
-   //      return result;
-   //   }
-
-   /**
-    * {@inheritDoc}
-    */
-   //   @Override public ResourceType getResourceType(String name)
-   //   {
-   //      ResourceType result;
-   //      Integer value = getInteger(name);
-   //      if (value == null)
-   //      {
-   //         result = ResourceType.WORK;
-   //      }
-   //      else
-   //      {
-   //         if (value.intValue() == 1)
-   //         {
-   //            result = ResourceType.MATERIAL;
-   //         }
-   //         else
-   //         {
-   //            result = ResourceType.WORK;
-   //         }
-   //      }
-   //
-   //      return result;
-   //   }
-
-   /**
     * Retrieve the internal Map instance used to hold row data.
     *
     * @return Map instance
     */
-   public Map<String, Object> getMap()
+   public Map<FastTrackField, Object> getMap()
    {
       return m_map;
    }
 
-   //   /**
-   //    * {@inheritDoc}
-   //    */
-   //   @Override public Day getDay(String name)
-   //   {
-   //      Day result = null;
-   //      Integer value = getInteger(name);
-   //      if (value != null)
-   //      {
-   //         result = Day.getInstance(value.intValue() + 1);
-   //      }
-   //      return result;
-   //   }
-
-   protected final Map<String, Object> m_map;
+   protected final Map<FastTrackField, Object> m_map;
    private final FastTrackTable m_table;
 }

@@ -32,12 +32,12 @@ class FastTrackTable implements Iterable<MapRow>
 
    public void addColumn(FastTrackColumn column)
    {
-      String name = column.getName();
+      FastTrackField type = column.getType();
       Object[] data = column.getData();
       for (int index = 0; index < data.length; index++)
       {
          MapRow row = getRow(index);
-         row.getMap().put(name, data[index]);
+         row.getMap().put(type, data[index]);
       }
    }
 
@@ -52,7 +52,7 @@ class FastTrackTable implements Iterable<MapRow>
 
       if (index == m_rows.size())
       {
-         result = new MapRow(this, new HashMap<String, Object>());
+         result = new MapRow(this, new HashMap<FastTrackField, Object>());
          m_rows.add(result);
       }
       else
