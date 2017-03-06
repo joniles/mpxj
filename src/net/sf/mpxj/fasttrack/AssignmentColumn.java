@@ -7,17 +7,25 @@ public class AssignmentColumn extends AbstractColumn
 {
    @Override protected int postHeaderSkipBytes()
    {
-      return 34;
+      return 14;
    }
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
-      m_options = options.getData();
-      offset = options.getOffset();
+      if (FastTrackUtility.getByte(buffer, startIndex + offset) == 0x01)
+      {
+         offset += 2;
+      }
+      else
+      {
+         offset += 20;
+         StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
+         m_options = options.getData();
+         offset = options.getOffset();
 
-      // Skip bytes
-      offset += 8;
+         // Skip bytes
+         offset += 8;
+      }
 
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, startIndex, offset, true);
       m_data = data.getData();
@@ -28,13 +36,15 @@ public class AssignmentColumn extends AbstractColumn
 
    @Override protected void dumpData(PrintWriter pw)
    {
-      pw.println("  [Options");
-      for (String item : m_options)
+      if (m_options != null)
       {
-         pw.println("    " + item);
+         pw.println("  [Options");
+         for (String item : m_options)
+         {
+            pw.println("    " + item);
+         }
+         pw.println("  ]");
       }
-      pw.println("  ]");
-
       pw.println("  [Data");
       for (Object item : m_data)
       {

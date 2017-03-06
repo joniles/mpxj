@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 abstract class AbstractColumn implements FastTrackColumn
 {
-   public void read(FastTrackTableType tableType, byte[] buffer, int startIndex, int length)
+   @Override public void read(FastTrackTableType tableType, byte[] buffer, int startIndex, int length)
    {
       m_header = new BlockHeader().read(buffer, startIndex, postHeaderSkipBytes());
       setFieldType(tableType);
