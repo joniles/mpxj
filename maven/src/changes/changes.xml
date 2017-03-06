@@ -11,6 +11,7 @@
    		<action dev="joniles" type="update">Improve handling of invalid calendar data in MSPDI files</action>
    		<action dev="joniles" type="update">Improve handling of XER files containing multi-line records</action>
    		<action dev="joniles" type="update">Improve handling of malformed MPX files</action>
+   		<action dev="joniles" type="fix" issue="308">add support for elapsed percent to MSPDI writer</action>
 	</release>   
    
    	<release version="5.6.4" date="16/02/2017">
