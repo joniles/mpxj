@@ -1360,7 +1360,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (lag != null && lag.getDuration() != 0)
       {
          double linkLag = lag.getDuration();
-         if (lag.getUnits() != TimeUnit.PERCENT)
+         if (lag.getUnits() != TimeUnit.PERCENT && lag.getUnits() != TimeUnit.ELAPSED_PERCENT)
          {
             linkLag = 10.0 * Duration.convertUnits(linkLag, lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          }
