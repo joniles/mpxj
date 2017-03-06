@@ -102,6 +102,7 @@ public class FastTrackReader implements ProjectReader
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoCalendarUniqueID(false);
       config.setAutoTaskID(false);
+      config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
       config.setAutoWBS(false);
       config.setAutoOutlineNumber(false);
@@ -215,9 +216,13 @@ public class FastTrackReader implements ProjectReader
 
    private void processTasks()
    {
+      int uniqueID = 0;
+
       FastTrackTable activities = m_data.getTable(FastTrackTableType.ACTIVITIES);
       for (MapRow row : activities)
       {
+         ++uniqueID;
+
          Integer id = row.getInteger(ActivityField.ACTIVITY_ROW_ID);
          if (id == null || id.intValue() < 1)
          {
@@ -227,6 +232,7 @@ public class FastTrackReader implements ProjectReader
          Task task = m_project.addTask();
          task.setName(row.getString(ActivityField.ACTIVITY_NAME));
          task.setID(id);
+         task.setUniqueID(Integer.valueOf(uniqueID));
          //  Activity Row Number
          task.setFlag(1, row.getBoolean(ActivityField.FLAG_1));
          task.setFlag(2, row.getBoolean(ActivityField.FLAG_2));
@@ -493,14 +499,14 @@ public class FastTrackReader implements ProjectReader
             matcher.matches();
 
             Integer id = Integer.valueOf(matcher.group(1));
-            RelationType type = RELATION_TYPE_MAP.get(matcher.group(2));
+            RelationType type = RELATION_TYPE_MAP.get(matcher.group(3));
             if (type == null)
             {
                type = RelationType.FINISH_START;
             }
 
-            String sign = matcher.group(3);
-            double lag = NumberHelper.getDouble(matcher.group(4));
+            String sign = matcher.group(4);
+            double lag = NumberHelper.getDouble(matcher.group(5));
             if ("-".equals(sign))
             {
                lag = -lag;
@@ -570,7 +576,7 @@ public class FastTrackReader implements ProjectReader
    private List<ProjectListener> m_projectListeners;
 
    private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
-   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
+   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
    static

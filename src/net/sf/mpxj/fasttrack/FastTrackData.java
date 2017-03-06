@@ -102,7 +102,12 @@ class FastTrackData
     */
    public FastTrackTable getTable(FastTrackTableType type)
    {
-      return m_tables.get(type);
+      FastTrackTable result = m_tables.get(type);
+      if (result == null)
+      {
+         result = EMPTY_TABLE;
+      }
+      return result;
    }
 
    /**
@@ -530,4 +535,6 @@ class FastTrackData
       REQUIRED_TABLES.put("ACTIVITIES", FastTrackTableType.ACTIVITIES);
       REQUIRED_TABLES.put("RESOURCES", FastTrackTableType.RESOURCES);
    }
+
+   private static final FastTrackTable EMPTY_TABLE = new FastTrackTable(null, null);
 }
