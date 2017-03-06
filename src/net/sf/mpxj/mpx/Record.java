@@ -75,7 +75,7 @@ final class Record
 
          if (list.size() > 0)
          {
-            m_recordNumber = list.remove(0);
+            setRecordNumber(list);
             m_fields = list.toArray(new String[list.size()]);
          }
       }
@@ -87,11 +87,32 @@ final class Record
    }
 
    /**
+    * Pop the record number from the front of the list, and parse it to ensure that
+    * it is a valid integer.
+    *
+    * @param list MPX record
+    */
+   private void setRecordNumber(LinkedList<String> list)
+   {
+      try
+      {
+         String number = list.remove(0);
+         m_recordNumber = Integer.valueOf(number);
+      }
+      catch (NumberFormatException ex)
+      {
+         // Malformed MPX file: the record number isn't a valid integer
+         // Catch the exception here, leaving m_recordNumber as null
+         // so we will skip this record entirely.
+      }
+   }
+
+   /**
     * Retrieves the record number associated with this record.
     *
     * @return the record number associated with this record
     */
-   public String getRecordNumber()
+   public Integer getRecordNumber()
    {
       return (m_recordNumber);
    }
@@ -746,7 +767,7 @@ final class Record
    /**
     * Current record number.
     */
-   private String m_recordNumber;
+   private Integer m_recordNumber;
 
    /**
     * Array of field data.

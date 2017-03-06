@@ -146,13 +146,10 @@ public final class MPXReader extends AbstractProjectReader
          Tokenizer tk = new InputStreamTokenizer(bis);
          tk.setDelimiter(m_delimiter);
 
-         Record record;
-         String number;
-
          //
          // Add the header record
          //
-         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_locale, tk, m_formats));
+         parseRecord(Integer.valueOf(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_locale, tk, m_formats));
          ++line;
 
          //
@@ -171,8 +168,8 @@ public final class MPXReader extends AbstractProjectReader
          //
          while (tk.getType() != Tokenizer.TT_EOF)
          {
-            record = new Record(m_locale, tk, m_formats);
-            number = record.getRecordNumber();
+            Record record = new Record(m_locale, tk, m_formats);
+            Integer number = record.getRecordNumber();
 
             if (number != null)
             {
@@ -228,9 +225,9 @@ public final class MPXReader extends AbstractProjectReader
     * @param record record data
     * @throws MPXJException
     */
-   private void parseRecord(String recordNumber, Record record) throws MPXJException
+   private void parseRecord(Integer recordNumber, Record record) throws MPXJException
    {
-      switch (Integer.parseInt(recordNumber))
+      switch (recordNumber.intValue())
       {
          case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
          case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
