@@ -7,7 +7,9 @@
    </properties> 
 
    <body>
-   	<release version="5.6.5" date="Git master">
+   	<release version="5.6.6" date="Git master">
+	</release>   
+   	<release version="5.6.5" date="07/03/2017">
    		<action dev="joniles" type="update">Improve handling of invalid calendar data in MSPDI files</action>
    		<action dev="joniles" type="update">Improve handling of XER files containing multi-line records</action>
    		<action dev="joniles" type="update">Improve handling of malformed MPX files</action>
