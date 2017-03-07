@@ -34,6 +34,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
+import net.sf.mpxj.TimeUnit;
 
 /**
  * This class defines utility routines for handling resources, and also
@@ -176,57 +177,85 @@ public final class LocaleData extends ListResourceBundle
    public static final String TASK_NAMES = "TASK_NAMES";
    public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
+   private static final String[][] TIME_UNITS_ARRAY_DATA = new String[TimeUnit.values().length][];
+   static
    {
+      TIME_UNITS_ARRAY_DATA[TimeUnit.MINUTES.getValue()] = new String[]
       {
          "m",
          "mins"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.HOURS.getValue()] = new String[]
       {
          "h",
          "hours"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.DAYS.getValue()] = new String[]
       {
          "d",
          "days"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.WEEKS.getValue()] = new String[]
       {
          "w",
          "weeks"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.MONTHS.getValue()] = new String[]
       {
          "mon",
          "months"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.YEARS.getValue()] = new String[]
       {
          "y",
          "years"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.PERCENT.getValue()] = new String[]
       {
          "%"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_MINUTES.getValue()] = new String[]
       {
          "em"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_HOURS.getValue()] = new String[]
       {
          "eh"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_DAYS.getValue()] = new String[]
       {
          "ed"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_WEEKS.getValue()] = new String[]
       {
          "ew"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_MONTHS.getValue()] = new String[]
       {
          "emon"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_YEARS.getValue()] = new String[]
       {
          "ey"
-      },
+      };
+
+      TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_PERCENT.getValue()] = new String[]
       {
          "e%"
-      }
-   };
+      };
+   }
 
    private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
