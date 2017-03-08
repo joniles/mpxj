@@ -1,6 +1,13 @@
 # Changelog
 
-## 5.6.5 (Git HEAD)
+## 5.6.6 (Git master)
+
+## 5.6.5 (07/03/2017)
+* Improve handling of invalid calendar data in MSPDI files
+* Improve handling of XER files containing multi-line records
+* Improve handling of malformed MPX files
+* Add support for elapsed percent to MSPDI writer
+* MPX percent lag incorrect
 
 ## 5.6.4 (16/02/2017)
 * UniversalProjectReader now recognises and handles byte order marks

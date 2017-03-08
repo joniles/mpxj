@@ -239,19 +239,23 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public void setParent(ProjectCalendar calendar)
    {
-      if (getParent() != null)
+      // I've seen a malformed MSPDI file which sets the parent calendar to itself.
+      // Silently ignore this here.
+      if (calendar != this)
       {
-         getParent().removeDerivedCalendar(this);
+         if (getParent() != null)
+         {
+            getParent().removeDerivedCalendar(this);
+         }
+
+         super.setParent(calendar);
+
+         if (calendar != null)
+         {
+            calendar.addDerivedCalendar(this);
+         }
+         clearWorkingDateCache();
       }
-
-      super.setParent(calendar);
-
-      if (calendar != null)
-      {
-         calendar.addDerivedCalendar(this);
-      }
-      clearWorkingDateCache();
-
    }
 
    @Override public ProjectCalendar getParent()

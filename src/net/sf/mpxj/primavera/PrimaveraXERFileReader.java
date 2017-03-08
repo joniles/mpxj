@@ -823,6 +823,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       RECORD_TYPE_MAP.put("%T", XerRecordType.TABLE);
       RECORD_TYPE_MAP.put("%F", XerRecordType.FIELDS);
       RECORD_TYPE_MAP.put("%R", XerRecordType.DATA);
+      RECORD_TYPE_MAP.put("", XerRecordType.DATA); // Multiline data
       RECORD_TYPE_MAP.put("%E", XerRecordType.END);
    }
 
