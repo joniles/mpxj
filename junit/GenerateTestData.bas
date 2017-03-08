@@ -18,6 +18,7 @@ Sub GenerateAll()
     GenerateResourceAsignments
     GenerateResources
     GenerateResourceCustomFlags
+    GenerateResourceCustomNumbers
 End Sub
 
 Sub NameThatField(value As Long)
@@ -81,7 +82,7 @@ End Sub
 
 Sub AddResourcesWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
 
-    ViewApply Name:="Resource &Sheet"
+    ViewApply name:="Resource &Sheet"
 
     Dim index As Integer
     Dim offset As Integer
@@ -707,6 +708,22 @@ Sub GenerateResourceCustomFlags()
     
     FileClose pjDoNotSave
             
+End Sub
+
+Sub GenerateResourceCustomNumbers()
+
+    Dim Vals As Variant
+    
+    Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20")
+    
+    FileNew SummaryInfo:=False
+    
+    AddResourcesWithCustomFieldValues "Number", Vals
+    
+    SaveFiles "resource-numbers"
+            
+    FileClose pjDoNotSave
+    
 End Sub
 
 
