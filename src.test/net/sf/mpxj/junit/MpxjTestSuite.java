@@ -38,6 +38,7 @@ import net.sf.mpxj.junit.resource.MppResourceTypeTest;
 import net.sf.mpxj.junit.resource.ResourceFlagsTest;
 import net.sf.mpxj.junit.resource.ResourceMiscTest;
 import net.sf.mpxj.junit.resource.ResourceNumbersTest;
+import net.sf.mpxj.junit.resource.ResourceTextTest;
 import net.sf.mpxj.junit.task.TaskBaselinesTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
 import net.sf.mpxj.junit.task.TaskDatesTest;
@@ -134,6 +135,7 @@ import org.junit.runners.Suite;
    ResourceMiscTest.class,
    ResourceFlagsTest.class,
    ResourceNumbersTest.class,
+   ResourceTextTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
