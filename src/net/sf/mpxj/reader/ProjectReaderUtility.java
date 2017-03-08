@@ -29,6 +29,7 @@ import java.util.Set;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.asta.AstaFileReader;
+import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
@@ -112,5 +113,6 @@ public final class ProjectReaderUtility
       READER_MAP.put("PMXML", PrimaveraPMFileReader.class);
       READER_MAP.put("PP", AstaFileReader.class);
       READER_MAP.put("PPX", PhoenixReader.class);
+      READER_MAP.put("FTS", FastTrackReader.class);
    }
 }
