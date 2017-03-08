@@ -81,7 +81,7 @@ End Sub
 
 Sub AddResourcesWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
 
-    ViewApplyEx name:="Resource &Sheet", ApplyTo:=0
+    ViewApply Name:="Resource &Sheet"
 
     Dim index As Integer
     Dim offset As Integer
