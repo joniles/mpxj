@@ -2085,7 +2085,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setFlag(8, (metaData[29] & 0x20) != 0);
          resource.setFlag(9, (metaData[29] & 0x40) != 0);
          resource.setFlag(10, (metaData[28] & 0x20) != 0);
-         resource.setFlag(11, (metaData[29] & 0x20) != 0);
+         resource.setFlag(11, (metaData[29] & 0x80) != 0);
          resource.setFlag(12, (metaData[30] & 0x01) != 0);
          resource.setFlag(13, (metaData[30] & 0x02) != 0);
          resource.setFlag(14, (metaData[30] & 0x04) != 0);

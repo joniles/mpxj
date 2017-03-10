@@ -1,4 +1,3 @@
-Attribute VB_Name = "GenerateTestData"
 
 Sub GenerateAll()
     GenerateTaskCustomFlags
@@ -17,6 +16,10 @@ Sub GenerateAll()
     GenerateProjectValueLists
     GenerateCalendars
     GenerateResourceAsignments
+    GenerateResources
+    GenerateResourceCustomFlags
+    GenerateResourceCustomNumbers
+    GenerateResourceCustomText
 End Sub
 
 Sub NameThatField(value As Long)
@@ -70,10 +73,41 @@ Sub AddTasksWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
         fieldName = FieldNamePrefix & (index + offset)
         
         Dim task As task
-        Set task = ActiveProject.Tasks.Add(fieldName)        
+        Set task = ActiveProject.Tasks.Add(fieldName)
         SetTaskField Field:=fieldName, value:=Vals(index), TaskID:=task.ID
                                       
-        AddTaskColumn fieldName                                        
+        AddTaskColumn fieldName
+    Next
+
+End Sub
+
+Sub AddResourcesWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
+
+    ViewApply name:="Resource &Sheet"
+
+    Dim index As Integer
+    Dim offset As Integer
+    
+    If LBound(Vals) = 0 Then
+        offset = 1
+    Else
+        offset = 0
+    End If
+    
+    For index = LBound(Vals) To UBound(Vals)
+        Dim fieldName As String
+        fieldName = FieldNamePrefix & (index + offset)
+        'Dim fieldID As Long
+        'fieldID = FieldNameToFieldConstant(fieldName, pjResource)
+        
+        Dim resource As resource
+        Set resource = ActiveProject.Resources.Add(fieldName)
+        
+        SetResourceField Field:=fieldName, value:=Vals(index), ResourceID:=resource.ID
+        'SetResourceField fieldName, Vals(index), False, False, resource.ID
+        'resource.SetField fieldID, Vals(index)
+        
+        AddResourceColumn fieldName
     Next
 
 End Sub
@@ -92,10 +126,10 @@ Sub AddTasksWithBaselineFieldValues(fieldName As String, Vals As Variant)
     For index = LBound(Vals) To UBound(Vals)
 
         Dim actualFieldName As String
-        if index = LBound(Vals) Then
-        	actualFieldName = "Baseline " & fieldName
+        If index = LBound(Vals) Then
+                actualFieldName = "Baseline " & fieldName
         Else
-        	actualFieldName = "Baseline" & (index+offset-1) & " " & fieldName
+                actualFieldName = "Baseline" & (index + offset - 1) & " " & fieldName
         End If
         
         Dim taskName As String
@@ -110,13 +144,22 @@ Sub AddTasksWithBaselineFieldValues(fieldName As String, Vals As Variant)
 
 End Sub
     
-Sub AddTaskColumn (fieldName as String)
-    Dim tableName As String       
-    tableName = ActiveProject.TaskTableList.Item(1)        
-    SelectTaskColumn Column:="Resource Names"            
+Sub AddTaskColumn(fieldName As String)
+    Dim tableName As String
+    tableName = ActiveProject.TaskTableList.Item(1)
+    SelectTaskColumn Column:="Resource Names"
     TableEdit name:=tableName, TaskTable:=True, NewFieldName:=fieldName
     TableApply name:=tableName
 End Sub
+
+Sub AddResourceColumn(fieldName As String)
+    Dim tableName As String
+    tableName = ActiveProject.ResourceTableList.Item(1)
+    SelectResourceColumn Column:="Code"
+    TableEdit name:=tableName, TaskTable:=True, NewFieldName:=fieldName
+    TableApply name:=tableName
+End Sub
+
 
 Sub GenerateTaskCustomFlags()
 
@@ -299,27 +342,27 @@ Sub GenerateTaskCustomOutlineCodes()
     Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=1, Code:="OC10A"
     Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=2, Code:="OC10B"
     
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode4, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode5, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode6, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode7, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode8, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode9, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode10, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode1, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode2, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode3, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode4, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode5, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode6, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode7, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode8, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode9, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode10, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
 
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode4, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode5, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode6, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode7, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode8, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode9, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode10, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode1, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode2, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode3, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode4, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode5, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode6, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode7, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode8, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode9, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode10, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
 
     Vals = Array("OC1A", "OC2A", "OC3A", "OC4A", "OC5A", "OC6A", "OC7A", "OC8A", "OC9A", "OC10A")
     AddTasksWithCustomFieldValues "Outline Code", Vals
@@ -386,18 +429,18 @@ Sub GenerateTaskTextValues()
     FileNew SummaryInfo:=False
     ActiveProject.BuiltinDocumentProperties("Author").value = "Project User"
 
-    Dim task As Task
+    Dim task As task
     
     Set task = ActiveProject.Tasks.Add("Start is text")
-    SetTaskField Field:="Task Mode", Value:="Yes", TaskID:=task.ID
-    SetTaskField Field:="Start", value:="AAA", TaskID:=task.ID    
+    SetTaskField Field:="Task Mode", value:="Yes", TaskID:=task.ID
+    SetTaskField Field:="Start", value:="AAA", TaskID:=task.ID
     
     Set task = ActiveProject.Tasks.Add("Finish is text")
-    SetTaskField Field:="Task Mode", Value:="Yes", TaskID:=task.ID
+    SetTaskField Field:="Task Mode", value:="Yes", TaskID:=task.ID
     SetTaskField Field:="Finish", value:="BBB", TaskID:=task.ID
     
     Set task = ActiveProject.Tasks.Add("Duration is text")
-    SetTaskField Field:="Task Mode", Value:="Yes", TaskID:=task.ID
+    SetTaskField Field:="Task Mode", value:="Yes", TaskID:=task.ID
     SetTaskField Field:="Duration", value:="CCC", TaskID:=task.ID
     
     SaveFiles "task-textvalues"
@@ -406,23 +449,23 @@ Sub GenerateTaskTextValues()
 
 End Sub
 
-Sub GenerateProjectProperties
+Sub GenerateProjectProperties()
 
     FileNew SummaryInfo:=False
 
     '
     ' Populate the built in document properties
     '
-    ActiveProject.BuiltinDocumentProperties("Title").Value = "Title"
-    ActiveProject.BuiltinDocumentProperties("Subject").Value = "Subject"
-    ActiveProject.BuiltinDocumentProperties("Author").Value = "Author"
-    ActiveProject.BuiltinDocumentProperties("Keywords").Value = "Keywords"
-    ActiveProject.BuiltinDocumentProperties("Comments").Value = "Comments"
-    ActiveProject.BuiltinDocumentProperties("Template").Value = "Template"
-    ActiveProject.BuiltinDocumentProperties("Category").Value = "Category"
-    ActiveProject.BuiltinDocumentProperties("Format").Value = "Format"
-    ActiveProject.BuiltinDocumentProperties("Manager").Value = "Manager"
-    ActiveProject.BuiltinDocumentProperties("Company").Value = "Company"  
+    ActiveProject.BuiltinDocumentProperties("Title").value = "Title"
+    ActiveProject.BuiltinDocumentProperties("Subject").value = "Subject"
+    ActiveProject.BuiltinDocumentProperties("Author").value = "Author"
+    ActiveProject.BuiltinDocumentProperties("Keywords").value = "Keywords"
+    ActiveProject.BuiltinDocumentProperties("Comments").value = "Comments"
+    ActiveProject.BuiltinDocumentProperties("Template").value = "Template"
+    ActiveProject.BuiltinDocumentProperties("Category").value = "Category"
+    ActiveProject.BuiltinDocumentProperties("Format").value = "Format"
+    ActiveProject.BuiltinDocumentProperties("Manager").value = "Manager"
+    ActiveProject.BuiltinDocumentProperties("Company").value = "Company"
 
     If (Application.Version > 11) Then
         ActiveProject.BuiltinDocumentProperties("Content type").value = "Content type"
@@ -433,23 +476,23 @@ Sub GenerateProjectProperties
 
     '
     ' Populate custom document properties
-    '    
-    ActiveProject.CustomDocumentProperties.Add Name:="CustomNumber", _
+    '
+    ActiveProject.CustomDocumentProperties.Add name:="CustomNumber", _
             LinkToContent:=False, _
             Type:=msoPropertyTypeNumber, _
-            Value:=1000
-    ActiveProject.CustomDocumentProperties.Add Name:="CustomFloat", _
+            value:=1000
+    ActiveProject.CustomDocumentProperties.Add name:="CustomFloat", _
             LinkToContent:=False, _
             Type:=msoPropertyTypeFloat, _
-            Value:=1.5
-    ActiveProject.CustomDocumentProperties.Add Name:="CustomString", _
+            value:=1.5
+    ActiveProject.CustomDocumentProperties.Add name:="CustomString", _
             LinkToContent:=False, _
             Type:=msoPropertyTypeString, _
-            Value:="This is a custom property."
-    ActiveProject.CustomDocumentProperties.Add Name:="CustomDate", _
+            value:="This is a custom property."
+    ActiveProject.CustomDocumentProperties.Add name:="CustomDate", _
             LinkToContent:=False, _
             Type:=msoPropertyTypeDate, _
-            Value:="01/01/2014"
+            value:="01/01/2014"
 
     SaveFiles "project-properties"
     
@@ -465,125 +508,125 @@ Sub GenerateBaselines()
     
     Dim Vals As Variant
     
-    If CDbl(Application.Version) < 10.0 Then
-	    Vals = Array("1")
-	    AddTasksWithBaselineFieldValues "Cost", Vals
+    If CDbl(Application.Version) < 10# Then
+            Vals = Array("1")
+            AddTasksWithBaselineFieldValues "Cost", Vals
 
-	    Vals = Array("11d")
-	    AddTasksWithBaselineFieldValues "Duration", Vals
-	
-		Vals = Array("01/03/2014 09:00")
-		AddTasksWithBaselineFieldValues "Finish", Vals
-	
-		Vals = Array("01/04/2014 09:00")
-		AddTasksWithBaselineFieldValues "Start", Vals
+            Vals = Array("11d")
+            AddTasksWithBaselineFieldValues "Duration", Vals
+        
+                Vals = Array("01/03/2014 09:00")
+                AddTasksWithBaselineFieldValues "Finish", Vals
+        
+                Vals = Array("01/04/2014 09:00")
+                AddTasksWithBaselineFieldValues "Start", Vals
 
-	    Vals = Array("51h")
-	    AddTasksWithBaselineFieldValues "Work", Vals
-	Else
-	    Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
-	    AddTasksWithBaselineFieldValues "Cost", Vals
+            Vals = Array("51h")
+            AddTasksWithBaselineFieldValues "Work", Vals
+        Else
+            Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
+            AddTasksWithBaselineFieldValues "Cost", Vals
 
-	    Vals = Array("11d", "12d", "13d", "14d", "15d", "16d", "17d", "18d", "19d", "20d", "21d")
-	    AddTasksWithBaselineFieldValues "Duration", Vals
-	
-		Vals = Array("01/03/2014 09:00", "02/03/2014 10:00", "03/03/2014 11:00", "04/03/2014 12:00", "05/03/2014 13:00", "06/03/2014 14:00", "07/03/2014 15:00", "08/03/2014 16:00", "09/03/2014 17:00", "10/03/2014 18:00", "10/03/2014 19:00")
-		AddTasksWithBaselineFieldValues "Finish", Vals
-	
-		Vals = Array("01/04/2014 09:00", "02/04/2014 10:00", "03/04/2014 11:00", "04/04/2014 12:00", "05/04/2014 13:00", "06/04/2014 14:00", "07/04/2014 15:00", "08/04/2014 16:00", "09/04/2014 17:00", "10/04/2014 18:00", "10/04/2014 19:00")
-		AddTasksWithBaselineFieldValues "Start", Vals
+            Vals = Array("11d", "12d", "13d", "14d", "15d", "16d", "17d", "18d", "19d", "20d", "21d")
+            AddTasksWithBaselineFieldValues "Duration", Vals
+        
+                Vals = Array("01/03/2014 09:00", "02/03/2014 10:00", "03/03/2014 11:00", "04/03/2014 12:00", "05/03/2014 13:00", "06/03/2014 14:00", "07/03/2014 15:00", "08/03/2014 16:00", "09/03/2014 17:00", "10/03/2014 18:00", "10/03/2014 19:00")
+                AddTasksWithBaselineFieldValues "Finish", Vals
+        
+                Vals = Array("01/04/2014 09:00", "02/04/2014 10:00", "03/04/2014 11:00", "04/04/2014 12:00", "05/04/2014 13:00", "06/04/2014 14:00", "07/04/2014 15:00", "08/04/2014 16:00", "09/04/2014 17:00", "10/04/2014 18:00", "10/04/2014 19:00")
+                AddTasksWithBaselineFieldValues "Start", Vals
 
-	    Vals = Array("51h", "52h", "53h", "54h", "55h", "56h", "57h", "58h", "59h", "60h", "61h")
-	    AddTasksWithBaselineFieldValues "Work", Vals
-	
-	End If
-	
-	If CDbl(Application.Version) >= 14.0 Then
-    	Vals = Array("31d", "32d", "33d", "34d", "35d", "36d", "37d", "38d", "39d", "40d", "41d")
-    	AddTasksWithBaselineFieldValues "Estimated Duration", Vals
+            Vals = Array("51h", "52h", "53h", "54h", "55h", "56h", "57h", "58h", "59h", "60h", "61h")
+            AddTasksWithBaselineFieldValues "Work", Vals
+        
+        End If
+        
+        If CDbl(Application.Version) >= 14# Then
+        Vals = Array("31d", "32d", "33d", "34d", "35d", "36d", "37d", "38d", "39d", "40d", "41d")
+        AddTasksWithBaselineFieldValues "Estimated Duration", Vals
 
-		Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00", "10/01/2014 19:00")
-		AddTasksWithBaselineFieldValues "Estimated Finish", Vals
-	
-		Vals = Array("01/02/2014 09:00", "02/02/2014 10:00", "03/02/2014 11:00", "04/02/2014 12:00", "05/02/2014 13:00", "06/02/2014 14:00", "07/02/2014 15:00", "08/02/2014 16:00", "09/02/2014 17:00", "10/02/2014 18:00", "10/02/2014 19:00")
-		AddTasksWithBaselineFieldValues "Estimated Start", Vals
+                Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00", "10/01/2014 19:00")
+                AddTasksWithBaselineFieldValues "Estimated Finish", Vals
+        
+                Vals = Array("01/02/2014 09:00", "02/02/2014 10:00", "03/02/2014 11:00", "04/02/2014 12:00", "05/02/2014 13:00", "06/02/2014 14:00", "07/02/2014 15:00", "08/02/2014 16:00", "09/02/2014 17:00", "10/02/2014 18:00", "10/02/2014 19:00")
+                AddTasksWithBaselineFieldValues "Estimated Start", Vals
 
-    	Vals = Array("11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21")
-    	AddTasksWithBaselineFieldValues "Fixed Cost", Vals
+        Vals = Array("11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21")
+        AddTasksWithBaselineFieldValues "Fixed Cost", Vals
 
-    	Vals = Array("Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated")
-    	AddTasksWithBaselineFieldValues "Fixed Cost Accrual", Vals
-	End If
-	     
+        Vals = Array("Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated")
+        AddTasksWithBaselineFieldValues "Fixed Cost Accrual", Vals
+        End If
+             
     SaveFiles "task-baselines"
     
     FileClose pjDoNotSave
 
 End Sub
 
-Sub GenerateProjectValueLists
+Sub GenerateProjectValueLists()
 
     FileNew SummaryInfo:=False
 
-	' Cost
-    CustomFieldProperties FieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList FieldID:=pjCustomTaskCost1, RestrictToList:=True
-    CustomFieldValueListAdd pjCustomTaskCost1, Value:="1", Description:="Description 1"
-    CustomFieldValueListAdd pjCustomTaskCost1, Value:="2", Description:="Description 2"
-    CustomFieldValueListAdd pjCustomTaskCost1, Value:="3", Description:="Description 3"
+        ' Cost
+    CustomFieldProperties fieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList fieldID:=pjCustomTaskCost1, RestrictToList:=True
+    CustomFieldValueListAdd pjCustomTaskCost1, value:="1", Description:="Description 1"
+    CustomFieldValueListAdd pjCustomTaskCost1, value:="2", Description:="Description 2"
+    CustomFieldValueListAdd pjCustomTaskCost1, value:="3", Description:="Description 3"
 
-	' Date
-    CustomFieldProperties FieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList FieldID:=pjCustomTaskDate1, RestrictToList:=True
-    CustomFieldValueListAdd pjCustomTaskDate1, Value:="01/01/2015 08:00", Description:="Description 1"
-    CustomFieldValueListAdd pjCustomTaskDate1, Value:="02/01/2015 08:00", Description:="Description 2"
-    CustomFieldValueListAdd pjCustomTaskDate1, Value:="03/01/2015 08:00", Description:="Description 3"
+        ' Date
+    CustomFieldProperties fieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList fieldID:=pjCustomTaskDate1, RestrictToList:=True
+    CustomFieldValueListAdd pjCustomTaskDate1, value:="01/01/2015 08:00", Description:="Description 1"
+    CustomFieldValueListAdd pjCustomTaskDate1, value:="02/01/2015 08:00", Description:="Description 2"
+    CustomFieldValueListAdd pjCustomTaskDate1, value:="03/01/2015 08:00", Description:="Description 3"
 
-	' Duration
-    CustomFieldProperties FieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList FieldID:=pjCustomTaskDuration1, RestrictToList:=True
-    CustomFieldValueListAdd pjCustomTaskDuration1, Value:="1d", Description:="Description 1"
-    CustomFieldValueListAdd pjCustomTaskDuration1, Value:="2d", Description:="Description 2"
-    CustomFieldValueListAdd pjCustomTaskDuration1, Value:="3d", Description:="Description 3"
+        ' Duration
+    CustomFieldProperties fieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList fieldID:=pjCustomTaskDuration1, RestrictToList:=True
+    CustomFieldValueListAdd pjCustomTaskDuration1, value:="1d", Description:="Description 1"
+    CustomFieldValueListAdd pjCustomTaskDuration1, value:="2d", Description:="Description 2"
+    CustomFieldValueListAdd pjCustomTaskDuration1, value:="3d", Description:="Description 3"
 
-	' Number
-    CustomFieldProperties FieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList FieldID:=pjCustomTaskNumber1, RestrictToList:=True
-    CustomFieldValueListAdd pjCustomTaskNumber1, Value:="1", Description:="Description 1"
-    CustomFieldValueListAdd pjCustomTaskNumber1, Value:="2", Description:="Description 2"
-    CustomFieldValueListAdd pjCustomTaskNumber1, Value:="3", Description:="Description 3"
+        ' Number
+    CustomFieldProperties fieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList fieldID:=pjCustomTaskNumber1, RestrictToList:=True
+    CustomFieldValueListAdd pjCustomTaskNumber1, value:="1", Description:="Description 1"
+    CustomFieldValueListAdd pjCustomTaskNumber1, value:="2", Description:="Description 2"
+    CustomFieldValueListAdd pjCustomTaskNumber1, value:="3", Description:="Description 3"
 
-	' Text
-    CustomFieldProperties FieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList FieldID:=pjCustomTaskText1, RestrictToList:=True    
-    CustomFieldValueListAdd pjCustomTaskText1, Value:="Value 1", Description:="Description 1"
-    CustomFieldValueListAdd pjCustomTaskText1, Value:="Value 2", Description:="Description 2"
-    CustomFieldValueListAdd pjCustomTaskText1, Value:="Value 3", Description:="Description 3"
+        ' Text
+    CustomFieldProperties fieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList fieldID:=pjCustomTaskText1, RestrictToList:=True
+    CustomFieldValueListAdd pjCustomTaskText1, value:="Value 1", Description:="Description 1"
+    CustomFieldValueListAdd pjCustomTaskText1, value:="Value 2", Description:="Description 2"
+    CustomFieldValueListAdd pjCustomTaskText1, value:="Value 3", Description:="Description 3"
 
     SaveFiles "project-valuelists"
         
-    FileClose pjDoNotSave	
+    FileClose pjDoNotSave
 End Sub
 
-Sub GenerateCalendars
+Sub GenerateCalendars()
     FileNew SummaryInfo:=False
     
     ' Add project calendars
-    BaseCalendarCreate Name:="Calendar1"
-    BaseCalendarCreate Name:="Calendar2"
+    BaseCalendarCreate name:="Calendar1"
+    BaseCalendarCreate name:="Calendar2"
     
-    ' Add resource calendars        
-    ActiveProject.Resources.Add("Resource One")
-    ActiveProject.Resources.Add("Resource Two")
+    ' Add resource calendars
+    ActiveProject.Resources.Add ("Resource One")
+    ActiveProject.Resources.Add ("Resource Two")
     
     SaveFiles "calendar-calendars"
         
-    FileClose pjDoNotSave    
+    FileClose pjDoNotSave
 End Sub
 
-Sub GenerateResourceAsignments
+Sub GenerateResourceAsignments()
     FileNew SummaryInfo:=False
-	
+        
     Dim task1 As task
     Dim task2 As task
     Dim task3 As task
@@ -592,9 +635,9 @@ Sub GenerateResourceAsignments
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     Set task3 = ActiveProject.Tasks.Add("Task 3")
     
-    Dim resource1 As Resource
-    Dim resource2 As Resource
-    Dim resource3 As Resource
+    Dim resource1 As resource
+    Dim resource2 As resource
+    Dim resource3 As resource
     
     Set resource1 = ActiveProject.Resources.Add("Resource 1")
     Set resource2 = ActiveProject.Resources.Add("Resource 2")
@@ -619,6 +662,87 @@ Sub GenerateResourceAsignments
     
     FileClose pjDoNotSave
 End Sub
+
+Sub GenerateResources()
+    FileNew SummaryInfo:=False
+            
+    Dim resource1 As resource
+    Dim resource2 As resource
+    
+    Set resource1 = ActiveProject.Resources.Add("Resource 1")
+    Set resource2 = ActiveProject.Resources.Add("Resource 2")
+    
+    resource1.Code = "Code1"
+    resource2.Code = "Code2"
+    
+    resource1.CostPerUse = 1.23
+    resource2.CostPerUse = 4.56
+    
+    resource1.EMailAddress = "resource1@example.com"
+    resource2.EMailAddress = "resource2@example.com"
+    
+    resource1.Group = "Group1"
+    resource2.Group = "Group2"
+    
+    resource1.Initials = "R1"
+    resource2.Initials = "R2"
+    
+    resource1.Notes = "Notes1"
+    resource2.Notes = "Notes2"
+    
+    SaveFiles "resource-misc"
+    
+    FileClose pjDoNotSave
+End Sub
+
+Sub GenerateResourceCustomFlags()
+
+    Dim Vals As Variant
+    
+    Vals = Array("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")
+    
+    FileNew SummaryInfo:=False
+    
+    AddResourcesWithCustomFieldValues "Flag", Vals
+    
+    SaveFiles "resource-flags"
+    
+    FileClose pjDoNotSave
+            
+End Sub
+
+Sub GenerateResourceCustomNumbers()
+
+    Dim Vals As Variant
+    
+    Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20")
+    
+    FileNew SummaryInfo:=False
+    
+    AddResourcesWithCustomFieldValues "Number", Vals
+    
+    SaveFiles "resource-numbers"
+            
+    FileClose pjDoNotSave
+    
+End Sub
+
+Sub GenerateResourceCustomText()
+
+    Dim Vals As Variant
+    
+    Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30")
+    
+    FileNew SummaryInfo:=False
+    
+    AddResourcesWithCustomFieldValues "Text", Vals
+    
+    SaveFiles "resource-text"
+            
+    FileClose pjDoNotSave
+    
+End Sub
+
 
 Sub SaveFiles(FilenameBase As String)
 
