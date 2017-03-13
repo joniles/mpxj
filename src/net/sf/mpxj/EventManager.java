@@ -219,7 +219,7 @@ public class EventManager
 
    /**
     * Adds a collection of listeners to the current project.
-    * 
+    *
     * @param listeners collection of listeners
     */
    public void addProjectListeners(List<ProjectListener> listeners)

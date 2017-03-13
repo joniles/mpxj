@@ -59,12 +59,12 @@ public class DeletedAssignmentTest
    /**
     * This test relates to SourceForge bug #248, where it appears that MPXJ was reading deleted
     * resource assignments.
-    * 
+    *
     * 1. Create a file in the appropriate format with 10 resource assignments
     * 2. Save to a new name
     * 3. Delete every other assignment (2,4,6,...)
     * 4. Save again
-    * 
+    *
     * These steps should ensure that MS Project doesn't rewrite the whole file
     * (which it probably would when doing a "save as..."), and hence preserves the deleted assignments.
     */
@@ -86,7 +86,7 @@ public class DeletedAssignmentTest
 
    /**
     * Test a project file to ensure that deleted resource assignments are not included.
-    * 
+    *
     * @param file project file to test
     */
    private void testDeletedResourceAssignments(File file) throws MPXJException
@@ -105,7 +105,7 @@ public class DeletedAssignmentTest
 
    /**
     * Validate that a resource assignment task and resource names match a given value.
-    * 
+    *
     * @param assignments list of assignments
     * @param index index number of the resource to test
     * @param expectedTaskName expected task name

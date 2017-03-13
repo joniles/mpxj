@@ -30,7 +30,7 @@ public class Sequence
 {
    /**
     * Constructor. Defines the starting value of the seqence.
-    * 
+    *
     * @param initialValue initial sequence value
     */
    public Sequence(int initialValue)
@@ -40,7 +40,7 @@ public class Sequence
 
    /**
     * Retrieve the next value in the sequence.
-    * 
+    *
     * @return next sequence value
     */
    public int next()

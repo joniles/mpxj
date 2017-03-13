@@ -36,7 +36,7 @@ public final class ProjectFile implements ChildTaskContainer
 {
    /**
     * Retrieve project configuration data.
-    * 
+    *
     * @return ProjectConfig instance.
     */
    public ProjectConfig getProjectConfig()
@@ -49,7 +49,7 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @return new task object
     */
-   public Task addTask()
+   @Override public Task addTask()
    {
       return m_tasks.add();
    }
@@ -110,7 +110,7 @@ public final class ProjectFile implements ChildTaskContainer
     * represented in MPXJ and renumbers the ID values to ensure that
     * this structure is displayed as expected in Microsoft Project. This
     * is typically used to deal with the case where a hierarchical task
-    * structure has been created programmatically in MPXJ.  
+    * structure has been created programmatically in MPXJ.
     */
    public void synchronizeTaskIDToHierarchy()
    {
@@ -512,7 +512,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * This method returns the filters defined in an MPP file.
-    * 
+    *
     * @return filters
     */
    public FilterContainer getFilters()
@@ -522,7 +522,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieves a list of all groups.
-    * 
+    *
     * @return list of all groups
     */
    public GroupContainer getGroups()
@@ -542,7 +542,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieve the event manager for this project.
-    * 
+    *
     * @return event manager
     */
    public EventManager getEventManager()
@@ -552,7 +552,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieves the custom field configuration for this project.
-    * 
+    *
     * @return custom field configuration
     */
    public CustomFieldContainer getCustomFields()
@@ -564,8 +564,8 @@ public final class ProjectFile implements ChildTaskContainer
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
-    * project contains no calendars, then a default calendar is added. 
-    * 
+    * project contains no calendars, then a default calendar is added.
+    *
     * @return default projectCalendar instance
     */
    public ProjectCalendar getDefaultCalendar()
@@ -588,7 +588,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Sets the default calendar for this project.
-    * 
+    *
     * @param calendar default calendar instance
     */
    public void setDefaultCalendar(ProjectCalendar calendar)
@@ -598,14 +598,14 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieve the calendar used internally for timephased baseline calculation.
-    * 
+    *
     * @return baseline calendar
     */
    public ProjectCalendar getBaselineCalendar()
    {
       //
       // Attempt to locate the calendar normally used by baselines
-      // If this isn't present, fall back to using the default 
+      // If this isn't present, fall back to using the default
       // project calendar.
       //
       ProjectCalendar result = getCalendarByName("Used for Microsoft Project 98 Baseline Calendar");

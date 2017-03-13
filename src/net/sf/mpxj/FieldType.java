@@ -33,14 +33,14 @@ public interface FieldType extends MpxjEnum
 {
    /**
     * Retrieve an enum representing the type of entity to which this field belongs.
-    *  
+    *
     * @return field type class
     */
    public FieldTypeClass getFieldTypeClass();
 
    /**
     * Retrieve the enum name.
-    * 
+    *
     * @return enum name
     */
    public String name();
@@ -62,14 +62,14 @@ public interface FieldType extends MpxjEnum
 
    /**
     * Retrieve the data type of this field.
-    * 
+    *
     * @return data type
     */
    public DataType getDataType();
 
    /**
     * Retrieve the associated units field, if any.
-    * 
+    *
     * @return units field
     */
    public FieldType getUnitsType();

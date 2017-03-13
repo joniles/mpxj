@@ -38,7 +38,7 @@ final class EncryptedDocumentInputStream extends InputStream
 {
    /**
     * Constructor.
-    * 
+    *
     * @param entry file entry
     * @param mask the mask used to decrypt the stream.
     * @throws IOException

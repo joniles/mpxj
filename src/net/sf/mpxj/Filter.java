@@ -27,14 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a filter which may be applied to a 
+ * This class represents a filter which may be applied to a
  * task or resource view.
  */
 public final class Filter
 {
    /**
     * Sets the filter's unique ID.
-    * 
+    *
     * @param id unique ID
     */
    public void setID(Integer id)
@@ -44,7 +44,7 @@ public final class Filter
 
    /**
     * Retrieves the filter's unique ID.
-    * 
+    *
     * @return unique ID
     */
    public Integer getID()
@@ -54,7 +54,7 @@ public final class Filter
 
    /**
     * Sets the filter's name.
-    * 
+    *
     * @param name filter name
     */
    public void setName(String name)
@@ -64,7 +64,7 @@ public final class Filter
 
    /**
     * Retrieves the filter's name.
-    * 
+    *
     * @return filter name
     */
    public String getName()
@@ -74,7 +74,7 @@ public final class Filter
 
    /**
     * Sets the "show related summary rows" flag.
-    * 
+    *
     * @param showRelatedSummaryRows boolean flag
     */
    public void setShowRelatedSummaryRows(boolean showRelatedSummaryRows)
@@ -84,7 +84,7 @@ public final class Filter
 
    /**
     * Retrieves the "show related summary rows" flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getShowRelatedSummaryRows()
@@ -94,7 +94,7 @@ public final class Filter
 
    /**
     * Sets the criteria associted with this filter.
-    * 
+    *
     * @param criteria filter criteria
     */
    public void setCriteria(GenericCriteria criteria)
@@ -104,7 +104,7 @@ public final class Filter
 
    /**
     * Retrieve the criteria used to define this filter.
-    * 
+    *
     * @return list of filter criteria
     */
    public GenericCriteria getCriteria()
@@ -114,7 +114,7 @@ public final class Filter
 
    /**
     * Retrieves a flag indicating if this is a task filter.
-    * 
+    *
     * @return boolean flag
     */
    public boolean isTaskFilter()
@@ -124,7 +124,7 @@ public final class Filter
 
    /**
     * Sets the flag indicating if this is a task filter.
-    * 
+    *
     * @param flag task filter flag
     */
    public void setIsTaskFilter(boolean flag)
@@ -134,7 +134,7 @@ public final class Filter
 
    /**
     * Retrieves a flag indicating if this is a resource filter.
-    * 
+    *
     * @return boolean flag
     */
    public boolean isResourceFilter()
@@ -144,7 +144,7 @@ public final class Filter
 
    /**
     * Sets the flag indicating if this is a resource filter.
-    * 
+    *
     * @param flag resource filter flag
     */
    public void setIsResourceFilter(boolean flag)
@@ -155,7 +155,7 @@ public final class Filter
    /**
     * Evaluates the filter, returns true if the supplied Task or Resource
     * instance matches the filter criteria.
-    * 
+    *
     * @param container Task or Resource instance
     * @param promptValues respose to prompts
     * @return boolean flag
@@ -190,7 +190,7 @@ public final class Filter
 
    /**
     * Sets the prompts to supply the parameters required by this filter.
-    * 
+    *
     * @param prompts filter prompts
     */
    public void setPrompts(List<GenericCriteriaPrompt> prompts)
@@ -200,7 +200,7 @@ public final class Filter
 
    /**
     * Retrieves the prompts required to supply parameters to this filter.
-    * 
+    *
     * @return filter prompts
     */
    public List<GenericCriteriaPrompt> getPrompts()

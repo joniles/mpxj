@@ -162,11 +162,11 @@ public abstract class Tokenizer
    }
 
    /**
-    * This method allows us to control the behaviour of the tokenizer for 
+    * This method allows us to control the behaviour of the tokenizer for
     * quoted text. Normally quoted text begins with a quote character
     * at the first position within a field. As this method is protected,
     * sub classes can alter this behaviour if required.
-    * 
+    *
     * @param buffer the field contents read so far
     * @return true if it is valid to treat the subsequent text as quoted
     */

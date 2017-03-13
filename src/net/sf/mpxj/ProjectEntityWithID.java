@@ -1,6 +1,6 @@
 /*
  * file:       ProjectEntityWithID.java
- * author:     Jon Iles             
+ * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2015
  * date:       15/04/2015
  */
@@ -30,14 +30,14 @@ public interface ProjectEntityWithID extends ProjectEntityWithUniqueID
 {
    /**
     * Retrieve the ID value of the entity.
-    * 
+    *
     * @return ID value
     */
    public Integer getID();
 
    /**
     * Set the ID value of the entity.
-    * 
+    *
     * @param id ID value
     */
    public void setID(Integer id);

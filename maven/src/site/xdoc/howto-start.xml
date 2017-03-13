@@ -37,6 +37,7 @@ using the following reader classes:
 <li>net.sf.mpxj.primavera.PrimaveraDatabaseReader: reads from a Primavera database</li>
 <li>net.sf.mpxj.primavera.PrimaveraPMFileReader: reads Primavera PM XML files</li>
 <li>net.sf.mpxj.primavera.PrimaveraXERFileReader: reads Primavera XER files</li>
+<li>net.sf.mpxj.reader.UniversalProjectReader: reads any file type (MPXJ works out the file type for itself)</li>
 </ul>
 All of these classes implement the ProjectReader interface. If you know which 
 type of file you are working with, you can use these readers directly, 
@@ -54,6 +55,7 @@ A similar arrangement exists for the writer classes:
 <li>net.sf.mpxj.mpx.MPXWriter: writes Microsoft MPX files</li>
 <li>net.sf.mpxj.mspdi.MSPDIWriter: writes Microsoft MSPDI (XML) files</li>
 <li>net.sf.mpxj.planner.PlannerWriter: writes Planner (XML) files</li>
+<li>net.sf.mpxj.json.JsonWriter: writes JSON files (primarily used to suport the Ruby version of MPXJ)</li>
 </ul>
 All of these classes implement the ProjectWriter interface. If you know which 
 type of file you are working with, you can use these writers directly, 

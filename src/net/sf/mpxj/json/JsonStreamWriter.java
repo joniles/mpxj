@@ -26,6 +26,7 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,18 +40,19 @@ public class JsonStreamWriter
 {
    /**
     * Constructor.
-    * 
+    *
     * @param stream target output stream
+    * @param encoding target encoding
     */
-   public JsonStreamWriter(OutputStream stream)
+   public JsonStreamWriter(OutputStream stream, Charset encoding)
    {
-      m_writer = new OutputStreamWriter(stream);
+      m_writer = new OutputStreamWriter(stream, encoding);
       m_firstNameValuePair.push(Boolean.TRUE);
    }
 
    /**
     * Retrieve the pretty-print flag.
-    * 
+    *
     * @return true if pretty printing is enabled
     */
    public boolean getPretty()
@@ -60,8 +62,8 @@ public class JsonStreamWriter
 
    /**
     * Set the pretty-print flag.
-    * 
-    * @param pretty true if pretty printing is enabled 
+    *
+    * @param pretty true if pretty printing is enabled
     */
    public void setPretty(boolean pretty)
    {
@@ -78,7 +80,7 @@ public class JsonStreamWriter
 
    /**
     * Begin writing a named object attribute.
-    * 
+    *
     * @param name attribute name
     */
    public void writeStartObject(String name) throws IOException
@@ -98,7 +100,7 @@ public class JsonStreamWriter
 
    /**
     * Begin writing a named list attribute.
-    * 
+    *
     * @param name attribute name
     */
    public void writeStartList(String name) throws IOException
@@ -131,7 +133,7 @@ public class JsonStreamWriter
 
    /**
     * Write a string attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -142,7 +144,7 @@ public class JsonStreamWriter
 
    /**
     * Write an int attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -153,7 +155,7 @@ public class JsonStreamWriter
 
    /**
     * Write a long attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -164,7 +166,7 @@ public class JsonStreamWriter
 
    /**
     * Write a double attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -175,7 +177,7 @@ public class JsonStreamWriter
 
    /**
     * Write a boolean attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -186,7 +188,7 @@ public class JsonStreamWriter
 
    /**
     * Write a Date attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -197,7 +199,7 @@ public class JsonStreamWriter
 
    /**
     * Core write attribute implementation.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -217,7 +219,7 @@ public class JsonStreamWriter
 
    /**
     * Escape text to ensure valid JSON.
-    * 
+    *
     * @param value value
     * @return escaped value
     */
@@ -280,7 +282,11 @@ public class JsonStreamWriter
 
             default:
             {
-               m_buffer.append(c);
+               // Append if it's not a control character (0x00 to 0x1f)
+               if (c > 0x1f)
+               {
+                  m_buffer.append(c);
+               }
                break;
             }
          }
@@ -322,7 +328,7 @@ public class JsonStreamWriter
 
    /**
     * Write an attribute name.
-    * 
+    *
     * @param name attribute name
     */
    private void writeName(String name) throws IOException

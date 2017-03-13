@@ -37,7 +37,7 @@ public enum SaveVersion
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     */
    private SaveVersion(int type)
@@ -46,7 +46,7 @@ public enum SaveVersion
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

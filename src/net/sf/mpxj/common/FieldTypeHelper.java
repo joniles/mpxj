@@ -34,13 +34,13 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
 /**
- * Utility class containing methods relating to the FieldType class. 
+ * Utility class containing methods relating to the FieldType class.
  */
 public final class FieldTypeHelper
 {
    /**
     * Retrieve an MPP9/MPP12 field ID based on an MPXJ FieldType instance.
-    * 
+    *
     * @param type FieldType instance
     * @return field ID
     */
@@ -77,10 +77,10 @@ public final class FieldTypeHelper
    }
 
    /**
-    * Retrieve a FieldType instance based on an ID value from 
+    * Retrieve a FieldType instance based on an ID value from
     * an MPP9 or MPP12 file.
-    * 
-    * @param fieldID field ID 
+    *
+    * @param fieldID field ID
     * @return FieldType instance
     */
    public static final FieldType getInstance(int fieldID)
@@ -142,11 +142,11 @@ public final class FieldTypeHelper
    }
 
    /**
-    * Retrieve a FieldType instance based on an ID value from 
+    * Retrieve a FieldType instance based on an ID value from
     * an MPP14 field, mapping the START_TEXT, FINISH_TEXT, and DURATION_TEXT
     * values to START, FINISH, and DURATION respectively.
-    * 
-    * @param fieldID field ID 
+    *
+    * @param fieldID field ID
     * @return FieldType instance
     */
    public static final FieldType getInstance14(int fieldID)
@@ -209,7 +209,7 @@ public final class FieldTypeHelper
 
    /**
     * Generate a placeholder for an unknown type.
-    * 
+    *
     * @param type expected type
     * @param fieldID field ID
     * @return placeholder
@@ -225,7 +225,7 @@ public final class FieldTypeHelper
 
          @Override public String name()
          {
-            return null;
+            return "UNKNOWN";
          }
 
          @Override public int getValue()
@@ -261,9 +261,9 @@ public final class FieldTypeHelper
    }
 
    /**
-    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Star) when we 
-    * actually need to process the non-text version of the field. This method performs that mapping. 
-    * 
+    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Star) when we
+    * actually need to process the non-text version of the field. This method performs that mapping.
+    *
     * @param field field to mapped
     * @return mapped field
     */

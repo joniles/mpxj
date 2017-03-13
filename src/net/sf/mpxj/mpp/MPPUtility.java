@@ -36,6 +36,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -56,7 +57,7 @@ public final class MPPUtility
    /**
     * This method decodes a byte array with the given encryption code
     * using XOR encryption.
-    * 
+    *
     * @param data Source data
     * @param encryptionCode Encryption code
     */
@@ -72,11 +73,11 @@ public final class MPPUtility
     * The mask used by Project to hide the password. The data must first
     * be decoded using the XOR key and then the password can be read by reading
     * the characters in given order starting with 1 and going up to 16.
-    * 
+    *
     * 00000: 00 00 04 00 00 00 05 00 07 00 12 00 10 00 06 00
     * 00016: 14 00 00 00 00 00 08 00 16 00 00 00 00 00 02 00
     * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
-    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00 
+    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00
     */
    private static final int[] PASSWORD_MASK =
    {
@@ -101,11 +102,11 @@ public final class MPPUtility
    private static final int MINIMUM_PASSWORD_DATA_LENGTH = 64;
 
    /**
-    * Decode the password from the given data. Will decode the data block as well. 
-    * 
+    * Decode the password from the given data. Will decode the data block as well.
+    *
     * @param data encrypted data block
     * @param encryptionCode encryption code
-    * 
+    *
     * @return password
     */
    public static final String decodePassword(byte[] data, byte encryptionCode)
@@ -264,7 +265,7 @@ public final class MPPUtility
 
    /**
     * Reads a UUID/GUID from a data block.
-    * 
+    *
     * @param data data block
     * @param offset offset into the data block
     * @return UUID instance
@@ -414,24 +415,8 @@ public final class MPPUtility
     */
    public static final String getUnicodeString(byte[] data, int offset)
    {
-      StringBuilder buffer = new StringBuilder();
-      if (data != null)
-      {
-         char c;
-
-         for (int loop = offset; loop < (data.length - 1); loop += 2)
-         {
-            c = (char) getShort(data, loop);
-
-            if (c == 0)
-            {
-               break;
-            }
-
-            buffer.append(c);
-         }
-      }
-      return (buffer.toString());
+      int length = getUnicodeStringLengthInBytes(data, offset);
+      return length == 0 ? "" : new String(data, offset, length, CharsetHelper.UTF16LE);
    }
 
    /**
@@ -444,32 +429,47 @@ public final class MPPUtility
     *
     * @param data byte array of data
     * @param offset start point of unicode string
-    * @param length length in bytes of the string
+    * @param maxLength length in bytes of the string
     * @return string value
     */
-   public static final String getUnicodeString(byte[] data, int offset, int length)
+   public static final String getUnicodeString(byte[] data, int offset, int maxLength)
    {
-      StringBuilder buffer = new StringBuilder();
-      char c;
-      int loop = offset;
-      int byteLength = 0;
-
-      while (loop < (data.length - 1) && byteLength < length)
+      int length = getUnicodeStringLengthInBytes(data, offset);
+      if (maxLength > 0 && length > maxLength)
       {
-         c = (char) getShort(data, loop);
-
-         if (c == 0)
-         {
-            break;
-         }
-
-         buffer.append(c);
-
-         loop += 2;
-         byteLength += 2;
+         length = maxLength;
       }
+      return length == 0 ? "" : new String(data, offset, length, CharsetHelper.UTF16LE);
+   }
 
-      return (buffer.toString());
+   /**
+    * Determine the length of a nul terminated UTF16LE string in bytes.
+    *
+    * @param data string data
+    * @param offset offset into string data
+    * @return length in bytes
+    */
+   private static final int getUnicodeStringLengthInBytes(byte[] data, int offset)
+   {
+      int result;
+      if (data == null || offset >= data.length)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = data.length - offset;
+
+         for (int loop = offset; loop < (data.length - 1); loop += 2)
+         {
+            if (data[loop] == 0 && data[loop + 1] == 0)
+            {
+               result = loop - offset;
+               break;
+            }
+         }
+      }
+      return result;
    }
 
    /**
@@ -517,9 +517,9 @@ public final class MPPUtility
 
    /**
     * Reads a color value represented by three bytes, for R, G, and B
-    * components, plus a flag byte indicating if this is an automatic color. 
+    * components, plus a flag byte indicating if this is an automatic color.
     * Returns null if the color type is "Automatic".
-    * 
+    *
     * @param data byte array of data
     * @param offset offset into array
     * @return new Color instance
@@ -593,7 +593,7 @@ public final class MPPUtility
 
          case MONTHS:
          {
-            duration = value / 96000; // 
+            duration = value / 96000; //
             break;
          }
 
@@ -698,6 +698,12 @@ public final class MPPUtility
          case 19:
          {
             units = TimeUnit.PERCENT;
+            break;
+         }
+
+         case 20:
+         {
+            units = TimeUnit.ELAPSED_PERCENT;
             break;
          }
 
@@ -902,7 +908,7 @@ public final class MPPUtility
 
    /**
     * Utility method to read a percentage value.
-    * 
+    *
     * @param data data block
     * @param offset offset into data block
     * @return percentage value
@@ -1046,7 +1052,7 @@ public final class MPPUtility
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
     * characters. The data is organised into fixed width columns.
-    * 
+    *
     * @param buffer data to be displayed
     * @param offset offset into buffer
     * @param length number of bytes to display
@@ -1195,7 +1201,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpDouble)
@@ -1207,7 +1213,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpTimeStamp)
@@ -1222,7 +1228,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpDuration)
@@ -1234,7 +1240,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpDate)
@@ -1249,7 +1255,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpTime)
@@ -1261,7 +1267,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions      	    	      
+                  // Silently ignore exceptions
                }
             }
             if (dumpAdjustedDuration)
@@ -1272,7 +1278,7 @@ public final class MPPUtility
                }
                catch (Exception ex)
                {
-                  // Silently ignore exceptions                   
+                  // Silently ignore exceptions
                }
             }
 
@@ -1385,7 +1391,7 @@ public final class MPPUtility
    /**
     * Dumps the contents of a structured block made up from a header
     * and fixed sized records.
-    * 
+    *
     * @param headerSize header zie
     * @param blockSize block size
     * @param data data block
@@ -1406,7 +1412,7 @@ public final class MPPUtility
 
    /**
     * Get the epoch date.
-    * 
+    *
     * @return epoch date.
     */
    public static Date getEpochDate()

@@ -85,7 +85,7 @@ public class JTablePanel extends JPanel
 
    /**
     * Set the model used by the left table.
-    * 
+    *
     * @param model table model
     */
    public void setLeftTableModel(TableModel model)
@@ -97,7 +97,7 @@ public class JTablePanel extends JPanel
 
    /**
     * Retrieve the model used by the left table.
-    * 
+    *
     * @return table model
     */
    public TableModel getLeftTableModel()
@@ -107,7 +107,7 @@ public class JTablePanel extends JPanel
 
    /**
     * Set the model used by the right table.
-    * 
+    *
     * @param model table model
     */
    public void setRightTableModel(TableModel model)
@@ -119,7 +119,7 @@ public class JTablePanel extends JPanel
 
    /**
     * Retrieve the model used by the right table.
-    * 
+    *
     * @return table model
     */
    public TableModel getRightTableModel()
@@ -129,7 +129,7 @@ public class JTablePanel extends JPanel
 
    /**
     * Retrieve the currently selected cell.
-    * 
+    *
     * @return selected cell
     */
    public Point getSelectedCell()
@@ -139,7 +139,7 @@ public class JTablePanel extends JPanel
 
    /**
     * Fire a property change event in response to a cell selection.
-    * 
+    *
     * @param evt event data
     */
    protected void firePropertyChange(PropertyChangeEvent evt)

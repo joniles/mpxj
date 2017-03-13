@@ -64,7 +64,7 @@ public class TaskOutlineCodesTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskOutlineCodes(File file) throws MPXJException
@@ -95,7 +95,7 @@ public class TaskOutlineCodesTest
 
    /**
     * Test flat outline code values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
@@ -114,7 +114,7 @@ public class TaskOutlineCodesTest
 
    /**
     * Test hierarchical outline code values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested

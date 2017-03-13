@@ -1,6 +1,6 @@
 /*
  * file:       RecurringTask.java
- * author:     Jon Iles             
+ * author:     Jon Iles
  *             Scott Melville
  * copyright:  (c) Packwood Software 2002-2008
  * date:       15/08/2002
@@ -127,7 +127,7 @@ public final class RecurringTask
 
    /**
     * Sets the recurrence type.
-    * 
+    *
     * @param type recurrence type
     */
    public void setRecurrenceType(RecurrenceType type)
@@ -189,7 +189,7 @@ public final class RecurringTask
    /**
     * Sets a bit field representing days of the week.
     * MSB=Sunday, LSB=Saturday.
-    * 
+    *
     * @param days integer bit field
     */
    public void setWeeklyDays(Integer days)
@@ -199,7 +199,7 @@ public final class RecurringTask
 
    /**
     * Retrieves the monthly relative flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getMonthlyRelative()
@@ -219,7 +219,7 @@ public final class RecurringTask
 
    /**
     * Retrieve the yearly relative flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getYearlyAbsolute()
@@ -319,7 +319,7 @@ public final class RecurringTask
 
    /**
     * Sets the monthly relative frequency.
-    * 
+    *
     * @return monthly relative frequency
     */
    public Integer getMonthlyRelativeFrequency()
@@ -641,7 +641,7 @@ public final class RecurringTask
 
    //
    // Yearly recurrence attributes
-   //   
+   //
    private boolean m_yearlyAbsolute;
    private Date m_yearlyAbsoluteDate;
    private Integer m_yearlyRelativeOrdinal;

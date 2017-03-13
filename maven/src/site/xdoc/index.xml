@@ -222,12 +222,18 @@ be found in the legal directory of the distribution.</p>
 it requires depends on IKVM. The licenses for IKVM and its associated
 third party libraries can be found in the legal directory of the distribution.</p>
 
+<p>The functionality to read some Asta PP files
+depends on use of the sqlite-jdbc driver.
+The license for this library can
+be found in the legal directory of the distribution.</p>
+
 </section>
 
 <section name="Acknowledgements"> 
 <p>This product includes functionality provided by POI (<a href="http://poi.apache.org/" target="_blank">http://poi.apache.org</a>)</p> 
 <p>This product includes functionality provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p> 
 <p>This product includes functionality provided by RTF Parser Kit (<a href="https://github.com/joniles/rtfparserkit" target="_blank">https://github.com/joniles/rtfparserkit</a>)</p>
+<p>This product includes functionality provided by SQLITE-JDBC (<a href="https://github.com/xerial/sqlite-jdbc" target="_blank">https://github.com/xerial/sqlite-jdbc</a>)</p>
 </section>
 
    </body> 

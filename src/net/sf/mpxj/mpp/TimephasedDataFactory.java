@@ -53,7 +53,7 @@ final class TimephasedDataFactory
     * the day by day work carried out for a specific resource assignment.
     *
     * @param calendar calendar on which date calculations are based
-    * @param startDate assignment start date 
+    * @param startDate assignment start date
     * @param data completed work data block
     * @return list of TimephasedWork instances
     */
@@ -141,10 +141,10 @@ final class TimephasedDataFactory
     *
     * @param calendar calendar on which date calculations are based
     * @param startDate assignment start date
-    * @param units assignment units 
+    * @param units assignment units
     * @param data planned work data block
-    * @param timephasedComplete list of complete work 
-    * @return list of TimephasedWork instances 
+    * @param timephasedComplete list of complete work
+    * @return list of TimephasedWork instances
     */
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete)
    {
@@ -271,8 +271,8 @@ final class TimephasedDataFactory
 
    /**
     * Test the list of TimephasedWork instances to see
-    * if any of them have been modified. 
-    * 
+    * if any of them have been modified.
+    *
     * @param list list of TimephasedWork instances
     * @return boolean flag
     */
@@ -294,7 +294,7 @@ final class TimephasedDataFactory
     * Extracts baseline work from the MPP file for a specific baseline.
     * Returns null if no baseline work is present, otherwise returns
     * a list of timephased work items.
-    * 
+    *
     * @param assignment parent assignment
     * @param calendar baseline calendar
     * @param normaliser normaliser associated with this data
@@ -370,7 +370,7 @@ final class TimephasedDataFactory
     * Extracts baseline cost from the MPP file for a specific baseline.
     * Returns null if no baseline cost is present, otherwise returns
     * a list of timephased work items.
-    * 
+    *
     * @param calendar baseline calendar
     * @param normaliser normaliser associated with this data
     * @param data timephased baseline work data block
@@ -429,7 +429,7 @@ final class TimephasedDataFactory
 
    /**
     * Equality test cost values.
-    * 
+    *
     * @param lhs cost value
     * @param rhs cost value
     * @return true if costs are equal, within the allowable delta

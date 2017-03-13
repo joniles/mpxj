@@ -36,7 +36,7 @@ public abstract class CustomFieldValueReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties project properties
     * @param container custom field config
     * @param outlineCodeVarMeta raw mpp data
@@ -63,7 +63,7 @@ public abstract class CustomFieldValueReader
 
    /**
     * Convert raw value as read from the MPP file into a Java type.
-    * 
+    *
     * @param type MPP value type
     * @param value raw value data
     * @return Java object

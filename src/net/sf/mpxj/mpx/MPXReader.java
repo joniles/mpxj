@@ -146,13 +146,10 @@ public final class MPXReader extends AbstractProjectReader
          Tokenizer tk = new InputStreamTokenizer(bis);
          tk.setDelimiter(m_delimiter);
 
-         Record record;
-         String number;
-
          //
          // Add the header record
          //
-         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_locale, tk, m_formats));
+         parseRecord(Integer.valueOf(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_locale, tk, m_formats));
          ++line;
 
          //
@@ -171,8 +168,8 @@ public final class MPXReader extends AbstractProjectReader
          //
          while (tk.getType() != Tokenizer.TT_EOF)
          {
-            record = new Record(m_locale, tk, m_formats);
-            number = record.getRecordNumber();
+            Record record = new Record(m_locale, tk, m_formats);
+            Integer number = record.getRecordNumber();
 
             if (number != null)
             {
@@ -228,9 +225,9 @@ public final class MPXReader extends AbstractProjectReader
     * @param record record data
     * @throws MPXJException
     */
-   private void parseRecord(String recordNumber, Record record) throws MPXJException
+   private void parseRecord(Integer recordNumber, Record record) throws MPXJException
    {
-      switch (Integer.parseInt(recordNumber))
+      switch (recordNumber.intValue())
       {
          case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
          case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
@@ -638,9 +635,9 @@ public final class MPXReader extends AbstractProjectReader
 
    /**
     * Get a date range that correctly handles the cae where the end time
-    * is midnight. In this instance the end time should be the start of the 
+    * is midnight. In this instance the end time should be the start of the
     * next day.
-    * 
+    *
     * @param hours calendar hours
     * @param start start date
     * @param end end date
@@ -864,7 +861,7 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * This method iterates through the deferred relationships,
     * parsing the data and setting up relationships between tasks.
-    * 
+    *
     * @throws MPXJException
     */
    private void processDeferredRelationships() throws MPXJException
@@ -877,7 +874,7 @@ public final class MPXReader extends AbstractProjectReader
 
    /**
     * This method processes a single deferred relationship list.
-    * 
+    *
     * @param dr deferred relationship list data
     * @throws MPXJException
     */
@@ -1273,6 +1270,22 @@ public final class MPXReader extends AbstractProjectReader
       {
          task.setUniqueID(task.getID());
       }
+
+      //
+      // Some applications (I'm looking at you SureTrak) don't write start and finish
+      // attributes. If you open an MPX file like this in MS Project, it will use
+      // the early start and early finish values (if present) to populate
+      // the start and finish attributes.
+
+      if (task.getStart() == null && task.getEarlyStart() != null)
+      {
+         task.setStart(task.getEarlyStart());
+      }
+
+      if (task.getFinish() == null && task.getEarlyFinish() != null)
+      {
+         task.setFinish(task.getEarlyFinish());
+      }
    }
 
    /**
@@ -1284,7 +1297,7 @@ public final class MPXReader extends AbstractProjectReader
     */
    private void populateRecurringTask(Record record, RecurringTask task) throws MPXJException
    {
-      //System.out.println(record);      
+      //System.out.println(record);
       task.setStartDate(record.getDateTime(1));
       task.setFinishDate(record.getDateTime(2));
       task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectProperties(), record.getInteger(3), record.getInteger(4)));
@@ -1416,7 +1429,7 @@ public final class MPXReader extends AbstractProjectReader
 
    /**
     * Retrieves an array of locales supported by this class.
-    * 
+    *
     * @return array of supported locales
     */
    public Locale[] getSupportedLocales()
@@ -1465,7 +1478,7 @@ public final class MPXReader extends AbstractProjectReader
    {
       /**
        * Retrieve the parent task.
-       * 
+       *
        * @return parent Task instance
        */
       public Task getTask()
@@ -1475,7 +1488,7 @@ public final class MPXReader extends AbstractProjectReader
 
       /**
        * Set the parent task instance.
-       * 
+       *
        * @param task parent Task instance
        */
       public void setTask(Task task)
@@ -1485,7 +1498,7 @@ public final class MPXReader extends AbstractProjectReader
 
       /**
        * Retrieve the target task field.
-       * 
+       *
        * @return TaskField instance
        */
       public TaskField getField()
@@ -1495,7 +1508,7 @@ public final class MPXReader extends AbstractProjectReader
 
       /**
        * Set the target task field.
-       * 
+       *
        * @param field TaskField instance
        */
       public void setField(TaskField field)
@@ -1505,7 +1518,7 @@ public final class MPXReader extends AbstractProjectReader
 
       /**
        * Retrieve the relationship data.
-       * 
+       *
        * @return relationship data
        */
       public String getData()
@@ -1515,7 +1528,7 @@ public final class MPXReader extends AbstractProjectReader
 
       /**
        * Set the relationship data.
-       * 
+       *
        * @param data relationship data
        */
       public void setData(String data)

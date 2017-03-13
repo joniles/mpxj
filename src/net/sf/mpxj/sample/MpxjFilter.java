@@ -27,8 +27,7 @@ import net.sf.mpxj.Filter;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * This example shows tasks or resources being read from a project file,
@@ -68,14 +67,13 @@ public class MpxjFilter
     * and displays the filtered list of tasks or resources. If an
     * invalid filter name is supplied, a list of valid filter names
     * is shown.
-    * 
+    *
     * @param filename input file name
     * @param filtername input filter name
     */
    private static void filter(String filename, String filtername) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
-      ProjectFile project = reader.read(filename);
+      ProjectFile project = new UniversalProjectReader().read(filename);
       Filter filter = project.getFilters().getFilterByName(filtername);
 
       if (filter == null)
@@ -101,7 +99,7 @@ public class MpxjFilter
    /**
     * This utility displays a list of available task filters, and a
     * list of available resource filters.
-    * 
+    *
     * @param project project file
     */
    private static void displayAvailableFilters(ProjectFile project)
@@ -123,7 +121,7 @@ public class MpxjFilter
 
    /**
     * Apply a filter to the list of all tasks, and show the results.
-    * 
+    *
     * @param project project file
     * @param filter filter
     */
@@ -140,7 +138,7 @@ public class MpxjFilter
 
    /**
     * Apply a filter to the list of all resources, and show the results.
-    * 
+    *
     * @param project project file
     * @param filter filter
     */

@@ -37,7 +37,7 @@ public enum ConstraintField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     */
    private ConstraintField(DataType dataType)

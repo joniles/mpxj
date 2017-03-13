@@ -41,7 +41,7 @@ public class ObjectPropertiesController
 
    /**
     * Constructor.
-    * 
+    *
     * @param model model component
     */
    public ObjectPropertiesController(ObjectPropertiesModel model)
@@ -51,7 +51,7 @@ public class ObjectPropertiesController
 
    /**
     * Populate the model with the object's properties.
-    * 
+    *
     * @param object object whose properties we're displaying
     */
    public void loadObject(Object object)
@@ -61,7 +61,7 @@ public class ObjectPropertiesController
 
    /**
     * Create a table model from an object's properties.
-    * 
+    *
     * @param object target object
     * @return table model
     */
@@ -123,7 +123,7 @@ public class ObjectPropertiesController
 
    /**
     * Convert a method name into a property name.
-    * 
+    *
     * @param method target method
     * @return property name
     */

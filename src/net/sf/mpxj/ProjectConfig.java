@@ -32,7 +32,7 @@ public class ProjectConfig
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public ProjectConfig(ProjectFile projectFile)

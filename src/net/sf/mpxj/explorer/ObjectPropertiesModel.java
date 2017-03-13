@@ -39,7 +39,7 @@ public class ObjectPropertiesModel
 
    /**
     * Set the model used by the hex table.
-    * 
+    *
     * @param tableModel table model
     */
    public void setTableModel(TableModel tableModel)
@@ -49,7 +49,7 @@ public class ObjectPropertiesModel
 
    /**
     * Retrieve the model used by the hex table.
-    * 
+    *
     * @return table model
     */
    public TableModel getTableModel()
@@ -59,7 +59,7 @@ public class ObjectPropertiesModel
 
    /**
     * Add a property change listener.
-    * 
+    *
     * @param listener property change listener
     */
    public void addPropertyChangeListener(PropertyChangeListener listener)
@@ -69,7 +69,7 @@ public class ObjectPropertiesModel
 
    /**
     * Add a property change listener for a named property.
-    * 
+    *
     * @param propertyName property name
     * @param listener listener
     */
@@ -80,7 +80,7 @@ public class ObjectPropertiesModel
 
    /**
     * Remove a property change listener.
-    * 
+    *
     * @param listener property change listener
     */
    public void removePropertyChangeListener(PropertyChangeListener listener)

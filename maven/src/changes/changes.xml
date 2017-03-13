@@ -1,806 +1,891 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <document>
-   <properties>
-      <title>MPXJ Changes</title> 
-      <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
-   </properties> 
-
-   <body>
-
-    <release version="5.1.11" date="Git HEAD">
-    	
-    </release>
-    
-    <release version="5.1.10" date="09/09/2015">
-    	<action dev="joniles" type="update">Improve FixedMeta2 block size heuristic to improve reliability when reading MPP14 files.</action>
-    </release>
-    
-	<release version="5.1.9" date="29/08/2015">
-		<action dev="joniles" type="add">Ensure Resource BookingType is read correctly from MPP files</action>
-		<action dev="joniles" type="add">Added basic custom field attributes to JSON output</action>
-		<action dev="joniles" type="add">Added Ruby methods to work with custom field aliases</action>
-		<action dev="joniles" type="fix">Fix to infinite loop condition when writing calendar (contributed by lobmeleon)</action>
-		<action dev="joniles" type="fix" issue="274">MPXJ getNotes() API returns garbled value for multibyte characters</action>
-		<action dev="joniles" type="fix" issue="268">Unsupported encoding error when reading resource notes</action>
-		<action dev="joniles" type="fix" issue="256">Incorrect resource types are read (contributed by Colin Rodriguez)</action>
-		<action dev="joniles" type="update">Symmetry between Primavera PM reader/writer (contributed by lobmeleon)</action>
-		<action dev="joniles" type="update">Added UDF support to PMXML file reader and writer(contributed by lobmeleon)</action>
-		<action dev="joniles" type="update">Updated to rtfparserkit 1.4.0</action>
-	</release>
-
-	<release version="5.1.8" date="13/07/2015">
-		<action dev="joniles" type="update">Another attempt at getting tzinfo-data dependency working</action>
-	</release>
-
-	<release version="5.1.7" date="13/07/2015">
-		<action dev="joniles" type="update">Updated ruby gem to make tzinfo-data dependency conditional on platform</action>
-	</release>
-
-	<release version="5.1.6" date="13/07/2015">
-		<action dev="joniles" type="update">Updated ruby gem to allow timezone to be provided</action>
-	</release>
-
-	<release version="5.1.5" date="05/06/2015">
-		<action dev="joniles" type="update">Updated to use IKVM 8.0.5449.1</action>
-	</release>
-
-	<release version="5.1.4" date="03/06/2015">
-		<action dev="joniles" type="update">Updated to generate Activity ID for Primavera WBS.</action>
-		<action dev="joniles" type="fix">Updated to correct Primavera duration percent complete calculation.</action>
-	</release>
-
-	<release version="5.1.3" date="18/05/2015">
-		<action dev="joniles" type="fix">Updated to ensure Ruby reads Boolean attributes correctly.</action>
-	</release>
-
-	<release version="5.1.2" date="18/05/2015">
-		<action dev="joniles" type="fix">Updated to ensure Ruby recognises short type as an integer.</action>
-	</release>
-
-	<release version="5.1.1" date="18/05/2015">
-		<action dev="joniles" type="update">Updated to use ruby-duration gem to avoid conflict with ActiveSupport::Duration.</action>
-	</release>
-
-	<release version="5.1.0" date="17/05/2015">
-		<action dev="joniles" type="fix">Updated to ensure that PrimaveraDatabaseReader.setSchema accepts null or empty string</action>
-		<action dev="joniles" type="fix">Ensure conversion to/from .Net DateTime takes account of timezone and daylight savings (based on a contribution by Timour Koupeev)</action>
-		<action dev="joniles" type="update">Updated to use POI 3.12.</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
-	</release>
-
-	<release version="5.0.0" date="06/05/2015">
-		<action dev="joniles" type="add">Added project properties to the JSON output</action>
-		<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>		
-		<action dev="joniles" type="add">Added support for reading data from a standalone Primavera P6 SQLite database</action>
-		<action dev="joniles" type="fix" issue="267">XXE security vulnerability</action>					
-		<action dev="joniles" type="fix" issue="266">Task Number fields not saved to file if the value would floor to zero</action>	
-		<action dev="joniles" type="fix" issue="255">Not all project calendars are read in for Project 2013 files (based on a contribution by Colin Rodriguez)</action>							
-		<action dev="joniles" type="update">Renamed TaskContainer class to ChildTaskContainer</action>
-		<action dev="joniles" type="update">Renamed ProjectHeader class to ProjectProperties</action>
-		<action dev="joniles" type="update">Introduced ProjectConfig class</action>		
-		<action dev="joniles" type="update">Introduced TaskContainer class</action>
-		<action dev="joniles" type="update">Introduced ResourceContainer class</action>
-		<action dev="joniles" type="update">Introduced ResourceAssignmentContainer class</action>
-		<action dev="joniles" type="update">Introduced ProjectCalendarContainer class</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.getProjectHeader to getProjectProperties</action>			
-		<action dev="joniles" type="update">Renamed ProjectFile.getCalendar to getDefaultCalendar</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.setCalendar to setDefaultCalendar</action>			
-		<action dev="joniles" type="update">Renamed MppReader.getReadHeaderOnly to getReadPropertiesOnly</action>
-		<action dev="joniles" type="update">Renamed MppReader.setReadHeaderOnly to setReadPropertiesOnly</action>	
-		<action dev="joniles" type="update">Renamed ProjectFile.getCalendarUniqueID to ProjectConfig.getNextCalendarUniqueID</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.getResourceUniqueID to ProjectConfig.getNextResourceUniqueID</action>		
-		<action dev="joniles" type="update">Renamed ProjectFile.getTaskUniqueID to ProjectConfig.getNextTaskUniqueID</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</action>
-		<action dev="joniles" type="update">Renamed ProjectFile.getResourceID to ProjectConfig.getNextResourceID</action>		
-		<action dev="joniles" type="update">Renamed ProjectFile.getTaskID to ProjectConfig.getNextTaskID</action>
-		<action dev="joniles" type="update">Renamed ProjectHeader.getApplicationName to getShortApplicationName</action>
-		<action dev="joniles" type="update">Renamed ProjectHeader.setApplicationName to setShortApplicationName</action>		
-		<action dev="joniles" type="update">Renamed ProjectHeader.setCalendarName to setDefaultCalendarName</action>
-		<action dev="joniles" type="update">Renamed ProjectHeader.getCalendarName to getDefaultCalendarName</action>				
-		<action dev="joniles" type="update">Moved ProjectFile.getProjectFilePath to ProjectHeader.getProjectFilePath</action>
-		<action dev="joniles" type="update">Moved ProjectFile.setProjectFilePath to ProjectHeader.setProjectFilePath</action>
-		<action dev="joniles" type="update">Moved ProjectFile.getApplicationName to ProjectHeader.getFullApplicationName</action>
-		<action dev="joniles" type="update">Moved ProjectFile.setApplicationName to ProjectHeader.setFullApplicationName</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.setDelimiter to ProjectHeader.setMpxDelimiter</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.getDelimiter to ProjectHeader.getMpxDelimiter</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.setProgramName to ProjectHeader.setMpxProgramName</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.getProgramName to ProjectHeader.getMpxProgramName</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.setFileVersion to ProjectHeader.setMpxFileVersion</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.getFileVersion to ProjectHeader.getMpxFileVersion</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.setCodePage to ProjectHeader.setMpxCodePage</action>
-		<action dev="joniles" type="update">Moved FileCreationRecord.getCodePage to ProjectHeader.getMpxCodePage</action>		
-		<action dev="joniles" type="update">Moved ProjectFile.getMppFileType to ProjectHeader.getMppFileType</action>
-		<action dev="joniles" type="update">Moved ProjectFile.setMppFileType to ProjectHeader.setMppFileType</action>
-		<action dev="joniles" type="update">Moved ProjectFile.getApplicationVersion to ProjectHeader.getApplicationVersion</action>
-		<action dev="joniles" type="update">Moved ProjectFile.setApplicationVersion to ProjectHeader.setApplicationVersion</action>
-		<action dev="joniles" type="update">Moved ProjectFile.setAutoFilter to ProjectHeader.setAutoFilter</action>
-		<action dev="joniles" type="update">Moved ProjectFile.getAutoFilter to ProjectHeader.getAutoFilter</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getAliasTaskField, replaced by ProjectFile.getTaskFieldAliases().getField()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getAliasResourceField, replaced by ProjectFile.getResourceFieldAliases().getField()</action>		
-		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().getAlias()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.setTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().setAlias()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().getAlias()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.setResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().setAlias()</action>		
-		<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliasMap, replaced by ProjectFile.getTaskFieldAliases</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</action>		
-		<action dev="joniles" type="update">Removed ProjectFile.addTable, replaced by ProjectFile.getTables().add()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getTaskTableByName, replaced by ProjectFile.getTables().getTaskTableByName()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceTableByName, replaced by ProjectFile.getTables().getResourceTableByName()</action>		
-		<action dev="joniles" type="update">Removed ProjectFile.addFilter, replaced by ProjectFile.getFilters().addFilter()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.removeFilter, replaced by ProjectFile.getFilters().rmoveFilter()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getAllResourceFilters, replaced by ProjectFile.getFilters().getResourceFilters()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getAllTaskFilters, replaced by ProjectFile.getFilters().getTaskFilters()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getFilterByName, replaced by ProjectFile.getFilters().getFilterByName()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</action>		
-		<action dev="joniles" type="update">Removed ProjectFile.getAllGroups, replaced by ProjectFile.getGroups()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getGroupByName, replaced by ProjectFile.getGroups().getByName()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</action>	
-		<action dev="joniles" type="update">Removed ProjectFile.addView, replaced by ProjectFile.getViews().add()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.setViewState, replaced by ProjectFile.getViews().setViewState()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getViewState, replaced by ProjectFile.getViews().getViewState()</action>		
-		<action dev="joniles" type="update">Removed ProjectFile.getResourceSubProject, replaced by ProjectFile.getSubProjects().getResourceSubProject()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.setResourceSubProject, replaced by ProjectFile.getSubProjects().setResourceSubProject()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.addSubProject, replaced by ProjectFile.getSubProjects().add()</action>
-		<action dev="joniles" type="update">Removed ProjectFile.getAllSubProjects, replaced by ProjectFile.getSubProjects</action>
-  		<action dev="joniles" type="update">Removed ProjectFile.fireTaskReadEvent, replaced by ProjectFile.getEventManager().fireTaskReadEvent()</action>
- 	    <action dev="joniles" type="update">Removed ProjectFile.fireTaskWrittenEvent, replaced by ProjectFile.getEventManager().fireTaskWrittenEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireResourceReadEvent, replaced by ProjectFile.getEventManager().fireResourceReadEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireResourceWrittenEvent, replaced by ProjectFile.getEventManager().fireResourceWrittenEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireCalendarReadEvent, replaced by ProjectFile.getEventManager().fireCalendarReadEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireAssignmentReadEvent, replaced by ProjectFile.getEventManager().fireAssignmentReadEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireAssignmentWrittenEvent, replaced by ProjectFile.getEventManager().fireAssignmentWrittenEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireRelationReadEvent, replaced by ProjectFile.getEventManager().fireRelationReadEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireRelationWrittenEvent, replaced by ProjectFile.getEventManager().fireRelationWrittenEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.fireCalendarWrittenEvent, replaced by ProjectFile.getEventManager().fireCalendarWrittenEvent()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.addProjectListener, replaced by ProjectFile.getEventManager().addProjectListener()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.addProjectListeners, replaced by ProjectFile.getEventManager().addProjectListeners()</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.removeProjectListener, replaced by ProjectFile.getEventManager().removeProjectListener()</action>			    
-	    <action dev="joniles" type="update">Removed ProjectFile.addGraphicalIndicator</action>
-	    <action dev="joniles" type="update">Removed ProjectFile.getGraphicalIndicator, replaced by ProjectFile.getCustomFields().getCustomField().getGraphicalIndicator()</action>
-	</release>
-	
-	<release version="4.7.6" date="18/03/2015">
-		<action dev="joniles" type="add">Added a Ruby wrapper for MPXJ</action>
-		<action dev="joniles" type="add">Added the ability to export project data as JSON, to make it easier to work with in languages other than Java</action>
-		<action dev="joniles" type="add">Added support for the Assignment attribute Resource Request Type</action>
-		<action dev="joniles" type="update">Primavera database and XER readers updated to match WBS visible in Primavera for each task. Previous behaviour of generating a unique WBS for each task can be restored using a flag set on the readers.</action>
-		<action dev="joniles" type="fix">Avoid NPE when calculating Task Completed Through</action>
-		<action dev="joniles" type="fix">Read Task Earned Value Method correctly from MPP files</action>
-		<action dev="joniles" type="fix">Fix issue where some floating point attributes were returning NaN</action>
-	</release>
-
-	<release version="4.7.5" date="27/02/2015">
-		<action dev="joniles" type="fix">Handle invalid Primavera calendar data gracefully</action>
-	</release>
-
-	<release version="4.7.4" date="25/02/2015">
-		<action dev="joniles" type="fix" issue="257">Failed to read project containing CodePage 1250 text.</action>
-		<action dev="joniles" type="fix" issue="259">MS Project 2010: tasks with null baseline dates</action>
-		<action dev="joniles" type="fix">Incorrect task end date read from Primavera XER and database</action>
-		<action dev="joniles" type="fix">Incorrect percent complete read from Primavera XER, database, and PMXML files</action>
-		<action dev="joniles" type="fix">Failed to read fields held at the end of a fixed data block</action>
-		<action dev="joniles" type="add">Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</action>
-		<action dev="joniles" type="add">Added the ability to customise the fields read from a Primavera database or XER file.</action>		
-		<action dev="joniles" type="add">Added Task Activity Type and Task Status as additional fields read from Primavera database and XER and files</action>
-		<action dev="joniles" type="update">Changed Task physical percent complete methods for consistency to use Number rather than Integer</action>
-	</release>
-
-	<release version="4.7.3" date="23/12/2014">
-		<action dev="joniles" type="update">Updated to use POI 3.11.</action>		
-		<action dev="joniles" type="update">Updated to use rtfparserkit 1.1.0 for Java 6 compatibility.</action>		
-	</release>
-
-	<release version="4.7.2" date="15/12/2014">
-		<action dev="joniles" type="fix">Updated to fix Maven dependency issue.</action>
-	</release>
-
-	<release version="4.7.1" date="08/12/2014">
-		<action dev="joniles" type="add">Added a flag to MPPReader to indicate that only the project header should be read.</action>
-	</release>
-
-	<release version="4.7.0" date="04/12/2014">
-		<action dev="joniles" type="add">Implemented new RTF parser for stripping RTF to improve performance and accuracy</action>
-		<action dev="joniles" type="add">Removed non-API code from the top level package</action>
-		<action dev="joniles" type="add">Improved support for reading built-in and custom project properties from MPP files.</action>
-		<action dev="joniles" type="fix">Improved resilience of MPP file reading to unknown data structures</action>
-		<action dev="joniles" type="fix">Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks</action>
-		<action dev="joniles" type="fix">Fixed issue where free text versions of task start, finish, and duration fields were not being read correctly from MPP14 files</action>		
-	</release>
-	
-	<release version="4.6.2" date="11/11/2014">
-		<action dev="joniles" type="fix">Fixed issue with custom duration field units not read correctly from MSPDI files</action>
-		<action dev="joniles" type="fix" issue="223">Problems with the lag calculated in the relation</action>
-		<action dev="joniles" type="fix">Outline code not read correctly from MPP file written by Project 2013</action>
-		<action dev="joniles" type="fix" issue="239">Defensive changes to avoid exceptions when reading MPP files</action>	
-		<action dev="joniles" type="fix" issue="250">Deleted tasks being read from mpp file</action>			
-		<action dev="joniles" type="add">Added DotNetInputStream and DotNetOutputStream classes for ease of use under .Net.</action>
-		<action dev="joniles" type="update">Updated to automatically generate and package MpxjUtilities.dll</action>
-	</release>
-
-	<release version="4.6.1" date="17/10/2014">
-		<action dev="joniles" type="fix">Fixed NuGet metadata</action>	
-	</release>
-	
-	<release version="4.6.0" date="17/10/2014">
-		<action dev="joniles" type="add">Added support for NuGet.</action>	
-		<action dev="joniles" type="fix">Fixed an issue where the ID and Unique ID resource attributes were being read incorrectly from MPP14 files.</action>
-		<action dev="joniles" type="fix">Fixed an issue where the project's default duration format was not being used</action>		
-		<action dev="joniles" type="fix" issue="248">Reading .MPP file using MPXJ 4.2 reads extra unintentional ResourceAssignment with the task which is not seen in Task Sheet in Microsoft Project</action>		
-		<action dev="joniles" type="fix" issue="235">All resources have "Material" property</action>		
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to capture the Project ID to align with data read from XER file/database (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to ensure task percent complete supports Physical Percent, Duration Percent and Units Percent (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to ensure task baseline values match values read from XER file/database (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to ensure task actual duration to matches value read from XER file/database (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to read the task duration (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to read task LateStart, LateFinish, EarlyStart, EarlyFinish attributes correctly (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to read task Start and End correctly (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to identify milestones (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to set the task Critical attribute (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera PM XML file reader to include costs (contributed by Nathaniel Marrin)</action>
-		<action dev="joniles" type="update" issue="247">Updated Primavera XER/Database readers to read task Start and End correctly (contributed by Nathaniel Marrin)</action>		
-		<action dev="joniles" type="update">Migrated tests to JUnit 4</action>
-	</release>
-
-	<release version="4.5.0" date="01/03/2014">
-		<action dev="joniles" type="add">Added the ability to call the .Net version of MPXJ from COM.</action>
-		<action dev="joniles" type="add">Added support Primavera decimal database columns.</action>
-		<action dev="joniles" type="add">Added support for user defined task fields (contributed by Mario Fuentes).</action>
-		<action dev="joniles" type="add">Added POM for current Maven versions (contributed by Nick Burch)</action>
-		<action dev="joniles" type="fix" issue="213">Unable to load mpp from project-2013</action>
-		<action dev="joniles" type="fix" issue="226">Primavera currency files without currency information</action>		
-		<action dev="joniles" type="fix" issue="227">PrimaveraReader cannot handle files with more than 30 user defined fields</action>		
-		<action dev="joniles" type="fix" issue="224">setMilestone() issue</action>		
-		<action dev="joniles" type="fix" issue="210">MPXJ 4.4 and 2013 files - invalid load of task data</action>
-		<action dev="joniles" type="fix">Updated to fix an issue with Asta Powerproject PP file tokenization</action>							
-		<action dev="joniles" type="fix">Updated to fix an issue where valid WBS values containing .0 are corrupted</action>
-		<action dev="joniles" type="update">Updated to allow Primavera hours per day to be a decimal value</action>
-		<action dev="joniles" type="update">Updated to support Primavera PM XML files generated by Primavera versions up to P6v8.3 (contributed by Mario Fuentes)</action>
-		<action dev="joniles" type="update">Updated to set the StatusDate attribute in the project header from a Primavera database, XER file or PM XML file.</action>
-		<action dev="joniles" type="update">Updated to use (a patched version of) POI 3.10.</action>		
-	</release>
-
-	<release version="4.4.0" date="14/03/2013">
-		<action dev="joniles" type="add">Added support for writing Primavera PM XML files.</action>
-		<action dev="joniles" type="add">Added support for reading Asta Powerproject PP and MDB files.</action>
-		<action dev="joniles" type="add">Added support for writing SDEF files (Contributed by William Iverson).</action>		
-		<action dev="joniles" type="add">Added support for reading Enterprise Custom Fields 1-50 for Task, Resources, and Resource Assignments.</action>		
-		<action dev="joniles" type="add">Added MpxjExtensionMethods assembly to simplify working with Java types in .Net (Contributed by Kyle Patmore)</action>				
-		<action dev="joniles" type="update">Provided two new .Net DLL versions in addition to the original version. These allow properties to be accessed in a ".Net style", and for languages apart from VB, provide .Net style method names.</action>
-		<action dev="joniles" type="update">Updated to remove the distinction between base calendar and resource calendars in the ProjectFile class.</action>		
-		<action dev="joniles" type="fix">Updated to improve support for custom outline codes (Contributed by Gary McKenney)</action>		
-		<action dev="joniles" type="fix" issue="189">getTimephasedOvertimeWork can return TimephasedWork with NaN</action>
-		<action dev="joniles" type="fix" issue="190">Support for timephased cost for cost type resources</action>
-		<action dev="joniles" type="fix" issue="195">Rolled Up tasks don't use default duration units</action>		
-		<action dev="joniles" type="fix" issue="199">Extract Primavera Task ID</action>		
-		<action dev="joniles" type="fix">Updated to fix an issue where the resource assignment delay attribute was not being read from or written to MSPDI files correctly</action>
-		<action dev="joniles" type="fix">Updated to fix an issue where derived calendars were not being read correctly from MPP files</action>
-		<action dev="joniles" type="update">Updated to use IKVM 7.2.</action>
-	</release>
-	
-	<release version="4.3.0" date="08/02/2012">
-		<action dev="joniles" type="add">Added support for reading Primavera PM XML files.</action>
-		<action dev="joniles" type="add">Added support for reading timephased cost, and timephased baseline cost and baseline work from MPP files.</action>
-		<action dev="joniles" type="add">Added support for Work Weeks in MSPDI files (SourceForge feature request 23).</action>
-		<action dev="joniles" type="update">Updated to use IKVM 7.0.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</action>		
-		<action dev="joniles" type="fix" issue="161">ResourceAssignment.getTaskUniqueID() returns null.</action>		
-		<action dev="joniles" type="fix" issue="169">Wrong project name in MPX file.</action>
-		<action dev="joniles" type="fix" issue="170">Wrong title in XML file when importing from XER file.</action>
-		<action dev="joniles" type="fix" issue="168">Wrong record number for resource calendar in MPX file.</action>
-		<action dev="joniles" type="fix" issue="171">In the XML file the element field SaveVersion is missing.</action>		
-		<action dev="joniles" type="fix" issue="167">Loop when import task with 0% on units of works in resources.</action>			
-		<action dev="joniles" type="fix" issue="163">French locale NA incorrect.</action>		
-		<action dev="joniles" type="fix" issue="175">Invalid dependency between child and parent.</action>		
-		<action dev="joniles" type="fix" issue="174">Missing tasks from MS Project 2010 mpp file.</action>				
-		<action dev="joniles" type="fix" issue="179">Wrong WBS code and WBS when converting a Primavera XER file.</action>	
-		<action dev="joniles" type="fix" issue="177">Error reading XER file with German localisation for numbers.</action>	
-		<action dev="joniles" type="fix" issue="166">TimephasedResourceAssignments with negative TotalWork.</action>		
-		<action dev="joniles" type="fix" issue="181">Wrong currency symbol in the exported file.</action>
-		<action dev="joniles" type="fix" issue="104">TimephasedResourceAssignment end date not correct.</action>	
-		<action dev="joniles" type="fix" issue="116">Calendar hours are incorrect.</action>		
-		<action dev="joniles" type="fix" issue="188">NullReferenceException with getTimephasedBaselineWork.</action>		
-		<action dev="joniles" type="fix" issue="191">Outline number is null when opening Project 2003 MPP file.</action>		
-		<action dev="joniles" type="fix" issue="192">Unable to parse note (unknown locale).</action>
-		<action dev="joniles" type="fix" issue="193">MPP9Reader marks all tasks after a null task as null.</action>																		
-		<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>						
-		<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</action>		
-		<action dev="joniles" type="fix">Updated to fix an issue where subprojects were not read correctly (Contributed by Gary McKenney).</action>
-	</release>
-
-	<release version="4.2.0" date="23/06/2011">
-		<action dev="joniles" type="add">Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Baseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</action>
-		<action dev="joniles" type="add">Added support for task suspend date, task resume date, and task code read from Primavera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</action>
-		<action dev="joniles" type="add">Added support for retrieving the table associated with any view.</action>		
-		<action dev="joniles" type="fix" issue="158">Error converting Mpp to planner.</action>
-		<action dev="joniles" type="fix" issue="157">MSPDI Linklag for TimeUnit.Percent.</action>			
-		<action dev="joniles" type="fix" issue="156">Error reading calendars for 2010 files.</action>		
-		<action dev="joniles" type="fix" issue="159">Duplication of calendar id.</action>		
-		<action dev="joniles" type="fix" issue="153">Wrong task start.</action>				
-		<action dev="joniles" type="fix" issue="156">Wrong start and finish dates for 2010 files.</action>				 		
-	</release>
-
-	<release version="4.1.0" date="30/05/2011">
-		<action dev="joniles" type="add">Updated ProjectFile class to change default value for "auto" flags to simplify programmatic creation of project files.</action>	
-		<action dev="joniles" type="add">Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.</action>		
-		<action dev="joniles" type="add">Added support cost resource type for MPP12, MPP14 and MSPDI files.</action>		
-		<action dev="joniles" type="add">Added Task.removePredecessor method (contributed by Leslie Damon).</action>		
-		<action dev="joniles" type="add">Added "read presentation data" flag to MPPReader - allows clients to save time and memory when MPP presentation data not required.</action>		
-		<action dev="joniles" type="add">Added support for reading Primavera calendars (contributed by Bruno Gasnier).</action>				
-		<action dev="joniles" type="add">Added support for resource assignment leveling delay for MPP, MPD, and MSPDI files.</action>		
-		<action dev="joniles" type="add">Added support for "unassigned" resource assignments.</action>								
-		<action dev="joniles" type="add">Added support for task manual duration attribute for manually scheduled tasks in MPP14 and MSPDI files.</action>		
-		<action dev="joniles" type="add">Added support for resource NT account attribute for MPP9, MPP12, and MPP14 files.</action>				
-		<action dev="joniles" type="add">Added support for physical % complete for MPP9, MPP12, and MPP14 files.</action>				
-		<action dev="joniles" type="fix" issue="120">MPXJ API returns the incorrect start date of a manual task.</action>
-		<action dev="joniles" type="fix" issue="123">Task id incorrect after importing from MPP14 file.</action>		
-		<action dev="joniles" type="fix" issue="124">MPXJ 4.0 fails to work with Project 2010 format.</action>		
-		<action dev="joniles" type="fix" issue="128">Index was outside the bounds of the array.</action>				
-		<action dev="joniles" type="fix" issue="131">header.getHonorConstraints() is not working in case of MPP.</action>		
-		<action dev="joniles" type="fix" issue="139">Empty notes appear for all tasks when saving in XML format.</action>
-		<action dev="joniles" type="fix" issue="122">All Extended Attributes always added when using MSPDIWriter.</action>		
-		<action dev="joniles" type="fix" issue="144">Baseline/Actual Work in 2010 MPP missing.</action>		
-		<action dev="joniles" type="fix" issue="114">ResourceAssignment getCalendar not using IgnoreResourceCalendar flag</action>		
-		<action dev="joniles" type="fix" issue="146">ExternalTaskProject value missing.</action>	
-		<action dev="joniles" type="fix" issue="137">Deleted Primavera tasks handling problem.</action>		
-		<action dev="joniles" type="fix" issue="143">Latest CVS version gives wrong values for inactive field.</action>		
-		<action dev="joniles" type="fix" issue="125">Task ID order when creating a project file is not correct.</action>		
-		<action dev="joniles" type="fix" issue="106">Invalid tasks that should not be there.</action>												 									
-		<action dev="joniles" type="fix">Updated to fix task calendars read incorrectly from MPP14 files.</action>
-		<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>		
-		<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>
-		<action dev="joniles" type="fix">Updated to fix incorrect resource assignment actual work attribute for MPP14 files.</action>
-		<action dev="joniles" type="fix">Updated to fix incorrect task leveling delay attribute for MPP9, MPP12, and MPP14 files.</action>		
-		<action dev="joniles" type="fix">Updated to fix leveling delay and link lag when writing an MSPDI file (contributed by Frank Illenberger).</action>		
-		<action dev="joniles" type="fix">Updated to fix incorrect assignment actual start date when writing an MSPDI file.</action>		
-		<action dev="joniles" type="update">Updated to improve support for material resources in MSPDI files.</action>		
-		<action dev="joniles" type="update">Updated to reduce overall size of MSPDI files by not writing default values.</action>		
-		<action dev="joniles" type="update">Updated to use IKVM 0.46.0.1.</action>
-		<action dev="joniles" type="update">Updated to use POI 3.7.</action>
-		<action dev="joniles" type="update">Updated to make task, resource, and assignment fields read from MPP files data-driven, rather than hard coded.</action>
-	</release>
-
-	<release version="4.0.0" date="25/05/2010">
-		<action dev="joniles" type="add">Added support for reading Microsoft Project 2010 MPP files.</action>
-		<action dev="joniles" type="add">Added support for reading Primavera P6 XER files.</action>
-		<action dev="joniles" type="add">Added support for reading Primavera P6 databases.</action>
-		<action dev="joniles" type="update">Updated to target Java 1.6.</action>
-		<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>
-		<action dev="joniles" type="fix" isue="115">Relation.getDuration() is always giving result in 'HOUR' fmt.</action>	
-	</release>
-
-	<release version="3.2.0" date="20/01/2010">
-		<action dev="joniles" type="add">Added support for Resource cost rate tables (Based on code by Andrei Missine).</action>	
-		<action dev="joniles" type="add">Added support for Resource availability (Based on code by Andrei Missine).</action>
-		<action dev="joniles" type="add">Added support for successors (Based on an idea by John D. Lewis).</action>				
-		<action dev="joniles" type="add">Added support for task and resource GUIDs.</action>		
-		<action dev="joniles" type="add">Added a flag to allow raw timephased data to be retrieved from MPP files.</action>		
-		<action dev="joniles" type="fix">Updated to fix logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>				
-		<action dev="joniles" type="fix" issue="94">MPXJ Issue: Related to Project Calendar.</action>				
-		<action dev="joniles" type="fix" issue="90">POI License in legal folder of download wrong.</action>		
-		<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>				
-		<action dev="joniles" type="fix" issue="102">Planner writer causes Null Pointer exception.</action>				
-		<action dev="joniles" type="fix" issue="100">getRecurring() task is not working</action>
-		<action dev="joniles" type="fix" issue="98">getStandardRateFormat() is returning 'null'</action>							
-		<action dev="joniles" type="fix" issue="97">getWeekStartDay() is not working.</action>
-		<action dev="joniles" type="fix" issue="96">getDaysPerMonth() is not working.</action>		
-		<action dev="joniles" type="fix" issue="101">Resource.getNotes() not working for MPP12 file.</action>										
-		<action dev="joniles" type="fix" issue="105">MPP: getEditableActualCosts() is not behaving correctly.</action>		
-		<action dev="joniles" type="update">Updated to use POI 3.6.</action>
-		<action dev="joniles" type="update">Updated to use IKVM 0.42.0.3.</action>
-		<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>		
-		<action dev="joniles" type="update">Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</action>
-		<action dev="joniles" type="update">Updated to implement MSPDI context caching to improve performance (Contributed by Jari Niskala).</action>
-		<action dev="joniles" type="update">Updated to improve MPP file task structure validation. (Contributed by Jari Niskala).</action>
-		<action dev="joniles" type="update">Updated to improve MPX file parsing. (Contributed by Jari Niskala).</action>		
-		<action dev="joniles" type="update">Updated to automatically populate missing WBS attributes. (Contributed by Jari Niskala).</action>
-		<action dev="joniles" type="update">Updated to refactor the Relation class (note minor method name changes).</action>
-		<action dev="joniles" type="update">Updated to add default calendar to Planner output.</action>
-	</release>
-	
-	<release version="3.1.0" date="20/05/2009">
-		<action dev="joniles" type="fix" issue="73">Plan file fails to load.</action>		
-		<action dev="joniles" type="fix" issue="72">Resource Assignment Normaliser rounding problem.</action>
-		<action dev="joniles" type="fix" issue="78">Column alignment values are incorrect.</action>		
-		<action dev="joniles" type="fix" issue="76">NullPointerException in parseExtendedAttribute() (Contributed by Paul Pogonyshev).</action>		
-		<action dev="joniles" type="fix" issue="74">.0 at the end of WBS code and outline number (Contributed by Paul Pogonyshev).</action>		
-		<action dev="joniles" type="fix" issue="79">Too strict net.sf.mpxj.mpd.ResultSetRow.</action>		
-		<action dev="joniles" type="fix" issue="80">Generated planner file can't be opened.</action>
-		<action dev="joniles" type="fix" issue="82">Support for loading global.mpt.</action>		
-		<action dev="joniles" type="fix" issue="81">Lowercase table name won't work with db on linux machines.</action>						
-		<action dev="joniles" type="fix" issue="71">Standard Calendar localization import problem.</action>		
-		<action dev="joniles" type="fix" issue="83">Strange duration conversion from database</action>
-		<action dev="joniles" type="fix" issue="86">FilterCriteria not being read in properly (Contributed by James Styles)</action>							 	
-		<action dev="joniles" type="fix">Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</action>		
-		<action dev="joniles" type="fix">Updated to fix Steelray bug 8469: Subproject flag not set correctly.</action>		
-		<action dev="joniles" type="fix">Updated to fix potential NPEs (Suggested by Steve Jonik).</action>
-		<action dev="joniles" type="update">Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)</action>		
-		<action dev="joniles" type="update">Updated to provide strong names for .Net DLLs.</action>
-	</release>
-	
-	<release version="3.0.0" date="25/01/2009">
-		<action dev="joniles" type="update">Updated to the Project 2007 MSPDI schema.</action>
-		<action dev="joniles" type="update">Updated to POI 3.2.</action>
-		<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>		
-		<action dev="joniles" type="update">Updated MPX output to prevent Project 2007 complaining.</action>
-		<action dev="joniles" type="fix" issue="68">Task getNumber*() methods return inaccurate large values.</action>	
-		<action dev="joniles" type="fix" issue="56">Duplicate task in file.getChildTasks() when opening MPX.</action>
-		<action dev="joniles" type="fix" issue="57">Relation.getTask returns null.</action>
-		<action dev="joniles" type="fix" issue="58">Task.getSplits() not consistent.</action>
-		<action dev="joniles" type="fix" issue="60">WBS Field not imported Mpp12.</action>		
-		<action dev="joniles" type="fix" issue="63">There are some conflict in TaskField.</action>	
-		<action dev="joniles" type="fix" issue="66">MSPDIReader is not setting calendarName in projectHeader.</action>		
-		<action dev="joniles" type="fix" issue="67">Write resource calendar with exceptions only.</action>			
-		<action dev="joniles" type="fix" issue="69">File loses predecessors.</action>			
-		<action dev="joniles" type="fix" issue="70">Resources not bring read.</action>		
-		<action dev="joniles" type="fix">Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</action>
-		<action dev="joniles" type="fix">Updated split task implementation to represent splits as DateRange instances rather than as hours.</action>													
-		<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>				
-		<action dev="joniles" type="add">Added support for reading timephased resource assignment data from MPP files.</action>
-		<action dev="joniles" type="add">Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</action>
-		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
-		<action dev="joniles" type="add">Added methods to MPXReader and MPXWriter to allow the caller to determine the supported locales.</action>		
-		<action dev="joniles" type="add">Added Spanish locale (Contributed by Agustin Barto).</action>			
-		<action dev="joniles" type="add">Added support for durations with percentage time lag (Contributed by Jonas Tampier).</action>		
-		<action dev="joniles" type="add">Added support MSPDI file split tasks.</action>
-	</release>
-	
-	<release version="2.1.0" date="23/03/2008">
-		<action dev="joniles" type="update">Updated to POI 3.0.2</action>
-		<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>	
-		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>		
-		<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala).</action>
-		<action dev="joniles" type="fix" issue="48">Import from Project 2007 ignores some tasks.</action>
-		<action dev="joniles" type="fix" issue="52">Crash on priority not set in MSPDI-file.</action>		
-		<action dev="joniles" type="fix" issue="51">Resource start/finish dates with MSP 2007.</action>		
-		<action dev="joniles" type="fix" issue="51">MS Project 2007: Calendar exceptions dates are wrong.</action>
-		<action dev="joniles" type="add">Added support for Enterprise task and resource fields.</action>
-		<action dev="joniles" type="add">Added support for Baseline task and resource fields.</action>
-		<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>
-		<action dev="joniles" type="add">Added support for Chinese MPX files (contributed by Felix Tian).</action>		
-		<action dev="joniles" type="add">Added support for reading project start and end dates from all MPP file types (Bug #1827633).</action>		
-		<action dev="joniles" type="add">Added support for password protected MPP9 files (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for calendar exceptions for MPP12 files (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for value lists and descriptions for custom fields (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for timescale formats (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for the project file path attribute (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for the ignore resource calendar attribute (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for the resource actual overtime work attribute (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for the resource material label attribute (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Added support for the resource NT account attribute (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Improved support for hyperlinks (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)</action>		
-	</release>
-	
-   <release version="2.0.0" date="07/10/2007">
-		<action dev="joniles" type="update">Migrated to Java 5</action>
- 		<action dev="joniles" type="update">Introduced generics</action>
- 		<action dev="joniles" type="update">Introduced enums</action>
-		<action dev="joniles" type="update">Updated to POI 3.0.1</action>
-		<action dev="joniles" type="update">Updated to JAXB 2.1.4</action>
-		<action dev="joniles" type="update">Changed company details from Tapster Rock to Packwood Software</action>
-   </release>
-
-   <release version="1.0.0" date="30/08/2007"> 
-      <action dev="joniles" type="add">Added support for reading MPD files via JDBC</action>
-      <action dev="joniles" type="add">Added support for reading Planner files</action>
-      <action dev="joniles" type="add">Added support for over allocated flag to all MPP file formats.</action>
-      <action dev="joniles" type="add">Added support for calculating duration variance from MPP files.</action>
-      <action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>
-      <action dev="joniles" type="add">Added support for attribute change listeners for Task and Resource classes.</action>      
-      <action dev="joniles" type="add">Added support for start slack, finish slack, free slack and total slack read from MPP files.</action>            
-      <action dev="joniles" type="add">Added support for external tasks.</action>                  
-      <action dev="joniles" type="add">Added unique ID generation for calendars read from MPX files.</action>            
-      <action dev="joniles" type="add">Added support for the status date property of the project.</action>            
-      <action dev="joniles" type="fix">Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</action>
-      <action dev="joniles" type="fix">Fixed incorrect calculation of lag times for some MPP files.</action>
-      <action dev="joniles" type="fix">Fixed missing predecessor tasks in certain rare MPP9 files.</action>
-      <action dev="joniles" type="fix">Fixed incorrect MPX file AM/PM text setting in certain locales.</action>
-      <action dev="joniles" type="fix">Fixed an ArrayIndexOutOfBoundsException.</action>
-      <action dev="joniles" type="fix">Fixed a ClassCastException.</action>
-      <action dev="joniles" type="fix">Fixed a zero length string error.</action>
-      <action dev="joniles" type="fix">Fixed a duration rounding error when reading MSPDI files.</action>
-      <action dev="joniles" type="fix">Fixed incorrect "as late as possible" constraint handling.</action>
-      <action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
-      <action dev="joniles" type="fix">Incorrect total slack calculation.</action>      
-      <action dev="joniles" type="fix">Added a default for the task constraint type attribute to prevent a possible NPE when writing an MSPDI file.</action>
-      <action dev="joniles" type="fix">Added a default resource calendar name where the resource name is empty.</action>      
-      <action dev="joniles" type="update">Updated the Column.getTitle method to take account of user defined column aliases.</action>      
-      <action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
-      <action dev="joniles" type="update">Updated to significantly improve the performance of writing MSPDI files.</action>
-   </release>
-            
-   <release version="0.9.2" date="07/03/2006"> 
-      <action dev="joniles" type="add">Added support for split views.</action>      
-      <action dev="joniles" type="add">Added support for graphical indicators.</action>      
-      <action dev="joniles" type="add">Added a workaround for a bug in MS Project which is seen when calendar exceptions are exported to an MSPDI file. If the exception contained seconds and milliseconds, MS Project marked every day as being affected by the exception, not the day or range of days specified.</action>      
-      <action dev="joniles" type="update">Updated to make date/time/number formats generic, and thus available to end users. For example, this allows users to format currencies in line with the settings in the project file.</action>      
-      <action dev="joniles" type="update">Standardised on minutes per day and minutes per week, rather than hours per day and hours per week.</action>
-      <action dev="joniles" type="update">Provided additional time ranges for calendar exceptions.</action>      
-      <action dev="joniles" type="update">Refactored Task and Resource to use TaskField and ResourceField to identify fields.</action>      
-      <action dev="joniles" type="update">Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.</action>
-      <action dev="joniles" type="fix">Fixed a bug when reading MPP files where task finish dates appeared before the start date where a "start no later than" constraint was in use.</action>      
-      <action dev="joniles" type="fix">Fixed a bug which resulted in invalid MPX files being generated when a project either had no tasks, or it had no resources.</action>      
-      <action dev="joniles" type="fix">Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</action>      
-      <action dev="joniles" type="fix">Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.</action>
-      <action dev="joniles" type="fix">Fixed a bug where split tasks were not being reported correctly.</action>      
-   </release>
-      
-   <release version="0.9.1" date="26/01/2006"> 
-      <action dev="joniles" type="update">Major API rewrite.</action>
-      <action dev="joniles" type="add">Added a flag called "expanded" to the Task class to represent whether a task in an MPP9 file is shown as expanded or collapsed by MS Project.</action>
-      <action dev="joniles" type="fix">Fixed a bug in the relation code in MpxjQuery (contributed by Shlomo Swidler).</action>
-      <action dev="joniles" type="update">Modified MPXDateFormat, MPXTimeFormat and MPXCurrencyFormat to derive them from DateFormat and NumberFormat.</action>
-      <action dev="joniles" type="add">Added support for MPT files.</action>
-      <action dev="joniles" type="fix">Fixed a bug which could case an NPE when reading certain MPP9 files.</action>      
-      <action dev="joniles" type="add">Added support for the "marked" attribute for MPP9 files.</action>
-      <action dev="joniles" type="add">Added support for reading split task data from MPP9 files.</action>
-      <action dev="joniles" type="add">Added support for reading calculate multiple critical paths flag.</action>
-      <action dev="joniles" type="fix">Fixed a bug which could case an array out of bounds exception in the Priority (contributed by Frank Illenberger).</action>
-      <action dev="joniles" type="fix">Fixed bug #1346735 "Priorities of the tasks are exported incorrectly".</action>      
-      <action dev="joniles" type="add">Added code to allow tasks, resources, resource assignments and calendars to be removed from the data structure.</action>
-      <action dev="joniles" type="add">Implemented Italian MPX file format translation (contributed by Elio Zoggia).</action>
-      <action dev="joniles" type="update">Cleaned up calendar usage.</action>
-      <action dev="joniles" type="add">Added support for retrieval of custom document summary fields from the project header (contributed by Wade Golden).</action>      
-      <action dev="joniles" type="update">Updated to use checkstyle 4.0 and fixed warnings.</action>      
-      <action dev="joniles" type="update">Rationalised duration conversions into a set of methods in the MPXDuration class.</action>      
-      <action dev="joniles" type="add">Replaced various file format conversion utilities with the general purpose MpxjConvert utility.</action>            
-      <action dev="joniles" type="fix">Fixed an issue where tasks with a percent complete value, but no resource assignments, would not write correctly to an MSPDI file.</action>
-      <action dev="joniles" type="add">Added an accessor method for resource calendars.</action>                  
-      <action dev="joniles" type="fix">Unique ID generation was not correct for tasks, resources and calendars if these entities were added to an existing project file.</action>      
-      <action dev="joniles" type="fix">Fixed a compatibility issue with POI3</action>      
-      <action dev="joniles" type="add">Added an event listener to the project file to allow notifications of resources and tasks being read and written to and from a file.</action>
-      <action dev="joniles" type="fix">Fixed a compiler warning when build with JDK5.</action>      
-      <action dev="joniles" type="fix">Fixed a bug where a project start date was not being set correctly in the project header.</action>
-      <action dev="joniles" type="add">Added support for reading the project header "calendar name", "schedule from" and "revision" values from MPP files.</action>
-      <action dev="joniles" type="fix">Fixed split task support.</action>
-      <action dev="joniles" type="update">Enhanced TableFontStyle implementation.</action>            
-   </release>
-      
-   <release version="0.0.25" date="11/08/2005"> 
-      <action dev="joniles" type="add">Added support for reading all properties from an MPP9 file which define the visual appearance of the Gantt Chart view shown in Microsoft Project (development funding courtesy of Steelray).</action>
-      <action dev="joniles" type="update">Tidied up constructors. Added no-argument constructors to the MPPFile and MSPDIFile classes.</action>
-      <action dev="joniles" type="update">Fixed incorrect value in WorkGroup enumerated type.</action>
-      <action dev="joniles" type="update">Implemented the resource assignment work contour property (contributed by Wade Golden).</action>
-      <action dev="joniles" type="update">Implemented correct handling for MPX files using different character set encodings (suggested by Frank Illenberger).</action>
-      <action dev="joniles" type="fix">Fixed task duration calculation when importing an MPP file with a "non-standard" hours-per-day setting (contributed by Wade Golden).</action>
-      <action dev="joniles" type="update">Updated to ensure that the MPX task fixed attribute, and the MPP/MSPDI task type attribute are correctly handled.</action>
-      <action dev="joniles" type="update">Updated to implement the remaining project header attributes supported by the MSPDI file format.</action>
-      <action dev="joniles" type="update">Updated to add support for reading the MPX 3.0 files generated by Primavera (courtesy of CapitalSoft).</action>
-      <action dev="joniles" type="fix">Fixed incorrect assumptions about conversion of durations to hours when writing MPX files (contributed by Frank Illenberger).</action>
-      <action dev="joniles" type="update">Updated to calculate remaining work for resource assignments on import, to allow MSPDI export of this data to work correctly (contributed by Frank Illenberger).</action>
-      <action dev="joniles" type="fix">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
-      <action dev="joniles" type="fix">Updated to fix a problem with reading assignment data from MPP9 files.</action>
-      <action dev="joniles" type="update">Rationalised the location of the JUnit tests and the sample files.</action>      
-      <action dev="joniles" type="fix">Fixed a problem where the project start and end dates reported in the project header were incorrect.</action>
-      <action dev="joniles" type="fix">Fixed an array out of bounds exception when reading an MPP9 file.</action>
-      <action dev="joniles" type="update">Updated to allow MPXCalendarHours to accept an arbitrary number of time periods.</action>      
-      <action dev="joniles" type="add">Introduced the Day class to replace the use of arbitrary integers to represent days of the week.</action>
-      <action dev="joniles" type="add">Added the ability to query the task assignments for a resource using the Resource.getTaskAssignments() method.</action>
-      <action dev="joniles" type="fix">Fixed a problem with number formats in MSPDI files.</action>      
-      <action dev="joniles" type="update">Updated the MPP View class to extract the view type.</action>            
-      <action dev="joniles" type="update">Updated to ensure that duration values read from an MSPDI file are converted into the appropriate duration units, rather than being left as hours as the durations are represented in the MSPDI file.</action>
-      <action dev="joniles" type="add">Implemented French MPX file format translation (contributed by Benoit Baranne).</action>      
-      <action dev="joniles" type="fix">Fixed a bug reading assignment work contour attribute.</action>      
-      <action dev="joniles" type="update">Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.</action>
-      <action dev="joniles" type="fix">Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.</action>      
-      <action dev="joniles" type="update">Updated to make replace the int relation type in the Relation class with instances of the RelationType class.</action>
-      <action dev="joniles" type="update">Updated to derive RelationList from AbstractList.</action>
-      <action dev="joniles" type="add">Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.</action>      
-      <action dev="joniles" type="update">Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</action>
-      <action dev="joniles" type="add">Added support for early start, early finish, late start, late finish to MPP files.</action>      
-      <action dev="joniles" type="update">Updated MPP9 file support to handle start as late as possible constraints. </action>            
-      <action dev="joniles" type="add">Added support for sub project file information in MPP9 files.</action>      
-      <action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not being read.</action>            
-      <action dev="joniles" type="fix">Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</action>
-      <action dev="joniles" type="update">Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</action>
-      <action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</action>
-      <action dev="joniles" type="fix">Updated to fix unreliable retrieval of project start and end dates from certain MPP files.</action>
-      <action dev="joniles" type="fix">Fixed schedule from value in MSPDI files (contributed by Frank Illenberger).</action>
-      <action dev="joniles" type="fix">Fixed a bug when reading durations in elapsed days from an MPP file.</action>
-      <action dev="joniles" type="update">Tasks can now have arbitrary priority values. These values are mapped to/from the fixed MPP8/MPX priority values where necessary.</action>
-   </release>
-
-   <release version="0.0.24" date="10/01/2005"> 
-      <action dev="joniles" type="fix">Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
-      <action dev="joniles" type="update">Updated to use class instances instead of primitives to represent some enumerated types.</action>
-      <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</action>
-      <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</action>
-      <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</action>
-      <action dev="joniles" type="add">Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</action>
-      <action dev="joniles" type="update">Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.</action>
-   </release>
-
-   <release version="0.0.23" date="17/11/2004"> 
-      <action dev="joniles" type="fix">Fixed a bug where MPXJ was still using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
-      <action dev="joniles" type="fix">Fixed a bug where the incorrect record delimiter was being used in by the MPX RelationList class.</action>
-      <action dev="joniles" type="fix">Fixed a bug where the method Task.getText21 was not retrieving the correct text value.</action>
-      <action dev="joniles" type="fix">Fixed a bug where the task unique ID values were being truncated unnecessarily.</action>
-      <action dev="joniles" type="fix">Fixed a bug where calendar exceptions were not testing the range of dates between the start and end date correctly.</action>
-      <action dev="joniles" type="fix">Fixed a bug where the priority of a task was being escalated when converting between an MPP9 file and an MSPDI file.</action>
-      <action dev="joniles" type="fix">Fixed a bug where a deadline was incorrectly being added to a task when importing data from an MPP9 file.</action>
-      <action dev="joniles" type="fix">Fixed a bug where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
-      <action dev="joniles" type="fix">Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.</action>
-      <action dev="joniles" type="fix">Fixed a rounding error in MPXCalendar.getDaysInRange (contributed by Wade Golden)</action>
-      <action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
-      <action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
-      <action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>
-      <action dev="joniles" type="update">Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</action>
-      <action dev="joniles" type="update">Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.</action>
-      <action dev="joniles" type="update">Updated to improve accuracy when converting an MPP file to an MSPDI file.</action>
-      <action dev="joniles" type="add">Added support for blank task rows in MPP8 files.</action>
-      <action dev="joniles" type="add">Added support for blank resource rows in MPP8 files.</action>
-      <action dev="joniles" type="add">Added support for Portuguese MPX files.</action>
-      <action dev="joniles" type="add">Added support reading and writing extended attributes (apart from outline codes) for MSPDI files.</action>
-      <action dev="joniles" type="add">Added support for the Resource Type attribute.</action>
-   </release>
-
-   <release version="0.0.22" date="27/07/2004"> 
-      <action dev="joniles" type="fix">Fixed a bug where task data was not being read correctly from very large MPP9 files.</action>
-      <action dev="joniles" type="fix">Fixed a bug where certain MPP8 files were not read correctly when no constraint data is present.</action>
-      <action dev="joniles" type="fix">Fixed a bug where certain MPP9 files were not read correctly.</action>
-      <action dev="joniles" type="fix">Fixed a bug where MPP9 files containing invalid resource data were not read correctly.</action>
-      <action dev="joniles" type="fix">Fixed a bug where MPXJ was using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
-      <action dev="joniles" type="fix">Fixed a bug where MPXJ not correctly handling embedded line breaks when reading and writing MPX files.</action>
-      <action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX specification.</action>
-      <action dev="joniles" type="update">Updated MPX documentation for Task.getFixed and Task.setFixed.</action>
-      <action dev="joniles" type="update">Updated MPP9 file code to improve handling invalid offset values.</action>
-      <action dev="joniles" type="update">Updated to remove leading and trailing spaces from MPX task field names before processing.</action>
-      <action dev="joniles" type="update">Updated to detect password protected files and raise a suitable exception.</action>
-      <action dev="joniles" type="add">Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).</action>
-      <action dev="joniles" type="add">Implemented support for Maven.</action>
-      <action dev="joniles" type="add">Updated MpxCreate utility to allow it to create both MPX and MSPDI files.</action>
-      <action dev="joniles" type="add">Added new JUnit test for confidential customer data.</action>
-      <action dev="joniles" type="add">Added support for the resource assignment remaining work attribute for MPP8, MPP9 and MSPDI files.</action>
-   </release>
-
-   <release version="0.0.21" date="06/05/2004"> 
-      <action dev="joniles" type="fix">Fixed a bug where the task start date attribute was not always correct for MPP8 files.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing an exception when reading certain MPP9 files.</action>
-      <action dev="joniles" type="update">Updated to allow localised MPX files to be written and read.</action>
-      <action dev="joniles" type="add">Implemented support for German MPX files.</action>
-      <action dev="joniles" type="add">Implemented generic mechanism for dealing with task field aliases.</action>
-      <action dev="joniles" type="add">Implemented task field alias read/write for MSPDI files.</action>
-      <action dev="joniles" type="add">Implemented task field alias read for MPP9 files.</action>
-      <action dev="joniles" type="add">Implemented resource field alias read/write for MSPDI files.</action>
-      <action dev="joniles" type="add">Implemented resource field alias read for MPP9 files.</action>
-   </release>
-
-   <release version="0.0.20" date="15/03/2004"> 
-      <action dev="joniles" type="fix">Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing a null pointer exception when writing an MSPDI file.</action>
-      <action dev="joniles" type="fix">Fixed a bug in MSPDI files where default values were being written incorrectly for some task attributes.</action>
-      <action dev="joniles" type="fix">Fixed a bug with MSPDI file date handling in non GMT time zones.</action>
-      <action dev="joniles" type="fix">Fixed a bug in processing calendar data where data block is not a multiple of 12 bytes</action>
-      <action dev="joniles" type="fix">Fixed a bug processing tables where column data is null</action>
-      <action dev="joniles" type="fix">Fixed checkstyle code warnings.</action>
-      <action dev="joniles" type="fix">Fixed Eclipse code warnings.</action>
-      <action dev="joniles" type="update">Updated to include version 2.5 of the POI library.</action>
-      <action dev="joniles" type="add">Added support for task calendars.</action>
-   </release>
-
-   <release version="0.0.19" date="02/12/2003"> 
-      <action dev="joniles" type="fix">Fixed a bug reading table data from certain MPP8 files</action>
-      <action dev="joniles" type="update">Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)</action>
-      <action dev="joniles" type="update">Re-implemented base and resource calendars as a single MPXCalendar class</action>
-      <action dev="joniles" type="update">Updated support for base calendars and resource calendars for all file formats</action>
-      <action dev="joniles" type="update">Improved MPXException to print details of any nested exception when a stack trace is printed.</action>
-      <action dev="joniles" type="remove">Removed unnecessary use of ByteArray.java</action>
-      <action dev="joniles" type="add">Added support for the following task fields: ActualOvertimeCost, ActualOvertimeWork, FixedCostAccrual, Hyperlink, HyperlinkAddress, HyperlinkSubAddress, LevelAssignments, LevelingCanSplit, LevelingDelay, PreleveledStart, PreleveledFinish, RemainingOvertimeCost, RemainingOvertimeWork.</action>
-   </release>
-
-   <release version="0.0.18" date="13/11/2003"> 
-      <action dev="joniles" type="fix">Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezones.</action>
-      <action dev="joniles" type="fix">Fixed a bug with writing MSPDI XML files in non-GMT timezones.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing an exception when zero length calendar names were present</action>
-      <action dev="joniles" type="fix">Fixed a bug causing MPP8 flags to be read incorrectly. Note that flag 20 is still not read correctly.</action>
-      <action dev="joniles" type="fix">Fixed a bug with the "Microsoft Project Compatible Output" flag for MSPDI files.</action>
-      <action dev="joniles" type="fix">Fixed a bug reading task text 10.</action>
-      <action dev="joniles" type="add">Added new MPXFile.setIgnoreTextModel() method to allow MPXJ to ignore faulty text version of task or resource model records in MPX files.</action>
-      <action dev="joniles" type="update">Improved invalid MPX data error handling and reporting.</action>
-      <action dev="joniles" type="add">Added BaseCalendar.getDate method to allow end dates to be calculated based on a start date and a duration of working time.</action>
-      <action dev="joniles" type="update">Made MPXDateFormat implement java.io.Serializable to allow MPXDate to serialize correctly.</action>
-      <action dev="joniles" type="update">Updated the ant build file to allow MPXJ to be built without the components that depend on JAXB</action>
-      <action dev="joniles" type="update">Rationalised setDefaultStartTime and setDefaultEndTime methods</action>
-      <action dev="joniles" type="add">Added MppXml utility</action>
-      <action dev="joniles" type="add">Added support for querying view information held in MPP files.</action>
-      <action dev="joniles" type="add">Added support for querying table information held in MPP files. (NB This allows the user to retrieve column information, including user defined column names)</action>
-      <action dev="joniles" type="add">Added support for outlinecode1-10 fields in MPP9 files.</action>
-      <action dev="joniles" type="add">Added support for resource "available from" and "available to" fields.</action>
-      <action dev="joniles" type="update">Verified that MPXJ will read MPP files written by Microsoft Project 2003 (they are still MPP9 files).</action>
-   </release>
-
-   <release version="0.0.17" date="05/08/2003"> 
-      <action dev="joniles" type="fix">Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.</action>
-      <action dev="joniles" type="fix">Fixed a bug where special characters appearing in the currency symbol were not being quoted.</action>
-      <action dev="joniles" type="fix">Fixed a bug that caused resource assignments to be incorrectly read from some MPP8 files.</action>
-      <action dev="joniles" type="add">Added a new write method to MPXFile allowing the user control over the character encoding used when writing an MPX file.</action>
-   </release>
-
-   <release version="0.0.16" date="04/07/2003"> 
-      <action dev="joniles" type="fix">Fixed bug causing some extended boolean attributes to be read incorrectly.</action>
-      <action dev="joniles" type="fix">Fixed bug causing MPP8 file task data to be read incorrectly under certain circumstances.</action>
-      <action dev="joniles" type="update">Updated calendar duration code to account for calendar exceptions.</action>
-   </release>
-
-   <release version="0.0.15" date="17/06/2003"> 
-      <action dev="joniles" type="fix">Fixed a bug causing resource assignments to be duplicated in an MPX file created programmatically.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing an incorrect duration value to be read from an MPP9 file.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing invalid MPX files to be written in locales which don't use a period as the decimal separator.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing embedded quote and comma characters in task and resource notes to be handled incorrectly.</action>
-      <action dev="joniles" type="add">Added simple JUnit test to demonstrate iteration through relationships.</action>
-      <action dev="joniles" type="add">Added an example of programmatically creating a partially complete task to the MPXCreate.java example.</action>
-      <action dev="joniles" type="add">Added default values to the MPX project header.</action>
-      <action dev="joniles" type="add">Added support for reading the RemainingDuration field from an MPP9 file.</action>
-      <action dev="joniles" type="update">Updated predecessor and successor method documentation.</action>
-      <action dev="joniles" type="update">Updated Task.get/set ResourceInitials and Task.get/set ResourceNames method documentation.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from resource assignment data in MPP files which were previously not imported: ActualCost, ActualWork, Cost, Finish, Start, Units, Work.</action>
-   </release>
-
-   <release version="0.0.14" date="28/05/2003"> 
-      <action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP9 file which were previously not imported: Flag1-Flag20.</action>
-      <action dev="joniles" type="add">Added the method MPPFile.getFileType to allow the type of MPP file (MPP8: 98, MPP9: 2000,2002) to be determined.</action>
-      <action dev="joniles" type="update">Updated API to make classes final and constructors package access only where appropriate.</action>
-      <action dev="joniles" type="update">Updated to use of 6 byte long int fields for cost and work values for MPP8.</action>
-      <action dev="joniles" type="fix">Fixed error in reading task fixed cost for MPP8.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP8 file which were previously not imported: Contact, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EffortDriven, Finish1-Finish10, Flag1-Flag20, HideBar, Milestone, Number1-Number20, Rollup, Start1-Start10, Text1-Text30, Type, WBS.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP8 file which were previously not imported: Code, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EmailAddress, Finish1-Finish10, Number1-Number20, Start1-Start10, Text1-Text30</action>
-      <action dev="joniles" type="add">Added support for task and resource note fields in MPP8 files.</action>
-      <action dev="joniles" type="add">Added support for the OvertimeCost task attribute for all file formats.</action>
-      <action dev="joniles" type="update">Updated to extract calendar data from MPP8 files.</action>
-      <action dev="joniles" type="update">Updated resource notes to fix end of line handling problem.</action>
-      <action dev="joniles" type="add">Added functionality to read default settings and currency settings data from MPP files.</action>
-   </release>
-
-   <release version="0.0.13" date="22/05/2003"> 
-      <action dev="joniles" type="add">Implemented support for the Microsoft Project 98 file format.</action>
-      <action dev="joniles" type="fix">Fixed a bug that prevented task and resource note text from being read.</action>
-      <action dev="joniles" type="update">Updated to remove a Java 1.4 dependency introduced in 0.0.12. Will now work with Java 1.3.</action>
-      <action dev="joniles" type="update">Updated to correct handling of carriage returns embedded in note fields.</action>
-   </release>
-
-   <release version="0.0.12" date="08/05/2003"> 
-      <action dev="joniles" type="fix">Fixed incorrect handling of timezones and daylight saving time.</action>
-      <action dev="joniles" type="fix">Fixed incorrect task structure generated from outline levels.</action>
-      <action dev="joniles" type="update">Updated to extract the notes fields from tasks and resources read from an MPP file.</action>
-      <action dev="joniles" type="add">Added the option to remove or preserve the RTF formatting from the note fields from an MPP file.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP file which were previously not imported: Text11-Text30, Number6-Number20, Duration4-Duration10, Date1-Date10, Cost4-Cost10, Start6-Start10, Finish6-Finish10</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP file which were previously not imported: Text6-Text30, Start1-Start10, Finish1-Finish10, Number1-Number20, Duration1-Duration10, Date1-Date10, Cost1-Cost10</action>
-   </release>
-
-   <release version="0.0.11" date="15/04/2003"> 
-      <action dev="joniles" type="fix">Fixed error in format string used in one of the example files.</action>
-      <action dev="joniles" type="fix">Fixed error where double byte characters were being read incorrectly.</action>
-      <action dev="joniles" type="fix">Fixed error where deleted constraints were being resurrected when read from an MPP file.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP file which were previously not imported: Flag11-Flag20, Rollup, HideBar, EffortDriven.</action>
-   </release>
-
-
-   <release version="0.0.10" date="08/04/2003"> 
-      <action dev="joniles" type="fix">Corrected Actual Start and Actual End fields from MPP file.</action>
-      <action dev="joniles" type="fix">Fixed bug where time values were being broken by daylight saving time in the user's default locale.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP file which were previously not imported: Actual Work, Baseline Work, Cost Variance, Deadline, Remaining Work, Work.</action>
-      <action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP file which were previously not imported: Actual Cost, Actual Overtime Cost, Actual Work, Baseline Work, Cost, Cost Variance, Max Units, Overtime Cost, Overtime Rate, Overtime Work, Peak, Regular work, Remaining Cost, Remaining Overtime Cost, Remaining Work, Standard Rate, Work, Work Variance</action>
-   </release>
-
-   <release version="0.0.9" date=""> 
-      <action dev="joniles" type="fix">Fixed bug when handling certain types of modified MPP file where resources have been updated.</action>
-      <action dev="joniles" type="add">Added sample MPP files for bugs to the JUnit tests.</action>
-      <action dev="joniles" type="add">Added support for summary flag import from MPP files.</action>
-      <action dev="joniles" type="add">Added automatic summary flag update when creating an MPX file programmatically.</action>
-      <action dev="joniles" type="add">Added new constructor to the MSPDIFile class to allow MSPDI files to be created from scratch.</action>
-   </release>
-
-   <release version="0.0.8" date="27/03/2003"> 
-      <action dev="joniles" type="add">Added support for estimated durations.</action>
-      <action dev="joniles" type="fix">Fixed bug in handling certain types of modified MPP file where tasks have been updated.</action>
-      <action dev="joniles" type="add">Added the facility to auto generate outline numbers.</action>
-   </release>
-
-   </body>
+	<properties>
+		<title>MPXJ Changes</title>
+		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
+	</properties>
+	<body>
+		<release date="Git master" version="5.6.6">
+		</release>
+		<release date="07/03/2017" version="5.6.5">
+			<action dev="joniles" type="update">Improve handling of invalid calendar data in MSPDI files</action>
+			<action dev="joniles" type="update">Improve handling of XER files containing multi-line records</action>
+			<action dev="joniles" type="update">Improve handling of malformed MPX files</action>
+			<action dev="joniles" issue="308" type="fix">Add support for elapsed percent to MSPDI writer</action>
+			<action dev="joniles" issue="310" type="fix">MPX percent lag incorrect</action>
+		</release>
+		<release date="16/02/2017" version="5.6.4">
+			<action dev="joniles" type="update">UniversalProjectReader now recognises and handles byte order marks</action>
+			<action dev="joniles" issue="307" type="fix">TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files</action>
+		</release>
+		<release date="08/02/2017" version="5.6.3">
+			<action dev="joniles" type="update">Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.</action>
+			<action dev="joniles" type="update">Updated to rtfparserkit 1.10.0 for improved RTF parsing.</action>
+		</release>
+		<release date="06/02/2017" version="5.6.2">
+			<action dev="joniles" issue="305" type="fix">Failed to Parse error with Primavera 15.2 or 16.1 XML files</action>
+		</release>
+		<release date="03/02/2017" version="5.6.1">
+			<action dev="joniles" type="fix">Correct resource assignment handling for Phoenix Project Manager schedules.</action>
+		</release>
+		<release date="29/01/2017" version="5.6.0">
+			<action dev="joniles" type="add">Add support for Phoenix Project Manager schedules.</action>
+		</release>
+		<release date="27/01/2017" version="5.5.9">
+			<action dev="joniles" type="update">Improve robustness of date parsing for MPX files.</action>
+		</release>
+		<release date="23/01/2017" version="5.5.8">
+			<action dev="joniles" type="fix">Fix NPE when reading graphical indicators with unknown field type.</action>
+		</release>
+		<release date="13/01/2017" version="5.5.7">
+			<action dev="joniles" type="fix">Fix percent complete NaN value for some Primavera schedules.</action>
+		</release>
+		<release date="06/01/2017" version="5.5.6">
+			<action dev="joniles" type="fix">Fix incorrectly set critical flag for primavera schedules.</action>
+		</release>
+		<release date="06/01/2017" version="5.5.5">
+			<action dev="joniles" type="update">Updated to rtfparserkit 1.9.0 for improved RTF parsing</action>
+			<action dev="joniles" type="update">Improve calendar exception parsing for Primavera XER and database readers.</action>
+			<action dev="joniles" type="update">Ensure the task summary flag is set correctly for Primavera schedules.</action>
+			<action dev="joniles" type="update">Rollup baseline, early and late start and finish dates to WBS for Primavera schedules.</action>
+			<action dev="joniles" type="update">Rollup baseline duration, remaining duration and percent complete to WBS for Primavera schedules.</action>
+			<action dev="joniles" type="add">Use the project's critical slack limit value when setting the critical flag on a task.</action>
+			<action dev="joniles" type="add">Experimental support for reading Merlin Project schedules.</action>
+		</release>
+		<release date="01/12/2016" version="5.5.4">
+			<action dev="joniles" type="update">Default to UTF-8 encoding when generating JSON files</action>
+		</release>
+		<release date="29/11/2016" version="5.5.3">
+			<action dev="joniles" type="update">Correctly read text from MPP files when default charset is not UTF-8.</action>
+			<action dev="joniles" type="update">Improve accuracy when reading MPP9 files.</action>
+		</release>
+		<release date="02/11/2016" version="5.5.2">
+			<action dev="joniles" type="update">Add Primavera Parent Resource ID as a specific resource attribute (Based on a contribution by Dave McKay).</action>
+			<action dev="joniles" type="update">PMXML writer generates currency record (Based on a contribution by Dave McKay).</action>
+			<action dev="joniles" type="update">PMXML writer defaults Activity PercentCompleteType to Duration (Based on a contribution by Dave McKay).</action>
+			<action dev="joniles" type="update">PMXML writer records currency and parent attributes for Resource (Based on a contribution by Dave McKay).</action>
+			<action dev="joniles" type="update">PMXML writer resource assignments include RateSource and ActualOvertimeUnits attributes(Based on a contribution by Dave McKay).</action>
+			<action dev="joniles" type="update">MSPDI reader: gracefully handle invalid calendar exceptions..</action>
+			<action dev="joniles" type="update">PMXML writer: gracefully handle missing data.</action>
+			<action dev="joniles" type="update">Planner writer: gracefully handle missing data.</action>
+		</release>
+		<release date="14/10/2016" version="5.5.1">
+			<action dev="joniles" type="add">Update universal project reader to support zip files.</action>
+			<action dev="joniles" type="update">Update ruby to align error handling with universal project reader.</action>
+		</release>
+		<release date="13/10/2016" version="5.5.0">
+			<action dev="joniles" type="add">Universal project reader.</action>
+			<action dev="joniles" type="update">Avoid NPE when reading PMXML files.</action>
+			<action dev="joniles" issue="297" type="fix">Missing extended attributes</action>
+			<action dev="joniles" issue="300" type="fix">CrossProject field omission causes issues when importing to P6</action>
+		</release>
+		<release date="06/10/2016" version="5.4.0">
+			<action dev="joniles" type="update">Updated to use POI 3.15.</action>
+		</release>
+		<release date="31/08/2016" version="5.3.3">
+			<action dev="joniles" type="update">Avoid NPE when field type is unknown.</action>
+			<action dev="joniles" type="update">Improve Ruby error reporting.</action>
+			<action dev="joniles" type="update">Improve support for non-standard time formats in MPX files</action>
+			<action dev="joniles" type="update">Improve support for MPP14 files with very large numbers of blank tasks</action>
+		</release>
+		<release date="31/08/2016" version="5.3.2">
+			<action dev="joniles" type="update">When reading an XER file, treat FT_STATICTPYE user defined fields as text.</action>
+		</release>
+		<release date="01/07/2016" version="5.3.1">
+			<action dev="joniles" type="add">Add data date attribute to PMXML output.</action>
+			<action dev="joniles" type="update">Update PMXML writer to avoid NPE.</action>
+			<action dev="joniles" type="update">Update PMXML writer to allow task field used for Activity ID to be chosen.</action>
+			<action dev="joniles" type="update">Updated to avoid NPE when reading an XER file where project not under EPS.</action>
+			<action dev="joniles" type="update">Generate Task IDs if missing from MSPDI file</action>
+		</release>
+		<release date="10/06/2016" version="5.3.0">
+			<action dev="joniles" type="add">Add support for PP files generated by Asta Powerproject from version 13.0.0.3 onwards</action>
+			<action dev="joniles" type="update">Minor improvements to SDEF support.</action>
+			<action dev="joniles" type="update">Updated to rtfparserkit 1.8.0</action>
+			<action dev="joniles" type="update">Improve finish time handling in PMXML files (contributed by lobmeleon)</action>
+		</release>
+		<release date="11/03/2016" version="5.2.2">
+			<action dev="joniles" type="add">Add support for resource assignment Stop and Resume attributes for MPP and MSPDI files</action>
+			<action dev="joniles" issue="291" type="fix">PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException</action>
+			<action dev="joniles" issue="292" type="fix">Microsoft Project 2016 : Need to set 'Stop' and 'Resume'  properties for net.sf.mpxj.ResourceAssignment</action>
+		</release>
+		<release date="11/02/2016" version="5.2.1">
+			<action dev="joniles" type="add">Add support for PP files generated by Asta Powerproject up to version 13.0.0.3</action>
+		</release>
+		<release date="08/02/2016" version="5.2.0">
+			<action dev="joniles" type="add">Add support for PP files generated by Asta Powerproject 11, Powerproject 12, Easyplan 2, Easyplan 3, Easyplan 4, Easyplan 5 and Easyplan 6</action>
+			<action dev="joniles" issue="285" type="fix">Unsupported encoding command ansicpg949</action>
+			<action dev="joniles" issue="288" type="fix">AvailabilityTable getEntryByDate does not work properly</action>
+		</release>
+		<release date="25/01/2016" version="5.1.18">
+			<action dev="joniles" issue="285" type="fix">Unsupported encoding command ansicpg1254</action>
+			<action dev="joniles" issue="286" type="fix">NullPointerException in CriteriaReader.getConstantValue</action>
+			<action dev="joniles" issue="287" type="update">Allow a character encoding to be specified when reading an XER file</action>
+			<action dev="joniles" type="add">Write Primavera Primary Resource Unique ID to Task field Number1</action>
+		</release>
+		<release date="30/12/2015" version="5.1.17">
+			<action dev="joniles" type="update">Improve support for reading MPP files generated by Project 2016</action>
+			<action dev="joniles" type="fix">Handle missing time component of a time stamp field when reading an MPX file.</action>
+		</release>
+		<release date="18/12/2015" version="5.1.16">
+			<action dev="joniles" type="update">Improve support for reading MPX files generated by SureTrak</action>
+		</release>
+		<release date="16/12/2015" version="5.1.15">
+			<action dev="joniles" type="fix">Fix WBS and Activity ordering for tasks from Primavera.</action>
+		</release>
+		<release date="09/12/2015" version="5.1.14">
+			<action dev="joniles" type="fix">Strip unescaped control characters from JSON output.</action>
+		</release>
+		<release date="26/11/2015" version="5.1.13">
+			<action dev="joniles" type="update">For schedules imported from Primavera ensure tasks representing activities are ordered by Activity ID within the WBS to match Primavera.</action>
+		</release>
+		<release date="16/11/2015" version="5.1.12">
+			<action dev="joniles" type="fix">Avoid NPE when writing MSPDI files with timephased data  (contributed by Bruno Gasnier)</action>
+			<action dev="joniles" type="update">Improve resource assignment constructor (based on a contribution by Bruno Gasnier)</action>
+			<action dev="joniles" type="update">Improve MPX French translations (contributed by Bruno Gasnier)</action>
+			<action dev="joniles" type="add">Add calendar specific minutes per day, week, month, and year (based on a contribution by Bruno Gasnier)</action>
+			<action dev="joniles" type="add">Add support for reading and writing GUID attribute for PMXML, XER files and Primavera database.</action>
+		</release>
+		<release date="12/11/2015" version="5.1.11">
+			<action dev="joniles" type="fix">Avoid NPE when reading MPP14 custom properties.</action>
+			<action dev="joniles" type="fix">Ensure calculated task attributes are present in JSON output.</action>
+			<action dev="joniles" type="fix">Handle MSPDI files written by German versions of Microsoft Project (based on a contribution by Lord Helmchen)</action>
+			<action dev="joniles" issue="277" type="fix">synchronizeTaskIDToHierarchy clears list of tasks</action>
+			<action dev="joniles" issue="273" type="fix">PrimaveraPMFileWriter throws Exception at write(..)</action>
+			<action dev="joniles" issue="281" type="fix">Parent task is always null when reading a Primavera XER file</action>
+			<action dev="joniles" type="update">Ensure that Task.getSuccesors() and Task.getPredecessors() return an empty list rather than null.</action>
+		</release>
+		<release date="09/09/2015" version="5.1.10">
+			<action dev="joniles" type="update">Improve FixedMeta2 block size heuristic to improve reliability when reading MPP14 files.</action>
+		</release>
+		<release date="29/08/2015" version="5.1.9">
+			<action dev="joniles" type="add">Ensure Resource BookingType is read correctly from MPP files</action>
+			<action dev="joniles" type="add">Added basic custom field attributes to JSON output</action>
+			<action dev="joniles" type="add">Added Ruby methods to work with custom field aliases</action>
+			<action dev="joniles" type="fix">Fix to infinite loop condition when writing calendar (contributed by lobmeleon)</action>
+			<action dev="joniles" issue="274" type="fix">MPXJ getNotes() API returns garbled value for multibyte characters</action>
+			<action dev="joniles" issue="268" type="fix">Unsupported encoding error when reading resource notes</action>
+			<action dev="joniles" issue="256" type="fix">Incorrect resource types are read (contributed by Colin Rodriguez)</action>
+			<action dev="joniles" type="update">Symmetry between Primavera PM reader/writer (contributed by lobmeleon)</action>
+			<action dev="joniles" type="update">Added UDF support to PMXML file reader and writer(contributed by lobmeleon)</action>
+			<action dev="joniles" type="update">Updated to rtfparserkit 1.4.0</action>
+		</release>
+		<release date="13/07/2015" version="5.1.8">
+			<action dev="joniles" type="update">Another attempt at getting tzinfo-data dependency working</action>
+		</release>
+		<release date="13/07/2015" version="5.1.7">
+			<action dev="joniles" type="update">Updated ruby gem to make tzinfo-data dependency conditional on platform</action>
+		</release>
+		<release date="13/07/2015" version="5.1.6">
+			<action dev="joniles" type="update">Updated ruby gem to allow timezone to be provided</action>
+		</release>
+		<release date="05/06/2015" version="5.1.5">
+			<action dev="joniles" type="update">Updated to use IKVM 8.0.5449.1</action>
+		</release>
+		<release date="03/06/2015" version="5.1.4">
+			<action dev="joniles" type="update">Updated to generate Activity ID for Primavera WBS.</action>
+			<action dev="joniles" type="fix">Updated to correct Primavera duration percent complete calculation.</action>
+		</release>
+		<release date="18/05/2015" version="5.1.3">
+			<action dev="joniles" type="fix">Updated to ensure Ruby reads Boolean attributes correctly.</action>
+		</release>
+		<release date="18/05/2015" version="5.1.2">
+			<action dev="joniles" type="fix">Updated to ensure Ruby recognises short type as an integer.</action>
+		</release>
+		<release date="18/05/2015" version="5.1.1">
+			<action dev="joniles" type="update">Updated to use ruby-duration gem to avoid conflict with ActiveSupport::Duration.</action>
+		</release>
+		<release date="17/05/2015" version="5.1.0">
+			<action dev="joniles" type="fix">Updated to ensure that PrimaveraDatabaseReader.setSchema accepts null or empty string</action>
+			<action dev="joniles" type="fix">Ensure conversion to/from .Net DateTime takes account of timezone and daylight savings (based on a contribution by Timour Koupeev)</action>
+			<action dev="joniles" type="update">Updated to use POI 3.12.</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</action>
+		</release>
+		<release date="06/05/2015" version="5.0.0">
+			<action dev="joniles" type="add">Added project properties to the JSON output</action>
+			<action dev="joniles" type="add">Added support for project properties to the Ruby wrapper</action>
+			<action dev="joniles" type="add">Added support for reading data from a standalone Primavera P6 SQLite database</action>
+			<action dev="joniles" issue="267" type="fix">XXE security vulnerability</action>
+			<action dev="joniles" issue="266" type="fix">Task Number fields not saved to file if the value would floor to zero</action>
+			<action dev="joniles" issue="255" type="fix">Not all project calendars are read in for Project 2013 files (based on a contribution by Colin Rodriguez)</action>
+			<action dev="joniles" type="update">Renamed TaskContainer class to ChildTaskContainer</action>
+			<action dev="joniles" type="update">Renamed ProjectHeader class to ProjectProperties</action>
+			<action dev="joniles" type="update">Introduced ProjectConfig class</action>
+			<action dev="joniles" type="update">Introduced TaskContainer class</action>
+			<action dev="joniles" type="update">Introduced ResourceContainer class</action>
+			<action dev="joniles" type="update">Introduced ResourceAssignmentContainer class</action>
+			<action dev="joniles" type="update">Introduced ProjectCalendarContainer class</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getProjectHeader to getProjectProperties</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getCalendar to getDefaultCalendar</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.setCalendar to setDefaultCalendar</action>
+			<action dev="joniles" type="update">Renamed MppReader.getReadHeaderOnly to getReadPropertiesOnly</action>
+			<action dev="joniles" type="update">Renamed MppReader.setReadHeaderOnly to setReadPropertiesOnly</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getCalendarUniqueID to ProjectConfig.getNextCalendarUniqueID</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getResourceUniqueID to ProjectConfig.getNextResourceUniqueID</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getTaskUniqueID to ProjectConfig.getNextTaskUniqueID</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getResourceID to ProjectConfig.getNextResourceID</action>
+			<action dev="joniles" type="update">Renamed ProjectFile.getTaskID to ProjectConfig.getNextTaskID</action>
+			<action dev="joniles" type="update">Renamed ProjectHeader.getApplicationName to getShortApplicationName</action>
+			<action dev="joniles" type="update">Renamed ProjectHeader.setApplicationName to setShortApplicationName</action>
+			<action dev="joniles" type="update">Renamed ProjectHeader.setCalendarName to setDefaultCalendarName</action>
+			<action dev="joniles" type="update">Renamed ProjectHeader.getCalendarName to getDefaultCalendarName</action>
+			<action dev="joniles" type="update">Moved ProjectFile.getProjectFilePath to ProjectHeader.getProjectFilePath</action>
+			<action dev="joniles" type="update">Moved ProjectFile.setProjectFilePath to ProjectHeader.setProjectFilePath</action>
+			<action dev="joniles" type="update">Moved ProjectFile.getApplicationName to ProjectHeader.getFullApplicationName</action>
+			<action dev="joniles" type="update">Moved ProjectFile.setApplicationName to ProjectHeader.setFullApplicationName</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.setDelimiter to ProjectHeader.setMpxDelimiter</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.getDelimiter to ProjectHeader.getMpxDelimiter</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.setProgramName to ProjectHeader.setMpxProgramName</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.getProgramName to ProjectHeader.getMpxProgramName</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.setFileVersion to ProjectHeader.setMpxFileVersion</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.getFileVersion to ProjectHeader.getMpxFileVersion</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.setCodePage to ProjectHeader.setMpxCodePage</action>
+			<action dev="joniles" type="update">Moved FileCreationRecord.getCodePage to ProjectHeader.getMpxCodePage</action>
+			<action dev="joniles" type="update">Moved ProjectFile.getMppFileType to ProjectHeader.getMppFileType</action>
+			<action dev="joniles" type="update">Moved ProjectFile.setMppFileType to ProjectHeader.setMppFileType</action>
+			<action dev="joniles" type="update">Moved ProjectFile.getApplicationVersion to ProjectHeader.getApplicationVersion</action>
+			<action dev="joniles" type="update">Moved ProjectFile.setApplicationVersion to ProjectHeader.setApplicationVersion</action>
+			<action dev="joniles" type="update">Moved ProjectFile.setAutoFilter to ProjectHeader.setAutoFilter</action>
+			<action dev="joniles" type="update">Moved ProjectFile.getAutoFilter to ProjectHeader.getAutoFilter</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getAliasTaskField, replaced by ProjectFile.getTaskFieldAliases().getField()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getAliasResourceField, replaced by ProjectFile.getResourceFieldAliases().getField()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().getAlias()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.setTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().setAlias()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().getAlias()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.setResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().setAlias()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getTaskFieldAliasMap, replaced by ProjectFile.getTaskFieldAliases</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addTable, replaced by ProjectFile.getTables().add()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getTaskTableByName, replaced by ProjectFile.getTables().getTaskTableByName()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getResourceTableByName, replaced by ProjectFile.getTables().getResourceTableByName()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addFilter, replaced by ProjectFile.getFilters().addFilter()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.removeFilter, replaced by ProjectFile.getFilters().rmoveFilter()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getAllResourceFilters, replaced by ProjectFile.getFilters().getResourceFilters()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getAllTaskFilters, replaced by ProjectFile.getFilters().getTaskFilters()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getFilterByName, replaced by ProjectFile.getFilters().getFilterByName()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getAllGroups, replaced by ProjectFile.getGroups()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getGroupByName, replaced by ProjectFile.getGroups().getByName()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addView, replaced by ProjectFile.getViews().add()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.setViewState, replaced by ProjectFile.getViews().setViewState()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getViewState, replaced by ProjectFile.getViews().getViewState()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getResourceSubProject, replaced by ProjectFile.getSubProjects().getResourceSubProject()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.setResourceSubProject, replaced by ProjectFile.getSubProjects().setResourceSubProject()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addSubProject, replaced by ProjectFile.getSubProjects().add()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getAllSubProjects, replaced by ProjectFile.getSubProjects</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireTaskReadEvent, replaced by ProjectFile.getEventManager().fireTaskReadEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireTaskWrittenEvent, replaced by ProjectFile.getEventManager().fireTaskWrittenEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireResourceReadEvent, replaced by ProjectFile.getEventManager().fireResourceReadEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireResourceWrittenEvent, replaced by ProjectFile.getEventManager().fireResourceWrittenEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireCalendarReadEvent, replaced by ProjectFile.getEventManager().fireCalendarReadEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireAssignmentReadEvent, replaced by ProjectFile.getEventManager().fireAssignmentReadEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireAssignmentWrittenEvent, replaced by ProjectFile.getEventManager().fireAssignmentWrittenEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireRelationReadEvent, replaced by ProjectFile.getEventManager().fireRelationReadEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireRelationWrittenEvent, replaced by ProjectFile.getEventManager().fireRelationWrittenEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.fireCalendarWrittenEvent, replaced by ProjectFile.getEventManager().fireCalendarWrittenEvent()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addProjectListener, replaced by ProjectFile.getEventManager().addProjectListener()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addProjectListeners, replaced by ProjectFile.getEventManager().addProjectListeners()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.removeProjectListener, replaced by ProjectFile.getEventManager().removeProjectListener()</action>
+			<action dev="joniles" type="update">Removed ProjectFile.addGraphicalIndicator</action>
+			<action dev="joniles" type="update">Removed ProjectFile.getGraphicalIndicator, replaced by ProjectFile.getCustomFields().getCustomField().getGraphicalIndicator()</action>
+		</release>
+		<release date="18/03/2015" version="4.7.6">
+			<action dev="joniles" type="add">Added a Ruby wrapper for MPXJ</action>
+			<action dev="joniles" type="add">Added the ability to export project data as JSON, to make it easier to work with in languages other than Java</action>
+			<action dev="joniles" type="add">Added support for the Assignment attribute Resource Request Type</action>
+			<action dev="joniles" type="update">Primavera database and XER readers updated to match WBS visible in Primavera for each task. Previous behaviour of generating a unique WBS for each task can be restored using a flag set on the readers.</action>
+			<action dev="joniles" type="fix">Avoid NPE when calculating Task Completed Through</action>
+			<action dev="joniles" type="fix">Read Task Earned Value Method correctly from MPP files</action>
+			<action dev="joniles" type="fix">Fix issue where some floating point attributes were returning NaN</action>
+		</release>
+		<release date="27/02/2015" version="4.7.5">
+			<action dev="joniles" type="fix">Handle invalid Primavera calendar data gracefully</action>
+		</release>
+		<release date="25/02/2015" version="4.7.4">
+			<action dev="joniles" issue="257" type="fix">Failed to read project containing CodePage 1250 text.</action>
+			<action dev="joniles" issue="259" type="fix">MS Project 2010: tasks with null baseline dates</action>
+			<action dev="joniles" type="fix">Incorrect task end date read from Primavera XER and database</action>
+			<action dev="joniles" type="fix">Incorrect percent complete read from Primavera XER, database, and PMXML files</action>
+			<action dev="joniles" type="fix">Failed to read fields held at the end of a fixed data block</action>
+			<action dev="joniles" type="add">Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</action>
+			<action dev="joniles" type="add">Added the ability to customise the fields read from a Primavera database or XER file.</action>
+			<action dev="joniles" type="add">Added Task Activity Type and Task Status as additional fields read from Primavera database and XER and files</action>
+			<action dev="joniles" type="update">Changed Task physical percent complete methods for consistency to use Number rather than Integer</action>
+		</release>
+		<release date="23/12/2014" version="4.7.3">
+			<action dev="joniles" type="update">Updated to use POI 3.11.</action>
+			<action dev="joniles" type="update">Updated to use rtfparserkit 1.1.0 for Java 6 compatibility.</action>
+		</release>
+		<release date="15/12/2014" version="4.7.2">
+			<action dev="joniles" type="fix">Updated to fix Maven dependency issue.</action>
+		</release>
+		<release date="08/12/2014" version="4.7.1">
+			<action dev="joniles" type="add">Added a flag to MPPReader to indicate that only the project header should be read.</action>
+		</release>
+		<release date="04/12/2014" version="4.7.0">
+			<action dev="joniles" type="add">Implemented new RTF parser for stripping RTF to improve performance and accuracy</action>
+			<action dev="joniles" type="add">Removed non-API code from the top level package</action>
+			<action dev="joniles" type="add">Improved support for reading built-in and custom project properties from MPP files.</action>
+			<action dev="joniles" type="fix">Improved resilience of MPP file reading to unknown data structures</action>
+			<action dev="joniles" type="fix">Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks</action>
+			<action dev="joniles" type="fix">Fixed issue where free text versions of task start, finish, and duration fields were not being read correctly from MPP14 files</action>
+		</release>
+		<release date="11/11/2014" version="4.6.2">
+			<action dev="joniles" type="fix">Fixed issue with custom duration field units not read correctly from MSPDI files</action>
+			<action dev="joniles" issue="223" type="fix">Problems with the lag calculated in the relation</action>
+			<action dev="joniles" type="fix">Outline code not read correctly from MPP file written by Project 2013</action>
+			<action dev="joniles" issue="239" type="fix">Defensive changes to avoid exceptions when reading MPP files</action>
+			<action dev="joniles" issue="250" type="fix">Deleted tasks being read from mpp file</action>
+			<action dev="joniles" type="add">Added DotNetInputStream and DotNetOutputStream classes for ease of use under .Net.</action>
+			<action dev="joniles" type="update">Updated to automatically generate and package MpxjUtilities.dll</action>
+		</release>
+		<release date="17/10/2014" version="4.6.1">
+			<action dev="joniles" type="fix">Fixed NuGet metadata</action>
+		</release>
+		<release date="17/10/2014" version="4.6.0">
+			<action dev="joniles" type="add">Added support for NuGet.</action>
+			<action dev="joniles" type="fix">Fixed an issue where the ID and Unique ID resource attributes were being read incorrectly from MPP14 files.</action>
+			<action dev="joniles" type="fix">Fixed an issue where the project's default duration format was not being used</action>
+			<action dev="joniles" issue="248" type="fix">Reading .MPP file using MPXJ 4.2 reads extra unintentional ResourceAssignment with the task which is not seen in Task Sheet in Microsoft Project</action>
+			<action dev="joniles" issue="235" type="fix">All resources have &quot;Material&quot; property</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to capture the Project ID to align with data read from XER file/database (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to ensure task percent complete supports Physical Percent, Duration Percent and Units Percent (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to ensure task baseline values match values read from XER file/database (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to ensure task actual duration to matches value read from XER file/database (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to read the task duration (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to read task LateStart, LateFinish, EarlyStart, EarlyFinish attributes correctly (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to read task Start and End correctly (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to identify milestones (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to set the task Critical attribute (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera PM XML file reader to include costs (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" issue="247" type="update">Updated Primavera XER/Database readers to read task Start and End correctly (contributed by Nathaniel Marrin)</action>
+			<action dev="joniles" type="update">Migrated tests to JUnit 4</action>
+		</release>
+		<release date="01/03/2014" version="4.5.0">
+			<action dev="joniles" type="add">Added the ability to call the .Net version of MPXJ from COM.</action>
+			<action dev="joniles" type="add">Added support Primavera decimal database columns.</action>
+			<action dev="joniles" type="add">Added support for user defined task fields (contributed by Mario Fuentes).</action>
+			<action dev="joniles" type="add">Added POM for current Maven versions (contributed by Nick Burch)</action>
+			<action dev="joniles" issue="213" type="fix">Unable to load mpp from project-2013</action>
+			<action dev="joniles" issue="226" type="fix">Primavera currency files without currency information</action>
+			<action dev="joniles" issue="227" type="fix">PrimaveraReader cannot handle files with more than 30 user defined fields</action>
+			<action dev="joniles" issue="224" type="fix">setMilestone() issue</action>
+			<action dev="joniles" issue="210" type="fix">MPXJ 4.4 and 2013 files - invalid load of task data</action>
+			<action dev="joniles" type="fix">Updated to fix an issue with Asta Powerproject PP file tokenization</action>
+			<action dev="joniles" type="fix">Updated to fix an issue where valid WBS values containing .0 are corrupted</action>
+			<action dev="joniles" type="update">Updated to allow Primavera hours per day to be a decimal value</action>
+			<action dev="joniles" type="update">Updated to support Primavera PM XML files generated by Primavera versions up to P6v8.3 (contributed by Mario Fuentes)</action>
+			<action dev="joniles" type="update">Updated to set the StatusDate attribute in the project header from a Primavera database, XER file or PM XML file.</action>
+			<action dev="joniles" type="update">Updated to use (a patched version of) POI 3.10.</action>
+		</release>
+		<release date="14/03/2013" version="4.4.0">
+			<action dev="joniles" type="add">Added support for writing Primavera PM XML files.</action>
+			<action dev="joniles" type="add">Added support for reading Asta Powerproject PP and MDB files.</action>
+			<action dev="joniles" type="add">Added support for writing SDEF files (Contributed by William Iverson).</action>
+			<action dev="joniles" type="add">Added support for reading Enterprise Custom Fields 1-50 for Task, Resources, and Resource Assignments.</action>
+			<action dev="joniles" type="add">Added MpxjExtensionMethods assembly to simplify working with Java types in .Net (Contributed by Kyle Patmore)</action>
+			<action dev="joniles" type="update">Provided two new .Net DLL versions in addition to the original version. These allow properties to be accessed in a &quot;.Net style&quot;, and for languages apart from VB, provide .Net style method names.</action>
+			<action dev="joniles" type="update">Updated to remove the distinction between base calendar and resource calendars in the ProjectFile class.</action>
+			<action dev="joniles" type="fix">Updated to improve support for custom outline codes (Contributed by Gary McKenney)</action>
+			<action dev="joniles" issue="189" type="fix">getTimephasedOvertimeWork can return TimephasedWork with NaN</action>
+			<action dev="joniles" issue="190" type="fix">Support for timephased cost for cost type resources</action>
+			<action dev="joniles" issue="195" type="fix">Rolled Up tasks don't use default duration units</action>
+			<action dev="joniles" issue="199" type="fix">Extract Primavera Task ID</action>
+			<action dev="joniles" type="fix">Updated to fix an issue where the resource assignment delay attribute was not being read from or written to MSPDI files correctly</action>
+			<action dev="joniles" type="fix">Updated to fix an issue where derived calendars were not being read correctly from MPP files</action>
+			<action dev="joniles" type="update">Updated to use IKVM 7.2.</action>
+		</release>
+		<release date="08/02/2012" version="4.3.0">
+			<action dev="joniles" type="add">Added support for reading Primavera PM XML files.</action>
+			<action dev="joniles" type="add">Added support for reading timephased cost, and timephased baseline cost and baseline work from MPP files.</action>
+			<action dev="joniles" type="add">Added support for Work Weeks in MSPDI files (SourceForge feature request 23).</action>
+			<action dev="joniles" type="update">Updated to use IKVM 7.0.</action>
+			<action dev="joniles" type="fix">Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</action>
+			<action dev="joniles" issue="161" type="fix">ResourceAssignment.getTaskUniqueID() returns null.</action>
+			<action dev="joniles" issue="169" type="fix">Wrong project name in MPX file.</action>
+			<action dev="joniles" issue="170" type="fix">Wrong title in XML file when importing from XER file.</action>
+			<action dev="joniles" issue="168" type="fix">Wrong record number for resource calendar in MPX file.</action>
+			<action dev="joniles" issue="171" type="fix">In the XML file the element field SaveVersion is missing.</action>
+			<action dev="joniles" issue="167" type="fix">Loop when import task with 0% on units of works in resources.</action>
+			<action dev="joniles" issue="163" type="fix">French locale NA incorrect.</action>
+			<action dev="joniles" issue="175" type="fix">Invalid dependency between child and parent.</action>
+			<action dev="joniles" issue="174" type="fix">Missing tasks from MS Project 2010 mpp file.</action>
+			<action dev="joniles" issue="179" type="fix">Wrong WBS code and WBS when converting a Primavera XER file.</action>
+			<action dev="joniles" issue="177" type="fix">Error reading XER file with German localisation for numbers.</action>
+			<action dev="joniles" issue="166" type="fix">TimephasedResourceAssignments with negative TotalWork.</action>
+			<action dev="joniles" issue="181" type="fix">Wrong currency symbol in the exported file.</action>
+			<action dev="joniles" issue="104" type="fix">TimephasedResourceAssignment end date not correct.</action>
+			<action dev="joniles" issue="116" type="fix">Calendar hours are incorrect.</action>
+			<action dev="joniles" issue="188" type="fix">NullReferenceException with getTimephasedBaselineWork.</action>
+			<action dev="joniles" issue="191" type="fix">Outline number is null when opening Project 2003 MPP file.</action>
+			<action dev="joniles" issue="192" type="fix">Unable to parse note (unknown locale).</action>
+			<action dev="joniles" issue="193" type="fix">MPP9Reader marks all tasks after a null task as null.</action>
+			<action dev="joniles" type="fix">Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</action>
+			<action dev="joniles" type="fix">Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</action>
+			<action dev="joniles" type="fix">Updated to fix an issue where subprojects were not read correctly (Contributed by Gary McKenney).</action>
+		</release>
+		<release date="23/06/2011" version="4.2.0">
+			<action dev="joniles" type="add">Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Baseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</action>
+			<action dev="joniles" type="add">Added support for task suspend date, task resume date, and task code read from Primavera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</action>
+			<action dev="joniles" type="add">Added support for retrieving the table associated with any view.</action>
+			<action dev="joniles" issue="158" type="fix">Error converting Mpp to planner.</action>
+			<action dev="joniles" issue="157" type="fix">MSPDI Linklag for TimeUnit.Percent.</action>
+			<action dev="joniles" issue="156" type="fix">Error reading calendars for 2010 files.</action>
+			<action dev="joniles" issue="159" type="fix">Duplication of calendar id.</action>
+			<action dev="joniles" issue="153" type="fix">Wrong task start.</action>
+			<action dev="joniles" issue="156" type="fix">Wrong start and finish dates for 2010 files.</action>
+		</release>
+		<release date="30/05/2011" version="4.1.0">
+			<action dev="joniles" type="add">Updated ProjectFile class to change default value for &quot;auto&quot; flags to simplify programmatic creation of project files.</action>
+			<action dev="joniles" type="add">Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.</action>
+			<action dev="joniles" type="add">Added support cost resource type for MPP12, MPP14 and MSPDI files.</action>
+			<action dev="joniles" type="add">Added Task.removePredecessor method (contributed by Leslie Damon).</action>
+			<action dev="joniles" type="add">Added &quot;read presentation data&quot; flag to MPPReader - allows clients to save time and memory when MPP presentation data not required.</action>
+			<action dev="joniles" type="add">Added support for reading Primavera calendars (contributed by Bruno Gasnier).</action>
+			<action dev="joniles" type="add">Added support for resource assignment leveling delay for MPP, MPD, and MSPDI files.</action>
+			<action dev="joniles" type="add">Added support for &quot;unassigned&quot; resource assignments.</action>
+			<action dev="joniles" type="add">Added support for task manual duration attribute for manually scheduled tasks in MPP14 and MSPDI files.</action>
+			<action dev="joniles" type="add">Added support for resource NT account attribute for MPP9, MPP12, and MPP14 files.</action>
+			<action dev="joniles" type="add">Added support for physical % complete for MPP9, MPP12, and MPP14 files.</action>
+			<action dev="joniles" issue="120" type="fix">MPXJ API returns the incorrect start date of a manual task.</action>
+			<action dev="joniles" issue="123" type="fix">Task id incorrect after importing from MPP14 file.</action>
+			<action dev="joniles" issue="124" type="fix">MPXJ 4.0 fails to work with Project 2010 format.</action>
+			<action dev="joniles" issue="128" type="fix">Index was outside the bounds of the array.</action>
+			<action dev="joniles" issue="131" type="fix">header.getHonorConstraints() is not working in case of MPP.</action>
+			<action dev="joniles" issue="139" type="fix">Empty notes appear for all tasks when saving in XML format.</action>
+			<action dev="joniles" issue="122" type="fix">All Extended Attributes always added when using MSPDIWriter.</action>
+			<action dev="joniles" issue="144" type="fix">Baseline/Actual Work in 2010 MPP missing.</action>
+			<action dev="joniles" issue="114" type="fix">ResourceAssignment getCalendar not using IgnoreResourceCalendar flag</action>
+			<action dev="joniles" issue="146" type="fix">ExternalTaskProject value missing.</action>
+			<action dev="joniles" issue="137" type="fix">Deleted Primavera tasks handling problem.</action>
+			<action dev="joniles" issue="143" type="fix">Latest CVS version gives wrong values for inactive field.</action>
+			<action dev="joniles" issue="125" type="fix">Task ID order when creating a project file is not correct.</action>
+			<action dev="joniles" issue="106" type="fix">Invalid tasks that should not be there.</action>
+			<action dev="joniles" type="fix">Updated to fix task calendars read incorrectly from MPP14 files.</action>
+			<action dev="joniles" type="fix">Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Updated to fix incorrect resource assignment actual work attribute for MPP14 files.</action>
+			<action dev="joniles" type="fix">Updated to fix incorrect task leveling delay attribute for MPP9, MPP12, and MPP14 files.</action>
+			<action dev="joniles" type="fix">Updated to fix leveling delay and link lag when writing an MSPDI file (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Updated to fix incorrect assignment actual start date when writing an MSPDI file.</action>
+			<action dev="joniles" type="update">Updated to improve support for material resources in MSPDI files.</action>
+			<action dev="joniles" type="update">Updated to reduce overall size of MSPDI files by not writing default values.</action>
+			<action dev="joniles" type="update">Updated to use IKVM 0.46.0.1.</action>
+			<action dev="joniles" type="update">Updated to use POI 3.7.</action>
+			<action dev="joniles" type="update">Updated to make task, resource, and assignment fields read from MPP files data-driven, rather than hard coded.</action>
+		</release>
+		<release date="25/05/2010" version="4.0.0">
+			<action dev="joniles" type="add">Added support for reading Microsoft Project 2010 MPP files.</action>
+			<action dev="joniles" type="add">Added support for reading Primavera P6 XER files.</action>
+			<action dev="joniles" type="add">Added support for reading Primavera P6 databases.</action>
+			<action dev="joniles" type="update">Updated to target Java 1.6.</action>
+			<action dev="joniles" type="add">Added Russian locale (Contributed by Roman Bilous).</action>
+			<action dev="joniles" isue="115" type="fix">Relation.getDuration() is always giving result in 'HOUR' fmt.</action>
+		</release>
+		<release date="20/01/2010" version="3.2.0">
+			<action dev="joniles" type="add">Added support for Resource cost rate tables (Based on code by Andrei Missine).</action>
+			<action dev="joniles" type="add">Added support for Resource availability (Based on code by Andrei Missine).</action>
+			<action dev="joniles" type="add">Added support for successors (Based on an idea by John D. Lewis).</action>
+			<action dev="joniles" type="add">Added support for task and resource GUIDs.</action>
+			<action dev="joniles" type="add">Added a flag to allow raw timephased data to be retrieved from MPP files.</action>
+			<action dev="joniles" type="fix">Updated to fix logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>
+			<action dev="joniles" issue="94" type="fix">MPXJ Issue: Related to Project Calendar.</action>
+			<action dev="joniles" issue="90" type="fix">POI License in legal folder of download wrong.</action>
+			<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>
+			<action dev="joniles" issue="102" type="fix">Planner writer causes Null Pointer exception.</action>
+			<action dev="joniles" issue="100" type="fix">getRecurring() task is not working</action>
+			<action dev="joniles" issue="98" type="fix">getStandardRateFormat() is returning 'null'</action>
+			<action dev="joniles" issue="97" type="fix">getWeekStartDay() is not working.</action>
+			<action dev="joniles" issue="96" type="fix">getDaysPerMonth() is not working.</action>
+			<action dev="joniles" issue="101" type="fix">Resource.getNotes() not working for MPP12 file.</action>
+			<action dev="joniles" issue="105" type="fix">MPP: getEditableActualCosts() is not behaving correctly.</action>
+			<action dev="joniles" type="update">Updated to use POI 3.6.</action>
+			<action dev="joniles" type="update">Updated to use IKVM 0.42.0.3.</action>
+			<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>
+			<action dev="joniles" type="update">Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</action>
+			<action dev="joniles" type="update">Updated to implement MSPDI context caching to improve performance (Contributed by Jari Niskala).</action>
+			<action dev="joniles" type="update">Updated to improve MPP file task structure validation. (Contributed by Jari Niskala).</action>
+			<action dev="joniles" type="update">Updated to improve MPX file parsing. (Contributed by Jari Niskala).</action>
+			<action dev="joniles" type="update">Updated to automatically populate missing WBS attributes. (Contributed by Jari Niskala).</action>
+			<action dev="joniles" type="update">Updated to refactor the Relation class (note minor method name changes).</action>
+			<action dev="joniles" type="update">Updated to add default calendar to Planner output.</action>
+		</release>
+		<release date="20/05/2009" version="3.1.0">
+			<action dev="joniles" issue="73" type="fix">Plan file fails to load.</action>
+			<action dev="joniles" issue="72" type="fix">Resource Assignment Normaliser rounding problem.</action>
+			<action dev="joniles" issue="78" type="fix">Column alignment values are incorrect.</action>
+			<action dev="joniles" issue="76" type="fix">NullPointerException in parseExtendedAttribute() (Contributed by Paul Pogonyshev).</action>
+			<action dev="joniles" issue="74" type="fix">.0 at the end of WBS code and outline number (Contributed by Paul Pogonyshev).</action>
+			<action dev="joniles" issue="79" type="fix">Too strict net.sf.mpxj.mpd.ResultSetRow.</action>
+			<action dev="joniles" issue="80" type="fix">Generated planner file can't be opened.</action>
+			<action dev="joniles" issue="82" type="fix">Support for loading global.mpt.</action>
+			<action dev="joniles" issue="81" type="fix">Lowercase table name won't work with db on linux machines.</action>
+			<action dev="joniles" issue="71" type="fix">Standard Calendar localization import problem.</action>
+			<action dev="joniles" issue="83" type="fix">Strange duration conversion from database</action>
+			<action dev="joniles" issue="86" type="fix">FilterCriteria not being read in properly (Contributed by James Styles)</action>
+			<action dev="joniles" type="fix">Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</action>
+			<action dev="joniles" type="fix">Updated to fix Steelray bug 8469: Subproject flag not set correctly.</action>
+			<action dev="joniles" type="fix">Updated to fix potential NPEs (Suggested by Steve Jonik).</action>
+			<action dev="joniles" type="update">Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)</action>
+			<action dev="joniles" type="update">Updated to provide strong names for .Net DLLs.</action>
+		</release>
+		<release date="25/01/2009" version="3.0.0">
+			<action dev="joniles" type="update">Updated to the Project 2007 MSPDI schema.</action>
+			<action dev="joniles" type="update">Updated to POI 3.2.</action>
+			<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>
+			<action dev="joniles" type="update">Updated MPX output to prevent Project 2007 complaining.</action>
+			<action dev="joniles" issue="68" type="fix">Task getNumber*() methods return inaccurate large values.</action>
+			<action dev="joniles" issue="56" type="fix">Duplicate task in file.getChildTasks() when opening MPX.</action>
+			<action dev="joniles" issue="57" type="fix">Relation.getTask returns null.</action>
+			<action dev="joniles" issue="58" type="fix">Task.getSplits() not consistent.</action>
+			<action dev="joniles" issue="60" type="fix">WBS Field not imported Mpp12.</action>
+			<action dev="joniles" issue="63" type="fix">There are some conflict in TaskField.</action>
+			<action dev="joniles" issue="66" type="fix">MSPDIReader is not setting calendarName in projectHeader.</action>
+			<action dev="joniles" issue="67" type="fix">Write resource calendar with exceptions only.</action>
+			<action dev="joniles" issue="69" type="fix">File loses predecessors.</action>
+			<action dev="joniles" issue="70" type="fix">Resources not bring read.</action>
+			<action dev="joniles" type="fix">Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</action>
+			<action dev="joniles" type="fix">Updated split task implementation to represent splits as DateRange instances rather than as hours.</action>
+			<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>
+			<action dev="joniles" type="add">Added support for reading timephased resource assignment data from MPP files.</action>
+			<action dev="joniles" type="add">Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</action>
+			<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
+			<action dev="joniles" type="add">Added methods to MPXReader and MPXWriter to allow the caller to determine the supported locales.</action>
+			<action dev="joniles" type="add">Added Spanish locale (Contributed by Agustin Barto).</action>
+			<action dev="joniles" type="add">Added support for durations with percentage time lag (Contributed by Jonas Tampier).</action>
+			<action dev="joniles" type="add">Added support MSPDI file split tasks.</action>
+		</release>
+		<release date="23/03/2008" version="2.1.0">
+			<action dev="joniles" type="update">Updated to POI 3.0.2</action>
+			<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>
+			<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>
+			<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala).</action>
+			<action dev="joniles" issue="48" type="fix">Import from Project 2007 ignores some tasks.</action>
+			<action dev="joniles" issue="52" type="fix">Crash on priority not set in MSPDI-file.</action>
+			<action dev="joniles" issue="51" type="fix">Resource start/finish dates with MSP 2007.</action>
+			<action dev="joniles" issue="51" type="fix">MS Project 2007: Calendar exceptions dates are wrong.</action>
+			<action dev="joniles" type="add">Added support for Enterprise task and resource fields.</action>
+			<action dev="joniles" type="add">Added support for Baseline task and resource fields.</action>
+			<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>
+			<action dev="joniles" type="add">Added support for Chinese MPX files (contributed by Felix Tian).</action>
+			<action dev="joniles" type="add">Added support for reading project start and end dates from all MPP file types (Bug #1827633).</action>
+			<action dev="joniles" type="add">Added support for password protected MPP9 files (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for calendar exceptions for MPP12 files (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for value lists and descriptions for custom fields (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for timescale formats (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for the project file path attribute (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for the ignore resource calendar attribute (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for the resource actual overtime work attribute (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for the resource material label attribute (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Added support for the resource NT account attribute (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Improved support for hyperlinks (Contributed by Jari Niskala)</action>
+			<action dev="joniles" type="add">Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)</action>
+		</release>
+		<release date="07/10/2007" version="2.0.0">
+			<action dev="joniles" type="update">Migrated to Java 5</action>
+			<action dev="joniles" type="update">Introduced generics</action>
+			<action dev="joniles" type="update">Introduced enums</action>
+			<action dev="joniles" type="update">Updated to POI 3.0.1</action>
+			<action dev="joniles" type="update">Updated to JAXB 2.1.4</action>
+			<action dev="joniles" type="update">Changed company details from Tapster Rock to Packwood Software</action>
+		</release>
+		<release date="30/08/2007" version="1.0.0">
+			<action dev="joniles" type="add">Added support for reading MPD files via JDBC</action>
+			<action dev="joniles" type="add">Added support for reading Planner files</action>
+			<action dev="joniles" type="add">Added support for over allocated flag to all MPP file formats.</action>
+			<action dev="joniles" type="add">Added support for calculating duration variance from MPP files.</action>
+			<action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>
+			<action dev="joniles" type="add">Added support for attribute change listeners for Task and Resource classes.</action>
+			<action dev="joniles" type="add">Added support for start slack, finish slack, free slack and total slack read from MPP files.</action>
+			<action dev="joniles" type="add">Added support for external tasks.</action>
+			<action dev="joniles" type="add">Added unique ID generation for calendars read from MPX files.</action>
+			<action dev="joniles" type="add">Added support for the status date property of the project.</action>
+			<action dev="joniles" type="fix">Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</action>
+			<action dev="joniles" type="fix">Fixed incorrect calculation of lag times for some MPP files.</action>
+			<action dev="joniles" type="fix">Fixed missing predecessor tasks in certain rare MPP9 files.</action>
+			<action dev="joniles" type="fix">Fixed incorrect MPX file AM/PM text setting in certain locales.</action>
+			<action dev="joniles" type="fix">Fixed an ArrayIndexOutOfBoundsException.</action>
+			<action dev="joniles" type="fix">Fixed a ClassCastException.</action>
+			<action dev="joniles" type="fix">Fixed a zero length string error.</action>
+			<action dev="joniles" type="fix">Fixed a duration rounding error when reading MSPDI files.</action>
+			<action dev="joniles" type="fix">Fixed incorrect &quot;as late as possible&quot; constraint handling.</action>
+			<action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
+			<action dev="joniles" type="fix">Incorrect total slack calculation.</action>
+			<action dev="joniles" type="fix">Added a default for the task constraint type attribute to prevent a possible NPE when writing an MSPDI file.</action>
+			<action dev="joniles" type="fix">Added a default resource calendar name where the resource name is empty.</action>
+			<action dev="joniles" type="update">Updated the Column.getTitle method to take account of user defined column aliases.</action>
+			<action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
+			<action dev="joniles" type="update">Updated to significantly improve the performance of writing MSPDI files.</action>
+		</release>
+		<release date="07/03/2006" version="0.9.2">
+			<action dev="joniles" type="add">Added support for split views.</action>
+			<action dev="joniles" type="add">Added support for graphical indicators.</action>
+			<action dev="joniles" type="add">Added a workaround for a bug in MS Project which is seen when calendar exceptions are exported to an MSPDI file. If the exception contained seconds and milliseconds, MS Project marked every day as being affected by the exception, not the day or range of days specified.</action>
+			<action dev="joniles" type="update">Updated to make date/time/number formats generic, and thus available to end users. For example, this allows users to format currencies in line with the settings in the project file.</action>
+			<action dev="joniles" type="update">Standardised on minutes per day and minutes per week, rather than hours per day and hours per week.</action>
+			<action dev="joniles" type="update">Provided additional time ranges for calendar exceptions.</action>
+			<action dev="joniles" type="update">Refactored Task and Resource to use TaskField and ResourceField to identify fields.</action>
+			<action dev="joniles" type="update">Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.</action>
+			<action dev="joniles" type="fix">Fixed a bug when reading MPP files where task finish dates appeared before the start date where a &quot;start no later than&quot; constraint was in use.</action>
+			<action dev="joniles" type="fix">Fixed a bug which resulted in invalid MPX files being generated when a project either had no tasks, or it had no resources.</action>
+			<action dev="joniles" type="fix">Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</action>
+			<action dev="joniles" type="fix">Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.</action>
+			<action dev="joniles" type="fix">Fixed a bug where split tasks were not being reported correctly.</action>
+		</release>
+		<release date="26/01/2006" version="0.9.1">
+			<action dev="joniles" type="update">Major API rewrite.</action>
+			<action dev="joniles" type="add">Added a flag called &quot;expanded&quot; to the Task class to represent whether a task in an MPP9 file is shown as expanded or collapsed by MS Project.</action>
+			<action dev="joniles" type="fix">Fixed a bug in the relation code in MpxjQuery (contributed by Shlomo Swidler).</action>
+			<action dev="joniles" type="update">Modified MPXDateFormat, MPXTimeFormat and MPXCurrencyFormat to derive them from DateFormat and NumberFormat.</action>
+			<action dev="joniles" type="add">Added support for MPT files.</action>
+			<action dev="joniles" type="fix">Fixed a bug which could case an NPE when reading certain MPP9 files.</action>
+			<action dev="joniles" type="add">Added support for the &quot;marked&quot; attribute for MPP9 files.</action>
+			<action dev="joniles" type="add">Added support for reading split task data from MPP9 files.</action>
+			<action dev="joniles" type="add">Added support for reading calculate multiple critical paths flag.</action>
+			<action dev="joniles" type="fix">Fixed a bug which could case an array out of bounds exception in the Priority (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Fixed bug #1346735 &quot;Priorities of the tasks are exported incorrectly&quot;.</action>
+			<action dev="joniles" type="add">Added code to allow tasks, resources, resource assignments and calendars to be removed from the data structure.</action>
+			<action dev="joniles" type="add">Implemented Italian MPX file format translation (contributed by Elio Zoggia).</action>
+			<action dev="joniles" type="update">Cleaned up calendar usage.</action>
+			<action dev="joniles" type="add">Added support for retrieval of custom document summary fields from the project header (contributed by Wade Golden).</action>
+			<action dev="joniles" type="update">Updated to use checkstyle 4.0 and fixed warnings.</action>
+			<action dev="joniles" type="update">Rationalised duration conversions into a set of methods in the MPXDuration class.</action>
+			<action dev="joniles" type="add">Replaced various file format conversion utilities with the general purpose MpxjConvert utility.</action>
+			<action dev="joniles" type="fix">Fixed an issue where tasks with a percent complete value, but no resource assignments, would not write correctly to an MSPDI file.</action>
+			<action dev="joniles" type="add">Added an accessor method for resource calendars.</action>
+			<action dev="joniles" type="fix">Unique ID generation was not correct for tasks, resources and calendars if these entities were added to an existing project file.</action>
+			<action dev="joniles" type="fix">Fixed a compatibility issue with POI3</action>
+			<action dev="joniles" type="add">Added an event listener to the project file to allow notifications of resources and tasks being read and written to and from a file.</action>
+			<action dev="joniles" type="fix">Fixed a compiler warning when build with JDK5.</action>
+			<action dev="joniles" type="fix">Fixed a bug where a project start date was not being set correctly in the project header.</action>
+			<action dev="joniles" type="add">Added support for reading the project header &quot;calendar name&quot;, &quot;schedule from&quot; and &quot;revision&quot; values from MPP files.</action>
+			<action dev="joniles" type="fix">Fixed split task support.</action>
+			<action dev="joniles" type="update">Enhanced TableFontStyle implementation.</action>
+		</release>
+		<release date="11/08/2005" version="0.0.25">
+			<action dev="joniles" type="add">Added support for reading all properties from an MPP9 file which define the visual appearance of the Gantt Chart view shown in Microsoft Project (development funding courtesy of Steelray).</action>
+			<action dev="joniles" type="update">Tidied up constructors. Added no-argument constructors to the MPPFile and MSPDIFile classes.</action>
+			<action dev="joniles" type="update">Fixed incorrect value in WorkGroup enumerated type.</action>
+			<action dev="joniles" type="update">Implemented the resource assignment work contour property (contributed by Wade Golden).</action>
+			<action dev="joniles" type="update">Implemented correct handling for MPX files using different character set encodings (suggested by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Fixed task duration calculation when importing an MPP file with a &quot;non-standard&quot; hours-per-day setting (contributed by Wade Golden).</action>
+			<action dev="joniles" type="update">Updated to ensure that the MPX task fixed attribute, and the MPP/MSPDI task type attribute are correctly handled.</action>
+			<action dev="joniles" type="update">Updated to implement the remaining project header attributes supported by the MSPDI file format.</action>
+			<action dev="joniles" type="update">Updated to add support for reading the MPX 3.0 files generated by Primavera (courtesy of CapitalSoft).</action>
+			<action dev="joniles" type="fix">Fixed incorrect assumptions about conversion of durations to hours when writing MPX files (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="update">Updated to calculate remaining work for resource assignments on import, to allow MSPDI export of this data to work correctly (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
+			<action dev="joniles" type="fix">Updated to fix a problem with reading assignment data from MPP9 files.</action>
+			<action dev="joniles" type="update">Rationalised the location of the JUnit tests and the sample files.</action>
+			<action dev="joniles" type="fix">Fixed a problem where the project start and end dates reported in the project header were incorrect.</action>
+			<action dev="joniles" type="fix">Fixed an array out of bounds exception when reading an MPP9 file.</action>
+			<action dev="joniles" type="update">Updated to allow MPXCalendarHours to accept an arbitrary number of time periods.</action>
+			<action dev="joniles" type="add">Introduced the Day class to replace the use of arbitrary integers to represent days of the week.</action>
+			<action dev="joniles" type="add">Added the ability to query the task assignments for a resource using the Resource.getTaskAssignments() method.</action>
+			<action dev="joniles" type="fix">Fixed a problem with number formats in MSPDI files.</action>
+			<action dev="joniles" type="update">Updated the MPP View class to extract the view type.</action>
+			<action dev="joniles" type="update">Updated to ensure that duration values read from an MSPDI file are converted into the appropriate duration units, rather than being left as hours as the durations are represented in the MSPDI file.</action>
+			<action dev="joniles" type="add">Implemented French MPX file format translation (contributed by Benoit Baranne).</action>
+			<action dev="joniles" type="fix">Fixed a bug reading assignment work contour attribute.</action>
+			<action dev="joniles" type="update">Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.</action>
+			<action dev="joniles" type="fix">Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.</action>
+			<action dev="joniles" type="update">Updated to make replace the int relation type in the Relation class with instances of the RelationType class.</action>
+			<action dev="joniles" type="update">Updated to derive RelationList from AbstractList.</action>
+			<action dev="joniles" type="add">Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.</action>
+			<action dev="joniles" type="update">Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</action>
+			<action dev="joniles" type="add">Added support for early start, early finish, late start, late finish to MPP files.</action>
+			<action dev="joniles" type="update">Updated MPP9 file support to handle start as late as possible constraints. </action>
+			<action dev="joniles" type="add">Added support for sub project file information in MPP9 files.</action>
+			<action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not being read.</action>
+			<action dev="joniles" type="fix">Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</action>
+			<action dev="joniles" type="update">Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</action>
+			<action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</action>
+			<action dev="joniles" type="fix">Updated to fix unreliable retrieval of project start and end dates from certain MPP files.</action>
+			<action dev="joniles" type="fix">Fixed schedule from value in MSPDI files (contributed by Frank Illenberger).</action>
+			<action dev="joniles" type="fix">Fixed a bug when reading durations in elapsed days from an MPP file.</action>
+			<action dev="joniles" type="update">Tasks can now have arbitrary priority values. These values are mapped to/from the fixed MPP8/MPX priority values where necessary.</action>
+		</release>
+		<release date="10/01/2005" version="0.0.24">
+			<action dev="joniles" type="fix">Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
+			<action dev="joniles" type="update">Updated to use class instances instead of primitives to represent some enumerated types.</action>
+			<action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</action>
+			<action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</action>
+			<action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</action>
+			<action dev="joniles" type="add">Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</action>
+			<action dev="joniles" type="update">Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.</action>
+		</release>
+		<release date="17/11/2004" version="0.0.23">
+			<action dev="joniles" type="fix">Fixed a bug where MPXJ was still using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
+			<action dev="joniles" type="fix">Fixed a bug where the incorrect record delimiter was being used in by the MPX RelationList class.</action>
+			<action dev="joniles" type="fix">Fixed a bug where the method Task.getText21 was not retrieving the correct text value.</action>
+			<action dev="joniles" type="fix">Fixed a bug where the task unique ID values were being truncated unnecessarily.</action>
+			<action dev="joniles" type="fix">Fixed a bug where calendar exceptions were not testing the range of dates between the start and end date correctly.</action>
+			<action dev="joniles" type="fix">Fixed a bug where the priority of a task was being escalated when converting between an MPP9 file and an MSPDI file.</action>
+			<action dev="joniles" type="fix">Fixed a bug where a deadline was incorrectly being added to a task when importing data from an MPP9 file.</action>
+			<action dev="joniles" type="fix">Fixed a bug where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
+			<action dev="joniles" type="fix">Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.</action>
+			<action dev="joniles" type="fix">Fixed a rounding error in MPXCalendar.getDaysInRange (contributed by Wade Golden)</action>
+			<action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
+			<action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
+			<action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>
+			<action dev="joniles" type="update">Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</action>
+			<action dev="joniles" type="update">Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.</action>
+			<action dev="joniles" type="update">Updated to improve accuracy when converting an MPP file to an MSPDI file.</action>
+			<action dev="joniles" type="add">Added support for blank task rows in MPP8 files.</action>
+			<action dev="joniles" type="add">Added support for blank resource rows in MPP8 files.</action>
+			<action dev="joniles" type="add">Added support for Portuguese MPX files.</action>
+			<action dev="joniles" type="add">Added support reading and writing extended attributes (apart from outline codes) for MSPDI files.</action>
+			<action dev="joniles" type="add">Added support for the Resource Type attribute.</action>
+		</release>
+		<release date="27/07/2004" version="0.0.22">
+			<action dev="joniles" type="fix">Fixed a bug where task data was not being read correctly from very large MPP9 files.</action>
+			<action dev="joniles" type="fix">Fixed a bug where certain MPP8 files were not read correctly when no constraint data is present.</action>
+			<action dev="joniles" type="fix">Fixed a bug where certain MPP9 files were not read correctly.</action>
+			<action dev="joniles" type="fix">Fixed a bug where MPP9 files containing invalid resource data were not read correctly.</action>
+			<action dev="joniles" type="fix">Fixed a bug where MPXJ was using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
+			<action dev="joniles" type="fix">Fixed a bug where MPXJ not correctly handling embedded line breaks when reading and writing MPX files.</action>
+			<action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX specification.</action>
+			<action dev="joniles" type="update">Updated MPX documentation for Task.getFixed and Task.setFixed.</action>
+			<action dev="joniles" type="update">Updated MPP9 file code to improve handling invalid offset values.</action>
+			<action dev="joniles" type="update">Updated to remove leading and trailing spaces from MPX task field names before processing.</action>
+			<action dev="joniles" type="update">Updated to detect password protected files and raise a suitable exception.</action>
+			<action dev="joniles" type="add">Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).</action>
+			<action dev="joniles" type="add">Implemented support for Maven.</action>
+			<action dev="joniles" type="add">Updated MpxCreate utility to allow it to create both MPX and MSPDI files.</action>
+			<action dev="joniles" type="add">Added new JUnit test for confidential customer data.</action>
+			<action dev="joniles" type="add">Added support for the resource assignment remaining work attribute for MPP8, MPP9 and MSPDI files.</action>
+		</release>
+		<release date="06/05/2004" version="0.0.21">
+			<action dev="joniles" type="fix">Fixed a bug where the task start date attribute was not always correct for MPP8 files.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing an exception when reading certain MPP9 files.</action>
+			<action dev="joniles" type="update">Updated to allow localised MPX files to be written and read.</action>
+			<action dev="joniles" type="add">Implemented support for German MPX files.</action>
+			<action dev="joniles" type="add">Implemented generic mechanism for dealing with task field aliases.</action>
+			<action dev="joniles" type="add">Implemented task field alias read/write for MSPDI files.</action>
+			<action dev="joniles" type="add">Implemented task field alias read for MPP9 files.</action>
+			<action dev="joniles" type="add">Implemented resource field alias read/write for MSPDI files.</action>
+			<action dev="joniles" type="add">Implemented resource field alias read for MPP9 files.</action>
+		</release>
+		<release date="15/03/2004" version="0.0.20">
+			<action dev="joniles" type="fix">Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing a null pointer exception when writing an MSPDI file.</action>
+			<action dev="joniles" type="fix">Fixed a bug in MSPDI files where default values were being written incorrectly for some task attributes.</action>
+			<action dev="joniles" type="fix">Fixed a bug with MSPDI file date handling in non GMT time zones.</action>
+			<action dev="joniles" type="fix">Fixed a bug in processing calendar data where data block is not a multiple of 12 bytes</action>
+			<action dev="joniles" type="fix">Fixed a bug processing tables where column data is null</action>
+			<action dev="joniles" type="fix">Fixed checkstyle code warnings.</action>
+			<action dev="joniles" type="fix">Fixed Eclipse code warnings.</action>
+			<action dev="joniles" type="update">Updated to include version 2.5 of the POI library.</action>
+			<action dev="joniles" type="add">Added support for task calendars.</action>
+		</release>
+		<release date="02/12/2003" version="0.0.19">
+			<action dev="joniles" type="fix">Fixed a bug reading table data from certain MPP8 files</action>
+			<action dev="joniles" type="update">Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)</action>
+			<action dev="joniles" type="update">Re-implemented base and resource calendars as a single MPXCalendar class</action>
+			<action dev="joniles" type="update">Updated support for base calendars and resource calendars for all file formats</action>
+			<action dev="joniles" type="update">Improved MPXException to print details of any nested exception when a stack trace is printed.</action>
+			<action dev="joniles" type="remove">Removed unnecessary use of ByteArray.java</action>
+			<action dev="joniles" type="add">Added support for the following task fields: ActualOvertimeCost, ActualOvertimeWork, FixedCostAccrual, Hyperlink, HyperlinkAddress, HyperlinkSubAddress, LevelAssignments, LevelingCanSplit, LevelingDelay, PreleveledStart, PreleveledFinish, RemainingOvertimeCost, RemainingOvertimeWork.</action>
+		</release>
+		<release date="13/11/2003" version="0.0.18">
+			<action dev="joniles" type="fix">Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezones.</action>
+			<action dev="joniles" type="fix">Fixed a bug with writing MSPDI XML files in non-GMT timezones.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing an exception when zero length calendar names were present</action>
+			<action dev="joniles" type="fix">Fixed a bug causing MPP8 flags to be read incorrectly. Note that flag 20 is still not read correctly.</action>
+			<action dev="joniles" type="fix">Fixed a bug with the &quot;Microsoft Project Compatible Output&quot; flag for MSPDI files.</action>
+			<action dev="joniles" type="fix">Fixed a bug reading task text 10.</action>
+			<action dev="joniles" type="add">Added new MPXFile.setIgnoreTextModel() method to allow MPXJ to ignore faulty text version of task or resource model records in MPX files.</action>
+			<action dev="joniles" type="update">Improved invalid MPX data error handling and reporting.</action>
+			<action dev="joniles" type="add">Added BaseCalendar.getDate method to allow end dates to be calculated based on a start date and a duration of working time.</action>
+			<action dev="joniles" type="update">Made MPXDateFormat implement java.io.Serializable to allow MPXDate to serialize correctly.</action>
+			<action dev="joniles" type="update">Updated the ant build file to allow MPXJ to be built without the components that depend on JAXB</action>
+			<action dev="joniles" type="update">Rationalised setDefaultStartTime and setDefaultEndTime methods</action>
+			<action dev="joniles" type="add">Added MppXml utility</action>
+			<action dev="joniles" type="add">Added support for querying view information held in MPP files.</action>
+			<action dev="joniles" type="add">Added support for querying table information held in MPP files. (NB This allows the user to retrieve column information, including user defined column names)</action>
+			<action dev="joniles" type="add">Added support for outlinecode1-10 fields in MPP9 files.</action>
+			<action dev="joniles" type="add">Added support for resource &quot;available from&quot; and &quot;available to&quot; fields.</action>
+			<action dev="joniles" type="update">Verified that MPXJ will read MPP files written by Microsoft Project 2003 (they are still MPP9 files).</action>
+		</release>
+		<release date="05/08/2003" version="0.0.17">
+			<action dev="joniles" type="fix">Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.</action>
+			<action dev="joniles" type="fix">Fixed a bug where special characters appearing in the currency symbol were not being quoted.</action>
+			<action dev="joniles" type="fix">Fixed a bug that caused resource assignments to be incorrectly read from some MPP8 files.</action>
+			<action dev="joniles" type="add">Added a new write method to MPXFile allowing the user control over the character encoding used when writing an MPX file.</action>
+		</release>
+		<release date="04/07/2003" version="0.0.16">
+			<action dev="joniles" type="fix">Fixed bug causing some extended boolean attributes to be read incorrectly.</action>
+			<action dev="joniles" type="fix">Fixed bug causing MPP8 file task data to be read incorrectly under certain circumstances.</action>
+			<action dev="joniles" type="update">Updated calendar duration code to account for calendar exceptions.</action>
+		</release>
+		<release date="17/06/2003" version="0.0.15">
+			<action dev="joniles" type="fix">Fixed a bug causing resource assignments to be duplicated in an MPX file created programmatically.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing an incorrect duration value to be read from an MPP9 file.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing invalid MPX files to be written in locales which don't use a period as the decimal separator.</action>
+			<action dev="joniles" type="fix">Fixed a bug causing embedded quote and comma characters in task and resource notes to be handled incorrectly.</action>
+			<action dev="joniles" type="add">Added simple JUnit test to demonstrate iteration through relationships.</action>
+			<action dev="joniles" type="add">Added an example of programmatically creating a partially complete task to the MPXCreate.java example.</action>
+			<action dev="joniles" type="add">Added default values to the MPX project header.</action>
+			<action dev="joniles" type="add">Added support for reading the RemainingDuration field from an MPP9 file.</action>
+			<action dev="joniles" type="update">Updated predecessor and successor method documentation.</action>
+			<action dev="joniles" type="update">Updated Task.get/set ResourceInitials and Task.get/set ResourceNames method documentation.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from resource assignment data in MPP files which were previously not imported: ActualCost, ActualWork, Cost, Finish, Start, Units, Work.</action>
+		</release>
+		<release date="28/05/2003" version="0.0.14">
+			<action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP9 file which were previously not imported: Flag1-Flag20.</action>
+			<action dev="joniles" type="add">Added the method MPPFile.getFileType to allow the type of MPP file (MPP8: 98, MPP9: 2000,2002) to be determined.</action>
+			<action dev="joniles" type="update">Updated API to make classes final and constructors package access only where appropriate.</action>
+			<action dev="joniles" type="update">Updated to use of 6 byte long int fields for cost and work values for MPP8.</action>
+			<action dev="joniles" type="fix">Fixed error in reading task fixed cost for MPP8.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP8 file which were previously not imported: Contact, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EffortDriven, Finish1-Finish10, Flag1-Flag20, HideBar, Milestone, Number1-Number20, Rollup, Start1-Start10, Text1-Text30, Type, WBS.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP8 file which were previously not imported: Code, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EmailAddress, Finish1-Finish10, Number1-Number20, Start1-Start10, Text1-Text30</action>
+			<action dev="joniles" type="add">Added support for task and resource note fields in MPP8 files.</action>
+			<action dev="joniles" type="add">Added support for the OvertimeCost task attribute for all file formats.</action>
+			<action dev="joniles" type="update">Updated to extract calendar data from MPP8 files.</action>
+			<action dev="joniles" type="update">Updated resource notes to fix end of line handling problem.</action>
+			<action dev="joniles" type="add">Added functionality to read default settings and currency settings data from MPP files.</action>
+		</release>
+		<release date="22/05/2003" version="0.0.13">
+			<action dev="joniles" type="add">Implemented support for the Microsoft Project 98 file format.</action>
+			<action dev="joniles" type="fix">Fixed a bug that prevented task and resource note text from being read.</action>
+			<action dev="joniles" type="update">Updated to remove a Java 1.4 dependency introduced in 0.0.12. Will now work with Java 1.3.</action>
+			<action dev="joniles" type="update">Updated to correct handling of carriage returns embedded in note fields.</action>
+		</release>
+		<release date="08/05/2003" version="0.0.12">
+			<action dev="joniles" type="fix">Fixed incorrect handling of timezones and daylight saving time.</action>
+			<action dev="joniles" type="fix">Fixed incorrect task structure generated from outline levels.</action>
+			<action dev="joniles" type="update">Updated to extract the notes fields from tasks and resources read from an MPP file.</action>
+			<action dev="joniles" type="add">Added the option to remove or preserve the RTF formatting from the note fields from an MPP file.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP file which were previously not imported: Text11-Text30, Number6-Number20, Duration4-Duration10, Date1-Date10, Cost4-Cost10, Start6-Start10, Finish6-Finish10</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP file which were previously not imported: Text6-Text30, Start1-Start10, Finish1-Finish10, Number1-Number20, Duration1-Duration10, Date1-Date10, Cost1-Cost10</action>
+		</release>
+		<release date="15/04/2003" version="0.0.11">
+			<action dev="joniles" type="fix">Fixed error in format string used in one of the example files.</action>
+			<action dev="joniles" type="fix">Fixed error where double byte characters were being read incorrectly.</action>
+			<action dev="joniles" type="fix">Fixed error where deleted constraints were being resurrected when read from an MPP file.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP file which were previously not imported: Flag11-Flag20, Rollup, HideBar, EffortDriven.</action>
+		</release>
+		<release date="08/04/2003" version="0.0.10">
+			<action dev="joniles" type="fix">Corrected Actual Start and Actual End fields from MPP file.</action>
+			<action dev="joniles" type="fix">Fixed bug where time values were being broken by daylight saving time in the user's default locale.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from task data in an MPP file which were previously not imported: Actual Work, Baseline Work, Cost Variance, Deadline, Remaining Work, Work.</action>
+			<action dev="joniles" type="update">Updated to extract the following fields from resource data in an MPP file which were previously not imported: Actual Cost, Actual Overtime Cost, Actual Work, Baseline Work, Cost, Cost Variance, Max Units, Overtime Cost, Overtime Rate, Overtime Work, Peak, Regular work, Remaining Cost, Remaining Overtime Cost, Remaining Work, Standard Rate, Work, Work Variance</action>
+		</release>
+		<release date="" version="0.0.9">
+			<action dev="joniles" type="fix">Fixed bug when handling certain types of modified MPP file where resources have been updated.</action>
+			<action dev="joniles" type="add">Added sample MPP files for bugs to the JUnit tests.</action>
+			<action dev="joniles" type="add">Added support for summary flag import from MPP files.</action>
+			<action dev="joniles" type="add">Added automatic summary flag update when creating an MPX file programmatically.</action>
+			<action dev="joniles" type="add">Added new constructor to the MSPDIFile class to allow MSPDI files to be created from scratch.</action>
+		</release>
+		<release date="27/03/2003" version="0.0.8">
+			<action dev="joniles" type="add">Added support for estimated durations.</action>
+			<action dev="joniles" type="fix">Fixed bug in handling certain types of modified MPP file where tasks have been updated.</action>
+			<action dev="joniles" type="add">Added the facility to auto generate outline numbers.</action>
+		</release>
+	</body>
 </document>
-
-
-

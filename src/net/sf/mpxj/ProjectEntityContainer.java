@@ -30,14 +30,14 @@ import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Common implementation shared by project entities, providing storage, iteration and lookup.
- * 
+ *
  * @param <T> concrete entity type
  */
 public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID> extends ListWithCallbacks<T>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public ProjectEntityContainer(ProjectFile projectFile)
@@ -47,7 +47,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Returns the value of the first Unique ID to use when renumbering Unique IDs.
-    * 
+    *
     * @return first Unique ID value
     */
    protected int firstUniqueID()
@@ -88,7 +88,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Retrieve an entity by its Unique ID.
-    * 
+    *
     * @param id entity Unique ID
     * @return entity instance or null
     */
@@ -99,7 +99,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Remove the Unique ID to instance mapping.
-    * 
+    *
     * @param id Unique ID to remove
     */
    public void unmapUniqueID(Integer id)
@@ -109,7 +109,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Add a Unique ID to instance mapping.
-    * 
+    *
     * @param id Unique ID
     * @param entity instance
     */

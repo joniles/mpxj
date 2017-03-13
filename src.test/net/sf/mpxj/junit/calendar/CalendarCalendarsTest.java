@@ -64,7 +64,7 @@ public class CalendarCalendarsTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testCalendars(File file) throws MPXJException

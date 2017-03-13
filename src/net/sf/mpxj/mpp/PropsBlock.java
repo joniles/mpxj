@@ -33,7 +33,7 @@ final class PropsBlock extends Props
 {
    /**
     * Constructor.
-    * 
+    *
     * @param data block of property data
     */
    PropsBlock(byte[] data)
@@ -74,7 +74,7 @@ final class PropsBlock extends Props
    /**
     * Method used to extract data from the block of properties and
     * insert the key value pair into a map.
-    * 
+    *
     * @param data block of property data
     * @param previousItemOffset previous offset
     * @param previousItemKey item key

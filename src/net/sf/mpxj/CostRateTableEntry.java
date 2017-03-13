@@ -28,16 +28,16 @@ import java.util.Date;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
-/** 
+/**
  * This class represents a row from a resource's cost rate table.
  * Note that MS Project always represents costs as an hourly rate,
- * it holds an additional field to indicate the format used when 
+ * it holds an additional field to indicate the format used when
  * displaying the rate.
  */
 public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 {
    /**
-    * Constructor. Used to construct singleton default table entry. 
+    * Constructor. Used to construct singleton default table entry.
     */
    private CostRateTableEntry()
    {
@@ -51,7 +51,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Constructor.
-    * 
+    *
     * @param standardRate standard rate
     * @param standardRateFormat standard rate format
     * @param overtimeRate overtime rate
@@ -71,7 +71,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Retrieves the end date after which this table entry is not valid.
-    * 
+    *
     * @return end date
     */
    public Date getEndDate()
@@ -81,7 +81,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Retrieves the standard rate represented by this entry.
-    * 
+    *
     * @return standard rate
     */
    public Rate getStandardRate()
@@ -91,7 +91,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Retrieves the format used when displaying the standard rate.
-    * 
+    *
     * @return standard rate format
     */
    public TimeUnit getStandardRateFormat()
@@ -101,7 +101,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Retrieves the overtime rate represented by this entry.
-    * 
+    *
     * @return overtime rate
     */
    public Rate getOvertimeRate()
@@ -111,7 +111,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Retrieves the format used when displaying the overtime rate.
-    * 
+    *
     * @return overtime rate format
     */
    public TimeUnit getOvertimeRateFormat()
@@ -121,7 +121,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    /**
     * Retrieves the cost per use represented by this entry.
-    * 
+    *
     * @return per use rate
     */
    public Number getCostPerUse()

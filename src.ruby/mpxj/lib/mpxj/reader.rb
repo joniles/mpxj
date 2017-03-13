@@ -4,6 +4,8 @@ require 'active_support/core_ext/time/calculations'
 module MPXJ
   # Used to read a project plan from a file
   class Reader
+    @@max_memory_size = nil
+       
     # Reads a project plan from a file, and returns a Project instance
     # which provides access to the structure and attributes of the project data.
     # Note that an optional timezone can be supplied to ensue that all date-time
@@ -19,9 +21,9 @@ module MPXJ
 
       begin
         classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
-        java_output = `java -cp \"#{classpath}\" net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
+        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
-          raise "Failed to read file: #{java_output}"
+          report_error(java_output)
         end
         project = Project.new(json_file, tz)
       ensure
@@ -31,7 +33,24 @@ module MPXJ
       project
     end
 
+    # Allows the caller to set the maximum memory size used by the JVM when processing a schedule.
+    # This is useful when handling large schedules which cause out of memory failures if the JVM's
+    # default maximum memory size is used. The value is either a plain integer number of bytes,
+    # or an integer followed by K, M, or G, e.g. `MPXJ::Reader.max_memory_size="500M"`
+    #
+    # @param value new maximum memory size 
+    def self.max_memory_size=(value)
+      @@max_memory_size = value
+    end
+
     # @private
+    def self.jvm_args
+      args = []
+      args << "-Xmx#{@@max_memory_size}" if @@max_memory_size.present? 
+      args.join(' ')
+    end
+       
+    # @private    
     def self.path_separator
       if windows?
         ";"
@@ -43,6 +62,20 @@ module MPXJ
     # @private
     def self.windows?
       (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    end
+    
+     # @private
+    def self.report_error(java_output)
+      if java_output.include?('Conversion Error: ')
+        message = java_output.split('Conversion Error: ')[1]
+        if message.include?('Unsupported file type')
+          raise MPXJ::ArgumentError, message
+        else
+          raise MPXJ::RuntimeError, message
+        end
+      else        
+        raise MPXJ::UnknownError, "Failed to read file: #{java_output}"
+      end
     end
   end
 end

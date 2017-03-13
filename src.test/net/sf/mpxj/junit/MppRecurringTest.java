@@ -47,7 +47,7 @@ public class MppRecurringTest
 {
    /**
     * Test recurring task data read from an MPX file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpxRecurringTasks() throws Exception
@@ -58,7 +58,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP8 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp8RecurringTasks() throws Exception
@@ -69,7 +69,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9RecurringTasks() throws Exception
@@ -80,7 +80,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9RecurringTasksFrom12() throws Exception
@@ -91,7 +91,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9RecurringTasksFrom14() throws Exception
@@ -102,7 +102,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12RecurringTasks() throws Exception
@@ -113,7 +113,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12RecurringTasksFrom14() throws Exception
@@ -124,7 +124,7 @@ public class MppRecurringTest
 
    /**
     * Test recurring task data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14RecurringTasks() throws Exception
@@ -135,7 +135,7 @@ public class MppRecurringTest
 
    /**
     * Tests recurring tasks.
-    * 
+    *
     * @param mpp The ProjectFile being tested.
     * @throws Exception
     */

@@ -30,8 +30,8 @@ public class CustomField
 {
    /**
     * Constructor.
-    * 
-    * @param field field 
+    *
+    * @param field field
     * @param parent parent container
     */
    public CustomField(FieldType field, CustomFieldContainer parent)
@@ -44,7 +44,7 @@ public class CustomField
 
    /**
     * Retrieve the field type represented by this instance.
-    * 
+    *
     * @return field type
     */
    public FieldType getFieldType()
@@ -54,7 +54,7 @@ public class CustomField
 
    /**
     * Retrieve the value lookup table associated with this custom field.
-    * 
+    *
     * @return value lookup table
     */
    public CustomFieldLookupTable getLookupTable()
@@ -64,7 +64,7 @@ public class CustomField
 
    /**
     * Retrieve the graphical indicator configuration for this custom field.
-    * 
+    *
     * @return graphical indicator configuration
     */
    public GraphicalIndicator getGraphicalIndicator()
@@ -74,7 +74,7 @@ public class CustomField
 
    /**
     * Retrieve the alias for this field.
-    * 
+    *
     * @return field alias
     */
    public String getAlias()
@@ -84,7 +84,7 @@ public class CustomField
 
    /**
     * Set the alias for this field.
-    * 
+    *
     * @param alias field alias
     */
    public void setAlias(String alias)

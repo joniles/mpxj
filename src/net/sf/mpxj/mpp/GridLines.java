@@ -33,7 +33,7 @@ public class GridLines
 {
    /**
     * Constructor.
-    * 
+    *
     * @param normalLineColor normal line color
     * @param normalLineStyle normal line style
     * @param intervalNumber interval number

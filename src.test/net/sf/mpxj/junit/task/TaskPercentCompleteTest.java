@@ -56,7 +56,7 @@ public class TaskPercentCompleteTest
 
    /**
     * Validate the percent complete values.
-    * 
+    *
     * @param project parent project
     * @param startTaskID initial task ID
     */
@@ -82,9 +82,9 @@ public class TaskPercentCompleteTest
 
    /**
     * Test an individual percent complete value.
-    * 
+    *
     * @param project parent project
-    * @param taskID ID of task to test 
+    * @param taskID ID of task to test
     * @param expectedTaskName expected task name
     * @param expectedPercentCompleteValue expected percent complete value
     */

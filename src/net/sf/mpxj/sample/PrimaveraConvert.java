@@ -35,10 +35,10 @@ import net.sf.mpxj.writer.ProjectWriterUtility;
 /**
  * This utility is design simply to illustrate the use of the
  * PrimaveraReader class. Example commend line:
- * 
+ *
  * PrimaveraConvert "net.sourceforge.jtds.jdbc.Driver" "jdbc:jtds:sqlserver://localhost/PMDB;user=pmdb;password=pmdb" 1 "c:\temp\project1.xml"
- * 
- * This assumes the use of the JTDS JDBC driver to access the PMDB database on 
+ *
+ * This assumes the use of the JTDS JDBC driver to access the PMDB database on
  * a local SQL Server instance. The project with ID=1 is exported to
  * an MSPDI file.
  */
@@ -106,7 +106,7 @@ public final class PrimaveraConvert
 
    /**
     * Process a single project.
-    * 
+    *
     * @param reader Primavera reader
     * @param projectID required project ID
     * @param outputFile output file name

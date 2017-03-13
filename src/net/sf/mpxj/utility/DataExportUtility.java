@@ -136,7 +136,7 @@ public final class DataExportUtility
 
    /**
     * Process a single table.
-    * 
+    *
     * @param pw output print writer
     * @param connection database connection
     * @param name table name
@@ -320,7 +320,7 @@ public final class DataExportUtility
 
    /**
     * Quick and dirty XML text escape.
-    * 
+    *
     * @param sb working string buffer
     * @param text input text
     * @return escaped text
@@ -380,7 +380,7 @@ public final class DataExportUtility
 
    /**
     * Quick and dirty valid XML character test.
-    * 
+    *
     * @param c input character
     * @return Boolean flag
     */

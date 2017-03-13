@@ -47,7 +47,7 @@ public class ProjectFilePanel extends JPanel
 
    /**
     * Constructor.
-    * 
+    *
     * @param file MPP file to be displayed in this view.
     */
    public ProjectFilePanel(File file)

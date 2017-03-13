@@ -46,7 +46,7 @@ class UserFieldCounters
    /**
     * Allow the caller to override the default field name assigned
     * to a user defined data type.
-    * 
+    *
     * @param type target type
     * @param fieldName field name overriding the default
     */
@@ -57,7 +57,7 @@ class UserFieldCounters
 
    /**
     * Generate the next name for a user defined field.
-    * 
+    *
     * @param type user defined field type.
     * @return field name
     */

@@ -33,12 +33,15 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+import net.sf.mpxj.phoenix.PhoenixReader;
 import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 /**
- * This class contains utility methods for working with ProjectReaderss.
+ * This class contains utility methods for working with ProjectReaders.
+ * Note that you should probably be using the UniversalProjectReader instead
+ * as it can distinguish the correct file type based on content.
  */
 public final class ProjectReaderUtility
 {
@@ -52,8 +55,8 @@ public final class ProjectReaderUtility
 
    /**
     * Retrieves a ProjectReader instance which can read a file of the
-    * type specified by the supplied file name.  
-    * 
+    * type specified by the supplied file name.
+    *
     * @param name file name
     * @return ProjectReader instance
     */
@@ -70,7 +73,7 @@ public final class ProjectReaderUtility
       Class<? extends ProjectReader> fileClass = READER_MAP.get(extension);
       if (fileClass == null)
       {
-         throw new IllegalArgumentException("Cannot read files of type: " + name);
+         throw new IllegalArgumentException("Cannot read files of type: " + extension);
       }
 
       try
@@ -88,7 +91,7 @@ public final class ProjectReaderUtility
    /**
     * Retrieves a set containing the file extensions supported by the
     * getProjectReader method.
-    * 
+    *
     * @return set of file extensions
     */
    public static Set<String> getSupportedFileExtensions()
@@ -108,5 +111,6 @@ public final class ProjectReaderUtility
       READER_MAP.put("XER", PrimaveraXERFileReader.class);
       READER_MAP.put("PMXML", PrimaveraPMFileReader.class);
       READER_MAP.put("PP", AstaFileReader.class);
+      READER_MAP.put("PPX", PhoenixReader.class);
    }
 }

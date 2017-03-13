@@ -44,7 +44,7 @@ public class CustomFieldValueReader9
 {
    /**
     * Constructor.
-    * 
+    *
     * @param properties MPXJ project properties
     * @param projectProps MPP project properties
     * @param container cusotm field container
@@ -87,7 +87,7 @@ public class CustomFieldValueReader9
             // Get the value list offset
             valueListOffset = MPPUtility.getInt(data, offset);
             offset += 4;
-            // Read the value list itself 
+            // Read the value list itself
             if (valueListOffset < data.length)
             {
                int tempOffset = valueListOffset;
@@ -120,7 +120,7 @@ public class CustomFieldValueReader9
 
    /**
     * Populate the container, converting raw data into Java types.
-    * 
+    *
     * @param field custom field to which these values belong
     * @param values raw value data
     * @param descriptions raw description data
@@ -146,7 +146,7 @@ public class CustomFieldValueReader9
 
    /**
     * Convert raw data into Java types.
-    * 
+    *
     * @param type data type
     * @param data raw data
     * @return list of Java object

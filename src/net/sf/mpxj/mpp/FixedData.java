@@ -66,10 +66,10 @@ final class FixedData extends MPPComponent
     * size of blocks we copy where we have an idea of the maximum expected
     * block size. This prevents us from reading ridiculously large amounts
     * of unnecessary data, causing OutOfMemory exceptions.
-    * 
+    *
     * @param meta meta data about the contents of this fixed data block
     * @param is input stream from which the data is read
-    * @param maxExpectedSize maximum expected block size 
+    * @param maxExpectedSize maximum expected block size
     * @throws IOException on file read failure
     */
    FixedData(FixedMeta meta, InputStream is, int maxExpectedSize)
@@ -83,15 +83,15 @@ final class FixedData extends MPPComponent
     * size of blocks we copy where we have an idea of the maximum expected
     * block size. This prevents us from reading ridiculously large amounts
     * of unnecessary data, causing OutOfMemory exceptions.
-    * 
+    *
     * This constructor will also use the given minimum size in the case that the
     * meta data block reports a size of 0
-    * 
+    *
     * @param meta meta data about the contents of this fixed data block
     * @param maxExpectedSize maximum expected block size
     * @param minSize minimum size that will be read if size of block is reported as 0.
     * @param is input stream from which the data is read
-    * @throws IOException on file read failure 
+    * @throws IOException on file read failure
     */
    FixedData(FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
       throws IOException
@@ -170,7 +170,7 @@ final class FixedData extends MPPComponent
     * This constructor does the same job as the one above, but assumes that
     * the item size reported in the meta information is wrong, and
     * instead uses the supplied item size.
-    * 
+    *
     * @param meta meta data about the contents of this fixed data block
     * @param itemSize expected item size
     * @param is input stream from which the data is read

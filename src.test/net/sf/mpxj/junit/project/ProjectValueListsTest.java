@@ -69,7 +69,7 @@ public class ProjectValueListsTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testProjectValueLists(File file) throws MPXJException

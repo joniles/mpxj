@@ -76,7 +76,7 @@ public class TaskDurationsTest
 
    /**
     * Test duration values.
-    * 
+    *
     * @param file project file
     * @param reader reader used to parse the file
     * @param project project file
@@ -94,7 +94,7 @@ public class TaskDurationsTest
 
    /**
     * Test the duration values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
@@ -113,7 +113,7 @@ public class TaskDurationsTest
 
    /**
     * Test duration units.
-    * 
+    *
     * @param file project file
     * @param reader reader used to parse the file
     * @param project project file

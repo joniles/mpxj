@@ -50,6 +50,8 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class provides a generic front end to read project data from
@@ -76,7 +78,7 @@ final class AstaReader
 
    /**
     * Retrieves the project data read from this file.
-    * 
+    *
     * @return project data
     */
    public ProjectFile getProject()
@@ -86,7 +88,7 @@ final class AstaReader
 
    /**
     * Process project properties.
-    * 
+    *
     * @param row project properties data.
     */
    public void processProjectProperties(Row row)
@@ -103,7 +105,7 @@ final class AstaReader
 
    /**
     * Process resources.
-    * 
+    *
     * @param permanentRows permanent resource data
     * @param consumableRows consumable resource data
     */
@@ -129,7 +131,7 @@ final class AstaReader
       //
       // Process groups
       //
-      /*      
+      /*
             for (Row row : permanentRows)
             {
                Resource resource = m_project.getResourceByUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
@@ -162,7 +164,7 @@ final class AstaReader
 
    /**
     * Derive a calendar for a resource.
-    * 
+    *
     * @param parentCalendarID calendar from which resource calendar is derived
     * @return new calendar for a resource
     */
@@ -176,7 +178,7 @@ final class AstaReader
 
    /**
     * Process tasks.
-    * 
+    *
     * @param bars bar data
     * @param tasks task data
     * @param milestones milestone data
@@ -216,7 +218,7 @@ final class AstaReader
          //Proc_Select_SC
          //Proc_Tender
          //QA Checked
-         //Related_Documents         
+         //Related_Documents
          task.setWBS("-");
          task.setCalendar(calendar);
 
@@ -262,7 +264,7 @@ final class AstaReader
          //GIVEN_DURATIONELA_MONTHS
          task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
          task.setResume(row.getDate("RESUME"));
-         //task.setStart(row.getDate("GIVEN_START"));         
+         //task.setStart(row.getDate("GIVEN_START"));
          //LATEST_PROGRESS_PERIOD
          //TASK_WORK_RATE_TIME_UNIT
          //TASK_WORK_RATE
@@ -278,7 +280,7 @@ final class AstaReader
          //FREE_START_DATE
          //START_CONSTRAINT_DATE
          //END_CONSTRAINT_DATE
-         task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
+         //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
          //NATURAO_ORDER
          //LOGICAL_PRECEDENCE
          //SPAVE_INTEGER
@@ -315,11 +317,11 @@ final class AstaReader
          //SUBPROJECT_ID
          //ALT_ID
          //LAST_EDITED_DATE
-         //LAST_EDITED_BY    
+         //LAST_EDITED_BY
 
          processConstraints(row, task);
 
-         if (task.getPercentageComplete().intValue() != 0)
+         if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
          {
             task.setActualStart(task.getStart());
             if (task.getPercentageComplete().intValue() == 100)
@@ -338,7 +340,7 @@ final class AstaReader
          Task task = parentTask == null ? m_project.addTask() : parentTask.addTask();
 
          task.setMilestone(true);
-         //PROJID         
+         //PROJID
          task.setUniqueID(row.getInteger("MILESTONEID"));
          task.setStart(row.getDate("GIVEN_DATE_TIME"));
          task.setFinish(row.getDate("GIVEN_DATE_TIME"));
@@ -418,8 +420,8 @@ final class AstaReader
 
    /**
     * Iterates through the tasks setting the correct
-    * outline level and ID values. 
-    * 
+    * outline level and ID values.
+    *
     * @param id current ID value
     * @param task current task
     * @param outlineLevel current outline level
@@ -439,7 +441,7 @@ final class AstaReader
 
    /**
     * Processes predecessor data.
-    * 
+    *
     * @param rows predecessor data
     */
    public void processPredecessors(List<Row> rows)
@@ -518,7 +520,7 @@ final class AstaReader
 
    /**
     * Process assignment data.
-    * 
+    *
     * @param permanentAssignments assignment data
     */
    public void processAssignments(List<Row> permanentAssignments)
@@ -583,7 +585,7 @@ final class AstaReader
          //RESUMF
          //SPAXE_INTEGER
          //USER_PERCENU_COMPLETE
-         //ALLOCATIOR_GROUP         
+         //ALLOCATIOR_GROUP
          //PRIORITC
          //ACCOUNTED_FOR_ELSEWHERE
          //DURATIOTTYPF
@@ -664,7 +666,7 @@ final class AstaReader
 
    /**
     * Convert an integer into a RelationType instance.
-    * 
+    *
     * @param index integer value
     * @return RelationType instance
     */
@@ -680,7 +682,7 @@ final class AstaReader
 
    /**
     * Convert a name into initials.
-    * 
+    *
     * @param name source name
     * @return initials
     */
@@ -717,7 +719,7 @@ final class AstaReader
    }
 
    /**
-    * Asta Powerproject assigns an explicit calendar for each task. This method 
+    * Asta Powerproject assigns an explicit calendar for each task. This method
     * is used to find the most common calendar and use this as the default project
     * calendar. This allows the explicitly assigned task calendars to be removed.
     */
@@ -776,7 +778,7 @@ final class AstaReader
 
    /**
     * Determines the constraints relating to a task.
-    * 
+    *
     * @param row row data
     * @param task Task instance
     */
@@ -855,7 +857,7 @@ final class AstaReader
 
    /**
     * Creates a mapping between exception ID values and working/non-working days.
-    * 
+    *
     * @param rows rows from the exceptions table
     * @return exception map
     */
@@ -877,9 +879,9 @@ final class AstaReader
                break;
             }
 
-            case 4: // Non Working            
-            case 16: // Holiday                       
-            case 64: // Weather            
+            case 4: // Non Working
+            case 16: // Holiday
+            case 64: // Weather
             case -2147483648: // Weekend
             default:
             {
@@ -895,7 +897,7 @@ final class AstaReader
 
    /**
     * Creates a map of work pattern rows indexed by the primary key.
-    * 
+    *
     * @param rows work pattern rows
     * @return work pattern map
     */
@@ -912,7 +914,7 @@ final class AstaReader
    /**
     * Creates a map between a calendar ID and a list of
     * work pattern assignment rows.
-    * 
+    *
     * @param rows work pattern assignment rows
     * @return work pattern assignment map
     */
@@ -935,7 +937,7 @@ final class AstaReader
 
    /**
     * Creates a map between a calendar ID and a list of exception assignment rows.
-    * 
+    *
     * @param rows exception assignment rows
     * @return exception assignment map
     */
@@ -957,8 +959,8 @@ final class AstaReader
    }
 
    /**
-    * Creates a map between a calendar ID and a list of time entry rows.
-    * 
+    * Creates a map between a work pattern ID and a list of time entry rows.
+    *
     * @param rows time entry rows
     * @return time entry map
     */
@@ -967,12 +969,12 @@ final class AstaReader
       Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
       for (Row row : rows)
       {
-         Integer calendarID = row.getInteger("TIME_ENTRYID");
-         List<Row> list = map.get(calendarID);
+         Integer workPatternID = row.getInteger("TIME_ENTRYID");
+         List<Row> list = map.get(workPatternID);
          if (list == null)
          {
             list = new LinkedList<Row>();
-            map.put(calendarID, list);
+            map.put(workPatternID, list);
          }
          list.add(row);
       }
@@ -981,7 +983,7 @@ final class AstaReader
 
    /**
     * Creates a ProjectCalendar instance from the Asta data.
-    * 
+    *
     * @param calendarRow basic calendar data
     * @param workPatternMap work pattern map
     * @param workPatternAssignmentMap work pattern assignment map
@@ -1013,7 +1015,7 @@ final class AstaReader
             {
                ProjectCalendarWeek week = calendar.addWorkWeek();
                week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
-               processWorkPattern(week, row.getInteger("WORK_PATTERN"), workPatternMap, timeEntryMap, exceptionTypeMap);
+               processWorkPattern(week, workPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
             }
          }
       }
@@ -1037,7 +1039,7 @@ final class AstaReader
 
    /**
     * Populates a ProjectCalendarWeek instance from Asta work pattern data.
-    * 
+    *
     * @param week target ProjectCalendarWeek instance
     * @param workPatternID target work pattern ID
     * @param workPatternMap work pattern data
@@ -1049,37 +1051,50 @@ final class AstaReader
       week.setName(workPatternMap.get(workPatternID).getString("NAMN"));
 
       List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
-      long lastEndTime = Long.MIN_VALUE;
-      Day currentDay = Day.SUNDAY;
-      ProjectCalendarHours hours = week.addCalendarHours(currentDay);
-      Arrays.fill(week.getDays(), DayType.NON_WORKING);
-
-      for (Row row : timeEntryRows)
+      if (timeEntryRows != null)
       {
-         Date startTime = row.getDate("START_TIME");
-         Date endTime = row.getDate("END_TIME");
-         if (startTime.getTime() > endTime.getTime())
-         {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(endTime);
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            endTime = cal.getTime();
-         }
+         long lastEndTime = Long.MIN_VALUE;
+         Day currentDay = Day.SUNDAY;
+         ProjectCalendarHours hours = week.addCalendarHours(currentDay);
+         Arrays.fill(week.getDays(), DayType.NON_WORKING);
 
-         if (startTime.getTime() < lastEndTime)
+         for (Row row : timeEntryRows)
          {
-            currentDay = currentDay.getNextDay();
-            hours = week.addCalendarHours(currentDay);
-         }
+            Date startTime = row.getDate("START_TIME");
+            Date endTime = row.getDate("END_TIME");
+            if (startTime == null)
+            {
+               startTime = DateHelper.getDayStartDate(new Date(0));
+            }
 
-         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
-         if (type == DayType.WORKING)
-         {
-            hours.addRange(new DateRange(startTime, endTime));
-            week.setWorkingDay(currentDay, DayType.WORKING);
-         }
+            if (endTime == null)
+            {
+               endTime = DateHelper.getDayEndDate(new Date(0));
+            }
 
-         lastEndTime = endTime.getTime();
+            if (startTime.getTime() > endTime.getTime())
+            {
+               Calendar cal = Calendar.getInstance();
+               cal.setTime(endTime);
+               cal.add(Calendar.DAY_OF_YEAR, 1);
+               endTime = cal.getTime();
+            }
+
+            if (startTime.getTime() < lastEndTime)
+            {
+               currentDay = currentDay.getNextDay();
+               hours = week.addCalendarHours(currentDay);
+            }
+
+            DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
+            if (type == DayType.WORKING)
+            {
+               hours.addRange(new DateRange(startTime, endTime));
+               week.setWorkingDay(currentDay, DayType.WORKING);
+            }
+
+            lastEndTime = endTime.getTime();
+         }
       }
    }
 

@@ -32,8 +32,15 @@ public interface ChildTaskContainer
 {
    /**
     * Retrieve a list of child tasks held by this object.
-    * 
+    *
     * @return list of child tasks
     */
    public List<Task> getChildTasks();
+
+   /**
+    * Creates and adds a task to the list of tasks held by this object.
+    *
+    * @return newly created task
+    */
+   public Task addTask();
 }

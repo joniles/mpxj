@@ -66,7 +66,7 @@ import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
 
 /**
- * This class implements retrieval of data from a project database 
+ * This class implements retrieval of data from a project database
  * independently of whether the data is read directly from an MDB file,
  * or from a JDBC database connection.
  */
@@ -85,7 +85,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Retrieve the details of a single project from the database.
-    * 
+    *
     * @param result Map instance containing the results
     * @param row result set row read from the database
     */
@@ -98,7 +98,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Reads the project properties.
-    * 
+    *
     * @param row project properties data
     */
    protected void processProjectProperties(Row row)
@@ -111,7 +111,7 @@ abstract class MPD9AbstractReader
       //properties.setThousandsSeparator();
       //properties.setDecimalSeparator();
       properties.setDefaultDurationUnits(MPDUtility.getDurationTimeUnits(row.getInt("PROJ_OPT_DUR_ENTRY_FMT")));
-      //properties.setDefaultDurationIsFixed();      
+      //properties.setDefaultDurationIsFixed();
       properties.setDefaultWorkUnits(MPDUtility.getDurationTimeUnits(row.getInt("PROJ_OPT_WORK_ENTRY_FMT")));
       properties.setMinutesPerDay(row.getInteger("PROJ_OPT_MINUTES_PER_DAY"));
       properties.setMinutesPerWeek(row.getInteger("PROJ_OPT_MINUTES_PER_WEEK"));
@@ -194,7 +194,7 @@ abstract class MPD9AbstractReader
       properties.setCriticalSlackLimit(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"));
       //properties.setBaselineForEarnedValue;
       properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
-      //properties.setNewTaskStartIsProjectStart();     
+      //properties.setNewTaskStartIsProjectStart();
       properties.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
       //properties.setCalculateMultipleCriticalPaths();
       properties.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
@@ -229,12 +229,12 @@ abstract class MPD9AbstractReader
       //    PROJ_CHECKEDOUT
       //    PROJ_CHECKEDOUTBY
       //    PROJ_CHECKEDOUTDATE
-      //    RESERVED_BINARY_DATA      
+      //    RESERVED_BINARY_DATA
    }
 
    /**
     * Read a calendar.
-    * 
+    *
     * @param row calendar data
     */
    protected void processCalendar(Row row)
@@ -265,7 +265,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read calendar hours and exception data.
-    * 
+    *
     * @param calendar parent calendar
     * @param row calendar hours and exception data
     */
@@ -284,7 +284,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Process a calendar exception.
-    * 
+    *
     * @param calendar parent calendar
     * @param row calendar exception data
     */
@@ -306,7 +306,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Process calendar hours.
-    * 
+    *
     * @param calendar parent calendar
     * @param row calendar hours data
     * @param dayIndex day index
@@ -381,7 +381,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Process a resource.
-    * 
+    *
     * @param row resource data
     */
    protected void processResource(Row row)
@@ -406,7 +406,7 @@ abstract class MPD9AbstractReader
          resource.setBaselineWork(row.getDuration("RES_BASE_WORK"));
          resource.setBCWP(row.getCurrency("RES_BCWP"));
          resource.setBCWS(row.getCurrency("RES_BCWS"));
-         //resource.setBookingType();      
+         //resource.setBookingType();
          resource.setCanLevel(row.getBoolean("RES_CAN_LEVEL"));
          //resource.setCode();
          resource.setCost(getDefaultOnNull(row.getCurrency("RES_COST"), NumberHelper.DOUBLE_ZERO));
@@ -422,7 +422,7 @@ abstract class MPD9AbstractReader
          //resource.setCost10();
          resource.setCostPerUse(row.getCurrency("RES_COST_PER_USE"));
          //resource.setCreationDate();
-         //resource.setCV();      
+         //resource.setCV();
          //resource.setDate1();
          //resource.setDate2();
          //resource.setDate3();
@@ -620,15 +620,15 @@ abstract class MPD9AbstractReader
 
          //
          // Unused attributes
-         //         
+         //
          //EXT_EDIT_REF_DATA = null ( )
-         //RESERVED_DATA = null ( )             
+         //RESERVED_DATA = null ( )
       }
    }
 
    /**
     * Read resource baseline values.
-    * 
+    *
     * @param row result set row
     */
    protected void processResourceBaseline(Row row)
@@ -646,7 +646,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read a single text field extended attribute.
-    * 
+    *
     * @param row field data
     */
    protected void processTextField(Row row)
@@ -656,7 +656,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read a single number field extended attribute.
-    * 
+    *
     * @param row field data
     */
    protected void processNumberField(Row row)
@@ -666,7 +666,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read a single flag field extended attribute.
-    * 
+    *
     * @param row field data
     */
    protected void processFlagField(Row row)
@@ -676,7 +676,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read a single duration field extended attribute.
-    * 
+    *
     * @param row field data
     */
    protected void processDurationField(Row row)
@@ -686,7 +686,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read a single date field extended attribute.
-    * 
+    *
     * @param row field data
     */
    protected void processDateField(Row row)
@@ -696,7 +696,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read a single outline code field extended attribute.
-    * 
+    *
     * @param entityID parent entity
     * @param row field data
     */
@@ -707,7 +707,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Generic method to process an extended attribute field.
-    * 
+    *
     * @param row extended attribute data
     * @param fieldIDColumn column containing the field ID
     * @param entityIDColumn column containing the entity ID
@@ -720,7 +720,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Generic method to process an extended attribute field.
-    * 
+    *
     * @param row extended attribute data
     * @param fieldIDColumn column containing the field ID
     * @param entityID parent entity ID
@@ -794,7 +794,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Process a task.
-    * 
+    *
     * @param row task data
     */
    protected void processTask(Row row)
@@ -831,7 +831,7 @@ abstract class MPD9AbstractReader
          //task.setCost1();
          //task.setCost2();
          //task.setCost3();
-         //task.setCost4();      
+         //task.setCost4();
          //task.setCost5();
          //task.setCost6();
          //task.setCost7();
@@ -1032,14 +1032,14 @@ abstract class MPD9AbstractReader
          //task.setTotalSlack(row.getDuration("TASK_TOTAL_SLACK")); //@todo FIX ME
          task.setType(TaskType.getInstance(row.getInt("TASK_TYPE")));
          task.setUniqueID(uniqueID);
-         //task.setUpdateNeeded();      
+         //task.setUpdateNeeded();
          task.setWBS(row.getString("TASK_WBS"));
          //task.setWBSLevel();
          task.setWork(row.getDuration("TASK_WORK"));
          //task.setWorkVariance();
 
          //TASK_HAS_NOTES = false ( java.lang.Boolean)
-         //TASK_RTF_NOTES = null ( )     
+         //TASK_RTF_NOTES = null ( )
          String notes = row.getString("TASK_RTF_NOTES");
          if (notes != null)
          {
@@ -1094,7 +1094,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read task baseline values.
-    * 
+    *
     * @param row result set row
     */
    protected void processTaskBaseline(Row row)
@@ -1115,7 +1115,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Process a relationship between two tasks.
-    * 
+    *
     * @param row relationship data
     */
    protected void processLink(Row row)
@@ -1134,7 +1134,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Process a resource assignment.
-    * 
+    *
     * @param row resource assignment data
     */
    protected void processAssignment(Row row)
@@ -1210,7 +1210,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Read resource assignment baseline values.
-    * 
+    *
     * @param row result set row
     */
    protected void processAssignmentBaseline(Row row)
@@ -1262,19 +1262,19 @@ abstract class MPD9AbstractReader
    /**
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.
-    * 
+    *
     * @param value value under test
     * @param nullValue return null if value under test matches this value
     * @return value or null
     */
    //   private Duration getNullOnValue (Duration value, Duration nullValue)
-   //   {      
+   //   {
    //      return (value.equals(nullValue)?null:value);
    //   }
    /**
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.
-    * 
+    *
     * @param value value under test
     * @param nullValue return null if value under test matches this value
     * @return value or null
@@ -1286,7 +1286,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Returns a default value if a null value is found.
-    * 
+    *
     * @param value value under test
     * @param defaultValue default if value is null
     * @return value
@@ -1298,7 +1298,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Returns a default value if a null value is found.
-    * 
+    *
     * @param value value under test
     * @param defaultValue default if value is null
     * @return value
@@ -1310,7 +1310,7 @@ abstract class MPD9AbstractReader
 
    /**
     * Sets the ID of the project to be read.
-    * 
+    *
     * @param projectID project ID
     */
    public void setProjectID(Integer projectID)

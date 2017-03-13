@@ -62,7 +62,7 @@ public class TaskTextValuesTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskTextValues(File file) throws MPXJException

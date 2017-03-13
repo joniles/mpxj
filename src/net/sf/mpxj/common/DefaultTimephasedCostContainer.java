@@ -37,7 +37,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
 {
    /**
     * Constructor.
-    * 
+    *
     * @param calendar calendar to which the timephased data relates
     * @param normaliser normaliser used to process this data
     * @param data timephased data
@@ -73,7 +73,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
 
    /**
     * Indicates if any timephased data is present.
-    * 
+    *
     * @return boolean flag
     */
    @Override public boolean hasData()

@@ -39,7 +39,7 @@ interface Row
 {
    /**
     * Retrieve a string attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -47,7 +47,7 @@ interface Row
 
    /**
     * Retrieve an Integer attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -55,7 +55,7 @@ interface Row
 
    /**
     * Retrieve a Double attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -63,7 +63,7 @@ interface Row
 
    /**
     * Retrieve a currency attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -71,7 +71,7 @@ interface Row
 
    /**
     * Retrieve a boolean attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -79,7 +79,7 @@ interface Row
 
    /**
     * Retrieve an in attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -87,7 +87,7 @@ interface Row
 
    /**
     * Retrieve a date attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -95,7 +95,7 @@ interface Row
 
    /**
     * Retrieve a duration attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */
@@ -103,7 +103,7 @@ interface Row
 
    /**
     * Retrieve a duration attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */

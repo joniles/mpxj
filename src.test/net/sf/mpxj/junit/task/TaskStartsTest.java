@@ -68,7 +68,7 @@ public class TaskStartsTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskStartDates(File file) throws Exception
@@ -92,11 +92,11 @@ public class TaskStartsTest
 
    /**
     * Test the start date values for a task.
-    * 
+    *
     * @param file parent file
     * @param task task
     * @param testIndex index of number being tested
-    * @param maxIndex highest index to test 
+    * @param maxIndex highest index to test
     * @param useDateFormat true=use date-only format false=use date time format
     */
    private void testTaskStartDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat) throws ParseException

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.GenericCriteria;
@@ -42,21 +43,21 @@ public abstract class CriteriaReader
 {
    /**
     * Retrieves the offset of the start of the criteria data.
-    * 
+    *
     * @return criteria start offset
     */
    protected abstract int getCriteriaStartOffset();
 
    /**
     * Retrieves the criteria block size.
-    * 
+    *
     * @return criteria block size
     */
    protected abstract int getCriteriaBlockSize();
 
    /**
     * Retrieves the child of the current block.
-    * 
+    *
     * @param block parent block
     * @return child block
     */
@@ -64,15 +65,15 @@ public abstract class CriteriaReader
 
    /**
     * Retrieves the next list sibling of this block.
-    * 
+    *
     * @param block current block
     * @return next sibling list block
     */
    protected abstract byte[] getListNextBlock(byte[] block);
 
    /**
-    * Retrieves the offset of the start of the text block. 
-    * 
+    * Retrieves the offset of the start of the text block.
+    *
     * @param block current block
     * @return text block start offset
     */
@@ -80,7 +81,7 @@ public abstract class CriteriaReader
 
    /**
     * Retrieves the offset of the prompt text.
-    * 
+    *
     * @param block current block
     * @return prompt text offset
     */
@@ -88,28 +89,28 @@ public abstract class CriteriaReader
 
    /**
     * Retrieves the offset of the field value.
-    * 
+    *
     * @return field value offset
     */
    protected abstract int getValueOffset();
 
    /**
     * Retrieves the offset of the time unit field.
-    * 
+    *
     * @return time unit field offset
     */
    protected abstract int getTimeUnitsOffset();
 
    /**
     * Retrieves offset of value which determines the start of the text block.
-    * 
+    *
     * @return criteria text start offset
     */
    protected abstract int getCriteriaTextStartOffset();
 
    /**
     * Retrieves a field type value.
-    * 
+    *
     * @param block criteria block
     * @return field type value
     */
@@ -117,7 +118,7 @@ public abstract class CriteriaReader
 
    /**
     * Main entry point to read criteria data.
-    * 
+    *
     * @param properties project properties
     * @param data criteria data block
     * @param dataOffset offset of the data start within the larger data block
@@ -189,9 +190,9 @@ public abstract class CriteriaReader
 
    /**
     * Process a single criteria block.
-    * 
+    *
     * @param list parent criteria list
-    * @param block current block 
+    * @param block current block
     */
    private void processBlock(List<GenericCriteria> list, byte[] block)
    {
@@ -243,7 +244,7 @@ public abstract class CriteriaReader
 
    /**
     * Adds a basic LHS OPERATOR RHS block.
-    * 
+    *
     * @param list parent criteria list
     * @param block current block
     */
@@ -280,7 +281,7 @@ public abstract class CriteriaReader
 
    /**
     * Adds a logical operator block.
-    * 
+    *
     * @param list parent criteria list
     * @param block current block
     * @param operator logical operator represented by this block
@@ -296,7 +297,7 @@ public abstract class CriteriaReader
 
    /**
     * Retrieves the value component of a criteria expression.
-    * 
+    *
     * @param field field type
     * @param block block data
     * @return field value
@@ -331,7 +332,7 @@ public abstract class CriteriaReader
 
    /**
     * Retrieves a constant value.
-    * 
+    *
     * @param type field type
     * @param block criteria data block
     * @return constant value
@@ -339,57 +340,65 @@ public abstract class CriteriaReader
    private Object getConstantValue(FieldType type, byte[] block)
    {
       Object value;
+      DataType dataType = type.getDataType();
 
-      switch (type.getDataType())
+      if (dataType == null)
       {
-         case DURATION:
+         value = null;
+      }
+      else
+      {
+         switch (dataType)
          {
-            value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
-            break;
-         }
+            case DURATION:
+            {
+               value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
+               break;
+            }
 
-         case NUMERIC:
-         {
-            value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()));
-            break;
-         }
+            case NUMERIC:
+            {
+               value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()));
+               break;
+            }
 
-         case PERCENTAGE:
-         {
-            value = Double.valueOf(MPPUtility.getShort(block, getValueOffset()));
-            break;
-         }
+            case PERCENTAGE:
+            {
+               value = Double.valueOf(MPPUtility.getShort(block, getValueOffset()));
+               break;
+            }
 
-         case CURRENCY:
-         {
-            value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()) / 100);
-            break;
-         }
+            case CURRENCY:
+            {
+               value = Double.valueOf(MPPUtility.getDouble(block, getValueOffset()) / 100);
+               break;
+            }
 
-         case STRING:
-         {
-            int textOffset = getTextOffset(block);
-            value = MPPUtility.getUnicodeString(m_criteriaData, m_dataOffset + m_criteriaTextStart + textOffset);
-            break;
-         }
+            case STRING:
+            {
+               int textOffset = getTextOffset(block);
+               value = MPPUtility.getUnicodeString(m_criteriaData, m_dataOffset + m_criteriaTextStart + textOffset);
+               break;
+            }
 
-         case BOOLEAN:
-         {
-            int intValue = MPPUtility.getShort(block, getValueOffset());
-            value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
-            break;
-         }
+            case BOOLEAN:
+            {
+               int intValue = MPPUtility.getShort(block, getValueOffset());
+               value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
+               break;
+            }
 
-         case DATE:
-         {
-            value = MPPUtility.getTimestamp(block, getValueOffset());
-            break;
-         }
+            case DATE:
+            {
+               value = MPPUtility.getTimestamp(block, getValueOffset());
+               break;
+            }
 
-         default:
-         {
-            value = null;
-            break;
+            default:
+            {
+               value = null;
+               break;
+            }
          }
       }
 
@@ -398,7 +407,7 @@ public abstract class CriteriaReader
 
    /**
     * Retrieves a prompt value.
-    * 
+    *
     * @param field field type
     * @param block criteria data block
     * @return prompt value

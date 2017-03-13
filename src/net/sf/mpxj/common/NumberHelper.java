@@ -144,8 +144,8 @@ public final class NumberHelper
     * This has been implemented to allow a singleton to be
     * used to represent zero. This makes a considerable saving
     * in memory utilisation.
-    * 
-    * NOTE: as of Java 1.5 the Double.valueOf method is 
+    *
+    * NOTE: as of Java 1.5 the Double.valueOf method is
     * supposed to implement caching. The current JDK 1.5 implementation
     * doesn't appear to do this, so we'll leave this method alone for
     * now. We can look at replacing this when we move to 1.6.
@@ -160,7 +160,7 @@ public final class NumberHelper
 
    /**
     * Utility method used to truncate a double to the given precision.
-    * 
+    *
     * @param value value to truncate
     * @param precision Number of decimals to truncate to.
     * @return double value
@@ -225,9 +225,30 @@ public final class NumberHelper
    }
 
    /**
-    * Compares two doubles for equality, within an allowable range 
+    * Compare two integers, accounting for null values.
+    *
+    * @param n1 integer value
+    * @param n2 integer value
+    * @return comparison result
+    */
+   public static int compare(Integer n1, Integer n2)
+   {
+      int result;
+      if (n1 == null || n2 == null)
+      {
+         result = (n1 == null && n2 == null ? 0 : (n1 == null ? 1 : -1));
+      }
+      else
+      {
+         result = n1.compareTo(n2);
+      }
+      return (result);
+   }
+
+   /**
+    * Compares two doubles for equality, within an allowable range
     * of difference.
-    * 
+    *
     * @param lhs value to test
     * @param rhs value to test
     * @param delta allowable difference

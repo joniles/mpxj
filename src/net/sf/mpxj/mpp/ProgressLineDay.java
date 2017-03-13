@@ -68,7 +68,7 @@ public enum ProgressLineDay implements MpxjEnum
 
    /**
     * Retrieve the Day instance which is equivalent to this ProgressLine.
-    * 
+    *
     * @return Day instance
     */
    public Day getDay()
@@ -77,10 +77,10 @@ public enum ProgressLineDay implements MpxjEnum
    }
 
    /**
-    * This method provides a simple mechanism to retrieve 
+    * This method provides a simple mechanism to retrieve
     * the next day in correct sequence, including the transition
-    * from Sunday to Monday. 
-    * 
+    * from Sunday to Monday.
+    *
     * @return ProgressLineDay instance
     */
    public ProgressLineDay getNextDay()

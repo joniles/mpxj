@@ -47,7 +47,7 @@ public class ProjectCalendarTest
 {
    /**
     * Test get getWork method.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testGetWork() throws Exception
@@ -228,7 +228,7 @@ public class ProjectCalendarTest
 
    /**
     * Exercise various duration variance calculations.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testVarianceCalculations9() throws Exception
@@ -424,7 +424,7 @@ public class ProjectCalendarTest
 
    /**
     * Exercise various duration variance calculations.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testVarianceCalculations8() throws Exception
@@ -579,7 +579,7 @@ public class ProjectCalendarTest
 
       //
       // Add 1 hour at the start of the second range
-      //     
+      //
       startDate = df.parse("09/10/2003 13:00");
       duration = Duration.getInstance(1, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
@@ -589,7 +589,7 @@ public class ProjectCalendarTest
 
       //
       // Add 1 hour offset by 1 hour from the start of the second range
-      //     
+      //
       startDate = df.parse("09/10/2003 14:00");
       duration = Duration.getInstance(1, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
@@ -690,8 +690,8 @@ public class ProjectCalendarTest
    }
 
    /**
-    * Simple tests to exercise the ProjectCalendar.getStartTime method. 
-    * 
+    * Simple tests to exercise the ProjectCalendar.getStartTime method.
+    *
     * @throws Exception
     */
    @Test public void testStartTime() throws Exception

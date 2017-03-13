@@ -362,7 +362,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param map Map of calendar UIDs to names
     * @param baseCalendars list of base calendars
     */
-   private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars)
+   private void readCalendar(Project.Calendars.Calendar calendar, HashMap<BigInteger, ProjectCalendar> map, List<Pair<ProjectCalendar, BigInteger>> baseCalendars)
    {
       ProjectCalendar bc = m_projectFile.addCalendar();
       bc.setUniqueID(NumberHelper.getInteger(calendar.getUID()));
@@ -501,7 +501,7 @@ public final class MSPDIReader extends AbstractProjectReader
    /**
     * Reads any exceptions present in the file. This is only used in MSPDI
     * file versions saved by Project 2007 and later.
-    * 
+    *
     * @param calendar XML calendar
     * @param bc MPXJ calendar
     */
@@ -514,28 +514,35 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
             Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
-            ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
 
-            Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
-            if (times != null)
+            // Vico Schedule Planner seems to write start and end dates to FromeTime and ToTime
+            // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
+            // so we will ignore it too!
+            if (fromDate != null && toDate != null)
             {
-               List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
-               for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
+               ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+
+               Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
+               if (times != null)
                {
-                  Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-                  Date endTime = DatatypeConverter.parseTime(period.getToTime());
-
-                  if (startTime != null && endTime != null)
+                  List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
+                  for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
                   {
-                     if (startTime.getTime() >= endTime.getTime())
-                     {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(endTime);
-                        cal.add(Calendar.DAY_OF_YEAR, 1);
-                        endTime = cal.getTime();
-                     }
+                     Date startTime = DatatypeConverter.parseTime(period.getFromTime());
+                     Date endTime = DatatypeConverter.parseTime(period.getToTime());
 
-                     bce.addRange(new DateRange(startTime, endTime));
+                     if (startTime != null && endTime != null)
+                     {
+                        if (startTime.getTime() >= endTime.getTime())
+                        {
+                           Calendar cal = Calendar.getInstance();
+                           cal.setTime(endTime);
+                           cal.add(Calendar.DAY_OF_YEAR, 1);
+                           endTime = cal.getTime();
+                        }
+
+                        bce.addRange(new DateRange(startTime, endTime));
+                     }
                   }
                }
             }
@@ -545,7 +552,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Read the work weeks associated with this calendar.
-    * 
+    *
     * @param xmlCalendar XML calendar object
     * @param mpxjCalendar MPXJ calendar object
     */
@@ -705,7 +712,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setNotes(xml.getNotes());
       }
       mpx.setNtAccount(xml.getNTAccount());
-      //mpx.setObjects();      
+      //mpx.setObjects();
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
       mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate()));
       mpx.setOvertimeRateUnits(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
@@ -750,7 +757,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads baseline values for the current resource.
-    * 
+    *
     * @param xmlResource MSPDI resource instance
     * @param mpxjResource MPXJ resource instance
     */
@@ -795,7 +802,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads the cost rate tables from the file.
-    * 
+    *
     * @param resource parent resource
     * @param rates XML cot rate tables
     */
@@ -858,7 +865,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads the availability table from the file.
-    * 
+    *
     * @param resource MPXJ resource instance
     * @param periods MSPDI availability periods
     */
@@ -890,14 +897,30 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Tasks tasks = project.getTasks();
       if (tasks != null)
       {
+         int tasksWithoutIDCount = 0;
+
          for (Project.Tasks.Task task : tasks.getTask())
          {
-            readTask(task);
+            Task mpxjTask = readTask(task);
+            if (mpxjTask.getID() == null)
+            {
+               ++tasksWithoutIDCount;
+            }
          }
 
          for (Project.Tasks.Task task : tasks.getTask())
          {
             readPredecessors(task);
+         }
+
+         //
+         // MS Project will happily read tasks from an MSPDI file without IDs,
+         // it will just generate ID values based on the task order in the file.
+         // If we find that there are no ID values present, we'll do the same.
+         //
+         if (tasksWithoutIDCount == tasks.getTask().size())
+         {
+            m_projectFile.renumberTaskIDs();
          }
       }
 
@@ -908,8 +931,9 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts data for a single task from an MSPDI file.
     *
     * @param xml Task data
+    * @return Task instance
     */
-   private void readTask(Project.Tasks.Task xml)
+   private Task readTask(Project.Tasks.Task xml)
    {
       Task mpx = m_projectFile.addTask();
       mpx.setNull(BooleanHelper.getBoolean(xml.isIsNull()));
@@ -1024,7 +1048,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setNumber3();
          //mpx.setNumber4();
          //mpx.setNumber5();
-         //mpx.setObjects();      
+         //mpx.setObjects();
          mpx.setOutlineLevel(NumberHelper.getInteger(xml.getOutlineLevel()));
          mpx.setOutlineNumber(xml.getOutlineNumber());
          mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
@@ -1099,11 +1123,13 @@ public final class MSPDIReader extends AbstractProjectReader
       }
 
       m_eventManager.fireTaskReadEvent(mpx);
+
+      return mpx;
    }
 
    /**
     * Reads baseline values for the current task.
-    * 
+    *
     * @param xmlTask MSPDI task instance
     * @param mpxjTask MPXJ task instance
     * @param durationFormat duration format to use
@@ -1350,9 +1376,9 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
             mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
             mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
-            //assignment.getResume()
+            mpx.setResume(DatatypeConverter.parseDate(assignment.getResume()));
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
-            //assignment.getStop()
+            mpx.setStop(DatatypeConverter.parseDate(assignment.getStop()));
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
             mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
@@ -1380,7 +1406,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Extracts assignment baseline data.
-    * 
+    *
     * @param assignment xml assignment
     * @param mpx mpxj assignment
     */
@@ -1391,7 +1417,7 @@ public final class MSPDIReader extends AbstractProjectReader
          int number = NumberHelper.getInt(baseline.getNumber());
 
          //baseline.getBCWP()
-         //baseline.getBCWS()         
+         //baseline.getBCWS()
          Number cost = DatatypeConverter.parseExtendedAttributeCurrency(baseline.getCost());
          Date finish = DatatypeConverter.parseExtendedAttributeDate(baseline.getFinish());
          //baseline.getNumber()
@@ -1435,7 +1461,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Test to determine if this is a split task.
-    * 
+    *
     * @param calendar current calendar
     * @param list timephased resource assignment list
     * @return boolean flag
@@ -1460,7 +1486,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * Reads timephased assignment data.
-    * 
+    *
     * @param calendar current calendar
     * @param assignment assignment data
     * @param type flag indicating if this is planned or complete work

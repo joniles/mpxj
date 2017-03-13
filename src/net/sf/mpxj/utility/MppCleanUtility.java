@@ -51,15 +51,15 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 /**
  * This class allows the caller to replace the content of an MPP file
  * to make it anonymous, in such a way that the structure of the project
- * is maintained unchanged. The point of this exercise is to allow end 
+ * is maintained unchanged. The point of this exercise is to allow end
  * customers who use MPXJ functionality to submit problematic project files
  * obtain support. The fact that the structure of the file is maintained
  * unchanged means that it is likely that the problem with the file will
- * still be apparent. It also means that end users are more likely to 
+ * still be apparent. It also means that end users are more likely to
  * submit these files as, along with the removal of sensitive information, this
  * utility means that no user effort is required to modify the file
  * before it is sent to the organisation providing support.
- * 
+ *
  * Note the following items are made anonymous:
  * - Task Names
  * - Resource Names
@@ -70,7 +70,7 @@ public class MppCleanUtility
 {
    /**
     * Main method.
-    * 
+    *
     * @param args array of command line arguments
     */
    public static void main(String[] args)
@@ -100,7 +100,7 @@ public class MppCleanUtility
 
    /**
     * Process an MPP file to make it anonymous.
-    * 
+    *
     * @param input input file name
     * @param output output file name
     * @throws Exception
@@ -208,12 +208,13 @@ public class MppCleanUtility
       fs.writeFilesystem(os);
       os.flush();
       os.close();
+      fs.close();
    }
 
    /**
     * Extracts a block of data from the MPP file, and iterates through the map
     * of find/replace pairs to make the data anonymous.
-    * 
+    *
     * @param parentDirectory parent directory object
     * @param fileName target file name
     * @param replacements find/replace data
@@ -267,7 +268,7 @@ public class MppCleanUtility
    /**
     * Converts plan text into anonymous text. Preserves upper case, lower case,
     * punctuation, whitespace and digits while making the text unreadable.
-    * 
+    *
     * @param oldText text to replace
     * @param replacements map of find/replace pairs
     */
@@ -326,7 +327,7 @@ public class MppCleanUtility
    /**
     * For a given find/replace pair, iterate through the supplied block of data
     * and perform a find and replace.
-    * 
+    *
     * @param data data block
     * @param findText text to find
     * @param replaceText replacement text
@@ -357,7 +358,7 @@ public class MppCleanUtility
    /**
     * Convert a Java String instance into the equivalent array of single or
     * double bytes.
-    * 
+    *
     * @param value Java String instance representing text
     * @param unicode true if double byte characters are required
     * @return byte array representing the supplied text
@@ -403,7 +404,7 @@ public class MppCleanUtility
 
    /**
     * Compare an array of bytes with a subsection of a larger array of bytes.
-    * 
+    *
     * @param lhs small array of bytes
     * @param rhs large array of bytes
     * @param rhsOffset offset into larger array of bytes

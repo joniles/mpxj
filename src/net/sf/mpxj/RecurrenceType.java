@@ -37,7 +37,7 @@ public enum RecurrenceType implements MpxjEnum
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     * @param name English name used for debugging
     */
@@ -63,7 +63,7 @@ public enum RecurrenceType implements MpxjEnum
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */

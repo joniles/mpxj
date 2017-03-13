@@ -36,7 +36,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public TaskContainer(ProjectFile projectFile)
@@ -46,7 +46,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
 
    /**
     * Add a task to the project.
-    * 
+    *
     * @return new task instance
     */
    public Task add()
@@ -142,7 +142,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     * represented in MPXJ and renumbers the ID values to ensure that
     * this structure is displayed as expected in Microsoft Project. This
     * is typically used to deal with the case where a hierarchical task
-    * structure has been created programmatically in MPXJ.  
+    * structure has been created programmatically in MPXJ.
     */
    public void synchronizeTaskIDToHierarchy()
    {
@@ -162,7 +162,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
 
    /**
     * Called recursively to renumber child task IDs.
-    * 
+    *
     * @param parentTask parent task instance
     * @param currentID current task ID
     * @return updated current task ID

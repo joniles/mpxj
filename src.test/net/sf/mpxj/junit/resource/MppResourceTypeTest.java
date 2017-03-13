@@ -89,7 +89,7 @@ public class MppResourceTypeTest
 
    /**
     * Test the resource types present in an individual MPP file.
-    * 
+    *
     * @param file MPP file to test
     */
    private void testResourceType(File file) throws MPXJException
@@ -116,7 +116,7 @@ public class MppResourceTypeTest
 
    /**
     * Validate the name and type of an individual resource.
-    * 
+    *
     * @param file MPP file
     * @param project project read from MPP file
     * @param id resource ID

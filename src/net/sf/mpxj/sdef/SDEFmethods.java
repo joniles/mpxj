@@ -33,9 +33,9 @@ class SDEFmethods
 {
    /**
     * Method to force an input string into a fixed width field
-    * and set it on the left with the right side filled with 
+    * and set it on the left with the right side filled with
     * space ' ' characters.
-    * 
+    *
     * @param input input string
     * @param width required width
     * @return formatted string
@@ -74,14 +74,14 @@ class SDEFmethods
    /**
     * Another method to force an input string into a fixed width field
     * and set it on the right with the left side filled with space ' ' characters.
-    * 
+    *
     * @param input input string
     * @param width required width
     * @return formatted string
     */
    public static String rset(String input, int width)
    {
-      String result; // result to return			
+      String result; // result to return
       StringBuilder pad = new StringBuilder();
       if (input == null)
       {
@@ -89,7 +89,7 @@ class SDEFmethods
          {
             pad.append(' '); // put blanks into buffer
          }
-         result = " " + pad; // one short to use + overload			
+         result = " " + pad; // one short to use + overload
       }
       else
       {
@@ -114,9 +114,9 @@ class SDEFmethods
     * This method takes a calendar of MPXJ library type, then returns a String of the
     * general working days USACE format.  For example, the regular 5-day work week is
     * NYYYYYN
-    * 
+    *
     * If you get Fridays off work, then the String becomes NYYYYNN
-    * 
+    *
     * @param input ProjectCalendar instance
     * @return work days string
     */

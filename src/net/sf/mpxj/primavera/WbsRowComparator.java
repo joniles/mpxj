@@ -25,6 +25,8 @@ package net.sf.mpxj.primavera;
 
 import java.util.Comparator;
 
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * Comparator used to ensure that WBS elements read from an XER file
  * are processed in the correct order.
@@ -38,12 +40,12 @@ class WbsRowComparator implements Comparator<Row>
    {
       Integer parent1 = o1.getInteger("parent_wbs_id");
       Integer parent2 = o2.getInteger("parent_wbs_id");
-      int result = parent1.compareTo(parent2);
+      int result = NumberHelper.compare(parent1, parent2);
       if (result == 0)
       {
          Integer seq1 = o1.getInteger("seq_num");
          Integer seq2 = o2.getInteger("seq_num");
-         result = seq1.compareTo(seq2);
+         result = NumberHelper.compare(seq1, seq2);
       }
       return result;
    }

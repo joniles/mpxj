@@ -72,7 +72,7 @@ public class MppTaskFlags
 
    /**
     * Common code to test flag values.
-    * 
+    *
     * @param mpp project file to test
     */
    private void testFlags(ProjectFile mpp)
@@ -358,7 +358,7 @@ public class MppTaskFlags
 
    /**
     * Test all 20 custom field flags.
-    * 
+    *
     * @param task task to be tested
     * @param flag flag index to test
     */

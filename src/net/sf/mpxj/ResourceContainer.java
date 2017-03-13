@@ -34,7 +34,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param projectFile parent project
     */
    public ResourceContainer(ProjectFile projectFile)
@@ -68,7 +68,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 
    /**
     * Add a resource to the project.
-    * 
+    *
     * @return new resource instance
     */
    public Resource add()

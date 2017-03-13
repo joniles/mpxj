@@ -41,7 +41,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**
- * This class contains methods relating to manipulating timephased data. 
+ * This class contains methods relating to manipulating timephased data.
  */
 public final class TimephasedUtility
 {
@@ -49,14 +49,14 @@ public final class TimephasedUtility
     * This is the main entry point used to convert the internal representation
     * of timephased work into an external form which can
     * be displayed to the user.
-    * 
-    * @param projectCalendar calendar used by the resource assignment 
+    *
+    * @param projectCalendar calendar used by the resource assignment
     * @param work timephased resource assignment data
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<DateRange> dateList)
    {
       ArrayList<Duration> result = new ArrayList<Duration>(dateList.size());
       int lastStartIndex = 0;
@@ -81,7 +81,7 @@ public final class TimephasedUtility
          else
          {
             //
-            // We have found an assignment which intersects with the current 
+            // We have found an assignment which intersects with the current
             // date range, call the method below to determine how
             // much time from this resource assignment can be allocated
             // to the current date range.
@@ -98,7 +98,7 @@ public final class TimephasedUtility
     * This is the main entry point used to convert the internal representation
     * of timephased baseline work into an external form which can
     * be displayed to the user.
-    *  
+    *
     * @param file parent project file
     * @param work timephased resource assignment data
     * @param rangeUnits timescale units
@@ -114,8 +114,8 @@ public final class TimephasedUtility
     * This is the main entry point used to convert the internal representation
     * of timephased cost into an external form which can
     * be displayed to the user.
-    * 
-    * @param projectCalendar calendar used by the resource assignment 
+    *
+    * @param projectCalendar calendar used by the resource assignment
     * @param cost timephased resource assignment data
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
@@ -146,7 +146,7 @@ public final class TimephasedUtility
          else
          {
             //
-            // We have found an assignment which intersects with the current 
+            // We have found an assignment which intersects with the current
             // date range, call the method below to determine how
             // much time from this resource assignment can be allocated
             // to the current date range.
@@ -163,8 +163,8 @@ public final class TimephasedUtility
     * This is the main entry point used to convert the internal representation
     * of timephased baseline cost into an external form which can
     * be displayed to the user.
-    *  
-    * @param file parent project file 
+    *
+    * @param file parent project file
     * @param cost timephased resource assignment data
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
@@ -178,7 +178,7 @@ public final class TimephasedUtility
    /**
     * Used to locate the first timephased resource assignment block which
     * intersects with the target date range.
-    * 
+    *
     * @param <T> payload type
     * @param range target date range
     * @param assignments timephased resource assignments
@@ -199,7 +199,7 @@ public final class TimephasedUtility
             int compareResult = DateHelper.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
 
             //
-            // The start of the target range falls after the assignment end - 
+            // The start of the target range falls after the assignment end -
             // move on to test the next assignment.
             //
             if (compareResult > 0)
@@ -236,7 +236,7 @@ public final class TimephasedUtility
    /**
     * For a given date range, determine the duration of work, based on the
     * timephased resource assignment data.
-    * 
+    *
     * @param projectCalendar calendar used for the resource assignment calendar
     * @param rangeUnits timescale units
     * @param range target date range
@@ -270,9 +270,9 @@ public final class TimephasedUtility
    /**
     * For a given date range, determine the duration of work, based on the
     * timephased resource assignment data.
-    * 
+    *
     * This method deals with timescale units of less than a day.
-    * 
+    *
     * @param projectCalendar calendar used for the resource assignment calendar
     * @param rangeUnits timescale units
     * @param range target date range
@@ -290,7 +290,7 @@ public final class TimephasedUtility
     * timephased resource assignment data.
     *
     * This method deals with timescale units of one day or more.
-    * 
+    *
     * @param projectCalendar calendar used for the resource assignment calendar
     * @param rangeUnits timescale units
     * @param range target date range
@@ -315,8 +315,8 @@ public final class TimephasedUtility
       // start counting forwards one day at a time until we reach the end of
       // the date range, or until we reach the end of the block.
 
-      // if we have not reached the end of the range, move to the next block and 
-      // see if the date range overlaps it. if it does not overlap, then we're 
+      // if we have not reached the end of the range, move to the next block and
+      // see if the date range overlaps it. if it does not overlap, then we're
       // done.
 
       // if it does overlap, then move to the next block and repeat
@@ -330,7 +330,7 @@ public final class TimephasedUtility
       {
          //
          // Select the correct start date
-         //      
+         //
          long startDate = range.getStart().getTime();
          long assignmentStart = assignment.getStart().getTime();
          if (startDate < assignmentStart)
@@ -347,7 +347,7 @@ public final class TimephasedUtility
 
          //
          // Start counting forwards
-         //      
+         //
          while (startDate < rangeEndDate && startDate < traEndDate)
          {
             if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
@@ -384,7 +384,7 @@ public final class TimephasedUtility
    /**
     * For a given date range, determine the cost, based on the
     * timephased resource assignment data.
-    * 
+    *
     * @param projectCalendar calendar used for the resource assignment calendar
     * @param rangeUnits timescale units
     * @param range target date range
@@ -420,7 +420,7 @@ public final class TimephasedUtility
     * timephased resource assignment data.
     *
     * This method deals with timescale units of one day or more.
-    * 
+    *
     * @param projectCalendar calendar used for the resource assignment calendar
     * @param rangeUnits timescale units
     * @param range target date range
@@ -439,7 +439,7 @@ public final class TimephasedUtility
       {
          //
          // Select the correct start date
-         //      
+         //
          long startDate = range.getStart().getTime();
          long assignmentStart = assignment.getStart().getTime();
          if (startDate < assignmentStart)
@@ -456,7 +456,7 @@ public final class TimephasedUtility
 
          //
          // Start counting forwards
-         //      
+         //
          while (startDate < rangeEndDate && startDate < traEndDate)
          {
             if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
@@ -493,9 +493,9 @@ public final class TimephasedUtility
    /**
     * For a given date range, determine the cost, based on the
     * timephased resource assignment data.
-    * 
+    *
     * This method deals with timescale units of less than a day.
-    * 
+    *
     * @param projectCalendar calendar used for the resource assignment calendar
     * @param rangeUnits timescale units
     * @param range target date range

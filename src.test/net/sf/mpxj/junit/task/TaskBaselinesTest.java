@@ -41,6 +41,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpp.ApplicationVersion;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
@@ -54,7 +55,7 @@ public class TaskBaselinesTest
 
    /**
     * Test to verify SourceForeg issue is fixed.
-    * 
+    *
     * @throws MPXJException
     */
    @Test public void testSourceForgeIssue259() throws MPXJException
@@ -90,7 +91,7 @@ public class TaskBaselinesTest
 
    /**
     * Test an individual project.
-    * 
+    *
     * @param file project file
     */
    private void testTaskBaselineValues(File file) throws MPXJException
@@ -115,7 +116,7 @@ public class TaskBaselinesTest
       // Handle different file content depending on which application and file version have been used
       //
       ProjectProperties properties = project.getProjectProperties();
-      if (NumberHelper.getInt(properties.getApplicationVersion()) >= 14 && NumberHelper.getInt(properties.getMppFileType()) >= 14)
+      if (NumberHelper.getInt(properties.getApplicationVersion()) >= ApplicationVersion.PROJECT_2010 && NumberHelper.getInt(properties.getMppFileType()) >= 14)
       {
          startTaskID = testEstimatedDurations(project, startTaskID, maxBaselines);
          startTaskID = testEstimatedFinishes(project, startTaskID, maxBaselines);
@@ -127,7 +128,7 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline costs.
-    * 
+    *
     * @param project project
     * @param startTaskID initial task ID
     * @param maxBaselines maximum baselines to test
@@ -160,10 +161,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline durations.
-    * 
+    *
     * @param project project
     * @param startTaskID initial task ID
-    * @param maxBaselines maximum baselines to test 
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testDurations(ProjectFile project, int startTaskID, int maxBaselines)
@@ -193,10 +194,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline estimated durations.
-    * 
+    *
     * @param project project
     * @param startTaskID initial task ID
-    * @param maxBaselines maximum baselines to test 
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testEstimatedDurations(ProjectFile project, int startTaskID, int maxBaselines)
@@ -226,10 +227,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline estimated finishes.
-    * 
+    *
     * @param project project
-    * @param startTaskID initial task ID 
-    * @param maxBaselines maximum baselines to test 
+    * @param startTaskID initial task ID
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testEstimatedFinishes(ProjectFile project, int startTaskID, int maxBaselines)
@@ -259,10 +260,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline estimated starts.
-    * 
+    *
     * @param project project
-    * @param startTaskID initial task ID 
-    * @param maxBaselines maximum baselines to test 
+    * @param startTaskID initial task ID
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testEstimatedStarts(ProjectFile project, int startTaskID, int maxBaselines)
@@ -292,10 +293,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline finishes.
-    * 
+    *
     * @param project project
     * @param startTaskID initial task ID
-    * @param maxBaselines maximum baselines to test 
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testFinishes(ProjectFile project, int startTaskID, int maxBaselines)
@@ -325,10 +326,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline fixed costs.
-    * 
+    *
     * @param project project
-    * @param startTaskID initial task ID 
-    * @param maxBaselines maximum baselines to test 
+    * @param startTaskID initial task ID
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testFixedCosts(ProjectFile project, int startTaskID, int maxBaselines)
@@ -358,10 +359,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline fixed cost accruals.
-    * 
+    *
     * @param project project
-    * @param startTaskID initial task ID 
-    * @param maxBaselines maximum baselines to test 
+    * @param startTaskID initial task ID
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testFixedCostAccruals(ProjectFile project, int startTaskID, int maxBaselines)
@@ -391,10 +392,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline starts.
-    * 
+    *
     * @param project project
-    * @param startTaskID initial task ID 
-    * @param maxBaselines maximum baselines to test  
+    * @param startTaskID initial task ID
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testStarts(ProjectFile project, int startTaskID, int maxBaselines)
@@ -424,10 +425,10 @@ public class TaskBaselinesTest
 
    /**
     * Test baseline works.
-    * 
+    *
     * @param project project
-    * @param startTaskID initial task ID 
-    * @param maxBaselines maximum baselines to test 
+    * @param startTaskID initial task ID
+    * @param maxBaselines maximum baselines to test
     * @return task ID for next tests
     */
    private int testWorks(ProjectFile project, int startTaskID, int maxBaselines)

@@ -42,10 +42,10 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 {
 
    /**
-    * This method converts the internal representation of timephased 
+    * This method converts the internal representation of timephased
     * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with. 
-    * 
+    * format to make it easy to work with.
+    *
     * @param calendar current calendar
     * @param list list of assignment data
     */
@@ -75,7 +75,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
    /**
     * This method breaks down spans of time into individual days.
-    * 
+    *
     * @param calendar current project calendar
     * @param list list of assignment data
     */
@@ -91,7 +91,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
             Date startDay = DateHelper.getDayStartDate(assignment.getStart());
             Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
-            // special case - when the finishday time is midnight, it's really the previous day...                 
+            // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
             {
                cal.setTime(finishDay);
@@ -120,7 +120,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
    /**
     * This method splits the first day off of a time span.
-    * 
+    *
     * @param calendar current calendar
     * @param assignment timephased assignment span
     * @return first day and remainder assignments
@@ -198,7 +198,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
    /**
     * This method merges together assignment data for the same day.
-    * 
+    *
     * @param calendar current calendar
     * @param list assignment data
     */
@@ -277,7 +277,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
    /**
     * Ensures that the start and end dates for ranges fit within the
     * working times for a given day.
-    * 
+    *
     * @param calendar current calendar
     * @param list assignment data
     */

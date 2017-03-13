@@ -31,12 +31,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -81,7 +79,6 @@ import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
@@ -91,10 +88,6 @@ import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays;
-import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Masks;
-import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Masks.Mask;
-import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Values;
-import net.sf.mpxj.mspdi.schema.Project.OutlineCodes.OutlineCode.Values.Value;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
@@ -107,9 +100,9 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public final class MSPDIWriter extends AbstractProjectWriter
 {
    /**
-    * Sets a flag to control whether timephased assignment data is split 
+    * Sets a flag to control whether timephased assignment data is split
     * into days. The default is true.
-    * 
+    *
     * @param flag boolean flag
     */
    public void setSplitTimephasedAsDays(boolean flag)
@@ -118,9 +111,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieves a flag to control whether timephased assignment data is split 
-    * into days. The default is true. 
-    * 
+    * Retrieves a flag to control whether timephased assignment data is split
+    * into days. The default is true.
+    *
     * @return boolean true
     */
    public boolean getSplitTimephasedAsDays()
@@ -131,7 +124,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Sets a flag to control whether timephased resource assignment data
     * is written to the file. The default is false.
-    * 
+    *
     * @param value boolean flag
     */
    public void setWriteTimephasedData(boolean value)
@@ -140,9 +133,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieves the state of the flag which controls whether timephased 
+    * Retrieves the state of the flag which controls whether timephased
     * resource assignment data is written to the file. The default is false.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getWriteTimephasedData()
@@ -152,7 +145,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Set the save version to use when generating an MSPDI file.
-    * 
+    *
     * @param version save version
     */
    public void setSaveVersion(SaveVersion version)
@@ -162,7 +155,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve the save version current set.
-    * 
+    *
     * @return current save version
     */
    public SaveVersion getSaveVersion()
@@ -197,10 +190,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
          writeProjectProperties(project);
          writeCalendars(project);
          writeResources(project);
-         List<Project.ExtendedAttributes.ExtendedAttribute> extendedAttributes = writeOutlineCodes(project);
          writeTasks(project);
          writeAssignments(project);
-         writeProjectExtendedAttributes(extendedAttributes);
+         writeProjectExtendedAttributes(project);
 
          DatatypeConverter.setParentFile(m_projectFile);
          marshaller.marshal(project, stream);
@@ -295,26 +287,37 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * This method writes project extended attribute data into an MSPDI file.
-    * @param list List of Extended attributes of the MSPDI file
+    *
+    * @param project Root node of the MSPDI file
     */
-   private void writeProjectExtendedAttributes(List<Project.ExtendedAttributes.ExtendedAttribute> list)
+   private void writeProjectExtendedAttributes(Project project)
    {
-      Set<FieldType> outlineCodes = new HashSet<FieldType>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
-      for (FieldType fieldType : getAllExtendedAttributes())
+      Project.ExtendedAttributes attributes = m_factory.createProjectExtendedAttributes();
+      project.setExtendedAttributes(attributes);
+      List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
+
+      Set<FieldType> customFields = new HashSet<FieldType>();
+      for (CustomField customField : m_projectFile.getCustomFields())
       {
-         //skip the outline codes, because they have already been added.
-         if (outlineCodes.contains(fieldType))
-            continue;
-
-         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
-         String alias = field.getAlias();
-
-         if (m_extendedAttributesInUse.contains(fieldType) || alias != null)
+         FieldType fieldType = customField.getFieldType();
+         if (fieldType != null)
          {
-            Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
-            list.add(attribute);
-            attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
-            attribute.setFieldName(fieldType.getName());
+            customFields.add(fieldType);
+         }
+      }
+
+      customFields.addAll(m_extendedAttributesInUse);
+
+      for (FieldType fieldType : customFields)
+      {
+         Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
+         list.add(attribute);
+         attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
+         attribute.setFieldName(fieldType.getName());
+
+         CustomField customField = m_projectFile.getCustomFields().getCustomField(fieldType);
+         String alias = customField.getAlias();
+         {
             attribute.setAlias(alias);
          }
       }
@@ -442,9 +445,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Main entry point used to determine the format used to write 
+    * Main entry point used to determine the format used to write
     * calendar exceptions.
-    * 
+    *
     * @param calendar parent calendar
     * @param dayList list of calendar days
     * @param exceptions list of exceptions
@@ -463,7 +466,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Write exceptions in the format used by MSPDI files prior to Project 2007.
-    * 
+    *
     * @param dayList list of calendar days
     * @param exceptions list of exceptions
     */
@@ -504,7 +507,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Write exceptions into the format used by MSPDI files from
     * Project 2007 onwards.
-    * 
+    *
     * @param calendar parent calendar
     * @param exceptions list of exceptions
     */
@@ -551,7 +554,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Write the work weeks associated with this calendar.
-    * 
+    *
     * @param xmlCalendar XML calendar instance
     * @param mpxjCalendar MPXJ calendar instance
     */
@@ -740,7 +743,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes resource baseline data.
-    * 
+    *
     * @param xmlResource MSPDI resource
     * @param mpxjResource MPXJ resource
     */
@@ -830,7 +833,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * This method is called to determine if an extended attribute
     * should be written to the file, or whether the default value
     * can be assumed.
-    * 
+    *
     * @param value extended attribute value
     * @param type extended attribute data type
     * @return boolean flag
@@ -879,7 +882,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes a resource's cost rate tables.
-    * 
+    *
     * @param xml MSPDI resource
     * @param mpx MPXJ resource
     */
@@ -929,7 +932,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method determines whether the cost rate table should be written.
     * A default cost rate table should not be written to the file.
-    * 
+    *
     * @param entry cost rate table entry
     * @param from from date
     * @return boolean flag
@@ -946,7 +949,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * This method writes a resource's availability table.
-    * 
+    *
     * @param xml MSPDI resource
     * @param mpx MPXJ resource
     */
@@ -1140,14 +1143,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeTaskBaselines(xml, mpx);
 
-      writeTaskOutlineCodes(xml, mpx);
-
       return (xml);
    }
 
    /**
     * Writes task baseline data.
-    * 
+    *
     * @param xmlTask MSPDI task
     * @param mpxjTask MPXJ task
     */
@@ -1255,16 +1256,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
-      Set<TaskField> outlineCodes = new HashSet<TaskField>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
-
       Project.Tasks.Task.ExtendedAttribute attrib;
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
       for (TaskField mpxFieldID : getAllTaskExtendedAttributes())
       {
-         //skip the outline codes, because they have already been added.
-         if (outlineCodes.contains(mpxFieldID))
-            continue;
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (writeExtendedAttribute(value, mpxFieldID))
@@ -1280,150 +1276,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
-   }
-
-   private HashMap<TaskField, HashMap<Object, Pair<Integer, UUID>>> m_outlineCodeValues = new HashMap<TaskField, HashMap<Object, Pair<Integer, UUID>>>();
-
-   /**
-    * This method writes Outline Codes into an MSPDI file.
-    * @param project Root node of the MSPDI file
-    * @return list of Extended attributes for later additions
-    */
-   private List<Project.ExtendedAttributes.ExtendedAttribute> writeOutlineCodes(Project project)
-   {
-      Project.ExtendedAttributes attributes = m_factory.createProjectExtendedAttributes();
-      project.setExtendedAttributes(attributes);
-      List<Project.ExtendedAttributes.ExtendedAttribute> extendedAttributes = attributes.getExtendedAttribute();
-
-      Project.OutlineCodes outlineCodes = m_factory.createProjectOutlineCodes();
-      project.setOutlineCodes(outlineCodes);
-
-      //collect all outline code values
-      Values[] xmlOutlineCodeValues = new Values[TaskFieldLists.CUSTOM_OUTLINE_CODE.length];
-      for (Task t : m_projectFile.getAllTasks())
-      {
-         for (int loop = 0; loop < TaskFieldLists.CUSTOM_OUTLINE_CODE.length; loop++)
-         {
-            TaskField key = TaskFieldLists.CUSTOM_OUTLINE_CODE[loop]; //OUTLINE_CODE1, ..., OUTLINE_CODE10
-            Object value = t.getCachedValue(key);
-            if (value == null)
-               continue;
-            m_extendedAttributesInUse.add(key);
-
-            Values values = null;
-            //if not already created, do so
-            if (xmlOutlineCodeValues[loop] == null)
-               xmlOutlineCodeValues[loop] = values = m_factory.createProjectOutlineCodesOutlineCodeValues();
-            else
-               values = xmlOutlineCodeValues[loop];
-
-            List<Value> vlist = values.getValue();
-            //add the values, that are not already present
-
-            //the id and the uuid have to be stored in a hashmap by key, because it will be referenced in the tasks to access the values by id
-            if (m_outlineCodeValues.containsKey(key))
-            {
-               if (m_outlineCodeValues.get(key).containsKey(value))
-                  continue;
-            }
-            else
-               m_outlineCodeValues.put(key, new HashMap<Object, Pair<Integer, UUID>>());
-
-            Value v = m_factory.createProjectOutlineCodesOutlineCodeValuesValue();
-            vlist.add(v);
-            Integer vId = Integer.valueOf(vlist.size());
-            v.setValueID(BigInteger.valueOf(vId.longValue()));
-            UUID vguid = UUID.randomUUID();
-            v.setFieldGUID(vguid.toString());
-            v.setParentValueID(BigInteger.valueOf(0));
-            v.setType(BigInteger.valueOf(21)); //why 21? it's what I read in working XML-files from project
-            v.setValue(DatatypeConverter.printExtendedAttribute(this, value, DataType.STRING));
-
-            // store the value 
-            m_outlineCodeValues.get(key).put(value, new Pair<Integer, UUID>(vId, vguid));
-         }
-      }
-
-      //add all values to the xml
-      for (int loop = 0; loop < TaskFieldLists.CUSTOM_OUTLINE_CODE.length; loop++)
-      {
-         if (xmlOutlineCodeValues[loop] == null)
-            continue;
-         Values values = xmlOutlineCodeValues[loop];
-
-         TaskField key = TaskFieldLists.CUSTOM_OUTLINE_CODE[loop]; //OUTLINE_CODE1, ..., OUTLINE_CODE10
-         // create Outline Code XML structure
-         Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
-         String name = key.getName();
-         String alias = m_projectFile.getCustomFields().getCustomField(key).getAlias();
-
-         Project.OutlineCodes.OutlineCode oc = m_factory.createProjectOutlineCodesOutlineCode();
-         outlineCodes.getOutlineCode().add(oc);
-         oc.setFieldID(fieldID.toString());
-         oc.setAlias(alias);
-         oc.setFieldName(name);
-         UUID guid = UUID.randomUUID();
-         oc.setGuid(guid.toString());
-
-         //add a simple mask that does not limit anything
-         Masks masks = m_factory.createProjectOutlineCodesOutlineCodeMasks();
-         oc.setMasks(masks);
-         List<Mask> mlist = masks.getMask();
-         Mask simpleMask = m_factory.createProjectOutlineCodesOutlineCodeMasksMask();
-         simpleMask.setSeparator(".");
-         simpleMask.setLevel(BigInteger.valueOf(1));
-         simpleMask.setType(BigInteger.valueOf(3));
-         simpleMask.setLength(BigInteger.valueOf(0));
-         mlist.add(simpleMask);
-
-         //add the values to the OutlineCode
-         oc.setValues(values);
-
-         //add OutlineCode to Extended Attributes
-         Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
-         extendedAttributes.add(attribute);
-         attribute.setFieldID(fieldID.toString());
-         attribute.setFieldName(name);
-         attribute.setAlias(alias);
-         attribute.setLtuid(guid.toString());
-      }
-
-      return extendedAttributes;
-   }
-
-   /**
-    * This method writes outline code values for a task.
-    * @param xml MSPDI task
-    * @param mpx MPXJ task
-    */
-   private void writeTaskOutlineCodes(Project.Tasks.Task xml, Task mpx)
-   {
-      List<Project.Tasks.Task.OutlineCode> list = xml.getOutlineCode();
-
-      for (int loop = 0; loop < TaskFieldLists.CUSTOM_OUTLINE_CODE.length; loop++)
-      {
-         TaskField key = TaskFieldLists.CUSTOM_OUTLINE_CODE[loop]; //OUTLINE_CODE1, ..., OUTLINE_CODE10
-         HashMap<Object, Pair<Integer, UUID>> valuemap = m_outlineCodeValues.get(key);
-         if (valuemap == null)
-            continue; //or throw an exception
-
-         Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
-         Project.Tasks.Task.OutlineCode oc = m_factory.createProjectTasksTaskOutlineCode();
-         Object value = mpx.getCachedValue(key);
-         if (value == null)
-            continue;
-         //get the value IDs, because they are just referenced by id
-         Pair<Integer, UUID> ids = valuemap.get(value);
-         if (ids == null)
-            continue;
-
-         oc.setValueID(BigInteger.valueOf(ids.getFirst().longValue()));
-         oc.setValueGUID(ids.getSecond().toString());
-
-         list.add(oc);
-         oc.setFieldID(fieldID.toString());
-      }
-
    }
 
    /**
@@ -1481,14 +1333,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Tasks.Task.PredecessorLink> list = xml.getPredecessorLink();
 
       List<Relation> predecessors = mpx.getPredecessors();
-      if (predecessors != null)
+      for (Relation rel : predecessors)
       {
-         for (Relation rel : predecessors)
-         {
-            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
-            m_eventManager.fireRelationWrittenEvent(rel);
-         }
+         Integer taskUniqueID = rel.getTargetTask().getUniqueID();
+         list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
+         m_eventManager.fireRelationWrittenEvent(rel);
       }
    }
 
@@ -1506,11 +1355,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       link.setPredecessorUID(NumberHelper.getBigInteger(taskID));
       link.setType(BigInteger.valueOf(type.getValue()));
+      link.setCrossProject(Boolean.FALSE); // SF-300: required to keep P6 happy when importing MSPDI files
 
       if (lag != null && lag.getDuration() != 0)
       {
          double linkLag = lag.getDuration();
-         if (lag.getUnits() != TimeUnit.PERCENT)
+         if (lag.getUnits() != TimeUnit.PERCENT && lag.getUnits() != TimeUnit.ELAPSED_PERCENT)
          {
             linkLag = 10.0 * Duration.convertUnits(linkLag, lag.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          }
@@ -1581,7 +1431,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method writes data for a single assignment to an MSPDI file.
     *
-    * @param mpx Resource assignment data 
+    * @param mpx Resource assignment data
     * @return New MSPDI assignment instance
     */
    private Project.Assignments.Assignment writeAssignment(ResourceAssignment mpx)
@@ -1633,9 +1483,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
+      xml.setResume(DatatypeConverter.printDate(mpx.getResume()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
-      xml.setStop(DatatypeConverter.printDate(mpx.getTask().getStop()));
-      xml.setResume(DatatypeConverter.printDate(mpx.getTask().getResume()));
+      xml.setStop(DatatypeConverter.printDate(mpx.getStop()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setTaskUID(NumberHelper.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(NumberHelper.getBigInteger(mpx.getUniqueID()));
@@ -1662,7 +1512,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes assignment baseline data.
-    * 
+    *
     * @param xml MSPDI assignment
     * @param mpxj MPXJ assignment
     */
@@ -1778,7 +1628,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes the timephased data for a resource assignment.
-    * 
+    *
     * @param mpx MPXJ assignment
     * @param xml MSDPI assignment
     */
@@ -1796,29 +1646,43 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (m_splitTimephasedAsDays)
          {
             TimephasedWork lastComplete = null;
-            if (!complete.isEmpty())
+            if (complete != null && !complete.isEmpty())
             {
                lastComplete = complete.get(complete.size() - 1);
             }
 
             TimephasedWork firstPlanned = null;
-            if (!planned.isEmpty())
+            if (planned != null && !planned.isEmpty())
             {
                firstPlanned = planned.get(0);
             }
 
-            planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
-            complete = splitDays(calendar, complete, firstPlanned, null);
+            if (planned != null)
+            {
+               planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
+            }
+
+            if (complete != null)
+            {
+               complete = splitDays(calendar, complete, firstPlanned, null);
+            }
          }
 
-         writeAssignmentTimephasedData(assignmentID, list, planned, 1);
-         writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+         if (planned != null)
+         {
+            writeAssignmentTimephasedData(assignmentID, list, planned, 1);
+         }
+
+         if (complete != null)
+         {
+            writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+         }
       }
    }
 
    /**
     * Splits timephased data into individual days.
-    * 
+    *
     * @param calendar current calendar
     * @param list list of timephased assignment data
     * @param first first planned assignment
@@ -1952,9 +1816,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Writes a list of timephased data to the MSPDI file.
-    * 
+    *
     * @param assignmentID current assignment ID
-    * @param list output list of timephased data items 
+    * @param list output list of timephased data items
     * @param data input list of timephased data
     * @param type list type (planned or completed)
     */
@@ -1976,7 +1840,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve list of assignment extended attributes.
-    * 
+    *
     * @return list of extended attributes
     */
    private List<AssignmentField> getAllAssignmentExtendedAttributes()
@@ -2003,7 +1867,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve list of task extended attributes.
-    * 
+    *
     * @return list of extended attributes
     */
    private List<TaskField> getAllTaskExtendedAttributes()
@@ -2029,7 +1893,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieve list of resource extended attributes.
-    * 
+    *
     * @return list of extended attributes
     */
    private List<ResourceField> getAllResourceExtendedAttributes()
@@ -2050,19 +1914,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
-      return result;
-   }
-
-   /**
-    * Retrieve list of all extended attributes.
-    * @return list of extended attributes
-    */
-   private List<FieldType> getAllExtendedAttributes()
-   {
-      ArrayList<FieldType> result = new ArrayList<FieldType>();
-      result.addAll(getAllTaskExtendedAttributes());
-      result.addAll(getAllResourceExtendedAttributes());
-      result.addAll(getAllAssignmentExtendedAttributes());
       return result;
    }
 

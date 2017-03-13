@@ -37,7 +37,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
 {
    /**
     * Constructor.
-    * 
+    *
     * @param calendar calendar to which the timephased data relates
     * @param normaliser normaliser used to process this data
     * @param data timephased data
@@ -61,7 +61,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    /**
     * Copy constructor which can be used to scale the data it is copying
     * by a given factor.
-    * 
+    *
     * @param source source data
     * @param perDayFactor per day scaling factor
     * @param totalFactor total scaling factor
@@ -94,7 +94,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
 
    /**
     * Indicates if any timephased data is present.
-    * 
+    *
     * @return boolean flag
     */
    @Override public boolean hasData()

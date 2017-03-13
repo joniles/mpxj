@@ -716,6 +716,7 @@
             <PredecessorLink>
                 <PredecessorUID>9</PredecessorUID>
                 <Type>1</Type>
+                <CrossProject>0</CrossProject>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -806,6 +807,7 @@
             <PredecessorLink>
                 <PredecessorUID>11</PredecessorUID>
                 <Type>1</Type>
+                <CrossProject>0</CrossProject>
                 <LinkLag>4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
@@ -898,6 +900,7 @@
             <PredecessorLink>
                 <PredecessorUID>13</PredecessorUID>
                 <Type>1</Type>
+                <CrossProject>0</CrossProject>
                 <LinkLag>-4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
@@ -990,6 +993,7 @@
             <PredecessorLink>
                 <PredecessorUID>15</PredecessorUID>
                 <Type>3</Type>
+                <CrossProject>0</CrossProject>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -1080,6 +1084,7 @@
             <PredecessorLink>
                 <PredecessorUID>17</PredecessorUID>
                 <Type>0</Type>
+                <CrossProject>0</CrossProject>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -1172,6 +1177,7 @@
             <PredecessorLink>
                 <PredecessorUID>20</PredecessorUID>
                 <Type>2</Type>
+                <CrossProject>0</CrossProject>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>

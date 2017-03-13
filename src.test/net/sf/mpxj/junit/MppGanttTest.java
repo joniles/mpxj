@@ -54,7 +54,7 @@ public class MppGanttTest
 {
    /**
     * Test Gantt chart data read from an MPP9 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9Gantt() throws Exception
@@ -65,7 +65,7 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP9 file saved by Project 2007.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GanttFrom12() throws Exception
@@ -76,7 +76,7 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP9 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp9GanttFrom14() throws Exception
@@ -87,7 +87,7 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP12 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12Gantt() throws Exception
@@ -98,7 +98,7 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP12 file saved by Project 2010.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp12GanttFrom14() throws Exception
@@ -109,7 +109,7 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP14 file.
-    * 
+    *
     * @throws Exception
     */
    @Test public void testMpp14Gantt() throws Exception
@@ -120,7 +120,7 @@ public class MppGanttTest
 
    /**
     * Main entry point for common tests.
-    * 
+    *
     * @param mpp project file to be tested
     */
    private void testAll(ProjectFile mpp)
@@ -136,7 +136,7 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart view summary data.
-    * 
+    *
     * @param file project file
     */
    private void testSummaryData(ProjectFile file)
@@ -165,7 +165,7 @@ public class MppGanttTest
 
    /**
     * Test the font styles associated with a Gantt chart view.
-    * 
+    *
     * @param file project file
     */
    private void testFontStyles(ProjectFile file)
@@ -199,7 +199,7 @@ public class MppGanttTest
 
    /**
     * Common gridline tests.
-    * 
+    *
     * @param file project file
     */
    private void testGridlines(ProjectFile file)
@@ -233,7 +233,7 @@ public class MppGanttTest
 
    /**
     * Test the timescale settings.
-    * 
+    *
     * @param file project file
     */
    private void testTimescales(ProjectFile file)
@@ -257,7 +257,7 @@ public class MppGanttTest
 
    /**
     * Test the layout settings.
-    * 
+    *
     * @param file project file
     */
    private void testLayout(ProjectFile file)
@@ -282,7 +282,7 @@ public class MppGanttTest
 
    /**
     * Test the table font style settings.
-    * 
+    *
     * @param file project file
     */
    private void testTableFontStyles(ProjectFile file)
@@ -306,7 +306,7 @@ public class MppGanttTest
 
    /**
     * Test the progress line settings.
-    * 
+    *
     * @param file project file
     */
    private void testProgressLines(ProjectFile file)

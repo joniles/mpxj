@@ -115,7 +115,7 @@ public class SplitTaskTest
 
    /**
     * Utility method to test a split task date range.
-    * 
+    *
     * @param range DateRange instance
     * @param start expected start date
     * @param end expected end date

@@ -113,15 +113,21 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    }
 
    /**
-    * This method retrieves the offset of the data item at
-    * the position defined by the index parameter.
+    * Allows subclasses to provide the array of offsets.
     *
-    * @param index index of item in the block
-    * @return offset of the item in the block
+    * @param offsets array of offsets
     */
-   @Override public int getOffset(int index)
+   protected void setOffsets(int[] offsets)
    {
-      return (m_offsets[index]);
+      m_offsets = offsets;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public int[] getOffsets()
+   {
+      return m_offsets;
    }
 
    /**
@@ -202,6 +208,6 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    //protected int m_unknown2;
    //protected int m_unknown3;
    protected int m_dataSize;
-   protected int[] m_offsets;
+   private int[] m_offsets;
    protected Map<Integer, Map<Integer, Integer>> m_table = new TreeMap<Integer, Map<Integer, Integer>>();
 }

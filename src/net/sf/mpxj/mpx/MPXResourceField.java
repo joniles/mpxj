@@ -52,9 +52,9 @@ final class MPXResourceField
    }
 
    /**
-    * Retrieve the integer value used to represent a resource field in an 
+    * Retrieve the integer value used to represent a resource field in an
     * MPX file.
-    * 
+    *
     * @param value MPXJ resource field value
     * @return MPX field value
     */

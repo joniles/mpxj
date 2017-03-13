@@ -55,7 +55,7 @@ public class MPPConstraintField
 
    /**
     * Retrieve the ID of a field, as used by MS Project.
-    * 
+    *
     * @param value field instance
     * @return field ID
     */

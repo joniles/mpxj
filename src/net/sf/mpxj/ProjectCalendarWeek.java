@@ -26,7 +26,7 @@ package net.sf.mpxj;
 import net.sf.mpxj.common.DateHelper;
 
 /**
- * This class represents a basic working week, with no exceptions. 
+ * This class represents a basic working week, with no exceptions.
  */
 public class ProjectCalendarWeek
 {
@@ -53,7 +53,7 @@ public class ProjectCalendarWeek
    /**
     * Retrieves the data range for which this week is valid.
     * Returns null if this is the default week.
-    * 
+    *
     * @return date range, or null
     */
    public DateRange getDateRange()
@@ -64,7 +64,7 @@ public class ProjectCalendarWeek
    /**
     * Sets the date range for this week. Set this to null to indicate
     * the default week.
-    * 
+    *
     * @param range date range, or null
     */
    public void setDateRange(DateRange range)
@@ -75,7 +75,7 @@ public class ProjectCalendarWeek
    /**
     * If this week is derived from a another week, this method
     * will return the parent week.
-    * 
+    *
     * @return parent week
     */
    public ProjectCalendarWeek getParent()
@@ -85,7 +85,7 @@ public class ProjectCalendarWeek
 
    /**
     * Set the parent from which this week is derived.
-    * 
+    *
     * @param parent parent week
     */
    void setParent(ProjectCalendarWeek parent)
@@ -103,7 +103,7 @@ public class ProjectCalendarWeek
 
    /**
     * Flag indicating if this week is derived from another week.
-    * 
+    *
     * @return true if this week is derived from another
     */
    public boolean isDerived()
@@ -125,8 +125,8 @@ public class ProjectCalendarWeek
    /**
     * This method retrieves the calendar hours for the specified day.
     * Note that this method only returns the hours specification for the
-    * current calendar.If this is a derived calendar, it does not refer to 
-    * the base calendar. 
+    * current calendar.If this is a derived calendar, it does not refer to
+    * the base calendar.
     *
     * @param day Day instance
     * @return calendar hours
@@ -152,7 +152,7 @@ public class ProjectCalendarWeek
     * Note that if this is a derived calendar, then this method
     * will refer to the base calendar where no hours are specified
     * in the derived calendar.
-    * 
+    *
     * @param day Day instance
     * @return calendar hours
     */
@@ -194,7 +194,7 @@ public class ProjectCalendarWeek
    /**
     * This is a convenience method used to add a default set of calendar
     * hours to a calendar.
-    * 
+    *
     * @param day Day for which to add default hours for
     */
    public void addDefaultCalendarHours(Day day)
@@ -340,7 +340,7 @@ public class ProjectCalendarWeek
    private ProjectCalendarWeek m_parent;
 
    /**
-    * Working hours for each day. 
+    * Working hours for each day.
     */
    private ProjectCalendarHours[] m_hours = new ProjectCalendarHours[7];
 

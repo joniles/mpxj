@@ -27,14 +27,14 @@ import java.util.Date;
 
 /**
  * This class represents an amount, spread over a period of time.
- * 
+ *
  * @param <T> payload type
  */
 public abstract class TimephasedItem<T>
 {
    /**
     * Retrieve the start date.
-    * 
+    *
     * @return start date
     */
    public Date getStart()
@@ -44,7 +44,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Set the start date.
-    * 
+    *
     * @param start start date
     */
    public void setStart(Date start)
@@ -54,7 +54,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Retrieve the amount per day.
-    * 
+    *
     * @return amount per day
     */
    public T getAmountPerDay()
@@ -64,7 +64,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Set the amount per day.
-    * 
+    *
     * @param amountPerDay amount per day
     */
    public void setAmountPerDay(T amountPerDay)
@@ -74,7 +74,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Retrieve the modified flag.
-    * 
+    *
     * @return modified flag
     */
    public boolean getModified()
@@ -83,8 +83,8 @@ public abstract class TimephasedItem<T>
    }
 
    /**
-    * Set the modified flag. 
-    * 
+    * Set the modified flag.
+    *
     * @param modified modified flag
     */
    public void setModified(boolean modified)
@@ -94,7 +94,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Retrieve the total amount.
-    * 
+    *
     * @return total amount
     */
    public T getTotalAmount()
@@ -104,7 +104,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Set the total amount.
-    * 
+    *
     * @param totalAmount total amount
     */
    public void setTotalAmount(T totalAmount)
@@ -114,7 +114,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Retrieve the finish date.
-    * 
+    *
     * @return finish date
     */
    public Date getFinish()
@@ -124,7 +124,7 @@ public abstract class TimephasedItem<T>
 
    /**
     * Set the finish date.
-    * 
+    *
     * @param finish finish date
     */
    public void setFinish(Date finish)

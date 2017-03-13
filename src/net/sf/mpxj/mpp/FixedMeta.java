@@ -64,7 +64,7 @@ final class FixedMeta extends MPPComponent
    /**
     * Constructor. Supply an item size provider to allow different strategies to be
     * used to determine the correct item size.
-    * 
+    *
     * @param is input stream from which the meta data is read
     * @param itemSizeProvider item size provider used to calculate the item size
     * @throws IOException
@@ -103,7 +103,7 @@ final class FixedMeta extends MPPComponent
 
    /**
     * Constructor, allowing a selection of possible block sizes to be supplied.
-    * 
+    *
     * @param is input stream
     * @param otherFixedBlock  other fixed block to use as part of the heuristic
     * @param itemSizes list of potential block sizes
@@ -126,7 +126,7 @@ final class FixedMeta extends MPPComponent
                if (available % testItemSize == 0)
                {
                   //
-                  // If we are testing a size which fits exactly into 
+                  // If we are testing a size which fits exactly into
                   // the block size, and matches the number of items from
                   // another block, we can be pretty certain we have the correct
                   // size, so bail out at this point

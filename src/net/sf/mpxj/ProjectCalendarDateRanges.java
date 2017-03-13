@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * An abstract class representing a collection of date ranges 
+ * An abstract class representing a collection of date ranges
  * with supporting methods.
  */
 public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
@@ -68,7 +68,7 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
 
    /**
     * Replace a date range at the specified index.
-    * 
+    *
     * @param index range index
     * @param value DateRange instance
     */
@@ -89,7 +89,7 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
 
    /**
     * Returns the number of date ranges associated with this instance.
-    * 
+    *
     * @return number of date ranges
     */
    public int getRangeCount()

@@ -518,6 +518,8 @@ public enum AssignmentField implements FieldType
    BASELINE10_BUDGET_COST(DataType.CURRENCY),
    UNAVAILABLE(DataType.STRING), // Dummy entry
    HYPERLINK_DATA(DataType.BINARY),
+   RESUME(DataType.DATE),
+   STOP(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),
@@ -576,7 +578,7 @@ public enum AssignmentField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     * @param unitsType units type
     */
@@ -588,7 +590,7 @@ public enum AssignmentField implements FieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param dataType field data type
     */
    private AssignmentField(DataType dataType)

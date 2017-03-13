@@ -75,7 +75,7 @@ import net.sf.mpxj.planner.schema.Tasks;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
- * This class creates a new Planner file from the contents of 
+ * This class creates a new Planner file from the contents of
  * a ProjectFile instance.
  */
 public final class PlannerWriter extends AbstractProjectWriter
@@ -107,7 +107,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          // does not appear to have a particularly robust parser, and rejects
          // files with the full XML declaration produced by JAXB. The
          // following property suppresses this declaration.
-         //         
+         //
          marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
          m_factory = new ObjectFactory();
@@ -167,7 +167,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       //
       // Process each calendar in turn
-      //    
+      //
       for (ProjectCalendar mpxjCalendar : m_projectFile.getCalendars())
       {
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();
@@ -178,7 +178,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Write the standard set of day types.
-    * 
+    *
     * @param calendars parent collection of calendars
     */
    private void writeDayTypes(Calendars calendars)
@@ -247,7 +247,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       // The idea here is that MS Project allows us to specify working hours
       // for each day of the week individually. Planner doesn't do this,
       // but instead allows us to specify working hours for each day type.
-      // What we are doing here is stepping through the days of the week to 
+      // What we are doing here is stepping through the days of the week to
       // find the first working day, then using the hours for that day
       // as the hours for the working day type in Planner.
       //
@@ -286,7 +286,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Process the standard working hours for a given day.
-    * 
+    *
     * @param mpxjCalendar MPXJ Calendar instance
     * @param uniqueID unique ID sequence generation
     * @param day Day instance
@@ -322,7 +322,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Process exception days.
-    * 
+    *
     * @param mpxjCalendar MPXJ Calendar instance
     * @param dayList Planner list of exception days
     */
@@ -405,7 +405,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerResource.setShortName(mpxjResource.getInitials());
       plannerResource.setType(mpxjResource.getType() == ResourceType.MATERIAL ? "2" : "1");
       //plannerResource.setStdRate();
-      //plannerResource.setOvtRate();      
+      //plannerResource.setOvtRate();
       plannerResource.setUnits("0");
       //plannerResource.setProperties();
       m_eventManager.fireResourceWrittenEvent(mpxjResource);
@@ -514,19 +514,16 @@ public final class PlannerWriter extends AbstractProjectWriter
       int id = 0;
 
       List<Relation> predecessors = mpxjTask.getPredecessors();
-      if (predecessors != null)
+      for (Relation rel : predecessors)
       {
-         for (Relation rel : predecessors)
-         {
-            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            Predecessor plannerPredecessor = m_factory.createPredecessor();
-            plannerPredecessor.setId(getIntegerString(++id));
-            plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-            plannerPredecessor.setLag(getDurationString(rel.getLag()));
-            plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
-            predecessorList.add(plannerPredecessor);
-            m_eventManager.fireRelationWrittenEvent(rel);
-         }
+         Integer taskUniqueID = rel.getTargetTask().getUniqueID();
+         Predecessor plannerPredecessor = m_factory.createPredecessor();
+         plannerPredecessor.setId(getIntegerString(++id));
+         plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
+         plannerPredecessor.setLag(getDurationString(rel.getLag()));
+         plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
+         predecessorList.add(plannerPredecessor);
+         m_eventManager.fireRelationWrittenEvent(rel);
       }
    }
 
@@ -555,9 +552,9 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Convert a Planner date-time value into a Java date.
-    * 
+    *
     * 20070222T080000Z
-    * 
+    *
     * @param value Planner date-time
     * @return Java Date instance
     */
@@ -585,7 +582,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Convert an Integer value into a String.
-    * 
+    *
     * @param value Integer value
     * @return String value
     */
@@ -596,7 +593,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Convert an int value into a String.
-    * 
+    *
     * @param value int value
     * @return String value
     */
@@ -606,9 +603,9 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Used to determine if a particular day of the week is normally 
+    * Used to determine if a particular day of the week is normally
     * a working day.
-    * 
+    *
     * @param mpxjCalendar ProjectCalendar instance
     * @param day Day instance
     * @return boolean flag
@@ -616,8 +613,13 @@ public final class PlannerWriter extends AbstractProjectWriter
    private boolean isWorkingDay(ProjectCalendar mpxjCalendar, Day day)
    {
       boolean result = false;
+      net.sf.mpxj.DayType type = mpxjCalendar.getWorkingDay(day);
+      if (type == null)
+      {
+         type = net.sf.mpxj.DayType.DEFAULT;
+      }
 
-      switch (mpxjCalendar.getWorkingDay(day))
+      switch (type)
       {
          case WORKING:
          {
@@ -633,7 +635,14 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          case DEFAULT:
          {
-            result = isWorkingDay(mpxjCalendar.getParent(), day);
+            if (mpxjCalendar.getParent() == null)
+            {
+               result = false;
+            }
+            else
+            {
+               result = isWorkingDay(mpxjCalendar.getParent(), day);
+            }
             break;
          }
       }
@@ -642,9 +651,9 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Returns a flag represented as a String, indicating if 
+    * Returns a flag represented as a String, indicating if
     * the supplied day is a working day.
-    * 
+    *
     * @param mpxjCalendar MPXJ ProjectCalendar instance
     * @param day Day instance
     * @return boolean flag as a string
@@ -652,8 +661,13 @@ public final class PlannerWriter extends AbstractProjectWriter
    private String getWorkingDayString(ProjectCalendar mpxjCalendar, Day day)
    {
       String result = null;
+      net.sf.mpxj.DayType type = mpxjCalendar.getWorkingDay(day);
+      if (type == null)
+      {
+         type = net.sf.mpxj.DayType.DEFAULT;
+      }
 
-      switch (mpxjCalendar.getWorkingDay(day))
+      switch (type)
       {
          case WORKING:
          {
@@ -679,9 +693,9 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Convert a Java date into a Planner time.
-    * 
+    *
     * 0800
-    * 
+    *
     * @param value Java Date instance
     * @return Planner time value
     */
@@ -701,9 +715,9 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Convert a Java date into a Planner date.
-    * 
+    *
     * 20070222
-    * 
+    *
     * @param value Java Date instance
     * @return Planner date
     */
@@ -726,9 +740,9 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Convert a Java date into a Planner date-time string.
-    * 
+    *
     * 20070222T080000Z
-    * 
+    *
     * @param value Java date
     * @return Planner date-time string
     */
@@ -754,13 +768,13 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Converts an MPXJ Duration instance into the string representation 
+    * Converts an MPXJ Duration instance into the string representation
     * of a Planner duration.
-    * 
+    *
     * Planner represents durations as a number of seconds in its
     * file format, however it displays durations as days and hours,
     * and seems to assume that a working day is 8 hours.
-    * 
+    *
     * @param value string representation of a duration
     * @return Duration instance
     */
@@ -857,7 +871,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    /**
     * Convert a string representation of the task type
     * into a TaskType instance.
-    * 
+    *
     * @param value string value
     * @return TaskType value
     */
@@ -873,7 +887,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Writes a string value, ensuring that null is mapped to an empty string.
-    * 
+    *
     * @param value string value
     * @return string value
     */
@@ -884,7 +898,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    /**
     * Set the encoding used to write the file. By default UTF-8 is used.
-    * 
+    *
     * @param encoding encoding name
     */
    public void setEncoding(String encoding)
@@ -893,9 +907,9 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieve the encoding used to write teh file. If this value is null,
+    * Retrieve the encoding used to write the file. If this value is null,
     * UTF-8 is used.
-    * 
+    *
     * @return encoding name
     */
    public String getEncoding()
