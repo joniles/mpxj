@@ -222,15 +222,12 @@ public final class PhoenixReader extends AbstractProjectReader
 
       // Mark non-working days
       List<NonWork> nonWorkingDays = calendar.getNonWork();
-      if (nonWorkingDays != null)
+      for (NonWork nonWorkingDay : nonWorkingDays)
       {
-         for (NonWork nonWorkingDay : nonWorkingDays)
+         // TODO: handle recurring exceptions
+         if (nonWorkingDay.getType().equals("internal_weekly"))
          {
-            // TODO: handle recurring exceptions
-            if (nonWorkingDay.getType().equals("internal_weekly"))
-            {
-               mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
-            }
+            mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
          }
       }
 

@@ -1,9 +1,34 @@
+/*
+ * file:       AbstractColumn.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2016
+ * date:       27/01/2016
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.fasttrack;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+/**
+ * Implements common elements of the FastTrackColumn interface.
+ */
 abstract class AbstractColumn implements FastTrackColumn
 {
    @Override public void read(FastTrackTableType tableType, byte[] buffer, int startIndex, int length)
@@ -23,6 +48,11 @@ abstract class AbstractColumn implements FastTrackColumn
       }
    }
 
+   /**
+    * Number of bytes to skip once the header has been read.
+    *
+    * @return number of bytes
+    */
    protected abstract int postHeaderSkipBytes();
 
    protected abstract int readData(byte[] buffer, int startIndex, int offset);
@@ -65,9 +95,13 @@ abstract class AbstractColumn implements FastTrackColumn
       pw.println("]");
       pw.flush();
       return (os.toString());
-
    }
 
+   /**
+    * Set the enum representing the type of this column.
+    *
+    * @param tableType type of table to which this column belongs
+    */
    private void setFieldType(FastTrackTableType tableType)
    {
       switch (tableType)
