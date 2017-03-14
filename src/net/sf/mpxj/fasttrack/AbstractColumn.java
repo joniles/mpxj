@@ -35,7 +35,7 @@ abstract class AbstractColumn implements FastTrackColumn
    {
       m_header = new BlockHeader().read(buffer, startIndex, postHeaderSkipBytes());
       setFieldType(tableType);
-      int offset = readData(buffer, startIndex + m_header.getOffset());
+      int offset = readData(buffer, m_header.getOffset());
 
       if (length > offset)
       {

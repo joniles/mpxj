@@ -7,14 +7,14 @@ import java.io.PrintWriter;
 public class BlockHeader
 {
 
-   public BlockHeader read(byte[] buffer, int startIndex, int skipBytes)
+   public BlockHeader read(byte[] buffer, int offset, int skipBytes)
    {
-      m_offset = 0;
+      m_offset = offset;
 
-      System.arraycopy(buffer, startIndex + m_offset, m_header, 0, 8);
+      System.arraycopy(buffer, m_offset, m_header, 0, 8);
       m_offset += 8;
 
-      int nameLength = FastTrackUtility.getInt(buffer, startIndex + m_offset);
+      int nameLength = FastTrackUtility.getInt(buffer, m_offset);
       m_offset += 4;
 
       if (nameLength < 1 || nameLength > 255)
@@ -22,17 +22,17 @@ public class BlockHeader
          throw new UnexpectedStructureException();
       }
 
-      m_name = new String(buffer, startIndex + m_offset, nameLength, FastTrackUtility.UTF16LE);
+      m_name = new String(buffer, m_offset, nameLength, FastTrackUtility.UTF16LE);
       m_offset += nameLength;
 
-      m_indexNumber = FastTrackUtility.getShort(buffer, startIndex + m_offset);
+      m_indexNumber = FastTrackUtility.getShort(buffer, m_offset);
       m_offset += 2;
 
-      m_flags = FastTrackUtility.getShort(buffer, startIndex + m_offset);
+      m_flags = FastTrackUtility.getShort(buffer, m_offset);
       m_offset += 2;
 
       m_skip = new byte[skipBytes];
-      System.arraycopy(buffer, startIndex + m_offset, m_skip, 0, skipBytes);
+      System.arraycopy(buffer, m_offset, m_skip, 0, skipBytes);
       m_offset += skipBytes;
 
       return this;
