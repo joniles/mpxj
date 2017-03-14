@@ -12,13 +12,15 @@ public class BooleanColumn extends AbstractColumn
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
+      offset += startIndex;
+
+      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, offset, false);
       m_options = options.getData();
       offset = options.getOffset();
 
-      offset = FastTrackUtility.skipTo(offset, buffer, startIndex, 0x000F);
+      offset = FastTrackUtility.skipTo(offset, buffer, 0, 0x000F);
 
-      m_data = new Boolean[FastTrackUtility.getInt(buffer, startIndex + offset) + 1];
+      m_data = new Boolean[FastTrackUtility.getInt(buffer, offset) + 1];
       offset += 4;
 
       // Data length
@@ -32,7 +34,7 @@ public class BooleanColumn extends AbstractColumn
 
       for (int index = 0; index < m_data.length; index++)
       {
-         int value = FastTrackUtility.getShort(buffer, startIndex + offset);
+         int value = FastTrackUtility.getShort(buffer, offset);
          offset += 2;
          if (value != 2)
          {

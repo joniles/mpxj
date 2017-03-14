@@ -12,14 +12,15 @@ public class EnumColumn extends AbstractColumn
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, startIndex, offset, false);
+      offset += startIndex;
+      StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, offset, false);
       m_options = options.getData();
       offset = options.getOffset();
 
       // Skip bytes
       offset += 4;
 
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex + offset);
+      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();

@@ -4,9 +4,9 @@ package net.sf.mpxj.fasttrack;
 public class StringsWithLengthBlock
 {
 
-   public StringsWithLengthBlock read(byte[] buffer, int startIndex, int offset, boolean inclusive)
+   public StringsWithLengthBlock read(byte[] buffer, int offset, boolean inclusive)
    {
-      int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
+      int numberOfItems = FastTrackUtility.getInt(buffer, offset);
       offset += 4;
 
       FastTrackUtility.validateSize(numberOfItems);
@@ -21,9 +21,9 @@ public class StringsWithLengthBlock
       {
          // Two bytes
          offset += 2;
-         int itemNameLength = FastTrackUtility.getInt(buffer, startIndex + offset);
+         int itemNameLength = FastTrackUtility.getInt(buffer, offset);
          offset += 4;
-         m_data[index] = new String(buffer, startIndex + offset, itemNameLength, FastTrackUtility.UTF16LE);
+         m_data[index] = new String(buffer, offset, itemNameLength, FastTrackUtility.UTF16LE);
          offset += itemNameLength;
       }
 

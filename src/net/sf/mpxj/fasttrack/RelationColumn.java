@@ -12,7 +12,8 @@ public class RelationColumn extends AbstractColumn
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, startIndex, offset, true);
+      offset += startIndex;
+      StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, true);
       m_data = data.getData();
       offset = data.getOffset();
 
