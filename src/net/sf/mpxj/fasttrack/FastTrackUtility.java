@@ -148,10 +148,10 @@ public final class FastTrackUtility
       return result;
    }
 
-   public static int skipTo(int offset, byte[] buffer, int startIndex, int value)
+   public static int skipTo(byte[] buffer, int offset, int value)
    {
       int nextOffset = offset;
-      while (getShort(buffer, startIndex + nextOffset) != value)
+      while (getShort(buffer, nextOffset) != value)
       {
          ++nextOffset;
       }
