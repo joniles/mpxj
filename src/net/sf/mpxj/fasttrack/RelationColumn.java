@@ -10,9 +10,8 @@ public class RelationColumn extends AbstractColumn
       return 16;
    }
 
-   @Override protected int readData(byte[] buffer, int startIndex, int offset)
+   @Override protected int readData(byte[] buffer, int offset)
    {
-      offset += startIndex;
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, true);
       m_data = data.getData();
       offset = data.getOffset();

@@ -10,9 +10,9 @@ public class NumberColumn extends AbstractColumn
       return 18;
    }
 
-   @Override protected int readData(byte[] buffer, int startIndex, int offset)
+   @Override protected int readData(byte[] buffer, int offset)
    {
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex + offset);
+      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();

@@ -10,11 +10,8 @@ public class AssignmentColumn extends AbstractColumn
       return 14;
    }
 
-   @Override protected int readData(byte[] buffer, int startIndex, int offset)
+   @Override protected int readData(byte[] buffer, int offset)
    {
-      // TODO: temp
-      offset += startIndex;
-
       if (FastTrackUtility.getByte(buffer, offset) == 0x01)
       {
          offset += 2;

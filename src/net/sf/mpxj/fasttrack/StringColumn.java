@@ -10,11 +10,11 @@ public class StringColumn extends AbstractColumn
       return 0;
    }
 
-   @Override protected int readData(byte[] buffer, int startIndex, int offset)
+   @Override protected int readData(byte[] buffer, int offset)
    {
-      offset = FastTrackUtility.skipTo(offset, buffer, startIndex, 0x000F);
+      offset = FastTrackUtility.skipTo(offset, buffer, 0, 0x000F);
 
-      m_data = new String[FastTrackUtility.getInt(buffer, startIndex + offset)];
+      m_data = new String[FastTrackUtility.getInt(buffer, offset)];
       offset += 4;
 
       // Offset to data
@@ -23,7 +23,7 @@ public class StringColumn extends AbstractColumn
       int[] blockOffsets = new int[m_data.length + 1];
       for (int index = 0; index < blockOffsets.length; index++)
       {
-         int offsetInBlock = FastTrackUtility.getInt(buffer, startIndex + offset);
+         int offsetInBlock = FastTrackUtility.getInt(buffer, offset);
          blockOffsets[index] = offsetInBlock;
          offset += 4;
       }
@@ -34,7 +34,7 @@ public class StringColumn extends AbstractColumn
       for (int index = 0; index < m_data.length; index++)
       {
          int itemNameLength = blockOffsets[index + 1] - blockOffsets[index];
-         m_data[index] = new String(buffer, startIndex + offset, itemNameLength, FastTrackUtility.UTF16LE);
+         m_data[index] = new String(buffer, offset, itemNameLength, FastTrackUtility.UTF16LE);
          offset += itemNameLength;
       }
       return offset;

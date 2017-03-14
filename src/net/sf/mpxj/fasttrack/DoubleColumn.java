@@ -10,14 +10,14 @@ public class DoubleColumn extends AbstractColumn
       return 16;
    }
 
-   @Override protected int readData(byte[] buffer, int startIndex, int offset)
+   @Override protected int readData(byte[] buffer, int offset)
    {
-      m_data = new Double[FastTrackUtility.getInt(buffer, startIndex + offset)];
+      m_data = new Double[FastTrackUtility.getInt(buffer, offset)];
       offset += 4;
 
       for (int index = 0; index < m_data.length; index++)
       {
-         m_data[index] = FastTrackUtility.getDouble(buffer, startIndex + offset);
+         m_data[index] = FastTrackUtility.getDouble(buffer, offset);
          offset += 8;
       }
 
