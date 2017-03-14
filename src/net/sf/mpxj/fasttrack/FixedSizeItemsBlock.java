@@ -4,17 +4,17 @@ package net.sf.mpxj.fasttrack;
 public class FixedSizeItemsBlock
 {
 
-   public FixedSizeItemsBlock read(byte[] buffer, int startIndex, int offset)
+   public FixedSizeItemsBlock read(byte[] buffer, int offset)
    {
       // Offset to data
       offset += 2;
 
-      int numberOfItems = FastTrackUtility.getInt(buffer, startIndex + offset);
+      int numberOfItems = FastTrackUtility.getInt(buffer, offset);
       offset += 4;
 
       FastTrackUtility.validateSize(numberOfItems);
 
-      int itemLength = FastTrackUtility.getShort(buffer, startIndex + offset);
+      int itemLength = FastTrackUtility.getShort(buffer, offset);
       offset += 2;
 
       FastTrackUtility.validateSize(itemLength);
@@ -28,9 +28,9 @@ public class FixedSizeItemsBlock
          byte[] item = new byte[itemLength];
          m_data[index] = item;
 
-         FastTrackUtility.validateOffset(buffer, startIndex + offset + itemLength);
+         FastTrackUtility.validateOffset(buffer, offset + itemLength);
 
-         System.arraycopy(buffer, startIndex + offset, item, 0, itemLength);
+         System.arraycopy(buffer, offset, item, 0, itemLength);
          offset += itemLength;
       }
 

@@ -16,7 +16,7 @@ public class DateColumn extends AbstractColumn
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
+      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex + offset);
       offset = data.getOffset();
 
       Calendar cal = Calendar.getInstance();

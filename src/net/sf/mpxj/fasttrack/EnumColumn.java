@@ -19,7 +19,7 @@ public class EnumColumn extends AbstractColumn
       // Skip bytes
       offset += 4;
 
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
+      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex + offset);
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();

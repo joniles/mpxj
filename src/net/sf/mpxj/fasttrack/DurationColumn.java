@@ -12,9 +12,9 @@ public class DurationColumn extends AbstractColumn
 
    @Override protected int readData(byte[] buffer, int startIndex, int offset)
    {
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
+      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex + offset);
       offset = data.getOffset();
-      m_timeUnitValue = FastTrackUtility.getByte(buffer, startIndex + offset);
+      m_timeUnitValue = FastTrackUtility.getByte(buffer, offset);
 
       byte[][] rawData = data.getData();
       m_data = new Double[rawData.length];

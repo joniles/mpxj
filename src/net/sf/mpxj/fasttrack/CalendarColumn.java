@@ -19,7 +19,7 @@ public class CalendarColumn extends AbstractColumn
       // Skip bytes
       offset += 10;
 
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex, offset);
+      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, startIndex + offset);
       offset = data.getOffset();
 
       byte[][] rawData = data.getData();
