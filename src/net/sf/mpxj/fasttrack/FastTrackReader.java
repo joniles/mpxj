@@ -70,7 +70,10 @@ public class FastTrackReader implements ProjectReader
       }
       finally
       {
-         file.delete();
+         if (file != null)
+         {
+            file.delete();
+         }
       }
    }
 

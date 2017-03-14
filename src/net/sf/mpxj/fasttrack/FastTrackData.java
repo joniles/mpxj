@@ -95,9 +95,9 @@ class FastTrackData
    }
 
    /**
-    * Retrieve a named table of data.
+    * Retrieve a table of data.
     *
-    * @param name table name
+    * @param type table type
     * @return FastTrackTable instance
     */
    public FastTrackTable getTable(FastTrackTableType type)

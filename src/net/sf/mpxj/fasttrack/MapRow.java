@@ -18,6 +18,7 @@ class MapRow
    /**
     * Constructor.
     *
+    * @param table parent table
     * @param map map to be wrapped by this instance
     */
    public MapRow(FastTrackTable table, Map<FastTrackField, Object> map)
@@ -26,41 +27,26 @@ class MapRow
       m_map = map;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public String getString(FastTrackField name)
    {
       return (String) getObject(name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public Integer getInteger(FastTrackField name)
    {
       return (Integer) getObject(name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public Double getDouble(FastTrackField name)
    {
       return (Double) getObject(name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public Double getCurrency(FastTrackField name)
    {
       return getDouble(name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public boolean getBoolean(FastTrackField name)
    {
       boolean result = false;
@@ -72,9 +58,6 @@ class MapRow
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public int getInt(FastTrackField name)
    {
       return (NumberHelper.getInt((Number) getObject(name)));
@@ -111,18 +94,12 @@ class MapRow
       return (Date) getObject(name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public Duration getDuration(FastTrackField name)
    {
       Double value = (Double) getObject(name);
       return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getDurationTimeUnit());
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public Duration getWork(FastTrackField name)
    {
       Double value = (Double) getObject(name);
@@ -141,9 +118,6 @@ class MapRow
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    public UUID getUUID(FastTrackField name)
    {
       String value = getString(name);
