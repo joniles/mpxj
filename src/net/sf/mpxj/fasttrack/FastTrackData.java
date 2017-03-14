@@ -253,7 +253,6 @@ class FastTrackData
          {
             m_currentFields.add(type);
             m_currentTable.addColumn(column);
-            System.out.println(m_currentTable.getType() + "." + column.getName() + "\t" + column.getIndexNumber() + "\t" + column.getFlags() + "\t" + column.getType());
             updateDurationTimeUnit(column);
             updateWorkTimeUnit(column);
 

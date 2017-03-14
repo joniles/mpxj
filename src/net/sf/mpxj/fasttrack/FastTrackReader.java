@@ -494,7 +494,6 @@ public class FastTrackReader implements ProjectReader
 
          for (String predecessor : predecessors.split(", "))
          {
-            System.err.println(task + ": " + predecessor);
             Matcher matcher = RELATION_REGEX.matcher(predecessor);
             matcher.matches();
 

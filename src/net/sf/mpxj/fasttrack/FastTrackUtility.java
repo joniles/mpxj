@@ -141,7 +141,6 @@ public final class FastTrackUtility
 
          default:
          {
-            System.out.println("FIXME: " + value);
             break;
          }
       }
