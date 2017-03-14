@@ -1,8 +1,8 @@
 /*
  * file:       AbstractColumn.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2016
- * date:       27/01/2016
+ * copyright:  (c) Packwood Software 2017
+ * date:       14/03/2016
  */
 
 /*
@@ -55,8 +55,20 @@ abstract class AbstractColumn implements FastTrackColumn
     */
    protected abstract int postHeaderSkipBytes();
 
+   /**
+    * Reads data in a format specific to the column type.
+    *
+    * @param buffer buffer containing column data
+    * @param offset current offset into the buffer
+    * @return offset after reading the column data
+    */
    protected abstract int readData(byte[] buffer, int offset);
 
+   /**
+    * Dump the column data for debugging.
+    *
+    * @param pw debug output
+    */
    protected abstract void dumpData(PrintWriter pw);
 
    @Override public String getName()

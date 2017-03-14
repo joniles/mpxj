@@ -1,6 +1,31 @@
+/*
+ * file:       ActBarField.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2017
+ * date:       14/03/2016
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.fasttrack;
 
+/**
+ * List of columns contained in the ActBar table.
+ */
 enum ActBarField implements FastTrackField
 {
    START_DATE(1),
@@ -365,6 +390,11 @@ enum ActBarField implements FastTrackField
    CALCULATION_99(1828),
    CALCULATION_100(1829);
 
+   /**
+    * Constructor.
+    *
+    * @param value field ID from FTS file
+    */
    private ActBarField(int value)
    {
       m_value = value;
@@ -372,6 +402,12 @@ enum ActBarField implements FastTrackField
 
    private final int m_value;
 
+   /**
+    * Retrieve an ActBarField instance given a field ID.
+    *
+    * @param value field ID
+    * @return ActBarField instance
+    */
    public static final ActBarField getInstance(int value)
    {
       ActBarField result;
