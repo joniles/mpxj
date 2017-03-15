@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing percentage values.
  */
-public class PercentColumn extends AbstractColumn
+class PercentColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

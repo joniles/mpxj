@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
-public class FixedSizeItemsBlock
+class FixedSizeItemsBlock
 {
 
    public FixedSizeItemsBlock read(byte[] buffer, int offset)

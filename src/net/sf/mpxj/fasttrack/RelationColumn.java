@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing task relationships.
  */
-public class RelationColumn extends AbstractColumn
+class RelationColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

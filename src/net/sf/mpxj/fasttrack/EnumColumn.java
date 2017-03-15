@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing enumerated values.
  */
-public class EnumColumn extends AbstractColumn
+class EnumColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

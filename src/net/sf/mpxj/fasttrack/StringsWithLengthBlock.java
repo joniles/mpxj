@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.fasttrack;
 
-public class StringsWithLengthBlock
+class StringsWithLengthBlock
 {
 
    public StringsWithLengthBlock read(byte[] buffer, int offset, boolean inclusive)

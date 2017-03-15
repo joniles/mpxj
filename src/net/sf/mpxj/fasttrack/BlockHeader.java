@@ -29,7 +29,7 @@ import java.io.PrintWriter;
 /**
  * Common header structure which appears at the start of each block containing column data.
  */
-public class BlockHeader
+class BlockHeader
 {
 
    /**

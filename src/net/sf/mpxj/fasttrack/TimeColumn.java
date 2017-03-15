@@ -32,7 +32,7 @@ import java.util.Date;
 /**
  * Column containing time values.
  */
-public class TimeColumn extends AbstractColumn
+class TimeColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

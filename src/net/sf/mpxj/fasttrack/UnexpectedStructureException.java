@@ -27,7 +27,7 @@ package net.sf.mpxj.fasttrack;
  * Thrown to halt processing a particular part of the FTS file if
  * we find that the structure does not match our expectation.
  */
-public class UnexpectedStructureException extends RuntimeException
+class UnexpectedStructureException extends RuntimeException
 {
    // Default exception implementation
 }

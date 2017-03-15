@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Placeholder for a column we don't know how to read.
  */
-public class UnknownColumn extends AbstractColumn
+class UnknownColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing duration values.
  */
-public class DurationColumn extends AbstractColumn
+class DurationColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

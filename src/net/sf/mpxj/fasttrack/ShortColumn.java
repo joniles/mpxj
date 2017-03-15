@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing two byte integr values.
  */
-public class ShortColumn extends AbstractColumn
+class ShortColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

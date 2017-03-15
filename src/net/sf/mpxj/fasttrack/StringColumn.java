@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing text values.
  */
-public class StringColumn extends AbstractColumn
+class StringColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

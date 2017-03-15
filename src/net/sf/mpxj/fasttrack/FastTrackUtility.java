@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 import net.sf.mpxj.TimeUnit;
 
-public final class FastTrackUtility
+final class FastTrackUtility
 {
    public static final void validateSize(int size)
    {

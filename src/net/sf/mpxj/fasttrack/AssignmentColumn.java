@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Represents resource assignments.
  */
-public class AssignmentColumn extends AbstractColumn
+class AssignmentColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

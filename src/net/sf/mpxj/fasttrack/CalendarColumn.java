@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing calendar name.
  */
-public class CalendarColumn extends AbstractColumn
+class CalendarColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

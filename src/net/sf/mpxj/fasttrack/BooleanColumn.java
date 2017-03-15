@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing Boolean values.
  */
-public class BooleanColumn extends AbstractColumn
+class BooleanColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

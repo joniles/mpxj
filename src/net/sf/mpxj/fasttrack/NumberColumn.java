@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing double values.
  */
-public class NumberColumn extends AbstractColumn
+class NumberColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}

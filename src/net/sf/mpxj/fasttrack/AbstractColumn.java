@@ -76,16 +76,6 @@ abstract class AbstractColumn implements FastTrackColumn
       return m_header.getName();
    }
 
-   @Override public int getIndexNumber()
-   {
-      return m_header.getColumnType();
-   }
-
-   @Override public int getFlags()
-   {
-      return m_header.getFlags();
-   }
-
    @Override public FastTrackField getType()
    {
       return m_type;

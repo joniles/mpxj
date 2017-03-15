@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing integer values.
  */
-public class IntegerColumn extends AbstractColumn
+class IntegerColumn extends AbstractColumn
 {
    /**
     * {@inheritDoc}
