@@ -55,6 +55,13 @@ public final class NumberHelper
       return (value == null || value.length() == 0 ? 0 : Integer.parseInt(value));
    }
 
+   /**
+    * This method retrieves a double value from a String instance.
+    * It returns zero by default if a null value or an empty string is supplied.
+    *
+    * @param value string representation of a double
+    * @return double value
+    */
    public static final double getDouble(String value)
    {
       return (value == null || value.length() == 0 ? 0 : Double.parseDouble(value));

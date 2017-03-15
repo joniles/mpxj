@@ -43,7 +43,7 @@ class StringColumn extends AbstractColumn
     */
    @Override protected int readData(byte[] buffer, int offset)
    {
-      offset = FastTrackUtility.skipTo(buffer, offset, 0x000F);
+      offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000F);
 
       m_data = new String[FastTrackUtility.getInt(buffer, offset)];
       offset += 4;

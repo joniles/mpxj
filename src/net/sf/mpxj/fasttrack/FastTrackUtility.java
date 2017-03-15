@@ -28,8 +28,16 @@ import java.text.DecimalFormat;
 
 import net.sf.mpxj.TimeUnit;
 
+/**
+ * Common methods used when redaing an FTS file.
+ */
 final class FastTrackUtility
 {
+   /**
+    * Ensure that a size value falls within sensible bounds.
+    *
+    * @param size value
+    */
    public static final void validateSize(int size)
    {
       if (size < 0 || size > 100000)
@@ -38,6 +46,12 @@ final class FastTrackUtility
       }
    }
 
+   /**
+    * Ensure that an array index is in range.
+    *
+    * @param buffer array of data
+    * @param offset index into arry
+    */
    public static final void validateOffset(byte[] buffer, int offset)
    {
       if (offset >= buffer.length)
@@ -46,6 +60,13 @@ final class FastTrackUtility
       }
    }
 
+   /**
+    * Retrieve a four byte integer.
+    *
+    * @param data array of data
+    * @param offset offset into array
+    * @return int value
+    */
    public static final int getInt(byte[] data, int offset)
    {
       int result = 0;
@@ -58,6 +79,13 @@ final class FastTrackUtility
       return result;
    }
 
+   /**
+    * Retrieve a two byte integer.
+    *
+    * @param data array of data
+    * @param offset offset into array
+    * @return int value
+    */
    public static final int getShort(byte[] data, int offset)
    {
       int result = 0;
@@ -111,12 +139,25 @@ final class FastTrackUtility
       return result;
    }
 
+   /**
+    * Retrieve a single byte from an input array.
+    *
+    * @param data input array
+    * @param offset offset into inut array
+    * @return byte value
+    */
    public static final int getByte(byte[] data, int offset)
    {
       int result = (data[offset] & 0xFF);
       return result;
    }
 
+   /**
+    * Convert an integer value into a TimeUnit instance.
+    *
+    * @param value time unit value
+    * @return TimeUnit instance
+    */
    public static final TimeUnit getTimeUnit(int value)
    {
       TimeUnit result = null;
@@ -125,7 +166,7 @@ final class FastTrackUtility
       {
          case 1:
          {
-            // TEMP - means same as document format?
+            // Appears to mean "use the document format"
             result = TimeUnit.ELAPSED_DAYS;
             break;
          }
@@ -170,7 +211,15 @@ final class FastTrackUtility
       return result;
    }
 
-   public static int skipTo(byte[] buffer, int offset, int value)
+   /**
+    * Skip to the next matching short value.
+    *
+    * @param buffer input data array
+    * @param offset start offset into the input array
+    * @param value value to match
+    * @return offset of matching pattern
+    */
+   public static int skipToNextMatchingShort(byte[] buffer, int offset, int value)
    {
       int nextOffset = offset;
       while (getShort(buffer, nextOffset) != value)

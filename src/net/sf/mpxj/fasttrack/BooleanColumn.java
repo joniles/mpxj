@@ -47,7 +47,7 @@ class BooleanColumn extends AbstractColumn
       m_options = options.getData();
       offset = options.getOffset();
 
-      offset = FastTrackUtility.skipTo(buffer, offset, 0x000F);
+      offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000F);
 
       m_data = new Boolean[FastTrackUtility.getInt(buffer, offset) + 1];
       offset += 4;

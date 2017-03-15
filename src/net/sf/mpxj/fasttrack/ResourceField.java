@@ -348,6 +348,11 @@ enum ResourceField implements FastTrackField
    IMAGE_9(938),
    IMAGE_10(939);
 
+   /**
+    * Constructor.
+    *
+    * @param value field ID from FTS file
+    */
    private ResourceField(int value)
    {
       m_value = value;
@@ -355,6 +360,12 @@ enum ResourceField implements FastTrackField
 
    private final int m_value;
 
+   /**
+    * Retrieve a ResourceField instance given a field ID.
+    *
+    * @param value field ID
+    * @return ResourceField instance
+    */
    public static final ResourceField getInstance(int value)
    {
       ResourceField result;
