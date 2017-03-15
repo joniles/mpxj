@@ -231,6 +231,17 @@ final class FastTrackUtility
       return nextOffset;
    }
 
+   /**
+    * Dump raw data as hex.
+    *
+    * @param buffer buffer
+    * @param offset offset into buffer
+    * @param length length of data to dump
+    * @param ascii true if ASCII should also be printed
+    * @param columns number of columns
+    * @param prefix prefix when printing
+    * @return hex dump
+    */
    public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
    {
       StringBuilder sb = new StringBuilder();
@@ -259,6 +270,15 @@ final class FastTrackUtility
       return (sb.toString());
    }
 
+   /**
+    * Dump raw data as hex.
+    *
+    * @param buffer buffer
+    * @param offset offset into buffer
+    * @param length length of data to dump
+    * @param ascii true if ASCII should also be printed
+    * @return hex dump
+    */
    public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
    {
       StringBuilder sb = new StringBuilder();
@@ -295,12 +315,6 @@ final class FastTrackUtility
       }
 
       return (sb.toString());
-   }
-
-   public static final String nameToConstant(String name)
-   {
-      String result = name.toUpperCase();
-      return result.replace(' ', '_');
    }
 
    private static final long NULL_DOUBLE = 0x3949F623D5A8A733L;

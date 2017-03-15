@@ -23,9 +23,19 @@
 
 package net.sf.mpxj.fasttrack;
 
+/**
+ * Reads data from a block containing text strings.
+ */
 class StringsWithLengthBlock
 {
-
+   /**
+    * Read data, return the current instance.
+    *
+    * @param buffer buffer containing data
+    * @param offset offset into buffer
+    * @param inclusive true if n+1 item read
+    * @return current StringsWithLengthBlock instance
+    */
    public StringsWithLengthBlock read(byte[] buffer, int offset, boolean inclusive)
    {
       int numberOfItems = FastTrackUtility.getInt(buffer, offset);
@@ -54,11 +64,21 @@ class StringsWithLengthBlock
       return this;
    }
 
+   /**
+    * Retrieve the data read from this block.
+    *
+    * @return data
+    */
    public String[] getData()
    {
       return m_data;
    }
 
+   /**
+    * Retrieve the offset into the block after the data has been read.
+    *
+    * @return offset
+    */
    public int getOffset()
    {
       return m_offset;

@@ -23,9 +23,18 @@
 
 package net.sf.mpxj.fasttrack;
 
+/**
+ * Reads data from a block containing fixed size items of data.
+ */
 class FixedSizeItemsBlock
 {
-
+   /**
+    * Read data, return the current instance.
+    *
+    * @param buffer buffer containing data
+    * @param offset offset into buffer
+    * @return current FixedSizeItemsBlock instance
+    */
    public FixedSizeItemsBlock read(byte[] buffer, int offset)
    {
       // Offset to data
@@ -61,11 +70,21 @@ class FixedSizeItemsBlock
       return this;
    }
 
+   /**
+    * Retrieve the data read from this block.
+    *
+    * @return data
+    */
    public byte[][] getData()
    {
       return m_data;
    }
 
+   /**
+    * Retrieve the offset into the block after the data has been read.
+    *
+    * @return offset
+    */
    public int getOffset()
    {
       return m_offset;
