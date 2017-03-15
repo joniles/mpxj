@@ -171,7 +171,7 @@ class FastTrackData
             FastTrackTableType type = REQUIRED_TABLES.get(name);
             if (type != null)
             {
-               m_currentTable = new FastTrackTable(this, type);
+               m_currentTable = new FastTrackTable(type, this);
                m_tables.put(type, m_currentTable);
             }
             else

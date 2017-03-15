@@ -49,15 +49,18 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
 // TODO:
-// 0. Customized column names
 // 1. Handle multiple bars per activity
-// 2. Task created attribute parse
+// 2. Parse the Task "created" attribute
 // 3. Resource rates
-// 4. Hyperlinks
+// 4. Task and resource hyperlinks
 // 5. Project header data
-// 6. Parse calendars
-// 7. Handle resources with embedded commas
+// 6. Calendars
+// 7. Handle resources with embedded commas in their names
+// 8. Parse the task and resource binary data blocks
 
+/**
+ * Reads FastTrack FTS files.
+ */
 public class FastTrackReader implements ProjectReader
 {
    /**
@@ -72,11 +75,17 @@ public class FastTrackReader implements ProjectReader
       m_projectListeners.add(listener);
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
       return read(new File(fileName));
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       File file = null;
@@ -99,13 +108,16 @@ public class FastTrackReader implements ProjectReader
       }
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
       {
          m_data = new FastTrackData();
-         // TODO: temp log file
-         m_data.setLogFile("c:/temp/project1.txt");
+         // Uncomment this to write debug data to a log file
+         // m_data.setLogFile("c:/temp/project1.txt");
          m_data.process(file);
          return read();
       }
@@ -119,6 +131,11 @@ public class FastTrackReader implements ProjectReader
       }
    }
 
+   /**
+    * Read FTS file data from the configured source and return a populated ProjectFile instance.
+    *
+    * @return ProjectFile instance
+    */
    private ProjectFile read() throws Exception
    {
       m_project = new ProjectFile();
@@ -144,6 +161,9 @@ public class FastTrackReader implements ProjectReader
       return m_project;
    }
 
+   /**
+    * Process resource data.
+    */
    private void processResources()
    {
       FastTrackTable table = m_data.getTable(FastTrackTableType.RESOURCES);
@@ -239,6 +259,9 @@ public class FastTrackReader implements ProjectReader
       }
    }
 
+   /**
+    * Process task data.
+    */
    private void processTasks()
    {
       int uniqueID = 0;
@@ -498,6 +521,9 @@ public class FastTrackReader implements ProjectReader
       m_project.updateStructure();
    }
 
+   /**
+    * Process task dependencies.
+    */
    private void processDependencies()
    {
       Set<Task> tasksWithBars = new HashSet<Task>();
@@ -546,6 +572,9 @@ public class FastTrackReader implements ProjectReader
       }
    }
 
+   /**
+    * Process resource assignments.
+    */
    private void processAssignments()
    {
       Set<Task> tasksWithBars = new HashSet<Task>();
@@ -582,6 +611,12 @@ public class FastTrackReader implements ProjectReader
       }
    }
 
+   /**
+    * Extract the outline level from a task's WBS attribute.
+    *
+    * @param task Task instance
+    * @return outline level
+    */
    private Integer getOutlineLevel(Task task)
    {
       String value = task.getWBS();
