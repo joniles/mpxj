@@ -1,15 +1,46 @@
+/*
+ * file:       EnumColumn.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2017
+ * date:       14/03/2017
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
+/**
+ * Column containing enumerated values.
+ */
 public class EnumColumn extends AbstractColumn
 {
+   /**
+    * {@inheritDoc}
+    */
    @Override protected int postHeaderSkipBytes()
    {
       return 34;
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, offset, false);
@@ -36,6 +67,9 @@ public class EnumColumn extends AbstractColumn
       return offset;
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Options");

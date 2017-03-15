@@ -2,7 +2,7 @@
  * file:       AbstractColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
- * date:       14/03/2016
+ * date:       14/03/2017
  */
 
 /*
@@ -78,7 +78,7 @@ abstract class AbstractColumn implements FastTrackColumn
 
    @Override public int getIndexNumber()
    {
-      return m_header.getIndexNumber();
+      return m_header.getColumnType();
    }
 
    @Override public int getFlags()
@@ -120,17 +120,17 @@ abstract class AbstractColumn implements FastTrackColumn
       {
          case ACTBARS:
          {
-            m_type = ActBarField.getInstance(m_header.getIndexNumber());
+            m_type = ActBarField.getInstance(m_header.getColumnType());
             break;
          }
          case ACTIVITIES:
          {
-            m_type = ActivityField.getInstance(m_header.getIndexNumber());
+            m_type = ActivityField.getInstance(m_header.getColumnType());
             break;
          }
          case RESOURCES:
          {
-            m_type = ResourceField.getInstance(m_header.getIndexNumber());
+            m_type = ResourceField.getInstance(m_header.getColumnType());
             break;
          }
       }
