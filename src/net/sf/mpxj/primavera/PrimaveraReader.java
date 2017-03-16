@@ -620,7 +620,8 @@ final class PrimaveraReader
          Date endDate = row.getDate("act_end_date") == null ? row.getDate("reend_date") : row.getDate("act_end_date");
          task.setFinish(endDate);
 
-         populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
+         Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), m_project.getProjectProperties());
+         task.setWork(work);
 
          // Add User Defined Fields
          List<Row> taskUDF = getTaskUDF(uniqueID, udfVals);
