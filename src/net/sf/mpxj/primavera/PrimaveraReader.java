@@ -636,6 +636,7 @@ final class PrimaveraReader
       sortActivities(activityIDField, m_project);
       updateStructure();
       updateDates();
+      updateWork();
    }
 
    /**
@@ -1060,6 +1061,52 @@ final class PrimaveraReader
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
+      }
+   }
+
+   /**
+    * The Primavera WBS entries we read in as tasks don't have work entered. We try
+    * to compensate for this by summing the child tasks' work. This method recursively
+    * descends through the tasks to do this.
+    */
+   private void updateWork()
+   {
+      for (Task task : m_project.getChildTasks())
+      {
+         updateWork(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task.
+    */
+   private void updateWork(Task parentTask)
+   {
+      if (parentTask.getSummary())
+      {
+         ProjectProperties properties = m_project.getProjectProperties();
+
+         Duration actualWork = null;
+         Duration baselineWork = null;
+         Duration remainingWork = null;
+         Duration work = null;
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateWork(task);
+
+            actualWork = Duration.add(actualWork, task.getActualWork(), properties);
+            baselineWork = Duration.add(baselineWork, task.getBaselineWork(), properties);
+            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), properties);
+            work = Duration.add(work, task.getWork(), properties);
+         }
+
+         parentTask.setActualWork(actualWork);
+         parentTask.setBaselineWork(baselineWork);
+         parentTask.setRemainingWork(remainingWork);
+         parentTask.setWork(work);
       }
    }
 
