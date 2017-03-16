@@ -372,6 +372,13 @@ final class PrimaveraReader
          Resource resource = m_project.addResource();
          processFields(m_resourceFields, row, resource);
          resource.setResourceCalendar(getResourceCalendar(row.getInteger("clndr_id")));
+
+         // Even though we're not filling in a rate, filling in a time unit can still be useful
+         // so that we know what rate time unit was originally used in Primavera.
+         TimeUnit timeUnit = TIME_UNIT_MAP.get(row.getString("cost_qty_type"));
+         resource.setStandardRateUnits(timeUnit);
+         resource.setOvertimeRateUnits(timeUnit);
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
@@ -1612,6 +1619,17 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_Mile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_FinMile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
+   }
+
+   private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<String, TimeUnit>();
+   static
+   {
+      TIME_UNIT_MAP.put("QT_Minute", TimeUnit.MINUTES);
+      TIME_UNIT_MAP.put("QT_Hour", TimeUnit.HOURS);
+      TIME_UNIT_MAP.put("QT_Day", TimeUnit.DAYS);
+      TIME_UNIT_MAP.put("QT_Week", TimeUnit.WEEKS);
+      TIME_UNIT_MAP.put("QT_Month", TimeUnit.MONTHS);
+      TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
 
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<String, CurrencySymbolPosition>();
