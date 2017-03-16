@@ -512,9 +512,9 @@ final class PrimaveraReader
     * @param tasks task data
     * @param costs task costs
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> costs)
+   public void processTasks(List<Row> wbs, List<Row> tasks)
    {
-      processTasks(wbs, tasks, costs, null);
+      processTasks(wbs, tasks, null);
    }
 
    /**
@@ -525,10 +525,9 @@ final class PrimaveraReader
     * @param costs task costs
     * @param udfVals User Defined Fields values data
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> costs, List<Row> udfVals)
+   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> udfVals)
    {
       Set<Integer> uniqueIDs = new HashSet<Integer>();
-      Map<Integer, TaskCosts> taskCostsMap = processCosts(costs);
 
       //
       // Read WBS entries and create tasks.
@@ -611,17 +610,6 @@ final class PrimaveraReader
          }
          uniqueIDs.add(uniqueID);
 
-         //
-         // Apply costs if we have any
-         //
-         TaskCosts taskCosts = taskCostsMap.get(row.getInteger("task_id"));
-         if (taskCosts != null)
-         {
-            task.setActualCost(taskCosts.getActual());
-            task.setCost(taskCosts.getPlanned());
-            task.setRemainingCost(taskCosts.getRemaining());
-         }
-
          Integer calId = row.getInteger("clndr_id");
          ProjectCalendar cal = m_calMap.get(calId);
          task.setCalendar(cal);
@@ -667,33 +655,6 @@ final class PrimaveraReader
          }
       }
       return result;
-   }
-
-   /**
-    * Summarise cost values for each task.
-    *
-    * @param costs list of cost rows
-    * @return map of task IDs to costs
-    */
-   private Map<Integer, TaskCosts> processCosts(List<Row> costs)
-   {
-      Map<Integer, TaskCosts> map = new HashMap<Integer, TaskCosts>();
-      for (Row cost : costs)
-      {
-         Integer taskID = cost.getInteger("task_id");
-         TaskCosts taskCosts = map.get(taskID);
-         if (taskCosts == null)
-         {
-            taskCosts = new TaskCosts();
-            map.put(taskID, taskCosts);
-         }
-
-         taskCosts.addActual(cost.getDouble("act_cost"));
-         taskCosts.addPlanned(cost.getDouble("target_cost"));
-         taskCosts.addRemaining(cost.getDouble("remain_cost"));
-      }
-
-      return map;
    }
 
    /**
@@ -1169,6 +1130,59 @@ final class PrimaveraReader
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
+
+      updateTaskCosts();
+   }
+
+   /**
+    * Sets task cost fields by summing the resource assignment costs. The "projcost" table isn't
+    * necessarily available in XER files so we do this instead to back into task costs. Costs for
+    * the summary tasks constructed from Primavera WBS entries are calculated by recursively
+    * summing child costs.
+    */
+   private void updateTaskCosts()
+   {
+      for (Task task : m_project.getChildTasks())
+      {
+         updateTaskCosts(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task
+    */
+   private void updateTaskCosts(Task parentTask)
+   {
+      double baselineCost = 0;
+      double actualCost = 0;
+      double remainingCost = 0;
+      double cost = 0;
+
+      //process children first before adding their costs
+      for (Task child : parentTask.getChildTasks())
+      {
+         updateTaskCosts(child);
+         baselineCost += NumberHelper.getDouble(child.getBaselineCost());
+         actualCost += NumberHelper.getDouble(child.getActualCost());
+         remainingCost += NumberHelper.getDouble(child.getRemainingCost());
+         cost += NumberHelper.getDouble(child.getCost());
+      }
+
+      List<ResourceAssignment> resourceAssignments = parentTask.getResourceAssignments();
+      for (ResourceAssignment assignment : resourceAssignments)
+      {
+         baselineCost += NumberHelper.getDouble(assignment.getBaselineCost());
+         actualCost += NumberHelper.getDouble(assignment.getActualCost());
+         remainingCost += NumberHelper.getDouble(assignment.getRemainingCost());
+         cost += NumberHelper.getDouble(assignment.getCost());
+      }
+
+      parentTask.setBaselineCost(NumberHelper.getDouble(baselineCost));
+      parentTask.setActualCost(NumberHelper.getDouble(actualCost));
+      parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
+      parentTask.setCost(NumberHelper.getDouble(cost));
    }
 
    /**

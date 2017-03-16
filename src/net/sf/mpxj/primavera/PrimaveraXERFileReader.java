@@ -417,12 +417,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
-      List<Row> costs = getRows("projcost", "proj_id", m_projectID);
       //List<Row> wbsmemos = getRows("wbsmemo", "proj_id", m_projectID);
       //List<Row> taskmemos = getRows("taskmemo", "proj_id", m_projectID);
       List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks, costs, udfVals/*, wbsmemos, taskmemos*/);
+      m_reader.processTasks(wbs, tasks, udfVals/*, wbsmemos, taskmemos*/);
    }
 
    /**
@@ -934,7 +933,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("currtype");
       REQUIRED_TABLES.add("udftype");
       REQUIRED_TABLES.add("udfvalue");
-      REQUIRED_TABLES.add("projcost");
    }
 
    private static final WbsRowComparator WBS_ROW_COMPARATOR = new WbsRowComparator();
