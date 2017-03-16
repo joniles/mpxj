@@ -146,6 +146,8 @@ final class PrimaveraReader
          properties.setProjectTitle(row.getString("proj_short_name"));
          properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
+         // cannot assign actual calendar yet as it has not been read yet
+         m_defaultCalendarID = row.getInteger("clndr_id");
       }
    }
 
@@ -175,6 +177,15 @@ final class PrimaveraReader
       for (Row row : rows)
       {
          processCalendar(row);
+      }
+
+      if (m_defaultCalendarID != null)
+      {
+         ProjectCalendar defaultCalendar = m_calMap.get(m_defaultCalendarID);
+         // Primavera XER files can sometimes not contain a definition of the default
+         // project calendar so only try to set if we find a definition.
+         if (defaultCalendar != null)
+            m_project.setDefaultCalendar(defaultCalendar);
       }
    }
 
@@ -1525,6 +1536,7 @@ final class PrimaveraReader
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
+   private Integer m_defaultCalendarID;
    private Map<Integer, String> m_udfMap = new HashMap<Integer, String>();
    private final UserFieldCounters m_udfCounters;
    private Map<FieldType, String> m_resourceFields;
