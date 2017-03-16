@@ -1119,10 +1119,26 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
-            populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
             populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
+
+            // include actual overtime work in work calculations
+            Duration remainingWork = row.getDuration("remain_qty");
+            Duration actualOvertimeWork = row.getDuration("act_ot_qty");
+            Duration actualRegularWork = row.getDuration("act_reg_qty");
+            Duration actualWork = Duration.add(actualOvertimeWork, actualRegularWork, m_project.getProjectProperties());
+            Duration totalWork = Duration.add(actualWork, remainingWork, m_project.getProjectProperties());
+            assignment.setActualWork(actualWork);
+            assignment.setWork(totalWork);
+
+            // include actual overtime cost in cost calculations
+            Double remainingCost = row.getDouble("remain_cost");
+            Double actualOvertimeCost = row.getDouble("act_ot_cost");
+            Double actualRegularCost = row.getDouble("act_reg_cost");
+            double actualCost = NumberHelper.getDouble(actualOvertimeCost) + NumberHelper.getDouble(actualRegularCost);
+            double totalCost = actualCost + NumberHelper.getDouble(remainingCost);
+            assignment.setActualCost(NumberHelper.getDouble(actualCost));
+            assignment.setCost(NumberHelper.getDouble(totalCost));
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
@@ -1472,9 +1488,10 @@ final class PrimaveraReader
       map.put(AssignmentField.GUID, "guid");
       map.put(AssignmentField.REMAINING_WORK, "remain_qty");
       map.put(AssignmentField.BASELINE_WORK, "target_qty");
-      map.put(AssignmentField.ACTUAL_WORK, "act_reg_qty");
+      map.put(AssignmentField.ACTUAL_OVERTIME_WORK, "act_ot_qty");
       map.put(AssignmentField.BASELINE_COST, "target_cost");
-      map.put(AssignmentField.ACTUAL_COST, "act_reg_cost");
+      map.put(AssignmentField.ACTUAL_OVERTIME_COST, "act_ot_cost");
+      map.put(AssignmentField.REMAINING_COST, "remain_cost");
       map.put(AssignmentField.ACTUAL_START, "act_start_date");
       map.put(AssignmentField.ACTUAL_FINISH, "act_end_date");
       map.put(AssignmentField.BASELINE_START, "target_start_date");

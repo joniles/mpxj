@@ -861,8 +861,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("remain_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("act_reg_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("act_ot_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("act_reg_cost", XerFieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("act_ot_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
