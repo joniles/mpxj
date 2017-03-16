@@ -1151,6 +1151,13 @@ final class PrimaveraReader
             assignment.setActualCost(NumberHelper.getDouble(actualCost));
             assignment.setCost(NumberHelper.getDouble(totalCost));
 
+            double units;
+            if (resource.getType() == ResourceType.MATERIAL)
+               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+            else // RT_Labor & RT_Equip
+               units = NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100;
+            assignment.setUnits(NumberHelper.getDouble(units));
+
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
