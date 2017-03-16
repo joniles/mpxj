@@ -122,6 +122,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          processUserDefinedFields();
          processCalendars();
          processResources();
+         processResourceRates();
          processTasks();
          processPredecessors();
          processAssignments();
@@ -177,6 +178,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             processUserDefinedFields();
             processCalendars();
             processResources();
+            processResourceRates();
             processTasks();
             processPredecessors();
             processAssignments();
@@ -397,6 +399,15 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       List<Row> rows = getRows("rsrc", null, null);
       m_reader.processResources(rows);
+   }
+
+   /**
+    * Process resource rates.
+    */
+   private void processResourceRates()
+   {
+      List<Row> rows = getRows("rsrcrate", null, null);
+      m_reader.processResourceRates(rows);
    }
 
    /**
@@ -900,6 +911,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("udf_number", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("udf_text", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("udf_code_id", XerFieldType.INTEGER);
+
+      FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
+
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
@@ -908,6 +924,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("project");
       REQUIRED_TABLES.add("calendar");
       REQUIRED_TABLES.add("rsrc");
+      REQUIRED_TABLES.add("rsrcrate");
       REQUIRED_TABLES.add("projwbs");
       REQUIRED_TABLES.add("task");
       REQUIRED_TABLES.add("taskpred");

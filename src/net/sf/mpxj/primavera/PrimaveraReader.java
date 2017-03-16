@@ -38,8 +38,12 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
@@ -57,6 +61,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -413,6 +418,73 @@ final class PrimaveraReader
       }
 
       return result;
+   }
+
+   /**
+    * Process resource rates
+    *
+    * @param rows resource rate data
+    */
+   public void processResourceRates(List<Row> rows)
+   {
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      rows.sort(new Comparator<Row>()
+      {
+         @Override public int compare(Row r1, Row r2)
+         {
+            Integer id1 = r1.getInteger("rsrc_id");
+            Integer id2 = r2.getInteger("rsrc_id");
+            int cmp = NumberHelper.compare(id1, id2);
+            if (cmp != 0)
+               return cmp;
+
+            Date d1 = r1.getDate("start_date");
+            Date d2 = r2.getDate("start_date");
+            return DateHelper.compare(d1, d2);
+         }
+      });
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Integer resourceID = row.getInteger("rsrc_id");
+         Rate standardRate = new Rate(row.getDouble("cost_per_qty"), TimeUnit.HOURS);
+         TimeUnit standardRateFormat = TimeUnit.HOURS;
+         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         Date startDate = row.getDate("start_date");
+         Date endDate = DateHelper.LAST_DATE;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            Integer nextResourceID = nextRow.getInteger("rsrc_id");
+            if (resourceID == nextResourceID)
+            {
+               endDate = nextRow.getDate("start_date");
+            }
+         }
+
+         Resource resource = m_project.getResourceByUniqueID(resourceID);
+         if (resource != null)
+         {
+            CostRateTable costRateTable = resource.getCostRateTable(0);
+            if (costRateTable == null)
+            {
+               costRateTable = new CostRateTable();
+               resource.setCostRateTable(0, costRateTable);
+            }
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
+            costRateTable.add(entry);
+
+            AvailabilityTable availabilityTable = resource.getAvailability();
+            Availability newAvailability = new Availability(startDate, endDate, maxUnits);
+            availabilityTable.add(newAvailability);
+         }
+      }
    }
 
    /**

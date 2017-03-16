@@ -114,6 +114,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          processProjectProperties();
          processCalendars();
          processResources();
+         processResourceRates();
          processTasks();
          processPredecessors();
          processAssignments();
@@ -253,6 +254,17 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       List<Row> rows = getRows("select * from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_seq_num", m_projectID);
       m_reader.processResources(rows);
+   }
+
+   /**
+    * Process resource rates.
+    *
+    * @throws SQLException
+    */
+   private void processResourceRates() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "rsrcrate where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_rate_id", m_projectID);
+      m_reader.processResourceRates(rows);
    }
 
    /**
