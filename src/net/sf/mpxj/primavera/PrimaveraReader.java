@@ -1464,8 +1464,7 @@ final class PrimaveraReader
       map.put(TaskField.BASELINE_COST, "orig_cost");
       map.put(TaskField.REMAINING_COST, "indep_remain_total_cost");
       map.put(TaskField.REMAINING_WORK, "indep_remain_work_qty");
-      map.put(TaskField.BASELINE_START, "anticip_start_date");
-      map.put(TaskField.BASELINE_FINISH, "anticip_end_date");
+      map.put(TaskField.DEADLINE, "anticip_end_date");
       map.put(TaskField.DATE1, "suspend_date");
       map.put(TaskField.DATE2, "resume_date");
       map.put(TaskField.TEXT1, "task_code");
