@@ -65,6 +65,7 @@ class StringColumn extends AbstractColumn
       for (int index = 0; index < m_data.length; index++)
       {
          int itemNameLength = blockOffsets[index + 1] - blockOffsets[index];
+         FastTrackUtility.validateSize(itemNameLength);
          m_data[index] = new String(buffer, offset, itemNameLength, FastTrackUtility.UTF16LE);
          offset += itemNameLength;
       }
