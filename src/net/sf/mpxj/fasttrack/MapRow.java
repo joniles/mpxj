@@ -49,30 +49,60 @@ class MapRow
       m_map = map;
    }
 
-   public String getString(FastTrackField name)
+   /**
+    * Retrieve a string field.
+    *
+    * @param type field type
+    * @return field data
+    */
+   public String getString(FastTrackField type)
    {
-      return (String) getObject(name);
+      return (String) getObject(type);
    }
 
-   public Integer getInteger(FastTrackField name)
+   /**
+    * Retrieve an integer field.
+    *
+    * @param type field type
+    * @return field data
+    */
+   public Integer getInteger(FastTrackField type)
    {
-      return (Integer) getObject(name);
+      return (Integer) getObject(type);
    }
 
-   public Double getDouble(FastTrackField name)
+   /**
+    * Retrieve a double field.
+    *
+    * @param type field type
+    * @return field data
+    */
+   public Double getDouble(FastTrackField type)
    {
-      return (Double) getObject(name);
+      return (Double) getObject(type);
    }
 
-   public Double getCurrency(FastTrackField name)
+   /**
+    * Retrieve a currency field.
+    *
+    * @param type field type
+    * @return field data
+    */
+   public Double getCurrency(FastTrackField type)
    {
-      return getDouble(name);
+      return getDouble(type);
    }
 
-   public boolean getBoolean(FastTrackField name)
+   /**
+    * Retrieve a boolean field.
+    *
+    * @param type field type
+    * @return field data
+    */
+   public boolean getBoolean(FastTrackField type)
    {
       boolean result = false;
-      Object value = getObject(name);
+      Object value = getObject(type);
       if (value != null)
       {
          result = BooleanHelper.getBoolean((Boolean) value);
@@ -80,11 +110,24 @@ class MapRow
       return result;
    }
 
-   public int getInt(FastTrackField name)
+   /**
+    * Retrieve an integer field as an int.
+    *
+    * @param type field type
+    * @return field data
+    */
+   public int getInt(FastTrackField type)
    {
-      return (NumberHelper.getInt((Number) getObject(name)));
+      return (NumberHelper.getInt((Number) getObject(type)));
    }
 
+   /**
+    * Retrieve a timestamp field.
+    *
+    * @param dateName field containing the date component
+    * @param timeName field containing the time component
+    * @return Date instance
+    */
    public Date getTimestamp(FastTrackField dateName, FastTrackField timeName)
    {
       Date result = null;
@@ -111,38 +154,62 @@ class MapRow
       return result;
    }
 
-   public Date getDate(FastTrackField name)
+   /**
+    * Retrieve a date field.
+    *
+    * @param type field type
+    * @return Date instance
+    */
+   public Date getDate(FastTrackField type)
    {
-      return (Date) getObject(name);
+      return (Date) getObject(type);
    }
 
-   public Duration getDuration(FastTrackField name)
+   /**
+    * Retrieve a duration field.
+    *
+    * @param type field type
+    * @return Duration instance
+    */
+   public Duration getDuration(FastTrackField type)
    {
-      Double value = (Double) getObject(name);
+      Double value = (Double) getObject(type);
       return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getDurationTimeUnit());
    }
 
-   public Duration getWork(FastTrackField name)
+   /**
+    * Retrieve a work field.
+    *
+    * @param type field type
+    * @return Duration instance
+    */
+   public Duration getWork(FastTrackField type)
    {
-      Double value = (Double) getObject(name);
+      Double value = (Double) getObject(type);
       return value == null ? null : Duration.getInstance(value.doubleValue(), m_table.getWorkTimeUnit());
    }
 
    /**
     * Retrieve a value from the map.
     *
-    * @param name column name
+    * @param type column name
     * @return column value
     */
-   public Object getObject(FastTrackField name)
+   public Object getObject(FastTrackField type)
    {
-      Object result = m_map.get(name);
+      Object result = m_map.get(type);
       return (result);
    }
 
-   public UUID getUUID(FastTrackField name)
+   /**
+    * Retrieve a UUID field.
+    *
+    * @param type field type
+    * @return UUID instance
+    */
+   public UUID getUUID(FastTrackField type)
    {
-      String value = getString(name);
+      String value = getString(type);
       return value == null || value.isEmpty() ? null : UUID.fromString(value.substring(1, value.length() - 1));
    }
 
