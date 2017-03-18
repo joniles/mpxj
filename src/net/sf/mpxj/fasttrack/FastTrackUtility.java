@@ -107,6 +107,11 @@ final class FastTrackUtility
     */
    public static final long getLong(byte[] data, int offset)
    {
+      if (data.length != 8)
+      {
+         throw new UnexpectedStructureException();
+      }
+
       long result = 0;
       int i = offset;
       for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
