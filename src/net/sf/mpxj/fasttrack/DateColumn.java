@@ -39,7 +39,7 @@ class DateColumn extends AbstractColumn
     */
    @Override protected int postHeaderSkipBytes()
    {
-      return 48;
+      return 0;
    }
 
    /**
@@ -47,6 +47,14 @@ class DateColumn extends AbstractColumn
     */
    @Override protected int readData(byte[] buffer, int offset)
    {
+      // Originally I though that there was a fixed 48 byte offset from the end of
+      // the header to the start of the data. In fact there appears to be an optional
+      // block of string data after the header, but before the binary version of the dates.
+      // The string dates in this optional block don't appear to match the actual dates, so
+      // we skip past them. We're looking for a byte pattern which we expect at the start
+      // of the block of binary dates... it's fragile, but the best we can do at the moment.
+      offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000A) - 2;
+
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 

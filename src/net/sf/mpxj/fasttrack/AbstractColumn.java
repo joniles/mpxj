@@ -73,7 +73,7 @@ abstract class AbstractColumn implements FastTrackColumn
 
    @Override public String getName()
    {
-      return m_header.getName();
+      return m_header == null ? "<unknown>" : m_header.getName();
    }
 
    @Override public FastTrackField getType()

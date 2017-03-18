@@ -241,6 +241,10 @@ class FastTrackData
          }
 
          FastTrackColumn column = (FastTrackColumn) klass.newInstance();
+         m_currentColumn = column;
+
+         logColumnData(startIndex, length);
+
          column.read(m_currentTable.getType(), m_buffer, startIndex, length);
          FastTrackField type = column.getType();
 
@@ -400,13 +404,29 @@ class FastTrackData
    }
 
    /**
+    * Log the data for a single column.
+    *
+    * @param startIndex offset into buffer
+    * @param length length
+    */
+   private void logColumnData(int startIndex, int length)
+   {
+      if (m_log != null)
+      {
+         m_log.println();
+         m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, length, true, 16, ""));
+         m_log.println();
+      }
+   }
+
+   /**
     * Log unexpected column structure.
     */
    private void logUnexpectedStructure()
    {
       if (m_log != null)
       {
-         m_log.println("ABORTED COLUMN - unexpected structure");
+         m_log.println("ABORTED COLUMN - unexpected structure: " + m_currentColumn.getName());
       }
    }
 
@@ -429,6 +449,7 @@ class FastTrackData
    private PrintWriter m_log;
    private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<FastTrackTableType, FastTrackTable>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;
+   private FastTrackColumn m_currentColumn;
    private final Set<FastTrackField> m_currentFields = new TreeSet<FastTrackField>();
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
