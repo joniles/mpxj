@@ -42,6 +42,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -602,10 +603,18 @@ public class FastTrackReader implements ProjectReader
 
          for (String assignment : assignments.split(", "))
          {
-            Resource resource = resources.get(assignment);
+            Matcher matcher = ASSIGNMENT_REGEX.matcher(assignment);
+            matcher.matches();
+
+            Resource resource = resources.get(matcher.group(1));
             if (resource != null)
             {
-               task.addResourceAssignment(resource);
+               ResourceAssignment ra = task.addResourceAssignment(resource);
+               String units = matcher.group(3);
+               if (units != null)
+               {
+                  ra.setUnits(Integer.valueOf(units));
+               }
             }
          }
       }
@@ -636,6 +645,7 @@ public class FastTrackReader implements ProjectReader
 
    private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
    private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
+   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(\\[(\\d+)\\%\\])?");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
    static
