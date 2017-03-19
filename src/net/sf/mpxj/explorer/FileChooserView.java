@@ -89,10 +89,15 @@ public class FileChooserView
    }
 
    /**
-    * Update the file chooser's fiter settings.
+    * Update the file chooser's filter settings.
     */
    protected void setFileFilter()
    {
+      String[] extensions = m_model.getExtensions();
+      for (String extension : extensions)
+      {
+         m_fileChooser.setFileFilter(new FileNameExtensionFilter(extension.toUpperCase() + " Files", extension));
+      }
       m_fileChooser.setFileFilter(new FileNameExtensionFilter("Project Files", m_model.getExtensions()));
    }
 }
