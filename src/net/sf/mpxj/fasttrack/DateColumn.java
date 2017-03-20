@@ -47,6 +47,12 @@ class DateColumn extends AbstractColumn
     */
    @Override protected int readData(byte[] buffer, int offset)
    {
+      // Unknown
+      offset += 6;
+
+      // Structure flags? See StringColumn...
+      offset += 4;
+
       // Originally I though that there was a fixed 48 byte offset from the end of
       // the header to the start of the data. In fact there appears to be an optional
       // block of string data after the header, but before the binary version of the dates.
