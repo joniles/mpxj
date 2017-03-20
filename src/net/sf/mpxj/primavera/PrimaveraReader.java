@@ -310,19 +310,26 @@ final class PrimaveraReader
                String[] wh = recWorkingHours.getValue().split("\\|");
                try
                {
-                  Date start;
-                  Date end;
+                  String startText;
+                  String endText;
 
                   if (wh[0].equals("s"))
                   {
-                     start = m_calendarTimeFormat.parse(wh[1]);
-                     end = m_calendarTimeFormat.parse(wh[3]);
+                     startText = wh[1];
+                     endText = wh[3];
                   }
                   else
                   {
-                     start = m_calendarTimeFormat.parse(wh[3]);
-                     end = m_calendarTimeFormat.parse(wh[1]);
+                     startText = wh[3];
+                     endText = wh[1];
                   }
+
+                  // for end time treat midnight as midnight next day
+                  if (endText.equals("00:00"))
+                     endText = "24:00";
+
+                  Date start = m_calendarTimeFormat.parse(startText);
+                  Date end = m_calendarTimeFormat.parse(endText);
 
                   hours.addRange(new DateRange(start, end));
                }
