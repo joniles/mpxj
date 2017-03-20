@@ -230,6 +230,24 @@ final class PrimaveraReader
             processCalendarExceptions(calendar, root);
          }
       }
+      else
+      {
+         // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
+         DateRange defaultHourRange = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
+         for (Day day : Day.values())
+         {
+            if (day != Day.SATURDAY && day != Day.SUNDAY)
+            {
+               calendar.setWorkingDay(day, true);
+               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+               hours.addRange(defaultHourRange);
+            }
+            else
+            {
+               calendar.setWorkingDay(day, false);
+            }
+         }
+      }
 
       m_eventManager.fireCalendarReadEvent(calendar);
    }
