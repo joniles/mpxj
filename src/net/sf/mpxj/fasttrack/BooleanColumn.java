@@ -49,7 +49,9 @@ class BooleanColumn extends AbstractColumn
 
       offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000F);
 
-      m_data = new Boolean[FastTrackUtility.getInt(buffer, offset) + 1];
+      int numberOfItems = FastTrackUtility.getInt(buffer, offset) + 1;
+      FastTrackUtility.validateSize(numberOfItems);
+      m_data = new Boolean[numberOfItems];
       offset += 4;
 
       // Data length

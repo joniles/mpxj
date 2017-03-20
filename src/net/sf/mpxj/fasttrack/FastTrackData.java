@@ -400,6 +400,7 @@ class FastTrackData
          m_log.println("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")");
          m_log.println();
          m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, blockLength, true, 16, ""));
+         m_log.flush();
       }
    }
 
@@ -416,6 +417,7 @@ class FastTrackData
          m_log.println();
          m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, length, true, 16, ""));
          m_log.println();
+         m_log.flush();
       }
    }
 
@@ -426,7 +428,7 @@ class FastTrackData
    {
       if (m_log != null)
       {
-         m_log.println("ABORTED COLUMN - unexpected structure: " + m_currentColumn.getName());
+         m_log.println("ABORTED COLUMN - unexpected structure: " + m_currentColumn.getClass().getSimpleName() + " " + m_currentColumn.getName());
       }
    }
 
@@ -441,6 +443,7 @@ class FastTrackData
       {
          m_log.println("TABLE: " + m_currentTable.getType());
          m_log.println(column.toString());
+         m_log.flush();
       }
    }
 
@@ -494,8 +497,20 @@ class FastTrackData
          0x00,
          0x00,
          0x00
+      },
+      {
+         0x00,
+         0x00,
+         0x02,
+         0x00,
+         0x02,
+         0x00,
+         (byte) 0xFF,
+         (byte) 0xFF,
+         0x00,
+         0x00,
+         0x00
       }
-
    };
 
    private static final byte[][] CHILD_BLOCK_PATTERNS =
