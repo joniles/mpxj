@@ -45,6 +45,7 @@ import java.util.Set;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
@@ -149,13 +150,28 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * This is a convenience method which allows all projects in an
-    * XER file to be read in a single pass.
+    * XER file to be read in a single pass. External relationships
+    * are not linked.
     *
     * @param is input stream
     * @return list of ProjectFile instances
     * @throws MPXJException
     */
    public List<ProjectFile> readAll(InputStream is) throws MPXJException
+   {
+      return readAll(is, false);
+   }
+
+   /**
+    * This is a convenience method which allows all projects in an
+    * XER file to be read in a single pass.
+    *
+    * @param is input stream
+    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
+    * @return list of ProjectFile instances
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
    {
       try
       {
@@ -166,6 +182,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          List<Row> rows = getRows("project", null, null);
          List<ProjectFile> result = new ArrayList<ProjectFile>(rows.size());
+         List<ExternalPredecessorRelation> externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
@@ -183,10 +200,32 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             processPredecessors();
             processAssignments();
 
+            externalPredecessors.addAll(m_reader.getExternalPredecessors());
+
             m_reader = null;
             project.updateStructure();
 
             result.add(project);
+         }
+
+         if (linkCrossProjectRelations)
+         {
+            for (ExternalPredecessorRelation externalRelation : externalPredecessors)
+            {
+               Task predecessorTask;
+               // we could aggregate the project task id maps but that's likely more work
+               // than just looping through the projects
+               for (ProjectFile proj : result)
+               {
+                  predecessorTask = proj.getTaskByUniqueID(externalRelation.getSourceUniqueID());
+                  if (predecessorTask != null)
+                  {
+                     externalRelation.getTargetTask().addPredecessor(predecessorTask, externalRelation.getType(), externalRelation.getLag());
+                     break;
+                  }
+               }
+               // if predecessorTask not found the external task is outside of the file so ignore
+            }
          }
 
          return result;

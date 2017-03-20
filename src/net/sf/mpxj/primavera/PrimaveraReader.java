@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -130,6 +131,16 @@ final class PrimaveraReader
    public ProjectFile getProject()
    {
       return m_project;
+   }
+
+   /**
+    * Retrieves a list of external predecessors relationships.
+    *
+    * @return list of external predecessors
+    */
+   public List<ExternalPredecessorRelation> getExternalPredecessors()
+   {
+      return m_externalPredecessors;
    }
 
    /**
@@ -1211,14 +1222,24 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Task currentTask = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
-         Task predecessorTask = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("pred_task_id")));
-         if (currentTask != null && predecessorTask != null)
+         Integer currentID = mapTaskID(row.getInteger("task_id"));
+         Integer predecessorID = mapTaskID(row.getInteger("pred_task_id"));
+         Task currentTask = m_project.getTaskByUniqueID(currentID);
+         Task predecessorTask = m_project.getTaskByUniqueID(predecessorID);
+         RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
+         Duration lag = row.getDuration("lag_hr_cnt");
+         if (currentTask != null)
          {
-            RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
-            Duration lag = row.getDuration("lag_hr_cnt");
-            Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
-            m_eventManager.fireRelationReadEvent(relation);
+            if (predecessorTask != null)
+            {
+               Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
+               m_eventManager.fireRelationReadEvent(relation);
+            }
+            else
+            {
+               // if we can't find the predecessor, it must lie outside the project
+               m_externalPredecessors.add(new ExternalPredecessorRelation(predecessorID, currentTask, type, lag));
+            }
          }
       }
    }
@@ -1733,6 +1754,7 @@ final class PrimaveraReader
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
    private Map<FieldType, String> m_assignmentFields;
+   private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
    private final boolean m_matchPrimaveraWBS;
 
    private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
