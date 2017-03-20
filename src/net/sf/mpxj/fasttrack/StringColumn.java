@@ -43,9 +43,25 @@ class StringColumn extends AbstractColumn
     */
    @Override protected int readData(byte[] buffer, int offset)
    {
-      offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000F);
+      // Unknown
+      offset += 6;
 
-      m_data = new String[FastTrackUtility.getInt(buffer, offset)];
+      // The presence of a non-zero value here determines what structure we expect next
+      int structureFlags = FastTrackUtility.getInt(buffer, offset);
+      offset += 4;
+
+      if (structureFlags == 0)
+      {
+         offset += 10;
+      }
+      else
+      {
+         offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000F);
+      }
+
+      int numberOfItems = FastTrackUtility.getInt(buffer, offset);
+      FastTrackUtility.validateSize(numberOfItems);
+      m_data = new String[numberOfItems];
       offset += 4;
 
       // Offset to data
