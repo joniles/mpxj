@@ -536,6 +536,7 @@ final class PrimaveraReader
       for (Row row : wbs)
       {
          Task task = m_project.addTask();
+         task.setProject(m_project.getProjectProperties().getName()); // P6 task always belongs to project
          processFields(m_wbsFields, row, task);
          uniqueIDs.add(task.getUniqueID());
          m_eventManager.fireTaskReadEvent(task);
@@ -584,6 +585,7 @@ final class PrimaveraReader
          {
             task = parentTask.addTask();
          }
+         task.setProject(m_project.getProjectProperties().getName()); // P6 task always belongs to project
 
          processFields(m_taskFields, row, task);
 
@@ -1539,6 +1541,7 @@ final class PrimaveraReader
       map.put(TaskField.UNIQUE_ID, "task_id");
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
+      map.put(TaskField.ACTUAL_DURATION, "act_drtn_hr_cnt");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
