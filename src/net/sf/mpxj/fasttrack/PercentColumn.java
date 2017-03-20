@@ -35,7 +35,7 @@ class PercentColumn extends AbstractColumn
     */
    @Override protected int postHeaderSkipBytes()
    {
-      return 18;
+      return 0;
    }
 
    /**
@@ -43,6 +43,15 @@ class PercentColumn extends AbstractColumn
     */
    @Override protected int readData(byte[] buffer, int offset)
    {
+      // Unknown
+      offset += 6;
+
+      // Structure flags? See StringColumn...
+      offset += 4;
+
+      // See DateColumn...
+      offset = FastTrackUtility.skipToNextMatchingShort(buffer, offset, 0x000A) - 2;
+
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 
