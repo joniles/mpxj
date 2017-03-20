@@ -198,6 +198,7 @@ final class TimephasedDataFactory
             double previousCumulativeWork = 0;
             TimephasedWork previousAssignment = null;
             int currentBlock = 0;
+            int previousModifiedFlag = 0;
 
             while (currentBlock < blockCount && index + 28 <= data.length)
             {
@@ -225,8 +226,9 @@ final class TimephasedDataFactory
                time *= 6;
                Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
 
-               int modifiedFlag = MPPUtility.getShort(data, index + 22);
-               boolean modified = (modifiedFlag == 0 && currentBlock != 0) || ((modifiedFlag & 0x3000) != 0);
+               int currentModifiedFlag = MPPUtility.getShort(data, index + 22);
+               boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
+               previousModifiedFlag = currentModifiedFlag;
 
                TimephasedWork assignment = new TimephasedWork();
                assignment.setStart(start);
