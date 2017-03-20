@@ -404,6 +404,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       List<Row> rows = getRows("project", "proj_id", m_projectID);
       m_reader.processProjectProperties(rows);
 
+      rows = getRows("schedoptions", "proj_id", m_projectID);
+      m_reader.processScheduleOptions(rows);
+
       //
       // Process XER-specific attributes
       //
@@ -965,6 +968,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       FIELD_TYPE_MAP.put("last_recalc_date", XerFieldType.DATE);
 
+      FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", XerFieldType.STRING);
+
       // User Defined Fields types (UDF)
       FIELD_TYPE_MAP.put("udf_type", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("table_name", XerFieldType.STRING);
@@ -982,7 +987,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
-
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
@@ -999,6 +1003,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("currtype");
       REQUIRED_TABLES.add("udftype");
       REQUIRED_TABLES.add("udfvalue");
+      REQUIRED_TABLES.add("schedoptions");
    }
 
    private static final WbsRowComparator WBS_ROW_COMPARATOR = new WbsRowComparator();

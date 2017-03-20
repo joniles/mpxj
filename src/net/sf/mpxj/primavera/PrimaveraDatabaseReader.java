@@ -212,6 +212,9 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       m_reader.processProjectProperties(rows);
 
+      rows = getRows("select * from " + m_schema + "schedoptions where proj_id=?", m_projectID);
+      m_reader.processScheduleOptions(rows);
+
       //
       // Process PMDB-specific attributes
       //

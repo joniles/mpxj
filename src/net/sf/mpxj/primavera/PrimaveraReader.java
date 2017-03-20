@@ -168,6 +168,29 @@ final class PrimaveraReader
    }
 
    /**
+    * Process schedule options.
+    *
+    * @param rows schedule options data.
+    */
+   public void processScheduleOptions(List<Row> rows)
+   {
+      if (rows.isEmpty() == false)
+      {
+         Row row = rows.get(0);
+
+         Map<String, Object> customProperties = m_project.getProjectProperties().getCustomProperties();
+         if (customProperties == null)
+         {
+            customProperties = new HashMap<String, Object>();
+         }
+
+         customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
+
+         m_project.getProjectProperties().setCustomProperties(customProperties);
+      }
+   }
+
+   /**
     * Process User Defined Fields (UDF).
     *
     * @param userDefinedFields UDFs rows
