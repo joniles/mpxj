@@ -169,5 +169,19 @@
 		<Class name="~.*\.MerlinReader" />	
 		<Method name="read" />
 	</Match>
-	 			 
+
+	<!-- Don't care if the file is not deleted -->	 			 
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+		<Class name="~.*\.FastTrackReader" />	
+		<Method name="read" />
+	</Match>
+	 		
+	<!--  This field is written by subclasses -->
+	<Match>
+		<Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
+		<Class name="~.*\.AbstractColumn" />	
+	</Match>
+	 		
+	 		 	 
 </FindBugsFilter>

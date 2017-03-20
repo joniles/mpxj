@@ -49,6 +49,7 @@ import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.merlin.MerlinReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
@@ -188,6 +189,11 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT))
          {
             return readProjectFile(new PhoenixReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, FASTTRACK_FINGERPRINT))
+         {
+            return readProjectFile(new FastTrackReader(), bis);
          }
 
          if (matchesFingerprint(buffer, UTF8_BOM_FINGERPRINT))
@@ -568,6 +574,18 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) '!',
       (byte) '!',
       (byte) '!'
+   };
+
+   private static final byte[] FASTTRACK_FINGERPRINT =
+   {
+      (byte) 0x1C,
+      (byte) 0x00,
+      (byte) 0x00,
+      (byte) 0x00,
+      (byte) 0x8B,
+      (byte) 0x00,
+      (byte) 0x00,
+      (byte) 0x00
    };
 
    private static final byte[] UTF8_BOM_FINGERPRINT =
