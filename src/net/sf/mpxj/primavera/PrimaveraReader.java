@@ -146,6 +146,7 @@ final class PrimaveraReader
          properties.setProjectTitle(row.getString("proj_short_name"));
          properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
+         properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }

@@ -823,6 +823,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    static
    {
       FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("fy_start_month_num", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
