@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Git master" version="5.6.6">
+		<release date="Git master" version="5.7.1">
+		</release>
+		<release date="20/03/2017" version="5.7.0">
+			<action dev="joniles" type="add">Add support for FastTrack Schedule files.</action>
 			<action dev="joniles" type="update">Ensure that timephased data calculations correctly handle entry to and exit from DST.</action>
 			<action dev="joniles" issue="306" type="fix">Microsoft Project 2016:  Issue with assignment 'Work Contour' attribute.</action>
 		</release>

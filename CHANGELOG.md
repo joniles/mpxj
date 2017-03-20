@@ -1,6 +1,11 @@
 # Changelog
 
-## 5.6.6 (Git master)
+## 5.7.1 (Git master)
+
+## 5.7.0 (20/03/2017)
+* Add support for FastTrack Schedule files.
+* Ensure that timephased data calculations correctly handle entry to and exit from DST.
+* Microsoft Project 2016:  Issue with assignment 'Work Contour' attribute.
 
 ## 5.6.5 (07/03/2017)
 * Improve handling of invalid calendar data in MSPDI files
