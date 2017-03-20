@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="Git master" version="5.6.6">
+			<action dev="joniles" type="update">Ensure that timephased data calculations correctly handle entry to and exit from DST.</action>
+			<action dev="joniles" issue="306" type="fix">Microsoft Project 2016:  Issue with assignment 'Work Contour' attribute.</action>
 		</release>
 		<release date="07/03/2017" version="5.6.5">
 			<action dev="joniles" type="update">Improve handling of invalid calendar data in MSPDI files</action>

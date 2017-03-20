@@ -311,9 +311,39 @@ public final class DateHelper
       }
       else
       {
-         result = DateHelper.getDayStartDate(date);
-         long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
-         result = new Date(result.getTime() + offset);
+         //
+         // The original naive implementation of this method generated
+         // the "start of day" date (midnight) for the required day
+         // then added the milliseconds from the canonical time
+         // to move the time forward to the required point. Unfortunately
+         // if the date we'e trying to do this for is the entry or
+         // exit from DST, the result is wrong, hence I've switched to
+         // the approach below.
+         //
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(canonicalTime);
+         int dayOffset = cal.get(Calendar.DAY_OF_YEAR) - 1;
+         int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+         int minute = cal.get(Calendar.MINUTE);
+         int second = cal.get(Calendar.SECOND);
+         int millisecond = cal.get(Calendar.MILLISECOND);
+
+         cal.setTime(date);
+
+         if (dayOffset != 0)
+         {
+            // The canonical time can be +1 day.
+            // It's to do with the way we've historically
+            // managed time ranges and midnight.
+            cal.add(Calendar.DAY_OF_YEAR, dayOffset);
+         }
+
+         cal.set(Calendar.MILLISECOND, millisecond);
+         cal.set(Calendar.SECOND, second);
+         cal.set(Calendar.MINUTE, minute);
+         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+
+         result = cal.getTime();
       }
       return result;
    }
@@ -363,8 +393,6 @@ public final class DateHelper
     * of Java < 1.4.
     */
    private static final int DEFAULT_DST_SAVINGS = 3600000;
-
-   private static Date CANONICAL_EPOCH = getCanonicalTime(getDayStartDate(new Date()));
 
    /**
     * Flag used to indicate the existence of the getDSTSavings
