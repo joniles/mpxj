@@ -376,10 +376,8 @@ final class PrimaveraReader
          for (Record exception : exceptions.getChildren())
          {
             int daysFrom1900 = Integer.parseInt(exception.getValue().split("\\|")[1]);
-            int daysFrom1970 = daysFrom1900 - 25567 - 2;
-            // 25567 -> Number of days between 1900 and 1970.
-            // During tests a 2 days offset was necessary to obtain good dates
-            // However I didn't figured out why there is such a difference.
+            int daysFrom1970 = daysFrom1900 - 25568;
+            // 25568 -> Number of days from 1900 to 1970.
             Date startEx = new Date(daysFrom1970 * 24l * 60l * 60l * 1000);
             calendar.addCalendarException(startEx, startEx);
          }
