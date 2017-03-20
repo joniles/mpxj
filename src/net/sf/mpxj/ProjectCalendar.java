@@ -181,6 +181,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Clears the list of calendar exceptions.
+    */
+   public void clearCalendarExceptions()
+   {
+      m_exceptions.clear();
+      m_exceptionsSorted = false;
+      clearWorkingDateCache();
+   }
+
+   /**
     * This method retrieves a list of exceptions to the current calendar.
     *
     * @return List of calendar exceptions
