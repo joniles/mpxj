@@ -106,7 +106,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
          project.getEventManager().addProjectListeners(m_projectListeners);
 
@@ -537,14 +537,36 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
-    * Override the default field name mapping for user defined types.
+    * Override the default field name mapping for Task user defined types.
     *
     * @param type target user defined data type
     * @param fieldName field name
     */
-   public void setFieldNameForUdfType(UserFieldDataType type, String fieldName)
+   public void setFieldNameForTaskUdfType(UserFieldDataType type, String fieldName)
    {
-      m_udfCounters.setFieldNameForType(type, fieldName);
+      m_taskUdfCounters.setFieldNameForType(type, fieldName);
+   }
+
+   /**
+    * Override the default field name mapping for Resource user defined types.
+    *
+    * @param type target user defined data type
+    * @param fieldName field name
+    */
+   public void setFieldNameForResourceUdfType(UserFieldDataType type, String fieldName)
+   {
+      m_resourceUdfCounters.setFieldNameForType(type, fieldName);
+   }
+
+   /**
+    * Override the default field name mapping for Resource user defined types.
+    *
+    * @param type target user defined data type
+    * @param fieldName field name
+    */
+   public void setFieldNameForAssignmentUdfType(UserFieldDataType type, String fieldName)
+   {
+      m_assignmentUdfCounters.setFieldNameForType(type, fieldName);
    }
 
    /**
@@ -631,7 +653,9 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
-   private UserFieldCounters m_udfCounters = new UserFieldCounters();
+   private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
+   private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
+   private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
 
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();

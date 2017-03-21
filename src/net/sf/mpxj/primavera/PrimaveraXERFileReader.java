@@ -111,7 +111,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          processFile(is);
 
-         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
          project.getProjectProperties().setFileApplication("Primavera");
          project.getProjectProperties().setFileType("XER");
@@ -170,7 +170,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          {
             setProjectID(row.getInt("proj_id"));
 
-            m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
             ProjectFile project = m_reader.getProject();
             project.getEventManager().addProjectListeners(m_projectListeners);
 
@@ -398,7 +398,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processResources()
    {
       List<Row> rows = getRows("rsrc", null, null);
-      m_reader.processResources(rows);
+      List<Row> udfVals = getRows("udfvalue", "proj_id", null); // resources don't belong to a project
+      m_reader.processResources(rows, udfVals);
    }
 
    /**
@@ -439,7 +440,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processAssignments()
    {
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
-      m_reader.processAssignments(rows);
+      List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
+      m_reader.processAssignments(rows, udfVals);
    }
 
    /**
@@ -631,14 +633,36 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
-    * Override the default field name mapping for user defined types.
+    * Override the default field name mapping for Task user defined types.
     *
     * @param type target user defined data type
     * @param fieldName field name
     */
-   public void setFieldNameForUdfType(UserFieldDataType type, String fieldName)
+   public void setFieldNameForTaskUdfType(UserFieldDataType type, String fieldName)
    {
-      m_udfCounters.setFieldNameForType(type, fieldName);
+      m_taskUdfCounters.setFieldNameForType(type, fieldName);
+   }
+
+   /**
+    * Override the default field name mapping for Resource user defined types.
+    *
+    * @param type target user defined data type
+    * @param fieldName field name
+    */
+   public void setFieldNameForResourceUdfType(UserFieldDataType type, String fieldName)
+   {
+      m_resourceUdfCounters.setFieldNameForType(type, fieldName);
+   }
+
+   /**
+    * Override the default field name mapping for Resource user defined types.
+    *
+    * @param type target user defined data type
+    * @param fieldName field name
+    */
+   public void setFieldNameForAssignmentUdfType(UserFieldDataType type, String fieldName)
+   {
+      m_assignmentUdfCounters.setFieldNameForType(type, fieldName);
    }
 
    /**
@@ -769,7 +793,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private List<ProjectListener> m_projectListeners;
-   private UserFieldCounters m_udfCounters = new UserFieldCounters();
+   private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
+   private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
+   private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();

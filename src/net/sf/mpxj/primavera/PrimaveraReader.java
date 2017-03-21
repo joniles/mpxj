@@ -93,7 +93,7 @@ final class PrimaveraReader
     * @param aliases alias mapping
     * @param matchPrimaveraWBS determine WBS behaviour
     */
-   public PrimaveraReader(UserFieldCounters udfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS)
+   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -112,8 +112,12 @@ final class PrimaveraReader
 
       applyAliases(aliases);
 
-      m_udfCounters = udfCounters;
-      m_udfCounters.reset();
+      m_taskUdfCounters = taskUdfCounters;
+      m_taskUdfCounters.reset();
+      m_resourceUdfCounters = resourceUdfCounters;
+      m_resourceUdfCounters.reset();
+      m_assignmentUdfCounters = assignmentUdfCounters;
+      m_assignmentUdfCounters.reset();
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
@@ -161,10 +165,7 @@ final class PrimaveraReader
    {
       for (Row row : userDefinedFields)
       {
-         if ("TASK".equals(row.getString("table_name")))
-         {
-            parseTaskUDF(row);
-         }
+         parseUDF(row);
       }
    }
 
@@ -391,6 +392,17 @@ final class PrimaveraReader
     */
    public void processResources(List<Row> rows)
    {
+      processResources(rows, null);
+   }
+
+   /**
+    * Process resources.
+    *
+    * @param rows resource data
+    * @param udfVals User Defined Fields values data
+    */
+   public void processResources(List<Row> rows, List<Row> udfVals)
+   {
       for (Row row : rows)
       {
          Resource resource = m_project.addResource();
@@ -402,6 +414,14 @@ final class PrimaveraReader
          TimeUnit timeUnit = TIME_UNIT_MAP.get(row.getString("cost_qty_type"));
          resource.setStandardRateUnits(timeUnit);
          resource.setOvertimeRateUnits(timeUnit);
+
+         // Add User Defined Fields
+         Integer uniqueID = resource.getUniqueID();
+         List<Row> udf = getContainerUDF(uniqueID, udfVals);
+         for (Row r : udf)
+         {
+            addUDFValue(FieldTypeClass.RESOURCE, resource, r);
+         }
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -650,10 +670,10 @@ final class PrimaveraReader
          task.setWork(work);
 
          // Add User Defined Fields
-         List<Row> taskUDF = getTaskUDF(uniqueID, udfVals);
-         for (Row r : taskUDF)
+         List<Row> udf = getContainerUDF(uniqueID, udfVals);
+         for (Row r : udf)
          {
-            addTaskUDFValue(task, r);
+            addUDFValue(FieldTypeClass.TASK, task, r);
          }
 
          m_eventManager.fireTaskReadEvent(task);
@@ -688,23 +708,58 @@ final class PrimaveraReader
    /**
     * Configure a new user defined field.
     *
-    * @param type field type
+    * @param fieldType field type
+    * @param dataType field data type
     * @param name field name
     */
-   private void addUserDefinedField(UserFieldDataType type, String name)
+   private void addUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType, String name)
    {
       try
       {
-         TaskField taskField;
-
-         do
+         switch (fieldType)
          {
-            String fieldName = m_udfCounters.nextName(type);
-            taskField = TaskField.valueOf(fieldName);
-         }
-         while (m_taskFields.containsKey(taskField) || m_wbsFields.containsKey(taskField));
+            case TASK:
+               TaskField taskField;
 
-         m_project.getCustomFields().getCustomField(taskField).setAlias(name);
+               do
+               {
+                  String fieldName = m_taskUdfCounters.nextName(dataType);
+                  taskField = TaskField.valueOf(fieldName);
+               }
+               while (m_taskFields.containsKey(taskField) || m_wbsFields.containsKey(taskField));
+
+               m_project.getCustomFields().getCustomField(taskField).setAlias(name);
+
+               break;
+            case RESOURCE:
+               ResourceField resourceField;
+
+               do
+               {
+                  String fieldName = m_resourceUdfCounters.nextName(dataType);
+                  resourceField = ResourceField.valueOf(fieldName);
+               }
+               while (m_resourceFields.containsKey(resourceField));
+
+               m_project.getCustomFields().getCustomField(resourceField).setAlias(name);
+
+               break;
+            case ASSIGNMENT:
+               AssignmentField assignmentField;
+
+               do
+               {
+                  String fieldName = m_assignmentUdfCounters.nextName(dataType);
+                  assignmentField = AssignmentField.valueOf(fieldName);
+               }
+               while (m_assignmentFields.containsKey(assignmentField));
+
+               m_project.getCustomFields().getCustomField(assignmentField).setAlias(name);
+
+               break;
+            default:
+               break;
+         }
       }
 
       catch (Exception ex)
@@ -724,34 +779,39 @@ final class PrimaveraReader
     *
     * @param row UDF data
     */
-   private void parseTaskUDF(Row row)
+   private void parseUDF(Row row)
    {
-      Integer fieldId = Integer.valueOf(row.getString("udf_type_id"));
-      String fieldType = row.getString("logical_data_type");
-      String fieldName = row.getString("udf_type_label");
+      FieldTypeClass fieldType = FIELD_TYPE_MAP.get(row.getString("table_name"));
+      if (fieldType != null)
+      {
+         Integer fieldId = Integer.valueOf(row.getString("udf_type_id"));
+         String fieldDataType = row.getString("logical_data_type");
+         String fieldName = row.getString("udf_type_label");
 
-      m_udfMap.put(fieldId, fieldName);
-      addUserDefinedField(UserFieldDataType.valueOf(fieldType), fieldName);
+         m_udfMap.put(fieldId, fieldName);
+         addUserDefinedField(fieldType, UserFieldDataType.valueOf(fieldDataType), fieldName);
+      }
    }
 
    /**
     * Adds a user defined field value to a task.
     *
-    * @param task Task instance
+    * @param fieldType field type
+    * @param container FieldContainer instance
     * @param row UDF data
     */
-   private void addTaskUDFValue(Task task, Row row)
+   private void addUDFValue(FieldTypeClass fieldType, FieldContainer container, Row row)
    {
       Integer fieldId = Integer.valueOf(row.getString("udf_type_id"));
       String fieldName = m_udfMap.get(fieldId);
       Object value = null;
 
-      FieldType field = m_project.getCustomFields().getFieldByAlias(FieldTypeClass.TASK, fieldName);
+      FieldType field = m_project.getCustomFields().getFieldByAlias(fieldType, fieldName);
       if (field != null)
       {
-         DataType fieldType = field.getDataType();
+         DataType fieldDataType = field.getDataType();
 
-         switch (fieldType)
+         switch (fieldDataType)
          {
             case DATE:
             {
@@ -786,18 +846,18 @@ final class PrimaveraReader
             }
          }
 
-         task.set(field, value);
+         container.set(field, value);
       }
    }
 
    /**
-    * Retrieve the user defined values for a given task.
+    * Retrieve the user defined values for a given container.
     *
-    * @param taskID target task ID
+    * @param id target container ID
     * @param udfs user defined fields
-    * @return user defined fields for the target task
+    * @return user defined fields for the target container
     */
-   private List<Row> getTaskUDF(Integer taskID, List<Row> udfs)
+   private List<Row> getContainerUDF(Integer id, List<Row> udfs)
    {
       List<Row> udf = new LinkedList<Row>();
 
@@ -805,7 +865,7 @@ final class PrimaveraReader
       {
          for (Row row : udfs)
          {
-            if (taskID.equals(row.getInteger("fk_id")))
+            if (id.equals(row.getInteger("fk_id")))
             {
                udf.add(row);
             }
@@ -1173,6 +1233,17 @@ final class PrimaveraReader
     */
    public void processAssignments(List<Row> rows)
    {
+      processAssignments(rows, null);
+   }
+
+   /**
+    * Process assignment data.
+    *
+    * @param rows assignment data
+    * @param udfVals User Defined Fields values data
+    */
+   public void processAssignments(List<Row> rows, List<Row> udfVals)
+   {
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
@@ -1209,6 +1280,14 @@ final class PrimaveraReader
             else // RT_Labor & RT_Equip
                units = NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100;
             assignment.setUnits(NumberHelper.getDouble(units));
+
+            // Add User Defined Fields
+            Integer uniqueID = assignment.getUniqueID();
+            List<Row> udf = getContainerUDF(uniqueID, udfVals);
+            for (Row r : udf)
+            {
+               addUDFValue(FieldTypeClass.ASSIGNMENT, assignment, r);
+            }
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
@@ -1650,7 +1729,9 @@ final class PrimaveraReader
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
    private Map<Integer, String> m_udfMap = new HashMap<Integer, String>();
-   private final UserFieldCounters m_udfCounters;
+   private final UserFieldCounters m_taskUdfCounters;
+   private final UserFieldCounters m_resourceUdfCounters;
+   private final UserFieldCounters m_assignmentUdfCounters;
    private Map<FieldType, String> m_resourceFields;
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
@@ -1749,4 +1830,11 @@ final class PrimaveraReader
       STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
    }
 
+   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<String, FieldTypeClass>();
+   static
+   {
+      FIELD_TYPE_MAP.put("TASK", FieldTypeClass.TASK);
+      FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
+      FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
+   }
 }
