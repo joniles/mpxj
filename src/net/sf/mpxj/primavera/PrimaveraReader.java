@@ -982,52 +982,55 @@ final class PrimaveraReader
          {
             updateDates(task);
 
-            if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
+            // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
+            // still must protect against some children having null dates
+
+            if (plannedStartDate == null || (task.getStart() != null && DateHelper.compare(plannedStartDate, task.getStart()) > 0))
             {
                plannedStartDate = task.getStart();
             }
 
-            if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
+            if (actualStartDate == null || (task.getActualStart() != null && DateHelper.compare(actualStartDate, task.getActualStart()) > 0))
             {
                actualStartDate = task.getActualStart();
             }
 
-            if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
+            if (plannedFinishDate == null || (task.getFinish() != null && DateHelper.compare(plannedFinishDate, task.getFinish()) < 0))
             {
                plannedFinishDate = task.getFinish();
             }
 
-            if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
+            if (actualFinishDate == null || (task.getActualFinish() != null && DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0))
             {
                actualFinishDate = task.getActualFinish();
             }
 
-            if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
+            if (earlyStartDate == null || (task.getEarlyStart() != null && DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0))
             {
                earlyStartDate = task.getEarlyStart();
             }
 
-            if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
+            if (earlyFinishDate == null || (task.getEarlyFinish() != null && DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0))
             {
                earlyFinishDate = task.getEarlyFinish();
             }
 
-            if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
+            if (lateStartDate == null || (task.getLateStart() != null && DateHelper.compare(lateStartDate, task.getLateStart()) > 0))
             {
                lateStartDate = task.getLateStart();
             }
 
-            if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
+            if (lateFinishDate == null || (task.getLateFinish() != null && DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0))
             {
                lateFinishDate = task.getLateFinish();
             }
 
-            if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
+            if (baselineStartDate == null || (task.getBaselineStart() != null && DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0))
             {
                baselineStartDate = task.getBaselineStart();
             }
 
-            if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
+            if (baselineFinishDate == null || (task.getBaselineFinish() != null && DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0))
             {
                baselineFinishDate = task.getBaselineFinish();
             }
