@@ -1,6 +1,9 @@
 # Changelog
 
-## 5.7.1 (Git master)
+## 5.7.2 (Git master)
+
+## 5.7.1 (22/03/2017)
+* Improve support for Phoenix Project Manager XML files.
 
 ## 5.7.0 (20/03/2017)
 * Add support for FastTrack Schedule files.
