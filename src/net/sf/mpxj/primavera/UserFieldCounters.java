@@ -23,6 +23,11 @@
 
 package net.sf.mpxj.primavera;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * Simple container holding counters used to generate field names
  * for user defined field types.
@@ -34,9 +39,6 @@ class UserFieldCounters
     */
    public UserFieldCounters()
    {
-      //
-      // Set the default name for each type
-      //
       for (UserFieldDataType type : UserFieldDataType.values())
       {
          m_names[type.ordinal()] = type.getDefaultFieldName();
@@ -63,8 +65,10 @@ class UserFieldCounters
     */
    public String nextName(UserFieldDataType type)
    {
-      int counter = ++m_counters[type.ordinal()];
-      return type.getDefaultFieldName() + counter;
+      String name = m_names[type.ordinal()];
+      int i = NumberHelper.getInt(m_counters.get(name)) + 1;
+      m_counters.put(name, Integer.valueOf(i));
+      return name + i;
    }
 
    /**
@@ -72,12 +76,9 @@ class UserFieldCounters
     */
    public void reset()
    {
-      for (int index = 0; index < m_counters.length; index++)
-      {
-         m_counters[index] = 0;
-      }
+      m_counters.clear();
    }
 
-   private int[] m_counters = new int[UserFieldDataType.values().length];
-   private String[] m_names = new String[UserFieldDataType.values().length];
+   private final Map<String, Integer> m_counters = new HashMap<String, Integer>();
+   private final String[] m_names = new String[UserFieldDataType.values().length];
 }
