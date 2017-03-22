@@ -723,8 +723,7 @@ final class PrimaveraReader
 
                do
                {
-                  String fieldName = m_taskUdfCounters.nextName(dataType);
-                  taskField = TaskField.valueOf(fieldName);
+                  taskField = m_taskUdfCounters.nextField(TaskField.class, dataType);
                }
                while (m_taskFields.containsKey(taskField) || m_wbsFields.containsKey(taskField));
 
@@ -736,8 +735,7 @@ final class PrimaveraReader
 
                do
                {
-                  String fieldName = m_resourceUdfCounters.nextName(dataType);
-                  resourceField = ResourceField.valueOf(fieldName);
+                  resourceField = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
                }
                while (m_resourceFields.containsKey(resourceField));
 
@@ -749,8 +747,7 @@ final class PrimaveraReader
 
                do
                {
-                  String fieldName = m_assignmentUdfCounters.nextName(dataType);
-                  assignmentField = AssignmentField.valueOf(fieldName);
+                  assignmentField = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
                }
                while (m_assignmentFields.containsKey(assignmentField));
 

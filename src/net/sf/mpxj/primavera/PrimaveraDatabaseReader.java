@@ -540,33 +540,33 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     * Override the default field name mapping for Task user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field name
+    * @param fieldName field names
     */
-   public void setFieldNameForTaskUdfType(UserFieldDataType type, String fieldName)
+   public void setFieldNamesForTaskUdfType(UserFieldDataType type, String[] fieldNames)
    {
-      m_taskUdfCounters.setFieldNameForType(type, fieldName);
+      m_taskUdfCounters.setFieldNamesForType(type, fieldNames);
    }
 
    /**
     * Override the default field name mapping for Resource user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field name
+    * @param fieldName field names
     */
-   public void setFieldNameForResourceUdfType(UserFieldDataType type, String fieldName)
+   public void setFieldNamesForResourceUdfType(UserFieldDataType type, String[] fieldNames)
    {
-      m_resourceUdfCounters.setFieldNameForType(type, fieldName);
+      m_resourceUdfCounters.setFieldNamesForType(type, fieldNames);
    }
 
    /**
     * Override the default field name mapping for Resource user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field name
+    * @param fieldName field names
     */
-   public void setFieldNameForAssignmentUdfType(UserFieldDataType type, String fieldName)
+   public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String[] fieldNames)
    {
-      m_assignmentUdfCounters.setFieldNameForType(type, fieldName);
+      m_assignmentUdfCounters.setFieldNamesForType(type, fieldNames);
    }
 
    /**
