@@ -14,9 +14,10 @@
 <p>Welcome to MPXJ! This library provides a set of facilities to
 allow project information to be manipulated in Java and .Net. MPXJ supports
 a range of data formats: Microsoft Project Exchange (MPX), Microsoft
-Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
+Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
 Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), 
-Asta Powerproject (PP, MDB), and the Standard Data Exchange Format (SDEF).</p>
+Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager (PPX),
+FastTrack Schedule (FTS), and the Standard Data Exchange Format (SDEF).</p>
 
 <p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
@@ -26,8 +27,8 @@ supported file formats. The notes in the following paragraphs explain the
 facilities MPXJ offers for each file format.</p>
 
 <ul>
-<li><b>MPX:</b> The MPX file format can be read by all versions of Microsoft
-Project, and written by all versions up to Microsoft Project 98.
+<li><b>MPX:</b> The MPX file format can be read by versions of Microsoft
+Project up to and including Microsoft project 2010, and written by all versions up to Microsoft Project 98.
 MPXJ allows MPX files to be created, read and written. See
 <a href="http://support.microsoft.com/default.aspx?scid=KB;EN-US;Q270139" target="_blank">
 http://support.microsoft.com/default.aspx?scid=KB;EN-US;Q270139</a> 
@@ -36,7 +37,7 @@ for a definition of the file format.</li>
 <li><b>MPP:</b> The MPP file format is Microsoft's proprietary way of storing
 project data. MPXJ supports read only access to MPP files produced
 by Microsoft Project 98, Microsoft Project 2000, Microsoft 
-Project 2002, Microsoft Project 2003, Microsoft Project 2007, and Microsoft Project 2010.
+Project 2002, Microsoft Project 2003, Microsoft Project 2007, Microsoft Project 2010, Microsoft Project 2013, and Microsoft Project 2016.
 MPP template files, with the suffix MPT are also supported.</li>
 
 <li><b>MSPDI:</b> The MSPDI file format is Microsoft's XML file format for
@@ -74,10 +75,16 @@ to allow data to be exported in a form which can be consumed by Primavera.</li>
 
 <li><b>POWERPROJECT:</b> Asta Powerproject is a planning tool used in a number of industries, 
 particularly construction. Powerproject can save data to PP files or to MDB database files, 
-and MPXJ can read both of these format.s</li>
+and MPXJ can read both of these formats.</li>
+
+<li><b>PHOENIX:</b> Phoenix Project Manager is an easy-to-use critical path method scheduling
+tool aimed primarily at the construction industry. Phoenix writes PPX files which MPXJ can read.</li> 
+
+<li><b>FASTTRACK:</b> Fastrack Schedule is general purpose planning tool. FastTrack writes FTS files
+which MPXJ can read.</li> 
 
 <li><b>SDEF:</b> SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
-Army Corp of Engineers).  SDEF is a fixed column format text file, used to import
+Army Corps of Engineers). SDEF is a fixed column format text file, used to import
 a project schedule up into the QCS (Quality Control System) software from USACE.</li>
 
 </ul>
@@ -85,7 +92,7 @@ a project schedule up into the QCS (Quality Control System) software from USACE.
 
 <section name="Java, .Net, Ruby, PHP...">
 <p>MPXJ is written and maintained in Java, however this is no barrier to
-using its functionality in .Net or PHP applications.</p>
+using its functionality in .Net, Ruby, or PHP applications.</p>
 
 <p>Thanks to the facilities 
 provided by IKVM, the MPXJ distribution also contains a native .Net DLL version
