@@ -3,9 +3,7 @@
 	
 	<googleAnalyticsAccountId>UA-7202224-1</googleAnalyticsAccountId>
 	
-    <poweredBy>
-      <logo name="SourceForge.net Logo" href="http://sourceforge.net/projects/mpxj" img="http://sourceforge.net/sflogo.php?group_id=70649&amp;type=1"/>      
-    </poweredBy>
+    <poweredBy/>
 	
 	<body>
     <menu name="MPXJ">

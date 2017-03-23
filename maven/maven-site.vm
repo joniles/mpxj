@@ -410,35 +410,6 @@ under the License.
 #end
 ##
 #macro ( poweredByLogo $poweredBy )
-
-     <div id="search">
-       <h5>Search</h5>
-<ul><li class="none">
-<form action="http://www.google.com/cse" id="cse-search-box">
-  <div>
-    <input type="hidden" name="cx" value="003207231268070072136:ysycqgy2rzm" />
-    <input type="hidden" name="ie" value="UTF-8" />
-    <input type="text" name="q" size="15" />
-    <input type="submit" name="sa" value="Go" />
-  </div>
-</form>
-</li></ul>
-<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box"></script>
-     </div>
-
-     <div id="googleAdsenseLeft">
-     <h5>Advertisements</h5>
-<script type="text/javascript"><!--
-google_ad_client = "pub-5404462509027733";
-google_ad_slot = "2981044939";
-google_ad_width = 120;
-google_ad_height = 600;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>     
-    </div>
 	
   #if( $poweredBy )
     #foreach ($item in $poweredBy)
@@ -502,17 +473,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
       </a>
     #end
     #if( $poweredBy.isEmpty() )
-      <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" class="poweredBy">
-        <img class="poweredBy" alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png" />
-      </a>
     #end
   #else
-    <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" class="poweredBy">
-      <img class="poweredBy" alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png" />
-    </a>
   #end  
-	
-<script type="text/javascript" src="http://www.openhub.net/p/11577/widgets/project_thin_badge.js"></script>	
 #end
 ##
 #macro ( googleAnalytics $accountId )

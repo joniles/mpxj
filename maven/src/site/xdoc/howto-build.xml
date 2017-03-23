@@ -28,13 +28,8 @@ of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
 
 <section name="Obtaining the source">
 <p>The first step in the process of building your own version of MPXJ is to obtain 
-the latest source from Git. The MPXJ Git repository is described <a href="https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/" target="_blank">here</a>.
-If you are working with Git from the command line, you will need to execute the following command to clone the repository:</p>
-
-<source>
-git clone git://git.code.sf.net/p/mpxj/mpxj mpxj-mpxj  
-</source>
-
+the latest source from Git. The MPXJ Git repository is on GitHub <a href="https://github.com/joniles/mpxj" target="_blank">here</a>.
+Instructions for cloning the repository can be found on this page.</p>
 </section>
 
 <section name="Building the Java JAR">
@@ -46,7 +41,7 @@ make or nmake. The prerequisites for building MPXJ are:
 	A suitable JDK can be downloaded from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">Oracle</a></li>
 	<li>Apache Ant. I wrote these instructions using version 1.9.2, but the ant build script will probably 
 	work happily with older or newer versions. Ant can be downloaded from <a href="http://ant.apache.org/">http://ant.apache.org</a></li>
-	<li>The latest version of MPXJ from Git. Details of the MPXJ Git repository and how to use it can be found <a href="https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/" target="_blank">here</a>.</li>
+	<li>The latest version of MPXJ from Git. The MPXJ Git repository is on GitHub <a href="https://github.com/joniles/mpxj" target="_blank">here</a>.</li>
 </ul>
 </p>
 
@@ -85,7 +80,7 @@ in the lib.net folder.</li>
 
 <section name="Building the Javadoc">
 <p>The most recent Javadocs for MPXJ are always available at 
-<a href="http://mpxj.sf.net/" target="_blank">http://mpxj.sf.net</a>, however
+<a href="http://mpxj.org/" target="_blank">http://mpxj.org</a>, however
 if you wish to build a local copy for yourself, follow the instructions above
 to build the MPXJ JAR, then at the command prompt enter the command 
 "ant document", which will then generate the Javadoc in the doc/api folder.</p>

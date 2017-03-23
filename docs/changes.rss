@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>MPXJ: MPXJ Changes</title>
+    <link>http://mpxj.org/changes-report.html</link>
+    <description>These are the latest changes of the project.</description>
+    <language>en</language>
+    <pubDate>Thu, 23 Mar 2017 19:57:56 GMT</pubDate>
+    <dc:creator>Jon Iles</dc:creator>
+    <dc:date>2017-03-23T19:57:56Z</dc:date>
+    <dc:language>en</dc:language>
+    <item>
+      <title>5.7.2</title>
+      <link>http://mpxj.org/changes-report.html#a5.7.2</link>
+      <description>&lt;p&gt;Version 5.7.2 is available with 0 fixed issues.&lt;/p&gt;</description>
+      <pubDate>Thu, 23 Mar 2017 19:57:56 GMT</pubDate>
+      <guid>http://mpxj.org/changes-report.html#a5.7.2</guid>
+      <dc:date>2017-03-23T19:57:56Z</dc:date>
+    </item>
+  </channel>
+</rss>
+
