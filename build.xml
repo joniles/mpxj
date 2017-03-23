@@ -23,7 +23,7 @@
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
-		<property name="maven.dir" value="c:/java/apache-maven-3.2.3"/>
+		<property name="maven.dir" value="c:/java/apache-maven-3.3.9"/>
 
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />
@@ -512,13 +512,9 @@
 	</target>
 
 	<target name="maven-site-build" depends="init-props,maven-populate" description="Execute maven to produce the web site">
-		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="post-site" />
 		</exec>
-	</target>
-
-	<target name="maven-site-publish" depends="maven-site-build" description="Publishes the web site to SourceForge">
-		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>
 	</target>
 
 	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and run tests">
