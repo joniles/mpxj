@@ -606,7 +606,7 @@ final class PrimaveraReader
             task.setWBS(parentTask.getWBS() + "." + task.getWBS());
             if (activityIDField != null)
             {
-               task.set(activityIDField, task.getWBS() + " " + task.getName());
+               task.set(activityIDField, task.getWBS());
             }
          }
       }
