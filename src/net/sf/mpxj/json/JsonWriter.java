@@ -89,7 +89,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
-         writeCustomFields();
+         //         writeCustomFields(); 某些自定义字段解析会有问题，先禁用
          writeProperties();
          writeCalendars();
          writeResources();
