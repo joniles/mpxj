@@ -35,6 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -65,10 +69,6 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 /**
  * This class is used to represent a Microsoft Project MPP14 file. This
  * implementation allows the file to be read, and the data it contains
@@ -95,7 +95,7 @@ final class MPP14Reader implements MPPVariantReader
          if (!reader.getReadPropertiesOnly())
          {
             processSubProjectData();
-            processGraphicalIndicators();
+            //            processGraphicalIndicators();
             processCustomValueLists();
             processCalendarData();
             processResourceData();
@@ -294,10 +294,10 @@ final class MPP14Reader implements MPPVariantReader
             //            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
-            //
-            // Subproject that is no longer inserted. This is a placeholder in order to be
-            // able to always guarantee unique unique ids.
-            //
+               //
+               // Subproject that is no longer inserted. This is a placeholder in order to be
+               // able to always guarantee unique unique ids.
+               //
                case 0x00:
                   //
                   // deleted entry?
@@ -834,56 +834,57 @@ final class MPP14Reader implements MPPVariantReader
             //
             // Check for the deleted task flag
             //
-            int flags = MPPUtility.getInt(metaData, 0);
-            if ((flags & 0x02) != 0)
+            //            int flags = MPPUtility.getInt(metaData, 0);
+            //            通过flags判断是否是被删除任务，有问题。暂时不删除，通过后面解析task时，把name是null的删除。
+            //            if ((flags & 0x02) != 0)
+            //            {
+            //               // Project stores the deleted tasks unique id's into the fixed data as well
+            //               // and at least in one case the deleted task was listed twice in the list
+            //               // the second time with data with it causing a phantom task to be shown.
+            //               // See CalendarErrorPhantomTasks.mpp
+            //               //
+            //               // So let's add the unique id for the deleted task into the map so we don't
+            //               // accidentally include the task later.
+            //               //
+            //               uniqueID = MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET); // Only a short stored for deleted tasks?
+            //               key = Integer.valueOf(uniqueID);
+            //               if (taskMap.containsKey(key) == false)
+            //               {
+            //                  taskMap.put(key, null); // use null so we can easily ignore this later
+            //               }
+            //            }
+            //            else
+            //            {
+            //
+            // Do we have a null task?
+            //
+            if (data.length == NULL_TASK_BLOCK_SIZE)
             {
-               // Project stores the deleted tasks unique id's into the fixed data as well
-               // and at least in one case the deleted task was listed twice in the list
-               // the second time with data with it causing a phantom task to be shown.
-               // See CalendarErrorPhantomTasks.mpp
-               //
-               // So let's add the unique id for the deleted task into the map so we don't
-               // accidentally include the task later.
-               //
-               uniqueID = MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET); // Only a short stored for deleted tasks?
+               uniqueID = MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
                key = Integer.valueOf(uniqueID);
                if (taskMap.containsKey(key) == false)
                {
-                  taskMap.put(key, null); // use null so we can easily ignore this later
+                  taskMap.put(key, Integer.valueOf(loop));
                }
             }
             else
             {
                //
-               // Do we have a null task?
+               // We apply a heuristic here - if we have more than 75% of the data, we assume
+               // the task is valid.
                //
-               if (data.length == NULL_TASK_BLOCK_SIZE)
+               int maxSize = fieldMap.getMaxFixedDataSize(0);
+               if (maxSize == 0 || ((data.length * 100) / maxSize) > 75)
                {
-                  uniqueID = MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
+                  uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                   key = Integer.valueOf(uniqueID);
                   if (taskMap.containsKey(key) == false)
                   {
                      taskMap.put(key, Integer.valueOf(loop));
                   }
                }
-               else
-               {
-                  //
-                  // We apply a heuristic here - if we have more than 75% of the data, we assume
-                  // the task is valid.
-                  //
-                  int maxSize = fieldMap.getMaxFixedDataSize(0);
-                  if (maxSize == 0 || ((data.length * 100) / maxSize) > 75)
-                  {
-                     uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
-                     key = Integer.valueOf(uniqueID);
-                     if (taskMap.containsKey(key) == false)
-                     {
-                        taskMap.put(key, Integer.valueOf(loop));
-                     }
-                  }
-               }
             }
+            //            }
          }
       }
 
@@ -1394,7 +1395,6 @@ final class MPP14Reader implements MPPVariantReader
                }
          }
          task = m_file.addTask();
-
          task.disableEvents();
 
          fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
@@ -1458,10 +1458,10 @@ final class MPP14Reader implements MPPVariantReader
 
          switch (task.getConstraintType())
          {
-         //
-         // Adjust the start and finish dates if the task
-         // is constrained to start as late as possible.
-         //
+            //
+            // Adjust the start and finish dates if the task
+            // is constrained to start as late as possible.
+            //
             case AS_LATE_AS_POSSIBLE:
             {
                if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
@@ -1577,7 +1577,7 @@ final class MPP14Reader implements MPPVariantReader
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
-         if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
+         if (task.getName() == null || ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
          {
             // Remove this to avoid passing bad data to the client
             m_file.removeTask(task);

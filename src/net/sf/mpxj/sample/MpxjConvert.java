@@ -47,17 +47,19 @@ public final class MpxjConvert
    {
       try
       {
-         if (args.length != 2)
-         {
-            System.out.println("Usage: MpxjConvert <input file name> <output file name>");
-         }
-         else
-         {
-            MpxjConvert convert = new MpxjConvert();
-            convert.process(args[0], args[1]);
-         }
-
-         System.exit(0);
+         //         if (args.length != 2)
+         //         {
+         //            System.out.println("Usage: MpxjConvert <input file name> <output file name>");
+         //         }
+         //         else
+         //         {
+         String inPath = "D:\\123456.mpp";
+         String outPath = "D:\\123456.json";
+         MpxjConvert convert = new MpxjConvert();
+         convert.process(inPath, outPath);
+         //         }
+         //
+         //         System.exit(0);
       }
 
       catch (Exception ex)

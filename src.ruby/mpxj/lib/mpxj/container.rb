@@ -51,11 +51,7 @@ module MPXJ
     end
 
     def get_duration_value(attribute_value)
-      if attribute_value.nil?
-        Duration.new(0)
-      else
-        Duration.new(attribute_value.to_i)
-      end
+      attribute_value.to_i
     end
 
     def get_date_value(attribute_value)

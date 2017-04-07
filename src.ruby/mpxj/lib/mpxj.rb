@@ -1,5 +1,6 @@
 require "mpxj/version"
 require "mpxj/container"
+require "mpxj/calendar"
 require "mpxj/project"
 require "mpxj/properties"
 require "mpxj/resource"
