@@ -1,6 +1,8 @@
 # Changelog
 
 ## 5.7.2 (Git master)
+* Updated to use POI 3.16.
+* Improve support for estimated durations in Merlin files.
 
 ## 5.7.1 (22/03/2017)
 * Improve support for Phoenix Project Manager XML files.

@@ -12,6 +12,7 @@
         <summary>Dependencies required by MPXJ</summary>
     </metadata>
     <files>
+    	<file src="..\lib.net\commons-collections*.*" target="lib"/>
     	<file src="..\lib.net\poi*.*" target="lib"/>
     	<file src="..\lib.net\rtfparserkit*.*" target="lib"/>
     	<file src="..\lib.net\sqlite-jdbc*.*" target="lib"/>
