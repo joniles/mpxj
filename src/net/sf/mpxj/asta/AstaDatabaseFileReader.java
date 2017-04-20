@@ -249,7 +249,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
    private void processTasks() throws SQLException
    {
       List<Row> bars = getRows("select bar.id as barid, calendar as calendau, bar_start as starv, bar_finish as enf, bar.name as namh, bar, wbn_code from bar inner join expanded_task on bar.expanded_task = expanded_task.id where bar.projid=? and bar_start !='' order by bar.natural_order", m_projectID);
-      List<Row> tasks = getRows("select id as taskid, given_duration as given_durationhours, actual_duration as actual_durationhours, overall_percent_complete as overall_percenv_complete, name as nare, calendar as calendau, linkable_start as starz, linkable_finish as enj, * from task where projid=? order by wbs, natural_order", m_projectID);
+      List<Row> tasks = getRows("select id as taskid, given_duration as given_durationhours, actual_duration as actual_durationhours, overall_percent_complete as overall_percenv_complete, name as nare, calendar as calendau, linkable_start as starz, linkable_finish as enj, notes as notet, * from task where projid=? order by wbs, natural_order", m_projectID);
       List<Row> milestones = getRows("select id as milestoneid, name as nare, calendar as calendau, * from milestone where projid=?", m_projectID);
       m_reader.processTasks(bars, tasks, milestones);
    }

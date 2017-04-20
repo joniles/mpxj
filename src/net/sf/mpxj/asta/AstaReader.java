@@ -290,7 +290,7 @@ final class AstaReader
          //OVERALL_PERCENT_COMPL_WEIGHT
          task.setName(row.getString("NARE"));
          task.setWBS(row.getString("WBN_CODE"));
-         //NOTET
+         task.setNotes(getNotes(row));
          //UNIQUE_TASK_ID
          task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
          //EFFORT_TIMI_UNIT
@@ -1098,12 +1098,38 @@ final class AstaReader
       }
    }
 
+   /**
+    * Extract note text.
+    *
+    * @param row task data
+    * @return note text
+    */
+   private String getNotes(Row row)
+   {
+      String notes = row.getString("NOTET");
+      if (notes != null)
+      {
+         if (notes.isEmpty())
+         {
+            notes = null;
+         }
+         else
+         {
+            if (notes.indexOf(LINE_BREAK) != -1)
+            {
+               notes = notes.replace(LINE_BREAK, "\n");
+            }
+         }
+      }
+      return notes;
+   }
    private ProjectFile m_project;
    private EventManager m_eventManager;
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final Duration ZERO_HOURS = Duration.getInstance(0, TimeUnit.HOURS);
+   private static final String LINE_BREAK = "|@|||";
 
    private static final RelationType[] RELATION_TYPES =
    {

@@ -8,6 +8,7 @@
 		<release date="Git master" version="5.7.2">
 			<action dev="joniles" type="update">Updated to use POI 3.16.</action>
 			<action dev="joniles" type="update">Improve support for estimated durations in Merlin files.</action>
+			<action dev="joniles" type="update">Read task notes from Asta files.</action>
 		</release>
 		<release date="22/03/2017" version="5.7.1">
 			<action dev="joniles" type="update">Improve support for Phoenix Project Manager XML files.</action>
