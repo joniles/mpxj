@@ -2576,7 +2576,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return file type
     */
-   public String getFileVendor()
+   public String getFileApplication()
    {
       return (String) getCachedValue(ProjectField.FILE_APPLICATION);
    }
