@@ -533,13 +533,13 @@
 	</target>
 
 	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and run tests">
-		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
 		</exec>
 	</target>
 
 	<target name="maven-deploy" depends="init-props,maven-populate" description="Execute maven and deploy to OSSRH">
-		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="-DskipTests=true clean deploy" />
 		</exec>
 	</target>

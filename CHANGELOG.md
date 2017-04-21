@@ -1,6 +1,8 @@
 # Changelog
 
-## 5.8.0 (Git master)
+## 5.8.1 (Git master)
+
+## 5.8.0 (21/04/2017)
 * Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).
 * Improve support for estimated durations in Merlin files.
 * Read task notes from Asta files.
