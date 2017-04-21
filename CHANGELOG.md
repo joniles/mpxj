@@ -1,8 +1,11 @@
 # Changelog
 
-## 5.7.2 (Git master)
-* Updated to use POI 3.16.
+## 5.8.0 (Git master)
+* Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).
 * Improve support for estimated durations in Merlin files.
+* Read task notes from Asta files.
+* Improve support for reading resource rates from Phoenix files.
+* Add "file application" and "file type" to project properties to determine source of schedule data.
 
 ## 5.7.1 (22/03/2017)
 * Improve support for Phoenix Project Manager XML files.
