@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ProjectProperties (MPXJ 5.7.1 API)</title>
+<title>ProjectProperties (MPXJ 5.8.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ProjectProperties (MPXJ 5.7.1 API)";
+        parent.document.title="ProjectProperties (MPXJ 5.8.0 API)";
     }
 //-->
 </script>
@@ -486,6 +486,18 @@ implements <a href="../../../net/sf/mpxj/FieldContainer.html" title="interface i
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectProperties.html#getExtendedCreationDate()">getExtendedCreationDate</a></strong>()</code>
 <div class="block">Retrieve the extended creation date.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectProperties.html#getFileType()">getFileType</a></strong>()</code>
+<div class="block">Retrieves the type of file used to populate this ProjectFile instance.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectProperties.html#getFileVendor()">getFileVendor</a></strong>()</code>
+<div class="block">Retrieves the vendor of the file used to populate this ProjectFile instance.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1224,6 +1236,18 @@ implements <a href="../../../net/sf/mpxj/FieldContainer.html" title="interface i
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectProperties.html#setExtendedCreationDate(java.util.Date)">setExtendedCreationDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;creationDate)</code>
 <div class="block">Set the extended creation date.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectProperties.html#setFileApplication(java.lang.String)">setFileApplication</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;type)</code>
+<div class="block">Sets the vendor of file used to populate this ProjectFile instance.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectProperties.html#setFileType(java.lang.String)">setFileType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;type)</code>
+<div class="block">Sets the type of file used to populate this ProjectFile instance.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -4232,6 +4256,50 @@ implements <a href="../../../net/sf/mpxj/FieldContainer.html" title="interface i
 <pre>public&nbsp;void&nbsp;setAutoFilter(boolean&nbsp;autoFilter)</pre>
 <div class="block">Sets a flag indicating if auto filter is enabled.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>autoFilter</code> - boolean flag</dd></dl>
+</li>
+</ul>
+<a name="getFileVendor()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getFileVendor</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getFileVendor()</pre>
+<div class="block">Retrieves the vendor of the file used to populate this ProjectFile instance.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>file type</dd></dl>
+</li>
+</ul>
+<a name="setFileApplication(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setFileApplication</h4>
+<pre>public&nbsp;void&nbsp;setFileApplication(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;type)</pre>
+<div class="block">Sets the vendor of file used to populate this ProjectFile instance.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>type</code> - file type</dd></dl>
+</li>
+</ul>
+<a name="getFileType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getFileType</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getFileType()</pre>
+<div class="block">Retrieves the type of file used to populate this ProjectFile instance.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>file type</dd></dl>
+</li>
+</ul>
+<a name="setFileType(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setFileType</h4>
+<pre>public&nbsp;void&nbsp;setFileType(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;type)</pre>
+<div class="block">Sets the type of file used to populate this ProjectFile instance.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>type</code> - file type</dd></dl>
 </li>
 </ul>
 <a name="addFieldListener(net.sf.mpxj.listener.FieldListener)">
