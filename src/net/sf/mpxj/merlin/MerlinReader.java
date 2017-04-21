@@ -215,6 +215,9 @@ public class MerlinReader implements ProjectReader
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
 
+      m_project.getProjectProperties().setFileApplication("Merlin");
+      m_project.getProjectProperties().setFileType("SQLITE");
+
       m_eventManager.addProjectListeners(m_projectListeners);
 
       processProject();

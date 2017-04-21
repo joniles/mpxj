@@ -74,6 +74,9 @@ final class AstaReader
 
       config.setAutoCalendarUniqueID(false);
       config.setAutoWBS(false);
+
+      m_project.getProjectProperties().setFileApplication("Asta");
+      m_project.getProjectProperties().setFileType("PP");
    }
 
    /**

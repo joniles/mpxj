@@ -137,6 +137,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
+         m_projectFile.getProjectProperties().setFileApplication("Primavera");
+         m_projectFile.getProjectProperties().setFileType("PMXML");
+
          CustomFieldContainer fields = m_projectFile.getCustomFields();
          fields.getCustomField(TaskField.TEXT1).setAlias("WBS Code");
          fields.getCustomField(TaskField.TEXT2).setAlias("Task ID");

@@ -111,6 +111,9 @@ public final class PhoenixReader extends AbstractProjectReader
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
 
+         m_projectFile.getProjectProperties().setFileApplication("Phoenix");
+         m_projectFile.getProjectProperties().setFileType("PPX");
+
          // Equivalent to Primavera's Activity ID
          m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
 

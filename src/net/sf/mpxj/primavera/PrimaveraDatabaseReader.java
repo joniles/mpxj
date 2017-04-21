@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -109,6 +110,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          ProjectFile project = m_reader.getProject();
          project.getEventManager().addProjectListeners(m_projectListeners);
 
+         processAnalytics();
          processProjectProperties();
          processCalendars();
          processResources();
@@ -163,6 +165,37 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          result.add(read());
       }
       return result;
+   }
+
+   /**
+    * Populate data for analytics.
+    */
+   private void processAnalytics() throws SQLException
+   {
+      allocateConnection();
+
+      try
+      {
+         DatabaseMetaData meta = m_connection.getMetaData();
+         String productName = meta.getDatabaseProductName();
+         if (productName == null || productName.isEmpty())
+         {
+            productName = "DATABASE";
+         }
+         else
+         {
+            productName = productName.toUpperCase();
+         }
+
+         ProjectProperties properties = m_reader.getProject().getProjectProperties();
+         properties.setFileApplication("Primavera");
+         properties.setFileType(productName);
+      }
+
+      finally
+      {
+         releaseConnection();
+      }
    }
 
    /**

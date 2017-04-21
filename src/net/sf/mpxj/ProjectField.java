@@ -156,6 +156,8 @@ public enum ProjectField implements FieldType
    APPLICATION_VERSION(DataType.INTEGER),
    MPP_FILE_TYPE(DataType.INTEGER),
    AUTOFILTER(DataType.BOOLEAN),
+   FILE_APPLICATION(DataType.STRING),
+   FILE_TYPE(DataType.STRING),
 
    FINISH_DATE(DataType.DATE); // Must always be last value
 

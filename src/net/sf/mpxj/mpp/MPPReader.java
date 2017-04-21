@@ -35,6 +35,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
@@ -124,8 +125,11 @@ public final class MPPReader extends AbstractProjectReader
          // Retrieve the CompObj data, validate the file format and process
          //
          CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
-         projectFile.getProjectProperties().setFullApplicationName(compObj.getApplicationName());
-         projectFile.getProjectProperties().setApplicationVersion(compObj.getApplicationVersion());
+         ProjectProperties projectProperties = projectFile.getProjectProperties();
+         projectProperties.setFileApplication("Microsoft");
+         projectProperties.setFileType("MPP");
+         projectProperties.setFullApplicationName(compObj.getApplicationName());
+         projectProperties.setApplicationVersion(compObj.getApplicationVersion());
          String format = compObj.getFileFormat();
          Class<? extends MPPVariantReader> readerClass = FILE_CLASS_MAP.get(format);
          if (readerClass == null)

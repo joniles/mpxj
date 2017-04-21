@@ -182,6 +182,12 @@
 		<Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
 		<Class name="~.*\.AbstractColumn" />	
 	</Match>
-	 		
+
+    <!-- Findbugs is psychic -->	 		
+	<Match>
+		<Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+		<Class name="~.*\.PrimaveraDatabaseReader" />	
+		<Method name="processAnalytics" />
+	</Match>	
 	 		 	 
 </FindBugsFilter>

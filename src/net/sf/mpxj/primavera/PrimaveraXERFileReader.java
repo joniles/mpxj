@@ -113,6 +113,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
+         project.getProjectProperties().setFileApplication("Primavera");
+         project.getProjectProperties().setFileType("XER");
          project.getEventManager().addProjectListeners(m_projectListeners);
 
          processProjectID();

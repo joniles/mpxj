@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Improve support for estimated durations in Merlin files.</action>
 			<action dev="joniles" type="update">Read task notes from Asta files.</action>
 			<action dev="joniles" type="update">Improve support for reading resource rates from Phoenix files.</action>
+			<action dev="joniles" type="add">Add "file application" and "file type" to project properties to determine source of schedule data.</action>
 		</release>
 		<release date="22/03/2017" version="5.7.1">
 			<action dev="joniles" type="update">Improve support for Phoenix Project Manager XML files.</action>
