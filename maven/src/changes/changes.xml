@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="Git master" version="5.8.1">
+			<action dev="joniles" type="add">Add support for reading ProjectLibre POD files.</action>
 			<action dev="joniles" type="add">Correct getter method name for "file application" project property.</action>
 		</release>	
 		<release date="21/04/2017" version="5.8.0">

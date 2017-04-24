@@ -95,7 +95,7 @@ public class ProjectExplorer
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
-      fileChooserModel.setExtensions("mpp", "mpx", "xml", "planner", "xer", "pmxml", "pp", "zip", "ppx", "fts", "zip");
+      fileChooserModel.setExtensions("mpp", "mpx", "xml", "planner", "xer", "pmxml", "pp", "zip", "ppx", "fts", "pod", "zip");
 
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
