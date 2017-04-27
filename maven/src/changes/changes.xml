@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Git master" version="5.9.0">
+		<release date="Git master" version="5.10.0">
+		</release>	
+		<release date="27/04/2017" version="5.9.0">
 			<action dev="joniles" type="add">Add support for reading ProjectLibre POD files (from version 1.5.5 onwards).</action>
 			<action dev="joniles" type="add">Correct getter method name for "file application" project property.</action>
 		</release>	
