@@ -1,6 +1,8 @@
 # Changelog
 
-## 5.8.1 (Git master)
+## 5.9.0 (Git master)
+* Add support for reading ProjectLibre POD files (from version 1.5.5 onwards).
+* Correct getter method name for "file application" project property.
 
 ## 5.8.0 (21/04/2017)
 * Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).
