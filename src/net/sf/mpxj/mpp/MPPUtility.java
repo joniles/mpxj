@@ -371,6 +371,13 @@ public final class MPPUtility
       Date result;
 
       long days = getShort(data, offset + 2);
+      if (days < 100)
+      {
+         // We are seeing some files which have very small values for the number of days.
+         // When the relevant field is shown in MS Project it appears as NA.
+         // We try to mimic this behaviour here.
+         days = 0;
+      }
 
       if (days == 0 || days == 65535)
       {

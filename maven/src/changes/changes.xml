@@ -7,6 +7,7 @@
 	<body>
 		<release date="Git master" version="5.10.0">
 			<action dev="joniles" type="update">Improve handling of deleted tasks in MPP files.</action>
+			<action dev="joniles" type="update">Improve handling of NA date values read from MPP files.</action>
 		</release>	
 		<release date="27/04/2017" version="5.9.0">
 			<action dev="joniles" type="add">Add support for reading ProjectLibre POD files (from version 1.5.5 onwards).</action>
