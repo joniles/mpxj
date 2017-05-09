@@ -6,10 +6,11 @@
 	</properties>
 	<body>
 		<release date="Git master" version="5.10.0">
+			<action dev="joniles" type="update">Improve handling of deleted tasks in MPP files.</action>
 		</release>	
 		<release date="27/04/2017" version="5.9.0">
 			<action dev="joniles" type="add">Add support for reading ProjectLibre POD files (from version 1.5.5 onwards).</action>
-			<action dev="joniles" type="add">Correct getter method name for "file application" project property.</action>
+			<action dev="joniles" type="update">Correct getter method name for "file application" project property.</action>
 		</release>	
 		<release date="21/04/2017" version="5.8.0">
 			<action dev="joniles" type="update">Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).</action>
