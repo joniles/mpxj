@@ -996,8 +996,13 @@ public final class MPXReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
       }
 
-      Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
-      m_eventManager.fireRelationReadEvent(relation);
+      // We have seen at least one example MPX file where an invalid task ID
+      // is present. We'll ignore this as the schedule is otherwise valid.
+      if (targetTask != null)
+      {
+         Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
+         m_eventManager.fireRelationReadEvent(relation);
+      }
    }
 
    /**
