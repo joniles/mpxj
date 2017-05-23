@@ -1,7 +1,15 @@
 # Changelog
 
-## 5.9.0 (Git master)
-* Add support for reading ProjectLibre POD files (from version 1.5.5 onwards).
+## 5.11.0 (Git master)
+
+## 5.10.0 (23/05/2017)
+* Improve handling of deleted tasks in MPP files.
+* Improve handling of invalid predecessor tasks in MPX files.
+* Improve handling of invalid saved view state in MPP files.
+* Empty baseline dates populated with garbage date instead of null.
+
+## 5.9.0 (27/04/2017)
+* Add support for reading ProjectLibre POD files (from ProjectLibre version 1.5.5 onwards).
 * Correct getter method name for "file application" project property.
 
 ## 5.8.0 (21/04/2017)
