@@ -53,9 +53,15 @@ final class Var2Data extends MPPComponent
       byte[] data;
 
       int currentOffset = 0;
+      int available = is.available();
 
       for (int itemOffset : meta.getOffsets())
       {
+         if (itemOffset >= available)
+         {
+            continue;
+         }
+
          if (currentOffset > itemOffset)
          {
             is.reset();

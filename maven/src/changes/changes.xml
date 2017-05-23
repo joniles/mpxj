@@ -8,6 +8,7 @@
 		<release date="Git master" version="5.10.0">
 			<action dev="joniles" type="update">Improve handling of deleted tasks in MPP files.</action>
 			<action dev="joniles" type="update">Improve handling of invalid predecessor tasks in MPX files.</action>
+			<action dev="joniles" type="update">Improve handling of invalid saved view state in MPP files.</action>
 			<action dev="joniles" issue="313" type="fix">Empty baseline dates populated with garbage date instead of null.</action>
 		</release>	
 		<release date="27/04/2017" version="5.9.0">
