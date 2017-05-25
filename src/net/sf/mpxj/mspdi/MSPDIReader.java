@@ -141,9 +141,6 @@ public final class MSPDIReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         m_projectFile.getProjectProperties().setFileApplication("Microsoft");
-         m_projectFile.getProjectProperties().setFileType("MSPDI");
-
          m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -297,6 +294,26 @@ public final class MSPDIReader extends AbstractProjectReader
       properties.setUniqueID(project.getUID());
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       properties.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
+      updateScheduleSource(properties);
+   }
+
+   /**
+    * Populate the properties indicating the source of this schedule.
+    *
+    * @param properties project properties
+    */
+   private void updateScheduleSource(ProjectProperties properties)
+   {
+      // Rudimentary identification of schedule source
+      if (properties.getCompany() != null && properties.getCompany().equals("Synchro Software Ltd"))
+      {
+         properties.setFileApplication("Synchro");
+      }
+      else
+      {
+         properties.setFileApplication("Microsoft");
+      }
+      properties.setFileType("MSPDI");
    }
 
    /**
