@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="Git master" version="5.11.0">
+			<action dev="joniles" type="update">Improve handling of malformed durations in MSPDI files.</action>
 		</release>	
 		<release date="23/05/2017" version="5.10.0">
 			<action dev="joniles" type="update">Improve handling of deleted tasks in MPP files.</action>
