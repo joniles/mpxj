@@ -3139,7 +3139,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public EarnedValueMethod getEarnedValueMethod()
    {
-      return (m_earnedValueMethod);
+      return (EarnedValueMethod) getCachedValue(TaskField.EARNED_VALUE_METHOD);
    }
 
    /**
@@ -3149,7 +3149,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEarnedValueMethod(EarnedValueMethod earnedValueMethod)
    {
-      m_earnedValueMethod = earnedValueMethod;
+      set(TaskField.EARNED_VALUE_METHOD, earnedValueMethod);
    }
 
    /**
@@ -4976,7 +4976,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private boolean m_resumeValid;
    private String m_externalTaskProject;
    private TimeUnit m_levelingDelayFormat;
-   private EarnedValueMethod m_earnedValueMethod;
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;

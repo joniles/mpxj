@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Improve handling of malformed durations in MSPDI files.</action>
 			<action dev="joniles" type="update">Improve performance when reading MPP files with certain kinds of timephased data.</action>
 			<action dev="joniles" type="update">Raise a specific "password protected" exception type from the Ruby gem.</action>
+			<action dev="joniles" type="update">Fix an issue with the storage of the "earned value method" task attribute.</action>
 		</release>	
 		<release date="23/05/2017" version="5.10.0">
 			<action dev="joniles" type="update">Improve handling of deleted tasks in MPP files.</action>
