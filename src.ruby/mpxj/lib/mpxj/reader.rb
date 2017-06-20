@@ -70,6 +70,8 @@ module MPXJ
         message = java_output.split('Conversion Error: ')[1]
         if message.include?('Unsupported file type')
           raise MPXJ::ArgumentError, message
+        elsif message.include?('password protected')
+          raise MPXJ::PasswordProtected, message
         else
           raise MPXJ::RuntimeError, message
         end
