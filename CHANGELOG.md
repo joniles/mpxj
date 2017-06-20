@@ -1,6 +1,12 @@
 # Changelog
 
-## 5.11.0 (Git master)
+## 5.12.0 (Git master)
+
+## 5.11.0 (20/06/2017)
+* Improve handling of malformed durations in MSPDI files.
+* Improve performance when reading MPP files with certain kinds of timephased data.
+* Raise a specific "password protected" exception type from the Ruby gem.
+* Fix an issue with the storage of the "earned value method" task attribute.
 
 ## 5.10.0 (23/05/2017)
 * Improve handling of deleted tasks in MPP files.
