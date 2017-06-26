@@ -1,6 +1,9 @@
 # Changelog
 
-## 5.12.0 (Git master)
+## 5.13.0 (Git master)
+
+## 5.12.0 (26/06/2017)
+* Improve handling of WBS, bar, and task structure from Asta files.
 
 ## 5.11.0 (20/06/2017)
 * Improve handling of malformed durations in MSPDI files.
