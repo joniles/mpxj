@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="Git master" version="5.12.0">
+			<action dev="joniles" type="update">Improve handling of WBS, bar, and task structure from Asta files.</action>
 		</release>		
 		<release date="20/06/2017" version="5.11.0">
 			<action dev="joniles" type="update">Improve handling of malformed durations in MSPDI files.</action>
