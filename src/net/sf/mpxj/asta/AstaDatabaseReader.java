@@ -231,10 +231,11 @@ public final class AstaDatabaseReader implements ProjectReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> bars = getRows("select * from bar inner join expanded_task on bar.expanded_task = expanded_task.expanded_taskid where bar.projid=? and starv is not null order by natural_order", m_projectID);
-      List<Row> tasks = getRows("select *  from task where projid=? order by wbt, naturao_order", m_projectID);
-      List<Row> milestones = getRows("select * from milestone where projid=?", m_projectID);
-      m_reader.processTasks(bars, tasks, milestones);
+      List<Row> wbs = getRows("select * from wbs_entry where projid=? order by wbs_entry, naturap_order", m_projectID);
+      List<Row> bars = getRows("select * from bar where projid=?", m_projectID);
+      List<Row> tasks = getRows("select task.* from task inner join bar on task.bar = bar.barid where task.projid=? order by bar.natural_order, task.naturao_order", m_projectID);
+      List<Row> milestones = getRows("select milestone.* from milestone inner join bar on milestone.bar = bar.barid where milestone.projid=? order by bar.natural_order, milestone.naturao_order", m_projectID);
+      m_reader.processTasks(wbs, bars, tasks, milestones);
    }
 
    /**

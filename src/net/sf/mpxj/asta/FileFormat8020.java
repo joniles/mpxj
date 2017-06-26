@@ -108,6 +108,11 @@ class FileFormat8020 extends AbstractFileFormat
       return WORK_PATTERN_COLUMNS_ORDER;
    }
 
+   @Override protected String[] wbsEntryColumnsOrder()
+   {
+      return WBS_ENTRY_COLUMNS_ORDER;
+   }
+
    private static final String[] BAR_COLUMNS_ORDER =
    {
       "BARID",
@@ -830,5 +835,18 @@ class FileFormat8020 extends AbstractFileFormat
       "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY",
+   };
+
+   private static final String[] WBS_ENTRY_COLUMNS_ORDER =
+   {
+      "WBS_ENTRYID",
+      "NATURAP_ORDER",
+      "WBT_CODE",
+      "WBT_NAME",
+      "WBS_ENTRY",
+      "CREATED_AS_FOLDER",
+      "ALT_ID",
+      "LAST_EDITED_DATE",
+      "LAST_EDITED_BY"
    };
 }

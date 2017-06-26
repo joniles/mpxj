@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -182,11 +183,32 @@ final class AstaReader
    /**
     * Process tasks.
     *
+    * @param wbs wbs data
     * @param bars bar data
     * @param tasks task data
     * @param milestones milestone data
     */
-   public void processTasks(List<Row> bars, List<Row> tasks, List<Row> milestones)
+   public void processTasks(List<Row> wbs, List<Row> bars, List<Row> tasks, List<Row> milestones)
+   {
+      if (wbs.isEmpty())
+      {
+         processTasksWithoutWBS(bars, tasks, milestones);
+      }
+      else
+      {
+         processTasksWithWBS(wbs, bars, tasks, milestones);
+      }
+   }
+
+   /**
+    * Process task data. In this case we do not have an explicit WBS structure, so we need to construct it from
+    * the bar and task data.
+    *
+    * @param bars bar data
+    * @param tasks task data
+    * @param milestones milestone data
+    */
+   public void processTasksWithoutWBS(List<Row> bars, List<Row> tasks, List<Row> milestones)
    {
       //
       // Process bars
@@ -247,8 +269,8 @@ final class AstaReader
             parentTask.getChildTasks().add(task);
             if (parentTask.getWBS().equals("-"))
             {
-               String wbs = row.getString("WBN_CODE");
-               parentTask.setWBS(wbs == null || wbs.length() == 0 ? "-" : wbs);
+               String wbsCode = row.getString("WBN_CODE");
+               parentTask.setWBS(wbsCode == null || wbsCode.length() == 0 ? "-" : wbsCode);
             }
          }
       }
@@ -405,6 +427,284 @@ final class AstaReader
       deriveProjectCalendar();
 
       updateStructure();
+   }
+
+   /**
+    * Process task data. This method handles the case where we have an explicit WBS structure to work from.
+    *
+    * @param wbs wbs data
+    * @param bars bar data
+    * @param tasks task data
+    * @param milestones milestone data
+    */
+   public void processTasksWithWBS(List<Row> wbs, List<Row> bars, List<Row> tasks, List<Row> milestones)
+   {
+      //
+      // Process the WBS
+      //
+      for (Row row : wbs)
+      {
+         Task parentTask = m_project.getTaskByUniqueID(row.getInteger("WBS_ENTRY"));
+         Task task = parentTask == null ? m_project.addTask() : parentTask.addTask();
+
+         task.setUniqueID(row.getInteger("WBS_ENTRYID"));
+         // NATURAP_ORDER
+         task.setWBS(row.getString("WBT_CODE"));
+         task.setName(row.getString("WBT_NAME"));
+         // WBS_ENTRY
+         // CREATED_AS_FOLDER
+         // ALT_ID
+         // LAST_EDITED_DATE
+         // LAST_EDITED_BY
+         task.setStart(row.getDate("STARV"));
+         task.setFinish(row.getDate("ENF"));
+
+         m_eventManager.fireTaskReadEvent(task);
+      }
+
+      //
+      // Map Bar IDs to rows
+      //
+      Map<Integer, Row> barMap = new HashMap<Integer, Row>();
+      for (Row row : bars)
+      {
+         barMap.put(row.getInteger("BARID"), row);
+      }
+
+      //
+      // Count tasks and milestones per bar
+      //
+      Map<Integer, Integer> barCounts = new HashMap<Integer, Integer>();
+      for (Row row : tasks)
+      {
+         addBarMember(barCounts, row);
+      }
+
+      for (Row row : milestones)
+      {
+         addBarMember(barCounts, row);
+      }
+
+      //
+      // Process Tasks
+      //
+      for (Row row : tasks)
+      {
+         Task task = getContainer(barMap, barCounts, row).addTask();
+
+         //"PROJID"
+         task.setUniqueID(row.getInteger("TASKID"));
+         //GIVEN_DURATIONTYPF
+         //GIVEN_DURATIONELA_MONTHS
+         task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
+         task.setResume(row.getDate("RESUME"));
+         //task.setStart(row.getDate("GIVEN_START"));
+         //LATEST_PROGRESS_PERIOD
+         //TASK_WORK_RATE_TIME_UNIT
+         //TASK_WORK_RATE
+         //PLACEMENT
+         //BEEN_SPLIT
+         //INTERRUPTIBLE
+         //HOLDING_PIN
+         ///ACTUAL_DURATIONTYPF
+         //ACTUAL_DURATIONELA_MONTHS
+         task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
+         task.setEarlyStart(row.getDate("EARLY_START_DATE"));
+         task.setLateStart(row.getDate("LATE_START_DATE"));
+         //FREE_START_DATE
+         //START_CONSTRAINT_DATE
+         //END_CONSTRAINT_DATE
+         //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
+         //NATURAO_ORDER
+         //LOGICAL_PRECEDENCE
+         //SPAVE_INTEGER
+         //SWIM_LANE
+         //USER_PERCENT_COMPLETE
+         task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
+         //OVERALL_PERCENT_COMPL_WEIGHT
+         task.setName(row.getString("NARE"));
+         task.setWBS(row.getString("WBN_CODE"));
+         task.setNotes(getNotes(row));
+         //UNIQUE_TASK_ID
+         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+         //EFFORT_TIMI_UNIT
+         //WORL_UNIT
+         //LATEST_ALLOC_PROGRESS_PERIOD
+         //WORN
+         //BAR
+         //CONSTRAINU
+         //PRIORITB
+         //CRITICAM
+         //USE_PARENU_CALENDAR
+         //BUFFER_TASK
+         //MARK_FOS_HIDING
+         //OWNED_BY_TIMESHEEV_X
+         //START_ON_NEX_DAY
+         //LONGEST_PATH
+         //DURATIOTTYPF
+         //DURATIOTELA_MONTHS
+         //DURATIOTHOURS
+         task.setStart(row.getDate("STARZ"));
+         task.setFinish(row.getDate("ENJ"));
+         //DURATION_TIMJ_UNIT
+         //UNSCHEDULABLG
+         //SUBPROJECT_ID
+         //ALT_ID
+         //LAST_EDITED_DATE
+         //LAST_EDITED_BY
+
+         processConstraints(row, task);
+
+         if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
+         {
+            task.setActualStart(task.getStart());
+            if (task.getPercentageComplete().intValue() == 100)
+            {
+               task.setActualFinish(task.getFinish());
+               task.setDuration(task.getActualDuration());
+            }
+         }
+
+         m_eventManager.fireTaskReadEvent(task);
+      }
+
+      for (Row row : milestones)
+      {
+         Task task = getContainer(barMap, barCounts, row).addTask();
+
+         task.setMilestone(true);
+         //PROJID
+         task.setUniqueID(row.getInteger("MILESTONEID"));
+         task.setStart(row.getDate("GIVEN_DATE_TIME"));
+         task.setFinish(row.getDate("GIVEN_DATE_TIME"));
+         //PROGREST_PERIOD
+         //SYMBOL_APPEARANCE
+         //MILESTONE_TYPE
+         //PLACEMENU
+         task.setPercentageComplete(row.getBoolean("COMPLETED") ? COMPLETE : INCOMPLETE);
+         //INTERRUPTIBLE_X
+         //ACTUAL_DURATIONTYPF
+         //ACTUAL_DURATIONELA_MONTHS
+         //ACTUAL_DURATIONHOURS
+         task.setEarlyStart(row.getDate("EARLY_START_DATE"));
+         task.setLateStart(row.getDate("LATE_START_DATE"));
+         //FREE_START_DATE
+         //START_CONSTRAINT_DATE
+         //END_CONSTRAINT_DATE
+         //EFFORT_BUDGET
+         //NATURAO_ORDER
+         //LOGICAL_PRECEDENCE
+         //SPAVE_INTEGER
+         //SWIM_LANE
+         //USER_PERCENT_COMPLETE
+         //OVERALL_PERCENV_COMPLETE
+         //OVERALL_PERCENT_COMPL_WEIGHT
+         task.setName(row.getString("NARE"));
+         task.setWBS(row.getString("WBN_CODE"));
+         //NOTET
+         //UNIQUE_TASK_ID
+         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+         //EFFORT_TIMI_UNIT
+         //WORL_UNIT
+         //LATEST_ALLOC_PROGRESS_PERIOD
+         //WORN
+         //CONSTRAINU
+         //PRIORITB
+         //CRITICAM
+         //USE_PARENU_CALENDAR
+         //BUFFER_TASK
+         //MARK_FOS_HIDING
+         //OWNED_BY_TIMESHEEV_X
+         //START_ON_NEX_DAY
+         //LONGEST_PATH
+         //DURATIOTTYPF
+         //DURATIOTELA_MONTHS
+         //DURATIOTHOURS
+         //STARZ
+         //ENJ
+         //DURATION_TIMJ_UNIT
+         //UNSCHEDULABLG
+         //SUBPROJECT_ID
+         //ALT_ID
+         //LAST_EDITED_DATE
+         //LAST_EDITED_BY
+         task.setDuration(ZERO_HOURS);
+
+         m_eventManager.fireTaskReadEvent(task);
+      }
+
+      deriveProjectCalendar();
+
+      updateStructure();
+   }
+
+   /**
+    * Updates the number of tasks and milestones nested under this bar.
+    *
+    * @param barCounts map of bar counts
+    * @param row task or milestone row
+    */
+   private void addBarMember(Map<Integer, Integer> barCounts, Row row)
+   {
+      Integer barID = row.getInteger("BAR");
+      Integer count = barCounts.get(barID);
+      if (count == null)
+      {
+         count = Integer.valueOf(1);
+      }
+      else
+      {
+         count = Integer.valueOf(count.intValue() + 1);
+      }
+      barCounts.put(barID, count);
+   }
+
+   /**
+    * This method determines if we are attached a task or milestone directly to the WBS, or if there is a parent bar.
+    * Asta uses a structure where WBS->Bars->tasks. We ignore the bar and attache the task directly to the WBS if the bar
+    * only has one child. If te bar has multiple children, we create the bar first and attache the task/milestone to that.
+    *
+    * @param barMap maps between bar ID and a Row instance containing bar data
+    * @param barCounts number of child objects for each bar
+    * @param row data for current task or milestone row
+    * @return container for the new task or milestone
+    */
+   private ChildTaskContainer getContainer(Map<Integer, Row> barMap, Map<Integer, Integer> barCounts, Row row)
+   {
+      ChildTaskContainer result;
+      Integer barID = row.getInteger("BAR");
+      Integer barCount = barCounts.get(barID);
+      if (NumberHelper.getInt(barCount) > 1)
+      {
+         result = m_project.getTaskByUniqueID(barID);
+         if (result == null)
+         {
+            ChildTaskContainer barParent = m_project.getTaskByUniqueID(row.getInteger("WBT"));
+            if (barParent == null)
+            {
+               barParent = m_project;
+            }
+
+            Row barRow = barMap.get(barID);
+            Task barTask = barParent.addTask();
+            barTask.setUniqueID(barID);
+            barTask.setStart(barRow.getDate("STARV"));
+            barTask.setFinish(barRow.getDate("ENF"));
+            barTask.setName(barRow.getString("NAMH"));
+
+            result = barTask;
+         }
+      }
+      else
+      {
+         result = m_project.getTaskByUniqueID(row.getInteger("WBT"));
+         if (result == null)
+         {
+            result = m_project;
+         }
+      }
+
+      return result;
    }
 
    /**
@@ -1126,6 +1426,7 @@ final class AstaReader
       }
       return notes;
    }
+
    private ProjectFile m_project;
    private EventManager m_eventManager;
 

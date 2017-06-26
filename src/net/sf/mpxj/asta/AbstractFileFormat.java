@@ -57,6 +57,7 @@ abstract class AbstractFileFormat
       result.put(Integer.valueOf(62), new TableDefinition("PERMANENT_RESOURCE", columnDefinitions(PERMANENT_RESOURCE_COLUMNS, permanentResourceColumnsOrder())));
       result.put(Integer.valueOf(63), new TableDefinition("PERM_RESOURCE_SKILL", columnDefinitions(PERMANENT_RESOURCE_SKILL_COLUMNS, permanentResourceSkillColumnsOrder())));
       result.put(Integer.valueOf(67), new TableDefinition("PERMANENT_SCHEDUL_ALLOCATION", columnDefinitions(PERMANENT_SCHEDULE_ALLOCATION_COLUMNS, permanentScheduleAllocationColumnsOrder())));
+      result.put(Integer.valueOf(190), new TableDefinition("WBS_ENTRY", columnDefinitions(WBS_ENTRY_COLUMNS, wbsEntryColumnsOrder())));
 
       return result;
    }
@@ -173,6 +174,13 @@ abstract class AbstractFileFormat
     * @return ordered column names
     */
    protected abstract String[] workPatternColumnsOrder();
+
+   /**
+    * Ordered column names for a table.
+    *
+    * @return ordered column names
+    */
+   protected abstract String[] wbsEntryColumnsOrder();
 
    /**
     * Generate an ordered set of column definitions from an ordered set of column names.
@@ -921,5 +929,18 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALLOCATION_PROFILE", Types.VARCHAR),
       new ColumnDefinition("RESOURCE_CURVE", Types.INTEGER),
       new ColumnDefinition("NONLINEAR_TYPE", Types.INTEGER),
+   };
+
+   private static final ColumnDefinition[] WBS_ENTRY_COLUMNS = new ColumnDefinition[]
+   {
+      new ColumnDefinition("WBS_ENTRYID", Types.INTEGER),
+      new ColumnDefinition("NATURAP_ORDER", Types.INTEGER),
+      new ColumnDefinition("WBT_CODE", Types.VARCHAR),
+      new ColumnDefinition("WBT_NAME", Types.VARCHAR),
+      new ColumnDefinition("WBS_ENTRY", Types.INTEGER),
+      new ColumnDefinition("CREATED_AS_FOLDER", Types.BIT),
+      new ColumnDefinition("ALT_ID", Types.INTEGER),
+      new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
    };
 }
