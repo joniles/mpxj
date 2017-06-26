@@ -233,9 +233,9 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       List<Row> wbs = getRows("select * from wbs_entry where projid=? order by wbs_entry, naturap_order", m_projectID);
       List<Row> bars = getRows("select * from bar where projid=?", m_projectID);
-      List<Row> tasks = getRows("select task.* from task inner join bar on task.bar = bar.barid where task.projid=? order by bar.natural_order, task.naturao_order", m_projectID);
-      List<Row> milestones = getRows("select milestone.* from milestone inner join bar on milestone.bar = bar.barid where milestone.projid=? order by bar.natural_order, milestone.naturao_order", m_projectID);
-      m_reader.processTasks(wbs, bars, tasks, milestones);
+      List<Row> tasks = getRows("select task.*, bar.natural_order as bar_natural_order from task inner join bar on task.bar = bar.barid where task.projid=?", m_projectID);
+      List<Row> milestones = getRows("select milestone.*, bar.natural_order as bar_natural_order from milestone inner join bar on milestone.bar = bar.barid where milestone.projid=?", m_projectID);
+      m_reader.processTasksWithWBS(wbs, bars, tasks, milestones);
    }
 
    /**

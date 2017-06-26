@@ -250,9 +250,9 @@ public final class AstaDatabaseFileReader implements ProjectReader
    {
       List<Row> wbs = getRows("select id as wbs_entryid, natural_order as naturap_order, wbs_code as wbt_code, wbs_name as wbt_name, * from wbs_entry where projid=? order by wbs_entry, natural_order", m_projectID);
       List<Row> bars = getRows("select id as barid, bar_start as starv, bar_finish as enf, name as namh from bar where projid=?", m_projectID);
-      List<Row> tasks = getRows("select task.id as taskid, task.given_duration as given_durationhours, task.actual_duration as actual_durationhours, task.overall_percent_complete as overall_percenv_complete, task.name as nare, task.calendar as calendau, task.linkable_start as starz, task.linkable_finish as enj, task.notes as notet, task.wbs as wbt, task.* from task inner join bar on bar.id=task.bar where task.projid=? and task.wbs != 0 order by bar.natural_order, task.natural_order", m_projectID);
-      List<Row> milestones = getRows("select milestone.id as milestoneid, milestone.name as nare, milestone.calendar as calendau, milestone.wbs as wbt, milestone.* from milestone inner join bar on bar.id=milestone.bar where milestone.projid=? and milestone.wbs != 0 order by bar.natural_order, milestone.natural_order", m_projectID);
-      m_reader.processTasks(wbs, bars, tasks, milestones);
+      List<Row> tasks = getRows("select task.id as taskid, task.given_duration as given_durationhours, task.actual_duration as actual_durationhours, task.overall_percent_complete as overall_percenv_complete, task.name as nare, task.calendar as calendau, task.linkable_start as starz, task.linkable_finish as enj, task.notes as notet, task.wbs as wbt, task.natural_order as naturao_order, bar.natural_order as bar_natural_order, task.* from task inner join bar on bar.id=task.bar where task.projid=?", m_projectID);
+      List<Row> milestones = getRows("select milestone.id as milestoneid, milestone.name as nare, milestone.calendar as calendau, milestone.wbs as wbt, milestone.natural_order as naturao_order, bar.natural_order as bar_natural_order, milestone.* from milestone inner join bar on bar.id=milestone.bar where milestone.projid=?", m_projectID);
+      m_reader.processTasksWithWBS(wbs, bars, tasks, milestones);
    }
 
    /**

@@ -25,6 +25,7 @@ package net.sf.mpxj.asta;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -178,26 +179,6 @@ final class AstaReader
       calendar.setUniqueID(Integer.valueOf(m_project.getProjectConfig().getNextCalendarUniqueID()));
       calendar.setParent(m_project.getCalendarByUniqueID(parentCalendarID));
       return calendar;
-   }
-
-   /**
-    * Process tasks.
-    *
-    * @param wbs wbs data
-    * @param bars bar data
-    * @param tasks task data
-    * @param milestones milestone data
-    */
-   public void processTasks(List<Row> wbs, List<Row> bars, List<Row> tasks, List<Row> milestones)
-   {
-      if (wbs.isEmpty())
-      {
-         processTasksWithoutWBS(bars, tasks, milestones);
-      }
-      else
-      {
-         processTasksWithWBS(wbs, bars, tasks, milestones);
-      }
    }
 
    /**
@@ -486,151 +467,34 @@ final class AstaReader
       }
 
       //
-      // Process Tasks
+      // Merge tasks and milestones and sort
+      //
+      tasks.addAll(milestones);
+      Collections.sort(tasks, TASK_AND_MILESTONE_COMPARATOR);
+
+      //
+      // Process Tasks and Milestones
       //
       for (Row row : tasks)
       {
-         Task task = getContainer(barMap, barCounts, row).addTask();
-
-         //"PROJID"
-         task.setUniqueID(row.getInteger("TASKID"));
-         //GIVEN_DURATIONTYPF
-         //GIVEN_DURATIONELA_MONTHS
-         task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
-         task.setResume(row.getDate("RESUME"));
-         //task.setStart(row.getDate("GIVEN_START"));
-         //LATEST_PROGRESS_PERIOD
-         //TASK_WORK_RATE_TIME_UNIT
-         //TASK_WORK_RATE
-         //PLACEMENT
-         //BEEN_SPLIT
-         //INTERRUPTIBLE
-         //HOLDING_PIN
-         ///ACTUAL_DURATIONTYPF
-         //ACTUAL_DURATIONELA_MONTHS
-         task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
-         task.setEarlyStart(row.getDate("EARLY_START_DATE"));
-         task.setLateStart(row.getDate("LATE_START_DATE"));
-         //FREE_START_DATE
-         //START_CONSTRAINT_DATE
-         //END_CONSTRAINT_DATE
-         //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
-         //NATURAO_ORDER
-         //LOGICAL_PRECEDENCE
-         //SPAVE_INTEGER
-         //SWIM_LANE
-         //USER_PERCENT_COMPLETE
-         task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
-         //OVERALL_PERCENT_COMPL_WEIGHT
-         task.setName(row.getString("NARE"));
-         task.setWBS(row.getString("WBN_CODE"));
-         task.setNotes(getNotes(row));
-         //UNIQUE_TASK_ID
-         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
-         //EFFORT_TIMI_UNIT
-         //WORL_UNIT
-         //LATEST_ALLOC_PROGRESS_PERIOD
-         //WORN
-         //BAR
-         //CONSTRAINU
-         //PRIORITB
-         //CRITICAM
-         //USE_PARENU_CALENDAR
-         //BUFFER_TASK
-         //MARK_FOS_HIDING
-         //OWNED_BY_TIMESHEEV_X
-         //START_ON_NEX_DAY
-         //LONGEST_PATH
-         //DURATIOTTYPF
-         //DURATIOTELA_MONTHS
-         //DURATIOTHOURS
-         task.setStart(row.getDate("STARZ"));
-         task.setFinish(row.getDate("ENJ"));
-         //DURATION_TIMJ_UNIT
-         //UNSCHEDULABLG
-         //SUBPROJECT_ID
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
-
-         processConstraints(row, task);
-
-         if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
+         //
+         // Ignore stray tasks and milestones
+         //
+         if (NumberHelper.getInt(row.getInteger("WBT")) != 0)
          {
-            task.setActualStart(task.getStart());
-            if (task.getPercentageComplete().intValue() == 100)
+            Task task = getContainer(barMap, barCounts, row).addTask();
+
+            if (row.getInteger("TASKID") != null)
             {
-               task.setActualFinish(task.getFinish());
-               task.setDuration(task.getActualDuration());
+               populateTask(row, task);
             }
+            else
+            {
+               populateMilestone(row, task);
+            }
+
+            m_eventManager.fireTaskReadEvent(task);
          }
-
-         m_eventManager.fireTaskReadEvent(task);
-      }
-
-      for (Row row : milestones)
-      {
-         Task task = getContainer(barMap, barCounts, row).addTask();
-
-         task.setMilestone(true);
-         //PROJID
-         task.setUniqueID(row.getInteger("MILESTONEID"));
-         task.setStart(row.getDate("GIVEN_DATE_TIME"));
-         task.setFinish(row.getDate("GIVEN_DATE_TIME"));
-         //PROGREST_PERIOD
-         //SYMBOL_APPEARANCE
-         //MILESTONE_TYPE
-         //PLACEMENU
-         task.setPercentageComplete(row.getBoolean("COMPLETED") ? COMPLETE : INCOMPLETE);
-         //INTERRUPTIBLE_X
-         //ACTUAL_DURATIONTYPF
-         //ACTUAL_DURATIONELA_MONTHS
-         //ACTUAL_DURATIONHOURS
-         task.setEarlyStart(row.getDate("EARLY_START_DATE"));
-         task.setLateStart(row.getDate("LATE_START_DATE"));
-         //FREE_START_DATE
-         //START_CONSTRAINT_DATE
-         //END_CONSTRAINT_DATE
-         //EFFORT_BUDGET
-         //NATURAO_ORDER
-         //LOGICAL_PRECEDENCE
-         //SPAVE_INTEGER
-         //SWIM_LANE
-         //USER_PERCENT_COMPLETE
-         //OVERALL_PERCENV_COMPLETE
-         //OVERALL_PERCENT_COMPL_WEIGHT
-         task.setName(row.getString("NARE"));
-         task.setWBS(row.getString("WBN_CODE"));
-         //NOTET
-         //UNIQUE_TASK_ID
-         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
-         //EFFORT_TIMI_UNIT
-         //WORL_UNIT
-         //LATEST_ALLOC_PROGRESS_PERIOD
-         //WORN
-         //CONSTRAINU
-         //PRIORITB
-         //CRITICAM
-         //USE_PARENU_CALENDAR
-         //BUFFER_TASK
-         //MARK_FOS_HIDING
-         //OWNED_BY_TIMESHEEV_X
-         //START_ON_NEX_DAY
-         //LONGEST_PATH
-         //DURATIOTTYPF
-         //DURATIOTELA_MONTHS
-         //DURATIOTHOURS
-         //STARZ
-         //ENJ
-         //DURATION_TIMJ_UNIT
-         //UNSCHEDULABLG
-         //SUBPROJECT_ID
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
-         task.setDuration(ZERO_HOURS);
-
-         m_eventManager.fireTaskReadEvent(task);
       }
 
       deriveProjectCalendar();
@@ -705,6 +569,156 @@ final class AstaReader
       }
 
       return result;
+   }
+
+   /**
+    * Populate a task from a Row instance.
+    *
+    * @param row Row instance
+    * @param task Task instance
+    */
+   private void populateTask(Row row, Task task)
+   {
+      //"PROJID"
+      task.setUniqueID(row.getInteger("TASKID"));
+      //GIVEN_DURATIONTYPF
+      //GIVEN_DURATIONELA_MONTHS
+      task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
+      task.setResume(row.getDate("RESUME"));
+      //task.setStart(row.getDate("GIVEN_START"));
+      //LATEST_PROGRESS_PERIOD
+      //TASK_WORK_RATE_TIME_UNIT
+      //TASK_WORK_RATE
+      //PLACEMENT
+      //BEEN_SPLIT
+      //INTERRUPTIBLE
+      //HOLDING_PIN
+      ///ACTUAL_DURATIONTYPF
+      //ACTUAL_DURATIONELA_MONTHS
+      task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
+      task.setEarlyStart(row.getDate("EARLY_START_DATE"));
+      task.setLateStart(row.getDate("LATE_START_DATE"));
+      //FREE_START_DATE
+      //START_CONSTRAINT_DATE
+      //END_CONSTRAINT_DATE
+      //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
+      //NATURAO_ORDER
+      //LOGICAL_PRECEDENCE
+      //SPAVE_INTEGER
+      //SWIM_LANE
+      //USER_PERCENT_COMPLETE
+      task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
+      //OVERALL_PERCENT_COMPL_WEIGHT
+      task.setName(row.getString("NARE"));
+      task.setWBS(row.getString("WBN_CODE"));
+      task.setNotes(getNotes(row));
+      //UNIQUE_TASK_ID
+      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      //EFFORT_TIMI_UNIT
+      //WORL_UNIT
+      //LATEST_ALLOC_PROGRESS_PERIOD
+      //WORN
+      //BAR
+      //CONSTRAINU
+      //PRIORITB
+      //CRITICAM
+      //USE_PARENU_CALENDAR
+      //BUFFER_TASK
+      //MARK_FOS_HIDING
+      //OWNED_BY_TIMESHEEV_X
+      //START_ON_NEX_DAY
+      //LONGEST_PATH
+      //DURATIOTTYPF
+      //DURATIOTELA_MONTHS
+      //DURATIOTHOURS
+      task.setStart(row.getDate("STARZ"));
+      task.setFinish(row.getDate("ENJ"));
+      //DURATION_TIMJ_UNIT
+      //UNSCHEDULABLG
+      //SUBPROJECT_ID
+      //ALT_ID
+      //LAST_EDITED_DATE
+      //LAST_EDITED_BY
+
+      processConstraints(row, task);
+
+      if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
+      {
+         task.setActualStart(task.getStart());
+         if (task.getPercentageComplete().intValue() == 100)
+         {
+            task.setActualFinish(task.getFinish());
+            task.setDuration(task.getActualDuration());
+         }
+      }
+   }
+
+   /**
+    * Populate a milestone from a Row instance.
+    *
+    * @param row Row instance
+    * @param task Task instance
+    */
+   private void populateMilestone(Row row, Task task)
+   {
+      task.setMilestone(true);
+      //PROJID
+      task.setUniqueID(row.getInteger("MILESTONEID"));
+      task.setStart(row.getDate("GIVEN_DATE_TIME"));
+      task.setFinish(row.getDate("GIVEN_DATE_TIME"));
+      //PROGREST_PERIOD
+      //SYMBOL_APPEARANCE
+      //MILESTONE_TYPE
+      //PLACEMENU
+      task.setPercentageComplete(row.getBoolean("COMPLETED") ? COMPLETE : INCOMPLETE);
+      //INTERRUPTIBLE_X
+      //ACTUAL_DURATIONTYPF
+      //ACTUAL_DURATIONELA_MONTHS
+      //ACTUAL_DURATIONHOURS
+      task.setEarlyStart(row.getDate("EARLY_START_DATE"));
+      task.setLateStart(row.getDate("LATE_START_DATE"));
+      //FREE_START_DATE
+      //START_CONSTRAINT_DATE
+      //END_CONSTRAINT_DATE
+      //EFFORT_BUDGET
+      //NATURAO_ORDER
+      //LOGICAL_PRECEDENCE
+      //SPAVE_INTEGER
+      //SWIM_LANE
+      //USER_PERCENT_COMPLETE
+      //OVERALL_PERCENV_COMPLETE
+      //OVERALL_PERCENT_COMPL_WEIGHT
+      task.setName(row.getString("NARE"));
+      task.setWBS(row.getString("WBN_CODE"));
+      //NOTET
+      //UNIQUE_TASK_ID
+      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      //EFFORT_TIMI_UNIT
+      //WORL_UNIT
+      //LATEST_ALLOC_PROGRESS_PERIOD
+      //WORN
+      //CONSTRAINU
+      //PRIORITB
+      //CRITICAM
+      //USE_PARENU_CALENDAR
+      //BUFFER_TASK
+      //MARK_FOS_HIDING
+      //OWNED_BY_TIMESHEEV_X
+      //START_ON_NEX_DAY
+      //LONGEST_PATH
+      //DURATIOTTYPF
+      //DURATIOTELA_MONTHS
+      //DURATIOTHOURS
+      //STARZ
+      //ENJ
+      //DURATION_TIMJ_UNIT
+      //UNSCHEDULABLG
+      //SUBPROJECT_ID
+      //ALT_ID
+      //LAST_EDITED_DATE
+      //LAST_EDITED_BY
+      task.setDuration(ZERO_HOURS);
+
    }
 
    /**
@@ -1434,6 +1448,7 @@ final class AstaReader
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final Duration ZERO_HOURS = Duration.getInstance(0, TimeUnit.HOURS);
    private static final String LINE_BREAK = "|@|||";
+   private static final RowComparator TASK_AND_MILESTONE_COMPARATOR = new RowComparator("BAR_NATURAL_ORDER", "NATURAO_ORDER");
 
    private static final RelationType[] RELATION_TYPES =
    {

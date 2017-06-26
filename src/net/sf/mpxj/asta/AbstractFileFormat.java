@@ -289,7 +289,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("BARID", Types.INTEGER),
       new ColumnDefinition("STARV", Types.TIMESTAMP),
       new ColumnDefinition("ENF", Types.TIMESTAMP),
-      new ColumnDefinition("NATURAL_ORDER", Types.INTEGER),
+      new ColumnDefinition("BAR_NATURAL_ORDER", Types.INTEGER),
       new ColumnDefinition("SPARI_INTEGER", Types.INTEGER),
       new ColumnDefinition("NAMH", Types.VARCHAR),
       new ColumnDefinition("EXPANDED_TASK", Types.INTEGER),

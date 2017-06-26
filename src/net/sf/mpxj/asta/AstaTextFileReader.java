@@ -329,26 +329,20 @@ public final class AstaTextFileReader extends AbstractProjectReader
       {
          List<Row> expandedTaskRows = getTable("EXPANDED_TASK");
          bars = join(barRows, "EXPANDED_TASK", "EXPANDED_TASK", expandedTaskRows, "EXPANDED_TASKID");
-
          filterNotNull(bars, "STARV");
          Collections.sort(bars, BAR_COMPARATOR);
-
          tasks = taskRows;
          Collections.sort(tasks, TASK_COMPARATOR);
-
          milestones = milestoneRows;
+         m_reader.processTasksWithoutWBS(bars, tasks, milestones);
       }
       else
       {
          tasks = join(taskRows, "BAR", "BAR", barRows, "BARID");
-         Collections.sort(tasks, TASK_AND_MILESTONE_COMPARATOR);
-
          bars = barRows;
          milestones = join(milestoneRows, "BAR", "BAR", barRows, "BARID");
-         Collections.sort(milestones, TASK_AND_MILESTONE_COMPARATOR);
+         m_reader.processTasksWithWBS(wbs, bars, tasks, milestones);
       }
-
-      m_reader.processTasks(wbs, bars, tasks, milestones);
    }
 
    /**
@@ -595,7 +589,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
    private static final RowComparator TASK_COMPARATOR = new RowComparator("WBT", "NATURAO_ORDER");
    private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");
    private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
-   private static final RowComparator TASK_AND_MILESTONE_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAO_ORDER");
 
    private static final Map<Integer, Class<? extends AbstractFileFormat>> FILE_VERSION_MAP = new HashMap<Integer, Class<? extends AbstractFileFormat>>();
    static

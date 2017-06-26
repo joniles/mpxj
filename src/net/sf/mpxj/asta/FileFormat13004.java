@@ -118,7 +118,7 @@ class FileFormat13004 extends AbstractFileFormat
       "BARID",
       "STARV",
       "ENF",
-      "NATURAL_ORDER",
+      "BAR_NATURAL_ORDER",
       "SPARI_INTEGER",
       "NAMH",
       "EXPANDED_TASK",
