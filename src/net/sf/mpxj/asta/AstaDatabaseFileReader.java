@@ -161,8 +161,6 @@ public final class AstaDatabaseFileReader implements ProjectReader
 
          m_reader = null;
 
-         //updateStructure(project);
-
          return (project);
       }
 

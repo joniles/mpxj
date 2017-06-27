@@ -84,8 +84,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
          processPredecessors();
          processAssignments();
 
-         //updateStructure(project);
-
          return (project);
       }
 
@@ -427,25 +425,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
    }
 
    /**
-    * Removes rows with a null value in a given column.
-    *
-    * @param rows result set
-    * @param column column being tested for null
-    */
-   //   private void filterNotNull(List<Row> rows, String column)
-   //   {
-   //      ListIterator<Row> iter = rows.listIterator();
-   //      while (iter.hasNext())
-   //      {
-   //         MapRow row = (MapRow) iter.next();
-   //         if (row.getObject(column) == null)
-   //         {
-   //            iter.remove();
-   //         }
-   //      }
-   //   }
-
-   /**
     * Retrieve table data, return an empty result set if no table data is present.
     *
     * @param name table name
@@ -472,8 +451,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
    private static final RowComparator CALENDAR_COMPARATOR = new RowComparator("CALENDARID");
    private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("PERMANENT_RESOURCEID");
    private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("CONSUMABLE_RESOURCEID");
-   //   private static final RowComparator BAR_COMPARATOR = new RowComparator("NATURAL_ORDER");
-   //   private static final RowComparator TASK_COMPARATOR = new RowComparator("WBT", "NATURAO_ORDER");
    private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");
    private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
 
