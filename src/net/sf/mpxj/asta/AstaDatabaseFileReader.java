@@ -43,7 +43,6 @@ import java.util.Properties;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -162,7 +161,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
 
          m_reader = null;
 
-         updateStructure(project);
+         //updateStructure(project);
 
          return (project);
       }
@@ -248,11 +247,11 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> wbs = getRows("select id as wbs_entryid, natural_order as naturap_order, wbs_code as wbt_code, wbs_name as wbt_name, * from wbs_entry where projid=? order by wbs_entry, natural_order", m_projectID);
-      List<Row> bars = getRows("select id as barid, bar_start as starv, bar_finish as enf, name as namh from bar where projid=?", m_projectID);
-      List<Row> tasks = getRows("select task.id as taskid, task.given_duration as given_durationhours, task.actual_duration as actual_durationhours, task.overall_percent_complete as overall_percenv_complete, task.name as nare, task.calendar as calendau, task.linkable_start as starz, task.linkable_finish as enj, task.notes as notet, task.wbs as wbt, task.natural_order as naturao_order, bar.natural_order as bar_natural_order, task.* from task inner join bar on bar.id=task.bar where task.projid=?", m_projectID);
-      List<Row> milestones = getRows("select milestone.id as milestoneid, milestone.name as nare, milestone.calendar as calendau, milestone.wbs as wbt, milestone.natural_order as naturao_order, bar.natural_order as bar_natural_order, milestone.* from milestone inner join bar on bar.id=milestone.bar where milestone.projid=?", m_projectID);
-      m_reader.processTasksWithWBS(wbs, bars, tasks, milestones);
+      List<Row> bars = getRows("select id as barid, bar_start as starv, bar_finish as enf, name as namh, * from bar where projid=?", m_projectID);
+      List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
+      List<Row> tasks = getRows("select id as taskid, given_duration as given_durationhours, actual_duration as actual_durationhours, overall_percent_complete as overall_percenv_complete, name as nare, calendar as calendau, linkable_start as starz, linkable_finish as enj, notes as notet, wbs as wbt, natural_order as naturao_order, * from task where projid=?", m_projectID);
+      List<Row> milestones = getRows("select id as milestoneid, name as nare, calendar as calendau, wbs as wbt, natural_order as naturao_order, * from milestone where projid=?", m_projectID);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
    }
 
    /**
@@ -375,97 +374,6 @@ public final class AstaDatabaseFileReader implements ProjectReader
    public String getSchema()
    {
       return m_schema;
-   }
-
-   /**
-    * Cleans up the structure, removes unnecessary summary tasks and
-    * ensures tasks with blank names inherit their names from the
-    * parent task.
-    *
-    * @param project ProjectFile instance
-    */
-   private void updateStructure(ProjectFile project)
-   {
-      //
-      // Build the hierarchy
-      //
-      project.updateStructure();
-
-      //
-      // Ensure tasks with blank names inherit parent task names
-      //
-      for (Task task : project.getChildTasks())
-      {
-         updateBlankNames(null, task);
-      }
-
-      //
-      // Create a list of tasks to prune
-      //
-      List<Task> tasks = new LinkedList<Task>();
-      for (Task task : project.getAllTasks())
-      {
-         if (task.getChildTasks().size() == 1 && task.getChildTasks().get(0).getChildTasks().size() == 0 && task.getWBS().equals("-"))
-         {
-            tasks.add(task);
-         }
-      }
-
-      //
-      // Prune these tasks
-      //
-      for (Task task : tasks)
-      {
-         Task child = task.getChildTasks().get(0);
-         Task parent = task.getParentTask();
-
-         if (parent == null)
-         {
-            List<Task> parentList = project.getChildTasks();
-            int parentListIndex = parentList.indexOf(task);
-            if (parentListIndex == -1)
-            {
-               parentList.add(child);
-            }
-            else
-            {
-               parentList.add(parentListIndex, child);
-            }
-         }
-         else
-         {
-            parent.addChildTaskBefore(child, task);
-         }
-         task.getChildTasks().clear();
-         task.remove();
-      }
-
-      //
-      // Ensure we have no gaps in the ID sequence
-      //
-      project.renumberTaskIDs();
-
-      project.updateStructure();
-   }
-
-   /**
-    * Called recursively to replace blank task names
-    * with names inherited from parent tasks.
-    *
-    * @param parent parent task
-    * @param task current task
-    */
-   private void updateBlankNames(Task parent, Task task)
-   {
-      if (parent != null && (task.getName() == null || task.getName().length() == 0))
-      {
-         task.setName(parent.getName());
-      }
-
-      for (Task child : task.getChildTasks())
-      {
-         updateBlankNames(task, child);
-      }
    }
 
    /**

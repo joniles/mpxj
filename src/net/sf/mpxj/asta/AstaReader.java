@@ -23,11 +23,13 @@
 
 package net.sf.mpxj.asta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -182,393 +184,204 @@ final class AstaReader
    }
 
    /**
-    * Process task data. In this case we do not have an explicit WBS structure, so we need to construct it from
-    * the bar and task data.
+    * Organises the data from Asta into a hierarchy and converts this into tasks.
     *
     * @param bars bar data
+    * @param expandedTasks expanded task data
     * @param tasks task data
     * @param milestones milestone data
     */
-   public void processTasksWithoutWBS(List<Row> bars, List<Row> tasks, List<Row> milestones)
+   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones)
+   {
+      List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones);
+      createTasks(m_project, "", parentBars);
+      deriveProjectCalendar();
+      updateStructure();
+   }
+
+   /**
+    * Builds the task hierarchy.
+    *
+    * Note that there are two distinct levels of organisation going on here. The first is the
+    * Asta "summary" organisation, where the user organises bars into summary groups. We are using this
+    * to create our hierarchy of tasks.
+    *
+    * The second level displayed within a summary group (or at the project level if the user has not
+    * created summary groups) is the WBS. At the moment we are not including the WBS in the hierarchy.
+    *
+    * @param bars bar data
+    * @param expandedTasks expanded task data
+    * @param tasks task data
+    * @param milestones milestone data
+    * @return list containing the top level tasks
+    */
+   private List<Row> buildRowHierarchy(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones)
    {
       //
-      // Process bars
+      // Create a list of leaf nodes by merging the task and milestone lists
       //
-      for (Row row : bars)
+      List<Row> leaves = new ArrayList<Row>();
+      leaves.addAll(tasks);
+      leaves.addAll(milestones);
+
+      //
+      // Sort the bars and the leaves
+      //
+      Collections.sort(bars, BAR_COMPARATOR);
+      Collections.sort(leaves, LEAF_COMPARATOR);
+
+      //
+      // Map bar IDs to bars
+      //
+      Map<Integer, Row> barIdToBarMap = new HashMap<Integer, Row>();
+      for (Row bar : bars)
       {
-         Task task = m_project.addTask();
-         Integer calendarID = row.getInteger("CALENDAU");
-         ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
-
-         //PROJID
-         task.setUniqueID(row.getInteger("BARID"));
-         task.setStart(row.getDate("STARV"));
-         task.setFinish(row.getDate("ENF"));
-         //NATURAL_ORDER
-         //SPARI_INTEGER
-         task.setName(row.getString("NAMH"));
-         //EXPANDED_TASK
-         //PRIORITY
-         //UNSCHEDULABLE
-         //MARK_FOR_HIDING
-         //TASKS_MAY_OVERLAP
-         //SUBPROJECT_ID
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
-         //Proc_Approve
-         //Proc_Design_info
-         //Proc_Proc_Dur
-         //Proc_Procurement
-         //Proc_SC_design
-         //Proc_Select_SC
-         //Proc_Tender
-         //QA Checked
-         //Related_Documents
-         task.setWBS("-");
-         task.setCalendar(calendar);
-
-         m_eventManager.fireTaskReadEvent(task);
+         barIdToBarMap.put(bar.getInteger("BARID"), bar);
       }
 
       //
-      // Create hierarchical bar structure
+      // Merge expanded task attributes with parent bars
+      // and create an expanded task ID to bar map.
       //
-      m_project.getChildTasks().clear();
-      for (Row row : bars)
+      Map<Integer, Row> expandedTaskIdToBarMap = new HashMap<Integer, Row>();
+      for (Row expandedTask : expandedTasks)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("BARID"));
-         //Task parentTask = m_project.getTaskByUniqueID(row.getInteger("SUBPROJECT_ID"));
-         Task parentTask = m_project.getTaskByUniqueID(row.getInteger("BAR"));
-         if (parentTask == null)
+         Row bar = barIdToBarMap.get(expandedTask.getInteger("BAR"));
+         bar.merge(expandedTask, "_");
+         Integer expandedTaskID = bar.getInteger("_EXPANDED_TASKID");
+         expandedTaskIdToBarMap.put(expandedTaskID, bar);
+      }
+
+      //
+      // Build the hierarchy
+      //
+      List<Row> parentBars = new ArrayList<Row>();
+      for (Row bar : bars)
+      {
+         Integer expandedTaskID = bar.getInteger("EXPANDED_TASK");
+         Row parentBar = expandedTaskIdToBarMap.get(expandedTaskID);
+         if (parentBar == null)
          {
-            m_project.getChildTasks().add(task);
+            parentBars.add(bar);
          }
          else
          {
-            m_project.getChildTasks().remove(task);
-            parentTask.getChildTasks().add(task);
-            if (parentTask.getWBS().equals("-"))
-            {
-               String wbsCode = row.getString("WBN_CODE");
-               parentTask.setWBS(wbsCode == null || wbsCode.length() == 0 ? "-" : wbsCode);
-            }
+            parentBar.addChild(bar);
          }
       }
 
       //
-      // Process Tasks
+      // Attach the leaves
       //
-      for (Row row : tasks)
+      for (Row leaf : leaves)
       {
-         Task parentTask = m_project.getTaskByUniqueID(row.getInteger("BAR"));
-         Task task = parentTask == null ? m_project.addTask() : parentTask.addTask();
+         Integer barID = leaf.getInteger("BAR");
+         Row bar = barIdToBarMap.get(barID);
+         bar.addChild(leaf);
+      }
 
-         //"PROJID"
-         task.setUniqueID(row.getInteger("TASKID"));
-         //GIVEN_DURATIONTYPF
-         //GIVEN_DURATIONELA_MONTHS
-         task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
-         task.setResume(row.getDate("RESUME"));
-         //task.setStart(row.getDate("GIVEN_START"));
-         //LATEST_PROGRESS_PERIOD
-         //TASK_WORK_RATE_TIME_UNIT
-         //TASK_WORK_RATE
-         //PLACEMENT
-         //BEEN_SPLIT
-         //INTERRUPTIBLE
-         //HOLDING_PIN
-         ///ACTUAL_DURATIONTYPF
-         //ACTUAL_DURATIONELA_MONTHS
-         task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
-         task.setEarlyStart(row.getDate("EARLY_START_DATE"));
-         task.setLateStart(row.getDate("LATE_START_DATE"));
-         //FREE_START_DATE
-         //START_CONSTRAINT_DATE
-         //END_CONSTRAINT_DATE
-         //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
-         //NATURAO_ORDER
-         //LOGICAL_PRECEDENCE
-         //SPAVE_INTEGER
-         //SWIM_LANE
-         //USER_PERCENT_COMPLETE
-         task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
-         //OVERALL_PERCENT_COMPL_WEIGHT
-         task.setName(row.getString("NARE"));
-         task.setWBS(row.getString("WBN_CODE"));
-         task.setNotes(getNotes(row));
-         //UNIQUE_TASK_ID
-         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
-         //EFFORT_TIMI_UNIT
-         //WORL_UNIT
-         //LATEST_ALLOC_PROGRESS_PERIOD
-         //WORN
-         //BAR
-         //CONSTRAINU
-         //PRIORITB
-         //CRITICAM
-         //USE_PARENU_CALENDAR
-         //BUFFER_TASK
-         //MARK_FOS_HIDING
-         //OWNED_BY_TIMESHEEV_X
-         //START_ON_NEX_DAY
-         //LONGEST_PATH
-         //DURATIOTTYPF
-         //DURATIOTELA_MONTHS
-         //DURATIOTHOURS
-         task.setStart(row.getDate("STARZ"));
-         task.setFinish(row.getDate("ENJ"));
-         //DURATION_TIMJ_UNIT
-         //UNSCHEDULABLG
-         //SUBPROJECT_ID
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
-
-         processConstraints(row, task);
-
-         if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
+      //
+      // Prune any "displaced items" from the top level.
+      // We're using a heuristic here as this is the only thing I
+      // can see which differs between bars that we want to include
+      // and bars that we want to exclude.
+      //
+      Iterator<Row> iter = parentBars.iterator();
+      while (iter.hasNext())
+      {
+         Row bar = iter.next();
+         if (bar.getDate("LAST_EDITED_DATE") == null)
          {
-            task.setActualStart(task.getStart());
-            if (task.getPercentageComplete().intValue() == 100)
-            {
-               task.setActualFinish(task.getFinish());
-               task.setDuration(task.getActualDuration());
-            }
+            iter.remove();
          }
-
-         m_eventManager.fireTaskReadEvent(task);
       }
 
-      for (Row row : milestones)
+      //
+      // If we only have a single top level node (effectively a summary task) prune that too.
+      //
+      if (parentBars.size() == 1)
       {
-         Task parentTask = m_project.getTaskByUniqueID(row.getInteger("BAR"));
-         Task task = parentTask == null ? m_project.addTask() : parentTask.addTask();
-
-         task.setMilestone(true);
-         //PROJID
-         task.setUniqueID(row.getInteger("MILESTONEID"));
-         task.setStart(row.getDate("GIVEN_DATE_TIME"));
-         task.setFinish(row.getDate("GIVEN_DATE_TIME"));
-         //PROGREST_PERIOD
-         //SYMBOL_APPEARANCE
-         //MILESTONE_TYPE
-         //PLACEMENU
-         task.setPercentageComplete(row.getBoolean("COMPLETED") ? COMPLETE : INCOMPLETE);
-         //INTERRUPTIBLE_X
-         //ACTUAL_DURATIONTYPF
-         //ACTUAL_DURATIONELA_MONTHS
-         //ACTUAL_DURATIONHOURS
-         task.setEarlyStart(row.getDate("EARLY_START_DATE"));
-         task.setLateStart(row.getDate("LATE_START_DATE"));
-         //FREE_START_DATE
-         //START_CONSTRAINT_DATE
-         //END_CONSTRAINT_DATE
-         //EFFORT_BUDGET
-         //NATURAO_ORDER
-         //LOGICAL_PRECEDENCE
-         //SPAVE_INTEGER
-         //SWIM_LANE
-         //USER_PERCENT_COMPLETE
-         //OVERALL_PERCENV_COMPLETE
-         //OVERALL_PERCENT_COMPL_WEIGHT
-         task.setName(row.getString("NARE"));
-         task.setWBS(row.getString("WBN_CODE"));
-         //NOTET
-         //UNIQUE_TASK_ID
-         task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
-         //WBT
-         //EFFORT_TIMI_UNIT
-         //WORL_UNIT
-         //LATEST_ALLOC_PROGRESS_PERIOD
-         //WORN
-         //CONSTRAINU
-         //PRIORITB
-         //CRITICAM
-         //USE_PARENU_CALENDAR
-         //BUFFER_TASK
-         //MARK_FOS_HIDING
-         //OWNED_BY_TIMESHEEV_X
-         //START_ON_NEX_DAY
-         //LONGEST_PATH
-         //DURATIOTTYPF
-         //DURATIOTELA_MONTHS
-         //DURATIOTHOURS
-         //STARZ
-         //ENJ
-         //DURATION_TIMJ_UNIT
-         //UNSCHEDULABLG
-         //SUBPROJECT_ID
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
-         task.setDuration(ZERO_HOURS);
+         parentBars = parentBars.get(0).getChildRows();
       }
 
-      deriveProjectCalendar();
-
-      updateStructure();
+      return parentBars;
    }
 
    /**
-    * Process task data. This method handles the case where we have an explicit WBS structure to work from.
+    * Recursively descend through  the hierarchy creating tasks.
     *
-    * @param wbs wbs data
-    * @param bars bar data
-    * @param tasks task data
-    * @param milestones milestone data
+    * @param parent parent task
+    * @param parentName parent name
+    * @param rows rows to add as tasks to this parent
     */
-   public void processTasksWithWBS(List<Row> wbs, List<Row> bars, List<Row> tasks, List<Row> milestones)
+   private void createTasks(ChildTaskContainer parent, String parentName, List<Row> rows)
    {
-      //
-      // Process the WBS
-      //
-      for (Row row : wbs)
+      for (Row row : rows)
       {
-         Task parentTask = m_project.getTaskByUniqueID(row.getInteger("WBS_ENTRY"));
-         Task task = parentTask == null ? m_project.addTask() : parentTask.addTask();
+         Task task = parent.addTask();
 
-         task.setUniqueID(row.getInteger("WBS_ENTRYID"));
-         // NATURAP_ORDER
-         task.setWBS(row.getString("WBT_CODE"));
-         task.setName(row.getString("WBT_NAME"));
-         // WBS_ENTRY
-         // CREATED_AS_FOLDER
-         // ALT_ID
-         // LAST_EDITED_DATE
-         // LAST_EDITED_BY
-         task.setStart(row.getDate("STARV"));
-         task.setFinish(row.getDate("ENF"));
-
-         m_eventManager.fireTaskReadEvent(task);
-      }
-
-      //
-      // Map Bar IDs to rows
-      //
-      Map<Integer, Row> barMap = new HashMap<Integer, Row>();
-      for (Row row : bars)
-      {
-         barMap.put(row.getInteger("BARID"), row);
-      }
-
-      //
-      // Count tasks and milestones per bar
-      //
-      Map<Integer, Integer> barCounts = new HashMap<Integer, Integer>();
-      for (Row row : tasks)
-      {
-         addBarMember(barCounts, row);
-      }
-
-      for (Row row : milestones)
-      {
-         addBarMember(barCounts, row);
-      }
-
-      //
-      // Merge tasks and milestones and sort
-      //
-      tasks.addAll(milestones);
-      Collections.sort(tasks, TASK_AND_MILESTONE_COMPARATOR);
-
-      //
-      // Process Tasks and Milestones
-      //
-      for (Row row : tasks)
-      {
          //
-         // Ignore stray tasks and milestones
+         // Do we have a bar, task, or milestone?
          //
-         if (NumberHelper.getInt(row.getInteger("WBT")) != 0)
+         if (row.getInteger("BARID") != null)
          {
-            Task task = getContainer(barMap, barCounts, row).addTask();
-
-            if (row.getInteger("TASKID") != null)
+            //
+            // If the bar only has one child task, we skip it and add the task directly
+            //
+            if (skipBar(row))
             {
-               populateTask(row, task);
+               populateLeaf(row.getString("NAMH"), row.getChildRows().get(0), task);
             }
             else
             {
-               populateMilestone(row, task);
+               populateBar(row, task);
+               createTasks(task, task.getName(), row.getChildRows());
             }
-
-            m_eventManager.fireTaskReadEvent(task);
          }
+         else
+         {
+            populateLeaf(parentName, row, task);
+         }
+
+         m_eventManager.fireTaskReadEvent(task);
       }
-
-      deriveProjectCalendar();
-
-      updateStructure();
    }
 
    /**
-    * Updates the number of tasks and milestones nested under this bar.
+    * Returns true if we should skip this bar, i.e. the bar only has a single child task.
     *
-    * @param barCounts map of bar counts
-    * @param row task or milestone row
+    * @param row bar row to test
+    * @return true if this bar should be skipped
     */
-   private void addBarMember(Map<Integer, Integer> barCounts, Row row)
+   private boolean skipBar(Row row)
    {
-      Integer barID = row.getInteger("BAR");
-      Integer count = barCounts.get(barID);
-      if (count == null)
-      {
-         count = Integer.valueOf(1);
-      }
-      else
-      {
-         count = Integer.valueOf(count.intValue() + 1);
-      }
-      barCounts.put(barID, count);
+      List<Row> childRows = row.getChildRows();
+      return childRows.size() == 1 && childRows.get(0).getChildRows().isEmpty();
    }
 
    /**
-    * This method determines if we are attached a task or milestone directly to the WBS, or if there is a parent bar.
-    * Asta uses a structure where WBS->Bars->tasks. We ignore the bar and attache the task directly to the WBS if the bar
-    * only has one child. If te bar has multiple children, we create the bar first and attache the task/milestone to that.
+    * Adds a leaf node, which could be a task or a milestone.
     *
-    * @param barMap maps between bar ID and a Row instance containing bar data
-    * @param barCounts number of child objects for each bar
-    * @param row data for current task or milestone row
-    * @return container for the new task or milestone
+    * @param parentName parent bar name
+    * @param row row to add
+    * @param task task to populate with data from the row
     */
-   private ChildTaskContainer getContainer(Map<Integer, Row> barMap, Map<Integer, Integer> barCounts, Row row)
+   private void populateLeaf(String parentName, Row row, Task task)
    {
-      ChildTaskContainer result;
-      Integer barID = row.getInteger("BAR");
-      Integer barCount = barCounts.get(barID);
-      if (NumberHelper.getInt(barCount) > 1)
+      if (row.getInteger("TASKID") != null)
       {
-         result = m_project.getTaskByUniqueID(barID);
-         if (result == null)
-         {
-            ChildTaskContainer barParent = m_project.getTaskByUniqueID(row.getInteger("WBT"));
-            if (barParent == null)
-            {
-               barParent = m_project;
-            }
-
-            Row barRow = barMap.get(barID);
-            Task barTask = barParent.addTask();
-            barTask.setUniqueID(barID);
-            barTask.setStart(barRow.getDate("STARV"));
-            barTask.setFinish(barRow.getDate("ENF"));
-            barTask.setName(barRow.getString("NAMH"));
-
-            result = barTask;
-         }
+         populateTask(row, task);
       }
       else
       {
-         result = m_project.getTaskByUniqueID(row.getInteger("WBT"));
-         if (result == null)
-         {
-            result = m_project;
-         }
+         populateMilestone(row, task);
       }
 
-      return result;
+      String name = task.getName();
+      if (name == null || name.isEmpty())
+      {
+         task.setName(parentName);
+      }
    }
 
    /**
@@ -651,6 +464,46 @@ final class AstaReader
             task.setDuration(task.getActualDuration());
          }
       }
+   }
+
+   /**
+    * Uses data from a bar to populate a task.
+    *
+    * @param row bar data
+    * @param task task to populate
+    */
+   private void populateBar(Row row, Task task)
+   {
+      Integer calendarID = row.getInteger("CALENDAU");
+      ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
+
+      //PROJID
+      task.setUniqueID(row.getInteger("BARID"));
+      task.setStart(row.getDate("STARV"));
+      task.setFinish(row.getDate("ENF"));
+      //NATURAL_ORDER
+      //SPARI_INTEGER
+      task.setName(row.getString("NAMH"));
+      //EXPANDED_TASK
+      //PRIORITY
+      //UNSCHEDULABLE
+      //MARK_FOR_HIDING
+      //TASKS_MAY_OVERLAP
+      //SUBPROJECT_ID
+      //ALT_ID
+      //LAST_EDITED_DATE
+      //LAST_EDITED_BY
+      //Proc_Approve
+      //Proc_Design_info
+      //Proc_Proc_Dur
+      //Proc_Procurement
+      //Proc_SC_design
+      //Proc_Select_SC
+      //Proc_Tender
+      //QA Checked
+      //Related_Documents
+      task.setWBS("-");
+      task.setCalendar(calendar);
    }
 
    /**
@@ -1448,7 +1301,8 @@ final class AstaReader
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final Duration ZERO_HOURS = Duration.getInstance(0, TimeUnit.HOURS);
    private static final String LINE_BREAK = "|@|||";
-   private static final RowComparator TASK_AND_MILESTONE_COMPARATOR = new RowComparator("BAR_NATURAL_ORDER", "NATURAO_ORDER");
+   private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAO_ORDER");
+   private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
 
    private static final RelationType[] RELATION_TYPES =
    {
