@@ -77,7 +77,6 @@ final class AstaReader
       config.setAutoResourceUniqueID(false);
 
       config.setAutoCalendarUniqueID(false);
-      config.setAutoWBS(false);
 
       m_project.getProjectProperties().setFileApplication("Asta");
       m_project.getProjectProperties().setFileType("PP");
@@ -423,7 +422,6 @@ final class AstaReader
       task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
-      task.setWBS(row.getString("WBN_CODE"));
       task.setNotes(getNotes(row));
       //UNIQUE_TASK_ID
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
@@ -502,7 +500,6 @@ final class AstaReader
       //Proc_Tender
       //QA Checked
       //Related_Documents
-      task.setWBS("-");
       task.setCalendar(calendar);
    }
 
@@ -542,7 +539,6 @@ final class AstaReader
       //OVERALL_PERCENV_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
-      task.setWBS(row.getString("WBN_CODE"));
       //NOTET
       //UNIQUE_TASK_ID
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
