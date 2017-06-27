@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Git master" version="5.13.0">
+		<release date="Git master" version="5.14.0">
+		</release>			
+		<release date="27/06/2017" version="5.13.0">
+			<action dev="joniles" type="update">Further improve handling of WBS, bar, and task structure from Asta files.</action>
 		</release>			
 		<release date="26/06/2017" version="5.12.0">
 			<action dev="joniles" type="update">Improve handling of WBS, bar, and task structure from Asta files.</action>

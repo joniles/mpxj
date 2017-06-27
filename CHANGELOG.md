@@ -1,6 +1,9 @@
 # Changelog
 
-## 5.13.0 (Git master)
+## 5.14.0 (Git master)
+
+## 5.13.0 (27/06/2017)
+* Further improve handling of WBS, bar, and task structure from Asta files.
 
 ## 5.12.0 (26/06/2017)
 * Improve handling of WBS, bar, and task structure from Asta files.
