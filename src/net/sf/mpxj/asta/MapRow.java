@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.asta;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.Duration;
@@ -184,5 +186,33 @@ class MapRow implements Row
       return m_map;
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public void addChild(Row row)
+   {
+      m_childRows.add(row);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<Row> getChildRows()
+   {
+      return m_childRows;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public void merge(Row row, String prefix)
+   {
+      Map<String, Object> otherMap = ((MapRow) row).m_map;
+      for (Map.Entry<String, Object> entry : otherMap.entrySet())
+      {
+         m_map.put(prefix + entry.getKey(), entry.getValue());
+      }
+   }
    protected Map<String, Object> m_map;
+   private List<Row> m_childRows = new ArrayList<Row>();
 }

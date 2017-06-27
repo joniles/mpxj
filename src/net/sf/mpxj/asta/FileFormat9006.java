@@ -118,7 +118,7 @@ class FileFormat9006 extends AbstractFileFormat
       "BARID",
       "STARV",
       "ENF",
-      "BAR_NATURAL_ORDER",
+      "NATURAL_ORDER",
       "SPARI_INTEGER",
       "NAMH",
       "EXPANDED_TASK",
