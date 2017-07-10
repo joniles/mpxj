@@ -1349,6 +1349,7 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
       map.put(TaskField.BASELINE_WORK, "target_work_qty");
       map.put(TaskField.BASELINE_DURATION, "target_drtn_hr_cnt");
+      map.put(TaskField.DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
       map.put(TaskField.ACTUAL_FINISH, "act_end_date");
