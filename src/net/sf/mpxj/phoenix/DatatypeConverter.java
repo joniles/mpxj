@@ -255,7 +255,7 @@ public final class DatatypeConverter
     * @param value Phoenix day
     * @return Day instance
     */
-   public static final Day parseDaye(String value)
+   public static final Day parseDay(String value)
    {
       return NAME_TO_DAY.get(value);
    }

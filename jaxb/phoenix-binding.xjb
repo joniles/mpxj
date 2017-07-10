@@ -41,7 +41,7 @@
 
         <jxb:javaType name="net.sf.mpxj.Day"
                     xmlType="phoenixDay"     
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDaye" 
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDay" 
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDay"/>      
                           
    </jxb:globalBindings>      

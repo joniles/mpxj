@@ -16,7 +16,7 @@ public class Adapter6 extends XmlAdapter<String, Day>
 
    @Override public Day unmarshal(String value)
    {
-      return (net.sf.mpxj.phoenix.DatatypeConverter.parseDaye(value));
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseDay(value));
    }
 
    @Override public String marshal(Day value)
