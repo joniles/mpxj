@@ -7,6 +7,7 @@
 	<body>
 		<release date="Git master" version="5.14.0">
 			<action dev="joniles" type="update">Populate task duration with Original Duration attribute when reading from XER files or P6 databases.</action>
+			<action dev="joniles" type="update">Ensure that task finish dates are read correctly from Phoenix files.</action>
 		</release>			
 		<release date="27/06/2017" version="5.13.0">
 			<action dev="joniles" type="update">Further improve handling of WBS, bar, and task structure from Asta files.</action>

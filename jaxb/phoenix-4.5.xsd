@@ -26,6 +26,10 @@
 		<xs:restriction base="xs:string" />
 	</xs:simpleType>
 
+	<xs:simpleType name="phoenixFinish">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
 	<!-- XML Schema Generated from XML Document on Tue Nov 24 2015 23:58:28 
 		GMT+0000 (GMT) -->
 	<!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
@@ -136,11 +140,11 @@
 															<xs:attribute name="billed" type="xs:int"></xs:attribute>
 															<xs:attribute name="explicit" type="xs:boolean"></xs:attribute>
 															<xs:attribute name="current_start" type="xs:dateTime"></xs:attribute>
-															<xs:attribute name="current_finish" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="current_finish" type="phoenixFinish"></xs:attribute>
 															<xs:attribute name="early_start" type="xs:dateTime"></xs:attribute>
-															<xs:attribute name="early_finish" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="early_finish" type="phoenixFinish"></xs:attribute>
 															<xs:attribute name="late_start" type="xs:dateTime"></xs:attribute>
-															<xs:attribute name="late_finish" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="late_finish" type="phoenixFinish"></xs:attribute>
 															<xs:attribute name="original_duration" type="phoenixDuration"></xs:attribute>
 															<xs:attribute name="actual_duration" type="phoenixDuration"></xs:attribute>
 															<xs:attribute name="duration_at_completion"

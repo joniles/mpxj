@@ -43,6 +43,11 @@
                     xmlType="phoenixDay"     
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDay" 
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDay"/>      
+                        
+		<jxb:javaType name="java.util.Date"
+                    xmlType="phoenixFinish"     
+                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime" 
+                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime"/>      
                           
    </jxb:globalBindings>      
                

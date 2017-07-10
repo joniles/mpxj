@@ -7,21 +7,21 @@
 
 package net.sf.mpxj.phoenix.schema;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter6 extends XmlAdapter<String, Date>
+import net.sf.mpxj.Duration;
+
+public class Adapter9 extends XmlAdapter<String, Duration>
 {
 
-   @Override public Date unmarshal(String value)
+   @Override public Duration unmarshal(String value)
    {
-      return (net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime(value));
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseDuration(value));
    }
 
-   @Override public String marshal(Date value)
+   @Override public String marshal(Duration value)
    {
-      return (net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime(value));
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printDuration(value));
    }
 
 }
