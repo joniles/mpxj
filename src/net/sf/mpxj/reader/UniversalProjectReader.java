@@ -64,6 +64,8 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 /**
  * This class implements a universal project reader: given a file or a stream this reader
  * will sample the content and determine the type of file it has been given. It will then
@@ -130,9 +132,9 @@ public class UniversalProjectReader extends AbstractProjectReader
             return null;
          }
 
-         if (matchesFingerprint(buffer, MPP_FINGERPRINT))
+         if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
-            return readProjectFile(new MPPReader(), bis);
+            return handleOleCompoundDocument(bis);
          }
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT))
@@ -274,6 +276,25 @@ public class UniversalProjectReader extends AbstractProjectReader
    {
       addListeners(reader);
       return reader.read(file);
+   }
+
+   /**
+    * We have an OLE compound document... but is it an MPP file?
+    *
+    * @param stream file input stream
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleOleCompoundDocument(InputStream stream) throws Exception
+   {
+      POIFSFileSystem fs = new POIFSFileSystem(stream);
+      MPPReader reader = new MPPReader();
+      String fileFormat = reader.getFileFormat(fs);
+      if (fileFormat.startsWith("MSProject"))
+      {
+         addListeners(reader);
+         return reader.read(fs);
+      }
+      return null;
    }
 
    /**
@@ -483,7 +504,7 @@ public class UniversalProjectReader extends AbstractProjectReader
 
    private static final int BUFFER_SIZE = 512;
 
-   private static final byte[] MPP_FINGERPRINT =
+   private static final byte[] OLE_COMPOUND_DOC_FINGERPRINT =
    {
       (byte) 0xD0,
       (byte) 0xCF,

@@ -89,6 +89,27 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
+    * This method allows us to peek into the OLE compound document to extract the file format.
+    * This allows the UniversalProjectReader to determine if this is an MPP file, or if
+    * it is another type of OLE compound document.
+    *
+    * @param fs POIFSFileSystem instance
+    * @return file format name
+    * @throws IOException
+    */
+   public String getFileFormat(POIFSFileSystem fs) throws IOException
+   {
+      String fileFormat = "";
+      DirectoryEntry root = fs.getRoot();
+      if (root.getEntryNames().contains("\1CompObj"))
+      {
+         CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
+         fileFormat = compObj.getFileFormat();
+      }
+      return fileFormat;
+   }
+
+   /**
     * Alternative entry point allowing an MPP file to be read from
     * a user-supplied POI file stream.
     *
@@ -98,7 +119,6 @@ public final class MPPReader extends AbstractProjectReader
     */
    public ProjectFile read(POIFSFileSystem fs) throws MPXJException
    {
-
       try
       {
          ProjectFile projectFile = new ProjectFile();
