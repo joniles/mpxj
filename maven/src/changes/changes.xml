@@ -5,7 +5,7 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Git master" version="6.14.0">
+		<release date="Git master" version="5.14.0">
 			<action dev="joniles" type="update">Improve handling of activity codes read from Phoenix files</action>
 			<action dev="joniles" type="add">Calculate percent complete for tasks read from Phoenix files</action>
 			<action dev="joniles" type="update">Populate task duration with Original Duration attribute when reading from XER files or P6 databases.</action>
