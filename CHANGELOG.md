@@ -1,6 +1,14 @@
 # Changelog
 
-## 5.14.0 (Git master)
+## 5.15.0 (Git master)
+
+## 5.14.0 (13/07/2017)
+* Improve handling of activity codes read from Phoenix files
+* Calculate percent complete for tasks read from Phoenix files
+* Populate task duration with Original Duration attribute when reading from XER files or P6 databases.
+* Ensure that task finish dates are read correctly from Phoenix files.
+* Improve UniversalProjectReader's handling of non-MPP OLE compound documents.
+* Improve task hierarchy and ordering when reading some MPP files.
 
 ## 5.13.0 (27/06/2017)
 * Further improve handling of WBS, bar, and task structure from Asta files.
