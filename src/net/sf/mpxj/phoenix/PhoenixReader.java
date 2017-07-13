@@ -486,6 +486,18 @@ public final class PhoenixReader extends AbstractProjectReader
       //activity.getUserDefined()
       task.setGUID(activity.getUuid());
 
+      if (task.getMilestone())
+      {
+         if (activityIsStartMilestone(activity))
+         {
+            task.setFinish(task.getStart());
+         }
+         else
+         {
+            task.setStart(task.getFinish());
+         }
+      }
+
       if (task.getActualStart() == null)
       {
          task.setPercentageComplete(Integer.valueOf(0));
@@ -521,6 +533,18 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       String type = activity.getType();
       return type != null && type.indexOf("Milestone") != -1;
+   }
+
+   /**
+    * Returns true if the activity is a start milestone.
+    *
+    * @param activity Phoenix activity
+    * @return true if the activity is a milestone
+    */
+   private boolean activityIsStartMilestone(Activity activity)
+   {
+      String type = activity.getType();
+      return type != null && type.indexOf("StartMilestone") != -1;
    }
 
    /**
