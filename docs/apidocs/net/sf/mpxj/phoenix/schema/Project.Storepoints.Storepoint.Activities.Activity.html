@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Project.Storepoints.Storepoint.Activities.Activity (MPXJ 5.13.0 API)</title>
+<title>Project.Storepoints.Storepoint.Activities.Activity (MPXJ 5.14.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Project.Storepoints.Storepoint.Activities.Activity (MPXJ 5.13.0 API)";
+        parent.document.title="Project.Storepoints.Storepoint.Activities.Activity (MPXJ 5.14.0 API)";
     }
 //-->
 </script>
@@ -102,9 +102,9 @@
 <pre>public static class <span class="strong">Project.Storepoints.Storepoint.Activities.Activity</span>
 extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block"><p>Java class for anonymous complex type.
-
+ 
  <p>The following schema fragment specifies the expected content contained within this class.
-
+ 
  <pre>
  &lt;complexType>
    &lt;complexContent>
@@ -133,11 +133,13 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
        &lt;attribute name="billed" type="{http://www.w3.org/2001/XMLSchema}int" />
        &lt;attribute name="explicit" type="{http://www.w3.org/2001/XMLSchema}boolean" />
        &lt;attribute name="current_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-       &lt;attribute name="current_finish" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+       &lt;attribute name="current_finish" type="{}phoenixFinish" />
+       &lt;attribute name="actual_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+       &lt;attribute name="actual_finish" type="{}phoenixFinish" />
        &lt;attribute name="early_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-       &lt;attribute name="early_finish" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+       &lt;attribute name="early_finish" type="{}phoenixFinish" />
        &lt;attribute name="late_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-       &lt;attribute name="late_finish" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+       &lt;attribute name="late_finish" type="{}phoenixFinish" />
        &lt;attribute name="original_duration" type="{}phoenixDuration" />
        &lt;attribute name="actual_duration" type="{}phoenixDuration" />
        &lt;attribute name="duration_at_completion" type="{}phoenixDuration" />
@@ -196,6 +198,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#actualDuration">actualDuration</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#actualFinish">actualFinish</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#actualStart">actualStart</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -341,6 +351,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#getActualDuration()">getActualDuration</a></strong>()</code>
 <div class="block">Gets the value of the actualDuration property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#getActualFinish()">getActualFinish</a></strong>()</code>
+<div class="block">Gets the value of the actualFinish property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#getActualStart()">getActualStart</a></strong>()</code>
+<div class="block">Gets the value of the actualStart property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -509,6 +531,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#setActualDuration(net.sf.mpxj.Duration)">setActualDuration</a></strong>(<a href="../../../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;value)</code>
 <div class="block">Sets the value of the actualDuration property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#setActualFinish(java.util.Date)">setActualFinish</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
+<div class="block">Sets the value of the actualFinish property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.html#setActualStart(java.util.Date)">setActualStart</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
+<div class="block">Sets the value of the actualStart property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -797,6 +831,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a> currentFinish</pre>
 </li>
 </ul>
+<a name="actualStart">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>actualStart</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a> actualStart</pre>
+</li>
+</ul>
+<a name="actualFinish">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>actualFinish</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a> actualFinish</pre>
+</li>
+</ul>
 <a name="earlyStart">
 <!--   -->
 </a>
@@ -974,20 +1026,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>getCodeAssignment</h4>
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment.html" title="class in net.sf.mpxj.phoenix.schema">Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment</a>&gt;&nbsp;getCodeAssignment()</pre>
 <div class="block">Gets the value of the codeAssignment property.
-
+ 
  <p>
  This accessor method returns a reference to the live list,
  not a snapshot. Therefore any modification you make to the
  returned list will be present inside the JAXB object.
  This is why there is not a <CODE>set</CODE> method for the codeAssignment property.
-
+ 
  <p>
  For example, to add a new item, do as follows:
  <pre>
     getCodeAssignment().add(newItem);
  </pre>
-
-
+ 
+ 
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment.html" title="class in net.sf.mpxj.phoenix.schema"><code>Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment</code></a></div>
@@ -1253,6 +1305,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setCurrentFinish</h4>
 <pre>public&nbsp;void&nbsp;setCurrentFinish(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the currentFinish property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getActualStart()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getActualStart</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;getActualStart()</pre>
+<div class="block">Gets the value of the actualStart property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setActualStart(java.util.Date)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setActualStart</h4>
+<pre>public&nbsp;void&nbsp;setActualStart(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the actualStart property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getActualFinish()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getActualFinish</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;getActualFinish()</pre>
+<div class="block">Gets the value of the actualFinish property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setActualFinish(java.util.Date)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setActualFinish</h4>
+<pre>public&nbsp;void&nbsp;setActualFinish(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the actualFinish property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>

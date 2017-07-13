@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Project.Storepoints.Storepoint.ActivityCodes.Code (MPXJ 5.13.0 API)</title>
+<title>Project.Storepoints.Storepoint.ActivityCodes.Code (MPXJ 5.14.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Project.Storepoints.Storepoint.ActivityCodes.Code (MPXJ 5.13.0 API)";
+        parent.document.title="Project.Storepoints.Storepoint.ActivityCodes.Code (MPXJ 5.14.0 API)";
     }
 //-->
 </script>
@@ -102,9 +102,9 @@
 <pre>public static class <span class="strong">Project.Storepoints.Storepoint.ActivityCodes.Code</span>
 extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block"><p>Java class for anonymous complex type.
-
+ 
  <p>The following schema fragment specifies the expected content contained within this class.
-
+ 
  <pre>
  &lt;complexType>
    &lt;complexContent>
@@ -122,6 +122,8 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;/element>
        &lt;/sequence>
        &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
+       &lt;attribute name="uuid" type="{}phoenixUuid" />
+       &lt;attribute name="none_uuid" type="{}phoenixUuid" />
      &lt;/restriction>
    &lt;/complexContent>
  &lt;/complexType>
@@ -170,6 +172,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#name">name</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#noneUuid">noneUuid</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#uuid">uuid</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.Value.html" title="class in net.sf.mpxj.phoenix.schema">Project.Storepoints.Storepoint.ActivityCodes.Code.Value</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#value">value</a></strong></code>&nbsp;</td>
 </tr>
@@ -212,6 +222,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#getNoneUuid()">getNoneUuid</a></strong>()</code>
+<div class="block">Gets the value of the noneUuid property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#getUuid()">getUuid</a></strong>()</code>
+<div class="block">Gets the value of the uuid property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.Value.html" title="class in net.sf.mpxj.phoenix.schema">Project.Storepoints.Storepoint.ActivityCodes.Code.Value</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#getValue()">getValue</a></strong>()</code>
 <div class="block">Gets the value of the value property.</div>
@@ -221,6 +243,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#setName(java.lang.String)">setName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the name property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#setNoneUuid(java.util.UUID)">setNoneUuid</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;value)</code>
+<div class="block">Sets the value of the noneUuid property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.html#setUuid(java.util.UUID)">setUuid</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;value)</code>
+<div class="block">Sets the value of the uuid property.</div>
 </td>
 </tr>
 </table>
@@ -257,10 +291,28 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <a name="name">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>name</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> name</pre>
+</li>
+</ul>
+<a name="uuid">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uuid</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a> uuid</pre>
+</li>
+</ul>
+<a name="noneUuid">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>noneUuid</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a> noneUuid</pre>
 </li>
 </ul>
 </li>
@@ -296,20 +348,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>getValue</h4>
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.Value.html" title="class in net.sf.mpxj.phoenix.schema">Project.Storepoints.Storepoint.ActivityCodes.Code.Value</a>&gt;&nbsp;getValue()</pre>
 <div class="block">Gets the value of the value property.
-
+ 
  <p>
  This accessor method returns a reference to the live list,
  not a snapshot. Therefore any modification you make to the
  returned list will be present inside the JAXB object.
  This is why there is not a <CODE>set</CODE> method for the value property.
-
+ 
  <p>
  For example, to add a new item, do as follows:
  <pre>
     getValue().add(newItem);
  </pre>
-
-
+ 
+ 
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Storepoints.Storepoint.ActivityCodes.Code.Value.html" title="class in net.sf.mpxj.phoenix.schema"><code>Project.Storepoints.Storepoint.ActivityCodes.Code.Value</code></a></div>
@@ -330,11 +382,59 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <a name="setName(java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setName</h4>
 <pre>public&nbsp;void&nbsp;setName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the name property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getUuid()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getUuid</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;getUuid()</pre>
+<div class="block">Gets the value of the uuid property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setUuid(java.util.UUID)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setUuid</h4>
+<pre>public&nbsp;void&nbsp;setUuid(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the uuid property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getNoneUuid()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNoneUuid</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;getNoneUuid()</pre>
+<div class="block">Gets the value of the noneUuid property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setNoneUuid(java.util.UUID)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setNoneUuid</h4>
+<pre>public&nbsp;void&nbsp;setNoneUuid(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the noneUuid property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>

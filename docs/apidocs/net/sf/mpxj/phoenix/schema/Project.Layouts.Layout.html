@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Project.Layouts.Layout (MPXJ 5.13.0 API)</title>
+<title>Project.Layouts.Layout (MPXJ 5.14.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Project.Layouts.Layout (MPXJ 5.13.0 API)";
+        parent.document.title="Project.Layouts.Layout (MPXJ 5.14.0 API)";
     }
 //-->
 </script>
@@ -102,9 +102,9 @@
 <pre>public static class <span class="strong">Project.Layouts.Layout</span>
 extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block"><p>Java class for anonymous complex type.
-
+ 
  <p>The following schema fragment specifies the expected content contained within this class.
-
+ 
  <pre>
  &lt;complexType>
    &lt;complexContent>
@@ -263,7 +263,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                          &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                            &lt;attribute name="uuid" type="{}phoenixUuid" />
                            &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="list_name" type="{http://www.w3.org/2001/XMLSchema}string" />
                          &lt;/restriction>
                        &lt;/complexContent>
@@ -373,9 +373,10 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                      &lt;complexType>
                        &lt;complexContent>
                          &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                           &lt;attribute name="shown" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="shown" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="code" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="code_uuid" type="{}phoenixUuid" />
                            &lt;attribute name="font_color" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="font" type="{http://www.w3.org/2001/XMLSchema}string" />
                          &lt;/restriction>
@@ -477,37 +478,37 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;/element>
        &lt;/sequence>
        &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="status_on_master" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="ignore_actuals" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="ignore_data_date" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="status_on_current" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="retained_logic" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="progress_override" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="contiguous" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="interruptible" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="work_remaining" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="auto_row_sizing" type="{http://www.w3.org/2001/XMLSchema}string" />
+       &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="status_on_master" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="ignore_actuals" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="ignore_data_date" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="status_on_current" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="retained_logic" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="progress_override" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="contiguous" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="interruptible" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="work_remaining" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="auto_row_sizing" type="{http://www.w3.org/2001/XMLSchema}boolean" />
        &lt;attribute name="custom_row_size" type="{http://www.w3.org/2001/XMLSchema}int" />
        &lt;attribute name="row_font" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="row_foreground" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="row_background" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="row_grid_lines_color" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="show_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="show_nondriving_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="show_retained_logic_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
+       &lt;attribute name="show_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="show_nondriving_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="show_retained_logic_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
        &lt;attribute name="layout_style" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="resource_graph_shown" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="track_newest" type="{http://www.w3.org/2001/XMLSchema}string" />
+       &lt;attribute name="track_newest" type="{http://www.w3.org/2001/XMLSchema}boolean" />
        &lt;attribute name="criticality_method" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="critical_color" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="critical_tasks" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="critical_endpoints" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="critical_milestones" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="critical_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
+       &lt;attribute name="critical_tasks" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="critical_endpoints" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="critical_milestones" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+       &lt;attribute name="critical_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
        &lt;attribute name="critical_threshold" type="{http://www.w3.org/2001/XMLSchema}int" />
        &lt;attribute name="network_description_font" type="{http://www.w3.org/2001/XMLSchema}string" />
-       &lt;attribute name="network_nodes_visible" type="{http://www.w3.org/2001/XMLSchema}string" />
+       &lt;attribute name="network_nodes_visible" type="{http://www.w3.org/2001/XMLSchema}boolean" />
        &lt;attribute name="network_node_font" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="network_completed_duration_color" type="{http://www.w3.org/2001/XMLSchema}string" />
        &lt;attribute name="network_noncritical_duration_color" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -640,7 +641,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#active">active</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -648,7 +649,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#appliedFilters">appliedFilters</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#autoRowSizing">autoRowSizing</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -668,7 +669,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#comparisons">comparisons</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#contiguous">contiguous</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -676,7 +677,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#criticalColor">criticalColor</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#criticalEndpoints">criticalEndpoints</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -684,15 +685,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#criticalityMethod">criticalityMethod</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#criticalMilestones">criticalMilestones</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#criticalRelationships">criticalRelationships</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#criticalTasks">criticalTasks</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -712,15 +713,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#dateFormat">dateFormat</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#ignoreActuals">ignoreActuals</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#ignoreDataDate">ignoreDataDate</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#interruptible">interruptible</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -760,7 +761,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#networkNodeFont">networkNodeFont</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#networkNodesVisible">networkNodesVisible</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -776,7 +777,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#pageLayout">pageLayout</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#progressOverride">progressOverride</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -788,7 +789,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#resourceGraphShown">resourceGraphShown</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#retainedLogic">retainedLogic</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -812,15 +813,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#rowGridLinesColor">rowGridLinesColor</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#showNondrivingRelationships">showNondrivingRelationships</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#showRelationships">showRelationships</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#showRetainedLogicRelationships">showRetainedLogicRelationships</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -832,11 +833,11 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#sort">sort</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#statusOnCurrent">statusOnCurrent</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#statusOnMaster">statusOnMaster</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -844,7 +845,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#timescale">timescale</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#trackNewest">trackNewest</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -852,7 +853,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#viewSettings">viewSettings</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#workRemaining">workRemaining</a></strong></code>&nbsp;</td>
 </tr>
 </table>
@@ -888,21 +889,9 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getActive()">getActive</a></strong>()</code>
-<div class="block">Gets the value of the active property.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.AppliedFilters.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.AppliedFilters</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getAppliedFilters()">getAppliedFilters</a></strong>()</code>
 <div class="block">Gets the value of the appliedFilters property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getAutoRowSizing()">getAutoRowSizing</a></strong>()</code>
-<div class="block">Gets the value of the autoRowSizing property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -931,20 +920,8 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getContiguous()">getContiguous</a></strong>()</code>
-<div class="block">Gets the value of the contiguous property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCriticalColor()">getCriticalColor</a></strong>()</code>
 <div class="block">Gets the value of the criticalColor property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCriticalEndpoints()">getCriticalEndpoints</a></strong>()</code>
-<div class="block">Gets the value of the criticalEndpoints property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -954,63 +931,27 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCriticalMilestones()">getCriticalMilestones</a></strong>()</code>
-<div class="block">Gets the value of the criticalMilestones property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCriticalRelationships()">getCriticalRelationships</a></strong>()</code>
-<div class="block">Gets the value of the criticalRelationships property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCriticalTasks()">getCriticalTasks</a></strong>()</code>
-<div class="block">Gets the value of the criticalTasks property.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCriticalThreshold()">getCriticalThreshold</a></strong>()</code>
 <div class="block">Gets the value of the criticalThreshold property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.Currency.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.Currency</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCurrency()">getCurrency</a></strong>()</code>
 <div class="block">Gets the value of the currency property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getCustomRowSize()">getCustomRowSize</a></strong>()</code>
 <div class="block">Gets the value of the customRowSize property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.DateFormat.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.DateFormat</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getDateFormat()">getDateFormat</a></strong>()</code>
 <div class="block">Gets the value of the dateFormat property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getIgnoreActuals()">getIgnoreActuals</a></strong>()</code>
-<div class="block">Gets the value of the ignoreActuals property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getIgnoreDataDate()">getIgnoreDataDate</a></strong>()</code>
-<div class="block">Gets the value of the ignoreDataDate property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getInterruptible()">getInterruptible</a></strong>()</code>
-<div class="block">Gets the value of the interruptible property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1069,32 +1010,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getNetworkNodesVisible()">getNetworkNodesVisible</a></strong>()</code>
-<div class="block">Gets the value of the networkNodesVisible property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getNetworkNoncriticalDurationColor()">getNetworkNoncriticalDurationColor</a></strong>()</code>
 <div class="block">Gets the value of the networkNoncriticalDurationColor property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getNetworkStartNodeDates()">getNetworkStartNodeDates</a></strong>()</code>
 <div class="block">Gets the value of the networkStartNodeDates property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.PageLayout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.PageLayout</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getPageLayout()">getPageLayout</a></strong>()</code>
 <div class="block">Gets the value of the pageLayout property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getProgressOverride()">getProgressOverride</a></strong>()</code>
-<div class="block">Gets the value of the progressOverride property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1110,57 +1039,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getRetainedLogic()">getRetainedLogic</a></strong>()</code>
-<div class="block">Gets the value of the retainedLogic property.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.RolledupStates.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.RolledupStates</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getRolledupStates()">getRolledupStates</a></strong>()</code>
 <div class="block">Gets the value of the rolledupStates property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getRowBackground()">getRowBackground</a></strong>()</code>
 <div class="block">Gets the value of the rowBackground property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getRowFont()">getRowFont</a></strong>()</code>
 <div class="block">Gets the value of the rowFont property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getRowForeground()">getRowForeground</a></strong>()</code>
 <div class="block">Gets the value of the rowForeground property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getRowGridLinesColor()">getRowGridLinesColor</a></strong>()</code>
 <div class="block">Gets the value of the rowGridLinesColor property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getShowNondrivingRelationships()">getShowNondrivingRelationships</a></strong>()</code>
-<div class="block">Gets the value of the showNondrivingRelationships property.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getShowRelationships()">getShowRelationships</a></strong>()</code>
-<div class="block">Gets the value of the showRelationships property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getShowRetainedLogicRelationships()">getShowRetainedLogicRelationships</a></strong>()</code>
-<div class="block">Gets the value of the showRetainedLogicRelationships property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -1176,44 +1081,140 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getStatusOnCurrent()">getStatusOnCurrent</a></strong>()</code>
-<div class="block">Gets the value of the statusOnCurrent property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getStatusOnMaster()">getStatusOnMaster</a></strong>()</code>
-<div class="block">Gets the value of the statusOnMaster property.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.Timescale.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.Timescale</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getTimescale()">getTimescale</a></strong>()</code>
 <div class="block">Gets the value of the timescale property.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getTrackNewest()">getTrackNewest</a></strong>()</code>
-<div class="block">Gets the value of the trackNewest property.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.ViewSettings.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout.ViewSettings</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getViewSettings()">getViewSettings</a></strong>()</code>
 <div class="block">Gets the value of the viewSettings property.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isActive()">isActive</a></strong>()</code>
+<div class="block">Gets the value of the active property.</div>
+</td>
+</tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#getWorkRemaining()">getWorkRemaining</a></strong>()</code>
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isAutoRowSizing()">isAutoRowSizing</a></strong>()</code>
+<div class="block">Gets the value of the autoRowSizing property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isContiguous()">isContiguous</a></strong>()</code>
+<div class="block">Gets the value of the contiguous property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isCriticalEndpoints()">isCriticalEndpoints</a></strong>()</code>
+<div class="block">Gets the value of the criticalEndpoints property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isCriticalMilestones()">isCriticalMilestones</a></strong>()</code>
+<div class="block">Gets the value of the criticalMilestones property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isCriticalRelationships()">isCriticalRelationships</a></strong>()</code>
+<div class="block">Gets the value of the criticalRelationships property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isCriticalTasks()">isCriticalTasks</a></strong>()</code>
+<div class="block">Gets the value of the criticalTasks property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isIgnoreActuals()">isIgnoreActuals</a></strong>()</code>
+<div class="block">Gets the value of the ignoreActuals property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isIgnoreDataDate()">isIgnoreDataDate</a></strong>()</code>
+<div class="block">Gets the value of the ignoreDataDate property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isInterruptible()">isInterruptible</a></strong>()</code>
+<div class="block">Gets the value of the interruptible property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isNetworkNodesVisible()">isNetworkNodesVisible</a></strong>()</code>
+<div class="block">Gets the value of the networkNodesVisible property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isProgressOverride()">isProgressOverride</a></strong>()</code>
+<div class="block">Gets the value of the progressOverride property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isRetainedLogic()">isRetainedLogic</a></strong>()</code>
+<div class="block">Gets the value of the retainedLogic property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isShowNondrivingRelationships()">isShowNondrivingRelationships</a></strong>()</code>
+<div class="block">Gets the value of the showNondrivingRelationships property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isShowRelationships()">isShowRelationships</a></strong>()</code>
+<div class="block">Gets the value of the showRelationships property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isShowRetainedLogicRelationships()">isShowRetainedLogicRelationships</a></strong>()</code>
+<div class="block">Gets the value of the showRetainedLogicRelationships property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isStatusOnCurrent()">isStatusOnCurrent</a></strong>()</code>
+<div class="block">Gets the value of the statusOnCurrent property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isStatusOnMaster()">isStatusOnMaster</a></strong>()</code>
+<div class="block">Gets the value of the statusOnMaster property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isTrackNewest()">isTrackNewest</a></strong>()</code>
+<div class="block">Gets the value of the trackNewest property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#isWorkRemaining()">isWorkRemaining</a></strong>()</code>
 <div class="block">Gets the value of the workRemaining property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setActive(java.lang.String)">setActive</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setActive(java.lang.Boolean)">setActive</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the active property.</div>
 </td>
 </tr>
@@ -1225,7 +1226,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setAutoRowSizing(java.lang.String)">setAutoRowSizing</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setAutoRowSizing(java.lang.Boolean)">setAutoRowSizing</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the autoRowSizing property.</div>
 </td>
 </tr>
@@ -1255,7 +1256,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setContiguous(java.lang.String)">setContiguous</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setContiguous(java.lang.Boolean)">setContiguous</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the contiguous property.</div>
 </td>
 </tr>
@@ -1267,7 +1268,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalEndpoints(java.lang.String)">setCriticalEndpoints</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalEndpoints(java.lang.Boolean)">setCriticalEndpoints</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the criticalEndpoints property.</div>
 </td>
 </tr>
@@ -1279,19 +1280,19 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalMilestones(java.lang.String)">setCriticalMilestones</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalMilestones(java.lang.Boolean)">setCriticalMilestones</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the criticalMilestones property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalRelationships(java.lang.String)">setCriticalRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalRelationships(java.lang.Boolean)">setCriticalRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the criticalRelationships property.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalTasks(java.lang.String)">setCriticalTasks</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setCriticalTasks(java.lang.Boolean)">setCriticalTasks</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the criticalTasks property.</div>
 </td>
 </tr>
@@ -1321,19 +1322,19 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setIgnoreActuals(java.lang.String)">setIgnoreActuals</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setIgnoreActuals(java.lang.Boolean)">setIgnoreActuals</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the ignoreActuals property.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setIgnoreDataDate(java.lang.String)">setIgnoreDataDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setIgnoreDataDate(java.lang.Boolean)">setIgnoreDataDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the ignoreDataDate property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setInterruptible(java.lang.String)">setInterruptible</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setInterruptible(java.lang.Boolean)">setInterruptible</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the interruptible property.</div>
 </td>
 </tr>
@@ -1393,7 +1394,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setNetworkNodesVisible(java.lang.String)">setNetworkNodesVisible</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setNetworkNodesVisible(java.lang.Boolean)">setNetworkNodesVisible</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the networkNodesVisible property.</div>
 </td>
 </tr>
@@ -1417,7 +1418,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setProgressOverride(java.lang.String)">setProgressOverride</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setProgressOverride(java.lang.Boolean)">setProgressOverride</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the progressOverride property.</div>
 </td>
 </tr>
@@ -1435,7 +1436,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setRetainedLogic(java.lang.String)">setRetainedLogic</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setRetainedLogic(java.lang.Boolean)">setRetainedLogic</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the retainedLogic property.</div>
 </td>
 </tr>
@@ -1471,19 +1472,19 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setShowNondrivingRelationships(java.lang.String)">setShowNondrivingRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setShowNondrivingRelationships(java.lang.Boolean)">setShowNondrivingRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the showNondrivingRelationships property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setShowRelationships(java.lang.String)">setShowRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setShowRelationships(java.lang.Boolean)">setShowRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the showRelationships property.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setShowRetainedLogicRelationships(java.lang.String)">setShowRetainedLogicRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setShowRetainedLogicRelationships(java.lang.Boolean)">setShowRetainedLogicRelationships</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the showRetainedLogicRelationships property.</div>
 </td>
 </tr>
@@ -1501,13 +1502,13 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setStatusOnCurrent(java.lang.String)">setStatusOnCurrent</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setStatusOnCurrent(java.lang.Boolean)">setStatusOnCurrent</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the statusOnCurrent property.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setStatusOnMaster(java.lang.String)">setStatusOnMaster</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setStatusOnMaster(java.lang.Boolean)">setStatusOnMaster</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the statusOnMaster property.</div>
 </td>
 </tr>
@@ -1519,7 +1520,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setTrackNewest(java.lang.String)">setTrackNewest</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setTrackNewest(java.lang.Boolean)">setTrackNewest</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the trackNewest property.</div>
 </td>
 </tr>
@@ -1531,7 +1532,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setWorkRemaining(java.lang.String)">setWorkRemaining</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html#setWorkRemaining(java.lang.Boolean)">setWorkRemaining</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the workRemaining property.</div>
 </td>
 </tr>
@@ -1734,7 +1735,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>active</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> active</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> active</pre>
 </li>
 </ul>
 <a name="statusOnMaster">
@@ -1743,7 +1744,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>statusOnMaster</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> statusOnMaster</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> statusOnMaster</pre>
 </li>
 </ul>
 <a name="ignoreActuals">
@@ -1752,7 +1753,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ignoreActuals</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> ignoreActuals</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> ignoreActuals</pre>
 </li>
 </ul>
 <a name="ignoreDataDate">
@@ -1761,7 +1762,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ignoreDataDate</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> ignoreDataDate</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> ignoreDataDate</pre>
 </li>
 </ul>
 <a name="statusOnCurrent">
@@ -1770,7 +1771,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>statusOnCurrent</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> statusOnCurrent</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> statusOnCurrent</pre>
 </li>
 </ul>
 <a name="retainedLogic">
@@ -1779,7 +1780,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>retainedLogic</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> retainedLogic</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> retainedLogic</pre>
 </li>
 </ul>
 <a name="progressOverride">
@@ -1788,7 +1789,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>progressOverride</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> progressOverride</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> progressOverride</pre>
 </li>
 </ul>
 <a name="contiguous">
@@ -1797,7 +1798,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>contiguous</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> contiguous</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> contiguous</pre>
 </li>
 </ul>
 <a name="interruptible">
@@ -1806,7 +1807,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>interruptible</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> interruptible</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> interruptible</pre>
 </li>
 </ul>
 <a name="workRemaining">
@@ -1815,7 +1816,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>workRemaining</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> workRemaining</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> workRemaining</pre>
 </li>
 </ul>
 <a name="autoRowSizing">
@@ -1824,7 +1825,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>autoRowSizing</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> autoRowSizing</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> autoRowSizing</pre>
 </li>
 </ul>
 <a name="customRowSize">
@@ -1878,7 +1879,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>showRelationships</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> showRelationships</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> showRelationships</pre>
 </li>
 </ul>
 <a name="showNondrivingRelationships">
@@ -1887,7 +1888,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>showNondrivingRelationships</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> showNondrivingRelationships</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> showNondrivingRelationships</pre>
 </li>
 </ul>
 <a name="showRetainedLogicRelationships">
@@ -1896,7 +1897,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>showRetainedLogicRelationships</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> showRetainedLogicRelationships</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> showRetainedLogicRelationships</pre>
 </li>
 </ul>
 <a name="layoutStyle">
@@ -1923,7 +1924,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>trackNewest</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> trackNewest</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> trackNewest</pre>
 </li>
 </ul>
 <a name="criticalityMethod">
@@ -1950,7 +1951,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>criticalTasks</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> criticalTasks</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> criticalTasks</pre>
 </li>
 </ul>
 <a name="criticalEndpoints">
@@ -1959,7 +1960,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>criticalEndpoints</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> criticalEndpoints</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> criticalEndpoints</pre>
 </li>
 </ul>
 <a name="criticalMilestones">
@@ -1968,7 +1969,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>criticalMilestones</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> criticalMilestones</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> criticalMilestones</pre>
 </li>
 </ul>
 <a name="criticalRelationships">
@@ -1977,7 +1978,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>criticalRelationships</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> criticalRelationships</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> criticalRelationships</pre>
 </li>
 </ul>
 <a name="criticalThreshold">
@@ -2004,7 +2005,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>networkNodesVisible</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> networkNodesVisible</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> networkNodesVisible</pre>
 </li>
 </ul>
 <a name="networkNodeFont">
@@ -2524,268 +2525,268 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
-<a name="getActive()">
+<a name="isActive()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getActive</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getActive()</pre>
+<h4>isActive</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isActive()</pre>
 <div class="block">Gets the value of the active property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setActive(java.lang.String)">
+<a name="setActive(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setActive</h4>
-<pre>public&nbsp;void&nbsp;setActive(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setActive(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the active property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getStatusOnMaster()">
+<a name="isStatusOnMaster()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getStatusOnMaster</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getStatusOnMaster()</pre>
+<h4>isStatusOnMaster</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isStatusOnMaster()</pre>
 <div class="block">Gets the value of the statusOnMaster property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setStatusOnMaster(java.lang.String)">
+<a name="setStatusOnMaster(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setStatusOnMaster</h4>
-<pre>public&nbsp;void&nbsp;setStatusOnMaster(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setStatusOnMaster(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the statusOnMaster property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getIgnoreActuals()">
+<a name="isIgnoreActuals()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getIgnoreActuals</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getIgnoreActuals()</pre>
+<h4>isIgnoreActuals</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isIgnoreActuals()</pre>
 <div class="block">Gets the value of the ignoreActuals property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setIgnoreActuals(java.lang.String)">
+<a name="setIgnoreActuals(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setIgnoreActuals</h4>
-<pre>public&nbsp;void&nbsp;setIgnoreActuals(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setIgnoreActuals(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the ignoreActuals property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getIgnoreDataDate()">
+<a name="isIgnoreDataDate()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getIgnoreDataDate</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getIgnoreDataDate()</pre>
+<h4>isIgnoreDataDate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isIgnoreDataDate()</pre>
 <div class="block">Gets the value of the ignoreDataDate property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setIgnoreDataDate(java.lang.String)">
+<a name="setIgnoreDataDate(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setIgnoreDataDate</h4>
-<pre>public&nbsp;void&nbsp;setIgnoreDataDate(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setIgnoreDataDate(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the ignoreDataDate property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getStatusOnCurrent()">
+<a name="isStatusOnCurrent()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getStatusOnCurrent</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getStatusOnCurrent()</pre>
+<h4>isStatusOnCurrent</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isStatusOnCurrent()</pre>
 <div class="block">Gets the value of the statusOnCurrent property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setStatusOnCurrent(java.lang.String)">
+<a name="setStatusOnCurrent(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setStatusOnCurrent</h4>
-<pre>public&nbsp;void&nbsp;setStatusOnCurrent(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setStatusOnCurrent(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the statusOnCurrent property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getRetainedLogic()">
+<a name="isRetainedLogic()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getRetainedLogic</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getRetainedLogic()</pre>
+<h4>isRetainedLogic</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isRetainedLogic()</pre>
 <div class="block">Gets the value of the retainedLogic property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setRetainedLogic(java.lang.String)">
+<a name="setRetainedLogic(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setRetainedLogic</h4>
-<pre>public&nbsp;void&nbsp;setRetainedLogic(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setRetainedLogic(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the retainedLogic property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getProgressOverride()">
+<a name="isProgressOverride()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getProgressOverride</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getProgressOverride()</pre>
+<h4>isProgressOverride</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isProgressOverride()</pre>
 <div class="block">Gets the value of the progressOverride property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setProgressOverride(java.lang.String)">
+<a name="setProgressOverride(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setProgressOverride</h4>
-<pre>public&nbsp;void&nbsp;setProgressOverride(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setProgressOverride(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the progressOverride property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getContiguous()">
+<a name="isContiguous()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getContiguous</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getContiguous()</pre>
+<h4>isContiguous</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isContiguous()</pre>
 <div class="block">Gets the value of the contiguous property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setContiguous(java.lang.String)">
+<a name="setContiguous(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setContiguous</h4>
-<pre>public&nbsp;void&nbsp;setContiguous(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setContiguous(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the contiguous property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getInterruptible()">
+<a name="isInterruptible()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getInterruptible</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getInterruptible()</pre>
+<h4>isInterruptible</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isInterruptible()</pre>
 <div class="block">Gets the value of the interruptible property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setInterruptible(java.lang.String)">
+<a name="setInterruptible(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setInterruptible</h4>
-<pre>public&nbsp;void&nbsp;setInterruptible(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setInterruptible(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the interruptible property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getWorkRemaining()">
+<a name="isWorkRemaining()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getWorkRemaining</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getWorkRemaining()</pre>
+<h4>isWorkRemaining</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isWorkRemaining()</pre>
 <div class="block">Gets the value of the workRemaining property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setWorkRemaining(java.lang.String)">
+<a name="setWorkRemaining(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setWorkRemaining</h4>
-<pre>public&nbsp;void&nbsp;setWorkRemaining(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setWorkRemaining(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the workRemaining property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getAutoRowSizing()">
+<a name="isAutoRowSizing()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getAutoRowSizing</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getAutoRowSizing()</pre>
+<h4>isAutoRowSizing</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isAutoRowSizing()</pre>
 <div class="block">Gets the value of the autoRowSizing property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setAutoRowSizing(java.lang.String)">
+<a name="setAutoRowSizing(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setAutoRowSizing</h4>
-<pre>public&nbsp;void&nbsp;setAutoRowSizing(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setAutoRowSizing(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the autoRowSizing property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getCustomRowSize()">
@@ -2908,76 +2909,76 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
-<a name="getShowRelationships()">
+<a name="isShowRelationships()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getShowRelationships</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getShowRelationships()</pre>
+<h4>isShowRelationships</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isShowRelationships()</pre>
 <div class="block">Gets the value of the showRelationships property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setShowRelationships(java.lang.String)">
+<a name="setShowRelationships(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setShowRelationships</h4>
-<pre>public&nbsp;void&nbsp;setShowRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setShowRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the showRelationships property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getShowNondrivingRelationships()">
+<a name="isShowNondrivingRelationships()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getShowNondrivingRelationships</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getShowNondrivingRelationships()</pre>
+<h4>isShowNondrivingRelationships</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isShowNondrivingRelationships()</pre>
 <div class="block">Gets the value of the showNondrivingRelationships property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setShowNondrivingRelationships(java.lang.String)">
+<a name="setShowNondrivingRelationships(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setShowNondrivingRelationships</h4>
-<pre>public&nbsp;void&nbsp;setShowNondrivingRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setShowNondrivingRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the showNondrivingRelationships property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getShowRetainedLogicRelationships()">
+<a name="isShowRetainedLogicRelationships()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getShowRetainedLogicRelationships</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getShowRetainedLogicRelationships()</pre>
+<h4>isShowRetainedLogicRelationships</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isShowRetainedLogicRelationships()</pre>
 <div class="block">Gets the value of the showRetainedLogicRelationships property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setShowRetainedLogicRelationships(java.lang.String)">
+<a name="setShowRetainedLogicRelationships(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setShowRetainedLogicRelationships</h4>
-<pre>public&nbsp;void&nbsp;setShowRetainedLogicRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setShowRetainedLogicRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the showRetainedLogicRelationships property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getLayoutStyle()">
@@ -3028,28 +3029,28 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
-<a name="getTrackNewest()">
+<a name="isTrackNewest()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getTrackNewest</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTrackNewest()</pre>
+<h4>isTrackNewest</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isTrackNewest()</pre>
 <div class="block">Gets the value of the trackNewest property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setTrackNewest(java.lang.String)">
+<a name="setTrackNewest(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setTrackNewest</h4>
-<pre>public&nbsp;void&nbsp;setTrackNewest(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setTrackNewest(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the trackNewest property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getCriticalityMethod()">
@@ -3100,100 +3101,100 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
-<a name="getCriticalTasks()">
+<a name="isCriticalTasks()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getCriticalTasks</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getCriticalTasks()</pre>
+<h4>isCriticalTasks</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isCriticalTasks()</pre>
 <div class="block">Gets the value of the criticalTasks property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setCriticalTasks(java.lang.String)">
+<a name="setCriticalTasks(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setCriticalTasks</h4>
-<pre>public&nbsp;void&nbsp;setCriticalTasks(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setCriticalTasks(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the criticalTasks property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getCriticalEndpoints()">
+<a name="isCriticalEndpoints()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getCriticalEndpoints</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getCriticalEndpoints()</pre>
+<h4>isCriticalEndpoints</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isCriticalEndpoints()</pre>
 <div class="block">Gets the value of the criticalEndpoints property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setCriticalEndpoints(java.lang.String)">
+<a name="setCriticalEndpoints(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setCriticalEndpoints</h4>
-<pre>public&nbsp;void&nbsp;setCriticalEndpoints(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setCriticalEndpoints(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the criticalEndpoints property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getCriticalMilestones()">
+<a name="isCriticalMilestones()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getCriticalMilestones</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getCriticalMilestones()</pre>
+<h4>isCriticalMilestones</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isCriticalMilestones()</pre>
 <div class="block">Gets the value of the criticalMilestones property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setCriticalMilestones(java.lang.String)">
+<a name="setCriticalMilestones(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setCriticalMilestones</h4>
-<pre>public&nbsp;void&nbsp;setCriticalMilestones(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setCriticalMilestones(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the criticalMilestones property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="getCriticalRelationships()">
+<a name="isCriticalRelationships()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getCriticalRelationships</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getCriticalRelationships()</pre>
+<h4>isCriticalRelationships</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isCriticalRelationships()</pre>
 <div class="block">Gets the value of the criticalRelationships property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setCriticalRelationships(java.lang.String)">
+<a name="setCriticalRelationships(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setCriticalRelationships</h4>
-<pre>public&nbsp;void&nbsp;setCriticalRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setCriticalRelationships(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the criticalRelationships property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getCriticalThreshold()">
@@ -3244,28 +3245,28 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
-<a name="getNetworkNodesVisible()">
+<a name="isNetworkNodesVisible()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getNetworkNodesVisible</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getNetworkNodesVisible()</pre>
+<h4>isNetworkNodesVisible</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isNetworkNodesVisible()</pre>
 <div class="block">Gets the value of the networkNodesVisible property.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
-<a name="setNetworkNodesVisible(java.lang.String)">
+<a name="setNetworkNodesVisible(java.lang.Boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setNetworkNodesVisible</h4>
-<pre>public&nbsp;void&nbsp;setNetworkNodesVisible(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<pre>public&nbsp;void&nbsp;setNetworkNodesVisible(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the networkNodesVisible property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getNetworkNodeFont()">

@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Project (MPXJ 5.13.0 API)</title>
+<title>Project (MPXJ 5.14.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Project (MPXJ 5.13.0 API)";
+        parent.document.title="Project (MPXJ 5.14.0 API)";
     }
 //-->
 </script>
@@ -154,7 +154,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;complexContent>
                &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                  &lt;sequence>
-                   &lt;element name="storepoint">
+                   &lt;element name="storepoint" maxOccurs="unbounded">
                      &lt;complexType>
                        &lt;complexContent>
                          &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
@@ -212,6 +212,8 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                                  &lt;/element>
                                                &lt;/sequence>
                                                &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                               &lt;attribute name="uuid" type="{}phoenixUuid" />
+                                               &lt;attribute name="none_uuid" type="{}phoenixUuid" />
                                              &lt;/restriction>
                                            &lt;/complexContent>
                                          &lt;/complexType>
@@ -255,11 +257,13 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                                &lt;attribute name="billed" type="{http://www.w3.org/2001/XMLSchema}int" />
                                                &lt;attribute name="explicit" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                                                &lt;attribute name="current_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-                                               &lt;attribute name="current_finish" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                                               &lt;attribute name="current_finish" type="{}phoenixFinish" />
+                                               &lt;attribute name="actual_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                                               &lt;attribute name="actual_finish" type="{}phoenixFinish" />
                                                &lt;attribute name="early_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-                                               &lt;attribute name="early_finish" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                                               &lt;attribute name="early_finish" type="{}phoenixFinish" />
                                                &lt;attribute name="late_start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-                                               &lt;attribute name="late_finish" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                                               &lt;attribute name="late_finish" type="{}phoenixFinish" />
                                                &lt;attribute name="original_duration" type="{}phoenixDuration" />
                                                &lt;attribute name="actual_duration" type="{}phoenixDuration" />
                                                &lt;attribute name="duration_at_completion" type="{}phoenixDuration" />
@@ -348,10 +352,10 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                            &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="uuid" type="{}phoenixUuid" />
                            &lt;attribute name="parent_uuid" type="{}phoenixUuid" />
-                           &lt;attribute name="creation_time" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="data_date" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="proposed_data_date" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="creation_time" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                           &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                           &lt;attribute name="data_date" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
+                           &lt;attribute name="proposed_data_date" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
                            &lt;attribute name="default_calendar" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="id_increment" type="{http://www.w3.org/2001/XMLSchema}int" />
                          &lt;/restriction>
@@ -368,7 +372,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;complexContent>
                &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                  &lt;sequence>
-                   &lt;element name="layout">
+                   &lt;element name="layout" maxOccurs="unbounded">
                      &lt;complexType>
                        &lt;complexContent>
                          &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
@@ -526,7 +530,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                                                &lt;attribute name="uuid" type="{}phoenixUuid" />
                                                &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                                               &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                               &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                                                &lt;attribute name="list_name" type="{http://www.w3.org/2001/XMLSchema}string" />
                                              &lt;/restriction>
                                            &lt;/complexContent>
@@ -636,9 +640,10 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                          &lt;complexType>
                                            &lt;complexContent>
                                              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                                               &lt;attribute name="shown" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                               &lt;attribute name="shown" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                                                &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
                                                &lt;attribute name="code" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                               &lt;attribute name="code_uuid" type="{}phoenixUuid" />
                                                &lt;attribute name="font_color" type="{http://www.w3.org/2001/XMLSchema}string" />
                                                &lt;attribute name="font" type="{http://www.w3.org/2001/XMLSchema}string" />
                                              &lt;/restriction>
@@ -740,37 +745,37 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                              &lt;/element>
                            &lt;/sequence>
                            &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="status_on_master" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="ignore_actuals" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="ignore_data_date" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="status_on_current" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="retained_logic" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="progress_override" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="contiguous" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="interruptible" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="work_remaining" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="auto_row_sizing" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="status_on_master" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="ignore_actuals" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="ignore_data_date" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="status_on_current" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="retained_logic" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="progress_override" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="contiguous" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="interruptible" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="work_remaining" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="auto_row_sizing" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="custom_row_size" type="{http://www.w3.org/2001/XMLSchema}int" />
                            &lt;attribute name="row_font" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="row_foreground" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="row_background" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="row_grid_lines_color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="show_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="show_nondriving_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="show_retained_logic_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="show_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="show_nondriving_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="show_retained_logic_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="layout_style" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="resource_graph_shown" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="track_newest" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="track_newest" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="criticality_method" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="critical_color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="critical_tasks" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="critical_endpoints" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="critical_milestones" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="critical_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="critical_tasks" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="critical_endpoints" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="critical_milestones" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                           &lt;attribute name="critical_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="critical_threshold" type="{http://www.w3.org/2001/XMLSchema}int" />
                            &lt;attribute name="network_description_font" type="{http://www.w3.org/2001/XMLSchema}string" />
-                           &lt;attribute name="network_nodes_visible" type="{http://www.w3.org/2001/XMLSchema}string" />
+                           &lt;attribute name="network_nodes_visible" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                            &lt;attribute name="network_node_font" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="network_completed_duration_color" type="{http://www.w3.org/2001/XMLSchema}string" />
                            &lt;attribute name="network_noncritical_duration_color" type="{http://www.w3.org/2001/XMLSchema}string" />

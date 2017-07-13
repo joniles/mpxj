@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>DatatypeConverter (MPXJ 5.13.0 API)</title>
+<title>DatatypeConverter (MPXJ 5.14.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="DatatypeConverter (MPXJ 5.13.0 API)";
+        parent.document.title="DatatypeConverter (MPXJ 5.14.0 API)";
     }
 //-->
 </script>
@@ -142,7 +142,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseDaye(java.lang.String)">parseDaye</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseDay(java.lang.String)">parseDay</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Convert the Phoenix representation of a day into a Day instance.</div>
 </td>
 </tr>
@@ -153,51 +153,63 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseFinishDateTime(java.lang.String)">parseFinishDateTime</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Convert the Phoenix representation of a finish date time into a Date instance.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseInteger(java.lang.String)">parseInteger</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Convert the Phoenix representation of an integer into a Java Integer instance.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/RelationType.html" title="enum in net.sf.mpxj">RelationType</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseRelationType(java.lang.String)">parseRelationType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Convert the Phoenix representation of a task relationship type into a RelationType instance.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/ResourceType.html" title="enum in net.sf.mpxj">ResourceType</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseResourceType(java.lang.String)">parseResourceType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Convert the Phoenix representation of a resource type into a ResourceType instance.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/TimeUnit.html" title="enum in net.sf.mpxj">TimeUnit</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseTimeUnits(java.lang.String)">parseTimeUnits</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Convert the Phoenix representation of a time unit into a TimeUnit instance.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#parseUUID(java.lang.String)">parseUUID</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Convert the Phoenix representation of a UUID into a Java UUID instance.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#printDateTime(java.util.Date)">printDateTime</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Retrieve a date time in the form required by Phoenix.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#printDay(net.sf.mpxj.Day)">printDay</a></strong>(<a href="../../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;value)</code>
 <div class="block">Retrieve a day in the form required by Phoenix.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#printDuration(net.sf.mpxj.Duration)">printDuration</a></strong>(<a href="../../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;duration)</code>
 <div class="block">Retrieve a duration in the form required by Phoenix.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/phoenix/DatatypeConverter.html#printFinishDateTime(java.util.Date)">printFinishDateTime</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
+<div class="block">Retrieve a finish date time in the form required by Phoenix.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -437,16 +449,40 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <dt><span class="strong">Returns:</span></dt><dd>formatted duration</dd></dl>
 </li>
 </ul>
-<a name="parseDaye(java.lang.String)">
+<a name="parseDay(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>parseDaye</h4>
-<pre>public static final&nbsp;<a href="../../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;parseDaye(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<h4>parseDay</h4>
+<pre>public static final&nbsp;<a href="../../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;parseDay(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
 <div class="block">Convert the Phoenix representation of a day into a Day instance.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - Phoenix day</dd>
 <dt><span class="strong">Returns:</span></dt><dd>Day instance</dd></dl>
+</li>
+</ul>
+<a name="printFinishDateTime(java.util.Date)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>printFinishDateTime</h4>
+<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;printFinishDateTime(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</pre>
+<div class="block">Retrieve a finish date time in the form required by Phoenix.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - Date instance</dd>
+<dt><span class="strong">Returns:</span></dt><dd>formatted date time</dd></dl>
+</li>
+</ul>
+<a name="parseFinishDateTime(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parseFinishDateTime</h4>
+<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;parseFinishDateTime(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Convert the Phoenix representation of a finish date time into a Date instance.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - Phoenix date time</dd>
+<dt><span class="strong">Returns:</span></dt><dd>Date instance</dd></dl>
 </li>
 </ul>
 <a name="printDay(net.sf.mpxj.Day)">

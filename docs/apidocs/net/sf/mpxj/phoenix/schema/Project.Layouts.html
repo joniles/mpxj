@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Project.Layouts (MPXJ 5.13.0 API)</title>
+<title>Project.Layouts (MPXJ 5.14.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Project.Layouts (MPXJ 5.13.0 API)";
+        parent.document.title="Project.Layouts (MPXJ 5.14.0 API)";
     }
 //-->
 </script>
@@ -102,15 +102,15 @@
 <pre>public static class <span class="strong">Project.Layouts</span>
 extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block"><p>Java class for anonymous complex type.
-
+ 
  <p>The following schema fragment specifies the expected content contained within this class.
-
+ 
  <pre>
  &lt;complexType>
    &lt;complexContent>
      &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
        &lt;sequence>
-         &lt;element name="layout">
+         &lt;element name="layout" maxOccurs="unbounded">
            &lt;complexType>
              &lt;complexContent>
                &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
@@ -268,7 +268,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                    &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                                      &lt;attribute name="uuid" type="{}phoenixUuid" />
                                      &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                                     &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                     &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                                      &lt;attribute name="list_name" type="{http://www.w3.org/2001/XMLSchema}string" />
                                    &lt;/restriction>
                                  &lt;/complexContent>
@@ -378,9 +378,10 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                &lt;complexType>
                                  &lt;complexContent>
                                    &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                                     &lt;attribute name="shown" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                     &lt;attribute name="shown" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                                      &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
                                      &lt;attribute name="code" type="{http://www.w3.org/2001/XMLSchema}string" />
+                                     &lt;attribute name="code_uuid" type="{}phoenixUuid" />
                                      &lt;attribute name="font_color" type="{http://www.w3.org/2001/XMLSchema}string" />
                                      &lt;attribute name="font" type="{http://www.w3.org/2001/XMLSchema}string" />
                                    &lt;/restriction>
@@ -482,37 +483,37 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                    &lt;/element>
                  &lt;/sequence>
                  &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="status_on_master" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="ignore_actuals" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="ignore_data_date" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="status_on_current" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="retained_logic" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="progress_override" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="contiguous" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="interruptible" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="work_remaining" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="auto_row_sizing" type="{http://www.w3.org/2001/XMLSchema}string" />
+                 &lt;attribute name="active" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="status_on_master" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="ignore_actuals" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="ignore_data_date" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="status_on_current" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="retained_logic" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="progress_override" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="contiguous" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="interruptible" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="work_remaining" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="auto_row_sizing" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                  &lt;attribute name="custom_row_size" type="{http://www.w3.org/2001/XMLSchema}int" />
                  &lt;attribute name="row_font" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="row_foreground" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="row_background" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="row_grid_lines_color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="show_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="show_nondriving_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="show_retained_logic_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
+                 &lt;attribute name="show_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="show_nondriving_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="show_retained_logic_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                  &lt;attribute name="layout_style" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="resource_graph_shown" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="track_newest" type="{http://www.w3.org/2001/XMLSchema}string" />
+                 &lt;attribute name="track_newest" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                  &lt;attribute name="criticality_method" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="critical_color" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="critical_tasks" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="critical_endpoints" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="critical_milestones" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="critical_relationships" type="{http://www.w3.org/2001/XMLSchema}string" />
+                 &lt;attribute name="critical_tasks" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="critical_endpoints" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="critical_milestones" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+                 &lt;attribute name="critical_relationships" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                  &lt;attribute name="critical_threshold" type="{http://www.w3.org/2001/XMLSchema}int" />
                  &lt;attribute name="network_description_font" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 &lt;attribute name="network_nodes_visible" type="{http://www.w3.org/2001/XMLSchema}string" />
+                 &lt;attribute name="network_nodes_visible" type="{http://www.w3.org/2001/XMLSchema}boolean" />
                  &lt;attribute name="network_node_font" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="network_completed_duration_color" type="{http://www.w3.org/2001/XMLSchema}string" />
                  &lt;attribute name="network_noncritical_duration_color" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -566,7 +567,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a></code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.html#layout">layout</a></strong></code>&nbsp;</td>
 </tr>
 </table>
@@ -602,15 +603,9 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a></code></td>
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.html#getLayout()">getLayout</a></strong>()</code>
 <div class="block">Gets the value of the layout property.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.html#setLayout(net.sf.mpxj.phoenix.schema.Project.Layouts.Layout)">setLayout</a></strong>(<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&nbsp;value)</code>
-<div class="block">Sets the value of the layout property.</div>
 </td>
 </tr>
 </table>
@@ -641,7 +636,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>layout</h4>
-<pre>protected&nbsp;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a> layout</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&gt; layout</pre>
 </li>
 </ul>
 </li>
@@ -672,25 +667,28 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <a name="getLayout()">
 <!--   -->
 </a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getLayout</h4>
-<pre>public&nbsp;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&nbsp;getLayout()</pre>
-<div class="block">Gets the value of the layout property.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
-     <a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema"><code>Project.Layouts.Layout</code></a></dd></dl>
-</li>
-</ul>
-<a name="setLayout(net.sf.mpxj.phoenix.schema.Project.Layouts.Layout)">
-<!--   -->
-</a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>setLayout</h4>
-<pre>public&nbsp;void&nbsp;setLayout(<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&nbsp;value)</pre>
-<div class="block">Sets the value of the layout property.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
-     <a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema"><code>Project.Layouts.Layout</code></a></dd></dl>
+<h4>getLayout</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema">Project.Layouts.Layout</a>&gt;&nbsp;getLayout()</pre>
+<div class="block">Gets the value of the layout property.
+ 
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the layout property.
+ 
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getLayout().add(newItem);
+ </pre>
+ 
+ 
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/phoenix/schema/Project.Layouts.Layout.html" title="class in net.sf.mpxj.phoenix.schema"><code>Project.Layouts.Layout</code></a></div>
 </li>
 </ul>
 </li>
