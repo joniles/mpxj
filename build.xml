@@ -664,7 +664,13 @@
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
-	
+
+	<target name="gem-copy" depends="gem-setup" description="Copy gem to a local directory">
+		<copy todir="//VBOXSVR/Downloads/mpxj.gem">
+			<fileset dir="${basedir}/src.ruby/mpxj" includes="**" />
+		</copy>
+	</target>
+
 	<!-- Experimental - work in progress -->
 	<target name="j2objc">
 		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
