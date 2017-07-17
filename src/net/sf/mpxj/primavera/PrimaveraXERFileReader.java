@@ -537,40 +537,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
                            catch (ParseException ex)
                            {
-                              throw new MPXJException(MPXJException.INVALID_DATE, ex);
+                              objectValue = fieldValue;
                            }
 
                            break;
                         }
 
                         case CURRENCY:
-                        {
-                           try
-                           {
-                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue).doubleValue());
-                           }
-
-                           catch (ParseException ex)
-                           {
-                              throw new MPXJException(MPXJException.INVALID_NUMBER, ex);
-                           }
-                           break;
-                        }
-
                         case DOUBLE:
-                        {
-                           try
-                           {
-                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue).doubleValue());
-                           }
-
-                           catch (ParseException ex)
-                           {
-                              throw new MPXJException(MPXJException.INVALID_NUMBER, ex);
-                           }
-                           break;
-                        }
-
                         case DURATION:
                         {
                            try
@@ -580,7 +554,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
                            catch (ParseException ex)
                            {
-                              throw new MPXJException(MPXJException.INVALID_NUMBER, ex);
+                              objectValue = fieldValue;
                            }
                            break;
                         }
