@@ -730,6 +730,9 @@ public final class PhoenixReader extends AbstractProjectReader
       return uuid == null ? UUID.nameUUIDFromBytes(name.getBytes()) : uuid;
    }
 
+   /**
+    * Ensure summary tasks have dates.
+    */
    private void updateDates()
    {
       for (Task task : m_projectFile.getChildTasks())
