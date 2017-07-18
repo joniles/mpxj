@@ -52,7 +52,7 @@ class UserFieldCounters
     * to a user defined data type.
     *
     * @param type target type
-    * @param fieldName field names overriding the default
+    * @param fieldNames field names overriding the default
     */
    public void setFieldNamesForType(UserFieldDataType type, String[] fieldNames)
    {

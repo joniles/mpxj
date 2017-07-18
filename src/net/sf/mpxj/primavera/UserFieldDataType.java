@@ -72,7 +72,7 @@ public enum UserFieldDataType
    /**
     * Constructor.
     *
-    * @param fieldName default field names used to
+    * @param fieldNames default field names used to
     * store user defined data of this type.
     */
    private UserFieldDataType(String[] fieldNames)

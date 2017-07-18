@@ -86,7 +86,6 @@ final class PrimaveraReader
    /**
     * Constructor.
     *
-    * @param udfCounters user defined field data types
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
@@ -588,7 +587,6 @@ final class PrimaveraReader
     *
     * @param wbs WBS task data
     * @param tasks task data
-    * @param costs task costs
     */
    public void processTasks(List<Row> wbs, List<Row> tasks)
    {
@@ -600,7 +598,6 @@ final class PrimaveraReader
     *
     * @param wbs WBS task data
     * @param tasks task data
-    * @param costs task costs
     * @param udfVals User Defined Fields values data
     */
    public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> udfVals)

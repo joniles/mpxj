@@ -678,7 +678,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * Override the default field name mapping for Task user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field names
+    * @param fieldNames field names
     */
    public void setFieldNamesForTaskUdfType(UserFieldDataType type, String[] fieldNames)
    {
@@ -689,7 +689,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * Override the default field name mapping for Resource user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field names
+    * @param fieldNames field names
     */
    public void setFieldNamesForResourceUdfType(UserFieldDataType type, String[] fieldNames)
    {
@@ -700,7 +700,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * Override the default field name mapping for Resource user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field names
+    * @param fieldNames field names
     */
    public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String[] fieldNames)
    {
