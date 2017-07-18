@@ -668,7 +668,10 @@ final class PrimaveraReader
          processFields(m_taskFields, row, task);
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
-         task.setIgnoreResourceCalendar("TT_Rsrc".equals(row.getString("task_type")));
+
+         // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
+         task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
+
          task.setPercentageComplete(calculatePercentComplete(row));
 
          if (m_matchPrimaveraWBS && parentTask != null)
