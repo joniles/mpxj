@@ -177,11 +177,7 @@ final class PrimaveraReader
       {
          Row row = rows.get(0);
 
-         Map<String, Object> customProperties = m_project.getProjectProperties().getCustomProperties();
-         if (customProperties == null)
-         {
-            customProperties = new HashMap<String, Object>();
-         }
+         Map<String, Object> customProperties = new HashMap<String, Object>();
 
          customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
 
