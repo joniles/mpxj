@@ -552,8 +552,8 @@ final class PrimaveraReader
          if (i + 1 < rows.size())
          {
             Row nextRow = rows.get(i + 1);
-            Integer nextResourceID = nextRow.getInteger("rsrc_id");
-            if (resourceID == nextResourceID)
+            int nextResourceID = nextRow.getInt("rsrc_id");
+            if (resourceID.intValue() == nextResourceID)
             {
                endDate = nextRow.getDate("start_date");
             }
