@@ -643,45 +643,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
 
-            if (actualStartDate == null || (task.getActualStart() != null && DateHelper.compare(actualStartDate, task.getActualStart()) > 0))
-            {
-               actualStartDate = task.getActualStart();
-            }
-
-            if (actualFinishDate == null || (task.getActualFinish() != null && DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0))
-            {
-               actualFinishDate = task.getActualFinish();
-            }
-
-            if (earlyStartDate == null || (task.getEarlyStart() != null && DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0))
-            {
-               earlyStartDate = task.getEarlyStart();
-            }
-
-            if (earlyFinishDate == null || (task.getEarlyFinish() != null && DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0))
-            {
-               earlyFinishDate = task.getEarlyFinish();
-            }
-
-            if (lateStartDate == null || (task.getLateStart() != null && DateHelper.compare(lateStartDate, task.getLateStart()) > 0))
-            {
-               lateStartDate = task.getLateStart();
-            }
-
-            if (lateFinishDate == null || (task.getLateFinish() != null && DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0))
-            {
-               lateFinishDate = task.getLateFinish();
-            }
-
-            if (baselineStartDate == null || (task.getBaselineStart() != null && DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0))
-            {
-               baselineStartDate = task.getBaselineStart();
-            }
-
-            if (baselineFinishDate == null || (task.getBaselineFinish() != null && DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0))
-            {
-               baselineFinishDate = task.getBaselineFinish();
-            }
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
+            baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
 
             if (task.getActualFinish() != null)
             {

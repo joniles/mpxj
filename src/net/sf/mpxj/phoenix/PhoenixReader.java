@@ -764,45 +764,14 @@ public final class PhoenixReader extends AbstractProjectReader
          {
             updateDates(task);
 
-            if (plannedStartDate == null || DateHelper.compare(plannedStartDate, task.getStart()) > 0)
-            {
-               plannedStartDate = task.getStart();
-            }
-
-            if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
-            {
-               actualStartDate = task.getActualStart();
-            }
-
-            if (plannedFinishDate == null || DateHelper.compare(plannedFinishDate, task.getFinish()) < 0)
-            {
-               plannedFinishDate = task.getFinish();
-            }
-
-            if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
-            {
-               actualFinishDate = task.getActualFinish();
-            }
-
-            if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
-            {
-               earlyStartDate = task.getEarlyStart();
-            }
-
-            if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
-            {
-               earlyFinishDate = task.getEarlyFinish();
-            }
-
-            if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
-            {
-               lateStartDate = task.getLateStart();
-            }
-
-            if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
-            {
-               lateFinishDate = task.getLateFinish();
-            }
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {
