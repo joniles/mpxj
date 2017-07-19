@@ -519,7 +519,7 @@ final class PrimaveraReader
    public void processResourceRates(List<Row> rows)
    {
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort(new Comparator<Row>()
+      Collections.sort(rows, new Comparator<Row>()
       {
          @Override public int compare(Row r1, Row r2)
          {
