@@ -26,8 +26,9 @@ package net.sf.mpxj.junit.resource;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.List;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -36,8 +37,6 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure resource type is correctly handled.
@@ -74,14 +73,7 @@ public class MppResourceTypeTest
     */
    @Test public void testResourceType() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("resource/resource-type"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("resource-type");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("resource/resource-type", "resource-type"))
       {
          testResourceType(file);
       }

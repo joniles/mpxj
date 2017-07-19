@@ -27,7 +27,8 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -36,8 +37,6 @@ import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure task custom outline codes are correctly handled.
@@ -49,14 +48,7 @@ public class TaskOutlineCodesTest
     */
    @Test public void testTaskOutlineCodes() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-outlinecodes"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("task-outlinecodes");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/task-outlinecodes", "task-outlinecodes"))
       {
          testTaskOutlineCodes(file);
       }

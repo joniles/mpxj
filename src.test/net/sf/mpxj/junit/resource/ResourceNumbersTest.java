@@ -27,7 +27,8 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -39,8 +40,6 @@ import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
-import org.junit.Test;
-
 /**
  * Tests to ensure task custom numbers are correctly handled.
  */
@@ -51,14 +50,7 @@ public class ResourceNumbersTest
     */
    @Test public void testResourceNumbers() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/resource-numbers"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("resource-numbers");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/resource-numbers", "resource-numbers"))
       {
          testResourceNumbers(file);
       }
