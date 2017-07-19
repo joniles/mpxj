@@ -27,6 +27,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents the extended data structure which is used to
@@ -235,10 +236,9 @@ final class ExtendedData
 
       pw.println("BEGIN ExtendedData");
 
-      for (Integer type : m_map.keySet())
+      for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
-         byte[] item = m_map.get(type);
-         pw.println("Type: " + type + " Data:" + MPPUtility.hexdump(item, false));
+         pw.println("Type: " + entry.getKey() + " Data:" + MPPUtility.hexdump(entry.getValue(), false));
       }
 
       pw.println("END ExtendedData");

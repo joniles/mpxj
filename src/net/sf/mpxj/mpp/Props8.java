@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 
 /**
  * This class represents the Props files found in Microsoft Project MPP8 files.
@@ -165,9 +166,9 @@ final class Props8 extends Props
          pw.println("   INCOMPLETE");
       }
 
-      for (Integer key : m_map.keySet())
+      for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
-         pw.println("   Key: " + key + " Value: " + MPPUtility.hexdump(m_map.get(key), true));
+         pw.println("   Key: " + entry.getKey() + " Value: " + MPPUtility.hexdump(entry.getValue(), true));
       }
 
       pw.println("END Props");
