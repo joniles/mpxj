@@ -34,6 +34,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -60,10 +64,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
  * This class is used to represent a Microsoft Project MPP12 file. This
@@ -288,10 +288,10 @@ final class MPP12Reader implements MPPVariantReader
             //System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
-            //
-            // Subproject that is no longer inserted. This is a placeholder in order to be
-            // able to always guarantee unique unique ids.
-            //
+               //
+               // Subproject that is no longer inserted. This is a placeholder in order to be
+               // able to always guarantee unique unique ids.
+               //
                case 0x00:
                   //
                   // deleted entry?
@@ -1427,10 +1427,10 @@ final class MPP12Reader implements MPPVariantReader
 
          switch (task.getConstraintType())
          {
-         //
-         // Adjust the start and finish dates if the task
-         // is constrained to start as late as possible.
-         //
+            //
+            // Adjust the start and finish dates if the task
+            // is constrained to start as late as possible.
+            //
             case AS_LATE_AS_POSSIBLE:
             {
                if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
@@ -1477,15 +1477,11 @@ final class MPP12Reader implements MPPVariantReader
          // Retrieve the task notes.
          //
          notes = task.getNotes();
-         if (notes != null)
+         if (!m_reader.getPreserveNoteFormatting())
          {
-            if (m_reader.getPreserveNoteFormatting() == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-
-            task.setNotes(notes);
+            notes = RtfHelper.strip(notes);
          }
+         task.setNotes(notes);
 
          //
          // Set the calendar name

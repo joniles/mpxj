@@ -166,15 +166,11 @@ public class ResourceAssignmentFactory
          }
 
          String notes = assignment.getNotes();
-         if (notes != null)
+         if (!preserveNoteFormatting)
          {
-            if (!preserveNoteFormatting)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-
-            assignment.setNotes(notes);
+            notes = RtfHelper.strip(notes);
          }
+         assignment.setNotes(notes);
 
          Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
          if (task != null)
