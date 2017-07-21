@@ -244,9 +244,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          while (tk.getType() != Tokenizer.TT_EOF)
          {
             readRecord(tk, record);
-            if (processRecord(record))
+            if (!record.isEmpty())
             {
-               break;
+               if (processRecord(record))
+               {
+                  break;
+               }
             }
             ++line;
          }
