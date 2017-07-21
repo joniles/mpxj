@@ -60,8 +60,8 @@ public enum UserFieldDataType
    }),
    FT_STATICTYPE(new String[]
    {
-      "FLAG",
-      "ENTERPRISE_FLAG"
+      "TEXT",
+      "ENTERPRISE_TEXT"
    }),
    FT_MONEY(new String[]
    {

@@ -862,7 +862,20 @@ final class PrimaveraReader
 
             case BOOLEAN:
             {
-               value = STATICTYPE_UDF_MAP.get(row.getString("udf_text"));
+               String text = row.getString("udf_text");
+               if (text != null)
+               {
+                  // before a normal boolean parse, we try to lookup the text as a P6 static type indicator UDF
+                  value = STATICTYPE_UDF_MAP.get(text);
+                  if (value == null)
+                  {
+                     value = Boolean.valueOf(row.getBoolean("udf_text"));
+                  }
+               }
+               else
+               {
+                  value = Boolean.valueOf(row.getBoolean("udf_number"));
+               }
                break;
             }
 
@@ -1822,7 +1835,8 @@ final class PrimaveraReader
    private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<String, Boolean>();
    static
    {
-      // this is just a judgement call on how the static type values would be translated to a flag
+      // this is a judgement call on how the static type indicator values would be best translated to a flag
+      STATICTYPE_UDF_MAP.put("UDF_G0", Boolean.FALSE); // no indicator
       STATICTYPE_UDF_MAP.put("UDF_G1", Boolean.FALSE); // red x
       STATICTYPE_UDF_MAP.put("UDF_G2", Boolean.FALSE); // yellow !
       STATICTYPE_UDF_MAP.put("UDF_G3", Boolean.TRUE); // green check
