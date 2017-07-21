@@ -425,6 +425,7 @@ final class AstaReader
       task.setNotes(getNotes(row));
       //UNIQUE_TASK_ID
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      task.setCalendarUniqueID(row.getInteger("CALENDAU"));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD
@@ -501,6 +502,7 @@ final class AstaReader
       //QA Checked
       //Related_Documents
       task.setCalendar(calendar);
+      task.setCalendarUniqueID(calendarID);
    }
 
    /**
@@ -542,6 +544,7 @@ final class AstaReader
       //NOTET
       //UNIQUE_TASK_ID
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      task.setCalendarUniqueID(row.getInteger("CALENDAU"));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD
@@ -937,6 +940,7 @@ final class AstaReader
             if (task.getCalendar() == defaultCalendar)
             {
                task.setCalendar(null);
+               task.setCalendarUniqueID(null);
             }
          }
       }

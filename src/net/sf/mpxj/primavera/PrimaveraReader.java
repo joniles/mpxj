@@ -534,6 +534,7 @@ final class PrimaveraReader
          Integer calId = row.getInteger("clndr_id");
          ProjectCalendar cal = m_calMap.get(calId);
          task.setCalendar(cal);
+         task.setCalendarUniqueID(calId);
 
          Date startDate = row.getDate("act_start_date") == null ? row.getDate("restart_date") : row.getDate("act_start_date");
          task.setStart(startDate);

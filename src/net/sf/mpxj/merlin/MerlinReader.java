@@ -49,6 +49,11 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -73,11 +78,6 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 /**
  * This class reads Merlin Project files. As Merlin is a Mac application, the "file"
@@ -453,6 +453,7 @@ public class MerlinReader implements ProjectReader
          if (calendar != null)
          {
             task.setCalendar(calendar);
+            task.setCalendarUniqueID(calendar.getUniqueID());
          }
       }
 

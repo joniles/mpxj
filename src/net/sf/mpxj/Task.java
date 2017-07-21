@@ -2775,7 +2775,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * This method retrieves a flag indicating whether the duration of the
     * task has only been estimated.
-
+   
     * @param estimated Boolean flag
     */
    public void setEstimated(boolean estimated)
@@ -3543,6 +3543,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public ProjectCalendar getCalendar()
    {
       return ((ProjectCalendar) getCachedValue(TaskField.CALENDAR));
+   }
+
+   /**
+    * Set the calendar unique ID.
+    *
+    * @param id calendar unique ID
+    */
+   public void setCalendarUniqueID(Integer id)
+   {
+      set(TaskField.CALENDAR_UNIQUE_ID, id);
+   }
+
+   /**
+    * Retrieve the calendar unique ID.
+    *
+    * @return calendar unique ID
+    */
+   public Integer getCalendarUniqueID()
+   {
+      return (Integer) getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
    }
 
    /**
