@@ -1,6 +1,31 @@
 # Changelog
 
-## 5.15.0 (Git master)
+## 6.0.0 (Git master)
+* Gracefully handle invalid calendar data in XER files.
+* Handle XER files containing blank lines.
+* Add support for reading resource rates and availability tables from P6 (Contributed by Brandon Herzog).
+* Include overtime in work and cost fields when reading from P6 (Contributed by Brandon Herzog).
+* Read default project calendar from P6 (Contributed by Brandon Herzog).
+* Read resource rate and assignment units from P6 (Contributed by Brandon Herzog).
+* Set ignore resource calendar flag for tasks from P6 (Contributed by Brandon Herzog).
+* Change P6 costs to be calculated from resource assignment to support XER files without the cost table (Contributed by Brandon Herzog).
+* Map anticipated end date to deadline for P6 (Contributed by Brandon Herzog).
+* Update task work to include actual and remaining work when reading from P6 (Contributed by Brandon Herzog).
+* Calculate summary task work fields by summing up children when reading from P6 (Contributed by Brandon Herzog).
+* Set task project name when reading from P6 (Contributed by Brandon Herzog).
+* Fix "00:00" calendar finish times to parse as end of day when reading from P6 (Contributed by Brandon Herzog).
+* Add default working hours if a calendar does not specify any hours when reading from P6 (Contributed by Brandon Herzog).
+* Read fiscal year start month from P6 (Contributed by Brandon Herzog).
+* Fix bug in rollup of child task dates containing null values that could set incorrect end date when reading from P6 (Contributed by Brandon Herzog).
+* Fix date offset in parse of P6 calendar exceptions (Contributed by Brandon Herzog).
+* Fix count of P6 UDFs that map to same data type (Contributed by Brandon Herzog).
+* Add support for reading Resource and Assignment UDFs from P6 (Contributed by Brandon Herzog).
+* Update P6 UDFs to fill into multiple field types to expand storage capacity, for example into TEXT and ENTERPRISE_TEXT (Contributed by Brandon Herzog).
+* Use only the WBS as activity code for WBS tasks instead of also appending name for P6 tasks (Contributed by Brandon Herzog).
+* Add the ablility to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).
+* Add function to clear all exceptions from ProjectCalendar instances (Contributed by Brandon Herzog).
+* Reading the lag calendar scheduling option as the "LagCalendar" custom project property when reading from P6 (Contributed by Brandon Herzog).
+* Updated UDF parsing to handle values as booleans if the user chooses to map them to Flag fields (Contributed by Brandon Herzog).
 
 ## 5.14.0 (13/07/2017)
 * Improve handling of activity codes read from Phoenix files
