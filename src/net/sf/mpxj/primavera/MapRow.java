@@ -111,9 +111,15 @@ class MapRow implements Row
             result = BooleanHelper.getBoolean((Boolean) value);
          }
          else
-         {
-            result = (((Number) value).intValue() == 1);
-         }
+            if (value instanceof Number)
+            {
+               // generally all non-zero numbers are treated as truthy
+               result = ((Number) value).doubleValue() != 0.0;
+            }
+            else
+            {
+               result = Boolean.parseBoolean((String) value);
+            }
       }
       return result;
    }

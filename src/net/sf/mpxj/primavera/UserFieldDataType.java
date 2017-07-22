@@ -35,33 +35,59 @@ import net.sf.mpxj.FieldTypeClass;
  */
 public enum UserFieldDataType
 {
-   FT_TEXT("TEXT"),
-   FT_START_DATE("START"),
-   FT_END_DATE("FINISH"),
-   FT_FLOAT_2_DECIMALS("NUMBER"),
-   FT_INT("NUMBER"),
-   FT_STATICTYPE("TEXT"),
-   FT_MONEY("COST");
+   FT_TEXT(new String[]
+   {
+      "TEXT",
+      "ENTERPRISE_TEXT"
+   }),
+   FT_START_DATE(new String[]
+   {
+      "START"
+   }),
+   FT_END_DATE(new String[]
+   {
+      "FINISH"
+   }),
+   FT_FLOAT_2_DECIMALS(new String[]
+   {
+      "NUMBER",
+      "ENTERPRISE_NUMBER"
+   }),
+   FT_INT(new String[]
+   {
+      "NUMBER",
+      "ENTERPRISE_NUMBER"
+   }),
+   FT_STATICTYPE(new String[]
+   {
+      "TEXT",
+      "ENTERPRISE_TEXT"
+   }),
+   FT_MONEY(new String[]
+   {
+      "COST",
+      "ENTERPRISE_COST"
+   });
 
    /**
     * Constructor.
     *
-    * @param fieldName default field name used to
+    * @param fieldNames default field names used to
     * store user defined data of this type.
     */
-   private UserFieldDataType(String fieldName)
+   private UserFieldDataType(String[] fieldNames)
    {
-      this.m_defaultFieldName = fieldName;
+      this.m_defaultFieldNames = fieldNames;
    }
 
    /**
-    * Retrieve the default field name.
+    * Retrieve the default field names.
     *
-    * @return default field name
+    * @return default field names
     */
-   public String getDefaultFieldName()
+   public String[] getDefaultFieldNames()
    {
-      return m_defaultFieldName;
+      return m_defaultFieldNames.clone();
    }
 
    /**
@@ -113,7 +139,7 @@ public enum UserFieldDataType
       return result;
    }
 
-   private String m_defaultFieldName;
+   private final String[] m_defaultFieldNames;
 
    private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<FieldTypeClass, String>();
    static
