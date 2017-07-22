@@ -86,6 +86,9 @@ final class PrimaveraReader
    /**
     * Constructor.
     *
+    * @param taskUdfCounters UDF counters for tasks
+    * @param resourceUdfCounters UDF counters for resources
+    * @param assignmentUdfCounters UDF counters for assignments
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
@@ -197,7 +200,9 @@ final class PrimaveraReader
          // Primavera XER files can sometimes not contain a definition of the default
          // project calendar so only try to set if we find a definition.
          if (defaultCalendar != null)
+         {
             m_project.setDefaultCalendar(defaultCalendar);
+         }
       }
    }
 
@@ -328,8 +333,9 @@ final class PrimaveraReader
 
                   // for end time treat midnight as midnight next day
                   if (endText.equals("00:00"))
+                  {
                      endText = "24:00";
-
+                  }
                   Date start = m_calendarTimeFormat.parse(startText);
                   Date end = m_calendarTimeFormat.parse(endText);
 
@@ -465,7 +471,7 @@ final class PrimaveraReader
    }
 
    /**
-    * Process resource rates
+    * Process resource rates.
     *
     * @param rows resource rate data
     */
@@ -480,8 +486,9 @@ final class PrimaveraReader
             Integer id2 = r2.getInteger("rsrc_id");
             int cmp = NumberHelper.compare(id1, id2);
             if (cmp != 0)
+            {
                return cmp;
-
+            }
             Date d1 = r1.getDate("start_date");
             Date d2 = r2.getDate("start_date");
             return DateHelper.compare(d1, d2);
@@ -1239,9 +1246,13 @@ final class PrimaveraReader
 
             double units;
             if (resource.getType() == ResourceType.MATERIAL)
+            {
                units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+            }
             else // RT_Labor & RT_Equip
+            {
                units = NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100;
+            }
             assignment.setUnits(NumberHelper.getDouble(units));
 
             // Add User Defined Fields

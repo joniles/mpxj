@@ -37,6 +37,7 @@ public final class ExternalPredecessorRelation
    /**
     * Default constructor.
     *
+    * @param sourceUniqueID source task unique ID
     * @param targetTask target task instance
     * @param type relation type
     * @param lag relation lag

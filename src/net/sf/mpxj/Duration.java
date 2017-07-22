@@ -405,12 +405,17 @@ public final class Duration implements Comparable<Duration>
    public static Duration add(Duration a, Duration b, ProjectProperties defaults)
    {
       if (a == null && b == null)
+      {
          return null;
+      }
       if (a == null)
+      {
          return b;
+      }
       if (b == null)
+      {
          return a;
-
+      }
       TimeUnit unit = a.getUnits();
       if (b.getUnits() != unit)
       {
