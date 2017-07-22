@@ -823,7 +823,6 @@ abstract class MPD9AbstractReader
          //task.setBCWP(row.getCurrency("TASK_BCWP")); //@todo FIXME
          //task.setBCWS(row.getCurrency("TASK_BCWS")); //@todo FIXME
          task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("TASK_CAL_UID")));
-         task.setCalendarUniqueID(row.getInteger("TASK_CAL_UID"));
          //task.setConfirmed();
          task.setConstraintDate(row.getDate("TASK_CONSTRAINT_DATE"));
          task.setConstraintType(ConstraintType.getInstance(row.getInt("TASK_CONSTRAINT_TYPE")));

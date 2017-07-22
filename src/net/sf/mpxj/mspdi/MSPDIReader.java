@@ -986,7 +986,6 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setBCWP();
          //mpx.setBCWS();
          mpx.setCalendar(getTaskCalendar(xml));
-         mpx.setCalendarUniqueID(NumberHelper.getInteger(xml.getCalendarUID()));
          //mpx.setConfirmed();
          mpx.setConstraintDate(DatatypeConverter.parseDate(xml.getConstraintDate()));
          mpx.setConstraintType(DatatypeConverter.parseConstraintType(xml.getConstraintType()));

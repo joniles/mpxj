@@ -453,7 +453,6 @@ public class MerlinReader implements ProjectReader
          if (calendar != null)
          {
             task.setCalendar(calendar);
-            task.setCalendarUniqueID(calendar.getUniqueID());
          }
       }
 

@@ -3574,6 +3574,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setCalendar(ProjectCalendar calendar)
    {
       set(TaskField.CALENDAR, calendar);
+      setCalendarUniqueID(calendar == null ? null : calendar.getUniqueID());
    }
 
    /**
