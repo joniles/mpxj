@@ -404,15 +404,30 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       List<Row> rows = getRows("project", "proj_id", m_projectID);
       m_reader.processProjectProperties(rows);
 
-      rows = getRows("schedoptions", "proj_id", m_projectID);
-      m_reader.processScheduleOptions(rows);
-
       //
       // Process XER-specific attributes
       //
       if (m_defaultCurrencyData != null)
       {
          m_reader.processDefaultCurrency(m_defaultCurrencyData);
+      }
+
+      processScheduleOptions();
+   }
+
+   /**
+    * Process schedule options from SCHEDOPTIONS. This table only seems to exist
+    * in XER files, not P6 databases.
+    */
+   private void processScheduleOptions()
+   {
+      List<Row> rows = getRows("schedoptions", "proj_id", m_projectID);
+      if (rows.isEmpty() == false)
+      {
+         Row row = rows.get(0);
+         Map<String, Object> customProperties = new HashMap<String, Object>();
+         customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
+         m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
       }
    }
 

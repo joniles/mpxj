@@ -212,9 +212,6 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       m_reader.processProjectProperties(rows);
 
-      rows = getRows("select * from " + m_schema + "schedoptions where proj_id=?", m_projectID);
-      m_reader.processScheduleOptions(rows);
-
       //
       // Process PMDB-specific attributes
       //
@@ -230,6 +227,38 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
 
          processDefaultCurrency(row.getInteger("curr_id"));
+      }
+
+      processSchedulingProjectProperties();
+   }
+
+   /**
+    * Process the scheduling project property from PROJPROP. This table only seems to exist
+    * in P6 databases, not XER files.
+    *
+    * @throws SQLException
+    */
+   private void processSchedulingProjectProperties() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);
+      if (!rows.isEmpty())
+      {
+         Row row = rows.get(0);
+         Record record = Record.getRecord(row.getString("prop_value"));
+         if (record != null)
+         {
+            String[] keyValues = record.getValue().split("\\|");
+            for (int i = 0; i < keyValues.length - 1; ++i)
+            {
+               if ("sched_calendar_on_relationship_lag".equals(keyValues[i]))
+               {
+                  Map<String, Object> customProperties = new HashMap<String, Object>();
+                  customProperties.put("LagCalendar", keyValues[i + 1]);
+                  m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
+                  break;
+               }
+            }
+         }
       }
    }
 

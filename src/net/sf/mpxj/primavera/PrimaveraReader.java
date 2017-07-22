@@ -167,25 +167,6 @@ final class PrimaveraReader
    }
 
    /**
-    * Process schedule options.
-    *
-    * @param rows schedule options data.
-    */
-   public void processScheduleOptions(List<Row> rows)
-   {
-      if (rows.isEmpty() == false)
-      {
-         Row row = rows.get(0);
-
-         Map<String, Object> customProperties = new HashMap<String, Object>();
-
-         customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
-
-         m_project.getProjectProperties().setCustomProperties(customProperties);
-      }
-   }
-
-   /**
     * Process User Defined Fields (UDF).
     *
     * @param userDefinedFields UDFs rows
@@ -254,7 +235,7 @@ final class PrimaveraReader
       String calendarData = row.getString("clndr_data");
       if (calendarData != null && !calendarData.isEmpty())
       {
-         Record root = getCalendarDataRecord(calendarData);
+         Record root = Record.getRecord(calendarData);
          if (root != null)
          {
             processCalendarDays(calendar, root);
@@ -281,34 +262,6 @@ final class PrimaveraReader
       }
 
       m_eventManager.fireCalendarReadEvent(calendar);
-   }
-
-   /**
-    * Create a structured calendar Record instance from the flat calendar data.
-    *
-    * @param calendarData flat calendar data
-    * @return calendar Record instance
-    */
-   private Record getCalendarDataRecord(String calendarData)
-   {
-      Record root;
-
-      try
-      {
-         root = new Record(calendarData);
-      }
-
-      //
-      // I've come across invalid calendar data in an otherwise fine Primavera
-      // database belonging to a customer. We deal with this gracefully here
-      // rather than propagating an exception.
-      //
-      catch (Exception ex)
-      {
-         root = null;
-      }
-
-      return root;
    }
 
    /**
