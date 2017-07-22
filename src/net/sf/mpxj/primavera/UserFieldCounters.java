@@ -62,6 +62,7 @@ class UserFieldCounters
    /**
     * Generate the next available field for a user defined field.
     *
+    * @param <E> field type class
     * @param clazz class of the desired field enum
     * @param type user defined field type.
     * @return field of specified type
