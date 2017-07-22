@@ -301,7 +301,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
-   // Followed by user defined columns which differ by project
+            // Followed by user defined columns which differ by project
    };
 
    private static final ColumnDefinition[] CALENDAR_COLUMNS = new ColumnDefinition[]
@@ -796,7 +796,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
       new ColumnDefinition("NO_NEW_ASSIGNMENTS", Types.INTEGER),
-   // Followed by user defined columns which differ by project
+            // Followed by user defined columns which differ by project
    };
 
    private static final ColumnDefinition[] PERMANENT_RESOURCE_SKILL_COLUMNS = new ColumnDefinition[]

@@ -2397,29 +2397,29 @@ public class MppBarStyleTest
          TaskField.DEADLINE,
          "[]"
       }
-   /*
-   {
-      null,
-      TaskField.RESOURCE_NAMES,
-      null,
-      null,
-      null,
-      GanttBarStartEndShape.NONE,
-      GanttBarStartEndType.SOLID,
-      ColorType.BLACK,
-      GanttBarMiddleShape.ROUNDED,
-      GanttBarMiddlePattern.SOLID,
-      ColorType.BLUE,
-      GanttBarStartEndShape.NONE,
-      GanttBarStartEndType.SOLID,
-      ColorType.BLACK,
-      "Task",
-      Integer.valueOf(1),
-      TaskField.START,
-      TaskField.FINISH,
-      "[Normal, Active, Not Manually Scheduled]"
-   },
-   */
+            /*
+            {
+               null,
+               TaskField.RESOURCE_NAMES,
+               null,
+               null,
+               null,
+               GanttBarStartEndShape.NONE,
+               GanttBarStartEndType.SOLID,
+               ColorType.BLACK,
+               GanttBarMiddleShape.ROUNDED,
+               GanttBarMiddlePattern.SOLID,
+               ColorType.BLUE,
+               GanttBarStartEndShape.NONE,
+               GanttBarStartEndType.SOLID,
+               ColorType.BLACK,
+               "Task",
+               Integer.valueOf(1),
+               TaskField.START,
+               TaskField.FINISH,
+               "[Normal, Active, Not Manually Scheduled]"
+            },
+            */
    };
 
    private static final Object[][] DEFAULT_BAR_STYLES_FROM14 =

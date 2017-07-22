@@ -1787,7 +1787,7 @@ public final class DatatypeConverter
     * Parse method for a string: returns the string unchanged.
     * This is used to enable to string representation of an
     * xsd:datetime to be processed by MPXJ.
-
+   
     * @param value string value
     * @return string value
     */
