@@ -5,7 +5,7 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Git master" version="6.0.0">
+		<release date="22/07/2017" version="6.0.0">
 			<action dev="joniles" type="update">Gracefully handle invalid calendar data in XER files.</action>
 			<action dev="joniles" type="update">Handle XER files containing blank lines.</action>
 			<action dev="brandonherzog" type="add">Add support for reading resource rates and availability tables from P6 (Contributed by Brandon Herzog).</action>

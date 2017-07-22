@@ -1,6 +1,6 @@
 # Changelog
 
-## 6.0.0 (Git master)
+## 6.0.0 (22/07/2017)
 * Gracefully handle invalid calendar data in XER files.
 * Handle XER files containing blank lines.
 * Add support for reading resource rates and availability tables from P6 (Contributed by Brandon Herzog).
