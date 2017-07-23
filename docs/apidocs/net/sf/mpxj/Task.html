@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Task (MPXJ 5.14.0 API)</title>
+<title>Task (MPXJ 6.0.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Task (MPXJ 5.14.0 API)";
+        parent.document.title="Task (MPXJ 6.0.0 API)";
     }
 //-->
 </script>
@@ -485,19 +485,25 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCalendarUniqueID()">getCalendarUniqueID</a></strong>()</code>
+<div class="block">Retrieve the calendar unique ID.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getChildTasks()">getChildTasks</a></strong>()</code>
 <div class="block">This method retrieves a list of child tasks relative to the
  current task, as defined by the outine level.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCompleteThrough()">getCompleteThrough</a></strong>()</code>
 <div class="block">Retrieve the "complete through" date.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getConfirmed()">getConfirmed</a></strong>()</code>
 <div class="block">The Confirmed field indicates whether all resources assigned to a task
@@ -505,7 +511,7 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  message regarding their assignments.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getConstraintDate()">getConstraintDate</a></strong>()</code>
 <div class="block">The Constraint Date field shows the specific date associated with certain
@@ -514,21 +520,21 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  Start No Later Than, Finish No Earlier Than, and Finish No Later Than.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ConstraintType.html" title="enum in net.sf.mpxj">ConstraintType</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getConstraintType()">getConstraintType</a></strong>()</code>
 <div class="block">The Constraint Type field provides choices for the type of constraint you
  can apply for scheduling a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getContact()">getContact</a></strong>()</code>
 <div class="block">The Contact field contains the name of an individual
  responsible for a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCost()">getCost</a></strong>()</code>
 <div class="block">The Cost field shows the total scheduled, or projected, cost for a task,
@@ -537,40 +543,40 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  assignment.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCost(int)">getCost</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a cost value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCostVariance()">getCostVariance</a></strong>()</code>
 <div class="block">The Cost Variance field shows the difference between the baseline cost
  and total cost for a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCreateDate()">getCreateDate</a></strong>()</code>
 <div class="block">The Created field contains the date and time when a task was added
  to the project.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCritical()">getCritical</a></strong>()</code>
 <div class="block">The Critical field indicates whether a task has any room in the schedule
  to slip, or if a task is on the critical path.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCurrentValue(net.sf.mpxj.FieldType)">getCurrentValue</a></strong>(<a href="../../../net/sf/mpxj/FieldType.html" title="interface in net.sf.mpxj">FieldType</a>&nbsp;field)</code>
 <div class="block">Retrieve a field value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getCV()">getCV</a></strong>()</code>
 <div class="block">The CV (earned value cost variance) field shows the difference between
@@ -579,37 +585,37 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  level of completion up to the status date or today's date.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getDate(int)">getDate</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a date value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getDeadline()">getDeadline</a></strong>()</code>
 <div class="block">This method retrieves the deadline for this task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getDuration()">getDuration</a></strong>()</code>
 <div class="block">The Duration field is the total span of active working time for a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getDuration(int)">getDuration</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a duration value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getDurationText()">getDurationText</a></strong>()</code>
 <div class="block">Retrieves the duration text of a manually scheduled task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getDurationVariance()">getDurationVariance</a></strong>()</code>
 <div class="block">The Duration Variance field contains the difference between the
@@ -617,7 +623,7 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  of a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEarlyFinish()">getEarlyFinish</a></strong>()</code>
 <div class="block">The Early Finish field contains the earliest date that a task could
@@ -625,7 +631,7 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  successor tasks, other constraints, and any leveling delay.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEarlyStart()">getEarlyStart</a></strong>()</code>
 <div class="block">The Early Start field contains the earliest date that a task could
@@ -633,232 +639,232 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  successor tasks, and other constraints.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/EarnedValueMethod.html" title="enum in net.sf.mpxj">EarnedValueMethod</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEarnedValueMethod()">getEarnedValueMethod</a></strong>()</code>
 <div class="block">Retrieves the earned value method.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEffortDriven()">getEffortDriven</a></strong>()</code>
 <div class="block">Retrieves the effort driven flag.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseCost(int)">getEnterpriseCost</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise field value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseCustomField(int)">getEnterpriseCustomField</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise custom field value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseDate(int)">getEnterpriseDate</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise field value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseDuration(int)">getEnterpriseDuration</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise field value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseFlag(int)">getEnterpriseFlag</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise field value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseNumber(int)">getEnterpriseNumber</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise field value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEnterpriseText(int)">getEnterpriseText</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an enterprise field value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getEstimated()">getEstimated</a></strong>()</code>
 <div class="block">This method retrieves a flag indicating whether the duration of the
  task has only been estimated.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getExpanded()">getExpanded</a></strong>()</code>
 <div class="block">Retrieve a flag indicating if the task is shown as expanded
  in MS Project.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getExternalTask()">getExternalTask</a></strong>()</code>
 <div class="block">Retrieves the external task flag.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getExternalTaskProject()">getExternalTaskProject</a></strong>()</code>
 <div class="block">Retrieves the external task project file name.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFieldByAlias(java.lang.String)">getFieldByAlias</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;alias)</code>
 <div class="block">Retrieve the value of a field using its alias.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFinish()">getFinish</a></strong>()</code>
 <div class="block">The Finish field shows the date and time that a task is scheduled to
  be completed.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFinish(int)">getFinish</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a finish value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFinishSlack()">getFinishSlack</a></strong>()</code>
 <div class="block">Retrieve the finish slack.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFinishText()">getFinishText</a></strong>()</code>
 <div class="block">Retrieves the finish text of a manually scheduled task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFinishVariance()">getFinishVariance</a></strong>()</code>
 <div class="block">Calculate the finish variance.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFixedCost()">getFixedCost</a></strong>()</code>
 <div class="block">The Fixed Cost field shows any task expense that is not associated
  with a resource cost.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/AccrueType.html" title="enum in net.sf.mpxj">AccrueType</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFixedCostAccrual()">getFixedCostAccrual</a></strong>()</code>
 <div class="block">Retrieves the fixed cost accrual flag value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFlag(int)">getFlag</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a flag value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getFreeSlack()">getFreeSlack</a></strong>()</code>
 <div class="block">The Free Slack field contains the amount of time that a task can be
  delayed without delaying any successor tasks.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getGUID()">getGUID</a></strong>()</code>
 <div class="block">Retrieve the task GUID.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getHideBar()">getHideBar</a></strong>()</code>
 <div class="block">The Hide Bar field indicates whether the Gantt bars and Calendar bars
  for a task are hidden.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getHyperlink()">getHyperlink</a></strong>()</code>
 <div class="block">Retrieves the task hyperlink attribute.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getHyperlinkAddress()">getHyperlinkAddress</a></strong>()</code>
 <div class="block">Retrieves the task hyperlink address attribute.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getHyperlinkSubAddress()">getHyperlinkSubAddress</a></strong>()</code>
 <div class="block">Retrieves the task hyperlink sub-address attribute.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getID()">getID</a></strong>()</code>
 <div class="block">The ID field contains the identifier number that Microsoft Project
  automatically assigns to each task as you add it to the project.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getIgnoreResourceCalendar()">getIgnoreResourceCalendar</a></strong>()</code>
 <div class="block">Retrieves the ignore resource celandar flag.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLateFinish()">getLateFinish</a></strong>()</code>
 <div class="block">The Late Finish field contains the latest date that a task can finish
  without delaying the finish of the project.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLateStart()">getLateStart</a></strong>()</code>
 <div class="block">The Late Start field contains the latest date that a task can start
  without delaying the finish of the project.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLevelAssignments()">getLevelAssignments</a></strong>()</code>
 <div class="block">Retrieves the level assignments flag.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLevelingCanSplit()">getLevelingCanSplit</a></strong>()</code>
 <div class="block">Retrieves the leveling can split flag.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLevelingDelay()">getLevelingDelay</a></strong>()</code>
 <div class="block">Delay , in MPX files as eg '0ed'.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/TimeUnit.html" title="enum in net.sf.mpxj">TimeUnit</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLevelingDelayFormat()">getLevelingDelayFormat</a></strong>()</code>
 <div class="block">Retrieve the leveling delay format.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getLinkedFields()">getLinkedFields</a></strong>()</code>
 <div class="block">The Linked Fields field indicates whether there are OLE links to the task,
@@ -866,145 +872,145 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  or from another program.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getManualDuration()">getManualDuration</a></strong>()</code>
 <div class="block">Read the manual duration attribute.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getMarked()">getMarked</a></strong>()</code>
 <div class="block">The Marked field indicates whether a task is marked for further action or
  identification of some kind.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getMilestone()">getMilestone</a></strong>()</code>
 <div class="block">The Milestone field indicates whether a task is a milestone.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getName()">getName</a></strong>()</code>
 <div class="block">Retrieves the task name.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getNotes()">getNotes</a></strong>()</code>
 <div class="block">The Notes field contains notes that you can enter about a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getNull()">getNull</a></strong>()</code>
 <div class="block">Retrieves the flag indicating if this is a null task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getNumber(int)">getNumber</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a number value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getObjects()">getObjects</a></strong>()</code>
 <div class="block">The Objects field contains the number of objects attached to a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getOutlineCode(int)">getOutlineCode</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve an outline code value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getOutlineLevel()">getOutlineLevel</a></strong>()</code>
 <div class="block">The Outline Level field contains the number that indicates the level
  of the task in the project outline hierarchy.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getOutlineNumber()">getOutlineNumber</a></strong>()</code>
 <div class="block">The Outline Number field contains the number of the task in the structure
  of an outline.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getOverAllocated()">getOverAllocated</a></strong>()</code>
 <div class="block">Retrieve the over allocated flag.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getOvertimeCost()">getOvertimeCost</a></strong>()</code>
 <div class="block">Retrieves the overtime cost.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getOvertimeWork()">getOvertimeWork</a></strong>()</code>
 <div class="block">Retrieves the overtime work attribute.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getParentFile()">getParentFile</a></strong>()</code>
 <div class="block">Accessor method allowing retrieval of ProjectFile reference.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getParentTask()">getParentTask</a></strong>()</code>
 <div class="block">This method retrieves a reference to the parent of this task, as
  defined by the outline level.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPercentageComplete()">getPercentageComplete</a></strong>()</code>
 <div class="block">The % Complete field contains the current status of a task,
  expressed as the percentage of the task's duration that has been completed.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPercentageWorkComplete()">getPercentageWorkComplete</a></strong>()</code>
 <div class="block">The % Work Complete field contains the current status of a task,
  expressed as the percentage of the task's work that has been completed.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPhysicalPercentComplete()">getPhysicalPercentComplete</a></strong>()</code>
 <div class="block">Retrieves the physical percent complete value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/Relation.html" title="class in net.sf.mpxj">Relation</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPredecessors()">getPredecessors</a></strong>()</code>
 <div class="block">Retrieves the list of predecessors for this task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPreleveledFinish()">getPreleveledFinish</a></strong>()</code>
 <div class="block">Retrieves the preleveled finish attribute.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPreleveledStart()">getPreleveledStart</a></strong>()</code>
 <div class="block">Retrieves the preleveled start attribute.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Priority.html" title="class in net.sf.mpxj">Priority</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getPriority()">getPriority</a></strong>()</code>
 <div class="block">The Priority field provides choices for the level of importance
@@ -1012,32 +1018,32 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  delayed or split during resource leveling.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getProject()">getProject</a></strong>()</code>
 <div class="block">The Project field shows the name of the project from which a task
  originated.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRecurring()">getRecurring</a></strong>()</code>
 <div class="block">Retrieve the recurring flag.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/RecurringTask.html" title="class in net.sf.mpxj">RecurringTask</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRecurringTask()">getRecurringTask</a></strong>()</code>
 <div class="block">This method retrieves the recurring task record.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRegularWork()">getRegularWork</a></strong>()</code>
 <div class="block">Retrieve the amount of regular work.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRemainingCost()">getRemainingCost</a></strong>()</code>
 <div class="block">The Remaining Cost field shows the remaining scheduled expense of a
@@ -1045,61 +1051,61 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  by all resources assigned to the task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRemainingDuration()">getRemainingDuration</a></strong>()</code>
 <div class="block">The Remaining Duration field shows the amount of time required
  to complete the unfinished portion of a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRemainingOvertimeCost()">getRemainingOvertimeCost</a></strong>()</code>
 <div class="block">Retrieves the remaining overtime cost.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRemainingOvertimeWork()">getRemainingOvertimeWork</a></strong>()</code>
 <div class="block">Retrieves the remaining overtime work attribute.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRemainingWork()">getRemainingWork</a></strong>()</code>
 <div class="block">The Remaining Work field shows the amount of time, or person-hours,
  still required by all assigned resources to complete a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getResourceAssignments()">getResourceAssignments</a></strong>()</code>
 <div class="block">This method allows the list of resource assignments for this
  task to be retrieved.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getResourceGroup()">getResourceGroup</a></strong>()</code>
 <div class="block">The Resource Group field contains the list of resource groups to which
  the resources assigned to a task belong.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getResourceInitials()">getResourceInitials</a></strong>()</code>
 <div class="block">The Resource Initials field lists the abbreviations for the names of
  resources assigned to a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getResourceNames()">getResourceNames</a></strong>()</code>
 <div class="block">The Resource Names field lists the names of all resources assigned
  to a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getResume()">getResume</a></strong>()</code>
 <div class="block">The Resume field shows the date that the remaining portion of a task
@@ -1107,13 +1113,13 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  field.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getResumeValid()">getResumeValid</a></strong>()</code>
 <div class="block">Retrieve the resume valid flag.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getRollup()">getRollup</a></strong>()</code>
 <div class="block">For subtasks, the Rollup field indicates whether information on the
@@ -1121,114 +1127,114 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  will be rolled up to the summary task bar.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSplitCompleteDuration()">getSplitCompleteDuration</a></strong>()</code>
 <div class="block">Task splits contain the time up to which the splits are completed.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/DateRange.html" title="class in net.sf.mpxj">DateRange</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSplits()">getSplits</a></strong>()</code>
 <div class="block">This method retrieves a list of task splits.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getStart()">getStart</a></strong>()</code>
 <div class="block">The Start field shows the date and time that a task is scheduled to begin.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getStart(int)">getStart</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a start value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getStartSlack()">getStartSlack</a></strong>()</code>
 <div class="block">Retrieve the start slack.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getStartText()">getStartText</a></strong>()</code>
 <div class="block">Retrieve the start text for a manually scheduled task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getStartVariance()">getStartVariance</a></strong>()</code>
 <div class="block">Calculate the start variance.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getStop()">getStop</a></strong>()</code>
 <div class="block">The Stop field shows the date that represents the end of the actual
  portion of a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/SubProject.html" title="class in net.sf.mpxj">SubProject</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSubProject()">getSubProject</a></strong>()</code>
 <div class="block">Retrieve the sub project represented by this task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSubprojectName()">getSubprojectName</a></strong>()</code>
 <div class="block">Contains the file name and path of the sub project represented by
  the current task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSubprojectReadOnly()">getSubprojectReadOnly</a></strong>()</code>
 <div class="block">Retrieve the subproject read only flag.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSubprojectTaskID()">getSubprojectTaskID</a></strong>()</code>
 <div class="block">Where a task in an MPP file represents a task from a subproject,
  this value will be non-zero.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSubprojectTasksUniqueIDOffset()">getSubprojectTasksUniqueIDOffset</a></strong>()</code>
 <div class="block">Retrieves the offset added to unique task IDs from sub projects
  to generate the task ID shown in the master project.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSubprojectTaskUniqueID()">getSubprojectTaskUniqueID</a></strong>()</code>
 <div class="block">Where a task in an MPP file represents a task from a subproject,
  this value will be non-zero.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/Relation.html" title="class in net.sf.mpxj">Relation</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSuccessors()">getSuccessors</a></strong>()</code>
 <div class="block">Retrieves the list of successors for this task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSummary()">getSummary</a></strong>()</code>
 <div class="block">The Summary field indicates whether a task is a summary task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSummaryProgress()">getSummaryProgress</a></strong>()</code>
 <div class="block">Retrieve the summary progress date.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getSV()">getSV</a></strong>()</code>
 <div class="block">The SV (earned value schedule variance) field shows the difference in
@@ -1236,39 +1242,39 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  task up to the status date or today's date.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/TaskMode.html" title="enum in net.sf.mpxj">TaskMode</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getTaskMode()">getTaskMode</a></strong>()</code>
 <div class="block">Retrieves the task mode.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getText(int)">getText</a></strong>(int&nbsp;index)</code>
 <div class="block">Retrieve a text value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getTotalSlack()">getTotalSlack</a></strong>()</code>
 <div class="block">The Total Slack field contains the amount of time a task can be
  delayed without delaying the project's finish date.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/TaskType.html" title="enum in net.sf.mpxj">TaskType</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getType()">getType</a></strong>()</code>
 <div class="block">This method retrieves the task type.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getUniqueID()">getUniqueID</a></strong>()</code>
 <div class="block">The Unique ID field contains the number that Microsoft Project
  automatically designates whenever a new task is created.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getUpdateNeeded()">getUpdateNeeded</a></strong>()</code>
 <div class="block">The Update Needed field indicates whether a TeamUpdate message
@@ -1276,65 +1282,65 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  start date, finish date, or resource reassignments of the task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getWBS()">getWBS</a></strong>()</code>
 <div class="block">The work breakdown structure code.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getWBSLevel()">getWBSLevel</a></strong>()</code>
 <div class="block">Retrieve the WBS level.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getWork()">getWork</a></strong>()</code>
 <div class="block">The Work field shows the total amount of work scheduled to be performed
  on a task by all assigned resources.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#getWorkVariance()">getWorkVariance</a></strong>()</code>
 <div class="block">The Work Variance field contains the difference between a task's
  baseline work and the currently scheduled work.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#isPredecessor(net.sf.mpxj.Task)">isPredecessor</a></strong>(<a href="../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a>&nbsp;task)</code>
 <div class="block">Utility method used to determine if the supplied task
  is a predecessor of the current task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#isSucessor(net.sf.mpxj.Task)">isSucessor</a></strong>(<a href="../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a>&nbsp;task)</code>
 <div class="block">Utility method used to determine if the supplied task
  is a successor of the current task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#remove()">remove</a></strong>()</code>
 <div class="block">Removes this task from the project.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#removeChildTask(net.sf.mpxj.Task)">removeChildTask</a></strong>(<a href="../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a>&nbsp;child)</code>
 <div class="block">Removes a child task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#removeFieldListener(net.sf.mpxj.listener.FieldListener)">removeFieldListener</a></strong>(<a href="../../../net/sf/mpxj/listener/FieldListener.html" title="interface in net.sf.mpxj.listener">FieldListener</a>&nbsp;listener)</code>
 <div class="block">Remove a listener.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#removePredecessor(net.sf.mpxj.Task,%20net.sf.mpxj.RelationType,%20net.sf.mpxj.Duration)">removePredecessor</a></strong>(<a href="../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a>&nbsp;targetTask,
                  <a href="../../../net/sf/mpxj/RelationType.html" title="enum in net.sf.mpxj">RelationType</a>&nbsp;type,
@@ -1343,20 +1349,20 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  task instance.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#set(net.sf.mpxj.FieldType,%20java.lang.Object)">set</a></strong>(<a href="../../../net/sf/mpxj/FieldType.html" title="interface in net.sf.mpxj">FieldType</a>&nbsp;field,
    <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
 <div class="block">Set a field value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActive(boolean)">setActive</a></strong>(boolean&nbsp;active)</code>
 <div class="block">Sets the active flag.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualCost(java.lang.Number)">setActualCost</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;val)</code>
 <div class="block">The Actual Cost field shows costs incurred for work already performed
@@ -1364,7 +1370,7 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  on a task, along with any other recorded costs associated with the task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualDuration(net.sf.mpxj.Duration)">setActualDuration</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;val)</code>
 <div class="block">The Actual Duration field shows the span of actual working time for a
@@ -1373,38 +1379,38 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  completion percentage.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualFinish(java.util.Date)">setActualFinish</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;val)</code>
 <div class="block">The Actual Finish field shows the date and time that a task actually
  finished.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualOvertimeCost(java.lang.Number)">setActualOvertimeCost</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;cost)</code>
 <div class="block">Sets the actual overtime cost for this task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualOvertimeWork(net.sf.mpxj.Duration)">setActualOvertimeWork</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;work)</code>
 <div class="block">Sets the actual overtime work value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualOvertimeWorkProtected(net.sf.mpxj.Duration)">setActualOvertimeWorkProtected</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;actualOvertimeWorkProtected)</code>
 <div class="block">Sets the actual overtime work protected value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualStart(java.util.Date)">setActualStart</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;val)</code>
 <div class="block">The Actual Start field shows the date and time that a task actually began.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualWork(net.sf.mpxj.Duration)">setActualWork</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;val)</code>
 <div class="block">The Actual Work field shows the amount of work that has already been
@@ -1412,98 +1418,98 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  resources assigned to a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setActualWorkProtected(net.sf.mpxj.Duration)">setActualWorkProtected</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;actualWorkProtected)</code>
 <div class="block">Sets the actual work protected value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setACWP(java.lang.Number)">setACWP</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;acwp)</code>
 <div class="block">Set the ACWP value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineCost(int,%20java.lang.Number)">setBaselineCost</a></strong>(int&nbsp;baselineNumber,
                <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineCost(java.lang.Number)">setBaselineCost</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;val)</code>
 <div class="block">The Baseline Cost field shows the total planned cost for a task.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineDuration(net.sf.mpxj.Duration)">setBaselineDuration</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;val)</code>
 <div class="block">The Baseline Duration field shows the original span of time planned to
  complete a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineDuration(int,%20net.sf.mpxj.Duration)">setBaselineDuration</a></strong>(int&nbsp;baselineNumber,
                    <a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineDurationText(int,%20java.lang.String)">setBaselineDurationText</a></strong>(int&nbsp;baselineNumber,
                        <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the baseline duration text value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineDurationText(java.lang.String)">setBaselineDurationText</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the baseline duration text value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineEstimatedDuration(net.sf.mpxj.Duration)">setBaselineEstimatedDuration</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;duration)</code>
 <div class="block">Set the baseline estimated duration.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineEstimatedDuration(int,%20net.sf.mpxj.Duration)">setBaselineEstimatedDuration</a></strong>(int&nbsp;baselineNumber,
                             <a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineEstimatedFinish(java.util.Date)">setBaselineEstimatedFinish</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
 <div class="block">Set the baseline estimated finish.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineEstimatedFinish(int,%20java.util.Date)">setBaselineEstimatedFinish</a></strong>(int&nbsp;baselineNumber,
                           <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineEstimatedStart(java.util.Date)">setBaselineEstimatedStart</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
 <div class="block">Set the baseline estimated start.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineEstimatedStart(int,%20java.util.Date)">setBaselineEstimatedStart</a></strong>(int&nbsp;baselineNumber,
                          <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFinish(java.util.Date)">setBaselineFinish</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;val)</code>
 <div class="block">The Baseline Finish field shows the planned completion date for a
@@ -1511,54 +1517,54 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  you saved a baseline.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFinish(int,%20java.util.Date)">setBaselineFinish</a></strong>(int&nbsp;baselineNumber,
                  <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFinishText(int,%20java.lang.String)">setBaselineFinishText</a></strong>(int&nbsp;baselineNumber,
                      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the baseline finish text value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFinishText(java.lang.String)">setBaselineFinishText</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the baseline finish text value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFixedCost(int,%20java.lang.Number)">setBaselineFixedCost</a></strong>(int&nbsp;baselineNumber,
                     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFixedCost(java.lang.Number)">setBaselineFixedCost</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;val)</code>
 <div class="block">The Fixed Cost field shows any task expense that is not associated
  with a resource cost.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFixedCostAccrual(net.sf.mpxj.AccrueType)">setBaselineFixedCostAccrual</a></strong>(<a href="../../../net/sf/mpxj/AccrueType.html" title="enum in net.sf.mpxj">AccrueType</a>&nbsp;type)</code>
 <div class="block">Sets the baseline fixed cost accrual.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineFixedCostAccrual(int,%20net.sf.mpxj.AccrueType)">setBaselineFixedCostAccrual</a></strong>(int&nbsp;baselineNumber,
                            <a href="../../../net/sf/mpxj/AccrueType.html" title="enum in net.sf.mpxj">AccrueType</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineStart(java.util.Date)">setBaselineStart</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;val)</code>
 <div class="block">The Baseline Start field shows the planned beginning date for a task at
@@ -1566,27 +1572,27 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  you saved a baseline.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineStart(int,%20java.util.Date)">setBaselineStart</a></strong>(int&nbsp;baselineNumber,
                 <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineStartText(int,%20java.lang.String)">setBaselineStartText</a></strong>(int&nbsp;baselineNumber,
                     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the baseline start text value.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineStartText(java.lang.String)">setBaselineStartText</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the baseline start text value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineWork(net.sf.mpxj.Duration)">setBaselineWork</a></strong>(<a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;val)</code>
 <div class="block">The Baseline Work field shows the originally planned amount of work to
@@ -1594,14 +1600,14 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  by all resources assigned to a task.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBaselineWork(int,%20net.sf.mpxj.Duration)">setBaselineWork</a></strong>(int&nbsp;baselineNumber,
                <a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;value)</code>
 <div class="block">Set a baseline value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBCWP(java.lang.Number)">setBCWP</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;val)</code>
 <div class="block">The BCWP (budgeted cost of work performed) field contains the
@@ -1611,17 +1617,23 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
  timephased baseline cost.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setBCWS(java.lang.Number)">setBCWS</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&nbsp;val)</code>
 <div class="block">The BCWS (budgeted cost of work scheduled) field contains the cumulative
  timephased baseline costs up to the status date or today's date.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setCalendar(net.sf.mpxj.ProjectCalendar)">setCalendar</a></strong>(<a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar)</code>
 <div class="block">Sets the name of the base calendar associated with this task.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/Task.html#setCalendarUniqueID(java.lang.Integer)">setCalendarUniqueID</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;id)</code>
+<div class="block">Set the calendar unique ID.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -5669,6 +5681,28 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparabl
 <div class="block">Retrieves the base calendar instance associated with this task.
  Note that this attribute appears in MPP9 and MSPDI files.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>ProjectCalendar instance</dd></dl>
+</li>
+</ul>
+<a name="setCalendarUniqueID(java.lang.Integer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCalendarUniqueID</h4>
+<pre>public&nbsp;void&nbsp;setCalendarUniqueID(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;id)</pre>
+<div class="block">Set the calendar unique ID.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>id</code> - calendar unique ID</dd></dl>
+</li>
+</ul>
+<a name="getCalendarUniqueID()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCalendarUniqueID</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;getCalendarUniqueID()</pre>
+<div class="block">Retrieve the calendar unique ID.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>calendar unique ID</dd></dl>
 </li>
 </ul>
 <a name="setCalendar(net.sf.mpxj.ProjectCalendar)">
