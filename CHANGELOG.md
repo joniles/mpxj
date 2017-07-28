@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0 (git master)
+
+## 6.1.0 (28/07/2017)
+* Provide Task.getEffectiveCalendar() method
+* Populate missing finish dates in MSPDI files
+
 ## 6.0.0 (22/07/2017)
 * Gracefully handle invalid calendar data in XER files.
 * Handle XER files containing blank lines.
@@ -22,7 +28,7 @@
 * Add support for reading Resource and Assignment UDFs from P6 (Contributed by Brandon Herzog).
 * Update P6 UDFs to fill into multiple field types to expand storage capacity, for example into TEXT and ENTERPRISE_TEXT (Contributed by Brandon Herzog).
 * Use only the WBS as activity code for WBS tasks instead of also appending name for P6 tasks (Contributed by Brandon Herzog).
-* Add the ablility to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).
+* Add the ability to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).
 * Add function to clear all exceptions from ProjectCalendar instances (Contributed by Brandon Herzog).
 * Reading the lag calendar scheduling option as the "LagCalendar" custom project property when reading from P6 (Contributed by Brandon Herzog).
 * Updated UDF parsing to handle values as booleans if the user chooses to map them to Flag fields (Contributed by Brandon Herzog).
