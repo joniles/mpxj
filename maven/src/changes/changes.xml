@@ -30,7 +30,7 @@
 			<action dev="brandonherzog" type="add">Add support for reading Resource and Assignment UDFs from P6 (Contributed by Brandon Herzog).</action>
 			<action dev="brandonherzog" type="update">Update P6 UDFs to fill into multiple field types to expand storage capacity, for example into TEXT and ENTERPRISE_TEXT (Contributed by Brandon Herzog).</action>
 			<action dev="brandonherzog" type="update">Use only the WBS as activity code for WBS tasks instead of also appending name for P6 tasks (Contributed by Brandon Herzog).</action>
-			<action dev="brandonherzog" type="add">Add the ablility to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="add">Add the ability to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).</action>
 			<action dev="brandonherzog" type="add">Add function to clear all exceptions from ProjectCalendar instances (Contributed by Brandon Herzog).</action>
 			<action dev="brandonherzog" type="update">Reading the lag calendar scheduling option as the "LagCalendar" custom project property when reading from P6 (Contributed by Brandon Herzog).</action>
 			<action dev="brandonherzog" type="update">Updated UDF parsing to handle values as booleans if the user chooses to map them to Flag fields (Contributed by Brandon Herzog).</action>
