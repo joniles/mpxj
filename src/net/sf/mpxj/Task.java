@@ -4179,11 +4179,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
                {
                   double durationValue = (duration.getDuration() * percentComplete) / 100d;
                   duration = Duration.getInstance(durationValue, duration.getUnits());
-                  ProjectCalendar calendar = getCalendar();
-                  if (calendar == null)
-                  {
-                     calendar = getParentFile().getDefaultCalendar();
-                  }
+                  ProjectCalendar calendar = getEffectiveCalendar();
                   value = calendar.getDate(actualStart, duration, true);
                }
                break;
@@ -4501,6 +4497,23 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public AccrueType getBaselineFixedCostAccrual(int baselineNumber)
    {
       return ((AccrueType) getCachedValue(selectField(TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS, baselineNumber)));
+   }
+
+   /**
+    * Retrieve the effective calendar for this task. If the task does not have
+    * a specific calendar associated with it, fall back to using the default calendar
+    * for the project.
+    *
+    * @return ProjectCalendar instance
+    */
+   public ProjectCalendar getEffectiveCalendar()
+   {
+      ProjectCalendar result = getCalendar();
+      if (result == null)
+      {
+         result = getParentFile().getDefaultCalendar();
+      }
+      return result;
    }
 
    /**

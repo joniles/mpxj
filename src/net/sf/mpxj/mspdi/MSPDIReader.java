@@ -1321,43 +1321,36 @@ public final class MSPDIReader extends AbstractProjectReader
       if (taskUID != null && resourceUID != null)
       {
          Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
-         Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
-
-         //System.out.println(task);
-         ProjectCalendar calendar = null;
-         if (resource != null)
-         {
-            calendar = resource.getResourceCalendar();
-         }
-
-         if (calendar == null)
-         {
-            calendar = task.getCalendar();
-         }
-
-         if (calendar == null)
-         {
-            calendar = m_projectFile.getDefaultCalendar();
-         }
-
-         LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
-         LinkedList<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
-         boolean raw = true;
-
-         if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
-         {
-            task.setSplits(new LinkedList<DateRange>());
-            normaliser.normalise(calendar, timephasedComplete);
-            normaliser.normalise(calendar, timephasedPlanned);
-            splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
-            raw = false;
-         }
-
-         DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedComplete, raw);
-         DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedPlanned, raw);
-
          if (task != null)
          {
+            Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
+            ProjectCalendar calendar = null;
+            if (resource != null)
+            {
+               calendar = resource.getResourceCalendar();
+            }
+
+            if (calendar == null || task.getIgnoreResourceCalendar())
+            {
+               calendar = task.getEffectiveCalendar();
+            }
+
+            LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
+            LinkedList<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+            boolean raw = true;
+
+            if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
+            {
+               task.setSplits(new LinkedList<DateRange>());
+               normaliser.normalise(calendar, timephasedComplete);
+               normaliser.normalise(calendar, timephasedPlanned);
+               splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
+               raw = false;
+            }
+
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedComplete, raw);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedPlanned, raw);
+
             ResourceAssignment mpx = task.addResourceAssignment(resource);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));

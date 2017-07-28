@@ -248,12 +248,7 @@ public final class DateHelper
 
       if (date1 != null && date2 != null)
       {
-         ProjectCalendar calendar = task.getCalendar();
-         if (calendar == null)
-         {
-            calendar = task.getParentFile().getDefaultCalendar();
-         }
-
+         ProjectCalendar calendar = task.getEffectiveCalendar();
          if (calendar != null)
          {
             variance = calendar.getWork(date1, date2, format);

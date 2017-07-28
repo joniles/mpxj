@@ -178,7 +178,6 @@ public class ResourceAssignmentFactory
             task.addResourceAssignment(assignment);
 
             Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
-
             ProjectCalendar calendar = null;
             if (resource != null)
             {
@@ -187,12 +186,7 @@ public class ResourceAssignmentFactory
 
             if (calendar == null || task.getIgnoreResourceCalendar())
             {
-               calendar = task.getCalendar();
-            }
-
-            if (calendar == null)
-            {
-               calendar = file.getDefaultCalendar();
+               calendar = task.getEffectiveCalendar();
             }
 
             assignment.setTimephasedBaselineWork(0, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE_WORK)), !useRawTimephasedData));
