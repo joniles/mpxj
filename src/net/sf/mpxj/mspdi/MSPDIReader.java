@@ -1128,6 +1128,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
          mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
 
+         validateFinishDate(mpx);
+
          // read last to ensure correct caching
          mpx.setTotalSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getTotalSlack()));
          mpx.setCritical(BooleanHelper.getBoolean(xml.isCritical()));
@@ -1145,6 +1147,37 @@ public final class MSPDIReader extends AbstractProjectReader
       m_eventManager.fireTaskReadEvent(mpx);
 
       return mpx;
+   }
+
+   /**
+    * When projectmanager.com exports schedules as MSPDI (via Aspose tasks)
+    * they do not have finish dates, just a start date and a duration.
+    * This method populates finish dates.
+    *
+    * @param task task to validate
+    */
+   private void validateFinishDate(Task task)
+   {
+      if (task.getFinish() == null)
+      {
+         Date startDate = task.getStart();
+         if (startDate != null)
+         {
+            if (task.getMilestone())
+            {
+               task.setFinish(startDate);
+            }
+            else
+            {
+               Duration duration = task.getDuration();
+               if (duration != null)
+               {
+                  ProjectCalendar calendar = task.getEffectiveCalendar();
+                  task.setFinish(calendar.getDate(startDate, duration, false));
+               }
+            }
+         }
+      }
    }
 
    /**
