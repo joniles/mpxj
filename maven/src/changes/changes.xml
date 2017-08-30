@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="6.2.0">
+		<release date="git master" version="6.1.1">
+			<action dev="joniles" type="fix">Ensure all classes in the gem are required</action>
 	    </release>
 	    <release date="28/07/2017" version="6.1.0">
 	    	<action dev="joniles" type="add">Provide Task.getEffectiveCalendar() method</action>
