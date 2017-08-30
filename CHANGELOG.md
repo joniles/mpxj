@@ -2,6 +2,9 @@
 
 ## 6.2.0 (git master)
 
+## 6.1.1 (30/08/2017)
+* Ensure all classes in the gem are required
+
 ## 6.1.0 (28/07/2017)
 * Provide Task.getEffectiveCalendar() method
 * Populate missing finish dates in MSPDI files
