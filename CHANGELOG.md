@@ -2,6 +2,9 @@
 
 ## 6.2.0 (git master)
 
+## 6.1.2 (git master)
+* Gracefully handle incomplete records in XER files.
+
 ## 6.1.1 (30/08/2017)
 * Ensure all classes in the gem are required
 
