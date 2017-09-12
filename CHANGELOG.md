@@ -2,7 +2,7 @@
 
 ## 6.2.0 (git master)
 
-## 6.1.2 (git master)
+## 6.1.2 (12/09/2017)
 * Gracefully handle incomplete records in XER files.
 
 ## 6.1.1 (30/08/2017)
