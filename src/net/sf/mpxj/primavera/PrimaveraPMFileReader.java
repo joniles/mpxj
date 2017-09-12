@@ -590,6 +590,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                   {
                      String activityID1 = (String) t1.getCurrentValue(activityIDField);
                      String activityID2 = (String) t2.getCurrentValue(activityIDField);
+
+                     if (activityID1 == null || activityID2 == null)
+                     {
+                        return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
+                     }
+
                      return activityID1.compareTo(activityID2);
                   }
 

@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-	    <release date="git master" version="6.2.0">
+		<release date="git master" version="6.2.0">
+	    </release>
+	    <release date="git master" version="6.1.2">
+	    	<action dev="joniles" type="update">Gracefully handle incomplete records in XER files.</action>
 	    </release>
 		<release date="30/08/2017" version="6.1.1">
 			<action dev="joniles" type="fix">Ensure all classes in the gem are required</action>

@@ -952,6 +952,12 @@ final class PrimaveraReader
                   {
                      String activityID1 = (String) t1.getCurrentValue(activityIDField);
                      String activityID2 = (String) t2.getCurrentValue(activityIDField);
+
+                     if (activityID1 == null || activityID2 == null)
+                     {
+                        return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
+                     }
+
                      return activityID1.compareTo(activityID2);
                   }
 
@@ -1545,7 +1551,7 @@ final class PrimaveraReader
       {
          if (remainingDuration == 0)
          {
-            if (row.getString("status_code").equals("TK_Complete"))
+            if ("TK_Complete".equals(row.getString("status_code")))
             {
                result = 100;
             }
