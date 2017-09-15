@@ -16,11 +16,6 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import net.sf.mpxj.DataType;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.NumberHelper;
-
 /**
  * <p>Java class for UDFAssignmentType complex type.
  *
@@ -306,52 +301,5 @@ import net.sf.mpxj.common.NumberHelper;
    public void setFinishDateValue(Date value)
    {
       this.finishDateValue = value;
-   }
-
-   /**
-    * @author kmahan
-    */
-   public static void setUserFieldValue(UDFAssignmentType udf, DataType dataType, Object value)
-   {
-      switch (dataType)
-      {
-         case DURATION:
-            udf.setTextValue(value != null ? ((Duration) value).toString() : "");
-            break;
-         case CURRENCY:
-            if (value != null && !(value instanceof Double))
-            {
-               value = Double.valueOf(((Number) value).doubleValue());
-            }
-            udf.setCostValue((Double) value);
-            break;
-         case BINARY:
-            udf.setTextValue("");
-            break;
-         case STRING:
-            // write empty string instead of null to make sure we get a value
-            // node in the XML output
-            udf.setTextValue(value != null ? (String) value : "");
-            break;
-         case DATE:
-            udf.setStartDateValue((Date) value);
-            break;
-         case NUMERIC:
-            if (value != null && !(value instanceof Double))
-            {
-               value = Double.valueOf(((Number) value).doubleValue());
-            }
-            udf.setDoubleValue((Double) value);
-            break;
-         case BOOLEAN:
-            udf.setIntegerValue(BooleanHelper.getBoolean((Boolean) value) ? Integer.valueOf(1) : Integer.valueOf(0));
-            break;
-         case INTEGER:
-         case SHORT:
-            udf.setIntegerValue(NumberHelper.getInteger((Number) value));
-            break;
-         default:
-            throw new RuntimeException("Unconvertible data type: " + dataType);
-      }
    }
 }
