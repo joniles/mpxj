@@ -26,15 +26,6 @@ package net.sf.mpxj.mpp;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.Day;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.Rate;
-import net.sf.mpxj.ScheduleFrom;
-import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.NumberHelper;
-
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -43,6 +34,15 @@ import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
+import net.sf.mpxj.Day;
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
+import net.sf.mpxj.ScheduleFrom;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class reads project properties data from MPP8, MPP9, and MPP12 files.
@@ -126,7 +126,7 @@ public final class ProjectPropertiesReader
          CustomProperties customProperties = documentSummaryInformation.getCustomProperties();
          if (customProperties != null)
          {
-            for (CustomProperty property : customProperties.values())
+            for (CustomProperty property : customProperties.properties())
             {
                customPropertiesMap.put(property.getName(), property.getValue());
             }

@@ -154,8 +154,8 @@
     <Reference Include="mpxj-test">
       <HintPath>..\..\lib.net\mpxj-test.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.16">
-      <HintPath>..\..\lib.net\poi-3.16.dll</HintPath>
+    <Reference Include="poi-3.17">
+      <HintPath>..\..\lib.net\poi-3.17.dll</HintPath>
     </Reference>
     <Reference Include="commons-collections4-4.1">
       <HintPath>..\..\lib.net\commons-collections4-4.1.dll</HintPath>

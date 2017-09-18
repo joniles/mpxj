@@ -6,7 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="6.2.0">
-		<action dev="joniles" type="update">Improve accuracy of calendar exception dates read from XER files and P6 database.</action>
+			<action dev="joniles" type="update">Updated to use POI 3.17.</action>
+			<action dev="joniles" type="update">Improve accuracy of calendar exception dates read from XER files and P6 database.</action>
 	    </release>
 	    <release date="12/09/2017" version="6.1.2">
 	    	<action dev="joniles" type="update">Gracefully handle incomplete records in XER files.</action>

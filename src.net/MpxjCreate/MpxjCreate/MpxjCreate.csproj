@@ -126,8 +126,8 @@
     <Reference Include="mpxj-for-csharp">
       <HintPath>..\..\..\lib.net\mpxj-for-csharp.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.16">
-      <HintPath>..\..\..\lib.net\poi-3.16.dll</HintPath>
+    <Reference Include="poi-3.17">
+      <HintPath>..\..\..\lib.net\poi-3.17.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.10.0">
       <HintPath>..\..\..\lib.net\rtfparserkit-1.10.0.dll</HintPath>
