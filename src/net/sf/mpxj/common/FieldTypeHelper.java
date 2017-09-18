@@ -28,6 +28,7 @@ import java.util.Locale;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintField;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ResourceField;
@@ -301,4 +302,54 @@ public final class FieldTypeHelper
 
       return field;
    }
+
+   /**
+    * Determines if this value is the default value for the given field type.
+    *
+    * @param type field type
+    * @param value value
+    * @return true if the value is not default
+    */
+   public static final boolean valueIsNotDefault(FieldType type, Object value)
+   {
+      boolean result = true;
+
+      if (value == null)
+      {
+         result = false;
+      }
+      else
+      {
+         DataType dataType = type.getDataType();
+         switch (dataType)
+         {
+            case BOOLEAN:
+            {
+               result = ((Boolean) value).booleanValue();
+               break;
+            }
+
+            case CURRENCY:
+            case NUMERIC:
+            {
+               result = !NumberHelper.equals(((Number) value).doubleValue(), 0.0, 0.00001);
+               break;
+            }
+
+            case DURATION:
+            {
+               result = (((Duration) value).getDuration() != 0);
+               break;
+            }
+
+            default:
+            {
+               break;
+            }
+         }
+      }
+
+      return result;
+   }
+
 }

@@ -3,6 +3,7 @@
 ## 6.2.0 (git master)
 * Updated to use POI 3.17.
 * Improve accuracy of calendar exception dates read from XER files and P6 database.
+* Only write non-default user-defined field values to a PMXML file.
 
 ## 6.1.2 (12/09/2017)
 * Gracefully handle incomplete records in XER files.

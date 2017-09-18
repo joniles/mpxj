@@ -46,7 +46,6 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomField;
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -814,7 +813,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          Object value = mpx.getCachedValue(mpxFieldID);
 
-         if (writeExtendedAttribute(value, mpxFieldID))
+         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
             m_extendedAttributesInUse.add(mpxFieldID);
 
@@ -827,57 +826,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
-   }
-
-   /**
-    * This method is called to determine if an extended attribute
-    * should be written to the file, or whether the default value
-    * can be assumed.
-    *
-    * @param value extended attribute value
-    * @param type extended attribute data type
-    * @return boolean flag
-    */
-   private boolean writeExtendedAttribute(Object value, FieldType type)
-   {
-      boolean write = true;
-
-      if (value == null)
-      {
-         write = false;
-      }
-      else
-      {
-         DataType dataType = type.getDataType();
-         switch (dataType)
-         {
-            case BOOLEAN:
-            {
-               write = ((Boolean) value).booleanValue();
-               break;
-            }
-
-            case CURRENCY:
-            case NUMERIC:
-            {
-               write = !NumberHelper.equals(((Number) value).doubleValue(), 0.0, 0.00001);
-               break;
-            }
-
-            case DURATION:
-            {
-               write = (((Duration) value).getDuration() != 0);
-               break;
-            }
-
-            default:
-            {
-               break;
-            }
-         }
-      }
-
-      return write;
    }
 
    /**
@@ -1263,7 +1211,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          Object value = mpx.getCachedValue(mpxFieldID);
 
-         if (writeExtendedAttribute(value, mpxFieldID))
+         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
             m_extendedAttributesInUse.add(mpxFieldID);
 
@@ -1611,7 +1559,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          Object value = mpx.getCachedValue(mpxFieldID);
 
-         if (writeExtendedAttribute(value, mpxFieldID))
+         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
             m_extendedAttributesInUse.add(mpxFieldID);
 
