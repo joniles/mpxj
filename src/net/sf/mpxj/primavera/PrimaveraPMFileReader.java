@@ -956,7 +956,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    private static final int NAMESPACE_SCOPE = 512;
    private static final String NAMESPACE_REGEX = "xmlns=\\\".*BusinessObjects\\\"";
-   private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects\"";
+   private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects\"";
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();
    static
