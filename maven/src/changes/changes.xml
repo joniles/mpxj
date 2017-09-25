@@ -8,6 +8,7 @@
 		<release date="git master" version="6.2.0">
 			<action dev="joniles" type="update">Updated to use POI 3.17.</action>
 			<action dev="joniles" type="update">Improve accuracy of calendar exception dates read from XER files and P6 database.</action>
+			<action dev="joniles" issue="320" type="fix">Date conversion fails in PrimaveraReader.</action>
 			<action dev="joniles" type="update">Only write non-default user-defined field values to a PMXML file.</action>
 			<action dev="joniles" type="update">Use Primavera P6 17.7 XML schema.</action>
 			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>
