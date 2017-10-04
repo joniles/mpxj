@@ -1,5 +1,5 @@
 /*
- * file:       CalendarFactory.java
+ * file:       AbstractCalendarFactory.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       2017-10-04
@@ -48,14 +48,14 @@ import net.sf.mpxj.common.Pair;
 /**
  * Shared code used to read calendar data from MPP files.
  */
-public class CalendarFactory
+public abstract class AbstractCalendarFactory
 {
    /**
     * Constructor.
     *
     * @param file parent ProjectFile instance
     */
-   public CalendarFactory(ProjectFile file)
+   public AbstractCalendarFactory(ProjectFile file)
    {
       m_file = file;
    }
@@ -70,12 +70,9 @@ public class CalendarFactory
     * @param projectProps project properties
     * @param inputStreamFactory input stream factory
     * @param resourceMap map of resources to calendars
-    * @param calendarIDOffset offset of the calendar ID
-    * @param baseIDOffset offset of the base calendar ID
-    * @param resourceIDOffset offset of the resource ID
     * @throws IOException
     */
-   public void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap, int calendarIDOffset, int baseIDOffset, int resourceIDOffset) throws IOException
+   public void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
    {
       DirectoryEntry calDir = (DirectoryEntry) projectDir.getEntry("TBkndCal");
 
@@ -120,8 +117,8 @@ public class CalendarFactory
             //
             while (offset + 12 <= fixedData.length)
             {
-               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + calendarIDOffset));
-               int baseCalendarID = MPPUtility.getInt(fixedData, offset + baseIDOffset);
+               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getCalendarIDOffset()));
+               int baseCalendarID = MPPUtility.getInt(fixedData, offset + getBaseIDOffset());
 
                if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
                {
@@ -157,7 +154,7 @@ public class CalendarFactory
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + resourceIDOffset));
+                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }
 
@@ -381,6 +378,27 @@ public class CalendarFactory
          }
       }
    }
+
+   /**
+    * Retrieve the Calendar ID offset.
+    *
+    * @return Calendar ID offset
+    */
+   protected abstract int getCalendarIDOffset();
+
+   /**
+    * Retrieve the Base Calendar ID offset.
+    *
+    * @return BaseCalendar ID offset
+    */
+   protected abstract int getBaseIDOffset();
+
+   /**
+    * Retrieve the Resource ID offset.
+    *
+    * @return Resource ID offset
+    */
+   protected abstract int getResourceIDOffset();
 
    private static final Integer CALENDAR_NAME = Integer.valueOf(1);
    private static final Integer CALENDAR_DATA = Integer.valueOf(8);

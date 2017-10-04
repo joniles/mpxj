@@ -919,8 +919,8 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      CalendarFactory factory = new CalendarFactory(m_file);
-      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap, 0, 4, 8);
+      AbstractCalendarFactory factory = new MPP12CalendarFactory(m_file);
+      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap);
    }
 
    /**

@@ -929,26 +929,8 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      int calendarIDOffset;
-      int baseIDOffset;
-      int resourceIDOffset;
-
-      // ID offsets appear to be different for 2013 files
-      if (NumberHelper.getInt(m_file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
-      {
-         calendarIDOffset = 8;
-         baseIDOffset = 0;
-         resourceIDOffset = 4;
-      }
-      else
-      {
-         calendarIDOffset = 0;
-         baseIDOffset = 4;
-         resourceIDOffset = 8;
-      }
-
-      CalendarFactory factory = new CalendarFactory(m_file);
-      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap, calendarIDOffset, baseIDOffset, resourceIDOffset);
+      AbstractCalendarFactory factory = new MPP14CalendarFactory(m_file);
+      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap);
    }
 
    /**
