@@ -177,11 +177,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the calculateFloatBasedOnFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCalculateFloatBasedOnFinishDate()
    {
@@ -190,11 +190,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the calculateFloatBasedOnFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCalculateFloatBasedOnFinishDate(Boolean value)
    {
@@ -203,11 +203,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the computeTotalFloatType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getComputeTotalFloatType()
    {
@@ -216,11 +216,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the computeTotalFloatType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setComputeTotalFloatType(String value)
    {
@@ -229,11 +229,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getCreateDate()
    {
@@ -242,11 +242,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateDate(Date value)
    {
@@ -255,11 +255,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCreateUser()
    {
@@ -268,11 +268,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateUser(String value)
    {
@@ -281,11 +281,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the criticalActivityFloatThreshold property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getCriticalActivityFloatThreshold()
    {
@@ -294,11 +294,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the criticalActivityFloatThreshold property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setCriticalActivityFloatThreshold(Double value)
    {
@@ -307,11 +307,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the criticalActivityPathType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCriticalActivityPathType()
    {
@@ -320,11 +320,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the criticalActivityPathType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCriticalActivityPathType(String value)
    {
@@ -333,11 +333,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the ignoreOtherProjectRelationships property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isIgnoreOtherProjectRelationships()
    {
@@ -346,11 +346,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the ignoreOtherProjectRelationships property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setIgnoreOtherProjectRelationships(Boolean value)
    {
@@ -359,11 +359,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastUpdateDate()
    {
@@ -372,11 +372,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateDate(Date value)
    {
@@ -385,11 +385,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getLastUpdateUser()
    {
@@ -398,11 +398,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateUser(String value)
    {
@@ -411,11 +411,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the levelResourcesDuringScheduling property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isLevelResourcesDuringScheduling()
    {
@@ -424,11 +424,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the levelResourcesDuringScheduling property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setLevelResourcesDuringScheduling(Boolean value)
    {
@@ -437,11 +437,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the makeOpenEndedActivitiesCritical property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isMakeOpenEndedActivitiesCritical()
    {
@@ -450,11 +450,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the makeOpenEndedActivitiesCritical property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setMakeOpenEndedActivitiesCritical(Boolean value)
    {
@@ -463,11 +463,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the maximumMultipleFloatPaths property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getMaximumMultipleFloatPaths()
    {
@@ -476,11 +476,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the maximumMultipleFloatPaths property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setMaximumMultipleFloatPaths(Integer value)
    {
@@ -489,11 +489,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the multipleFloatPathsEnabled property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isMultipleFloatPathsEnabled()
    {
@@ -502,11 +502,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the multipleFloatPathsEnabled property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setMultipleFloatPathsEnabled(Boolean value)
    {
@@ -515,11 +515,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the multipleFloatPathsEndingActivityObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getMultipleFloatPathsEndingActivityObjectId()
    {
@@ -528,11 +528,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the multipleFloatPathsEndingActivityObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setMultipleFloatPathsEndingActivityObjectId(Integer value)
    {
@@ -541,11 +541,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the multipleFloatPathsUseTotalFloat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isMultipleFloatPathsUseTotalFloat()
    {
@@ -554,11 +554,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the multipleFloatPathsUseTotalFloat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setMultipleFloatPathsUseTotalFloat(Boolean value)
    {
@@ -567,11 +567,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the outOfSequenceScheduleType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getOutOfSequenceScheduleType()
    {
@@ -580,11 +580,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the outOfSequenceScheduleType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOutOfSequenceScheduleType(String value)
    {
@@ -593,11 +593,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectId()
    {
@@ -606,11 +606,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectId(String value)
    {
@@ -619,11 +619,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjectObjectId()
    {
@@ -632,11 +632,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjectObjectId(Integer value)
    {
@@ -645,11 +645,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the recalculateResourceCosts property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isRecalculateResourceCosts()
    {
@@ -658,11 +658,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the recalculateResourceCosts property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setRecalculateResourceCosts(Boolean value)
    {
@@ -671,11 +671,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the relationshipLagCalendar property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getRelationshipLagCalendar()
    {
@@ -684,11 +684,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the relationshipLagCalendar property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRelationshipLagCalendar(String value)
    {
@@ -697,11 +697,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the startToStartLagCalculationType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isStartToStartLagCalculationType()
    {
@@ -710,11 +710,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the startToStartLagCalculationType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setStartToStartLagCalculationType(Boolean value)
    {
@@ -723,11 +723,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the useExpectedFinishDates property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isUseExpectedFinishDates()
    {
@@ -736,11 +736,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the useExpectedFinishDates property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setUseExpectedFinishDates(Boolean value)
    {
@@ -749,11 +749,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the userName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getUserName()
    {
@@ -762,11 +762,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the userName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setUserName(String value)
    {
@@ -775,11 +775,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the userObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getUserObjectId()
    {
@@ -788,11 +788,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the userObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setUserObjectId(Integer value)
    {

@@ -1106,11 +1106,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultActivityType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityDefaultActivityType()
    {
@@ -1119,11 +1119,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultActivityType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityDefaultActivityType(String value)
    {
@@ -1132,11 +1132,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultCalendarObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityDefaultCalendarObjectId()
    {
@@ -1145,11 +1145,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultCalendarObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityDefaultCalendarObjectId(Integer value)
    {
@@ -1158,11 +1158,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultCostAccountObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityDefaultCostAccountObjectId()
    {
@@ -1171,11 +1171,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultCostAccountObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityDefaultCostAccountObjectId(Integer value)
    {
@@ -1184,11 +1184,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultDurationType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityDefaultDurationType()
    {
@@ -1197,11 +1197,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultDurationType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityDefaultDurationType(String value)
    {
@@ -1210,11 +1210,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultPercentCompleteType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityDefaultPercentCompleteType()
    {
@@ -1223,11 +1223,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultPercentCompleteType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityDefaultPercentCompleteType(String value)
    {
@@ -1236,11 +1236,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultPricePerUnit property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getActivityDefaultPricePerUnit()
    {
@@ -1249,11 +1249,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultPricePerUnit property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setActivityDefaultPricePerUnit(Double value)
    {
@@ -1262,11 +1262,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityDefaultReviewRequired property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityDefaultReviewRequired()
    {
@@ -1275,11 +1275,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityDefaultReviewRequired property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityDefaultReviewRequired(Boolean value)
    {
@@ -1288,11 +1288,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityIdBasedOnSelectedActivity property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityIdBasedOnSelectedActivity()
    {
@@ -1301,11 +1301,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityIdBasedOnSelectedActivity property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityIdBasedOnSelectedActivity(Boolean value)
    {
@@ -1314,11 +1314,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityIdIncrement property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityIdIncrement()
    {
@@ -1327,11 +1327,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityIdIncrement property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityIdIncrement(Integer value)
    {
@@ -1340,11 +1340,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityIdPrefix property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityIdPrefix()
    {
@@ -1353,11 +1353,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityIdPrefix property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityIdPrefix(String value)
    {
@@ -1366,11 +1366,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityIdSuffix property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityIdSuffix()
    {
@@ -1379,11 +1379,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityIdSuffix property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityIdSuffix(Integer value)
    {
@@ -1392,11 +1392,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityPercentCompleteBasedOnActivitySteps property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityPercentCompleteBasedOnActivitySteps()
    {
@@ -1405,11 +1405,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityPercentCompleteBasedOnActivitySteps property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityPercentCompleteBasedOnActivitySteps(Boolean value)
    {
@@ -1418,11 +1418,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the addActualToRemaining property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAddActualToRemaining()
    {
@@ -1431,11 +1431,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the addActualToRemaining property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAddActualToRemaining(Boolean value)
    {
@@ -1444,11 +1444,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the addedBy property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getAddedBy()
    {
@@ -1457,11 +1457,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the addedBy property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAddedBy(String value)
    {
@@ -1470,11 +1470,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the allowStatusReview property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAllowStatusReview()
    {
@@ -1483,11 +1483,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the allowStatusReview property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAllowStatusReview(Boolean value)
    {
@@ -1496,11 +1496,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the annualDiscountRate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getAnnualDiscountRate()
    {
@@ -1509,11 +1509,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the annualDiscountRate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setAnnualDiscountRate(Double value)
    {
@@ -1522,11 +1522,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the anticipatedFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getAnticipatedFinishDate()
    {
@@ -1535,11 +1535,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the anticipatedFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAnticipatedFinishDate(Date value)
    {
@@ -1548,11 +1548,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the anticipatedStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getAnticipatedStartDate()
    {
@@ -1561,11 +1561,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the anticipatedStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAnticipatedStartDate(Date value)
    {
@@ -1574,11 +1574,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the assignmentDefaultDrivingFlag property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAssignmentDefaultDrivingFlag()
    {
@@ -1587,11 +1587,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the assignmentDefaultDrivingFlag property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAssignmentDefaultDrivingFlag(Boolean value)
    {
@@ -1600,11 +1600,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the assignmentDefaultRateType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getAssignmentDefaultRateType()
    {
@@ -1613,11 +1613,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the assignmentDefaultRateType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAssignmentDefaultRateType(String value)
    {
@@ -1626,11 +1626,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the baselineTypeName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getBaselineTypeName()
    {
@@ -1639,11 +1639,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the baselineTypeName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setBaselineTypeName(String value)
    {
@@ -1652,11 +1652,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the baselineTypeObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getBaselineTypeObjectId()
    {
@@ -1665,11 +1665,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the baselineTypeObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setBaselineTypeObjectId(Integer value)
    {
@@ -1678,11 +1678,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the checkOutDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getCheckOutDate()
    {
@@ -1691,11 +1691,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the checkOutDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCheckOutDate(Date value)
    {
@@ -1704,11 +1704,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the checkOutStatus property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckOutStatus()
    {
@@ -1717,11 +1717,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the checkOutStatus property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckOutStatus(Boolean value)
    {
@@ -1730,11 +1730,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the checkOutUserObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getCheckOutUserObjectId()
    {
@@ -1743,11 +1743,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the checkOutUserObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setCheckOutUserObjectId(Integer value)
    {
@@ -1756,11 +1756,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the containsSummaryData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isContainsSummaryData()
    {
@@ -1769,11 +1769,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the containsSummaryData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setContainsSummaryData(Boolean value)
    {
@@ -1782,11 +1782,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the costQuantityRecalculateFlag property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCostQuantityRecalculateFlag()
    {
@@ -1795,11 +1795,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the costQuantityRecalculateFlag property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCostQuantityRecalculateFlag(Boolean value)
    {
@@ -1808,11 +1808,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getCreateDate()
    {
@@ -1821,11 +1821,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateDate(Date value)
    {
@@ -1834,11 +1834,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCreateUser()
    {
@@ -1847,11 +1847,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateUser(String value)
    {
@@ -1860,11 +1860,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the criticalActivityFloatLimit property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getCriticalActivityFloatLimit()
    {
@@ -1873,11 +1873,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the criticalActivityFloatLimit property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setCriticalActivityFloatLimit(Double value)
    {
@@ -1886,11 +1886,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the criticalActivityPathType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCriticalActivityPathType()
    {
@@ -1899,11 +1899,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the criticalActivityPathType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCriticalActivityPathType(String value)
    {
@@ -1912,11 +1912,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the currentBudget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getCurrentBudget()
    {
@@ -1925,11 +1925,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the currentBudget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setCurrentBudget(Double value)
    {
@@ -1938,11 +1938,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the currentVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getCurrentVariance()
    {
@@ -1951,11 +1951,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the currentVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setCurrentVariance(Double value)
    {
@@ -1964,11 +1964,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the dataDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getDataDate()
    {
@@ -1977,11 +1977,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the dataDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDataDate(Date value)
    {
@@ -1990,11 +1990,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the dateAdded property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getDateAdded()
    {
@@ -2003,11 +2003,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the dateAdded property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDateAdded(Date value)
    {
@@ -2016,11 +2016,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the defaultPriceTimeUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDefaultPriceTimeUnits()
    {
@@ -2029,11 +2029,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the defaultPriceTimeUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultPriceTimeUnits(String value)
    {
@@ -2042,11 +2042,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the description property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDescription()
    {
@@ -2055,11 +2055,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the description property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDescription(String value)
    {
@@ -2068,11 +2068,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the discountApplicationPeriod property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDiscountApplicationPeriod()
    {
@@ -2081,11 +2081,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the discountApplicationPeriod property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDiscountApplicationPeriod(String value)
    {
@@ -2094,11 +2094,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the distributedCurrentBudget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getDistributedCurrentBudget()
    {
@@ -2107,11 +2107,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the distributedCurrentBudget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setDistributedCurrentBudget(Double value)
    {
@@ -2120,11 +2120,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the enablePublication property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isEnablePublication()
    {
@@ -2133,11 +2133,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the enablePublication property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setEnablePublication(Boolean value)
    {
@@ -2146,11 +2146,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the enableSummarization property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isEnableSummarization()
    {
@@ -2159,11 +2159,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the enableSummarization property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setEnableSummarization(Boolean value)
    {
@@ -2172,11 +2172,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the finishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getFinishDate()
    {
@@ -2185,11 +2185,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the finishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFinishDate(Date value)
    {
@@ -2198,11 +2198,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the fiscalYearStartMonth property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getFiscalYearStartMonth()
    {
@@ -2211,11 +2211,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the fiscalYearStartMonth property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setFiscalYearStartMonth(Integer value)
    {
@@ -2224,11 +2224,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the forecastFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getForecastFinishDate()
    {
@@ -2237,11 +2237,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the forecastFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setForecastFinishDate(Date value)
    {
@@ -2250,11 +2250,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the forecastStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getForecastStartDate()
    {
@@ -2263,11 +2263,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the forecastStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setForecastStartDate(Date value)
    {
@@ -2276,11 +2276,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the guid property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getGUID()
    {
@@ -2289,11 +2289,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the guid property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setGUID(String value)
    {
@@ -2302,11 +2302,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the hasFutureBucketData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isHasFutureBucketData()
    {
@@ -2315,11 +2315,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the hasFutureBucketData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setHasFutureBucketData(Boolean value)
    {
@@ -2328,11 +2328,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the historyInterval property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getHistoryInterval()
    {
@@ -2341,11 +2341,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the historyInterval property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHistoryInterval(String value)
    {
@@ -2354,11 +2354,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the historyLevel property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getHistoryLevel()
    {
@@ -2367,11 +2367,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the historyLevel property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHistoryLevel(String value)
    {
@@ -2380,11 +2380,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getId()
    {
@@ -2393,11 +2393,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setId(String value)
    {
@@ -2406,11 +2406,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the independentETCLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getIndependentETCLaborUnits()
    {
@@ -2419,11 +2419,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the independentETCLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setIndependentETCLaborUnits(Double value)
    {
@@ -2432,11 +2432,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the independentETCTotalCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getIndependentETCTotalCost()
    {
@@ -2445,11 +2445,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the independentETCTotalCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setIndependentETCTotalCost(Double value)
    {
@@ -2458,11 +2458,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastBaselineUpdateDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastBaselineUpdateDate()
    {
@@ -2471,11 +2471,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastBaselineUpdateDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastBaselineUpdateDate(Date value)
    {
@@ -2484,11 +2484,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastFinancialPeriodObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLastFinancialPeriodObjectId()
    {
@@ -2497,11 +2497,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastFinancialPeriodObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLastFinancialPeriodObjectId(Integer value)
    {
@@ -2510,11 +2510,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastLevelDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastLevelDate()
    {
@@ -2523,11 +2523,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastLevelDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastLevelDate(Date value)
    {
@@ -2536,11 +2536,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastPublishedOn property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastPublishedOn()
    {
@@ -2549,11 +2549,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastPublishedOn property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastPublishedOn(Date value)
    {
@@ -2562,11 +2562,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastScheduleDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastScheduleDate()
    {
@@ -2575,11 +2575,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastScheduleDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastScheduleDate(Date value)
    {
@@ -2588,11 +2588,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastSummarizedDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastSummarizedDate()
    {
@@ -2601,11 +2601,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastSummarizedDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastSummarizedDate(Date value)
    {
@@ -2614,11 +2614,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateBaselineOptions property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getLastUpdateBaselineOptions()
    {
@@ -2627,11 +2627,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateBaselineOptions property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateBaselineOptions(String value)
    {
@@ -2640,11 +2640,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastUpdateDate()
    {
@@ -2653,11 +2653,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateDate(Date value)
    {
@@ -2666,11 +2666,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getLastUpdateUser()
    {
@@ -2679,11 +2679,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateUser(String value)
    {
@@ -2692,11 +2692,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the levelingPriority property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLevelingPriority()
    {
@@ -2705,11 +2705,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the levelingPriority property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLevelingPriority(Integer value)
    {
@@ -2718,11 +2718,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the linkActualToActualThisPeriod property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isLinkActualToActualThisPeriod()
    {
@@ -2731,11 +2731,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the linkActualToActualThisPeriod property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setLinkActualToActualThisPeriod(Boolean value)
    {
@@ -2744,11 +2744,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the linkPercentCompleteWithActual property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isLinkPercentCompleteWithActual()
    {
@@ -2757,11 +2757,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the linkPercentCompleteWithActual property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setLinkPercentCompleteWithActual(Boolean value)
    {
@@ -2770,11 +2770,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the linkPlannedAndAtCompletionFlag property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isLinkPlannedAndAtCompletionFlag()
    {
@@ -2783,11 +2783,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the linkPlannedAndAtCompletionFlag property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setLinkPlannedAndAtCompletionFlag(Boolean value)
    {
@@ -2796,11 +2796,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the locationName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getLocationName()
    {
@@ -2809,11 +2809,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the locationName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLocationName(String value)
    {
@@ -2822,11 +2822,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the locationObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLocationObjectId()
    {
@@ -2835,11 +2835,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the locationObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLocationObjectId(Integer value)
    {
@@ -2848,11 +2848,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the mustFinishByDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getMustFinishByDate()
    {
@@ -2861,11 +2861,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the mustFinishByDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMustFinishByDate(Date value)
    {
@@ -2874,11 +2874,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -2887,11 +2887,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -2900,11 +2900,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the obsName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getOBSName()
    {
@@ -2913,11 +2913,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the obsName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOBSName(String value)
    {
@@ -2926,11 +2926,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the obsObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getOBSObjectId()
    {
@@ -2939,11 +2939,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the obsObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setOBSObjectId(Integer value)
    {
@@ -2952,11 +2952,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -2965,11 +2965,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -2978,11 +2978,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the originalBudget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getOriginalBudget()
    {
@@ -2991,11 +2991,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the originalBudget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setOriginalBudget(Double value)
    {
@@ -3004,11 +3004,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the originalProjectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getOriginalProjectObjectId()
    {
@@ -3017,11 +3017,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the originalProjectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setOriginalProjectObjectId(Integer value)
    {
@@ -3030,11 +3030,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the ownerResourceObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getOwnerResourceObjectId()
    {
@@ -3043,11 +3043,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the ownerResourceObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setOwnerResourceObjectId(Integer value)
    {
@@ -3056,11 +3056,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the parentEPSObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getParentEPSObjectId()
    {
@@ -3069,11 +3069,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the parentEPSObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setParentEPSObjectId(Integer value)
    {
@@ -3082,11 +3082,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the plannedStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getPlannedStartDate()
    {
@@ -3095,11 +3095,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the plannedStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPlannedStartDate(Date value)
    {
@@ -3108,11 +3108,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the primaryResourcesCanMarkActivitiesAsCompleted property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isPrimaryResourcesCanMarkActivitiesAsCompleted()
    {
@@ -3121,11 +3121,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the primaryResourcesCanMarkActivitiesAsCompleted property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean value)
    {
@@ -3134,11 +3134,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectForecastStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getProjectForecastStartDate()
    {
@@ -3147,11 +3147,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectForecastStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectForecastStartDate(Date value)
    {
@@ -3160,11 +3160,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectScheduleType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectScheduleType()
    {
@@ -3173,11 +3173,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectScheduleType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectScheduleType(String value)
    {
@@ -3186,11 +3186,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the proposedBudget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getProposedBudget()
    {
@@ -3199,11 +3199,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the proposedBudget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setProposedBudget(Double value)
    {
@@ -3212,11 +3212,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the publicationPriority property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getPublicationPriority()
    {
@@ -3225,11 +3225,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the publicationPriority property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setPublicationPriority(Integer value)
    {
@@ -3238,11 +3238,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resetPlannedToRemainingFlag property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isResetPlannedToRemainingFlag()
    {
@@ -3251,11 +3251,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resetPlannedToRemainingFlag property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setResetPlannedToRemainingFlag(Boolean value)
    {
@@ -3264,11 +3264,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceCanBeAssignedToSameActivityMoreThanOnce property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isResourceCanBeAssignedToSameActivityMoreThanOnce()
    {
@@ -3277,11 +3277,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourceCanBeAssignedToSameActivityMoreThanOnce property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean value)
    {
@@ -3290,11 +3290,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourcesCanAssignThemselvesToActivities property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isResourcesCanAssignThemselvesToActivities()
    {
@@ -3303,11 +3303,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourcesCanAssignThemselvesToActivities property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setResourcesCanAssignThemselvesToActivities(Boolean value)
    {
@@ -3316,11 +3316,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourcesCanEditAssignmentPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isResourcesCanEditAssignmentPercentComplete()
    {
@@ -3329,11 +3329,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourcesCanEditAssignmentPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setResourcesCanEditAssignmentPercentComplete(Boolean value)
    {
@@ -3342,11 +3342,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskExposure property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getRiskExposure()
    {
@@ -3355,11 +3355,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the riskExposure property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setRiskExposure(Double value)
    {
@@ -3368,11 +3368,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskLevel property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getRiskLevel()
    {
@@ -3381,11 +3381,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the riskLevel property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRiskLevel(String value)
    {
@@ -3394,11 +3394,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskMatrixObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getRiskMatrixObjectId()
    {
@@ -3407,11 +3407,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the riskMatrixObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setRiskMatrixObjectId(Integer value)
    {
@@ -3420,11 +3420,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskScore property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getRiskScore()
    {
@@ -3433,11 +3433,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the riskScore property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setRiskScore(Integer value)
    {
@@ -3446,11 +3446,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the scheduledFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getScheduledFinishDate()
    {
@@ -3459,11 +3459,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the scheduledFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setScheduledFinishDate(Date value)
    {
@@ -3472,11 +3472,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the startDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getStartDate()
    {
@@ -3485,11 +3485,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the startDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStartDate(Date value)
    {
@@ -3498,11 +3498,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the status property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getStatus()
    {
@@ -3511,11 +3511,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the status property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStatus(String value)
    {
@@ -3524,11 +3524,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the statusReviewerName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getStatusReviewerName()
    {
@@ -3537,11 +3537,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the statusReviewerName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStatusReviewerName(String value)
    {
@@ -3550,11 +3550,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the statusReviewerObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getStatusReviewerObjectId()
    {
@@ -3563,11 +3563,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the statusReviewerObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setStatusReviewerObjectId(Integer value)
    {
@@ -3576,11 +3576,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the strategicPriority property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getStrategicPriority()
    {
@@ -3589,11 +3589,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the strategicPriority property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setStrategicPriority(Integer value)
    {
@@ -3602,11 +3602,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarizeToWBSLevel property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummarizeToWBSLevel()
    {
@@ -3615,11 +3615,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarizeToWBSLevel property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummarizeToWBSLevel(Integer value)
    {
@@ -3628,11 +3628,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarizedDataDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummarizedDataDate()
    {
@@ -3641,11 +3641,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarizedDataDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummarizedDataDate(Date value)
    {
@@ -3654,11 +3654,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAccountingVarianceByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAccountingVarianceByCost()
    {
@@ -3667,11 +3667,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAccountingVarianceByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAccountingVarianceByCost(Double value)
    {
@@ -3680,11 +3680,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAccountingVarianceByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAccountingVarianceByLaborUnits()
    {
@@ -3693,11 +3693,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAccountingVarianceByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAccountingVarianceByLaborUnits(Double value)
    {
@@ -3706,11 +3706,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryActivityCount()
    {
@@ -3719,11 +3719,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryActivityCount(Integer value)
    {
@@ -3732,11 +3732,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualDuration()
    {
@@ -3745,11 +3745,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualDuration(Double value)
    {
@@ -3758,11 +3758,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualExpenseCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualExpenseCost()
    {
@@ -3771,11 +3771,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualExpenseCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualExpenseCost(Double value)
    {
@@ -3784,11 +3784,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryActualFinishDate()
    {
@@ -3797,11 +3797,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryActualFinishDate(Date value)
    {
@@ -3810,11 +3810,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualLaborCost()
    {
@@ -3823,11 +3823,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualLaborCost(Double value)
    {
@@ -3836,11 +3836,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualLaborUnits()
    {
@@ -3849,11 +3849,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualLaborUnits(Double value)
    {
@@ -3862,11 +3862,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualMaterialCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualMaterialCost()
    {
@@ -3875,11 +3875,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualMaterialCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualMaterialCost(Double value)
    {
@@ -3888,11 +3888,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualNonLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualNonLaborCost()
    {
@@ -3901,11 +3901,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualNonLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualNonLaborCost(Double value)
    {
@@ -3914,11 +3914,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualNonLaborUnits()
    {
@@ -3927,11 +3927,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualNonLaborUnits(Double value)
    {
@@ -3940,11 +3940,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryActualStartDate()
    {
@@ -3953,11 +3953,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryActualStartDate(Date value)
    {
@@ -3966,11 +3966,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualThisPeriodCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualThisPeriodCost()
    {
@@ -3979,11 +3979,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualThisPeriodCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualThisPeriodCost(Double value)
    {
@@ -3992,11 +3992,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualThisPeriodLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualThisPeriodLaborCost()
    {
@@ -4005,11 +4005,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualThisPeriodLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualThisPeriodLaborCost(Double value)
    {
@@ -4018,11 +4018,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualThisPeriodLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualThisPeriodLaborUnits()
    {
@@ -4031,11 +4031,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualThisPeriodLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualThisPeriodLaborUnits(Double value)
    {
@@ -4044,11 +4044,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualThisPeriodMaterialCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualThisPeriodMaterialCost()
    {
@@ -4057,11 +4057,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualThisPeriodMaterialCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualThisPeriodMaterialCost(Double value)
    {
@@ -4070,11 +4070,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualThisPeriodNonLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualThisPeriodNonLaborCost()
    {
@@ -4083,11 +4083,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualThisPeriodNonLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualThisPeriodNonLaborCost(Double value)
    {
@@ -4096,11 +4096,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualThisPeriodNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualThisPeriodNonLaborUnits()
    {
@@ -4109,11 +4109,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualThisPeriodNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualThisPeriodNonLaborUnits(Double value)
    {
@@ -4122,11 +4122,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualTotalCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualTotalCost()
    {
@@ -4135,11 +4135,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualTotalCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualTotalCost(Double value)
    {
@@ -4148,11 +4148,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualValueByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualValueByCost()
    {
@@ -4161,11 +4161,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualValueByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualValueByCost(Double value)
    {
@@ -4174,11 +4174,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualValueByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryActualValueByLaborUnits()
    {
@@ -4187,11 +4187,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualValueByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryActualValueByLaborUnits(Double value)
    {
@@ -4200,11 +4200,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionDuration()
    {
@@ -4213,11 +4213,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionDuration(Double value)
    {
@@ -4226,11 +4226,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionExpenseCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionExpenseCost()
    {
@@ -4239,11 +4239,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionExpenseCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionExpenseCost(Double value)
    {
@@ -4252,11 +4252,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionLaborCost()
    {
@@ -4265,11 +4265,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionLaborCost(Double value)
    {
@@ -4278,11 +4278,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionLaborUnits()
    {
@@ -4291,11 +4291,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionLaborUnits(Double value)
    {
@@ -4304,11 +4304,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionMaterialCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionMaterialCost()
    {
@@ -4317,11 +4317,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionMaterialCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionMaterialCost(Double value)
    {
@@ -4330,11 +4330,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionNonLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionNonLaborCost()
    {
@@ -4343,11 +4343,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionNonLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionNonLaborCost(Double value)
    {
@@ -4356,11 +4356,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionNonLaborUnits()
    {
@@ -4369,11 +4369,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionNonLaborUnits(Double value)
    {
@@ -4382,11 +4382,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionTotalCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionTotalCost()
    {
@@ -4395,11 +4395,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionTotalCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionTotalCost(Double value)
    {
@@ -4408,11 +4408,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryAtCompletionTotalCostVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryAtCompletionTotalCostVariance()
    {
@@ -4421,11 +4421,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryAtCompletionTotalCostVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryAtCompletionTotalCostVariance(Double value)
    {
@@ -4434,11 +4434,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineCompletedActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryBaselineCompletedActivityCount()
    {
@@ -4447,11 +4447,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineCompletedActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryBaselineCompletedActivityCount(Integer value)
    {
@@ -4460,11 +4460,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineDuration()
    {
@@ -4473,11 +4473,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineDuration(Double value)
    {
@@ -4486,11 +4486,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineExpenseCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineExpenseCost()
    {
@@ -4499,11 +4499,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineExpenseCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineExpenseCost(Double value)
    {
@@ -4512,11 +4512,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryBaselineFinishDate()
    {
@@ -4525,11 +4525,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryBaselineFinishDate(Date value)
    {
@@ -4538,11 +4538,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineInProgressActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryBaselineInProgressActivityCount()
    {
@@ -4551,11 +4551,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineInProgressActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryBaselineInProgressActivityCount(Integer value)
    {
@@ -4564,11 +4564,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineLaborCost()
    {
@@ -4577,11 +4577,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineLaborCost(Double value)
    {
@@ -4590,11 +4590,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineLaborUnits()
    {
@@ -4603,11 +4603,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineLaborUnits(Double value)
    {
@@ -4616,11 +4616,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineMaterialCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineMaterialCost()
    {
@@ -4629,11 +4629,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineMaterialCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineMaterialCost(Double value)
    {
@@ -4642,11 +4642,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineNonLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineNonLaborCost()
    {
@@ -4655,11 +4655,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineNonLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineNonLaborCost(Double value)
    {
@@ -4668,11 +4668,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineNonLaborUnits()
    {
@@ -4681,11 +4681,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineNonLaborUnits(Double value)
    {
@@ -4694,11 +4694,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineNotStartedActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryBaselineNotStartedActivityCount()
    {
@@ -4707,11 +4707,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineNotStartedActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryBaselineNotStartedActivityCount(Integer value)
    {
@@ -4720,11 +4720,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryBaselineStartDate()
    {
@@ -4733,11 +4733,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryBaselineStartDate(Date value)
    {
@@ -4746,11 +4746,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBaselineTotalCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBaselineTotalCost()
    {
@@ -4759,11 +4759,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBaselineTotalCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBaselineTotalCost(Double value)
    {
@@ -4772,11 +4772,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBudgetAtCompletionByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBudgetAtCompletionByCost()
    {
@@ -4785,11 +4785,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBudgetAtCompletionByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBudgetAtCompletionByCost(Double value)
    {
@@ -4798,11 +4798,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryBudgetAtCompletionByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryBudgetAtCompletionByLaborUnits()
    {
@@ -4811,11 +4811,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryBudgetAtCompletionByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryBudgetAtCompletionByLaborUnits(Double value)
    {
@@ -4824,11 +4824,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCompletedActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryCompletedActivityCount()
    {
@@ -4837,11 +4837,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCompletedActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryCompletedActivityCount(Integer value)
    {
@@ -4850,11 +4850,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostPercentComplete()
    {
@@ -4863,11 +4863,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostPercentComplete(Double value)
    {
@@ -4876,11 +4876,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostPercentOfPlanned property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostPercentOfPlanned()
    {
@@ -4889,11 +4889,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostPercentOfPlanned property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostPercentOfPlanned(Double value)
    {
@@ -4902,11 +4902,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostPerformanceIndexByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostPerformanceIndexByCost()
    {
@@ -4915,11 +4915,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostPerformanceIndexByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostPerformanceIndexByCost(Double value)
    {
@@ -4928,11 +4928,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostPerformanceIndexByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostPerformanceIndexByLaborUnits()
    {
@@ -4941,11 +4941,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostPerformanceIndexByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostPerformanceIndexByLaborUnits(Double value)
    {
@@ -4954,11 +4954,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostVarianceByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostVarianceByCost()
    {
@@ -4967,11 +4967,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostVarianceByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostVarianceByCost(Double value)
    {
@@ -4980,11 +4980,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostVarianceByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostVarianceByLaborUnits()
    {
@@ -4993,11 +4993,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostVarianceByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostVarianceByLaborUnits(Double value)
    {
@@ -5006,11 +5006,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostVarianceIndex property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostVarianceIndex()
    {
@@ -5019,11 +5019,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostVarianceIndex property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostVarianceIndex(Double value)
    {
@@ -5032,11 +5032,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostVarianceIndexByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostVarianceIndexByCost()
    {
@@ -5045,11 +5045,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostVarianceIndexByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostVarianceIndexByCost(Double value)
    {
@@ -5058,11 +5058,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryCostVarianceIndexByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryCostVarianceIndexByLaborUnits()
    {
@@ -5071,11 +5071,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryCostVarianceIndexByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryCostVarianceIndexByLaborUnits(Double value)
    {
@@ -5084,11 +5084,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryDurationPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryDurationPercentComplete()
    {
@@ -5097,11 +5097,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryDurationPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryDurationPercentComplete(Double value)
    {
@@ -5110,11 +5110,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryDurationPercentOfPlanned property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryDurationPercentOfPlanned()
    {
@@ -5123,11 +5123,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryDurationPercentOfPlanned property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryDurationPercentOfPlanned(Double value)
    {
@@ -5136,11 +5136,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryDurationVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryDurationVariance()
    {
@@ -5149,11 +5149,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryDurationVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryDurationVariance(Double value)
    {
@@ -5162,11 +5162,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEarnedValueByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEarnedValueByCost()
    {
@@ -5175,11 +5175,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEarnedValueByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEarnedValueByCost(Double value)
    {
@@ -5188,11 +5188,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEarnedValueByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEarnedValueByLaborUnits()
    {
@@ -5201,11 +5201,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEarnedValueByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEarnedValueByLaborUnits(Double value)
    {
@@ -5214,11 +5214,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEstimateAtCompletionByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEstimateAtCompletionByCost()
    {
@@ -5227,11 +5227,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEstimateAtCompletionByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEstimateAtCompletionByCost(Double value)
    {
@@ -5240,11 +5240,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEstimateAtCompletionByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEstimateAtCompletionByLaborUnits()
    {
@@ -5253,11 +5253,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEstimateAtCompletionByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEstimateAtCompletionByLaborUnits(Double value)
    {
@@ -5266,11 +5266,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEstimateAtCompletionHighPercentByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEstimateAtCompletionHighPercentByLaborUnits()
    {
@@ -5279,11 +5279,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEstimateAtCompletionHighPercentByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEstimateAtCompletionHighPercentByLaborUnits(Double value)
    {
@@ -5292,11 +5292,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEstimateAtCompletionLowPercentByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEstimateAtCompletionLowPercentByLaborUnits()
    {
@@ -5305,11 +5305,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEstimateAtCompletionLowPercentByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEstimateAtCompletionLowPercentByLaborUnits(Double value)
    {
@@ -5318,11 +5318,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEstimateToCompleteByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEstimateToCompleteByCost()
    {
@@ -5331,11 +5331,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEstimateToCompleteByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEstimateToCompleteByCost(Double value)
    {
@@ -5344,11 +5344,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryEstimateToCompleteByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryEstimateToCompleteByLaborUnits()
    {
@@ -5357,11 +5357,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryEstimateToCompleteByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryEstimateToCompleteByLaborUnits(Double value)
    {
@@ -5370,11 +5370,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryExpenseCostPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryExpenseCostPercentComplete()
    {
@@ -5383,11 +5383,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryExpenseCostPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryExpenseCostPercentComplete(Double value)
    {
@@ -5396,11 +5396,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryExpenseCostVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryExpenseCostVariance()
    {
@@ -5409,11 +5409,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryExpenseCostVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryExpenseCostVariance(Double value)
    {
@@ -5422,11 +5422,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryFinishDateVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryFinishDateVariance()
    {
@@ -5435,11 +5435,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryFinishDateVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryFinishDateVariance(Double value)
    {
@@ -5448,11 +5448,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryInProgressActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryInProgressActivityCount()
    {
@@ -5461,11 +5461,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryInProgressActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryInProgressActivityCount(Integer value)
    {
@@ -5474,11 +5474,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryLaborCostPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryLaborCostPercentComplete()
    {
@@ -5487,11 +5487,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryLaborCostPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryLaborCostPercentComplete(Double value)
    {
@@ -5500,11 +5500,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryLaborCostVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryLaborCostVariance()
    {
@@ -5513,11 +5513,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryLaborCostVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryLaborCostVariance(Double value)
    {
@@ -5526,11 +5526,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryLaborUnitsPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryLaborUnitsPercentComplete()
    {
@@ -5539,11 +5539,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryLaborUnitsPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryLaborUnitsPercentComplete(Double value)
    {
@@ -5552,11 +5552,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryLaborUnitsVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryLaborUnitsVariance()
    {
@@ -5565,11 +5565,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryLaborUnitsVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryLaborUnitsVariance(Double value)
    {
@@ -5578,11 +5578,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryMaterialCostPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryMaterialCostPercentComplete()
    {
@@ -5591,11 +5591,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryMaterialCostPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryMaterialCostPercentComplete(Double value)
    {
@@ -5604,11 +5604,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryMaterialCostVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryMaterialCostVariance()
    {
@@ -5617,11 +5617,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryMaterialCostVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryMaterialCostVariance(Double value)
    {
@@ -5630,11 +5630,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryNonLaborCostPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryNonLaborCostPercentComplete()
    {
@@ -5643,11 +5643,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryNonLaborCostPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryNonLaborCostPercentComplete(Double value)
    {
@@ -5656,11 +5656,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryNonLaborCostVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryNonLaborCostVariance()
    {
@@ -5669,11 +5669,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryNonLaborCostVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryNonLaborCostVariance(Double value)
    {
@@ -5682,11 +5682,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryNonLaborUnitsPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryNonLaborUnitsPercentComplete()
    {
@@ -5695,11 +5695,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryNonLaborUnitsPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryNonLaborUnitsPercentComplete(Double value)
    {
@@ -5708,11 +5708,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryNonLaborUnitsVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryNonLaborUnitsVariance()
    {
@@ -5721,11 +5721,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryNonLaborUnitsVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryNonLaborUnitsVariance(Double value)
    {
@@ -5734,11 +5734,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryNotStartedActivityCount property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSummaryNotStartedActivityCount()
    {
@@ -5747,11 +5747,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryNotStartedActivityCount property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSummaryNotStartedActivityCount(Integer value)
    {
@@ -5760,11 +5760,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPerformancePercentCompleteByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPerformancePercentCompleteByLaborUnits()
    {
@@ -5773,11 +5773,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPerformancePercentCompleteByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPerformancePercentCompleteByLaborUnits(Double value)
    {
@@ -5786,11 +5786,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedCost()
    {
@@ -5799,11 +5799,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedCost(Double value)
    {
@@ -5812,11 +5812,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedDuration()
    {
@@ -5825,11 +5825,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedDuration(Double value)
    {
@@ -5838,11 +5838,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedExpenseCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedExpenseCost()
    {
@@ -5851,11 +5851,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedExpenseCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedExpenseCost(Double value)
    {
@@ -5864,11 +5864,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryPlannedFinishDate()
    {
@@ -5877,11 +5877,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryPlannedFinishDate(Date value)
    {
@@ -5890,11 +5890,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedLaborCost()
    {
@@ -5903,11 +5903,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedLaborCost(Double value)
    {
@@ -5916,11 +5916,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedLaborUnits()
    {
@@ -5929,11 +5929,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedLaborUnits(Double value)
    {
@@ -5942,11 +5942,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedMaterialCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedMaterialCost()
    {
@@ -5955,11 +5955,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedMaterialCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedMaterialCost(Double value)
    {
@@ -5968,11 +5968,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedNonLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedNonLaborCost()
    {
@@ -5981,11 +5981,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedNonLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedNonLaborCost(Double value)
    {
@@ -5994,11 +5994,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedNonLaborUnits()
    {
@@ -6007,11 +6007,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedNonLaborUnits(Double value)
    {
@@ -6020,11 +6020,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryPlannedStartDate()
    {
@@ -6033,11 +6033,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryPlannedStartDate(Date value)
    {
@@ -6046,11 +6046,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedValueByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedValueByCost()
    {
@@ -6059,11 +6059,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedValueByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedValueByCost(Double value)
    {
@@ -6072,11 +6072,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedValueByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryPlannedValueByLaborUnits()
    {
@@ -6085,11 +6085,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedValueByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryPlannedValueByLaborUnits(Double value)
    {
@@ -6098,11 +6098,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryProgressFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryProgressFinishDate()
    {
@@ -6111,11 +6111,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryProgressFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryProgressFinishDate(Date value)
    {
@@ -6124,11 +6124,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingDuration()
    {
@@ -6137,11 +6137,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingDuration(Double value)
    {
@@ -6150,11 +6150,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingExpenseCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingExpenseCost()
    {
@@ -6163,11 +6163,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingExpenseCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingExpenseCost(Double value)
    {
@@ -6176,11 +6176,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryRemainingFinishDate()
    {
@@ -6189,11 +6189,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryRemainingFinishDate(Date value)
    {
@@ -6202,11 +6202,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingLaborCost()
    {
@@ -6215,11 +6215,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingLaborCost(Double value)
    {
@@ -6228,11 +6228,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingLaborUnits()
    {
@@ -6241,11 +6241,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingLaborUnits(Double value)
    {
@@ -6254,11 +6254,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingMaterialCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingMaterialCost()
    {
@@ -6267,11 +6267,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingMaterialCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingMaterialCost(Double value)
    {
@@ -6280,11 +6280,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingNonLaborCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingNonLaborCost()
    {
@@ -6293,11 +6293,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingNonLaborCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingNonLaborCost(Double value)
    {
@@ -6306,11 +6306,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingNonLaborUnits()
    {
@@ -6319,11 +6319,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingNonLaborUnits(Double value)
    {
@@ -6332,11 +6332,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getSummaryRemainingStartDate()
    {
@@ -6345,11 +6345,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryRemainingStartDate(Date value)
    {
@@ -6358,11 +6358,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingTotalCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryRemainingTotalCost()
    {
@@ -6371,11 +6371,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingTotalCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryRemainingTotalCost(Double value)
    {
@@ -6384,11 +6384,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarySchedulePercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummarySchedulePercentComplete()
    {
@@ -6397,11 +6397,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarySchedulePercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummarySchedulePercentComplete(Double value)
    {
@@ -6410,11 +6410,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarySchedulePercentCompleteByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummarySchedulePercentCompleteByCost()
    {
@@ -6423,11 +6423,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarySchedulePercentCompleteByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummarySchedulePercentCompleteByCost(Double value)
    {
@@ -6436,11 +6436,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarySchedulePercentCompleteByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummarySchedulePercentCompleteByLaborUnits()
    {
@@ -6449,11 +6449,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarySchedulePercentCompleteByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummarySchedulePercentCompleteByLaborUnits(Double value)
    {
@@ -6462,11 +6462,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarySchedulePerformanceIndexByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummarySchedulePerformanceIndexByCost()
    {
@@ -6475,11 +6475,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarySchedulePerformanceIndexByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummarySchedulePerformanceIndexByCost(Double value)
    {
@@ -6488,11 +6488,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summarySchedulePerformanceIndexByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummarySchedulePerformanceIndexByLaborUnits()
    {
@@ -6501,11 +6501,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summarySchedulePerformanceIndexByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummarySchedulePerformanceIndexByLaborUnits(Double value)
    {
@@ -6514,11 +6514,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryScheduleVarianceByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryScheduleVarianceByCost()
    {
@@ -6527,11 +6527,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryScheduleVarianceByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryScheduleVarianceByCost(Double value)
    {
@@ -6540,11 +6540,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryScheduleVarianceByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryScheduleVarianceByLaborUnits()
    {
@@ -6553,11 +6553,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryScheduleVarianceByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryScheduleVarianceByLaborUnits(Double value)
    {
@@ -6566,11 +6566,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryScheduleVarianceIndex property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryScheduleVarianceIndex()
    {
@@ -6579,11 +6579,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryScheduleVarianceIndex property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryScheduleVarianceIndex(Double value)
    {
@@ -6592,11 +6592,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryScheduleVarianceIndexByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryScheduleVarianceIndexByCost()
    {
@@ -6605,11 +6605,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryScheduleVarianceIndexByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryScheduleVarianceIndexByCost(Double value)
    {
@@ -6618,11 +6618,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryScheduleVarianceIndexByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryScheduleVarianceIndexByLaborUnits()
    {
@@ -6631,11 +6631,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryScheduleVarianceIndexByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryScheduleVarianceIndexByLaborUnits(Double value)
    {
@@ -6644,11 +6644,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryStartDateVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryStartDateVariance()
    {
@@ -6657,11 +6657,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryStartDateVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryStartDateVariance(Double value)
    {
@@ -6670,11 +6670,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryToCompletePerformanceIndexByCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryToCompletePerformanceIndexByCost()
    {
@@ -6683,11 +6683,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryToCompletePerformanceIndexByCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryToCompletePerformanceIndexByCost(Double value)
    {
@@ -6696,11 +6696,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryTotalCostVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryTotalCostVariance()
    {
@@ -6709,11 +6709,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryTotalCostVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryTotalCostVariance(Double value)
    {
@@ -6722,11 +6722,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryTotalFloat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryTotalFloat()
    {
@@ -6735,11 +6735,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryTotalFloat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryTotalFloat(Double value)
    {
@@ -6748,11 +6748,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryUnitsPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryUnitsPercentComplete()
    {
@@ -6761,11 +6761,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryUnitsPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryUnitsPercentComplete(Double value)
    {
@@ -6774,11 +6774,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryVarianceAtCompletionByLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getSummaryVarianceAtCompletionByLaborUnits()
    {
@@ -6787,11 +6787,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryVarianceAtCompletionByLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setSummaryVarianceAtCompletionByLaborUnits(Double value)
    {
@@ -6800,11 +6800,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the teamMemberActivityFields property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTeamMemberActivityFields()
    {
@@ -6813,11 +6813,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the teamMemberActivityFields property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTeamMemberActivityFields(String value)
    {
@@ -6826,11 +6826,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the teamMemberAssignmentOption property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTeamMemberAssignmentOption()
    {
@@ -6839,11 +6839,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the teamMemberAssignmentOption property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTeamMemberAssignmentOption(String value)
    {
@@ -6852,11 +6852,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the teamMemberResourceAssignmentFields property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTeamMemberResourceAssignmentFields()
    {
@@ -6865,11 +6865,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the teamMemberResourceAssignmentFields property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTeamMemberResourceAssignmentFields(String value)
    {
@@ -6878,11 +6878,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the teamMemberViewableFields property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTeamMemberViewableFields()
    {
@@ -6891,11 +6891,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the teamMemberViewableFields property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTeamMemberViewableFields(String value)
    {
@@ -6904,11 +6904,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the totalBenefitPlan property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getTotalBenefitPlan()
    {
@@ -6917,11 +6917,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the totalBenefitPlan property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setTotalBenefitPlan(Double value)
    {
@@ -6930,11 +6930,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the totalBenefitPlanTally property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getTotalBenefitPlanTally()
    {
@@ -6943,11 +6943,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the totalBenefitPlanTally property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setTotalBenefitPlanTally(Double value)
    {
@@ -6956,11 +6956,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the totalSpendingPlan property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getTotalSpendingPlan()
    {
@@ -6969,11 +6969,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the totalSpendingPlan property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setTotalSpendingPlan(Double value)
    {
@@ -6982,11 +6982,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the totalSpendingPlanTally property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getTotalSpendingPlanTally()
    {
@@ -6995,11 +6995,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the totalSpendingPlanTally property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setTotalSpendingPlanTally(Double value)
    {
@@ -7008,11 +7008,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the unallocatedBudget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getUnallocatedBudget()
    {
@@ -7021,11 +7021,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the unallocatedBudget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setUnallocatedBudget(Double value)
    {
@@ -7034,11 +7034,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the undistributedCurrentVariance property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getUndistributedCurrentVariance()
    {
@@ -7047,11 +7047,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the undistributedCurrentVariance property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setUndistributedCurrentVariance(Double value)
    {
@@ -7060,11 +7060,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the wbsCodeSeparator property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getWBSCodeSeparator()
    {
@@ -7073,11 +7073,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the wbsCodeSeparator property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setWBSCodeSeparator(String value)
    {
@@ -7086,11 +7086,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the wbsObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getWBSObjectId()
    {
@@ -7099,11 +7099,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the wbsObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setWBSObjectId(Integer value)
    {
@@ -7112,11 +7112,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the webSiteRootDirectory property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getWebSiteRootDirectory()
    {
@@ -7125,11 +7125,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the webSiteRootDirectory property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setWebSiteRootDirectory(String value)
    {
@@ -7138,11 +7138,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the webSiteURL property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getWebSiteURL()
    {
@@ -7151,11 +7151,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the webSiteURL property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setWebSiteURL(String value)
    {
@@ -7164,25 +7164,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the code property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the code property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getCode().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link CodeAssignmentType }
-    * 
-    * 
+    *
+    *
     */
    public List<CodeAssignmentType> getCode()
    {
@@ -7195,25 +7195,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the udf property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the udf property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getUDF().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link UDFAssignmentType }
-    * 
-    * 
+    *
+    *
     */
    public List<UDFAssignmentType> getUDF()
    {
@@ -7226,11 +7226,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the spread property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link EPSProjectWBSSpreadType }
-    *     
+    *
     */
    public EPSProjectWBSSpreadType getSpread()
    {
@@ -7239,11 +7239,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the spread property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link EPSProjectWBSSpreadType }
-    *     
+    *
     */
    public void setSpread(EPSProjectWBSSpreadType value)
    {
@@ -7252,25 +7252,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectResourceSpread property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectResourceSpread property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectResourceSpread().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectResourceSpreadType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectResourceSpreadType> getProjectResourceSpread()
    {
@@ -7283,25 +7283,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectRoleSpread property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectRoleSpread property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectRoleSpread().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectRoleSpreadType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectRoleSpreadType> getProjectRoleSpread()
    {
@@ -7314,25 +7314,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the calendar property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the calendar property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getCalendar().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link CalendarType }
-    * 
-    * 
+    *
+    *
     */
    public List<CalendarType> getCalendar()
    {
@@ -7345,25 +7345,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the wbs property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the wbs property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getWBS().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link WBSType }
-    * 
-    * 
+    *
+    *
     */
    public List<WBSType> getWBS()
    {
@@ -7376,25 +7376,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectResource property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectResource property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectResource().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectResourceType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectResourceType> getProjectResource()
    {
@@ -7407,25 +7407,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectResourceQuantity property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectResourceQuantity property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectResourceQuantity().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectResourceQuantityType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectResourceQuantityType> getProjectResourceQuantity()
    {
@@ -7438,25 +7438,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectBudgetChangeLog property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectBudgetChangeLog property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectBudgetChangeLog().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectBudgetChangeLogType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectBudgetChangeLogType> getProjectBudgetChangeLog()
    {
@@ -7469,25 +7469,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the wbsMilestone property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the wbsMilestone property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getWBSMilestone().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link WBSMilestoneType }
-    * 
-    * 
+    *
+    *
     */
    public List<WBSMilestoneType> getWBSMilestone()
    {
@@ -7500,25 +7500,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectNote property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectNote property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectNote().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectNoteType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectNoteType> getProjectNote()
    {
@@ -7531,25 +7531,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectThreshold property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectThreshold property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectThreshold().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectThresholdType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectThresholdType> getProjectThreshold()
    {
@@ -7562,25 +7562,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectSpendingPlan property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectSpendingPlan property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectSpendingPlan().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectSpendingPlanType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectSpendingPlanType> getProjectSpendingPlan()
    {
@@ -7593,25 +7593,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectFunding property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectFunding property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectFunding().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectFundingType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectFundingType> getProjectFunding()
    {
@@ -7624,25 +7624,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityCodeType property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityCodeType property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityCodeType().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityCodeTypeType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityCodeTypeType> getActivityCodeType()
    {
@@ -7655,25 +7655,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityCode property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityCode property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityCode().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityCodeType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityCodeType> getActivityCode()
    {
@@ -7686,25 +7686,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activity property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activity property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivity().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityType> getActivity()
    {
@@ -7717,25 +7717,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceAssignment property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the resourceAssignment property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getResourceAssignment().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ResourceAssignmentType }
-    * 
-    * 
+    *
+    *
     */
    public List<ResourceAssignmentType> getResourceAssignment()
    {
@@ -7748,25 +7748,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityExpense property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityExpense property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityExpense().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityExpenseType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityExpenseType> getActivityExpense()
    {
@@ -7779,25 +7779,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityNote property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityNote property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityNote().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityNoteType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityNoteType> getActivityNote()
    {
@@ -7810,25 +7810,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityStep property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityStep property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityStep().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityStepType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityStepType> getActivityStep()
    {
@@ -7841,25 +7841,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the relationship property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the relationship property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getRelationship().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link RelationshipType }
-    * 
-    * 
+    *
+    *
     */
    public List<RelationshipType> getRelationship()
    {
@@ -7872,25 +7872,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityPeriodActual property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityPeriodActual property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityPeriodActual().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityPeriodActualType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityPeriodActualType> getActivityPeriodActual()
    {
@@ -7903,25 +7903,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectIssue property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectIssue property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectIssue().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectIssueType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectIssueType> getProjectIssue()
    {
@@ -7934,25 +7934,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceAssignmentPeriodActual property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentPeriodActual property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getResourceAssignmentPeriodActual().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ResourceAssignmentPeriodActualType }
-    * 
-    * 
+    *
+    *
     */
    public List<ResourceAssignmentPeriodActualType> getResourceAssignmentPeriodActual()
    {
@@ -7965,25 +7965,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the document property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the document property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getDocument().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link DocumentType }
-    * 
-    * 
+    *
+    *
     */
    public List<DocumentType> getDocument()
    {
@@ -7996,25 +7996,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectDocument property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the projectDocument property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getProjectDocument().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ProjectDocumentType }
-    * 
-    * 
+    *
+    *
     */
    public List<ProjectDocumentType> getProjectDocument()
    {
@@ -8027,25 +8027,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the risk property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the risk property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getRisk().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link RiskType }
-    * 
-    * 
+    *
+    *
     */
    public List<RiskType> getRisk()
    {
@@ -8058,25 +8058,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityRisk property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the activityRisk property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getActivityRisk().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link ActivityRiskType }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivityRiskType> getActivityRisk()
    {
@@ -8089,25 +8089,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskImpact property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the riskImpact property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getRiskImpact().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link RiskImpactType }
-    * 
-    * 
+    *
+    *
     */
    public List<RiskImpactType> getRiskImpact()
    {
@@ -8120,25 +8120,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskResponsePlan property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the riskResponsePlan property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getRiskResponsePlan().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link RiskResponsePlanType }
-    * 
-    * 
+    *
+    *
     */
    public List<RiskResponsePlanType> getRiskResponsePlan()
    {
@@ -8151,25 +8151,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskResponseAction property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the riskResponseAction property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getRiskResponseAction().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link RiskResponseActionType }
-    * 
-    * 
+    *
+    *
     */
    public List<RiskResponseActionType> getRiskResponseAction()
    {
@@ -8182,25 +8182,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the riskResponseActionImpact property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the riskResponseActionImpact property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getRiskResponseActionImpact().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link RiskResponseActionImpactType }
-    * 
-    * 
+    *
+    *
     */
    public List<RiskResponseActionImpactType> getRiskResponseActionImpact()
    {

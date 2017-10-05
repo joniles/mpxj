@@ -179,11 +179,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activitiesFilter property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivitiesFilter()
    {
@@ -192,11 +192,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activitiesFilter property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivitiesFilter(String value)
    {
@@ -205,11 +205,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activitiesFilterLogic property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivitiesFilterLogic()
    {
@@ -218,11 +218,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activitiesFilterLogic property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivitiesFilterLogic(String value)
    {
@@ -231,11 +231,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityCodeAssignments property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityCodeAssignments()
    {
@@ -244,11 +244,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityCodeAssignments property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityCodeAssignments(Boolean value)
    {
@@ -257,11 +257,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityFilterId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityFilterId()
    {
@@ -270,11 +270,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityFilterId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityFilterId(String value)
    {
@@ -283,11 +283,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityFilterName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityFilterName()
    {
@@ -296,11 +296,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityFilterName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityFilterName(String value)
    {
@@ -309,11 +309,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityInformation property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityInformation()
    {
@@ -322,11 +322,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityInformation property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityInformation(Boolean value)
    {
@@ -335,11 +335,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityNotebooks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityNotebooks()
    {
@@ -348,11 +348,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityNotebooks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityNotebooks(Boolean value)
    {
@@ -361,11 +361,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityRsrcAssignmentUdfs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityRsrcAssignmentUdfs()
    {
@@ -374,11 +374,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityRsrcAssignmentUdfs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityRsrcAssignmentUdfs(Boolean value)
    {
@@ -387,11 +387,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the activityUdfs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActivityUdfs()
    {
@@ -400,11 +400,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the activityUdfs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActivityUdfs(Boolean value)
    {
@@ -413,11 +413,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the actualUnitsCostWoRsrcAssignmnt property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isActualUnitsCostWoRsrcAssignmnt()
    {
@@ -426,11 +426,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the actualUnitsCostWoRsrcAssignmnt property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setActualUnitsCostWoRsrcAssignmnt(Boolean value)
    {
@@ -439,11 +439,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addNewActivitiesData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAddNewActivitiesData()
    {
@@ -452,11 +452,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addNewActivitiesData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAddNewActivitiesData(Boolean value)
    {
@@ -465,11 +465,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addNewRsrcRole property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAddNewRsrcRole()
    {
@@ -478,11 +478,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addNewRsrcRole property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAddNewRsrcRole(Boolean value)
    {
@@ -491,11 +491,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the allActivities property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAllActivities()
    {
@@ -504,11 +504,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the allActivities property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAllActivities(Boolean value)
    {
@@ -517,11 +517,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the batchModeEnabled property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isBatchModeEnabled()
    {
@@ -530,11 +530,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the batchModeEnabled property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setBatchModeEnabled(Boolean value)
    {
@@ -543,11 +543,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the budgetUnitsCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isBudgetUnitsCost()
    {
@@ -556,11 +556,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the budgetUnitsCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setBudgetUnitsCost(Boolean value)
    {
@@ -569,11 +569,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the budgetUnitsCostWoRsrcAssignmnt property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isBudgetUnitsCostWoRsrcAssignmnt()
    {
@@ -582,11 +582,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the budgetUnitsCostWoRsrcAssignmnt property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setBudgetUnitsCostWoRsrcAssignmnt(Boolean value)
    {
@@ -595,11 +595,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the constraints property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isConstraints()
    {
@@ -608,11 +608,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the constraints property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setConstraints(Boolean value)
    {
@@ -621,11 +621,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the datesDurationDatadates property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isDatesDurationDatadates()
    {
@@ -634,11 +634,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the datesDurationDatadates property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setDatesDurationDatadates(Boolean value)
    {
@@ -647,11 +647,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteNonExistingActivities property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isDeleteNonExistingActivities()
    {
@@ -660,11 +660,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteNonExistingActivities property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setDeleteNonExistingActivities(Boolean value)
    {
@@ -673,11 +673,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the expenseUdfs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isExpenseUdfs()
    {
@@ -686,11 +686,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the expenseUdfs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setExpenseUdfs(Boolean value)
    {
@@ -699,11 +699,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the expenses property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isExpenses()
    {
@@ -712,11 +712,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the expenses property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setExpenses(Boolean value)
    {
@@ -725,11 +725,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the filteredActivities property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isFilteredActivities()
    {
@@ -738,11 +738,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the filteredActivities property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setFilteredActivities(Boolean value)
    {
@@ -751,11 +751,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the generalActivitiInfo property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isGeneralActivitiInfo()
    {
@@ -764,11 +764,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the generalActivitiInfo property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setGeneralActivitiInfo(Boolean value)
    {
@@ -777,11 +777,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the ignoreLastUpdateDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isIgnoreLastUpdateDate()
    {
@@ -790,11 +790,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the ignoreLastUpdateDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setIgnoreLastUpdateDate(Boolean value)
    {
@@ -803,11 +803,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the issueUDFs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isIssueUDFs()
    {
@@ -816,11 +816,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the issueUDFs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setIssueUDFs(Boolean value)
    {
@@ -829,11 +829,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -842,11 +842,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -855,11 +855,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projectDetails property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isProjectDetails()
    {
@@ -868,11 +868,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projectDetails property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setProjectDetails(Boolean value)
    {
@@ -881,11 +881,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projectRisksIssuesAndThresholds property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isProjectRisksIssuesAndThresholds()
    {
@@ -894,11 +894,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projectRisksIssuesAndThresholds property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setProjectRisksIssuesAndThresholds(Boolean value)
    {
@@ -907,11 +907,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projectUDFs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isProjectUDFs()
    {
@@ -920,11 +920,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projectUDFs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setProjectUDFs(Boolean value)
    {
@@ -933,11 +933,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the relationships property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isRelationships()
    {
@@ -946,11 +946,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the relationships property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setRelationships(Boolean value)
    {
@@ -959,11 +959,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the riskAssignments property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isRiskAssignments()
    {
@@ -972,11 +972,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the riskAssignments property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setRiskAssignments(Boolean value)
    {
@@ -985,11 +985,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the riskUDFs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isRiskUDFs()
    {
@@ -998,11 +998,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the riskUDFs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setRiskUDFs(Boolean value)
    {
@@ -1011,11 +1011,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the steps property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isSteps()
    {
@@ -1024,11 +1024,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the steps property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setSteps(Boolean value)
    {
@@ -1037,11 +1037,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the stepsUdf property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isStepsUdf()
    {
@@ -1050,11 +1050,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the stepsUdf property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setStepsUdf(Boolean value)
    {
@@ -1063,11 +1063,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the updateExistRsrcRoleAssignment property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isUpdateExistRsrcRoleAssignment()
    {
@@ -1076,11 +1076,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the updateExistRsrcRoleAssignment property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setUpdateExistRsrcRoleAssignment(Boolean value)
    {
@@ -1089,11 +1089,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the updateExistingActivities property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isUpdateExistingActivities()
    {
@@ -1102,11 +1102,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the updateExistingActivities property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setUpdateExistingActivities(Boolean value)
    {
@@ -1115,11 +1115,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the userName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getUserName()
    {
@@ -1128,11 +1128,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the userName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setUserName(String value)
    {
@@ -1141,11 +1141,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the wpDocumentUDFs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isWPDocumentUDFs()
    {
@@ -1154,11 +1154,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the wpDocumentUDFs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setWPDocumentUDFs(Boolean value)
    {
@@ -1167,11 +1167,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the wbsAssignments property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isWbsAssignments()
    {
@@ -1180,11 +1180,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the wbsAssignments property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setWbsAssignments(Boolean value)
    {
@@ -1193,11 +1193,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the wbsUDFs property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isWbsUDFs()
    {
@@ -1206,11 +1206,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the wbsUDFs property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setWbsUDFs(Boolean value)
    {
@@ -1219,11 +1219,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the workProductsAndDocuments property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isWorkProductsAndDocuments()
    {
@@ -1232,11 +1232,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the workProductsAndDocuments property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setWorkProductsAndDocuments(Boolean value)
    {

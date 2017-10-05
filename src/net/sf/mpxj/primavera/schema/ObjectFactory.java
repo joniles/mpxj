@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.primavera.schema
-    * 
+    *
     */
    public ObjectFactory()
    {
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivitySpreadType }
-    * 
+    *
     */
    public ActivitySpreadType createActivitySpreadType()
    {
@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectRoleSpreadType }
-    * 
+    *
     */
    public ProjectRoleSpreadType createProjectRoleSpreadType()
    {
@@ -54,7 +54,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectResourceSpreadType }
-    * 
+    *
     */
    public ProjectResourceSpreadType createProjectResourceSpreadType()
    {
@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSProjectWBSSpreadType }
-    * 
+    *
     */
    public EPSProjectWBSSpreadType createEPSProjectWBSSpreadType()
    {
@@ -72,7 +72,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceRequestType }
-    * 
+    *
     */
    public ResourceRequestType createResourceRequestType()
    {
@@ -81,7 +81,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAssignmentSpreadType }
-    * 
+    *
     */
    public ResourceAssignmentSpreadType createResourceAssignmentSpreadType()
    {
@@ -90,7 +90,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserType }
-    * 
+    *
     */
    public UserType createUserType()
    {
@@ -99,7 +99,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CalendarType }
-    * 
+    *
     */
    public CalendarType createCalendarType()
    {
@@ -108,7 +108,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CalendarType.HolidayOrExceptions }
-    * 
+    *
     */
    public CalendarType.HolidayOrExceptions createCalendarTypeHolidayOrExceptions()
    {
@@ -117,7 +117,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CalendarType.StandardWorkWeek }
-    * 
+    *
     */
    public CalendarType.StandardWorkWeek createCalendarTypeStandardWorkWeek()
    {
@@ -126,7 +126,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectListType }
-    * 
+    *
     */
    public ProjectListType createProjectListType()
    {
@@ -135,7 +135,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectListType.Project }
-    * 
+    *
     */
    public ProjectListType.Project createProjectListTypeProject()
    {
@@ -144,7 +144,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link APIBusinessObjects }
-    * 
+    *
     */
    public APIBusinessObjects createAPIBusinessObjects()
    {
@@ -153,7 +153,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectResourceCategoryType }
-    * 
+    *
     */
    public ProjectResourceCategoryType createProjectResourceCategoryType()
    {
@@ -162,7 +162,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UnitOfMeasureType }
-    * 
+    *
     */
    public UnitOfMeasureType createUnitOfMeasureType()
    {
@@ -171,7 +171,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CostAccountType }
-    * 
+    *
     */
    public CostAccountType createCostAccountType()
    {
@@ -180,7 +180,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CurrencyType }
-    * 
+    *
     */
    public CurrencyType createCurrencyType()
    {
@@ -189,7 +189,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UDFTypeType }
-    * 
+    *
     */
    public UDFTypeType createUDFTypeType()
    {
@@ -198,7 +198,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UDFCodeType }
-    * 
+    *
     */
    public UDFCodeType createUDFCodeType()
    {
@@ -207,7 +207,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ExpenseCategoryType }
-    * 
+    *
     */
    public ExpenseCategoryType createExpenseCategoryType()
    {
@@ -216,7 +216,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link NotebookTopicType }
-    * 
+    *
     */
    public NotebookTopicType createNotebookTopicType()
    {
@@ -225,7 +225,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link WBSCategoryType }
-    * 
+    *
     */
    public WBSCategoryType createWBSCategoryType()
    {
@@ -234,7 +234,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link FundingSourceType }
-    * 
+    *
     */
    public FundingSourceType createFundingSourceType()
    {
@@ -243,7 +243,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ThresholdParameterType }
-    * 
+    *
     */
    public ThresholdParameterType createThresholdParameterType()
    {
@@ -252,7 +252,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link OBSType }
-    * 
+    *
     */
    public OBSType createOBSType()
    {
@@ -261,7 +261,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ShiftPeriodType }
-    * 
+    *
     */
    public ShiftPeriodType createShiftPeriodType()
    {
@@ -270,7 +270,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ShiftType }
-    * 
+    *
     */
    public ShiftType createShiftType()
    {
@@ -279,7 +279,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectCodeTypeType }
-    * 
+    *
     */
    public ProjectCodeTypeType createProjectCodeTypeType()
    {
@@ -288,7 +288,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectCodeType }
-    * 
+    *
     */
    public ProjectCodeType createProjectCodeType()
    {
@@ -297,7 +297,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceCodeTypeType }
-    * 
+    *
     */
    public ResourceCodeTypeType createResourceCodeTypeType()
    {
@@ -306,7 +306,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceCodeType }
-    * 
+    *
     */
    public ResourceCodeType createResourceCodeType()
    {
@@ -315,7 +315,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceCurveType }
-    * 
+    *
     */
    public ResourceCurveType createResourceCurveType()
    {
@@ -324,7 +324,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RoleType }
-    * 
+    *
     */
    public RoleType createRoleType()
    {
@@ -333,7 +333,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RoleRateType }
-    * 
+    *
     */
    public RoleRateType createRoleRateType()
    {
@@ -342,7 +342,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RoleLimitType }
-    * 
+    *
     */
    public RoleLimitType createRoleLimitType()
    {
@@ -351,7 +351,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceType }
-    * 
+    *
     */
    public ResourceType createResourceType()
    {
@@ -360,7 +360,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceRateType }
-    * 
+    *
     */
    public ResourceRateType createResourceRateType()
    {
@@ -369,7 +369,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityCodeTypeType }
-    * 
+    *
     */
    public ActivityCodeTypeType createActivityCodeTypeType()
    {
@@ -378,7 +378,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityCodeType }
-    * 
+    *
     */
    public ActivityCodeType createActivityCodeType()
    {
@@ -387,7 +387,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link FinancialPeriodType }
-    * 
+    *
     */
    public FinancialPeriodType createFinancialPeriodType()
    {
@@ -396,7 +396,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceRoleType }
-    * 
+    *
     */
    public ResourceRoleType createResourceRoleType()
    {
@@ -405,7 +405,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSType }
-    * 
+    *
     */
    public EPSType createEPSType()
    {
@@ -414,7 +414,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link DocumentCategoryType }
-    * 
+    *
     */
    public DocumentCategoryType createDocumentCategoryType()
    {
@@ -423,7 +423,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link DocumentStatusCodeType }
-    * 
+    *
     */
    public DocumentStatusCodeType createDocumentStatusCodeType()
    {
@@ -432,7 +432,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskCategoryType }
-    * 
+    *
     */
    public RiskCategoryType createRiskCategoryType()
    {
@@ -441,7 +441,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskThresholdType }
-    * 
+    *
     */
    public RiskThresholdType createRiskThresholdType()
    {
@@ -450,7 +450,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskThresholdLevelType }
-    * 
+    *
     */
    public RiskThresholdLevelType createRiskThresholdLevelType()
    {
@@ -459,7 +459,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskMatrixType }
-    * 
+    *
     */
    public RiskMatrixType createRiskMatrixType()
    {
@@ -468,7 +468,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskMatrixScoreType }
-    * 
+    *
     */
    public RiskMatrixScoreType createRiskMatrixScoreType()
    {
@@ -477,7 +477,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskMatrixThresholdType }
-    * 
+    *
     */
    public RiskMatrixThresholdType createRiskMatrixThresholdType()
    {
@@ -486,7 +486,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityType }
-    * 
+    *
     */
    public ActivityType createActivityType()
    {
@@ -495,7 +495,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityCodeAssignmentType }
-    * 
+    *
     */
    public ActivityCodeAssignmentType createActivityCodeAssignmentType()
    {
@@ -504,7 +504,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityCodeUpdateType }
-    * 
+    *
     */
    public ActivityCodeUpdateType createActivityCodeUpdateType()
    {
@@ -513,7 +513,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityCommentType }
-    * 
+    *
     */
    public ActivityCommentType createActivityCommentType()
    {
@@ -522,7 +522,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityExpenseType }
-    * 
+    *
     */
    public ActivityExpenseType createActivityExpenseType()
    {
@@ -531,7 +531,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityFilterType }
-    * 
+    *
     */
    public ActivityFilterType createActivityFilterType()
    {
@@ -540,7 +540,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityNoteType }
-    * 
+    *
     */
    public ActivityNoteType createActivityNoteType()
    {
@@ -549,7 +549,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityNoteUpdateType }
-    * 
+    *
     */
    public ActivityNoteUpdateType createActivityNoteUpdateType()
    {
@@ -558,7 +558,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityOwnerType }
-    * 
+    *
     */
    public ActivityOwnerType createActivityOwnerType()
    {
@@ -567,7 +567,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityPeriodActualType }
-    * 
+    *
     */
    public ActivityPeriodActualType createActivityPeriodActualType()
    {
@@ -576,7 +576,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityRiskType }
-    * 
+    *
     */
    public ActivityRiskType createActivityRiskType()
    {
@@ -585,7 +585,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityStepType }
-    * 
+    *
     */
    public ActivityStepType createActivityStepType()
    {
@@ -594,7 +594,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityStepCreateType }
-    * 
+    *
     */
    public ActivityStepCreateType createActivityStepCreateType()
    {
@@ -603,7 +603,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityStepDeleteType }
-    * 
+    *
     */
    public ActivityStepDeleteType createActivityStepDeleteType()
    {
@@ -612,7 +612,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityStepTemplateType }
-    * 
+    *
     */
    public ActivityStepTemplateType createActivityStepTemplateType()
    {
@@ -621,7 +621,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityStepTemplateItemType }
-    * 
+    *
     */
    public ActivityStepTemplateItemType createActivityStepTemplateItemType()
    {
@@ -630,7 +630,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityStepUpdateType }
-    * 
+    *
     */
    public ActivityStepUpdateType createActivityStepUpdateType()
    {
@@ -639,7 +639,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivityUpdateType }
-    * 
+    *
     */
    public ActivityUpdateType createActivityUpdateType()
    {
@@ -648,7 +648,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link BaselineTypeType }
-    * 
+    *
     */
    public BaselineTypeType createBaselineTypeType()
    {
@@ -657,7 +657,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CBSType }
-    * 
+    *
     */
    public CBSType createCBSType()
    {
@@ -666,7 +666,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CBSDurationSummaryType }
-    * 
+    *
     */
    public CBSDurationSummaryType createCBSDurationSummaryType()
    {
@@ -675,7 +675,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ChangeSetType }
-    * 
+    *
     */
    public ChangeSetType createChangeSetType()
    {
@@ -684,7 +684,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link DocumentType }
-    * 
+    *
     */
    public DocumentType createDocumentType()
    {
@@ -693,7 +693,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSBudgetChangeLogType }
-    * 
+    *
     */
    public EPSBudgetChangeLogType createEPSBudgetChangeLogType()
    {
@@ -702,7 +702,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSFundingType }
-    * 
+    *
     */
    public EPSFundingType createEPSFundingType()
    {
@@ -711,7 +711,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSNoteType }
-    * 
+    *
     */
    public EPSNoteType createEPSNoteType()
    {
@@ -720,7 +720,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSSpendingPlanType }
-    * 
+    *
     */
    public EPSSpendingPlanType createEPSSpendingPlanType()
    {
@@ -729,7 +729,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GatewayDeploymentType }
-    * 
+    *
     */
    public GatewayDeploymentType createGatewayDeploymentType()
    {
@@ -738,7 +738,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GlobalPreferencesType }
-    * 
+    *
     */
    public GlobalPreferencesType createGlobalPreferencesType()
    {
@@ -747,7 +747,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GlobalProfileType }
-    * 
+    *
     */
    public GlobalProfileType createGlobalProfileType()
    {
@@ -756,7 +756,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GlobalReplaceType }
-    * 
+    *
     */
    public GlobalReplaceType createGlobalReplaceType()
    {
@@ -765,7 +765,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ImportOptionsTemplateType }
-    * 
+    *
     */
    public ImportOptionsTemplateType createImportOptionsTemplateType()
    {
@@ -774,7 +774,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link IssueHistoryType }
-    * 
+    *
     */
    public IssueHistoryType createIssueHistoryType()
    {
@@ -783,7 +783,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link JobServiceType }
-    * 
+    *
     */
    public JobServiceType createJobServiceType()
    {
@@ -792,7 +792,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link LocationType }
-    * 
+    *
     */
    public LocationType createLocationType()
    {
@@ -801,7 +801,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link MSPTemplateType }
-    * 
+    *
     */
    public MSPTemplateType createMSPTemplateType()
    {
@@ -810,7 +810,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link OverheadCodeType }
-    * 
+    *
     */
    public OverheadCodeType createOverheadCodeType()
    {
@@ -819,7 +819,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectType }
-    * 
+    *
     */
    public ProjectType createProjectType()
    {
@@ -828,7 +828,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link BaselineProjectType }
-    * 
+    *
     */
    public BaselineProjectType createBaselineProjectType()
    {
@@ -837,7 +837,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectBudgetChangeLogType }
-    * 
+    *
     */
    public ProjectBudgetChangeLogType createProjectBudgetChangeLogType()
    {
@@ -846,7 +846,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectCodeAssignmentType }
-    * 
+    *
     */
    public ProjectCodeAssignmentType createProjectCodeAssignmentType()
    {
@@ -855,7 +855,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectDeploymentType }
-    * 
+    *
     */
    public ProjectDeploymentType createProjectDeploymentType()
    {
@@ -864,7 +864,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectDocumentType }
-    * 
+    *
     */
    public ProjectDocumentType createProjectDocumentType()
    {
@@ -873,7 +873,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectFundingType }
-    * 
+    *
     */
    public ProjectFundingType createProjectFundingType()
    {
@@ -882,7 +882,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectIssueType }
-    * 
+    *
     */
    public ProjectIssueType createProjectIssueType()
    {
@@ -891,7 +891,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectNoteType }
-    * 
+    *
     */
    public ProjectNoteType createProjectNoteType()
    {
@@ -900,7 +900,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectPortfolioType }
-    * 
+    *
     */
    public ProjectPortfolioType createProjectPortfolioType()
    {
@@ -909,7 +909,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectProfileType }
-    * 
+    *
     */
    public ProjectProfileType createProjectProfileType()
    {
@@ -918,7 +918,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectResourceType }
-    * 
+    *
     */
    public ProjectResourceType createProjectResourceType()
    {
@@ -927,7 +927,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectResourceQuantityType }
-    * 
+    *
     */
    public ProjectResourceQuantityType createProjectResourceQuantityType()
    {
@@ -936,7 +936,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectSpendingPlanType }
-    * 
+    *
     */
    public ProjectSpendingPlanType createProjectSpendingPlanType()
    {
@@ -945,7 +945,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectThresholdType }
-    * 
+    *
     */
    public ProjectThresholdType createProjectThresholdType()
    {
@@ -954,7 +954,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RelationshipType }
-    * 
+    *
     */
    public RelationshipType createRelationshipType()
    {
@@ -963,7 +963,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAccessType }
-    * 
+    *
     */
    public ResourceAccessType createResourceAccessType()
    {
@@ -972,7 +972,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAssignmentType }
-    * 
+    *
     */
    public ResourceAssignmentType createResourceAssignmentType()
    {
@@ -981,7 +981,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAssignmentCreateType }
-    * 
+    *
     */
    public ResourceAssignmentCreateType createResourceAssignmentCreateType()
    {
@@ -990,7 +990,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAssignmentPeriodActualType }
-    * 
+    *
     */
    public ResourceAssignmentPeriodActualType createResourceAssignmentPeriodActualType()
    {
@@ -999,7 +999,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAssignmentUpdateType }
-    * 
+    *
     */
    public ResourceAssignmentUpdateType createResourceAssignmentUpdateType()
    {
@@ -1008,7 +1008,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceCodeAssignmentType }
-    * 
+    *
     */
    public ResourceCodeAssignmentType createResourceCodeAssignmentType()
    {
@@ -1017,7 +1017,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceHourType }
-    * 
+    *
     */
    public ResourceHourType createResourceHourType()
    {
@@ -1026,7 +1026,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceLocationType }
-    * 
+    *
     */
    public ResourceLocationType createResourceLocationType()
    {
@@ -1035,7 +1035,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceTeamType }
-    * 
+    *
     */
    public ResourceTeamType createResourceTeamType()
    {
@@ -1044,7 +1044,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskType }
-    * 
+    *
     */
    public RiskType createRiskType()
    {
@@ -1053,7 +1053,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskImpactType }
-    * 
+    *
     */
    public RiskImpactType createRiskImpactType()
    {
@@ -1062,7 +1062,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskResponseActionType }
-    * 
+    *
     */
    public RiskResponseActionType createRiskResponseActionType()
    {
@@ -1071,7 +1071,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskResponseActionImpactType }
-    * 
+    *
     */
    public RiskResponseActionImpactType createRiskResponseActionImpactType()
    {
@@ -1080,7 +1080,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RiskResponsePlanType }
-    * 
+    *
     */
    public RiskResponsePlanType createRiskResponsePlanType()
    {
@@ -1089,7 +1089,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link RoleTeamType }
-    * 
+    *
     */
    public RoleTeamType createRoleTeamType()
    {
@@ -1098,7 +1098,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ScheduleCheckOptionType }
-    * 
+    *
     */
    public ScheduleCheckOptionType createScheduleCheckOptionType()
    {
@@ -1107,7 +1107,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ScheduleOptionsType }
-    * 
+    *
     */
    public ScheduleOptionsType createScheduleOptionsType()
    {
@@ -1116,7 +1116,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link TimesheetType }
-    * 
+    *
     */
    public TimesheetType createTimesheetType()
    {
@@ -1125,7 +1125,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link TimesheetAuditType }
-    * 
+    *
     */
    public TimesheetAuditType createTimesheetAuditType()
    {
@@ -1134,7 +1134,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link TimesheetDelegateType }
-    * 
+    *
     */
    public TimesheetDelegateType createTimesheetDelegateType()
    {
@@ -1143,7 +1143,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link TimesheetPeriodType }
-    * 
+    *
     */
    public TimesheetPeriodType createTimesheetPeriodType()
    {
@@ -1152,7 +1152,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UDFValueType }
-    * 
+    *
     */
    public UDFValueType createUDFValueType()
    {
@@ -1161,7 +1161,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UpdateBaselineOptionType }
-    * 
+    *
     */
    public UpdateBaselineOptionType createUpdateBaselineOptionType()
    {
@@ -1170,7 +1170,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserDefinedValueUpdateType }
-    * 
+    *
     */
    public UserDefinedValueUpdateType createUserDefinedValueUpdateType()
    {
@@ -1179,7 +1179,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserFieldTitleType }
-    * 
+    *
     */
    public UserFieldTitleType createUserFieldTitleType()
    {
@@ -1188,7 +1188,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserInterfaceViewType }
-    * 
+    *
     */
    public UserInterfaceViewType createUserInterfaceViewType()
    {
@@ -1197,7 +1197,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserLicenseType }
-    * 
+    *
     */
    public UserLicenseType createUserLicenseType()
    {
@@ -1206,7 +1206,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserOBSType }
-    * 
+    *
     */
    public UserOBSType createUserOBSType()
    {
@@ -1215,7 +1215,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link WBSType }
-    * 
+    *
     */
    public WBSType createWBSType()
    {
@@ -1224,7 +1224,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link WBSMilestoneType }
-    * 
+    *
     */
    public WBSMilestoneType createWBSMilestoneType()
    {
@@ -1233,7 +1233,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CodeAssignmentType }
-    * 
+    *
     */
    public CodeAssignmentType createCodeAssignmentType()
    {
@@ -1242,7 +1242,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link WorkTimeType }
-    * 
+    *
     */
    public WorkTimeType createWorkTimeType()
    {
@@ -1251,7 +1251,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceCurveValuesType }
-    * 
+    *
     */
    public ResourceCurveValuesType createResourceCurveValuesType()
    {
@@ -1260,7 +1260,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectPrivilegesType }
-    * 
+    *
     */
    public ProjectPrivilegesType createProjectPrivilegesType()
    {
@@ -1269,7 +1269,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GlobalPrivilegesType }
-    * 
+    *
     */
    public GlobalPrivilegesType createGlobalPrivilegesType()
    {
@@ -1278,7 +1278,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link PortfolioTeamMemberType }
-    * 
+    *
     */
    public PortfolioTeamMemberType createPortfolioTeamMemberType()
    {
@@ -1287,7 +1287,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UDFAssignmentType }
-    * 
+    *
     */
    public UDFAssignmentType createUDFAssignmentType()
    {
@@ -1296,7 +1296,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ActivitySpreadType.Period }
-    * 
+    *
     */
    public ActivitySpreadType.Period createActivitySpreadTypePeriod()
    {
@@ -1305,7 +1305,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectRoleSpreadType.Period }
-    * 
+    *
     */
    public ProjectRoleSpreadType.Period createProjectRoleSpreadTypePeriod()
    {
@@ -1314,7 +1314,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectResourceSpreadType.Period }
-    * 
+    *
     */
    public ProjectResourceSpreadType.Period createProjectResourceSpreadTypePeriod()
    {
@@ -1323,7 +1323,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link EPSProjectWBSSpreadType.Period }
-    * 
+    *
     */
    public EPSProjectWBSSpreadType.Period createEPSProjectWBSSpreadTypePeriod()
    {
@@ -1332,7 +1332,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceRequestType.ResourceRequestCriterion }
-    * 
+    *
     */
    public ResourceRequestType.ResourceRequestCriterion createResourceRequestTypeResourceRequestCriterion()
    {
@@ -1341,7 +1341,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ResourceAssignmentSpreadType.Period }
-    * 
+    *
     */
    public ResourceAssignmentSpreadType.Period createResourceAssignmentSpreadTypePeriod()
    {
@@ -1350,7 +1350,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link UserType.ResourceRequests }
-    * 
+    *
     */
    public UserType.ResourceRequests createUserTypeResourceRequests()
    {
@@ -1359,7 +1359,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CalendarType.HolidayOrExceptions.HolidayOrException }
-    * 
+    *
     */
    public CalendarType.HolidayOrExceptions.HolidayOrException createCalendarTypeHolidayOrExceptionsHolidayOrException()
    {
@@ -1368,7 +1368,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CalendarType.StandardWorkWeek.StandardWorkHours }
-    * 
+    *
     */
    public CalendarType.StandardWorkWeek.StandardWorkHours createCalendarTypeStandardWorkWeekStandardWorkHours()
    {
@@ -1377,7 +1377,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link ProjectListType.Project.BaselineProject }
-    * 
+    *
     */
    public ProjectListType.Project.BaselineProject createProjectListTypeProjectBaselineProject()
    {
