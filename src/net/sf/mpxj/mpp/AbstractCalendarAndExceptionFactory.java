@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.mpxj.DateRange;
@@ -30,6 +31,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.DateHelper;
@@ -187,6 +189,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
    private void processWorkWeekDay(byte[] data, int offset, ProjectCalendarWeek week, Day day)
    {
       //System.out.println(MPPUtility.hexdump(data, offset, 60, false));
+
       int dayType = MPPUtility.getShort(data, offset + 0);
       if (dayType == 1)
       {
@@ -202,7 +205,18 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          else
          {
             week.setWorkingDay(day, DayType.WORKING);
-            // TODO
+            ProjectCalendarHours hours = week.addCalendarHours(day);
+
+            Calendar cal = Calendar.getInstance();
+            for (int index = 0; index < rangeCount; index++)
+            {
+               Date startTime = DateHelper.getCanonicalTime(MPPUtility.getTime(data, offset + 8 + (index * 2)));
+               int durationInSeconds = MPPUtility.getInt(data, offset + 20 + (index * 4)) * 6;
+               cal.setTime(startTime);
+               cal.add(Calendar.SECOND, durationInSeconds);
+               Date finishTime = DateHelper.getCanonicalTime(cal.getTime());
+               hours.addRange(new DateRange(startTime, finishTime));
+            }
          }
       }
    }
