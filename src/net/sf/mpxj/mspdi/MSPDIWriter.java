@@ -521,6 +521,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Exceptions.Exception ex = m_factory.createProjectCalendarsCalendarExceptionsException();
          el.add(ex);
 
+         ex.setName(exception.getName());
          ex.setEnteredByOccurrences(Boolean.FALSE);
          ex.setOccurrences(BigInteger.ONE);
          ex.setType(BigInteger.ONE);

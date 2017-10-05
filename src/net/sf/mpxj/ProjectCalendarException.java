@@ -47,6 +47,26 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    }
 
    /**
+    * Retrieve the name of this exception.
+    *
+    * @return exception name
+    */
+   public String getName()
+   {
+      return m_name;
+   }
+
+   /**
+    * Set the name of this exception.
+    *
+    * @param name exception name
+    */
+   public void setName(String name)
+   {
+      m_name = name;
+   }
+
+   /**
     * Returns the from date.
     *
     * @return Date
@@ -113,6 +133,10 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    {
       StringBuilder sb = new StringBuilder();
       sb.append("[ProjectCalendarException");
+      if (m_name != null && !m_name.isEmpty())
+      {
+         sb.append(" name=" + m_name);
+      }
       sb.append(" working=" + getWorking());
       sb.append(" fromDate=" + m_fromDate);
       sb.append(" toDate=" + m_toDate);
@@ -128,4 +152,5 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
 
    private Date m_fromDate;
    private Date m_toDate;
+   private String m_name;
 }

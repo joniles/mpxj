@@ -81,6 +81,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             //
             for (index = 0; index < exceptionCount; index++)
             {
+
                Date fromDate = MPPUtility.getDate(data, offset);
                Date toDate = MPPUtility.getDate(data, offset + 2);
                exception = cal.addCalendarException(fromDate, toDate);
@@ -105,7 +106,14 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
                }
 
-               //String exceptionName = MPPUtility.getUnicodeString(data, offset+92);
+               if (exceptionNameLength != 0)
+               {
+                  exception.setName(MPPUtility.getUnicodeString(data, offset + 92));
+               }
+
+               //System.out.println(MPPUtility.hexdump(data, offset, 92, false));
+               //System.out.println(MPPUtility.hexdump(data, offset + 92, exceptionNameLength, true));
+
                offset += (92 + exceptionNameLength);
             }
          }

@@ -541,6 +541,7 @@ public final class MSPDIReader extends AbstractProjectReader
             if (fromDate != null && toDate != null)
             {
                ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+               bce.setName(exception.getName());
 
                Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
                if (times != null)

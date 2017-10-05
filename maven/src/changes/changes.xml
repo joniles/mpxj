@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">Only write non-default user-defined field values to a PMXML file.</action>
 			<action dev="joniles" type="update">Use Primavera P6 17.7 XML schema.</action>
 			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>
+			<action dev="joniles" type="add">Add support for calendar exception names for MPP and MSPDI files.</action>
 	    </release>
 	    <release date="12/09/2017" version="6.1.2">
 	    	<action dev="joniles" type="update">Gracefully handle incomplete records in XER files.</action>
