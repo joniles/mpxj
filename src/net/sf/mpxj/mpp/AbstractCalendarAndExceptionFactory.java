@@ -26,9 +26,13 @@ package net.sf.mpxj.mpp;
 import java.util.Date;
 
 import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * Shared code used to read calendar data from MPP files.
@@ -116,6 +120,89 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
 
                offset += (92 + exceptionNameLength);
             }
+         }
+
+         processWorkWeeks(data, offset, cal);
+      }
+   }
+
+   /**
+    * Read the work weeks.
+    *
+    * @param data calendar data
+    * @param offset current offset into data
+    * @param cal parent calendar
+    */
+   private void processWorkWeeks(byte[] data, int offset, ProjectCalendar cal)
+   {
+      //      System.out.println(offset);
+      //      System.out.println(cal.getName());
+      //      System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+
+      // skip 6 byte header
+      offset += 6;
+
+      while (data.length >= offset + ((7 * 60) + 4 + 4 + 8 + 4))
+      {
+         // skip unknown w bytes
+         offset += 2;
+
+         ProjectCalendarWeek week = cal.addWorkWeek();
+         for (Day day : Day.values())
+         {
+            // 60 byte block per day
+            processWorkWeekDay(data, offset, week, day);
+            offset += 60;
+         }
+
+         Date startDate = DateHelper.getDayStartDate(MPPUtility.getDate(data, offset));
+         offset += 2;
+
+         Date finishDate = DateHelper.getDayEndDate(MPPUtility.getDate(data, offset));
+         offset += 2;
+
+         // skip unknown 8 bytes
+         //System.out.println(MPPUtility.hexdump(data, offset, 8, false));
+         offset += 8;
+
+         int nameLength = MPPUtility.getInt(data, offset);
+         offset += 4;
+
+         String name = MPPUtility.getUnicodeString(data, offset, nameLength);
+         offset += nameLength;
+
+         week.setName(name);
+         week.setDateRange(new DateRange(startDate, finishDate));
+      }
+   }
+
+   /**
+    * Process an individual work week day.
+    *
+    * @param data calendar data
+    * @param offset current offset into data
+    * @param week parent week
+    * @param day current day
+    */
+   private void processWorkWeekDay(byte[] data, int offset, ProjectCalendarWeek week, Day day)
+   {
+      //System.out.println(MPPUtility.hexdump(data, offset, 60, false));
+      int dayType = MPPUtility.getShort(data, offset + 0);
+      if (dayType == 1)
+      {
+         week.setWorkingDay(day, DayType.DEFAULT);
+      }
+      else
+      {
+         int rangeCount = MPPUtility.getShort(data, offset + 2);
+         if (rangeCount == 0)
+         {
+            week.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            week.setWorkingDay(day, DayType.WORKING);
+            // TODO
          }
       }
    }
