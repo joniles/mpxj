@@ -35,7 +35,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * MPP12-specific calendar factory.
  */
-public class MPP14CalendarFactory extends AbstractCalendarFactory
+class MPP14CalendarFactory extends AbstractCalendarAndExceptionFactory
 {
    /**
     * Constructor.

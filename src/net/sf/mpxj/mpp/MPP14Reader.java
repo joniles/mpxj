@@ -929,7 +929,7 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      AbstractCalendarFactory factory = new MPP14CalendarFactory(m_file);
+      CalendarFactory factory = new MPP14CalendarFactory(m_file);
       factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap);
    }
 

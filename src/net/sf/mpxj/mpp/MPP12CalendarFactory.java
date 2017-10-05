@@ -34,7 +34,7 @@ import net.sf.mpxj.ProjectFile;
 /**
  * MPP12-specific calendar factory.
  */
-public class MPP12CalendarFactory extends AbstractCalendarFactory
+class MPP12CalendarFactory extends AbstractCalendarAndExceptionFactory
 {
    /**
     * Constructor.

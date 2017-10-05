@@ -39,7 +39,6 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
@@ -48,7 +47,7 @@ import net.sf.mpxj.common.Pair;
 /**
  * Shared code used to read calendar data from MPP files.
  */
-public abstract class AbstractCalendarFactory
+abstract class AbstractCalendarFactory implements CalendarFactory
 {
    /**
     * Constructor.
@@ -72,7 +71,7 @@ public abstract class AbstractCalendarFactory
     * @param resourceMap map of resources to calendars
     * @throws IOException
     */
-   public void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
+   @Override public void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
    {
       DirectoryEntry calDir = (DirectoryEntry) projectDir.getEntry("TBkndCal");
 
@@ -283,73 +282,6 @@ public abstract class AbstractCalendarFactory
    }
 
    /**
-    * This method extracts any exceptions associated with a calendar.
-    *
-    * @param data calendar data block
-    * @param cal calendar instance
-    */
-   protected void processCalendarExceptions(byte[] data, ProjectCalendar cal)
-   {
-      //
-      // Handle any exceptions
-      //
-      if (data.length > 420)
-      {
-         int offset = 420; // The first 420 is for the working hours data
-
-         int exceptionCount = MPPUtility.getShort(data, offset);
-
-         if (exceptionCount != 0)
-         {
-            int index;
-            ProjectCalendarException exception;
-            long duration;
-            int periodCount;
-            Date start;
-
-            //
-            // Move to the start of the first exception
-            //
-            offset += 4;
-
-            //
-            // Each exception is a 92 byte block, followed by a
-            // variable length text block
-            //
-            for (index = 0; index < exceptionCount; index++)
-            {
-               Date fromDate = MPPUtility.getDate(data, offset);
-               Date toDate = MPPUtility.getDate(data, offset + 2);
-               exception = cal.addCalendarException(fromDate, toDate);
-
-               periodCount = MPPUtility.getShort(data, offset + 14);
-               if (periodCount != 0)
-               {
-                  for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
-                  {
-                     start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
-                     duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
-                  }
-               }
-
-               //
-               // Extract the name length - ensure that it is aligned to a 4 byte boundary
-               //
-               int exceptionNameLength = MPPUtility.getInt(data, offset + 88);
-               if (exceptionNameLength % 4 != 0)
-               {
-                  exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
-               }
-
-               //String exceptionName = MPPUtility.getUnicodeString(data, offset+92);
-               offset += (92 + exceptionNameLength);
-            }
-         }
-      }
-   }
-
-   /**
     * The way calendars are stored in an MPP14 file means that there
     * can be forward references between the base calendar unique ID for a
     * derived calendar, and the base calendar itself. To get around this,
@@ -428,6 +360,14 @@ public abstract class AbstractCalendarFactory
     * @return VarData type
     */
    protected abstract Integer getCalendarDataVarDataType();
+
+   /**
+    * This method extracts any exceptions associated with a calendar.
+    *
+    * @param data calendar data block
+    * @param cal calendar instance
+    */
+   protected abstract void processCalendarExceptions(byte[] data, ProjectCalendar cal);
 
    /**
     * Default working week.

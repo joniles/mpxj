@@ -38,7 +38,7 @@ import net.sf.mpxj.ProjectFile;
 /**
  * MPP9-specific calendar factory.
  */
-public class MPP9CalendarFactory extends AbstractCalendarFactory
+class MPP9CalendarFactory extends AbstractCalendarFactory
 {
    /**
     * Constructor.
