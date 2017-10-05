@@ -78,7 +78,7 @@ public abstract class AbstractCalendarFactory
 
       //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
-      VarMeta calVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
+      VarMeta calVarMeta = getCalendarVarMeta(calDir);
       Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
 
       //      System.out.println(calVarMeta);
@@ -122,7 +122,7 @@ public abstract class AbstractCalendarFactory
 
                if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
                {
-                  byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
+                  byte[] varData = calVarData.getByteArray(calendarID, getCalendarDataVarDataType());
                   ProjectCalendar cal;
 
                   if (baseCalendarID == 0 || baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
@@ -140,7 +140,7 @@ public abstract class AbstractCalendarFactory
                         cal = m_file.addDefaultBaseCalendar();
                      }
 
-                     cal.setName(calVarData.getUnicodeString(calendarID, CALENDAR_NAME));
+                     cal.setName(calVarData.getUnicodeString(calendarID, getCalendarNameVarDataType()));
                   }
                   else
                   {
@@ -210,7 +210,7 @@ public abstract class AbstractCalendarFactory
 
       for (index = 0; index < 7; index++)
       {
-         offset = (60 * index);
+         offset = getCalendarHoursOffset() + (60 * index);
          defaultFlag = data == null ? 1 : MPPUtility.getShort(data, offset);
          day = Day.getInstance(index + 1);
 
@@ -288,7 +288,7 @@ public abstract class AbstractCalendarFactory
     * @param data calendar data block
     * @param cal calendar instance
     */
-   private void processCalendarExceptions(byte[] data, ProjectCalendar cal)
+   protected void processCalendarExceptions(byte[] data, ProjectCalendar cal)
    {
       //
       // Handle any exceptions
@@ -400,8 +400,34 @@ public abstract class AbstractCalendarFactory
     */
    protected abstract int getResourceIDOffset();
 
-   private static final Integer CALENDAR_NAME = Integer.valueOf(1);
-   private static final Integer CALENDAR_DATA = Integer.valueOf(8);
+   /**
+    * Retrieve the calendar VarMeta data.
+    *
+    * @param directory calendar directory
+    * @return VarMeta instance
+    */
+   protected abstract VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException;
+
+   /**
+    * Retrieve the offset to the start of each calendar hours block.
+    *
+    * @return calendar hours offset
+    */
+   protected abstract int getCalendarHoursOffset();
+
+   /**
+    * Retrieve the VarData type containing the calendar name.
+    *
+    * @return VarData type
+    */
+   protected abstract Integer getCalendarNameVarDataType();
+
+   /**
+    * Retrieve the VarData type containing the calendar data.
+    *
+    * @return VarData type
+    */
+   protected abstract Integer getCalendarDataVarDataType();
 
    /**
     * Default working week.

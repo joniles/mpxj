@@ -23,6 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.IOException;
+
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import net.sf.mpxj.ProjectFile;
 
 /**
@@ -63,4 +69,39 @@ public class MPP12CalendarFactory extends AbstractCalendarFactory
    {
       return 8;
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int getCalendarHoursOffset()
+   {
+      return 0;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected Integer getCalendarNameVarDataType()
+   {
+      return CALENDAR_NAME;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected Integer getCalendarDataVarDataType()
+   {
+      return CALENDAR_DATA;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException
+   {
+      return new VarMeta12(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));
+   }
+
+   private static final Integer CALENDAR_NAME = Integer.valueOf(1);
+   private static final Integer CALENDAR_DATA = Integer.valueOf(8);
 }

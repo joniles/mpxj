@@ -39,16 +39,11 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarException;
-import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
@@ -65,7 +60,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
 
 /**
@@ -1017,253 +1011,8 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
-      VarMeta calVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
-      Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream(((DocumentEntry) calDir.getEntry("Var2Data"))));
-      FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(calDir, "FixedData"), 12);
-
-      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
-      int items = calFixedData.getItemCount();
-
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
-      byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
-      ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
-      processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
-
-      for (int loop = 0; loop < items; loop++)
-      {
-         byte[] fixedData = calFixedData.getByteArrayValue(loop);
-         if (fixedData != null && fixedData.length >= 8)
-         {
-            int offset = 0;
-
-            //
-            // Bug 890909, here we ensure that we have a complete 12 byte
-            // block before attempting to process the data.
-            //
-            while (offset + 12 <= fixedData.length)
-            {
-               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
-               int baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
-
-               if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
-               {
-                  byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
-                  ProjectCalendar cal;
-
-                  if (baseCalendarID == 0 || baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
-                  {
-                     if (varData != null || defaultCalendarData != null)
-                     {
-                        cal = m_file.addCalendar();
-                        if (varData == null)
-                        {
-                           varData = defaultCalendarData;
-                        }
-                     }
-                     else
-                     {
-                        cal = m_file.addDefaultBaseCalendar();
-                     }
-
-                     cal.setName(calVarData.getUnicodeString(calendarID, CALENDAR_NAME));
-                  }
-                  else
-                  {
-                     if (varData != null)
-                     {
-                        cal = m_file.addCalendar();
-                     }
-                     else
-                     {
-                        cal = m_file.addDefaultDerivedCalendar();
-                     }
-
-                     baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
-                     m_resourceMap.put(resourceID, cal);
-                  }
-
-                  cal.setUniqueID(calendarID);
-
-                  if (varData != null)
-                  {
-                     processCalendarHours(varData, defaultCalendar, cal, baseCalendarID == -1);
-                     processCalendarExceptions(varData, cal);
-                  }
-
-                  calendarMap.put(calendarID, cal);
-                  m_eventManager.fireCalendarReadEvent(cal);
-               }
-
-               offset += 12;
-            }
-         }
-      }
-
-      updateBaseCalendarNames(baseCalendars, calendarMap);
-   }
-
-   /**
-    * For a given set of calendar data, this method sets the working
-    * day status for each day, and if present, sets the hours for that
-    * day.
-    *
-    * @param data calendar data block
-    * @param defaultCalendar calendar to use for default values
-    * @param cal calendar instance
-    * @param isBaseCalendar true if this is a base calendar
-    */
-   private void processCalendarHours(byte[] data, ProjectCalendar defaultCalendar, ProjectCalendar cal, boolean isBaseCalendar)
-   {
-      // Dump out the calendar related data and fields.
-      //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
-
-      int offset;
-      ProjectCalendarHours hours;
-      int periodCount;
-      int periodIndex;
-      int index;
-      int defaultFlag;
-      Date start;
-      long duration;
-      Day day;
-
-      for (index = 0; index < 7; index++)
-      {
-         offset = 4 + (60 * index);
-         defaultFlag = data == null ? 1 : MPPUtility.getShort(data, offset);
-         day = Day.getInstance(index + 1);
-
-         if (defaultFlag == 1)
-         {
-            if (isBaseCalendar)
-            {
-               if (defaultCalendar == null)
-               {
-                  cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
-                  if (cal.isWorkingDay(day))
-                  {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
-                  }
-               }
-               else
-               {
-                  boolean workingDay = defaultCalendar.isWorkingDay(day);
-                  cal.setWorkingDay(day, workingDay);
-                  if (workingDay)
-                  {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     for (DateRange range : defaultCalendar.getHours(day))
-                     {
-                        hours.addRange(range);
-                     }
-                  }
-               }
-            }
-            else
-            {
-               cal.setWorkingDay(day, DayType.DEFAULT);
-            }
-         }
-         else
-         {
-            periodCount = MPPUtility.getShort(data, offset + 2);
-            if (periodCount == 0)
-            {
-               cal.setWorkingDay(day, false);
-            }
-            else
-            {
-               cal.setWorkingDay(day, true);
-               hours = cal.addCalendarHours(Day.getInstance(index + 1));
-
-               for (periodIndex = 0; periodIndex < periodCount; periodIndex++)
-               {
-                  start = MPPUtility.getTime(data, offset + 8 + (periodIndex * 2));
-                  duration = MPPUtility.getDuration(data, offset + 20 + (periodIndex * 4));
-                  hours.addRange(new DateRange(start, new Date(start.getTime() + duration)));
-               }
-            }
-         }
-      }
-   }
-
-   /**
-    * This method extracts any exceptions associated with a calendar.
-    *
-    * @param data calendar data block
-    * @param cal calendar instance
-    */
-   private void processCalendarExceptions(byte[] data, ProjectCalendar cal)
-   {
-      //
-      // Handle any exceptions
-      //
-      int exceptionCount = MPPUtility.getShort(data, 0);
-
-      if (exceptionCount != 0)
-      {
-         int index;
-         int offset;
-         ProjectCalendarException exception;
-         long duration;
-         int periodCount;
-         Date start;
-
-         for (index = 0; index < exceptionCount; index++)
-         {
-            offset = 4 + (60 * 7) + (index * 64);
-
-            Date fromDate = MPPUtility.getDate(data, offset);
-            Date toDate = MPPUtility.getDate(data, offset + 2);
-            exception = cal.addCalendarException(fromDate, toDate);
-
-            periodCount = MPPUtility.getShort(data, offset + 6);
-            if (periodCount != 0)
-            {
-               for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
-               {
-                  start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
-                  duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
-                  exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
-               }
-            }
-         }
-      }
-   }
-
-   /**
-    * The way calendars are stored in an MPP9 file means that there
-    * can be forward references between the base calendar unique ID for a
-    * derived calendar, and the base calendar itself. To get around this,
-    * we initially populate the base calendar name attribute with the
-    * base calendar unique ID, and now in this method we can convert those
-    * ID values into the correct names.
-    *
-    * @param baseCalendars list of calendars and base calendar IDs
-    * @param map map of calendar ID values and calendar objects
-    */
-   private void updateBaseCalendarNames(List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
-   {
-      for (Pair<ProjectCalendar, Integer> pair : baseCalendars)
-      {
-         ProjectCalendar cal = pair.getFirst();
-         Integer baseCalendarID = pair.getSecond();
-         ProjectCalendar baseCal = map.get(baseCalendarID);
-         if (baseCal != null && baseCal.getName() != null)
-         {
-            cal.setParent(baseCal);
-         }
-         else
-         {
-            // Remove invalid calendar to avoid serious problems later.
-            m_file.removeCalendar(cal);
-         }
-      }
+      AbstractCalendarFactory factory = new MPP9CalendarFactory(m_file);
+      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap);
    }
 
    /**
@@ -2351,11 +2100,6 @@ final class MPP9Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x02F70000;
    private static final int SUBPROJECT_TASKUNIQUEID5 = 0x07010000;
-   /**
-    * Calendar data types.
-    */
-   private static final Integer CALENDAR_NAME = Integer.valueOf(1);
-   private static final Integer CALENDAR_DATA = Integer.valueOf(3);
 
    private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(1);
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(2);
@@ -2373,20 +2117,6 @@ final class MPP9Reader implements MPPVariantReader
    private static final int TASK_UNIQUE_ID_FIXED_OFFSET = 0;
    private static final int TASK_ID_FIXED_OFFSET = 4;
    private static final int NULL_TASK_BLOCK_SIZE = 8;
-
-   /**
-    * Default working week.
-    */
-   private static final boolean[] DEFAULT_WORKING_WEEK =
-   {
-      false,
-      true,
-      true,
-      true,
-      true,
-      true,
-      false
-   };
 
    private static final Map<Integer, FieldType> RESOURCE_FIELD_ALIASES = new HashMap<Integer, FieldType>();
    static

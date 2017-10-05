@@ -1,5 +1,5 @@
 /*
- * file:       MPP14CalendarFactory.java
+ * file:       MPP9CalendarFactory.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       2017-10-04
@@ -24,40 +24,30 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.NumberHelper;
 
 /**
- * MPP12-specific calendar factory.
+ * MPP9-specific calendar factory.
  */
-public class MPP14CalendarFactory extends AbstractCalendarFactory
+public class MPP9CalendarFactory extends AbstractCalendarFactory
 {
    /**
     * Constructor.
     *
     * @param file parent ProjectFile instance
     */
-   public MPP14CalendarFactory(ProjectFile file)
+   public MPP9CalendarFactory(ProjectFile file)
    {
       super(file);
-
-      if (NumberHelper.getInt(file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
-      {
-         m_calendarIDOffset = 8;
-         m_baseIDOffset = 0;
-         m_resourceIDOffset = 4;
-      }
-      else
-      {
-         m_calendarIDOffset = 0;
-         m_baseIDOffset = 4;
-         m_resourceIDOffset = 8;
-      }
    }
 
    /**
@@ -65,7 +55,7 @@ public class MPP14CalendarFactory extends AbstractCalendarFactory
     */
    @Override protected int getCalendarIDOffset()
    {
-      return m_calendarIDOffset;
+      return 0;
    }
 
    /**
@@ -73,7 +63,7 @@ public class MPP14CalendarFactory extends AbstractCalendarFactory
     */
    @Override protected int getBaseIDOffset()
    {
-      return m_baseIDOffset;
+      return 4;
    }
 
    /**
@@ -81,7 +71,7 @@ public class MPP14CalendarFactory extends AbstractCalendarFactory
     */
    @Override protected int getResourceIDOffset()
    {
-      return m_resourceIDOffset;
+      return 8;
    }
 
    /**
@@ -89,7 +79,7 @@ public class MPP14CalendarFactory extends AbstractCalendarFactory
     */
    @Override protected int getCalendarHoursOffset()
    {
-      return 0;
+      return 4;
    }
 
    /**
@@ -113,13 +103,53 @@ public class MPP14CalendarFactory extends AbstractCalendarFactory
     */
    @Override protected VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException
    {
-      return new VarMeta12(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));
+      return new VarMeta9(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));
+   }
+
+   /**
+    * This method extracts any exceptions associated with a calendar.
+    *
+    * @param data calendar data block
+    * @param cal calendar instance
+    */
+   @Override protected void processCalendarExceptions(byte[] data, ProjectCalendar cal)
+   {
+      //
+      // Handle any exceptions
+      //
+      int exceptionCount = MPPUtility.getShort(data, 0);
+
+      if (exceptionCount != 0)
+      {
+         int index;
+         int offset;
+         ProjectCalendarException exception;
+         long duration;
+         int periodCount;
+         Date start;
+
+         for (index = 0; index < exceptionCount; index++)
+         {
+            offset = 4 + (60 * 7) + (index * 64);
+
+            Date fromDate = MPPUtility.getDate(data, offset);
+            Date toDate = MPPUtility.getDate(data, offset + 2);
+            exception = cal.addCalendarException(fromDate, toDate);
+
+            periodCount = MPPUtility.getShort(data, offset + 6);
+            if (periodCount != 0)
+            {
+               for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
+               {
+                  start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
+                  duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
+                  exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+               }
+            }
+         }
+      }
    }
 
    private static final Integer CALENDAR_NAME = Integer.valueOf(1);
-   private static final Integer CALENDAR_DATA = Integer.valueOf(8);
-
-   private final int m_calendarIDOffset;
-   private final int m_baseIDOffset;
-   private final int m_resourceIDOffset;
+   private static final Integer CALENDAR_DATA = Integer.valueOf(3);
 }
