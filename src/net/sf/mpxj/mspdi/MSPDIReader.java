@@ -393,12 +393,15 @@ public final class MSPDIReader extends AbstractProjectReader
          baseCalendars.add(new Pair<ProjectCalendar, BigInteger>(bc, baseCalendarID));
       }
 
+      readExceptions(calendar, bc);
+      boolean readExceptionsFromDays = bc.getCalendarExceptions().isEmpty();
+
       Project.Calendars.Calendar.WeekDays days = calendar.getWeekDays();
       if (days != null)
       {
          for (Project.Calendars.Calendar.WeekDays.WeekDay weekDay : days.getWeekDay())
          {
-            readDay(bc, weekDay);
+            readDay(bc, weekDay, readExceptionsFromDays);
          }
       }
       else
@@ -412,8 +415,6 @@ public final class MSPDIReader extends AbstractProjectReader
          bc.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
 
-      readExceptions(calendar, bc);
-
       readWorkWeeks(calendar, bc);
 
       map.put(calendar.getUID(), bc);
@@ -426,15 +427,19 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param calendar Calendar data
     * @param day Day data
+    * @param readExceptionsFromDays read exceptions form day definitions
     */
-   private void readDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day)
+   private void readDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day, boolean readExceptionsFromDays)
    {
       BigInteger dayType = day.getDayType();
       if (dayType != null)
       {
          if (dayType.intValue() == 0)
          {
-            readExceptionDay(calendar, day);
+            if (readExceptionsFromDays)
+            {
+               readExceptionDay(calendar, day);
+            }
          }
          else
          {
