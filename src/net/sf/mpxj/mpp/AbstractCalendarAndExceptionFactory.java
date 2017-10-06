@@ -68,7 +68,12 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
 
          int exceptionCount = MPPUtility.getShort(data, offset);
 
-         if (exceptionCount != 0)
+         if (exceptionCount == 0)
+         {
+            // align with 8 byte boundary ready to read work weeks
+            offset += 4;
+         }
+         else
          {
             int index;
             ProjectCalendarException exception;
@@ -117,8 +122,9 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   exception.setName(MPPUtility.getUnicodeString(data, offset + 92));
                }
 
-               //System.out.println(MPPUtility.hexdump(data, offset, 92, false));
-               //System.out.println(MPPUtility.hexdump(data, offset + 92, exceptionNameLength, true));
+               //               System.out.println(MPPUtility.hexdump(data, offset, 92, false));
+               //               System.out.println(MPPUtility.hexdump(data, offset + 92, exceptionNameLength, true));
+               //               System.out.println(exception);
 
                offset += (92 + exceptionNameLength);
             }
@@ -137,18 +143,16 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
     */
    private void processWorkWeeks(byte[] data, int offset, ProjectCalendar cal)
    {
-      //      System.out.println(offset);
-      //      System.out.println(cal.getName());
+      //      System.out.println("Calendar=" + cal.getName());
+      //      System.out.println("Work week block start offset=" + offset);
       //      System.out.println(MPPUtility.hexdump(data, true, 16, ""));
 
-      // skip 6 byte header
-      offset += 6;
+      // skip 4 byte header
+      offset += 4;
 
-      while (data.length >= offset + ((7 * 60) + 4 + 4 + 8 + 4))
+      while (data.length >= offset + ((7 * 60) + 2 + 2 + 8 + 4))
       {
-         // skip unknown w bytes
-         offset += 2;
-
+         //System.out.println("Week start offset=" + offset);
          ProjectCalendarWeek week = cal.addWorkWeek();
          for (Day day : Day.values())
          {
@@ -167,14 +171,25 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          //System.out.println(MPPUtility.hexdump(data, offset, 8, false));
          offset += 8;
 
+         //
+         // Extract the name length - ensure that it is aligned to a 4 byte boundary
+         //
          int nameLength = MPPUtility.getInt(data, offset);
+         if (nameLength % 4 != 0)
+         {
+            nameLength = ((nameLength / 4) + 1) * 4;
+         }
          offset += 4;
 
-         String name = MPPUtility.getUnicodeString(data, offset, nameLength);
-         offset += nameLength;
+         if (nameLength != 0)
+         {
+            String name = MPPUtility.getUnicodeString(data, offset, nameLength);
+            offset += nameLength;
+            week.setName(name);
+         }
 
-         week.setName(name);
          week.setDateRange(new DateRange(startDate, finishDate));
+         // System.out.println(week);
       }
    }
 

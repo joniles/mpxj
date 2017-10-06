@@ -31,7 +31,7 @@ import net.sf.mpxj.common.DateHelper;
 /**
  * This class represents a basic working week, with no exceptions.
  */
-public class ProjectCalendarWeek
+public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 {
    /**
     * Calendar name.
@@ -330,12 +330,23 @@ public class ProjectCalendarWeek
    /**
     * {@inheritDoc}
     */
+   @Override public int compareTo(ProjectCalendarWeek o)
+   {
+      long fromTime1 = m_dateRange.getStart().getTime();
+      long fromTime2 = o.m_dateRange.getStart().getTime();
+      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
       pw.println("[ProjectCalendarWeek");
       pw.println("   name=" + getName());
+      pw.println("   date_range=" + getDateRange());
 
       String[] dayName =
       {
