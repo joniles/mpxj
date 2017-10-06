@@ -23,6 +23,9 @@
 
 package net.sf.mpxj;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -322,6 +325,40 @@ public class ProjectCalendarWeek
       }
 
       m_days[day.getValue() - 1] = value;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("[ProjectCalendarWeek");
+      pw.println("   name=" + getName());
+
+      String[] dayName =
+      {
+         "Sunday",
+         "Monday",
+         "Tuesday",
+         "Wednesday",
+         "Thursday",
+         "Friday",
+         "Saturday"
+      };
+
+      for (int loop = 0; loop < 7; loop++)
+      {
+         pw.println("   [Day " + dayName[loop]);
+         pw.println("      type=" + getDays()[loop]);
+         pw.println("      hours=" + getHours()[loop]);
+         pw.println("   ]");
+      }
+
+      pw.println("]");
+      pw.flush();
+      return (os.toString());
    }
 
    /**

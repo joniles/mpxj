@@ -1652,6 +1652,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          pw.println("   ]");
       }
 
+      if (!m_workWeeks.isEmpty())
+      {
+         pw.println("   [WorkWeeks=");
+         for (ProjectCalendarWeek week : m_workWeeks)
+         {
+            pw.println("      " + week.toString());
+         }
+         pw.println("   ]");
+      }
+
       pw.println("]");
       pw.flush();
       return (os.toString());
