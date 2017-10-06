@@ -212,6 +212,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       }
       else
       {
+         ProjectCalendarHours hours = week.addCalendarHours(day);
          int rangeCount = MPPUtility.getShort(data, offset + 2);
          if (rangeCount == 0)
          {
@@ -220,8 +221,6 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          else
          {
             week.setWorkingDay(day, DayType.WORKING);
-            ProjectCalendarHours hours = week.addCalendarHours(day);
-
             Calendar cal = Calendar.getInstance();
             for (int index = 0; index < rangeCount; index++)
             {
