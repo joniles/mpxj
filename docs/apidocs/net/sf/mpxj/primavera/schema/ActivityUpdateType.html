@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ActivityUpdateType (MPXJ 6.1.2 API)</title>
+<title>ActivityUpdateType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ActivityUpdateType (MPXJ 6.1.2 API)";
+        parent.document.title="ActivityUpdateType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -107,6 +107,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
        &lt;sequence>
          &lt;element name="ActivityObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+         &lt;element name="ActivityOwnerUserId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="ApprovalDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
          &lt;element name="ApprovalUserName" minOccurs="0">
            &lt;simpleType>
@@ -243,110 +244,114 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#activityObjectId">activityObjectId</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#activityOwnerUserId">activityOwnerUserId</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#approvalDate">approvalDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#approvalUserName">approvalUserName</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#approvalUserObjectId">approvalUserObjectId</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#changeSetObjectId">changeSetObjectId</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#date">date</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#heldDate">heldDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideActualFinishDate">overrideActualFinishDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideActualLaborUnits">overrideActualLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideActualNonLaborUnits">overrideActualNonLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideActualStartDate">overrideActualStartDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideExpectedFinishDate">overrideExpectedFinishDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overridePercentComplete">overridePercentComplete</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideRemainingDuration">overrideRemainingDuration</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideRemainingLaborUnits">overrideRemainingLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#overrideRemainingNonLaborUnits">overrideRemainingNonLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingActualFinishDate">pendingActualFinishDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingActualLaborUnits">pendingActualLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingActualNonLaborUnits">pendingActualNonLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingActualStartDate">pendingActualStartDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingExpectedFinishDate">pendingExpectedFinishDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingPercentComplete">pendingPercentComplete</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingRemainingDuration">pendingRemainingDuration</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingRemainingLaborUnits">pendingRemainingLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#pendingRemainingNonLaborUnits">pendingRemainingNonLaborUnits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#projectObjectId">projectObjectId</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#requestUserObjectId">requestUserObjectId</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#status">status</a></strong></code>&nbsp;</td>
 </tr>
@@ -389,171 +394,183 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getActivityOwnerUserId()">getActivityOwnerUserId</a></strong>()</code>
+<div class="block">Gets the value of the activityOwnerUserId property.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getApprovalDate()">getApprovalDate</a></strong>()</code>
 <div class="block">Gets the value of the approvalDate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getApprovalUserName()">getApprovalUserName</a></strong>()</code>
 <div class="block">Gets the value of the approvalUserName property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getApprovalUserObjectId()">getApprovalUserObjectId</a></strong>()</code>
 <div class="block">Gets the value of the approvalUserObjectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getChangeSetObjectId()">getChangeSetObjectId</a></strong>()</code>
 <div class="block">Gets the value of the changeSetObjectId property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getDate()">getDate</a></strong>()</code>
 <div class="block">Gets the value of the date property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getHeldDate()">getHeldDate</a></strong>()</code>
 <div class="block">Gets the value of the heldDate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideActualFinishDate()">getOverrideActualFinishDate</a></strong>()</code>
 <div class="block">Gets the value of the overrideActualFinishDate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideActualLaborUnits()">getOverrideActualLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the overrideActualLaborUnits property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideActualNonLaborUnits()">getOverrideActualNonLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the overrideActualNonLaborUnits property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideActualStartDate()">getOverrideActualStartDate</a></strong>()</code>
 <div class="block">Gets the value of the overrideActualStartDate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideExpectedFinishDate()">getOverrideExpectedFinishDate</a></strong>()</code>
 <div class="block">Gets the value of the overrideExpectedFinishDate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverridePercentComplete()">getOverridePercentComplete</a></strong>()</code>
 <div class="block">Gets the value of the overridePercentComplete property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideRemainingDuration()">getOverrideRemainingDuration</a></strong>()</code>
 <div class="block">Gets the value of the overrideRemainingDuration property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideRemainingLaborUnits()">getOverrideRemainingLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the overrideRemainingLaborUnits property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getOverrideRemainingNonLaborUnits()">getOverrideRemainingNonLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the overrideRemainingNonLaborUnits property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingActualFinishDate()">getPendingActualFinishDate</a></strong>()</code>
 <div class="block">Gets the value of the pendingActualFinishDate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingActualLaborUnits()">getPendingActualLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the pendingActualLaborUnits property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingActualNonLaborUnits()">getPendingActualNonLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the pendingActualNonLaborUnits property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingActualStartDate()">getPendingActualStartDate</a></strong>()</code>
 <div class="block">Gets the value of the pendingActualStartDate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingExpectedFinishDate()">getPendingExpectedFinishDate</a></strong>()</code>
 <div class="block">Gets the value of the pendingExpectedFinishDate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingPercentComplete()">getPendingPercentComplete</a></strong>()</code>
 <div class="block">Gets the value of the pendingPercentComplete property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingRemainingDuration()">getPendingRemainingDuration</a></strong>()</code>
 <div class="block">Gets the value of the pendingRemainingDuration property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingRemainingLaborUnits()">getPendingRemainingLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the pendingRemainingLaborUnits property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getPendingRemainingNonLaborUnits()">getPendingRemainingNonLaborUnits</a></strong>()</code>
 <div class="block">Gets the value of the pendingRemainingNonLaborUnits property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getProjectObjectId()">getProjectObjectId</a></strong>()</code>
 <div class="block">Gets the value of the projectObjectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getRequestUserObjectId()">getRequestUserObjectId</a></strong>()</code>
 <div class="block">Gets the value of the requestUserObjectId property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#getStatus()">getStatus</a></strong>()</code>
 <div class="block">Gets the value of the status property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#setActivityObjectId(java.lang.Integer)">setActivityObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the activityObjectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html#setActivityOwnerUserId(java.lang.Integer)">setActivityOwnerUserId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
+<div class="block">Sets the value of the activityOwnerUserId property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -747,6 +764,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>activityObjectId</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> activityObjectId</pre>
+</li>
+</ul>
+<a name="activityOwnerUserId">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>activityOwnerUserId</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> activityOwnerUserId</pre>
 </li>
 </ul>
 <a name="approvalDate">
@@ -1037,6 +1063,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setActivityObjectId</h4>
 <pre>public&nbsp;void&nbsp;setActivityObjectId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the activityObjectId property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="getActivityOwnerUserId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getActivityOwnerUserId</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;getActivityOwnerUserId()</pre>
+<div class="block">Gets the value of the activityOwnerUserId property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="setActivityOwnerUserId(java.lang.Integer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setActivityOwnerUserId</h4>
+<pre>public&nbsp;void&nbsp;setActivityOwnerUserId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the activityOwnerUserId property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
 </li>

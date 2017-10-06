@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>GlobalPreferencesType (MPXJ 6.1.2 API)</title>
+<title>GlobalPreferencesType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="GlobalPreferencesType (MPXJ 6.1.2 API)";
+        parent.document.title="GlobalPreferencesType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -35,7 +35,7 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../net/sf/mpxj/primavera/schema/FundingSourceType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Prev Class</span></a></li>
 <li><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPrivilegesType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
@@ -224,6 +224,17 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="GatewayApiUrl" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayExportERPSyncName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayExportPrimeSyncName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayExportUnifierSyncName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayImportERPSyncName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayImportPrimeSyncName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayImportUnifierSyncName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayP6DeploymentName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayPassword" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="GatewayUnifierEnabled" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="GatewayUsername" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="HeaderLabel1" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -310,7 +321,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
                &lt;minInclusive value="1"/>
-               &lt;maxInclusive value="20"/>
+               &lt;maxInclusive value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -325,7 +336,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
                &lt;minInclusive value="1"/>
-               &lt;maxInclusive value="20"/>
+               &lt;maxInclusive value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -357,7 +368,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
                &lt;minInclusive value="1"/>
-               &lt;maxInclusive value="20"/>
+               &lt;maxInclusive value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -389,7 +400,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
                &lt;minInclusive value="1"/>
-               &lt;maxInclusive value="20"/>
+               &lt;maxInclusive value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -413,7 +424,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
                &lt;minInclusive value="1"/>
-               &lt;maxInclusive value="20"/>
+               &lt;maxInclusive value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -463,6 +474,8 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="PrimeSyncPassword" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="PrimeSyncUsername" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="ResourcesCanAssignThemselvesToActivities" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="StartDayOfWeek" minOccurs="0">
            &lt;simpleType>
@@ -668,245 +681,297 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#headerLabel1">headerLabel1</a></strong></code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayApiUrl">gatewayApiUrl</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayExportERPSyncName">gatewayExportERPSyncName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayExportPrimeSyncName">gatewayExportPrimeSyncName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayExportUnifierSyncName">gatewayExportUnifierSyncName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayImportERPSyncName">gatewayImportERPSyncName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayImportPrimeSyncName">gatewayImportPrimeSyncName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayImportUnifierSyncName">gatewayImportUnifierSyncName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayP6DeploymentName">gatewayP6DeploymentName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayPassword">gatewayPassword</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayUnifierEnabled">gatewayUnifierEnabled</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#gatewayUsername">gatewayUsername</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#headerLabel1">headerLabel1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#headerLabel2">headerLabel2</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#headerLabel3">headerLabel3</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#hourAbbreviation">hourAbbreviation</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#hoursPerDay">hoursPerDay</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#hoursPerMonth">hoursPerMonth</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#hoursPerWeek">hoursPerWeek</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#hoursPerYear">hoursPerYear</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#lastUpdateDate">lastUpdateDate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#lastUpdateUser">lastUpdateUser</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#logHoursAfterActualFinish">logHoursAfterActualFinish</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#logHoursBeforeActualStart">logHoursBeforeActualStart</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#logHoursCompletedActivities">logHoursCompletedActivities</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#logHoursInFuture">logHoursInFuture</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#logHoursNotStartedActivities">logHoursNotStartedActivities</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxActivityCodesPerProject">maxActivityCodesPerProject</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxActivityCodeTreeLevels">maxActivityCodeTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxActivityIdLength">maxActivityIdLength</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxBaselinesPerProject">maxBaselinesPerProject</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxCostAccountLength">maxCostAccountLength</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxCostAccountTreeLevels">maxCostAccountTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maximumBaselinesCopiedWithProject">maximumBaselinesCopiedWithProject</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxOBSTreeLevels">maxOBSTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxProjectCodeTreeLevels">maxProjectCodeTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxProjectIdLength">maxProjectIdLength</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxResourceCodeTreeLevels">maxResourceCodeTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxResourceIdLength">maxResourceIdLength</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxResourceTreeLevels">maxResourceTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxRoleIdLength">maxRoleIdLength</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxRoleTreeLevels">maxRoleTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxTimesheetResourceHours">maxTimesheetResourceHours</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxWBSCodeLength">maxWBSCodeLength</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#maxWBSTreeLevels">maxWBSTreeLevels</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#minuteAbbreviation">minuteAbbreviation</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#monthAbbreviation">monthAbbreviation</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#numberOfAccessibleFutureTimesheets">numberOfAccessibleFutureTimesheets</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#numberOfAccessiblePastTimesheets">numberOfAccessiblePastTimesheets</a></strong></code>&nbsp;</td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#primeSyncPassword">primeSyncPassword</a></strong></code>&nbsp;</td>
+</tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#primeSyncUsername">primeSyncUsername</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#resourcesCanAssignThemselvesToActivities">resourcesCanAssignThemselvesToActivities</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#startDayOfWeek">startDayOfWeek</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#summarizeByCalendar">summarizeByCalendar</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#summarizeByFinancialPeriods">summarizeByFinancialPeriods</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#summaryResourceSpreadInterval">summaryResourceSpreadInterval</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#summaryWBSSpreadInterval">summaryWBSSpreadInterval</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timesheetApprovalLevel">timesheetApprovalLevel</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timesheetDecimalDigits">timesheetDecimalDigits</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timesheetInterval">timesheetInterval</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timesheetPeriodEndsOnDay">timesheetPeriodEndsOnDay</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timesheetPeriodType">timesheetPeriodType</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timeWindowCompletedActivities">timeWindowCompletedActivities</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#timeWindowNotStartedActivities">timeWindowNotStartedActivities</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#unifierAuthCode">unifierAuthCode</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#unifierCompanyShortName">unifierCompanyShortName</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#unifierWebServiceURL">unifierWebServiceURL</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#useCalendarTimePeriodsFlag">useCalendarTimePeriodsFlag</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#useMaxTimesheetResourceHours">useMaxTimesheetResourceHours</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#useProjectManagerApproval">useProjectManagerApproval</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#useTimesheets">useTimesheets</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#wbsCategoryLabel">wbsCategoryLabel</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#wbsCodeSeparator">wbsCodeSeparator</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#weekAbbreviation">weekAbbreviation</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#yearAbbreviation">yearAbbreviation</a></strong></code>&nbsp;</td>
 </tr>
@@ -1048,6 +1113,66 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getFooterLabel3()">getFooterLabel3</a></strong>()</code>
 <div class="block">Gets the value of the footerLabel3 property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayApiUrl()">getGatewayApiUrl</a></strong>()</code>
+<div class="block">Gets the value of the gatewayApiUrl property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayExportERPSyncName()">getGatewayExportERPSyncName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayExportERPSyncName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayExportPrimeSyncName()">getGatewayExportPrimeSyncName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayExportPrimeSyncName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayExportUnifierSyncName()">getGatewayExportUnifierSyncName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayExportUnifierSyncName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayImportERPSyncName()">getGatewayImportERPSyncName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayImportERPSyncName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayImportPrimeSyncName()">getGatewayImportPrimeSyncName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayImportPrimeSyncName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayImportUnifierSyncName()">getGatewayImportUnifierSyncName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayImportUnifierSyncName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayP6DeploymentName()">getGatewayP6DeploymentName</a></strong>()</code>
+<div class="block">Gets the value of the gatewayP6DeploymentName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayPassword()">getGatewayPassword</a></strong>()</code>
+<div class="block">Gets the value of the gatewayPassword property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getGatewayUsername()">getGatewayUsername</a></strong>()</code>
+<div class="block">Gets the value of the gatewayUsername property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -1243,6 +1368,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getPrimeSyncPassword()">getPrimeSyncPassword</a></strong>()</code>
+<div class="block">Gets the value of the primeSyncPassword property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getPrimeSyncUsername()">getPrimeSyncUsername</a></strong>()</code>
+<div class="block">Gets the value of the primeSyncUsername property.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#getStartDayOfWeek()">getStartDayOfWeek</a></strong>()</code>
 <div class="block">Gets the value of the startDayOfWeek property.</div>
@@ -1364,200 +1501,272 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isGatewayUnifierEnabled()">isGatewayUnifierEnabled</a></strong>()</code>
+<div class="block">Gets the value of the gatewayUnifierEnabled property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isLogHoursAfterActualFinish()">isLogHoursAfterActualFinish</a></strong>()</code>
 <div class="block">Gets the value of the logHoursAfterActualFinish property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isLogHoursBeforeActualStart()">isLogHoursBeforeActualStart</a></strong>()</code>
 <div class="block">Gets the value of the logHoursBeforeActualStart property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isLogHoursCompletedActivities()">isLogHoursCompletedActivities</a></strong>()</code>
 <div class="block">Gets the value of the logHoursCompletedActivities property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isLogHoursInFuture()">isLogHoursInFuture</a></strong>()</code>
 <div class="block">Gets the value of the logHoursInFuture property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isLogHoursNotStartedActivities()">isLogHoursNotStartedActivities</a></strong>()</code>
 <div class="block">Gets the value of the logHoursNotStartedActivities property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isResourcesCanAssignThemselvesToActivities()">isResourcesCanAssignThemselvesToActivities</a></strong>()</code>
 <div class="block">Gets the value of the resourcesCanAssignThemselvesToActivities property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isSummarizeByCalendar()">isSummarizeByCalendar</a></strong>()</code>
 <div class="block">Gets the value of the summarizeByCalendar property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isSummarizeByFinancialPeriods()">isSummarizeByFinancialPeriods</a></strong>()</code>
 <div class="block">Gets the value of the summarizeByFinancialPeriods property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isTimesheetInterval()">isTimesheetInterval</a></strong>()</code>
 <div class="block">Gets the value of the timesheetInterval property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isUseCalendarTimePeriodsFlag()">isUseCalendarTimePeriodsFlag</a></strong>()</code>
 <div class="block">Gets the value of the useCalendarTimePeriodsFlag property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isUseMaxTimesheetResourceHours()">isUseMaxTimesheetResourceHours</a></strong>()</code>
 <div class="block">Gets the value of the useMaxTimesheetResourceHours property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#isUseTimesheets()">isUseTimesheets</a></strong>()</code>
 <div class="block">Gets the value of the useTimesheets property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setAlwaysLaunchOnlineHelp(java.lang.Boolean)">setAlwaysLaunchOnlineHelp</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the alwaysLaunchOnlineHelp property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setBaseCurrencyObjectId(java.lang.Integer)">setBaseCurrencyObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the baseCurrencyObjectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setContractManagementURL(java.lang.String)">setContractManagementURL</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the contractManagementURL property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setCreateDate(java.util.Date)">setCreateDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Sets the value of the createDate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setCreateUser(java.lang.String)">setCreateUser</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the createUser property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setCustomLabel1(java.lang.String)">setCustomLabel1</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the customLabel1 property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setCustomLabel2(java.lang.String)">setCustomLabel2</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the customLabel2 property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setCustomLabel3(java.lang.String)">setCustomLabel3</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the customLabel3 property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setDayAbbreviation(java.lang.String)">setDayAbbreviation</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the dayAbbreviation property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setDefaultDuration(java.lang.Double)">setDefaultDuration</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the defaultDuration property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setDefaultTimesheetApprovalManager(java.lang.Integer)">setDefaultTimesheetApprovalManager</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the defaultTimesheetApprovalManager property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEarnedValueCalculation(java.lang.String)">setEarnedValueCalculation</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the earnedValueCalculation property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEnablePasswordPolicy(java.lang.Boolean)">setEnablePasswordPolicy</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the enablePasswordPolicy property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEnableTSAudit(java.lang.Boolean)">setEnableTSAudit</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the enableTSAudit property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEVEstimateToCompleteFactor(java.lang.Double)">setEVEstimateToCompleteFactor</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the evEstimateToCompleteFactor property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEVEstimateToCompleteTechnique(java.lang.String)">setEVEstimateToCompleteTechnique</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the evEstimateToCompleteTechnique property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEVPerformancePctCompleteCustomPct(java.lang.Double)">setEVPerformancePctCompleteCustomPct</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the evPerformancePctCompleteCustomPct property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setEVPerformancePctCompleteTechnique(java.lang.String)">setEVPerformancePctCompleteTechnique</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the evPerformancePctCompleteTechnique property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setFooterLabel1(java.lang.String)">setFooterLabel1</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the footerLabel1 property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setFooterLabel2(java.lang.String)">setFooterLabel2</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the footerLabel2 property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setFooterLabel3(java.lang.String)">setFooterLabel3</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the footerLabel3 property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayApiUrl(java.lang.String)">setGatewayApiUrl</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayApiUrl property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayExportERPSyncName(java.lang.String)">setGatewayExportERPSyncName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayExportERPSyncName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayExportPrimeSyncName(java.lang.String)">setGatewayExportPrimeSyncName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayExportPrimeSyncName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayExportUnifierSyncName(java.lang.String)">setGatewayExportUnifierSyncName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayExportUnifierSyncName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayImportERPSyncName(java.lang.String)">setGatewayImportERPSyncName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayImportERPSyncName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayImportPrimeSyncName(java.lang.String)">setGatewayImportPrimeSyncName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayImportPrimeSyncName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayImportUnifierSyncName(java.lang.String)">setGatewayImportUnifierSyncName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayImportUnifierSyncName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayP6DeploymentName(java.lang.String)">setGatewayP6DeploymentName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayP6DeploymentName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayPassword(java.lang.String)">setGatewayPassword</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayPassword property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayUnifierEnabled(java.lang.Boolean)">setGatewayUnifierEnabled</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayUnifierEnabled property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setGatewayUsername(java.lang.String)">setGatewayUsername</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the gatewayUsername property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1780,6 +1989,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setNumberOfAccessiblePastTimesheets(java.lang.Integer)">setNumberOfAccessiblePastTimesheets</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the numberOfAccessiblePastTimesheets property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setPrimeSyncPassword(java.lang.String)">setPrimeSyncPassword</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the primeSyncPassword property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html#setPrimeSyncUsername(java.lang.String)">setPrimeSyncUsername</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the primeSyncUsername property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -2137,6 +2358,105 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> footerLabel3</pre>
 </li>
 </ul>
+<a name="gatewayApiUrl">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayApiUrl</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayApiUrl</pre>
+</li>
+</ul>
+<a name="gatewayExportERPSyncName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayExportERPSyncName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayExportERPSyncName</pre>
+</li>
+</ul>
+<a name="gatewayExportPrimeSyncName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayExportPrimeSyncName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayExportPrimeSyncName</pre>
+</li>
+</ul>
+<a name="gatewayExportUnifierSyncName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayExportUnifierSyncName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayExportUnifierSyncName</pre>
+</li>
+</ul>
+<a name="gatewayImportERPSyncName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayImportERPSyncName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayImportERPSyncName</pre>
+</li>
+</ul>
+<a name="gatewayImportPrimeSyncName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayImportPrimeSyncName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayImportPrimeSyncName</pre>
+</li>
+</ul>
+<a name="gatewayImportUnifierSyncName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayImportUnifierSyncName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayImportUnifierSyncName</pre>
+</li>
+</ul>
+<a name="gatewayP6DeploymentName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayP6DeploymentName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayP6DeploymentName</pre>
+</li>
+</ul>
+<a name="gatewayPassword">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayPassword</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayPassword</pre>
+</li>
+</ul>
+<a name="gatewayUnifierEnabled">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayUnifierEnabled</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> gatewayUnifierEnabled</pre>
+</li>
+</ul>
+<a name="gatewayUsername">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayUsername</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> gatewayUsername</pre>
+</li>
+</ul>
 <a name="headerLabel1">
 <!--   -->
 </a>
@@ -2468,6 +2788,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>numberOfAccessiblePastTimesheets</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> numberOfAccessiblePastTimesheets</pre>
+</li>
+</ul>
+<a name="primeSyncPassword">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>primeSyncPassword</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> primeSyncPassword</pre>
+</li>
+</ul>
+<a name="primeSyncUsername">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>primeSyncUsername</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> primeSyncUsername</pre>
 </li>
 </ul>
 <a name="resourcesCanAssignThemselvesToActivities">
@@ -3211,6 +3549,270 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setFooterLabel3</h4>
 <pre>public&nbsp;void&nbsp;setFooterLabel3(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the footerLabel3 property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayApiUrl()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayApiUrl</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayApiUrl()</pre>
+<div class="block">Gets the value of the gatewayApiUrl property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayApiUrl(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayApiUrl</h4>
+<pre>public&nbsp;void&nbsp;setGatewayApiUrl(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayApiUrl property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayExportERPSyncName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayExportERPSyncName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayExportERPSyncName()</pre>
+<div class="block">Gets the value of the gatewayExportERPSyncName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayExportERPSyncName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayExportERPSyncName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayExportERPSyncName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayExportERPSyncName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayExportPrimeSyncName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayExportPrimeSyncName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayExportPrimeSyncName()</pre>
+<div class="block">Gets the value of the gatewayExportPrimeSyncName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayExportPrimeSyncName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayExportPrimeSyncName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayExportPrimeSyncName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayExportPrimeSyncName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayExportUnifierSyncName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayExportUnifierSyncName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayExportUnifierSyncName()</pre>
+<div class="block">Gets the value of the gatewayExportUnifierSyncName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayExportUnifierSyncName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayExportUnifierSyncName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayExportUnifierSyncName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayExportUnifierSyncName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayImportERPSyncName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayImportERPSyncName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayImportERPSyncName()</pre>
+<div class="block">Gets the value of the gatewayImportERPSyncName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayImportERPSyncName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayImportERPSyncName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayImportERPSyncName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayImportERPSyncName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayImportPrimeSyncName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayImportPrimeSyncName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayImportPrimeSyncName()</pre>
+<div class="block">Gets the value of the gatewayImportPrimeSyncName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayImportPrimeSyncName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayImportPrimeSyncName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayImportPrimeSyncName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayImportPrimeSyncName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayImportUnifierSyncName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayImportUnifierSyncName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayImportUnifierSyncName()</pre>
+<div class="block">Gets the value of the gatewayImportUnifierSyncName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayImportUnifierSyncName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayImportUnifierSyncName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayImportUnifierSyncName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayImportUnifierSyncName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayP6DeploymentName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayP6DeploymentName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayP6DeploymentName()</pre>
+<div class="block">Gets the value of the gatewayP6DeploymentName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayP6DeploymentName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayP6DeploymentName</h4>
+<pre>public&nbsp;void&nbsp;setGatewayP6DeploymentName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayP6DeploymentName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayPassword()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayPassword</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayPassword()</pre>
+<div class="block">Gets the value of the gatewayPassword property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayPassword(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayPassword</h4>
+<pre>public&nbsp;void&nbsp;setGatewayPassword(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayPassword property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isGatewayUnifierEnabled()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isGatewayUnifierEnabled</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isGatewayUnifierEnabled()</pre>
+<div class="block">Gets the value of the gatewayUnifierEnabled property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayUnifierEnabled(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayUnifierEnabled</h4>
+<pre>public&nbsp;void&nbsp;setGatewayUnifierEnabled(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayUnifierEnabled property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="getGatewayUsername()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayUsername</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getGatewayUsername()</pre>
+<div class="block">Gets the value of the gatewayUsername property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setGatewayUsername(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGatewayUsername</h4>
+<pre>public&nbsp;void&nbsp;setGatewayUsername(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the gatewayUsername property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
@@ -4103,6 +4705,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
 </li>
 </ul>
+<a name="getPrimeSyncPassword()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPrimeSyncPassword</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getPrimeSyncPassword()</pre>
+<div class="block">Gets the value of the primeSyncPassword property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setPrimeSyncPassword(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPrimeSyncPassword</h4>
+<pre>public&nbsp;void&nbsp;setPrimeSyncPassword(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the primeSyncPassword property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getPrimeSyncUsername()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPrimeSyncUsername</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getPrimeSyncUsername()</pre>
+<div class="block">Gets the value of the primeSyncUsername property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setPrimeSyncUsername(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPrimeSyncUsername</h4>
+<pre>public&nbsp;void&nbsp;setPrimeSyncUsername(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the primeSyncUsername property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
 <a name="isResourcesCanAssignThemselvesToActivities()">
 <!--   -->
 </a>
@@ -4705,7 +5355,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../net/sf/mpxj/primavera/schema/FundingSourceType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Prev Class</span></a></li>
 <li><a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPrivilegesType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">

@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>WBSType (MPXJ 6.1.2 API)</title>
+<title>WBSType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="WBSType (MPXJ 6.1.2 API)";
+        parent.document.title="WBSType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -111,7 +111,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="Code" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="20"/>
+               &lt;maxLength value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -177,12 +177,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
                &lt;enumeration value=""/>
                &lt;enumeration value="ERP"/>
-               &lt;enumeration value="Fusion"/>
+               &lt;enumeration value="Gateway"/>
+               &lt;enumeration value="PrimeScope"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="IntegratedWBS" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="IsBaseline" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="IsTemplate" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="IsWorkPackage" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="LastUpdateDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
          &lt;element name="LastUpdateUser" minOccurs="0">
            &lt;simpleType>
@@ -212,12 +215,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="ProjectId" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="20"/>
+               &lt;maxLength value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="ProjectObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="ProposedBudget" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+         &lt;element name="RolledUpFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+         &lt;element name="RolledUpStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
          &lt;element name="SequenceNumber" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="StartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
          &lt;element name="Status" minOccurs="0">
@@ -363,10 +368,10 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="UndistributedCurrentVariance" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
          &lt;element name="WBSCategoryObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="WBSMilestonePercentComplete" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
-         &lt;element name="UDF" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UDFAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Spread" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}EPSProjectWBSSpreadType" minOccurs="0"/>
-         &lt;element name="WBSResourceSpread" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectResourceSpreadType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="WBSRoleSpread" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectRoleSpreadType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UDF" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UDFAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Spread" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}EPSProjectWBSSpreadType" minOccurs="0"/>
+         &lt;element name="WBSResourceSpread" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectResourceSpreadType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="WBSRoleSpread" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectRoleSpreadType" maxOccurs="unbounded" minOccurs="0"/>
        &lt;/sequence>
      &lt;/restriction>
    &lt;/complexContent>
@@ -472,11 +477,19 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isBaseline">isBaseline</a></strong></code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#integratedWBS">integratedWBS</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isBaseline">isBaseline</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isTemplate">isTemplate</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isWorkPackage">isWorkPackage</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
@@ -521,6 +534,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#proposedBudget">proposedBudget</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#rolledUpFinishDate">rolledUpFinishDate</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#rolledUpStartDate">rolledUpStartDate</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
@@ -1284,6 +1305,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#getProposedBudget()">getProposedBudget</a></strong>()</code>
 <div class="block">Gets the value of the proposedBudget property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#getRolledUpFinishDate()">getRolledUpFinishDate</a></strong>()</code>
+<div class="block">Gets the value of the rolledUpFinishDate property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#getRolledUpStartDate()">getRolledUpStartDate</a></strong>()</code>
+<div class="block">Gets the value of the rolledUpStartDate property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -2122,14 +2155,26 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isIsBaseline()">isIsBaseline</a></strong>()</code>
-<div class="block">Gets the value of the isBaseline property.</div>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isIntegratedWBS()">isIntegratedWBS</a></strong>()</code>
+<div class="block">Gets the value of the integratedWBS property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isIsBaseline()">isIsBaseline</a></strong>()</code>
+<div class="block">Gets the value of the isBaseline property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isIsTemplate()">isIsTemplate</a></strong>()</code>
 <div class="block">Gets the value of the isTemplate property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#isIsWorkPackage()">isIsWorkPackage</a></strong>()</code>
+<div class="block">Gets the value of the isWorkPackage property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -2254,14 +2299,26 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setIsBaseline(java.lang.Boolean)">setIsBaseline</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
-<div class="block">Sets the value of the isBaseline property.</div>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setIntegratedWBS(java.lang.Boolean)">setIntegratedWBS</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the integratedWBS property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setIsBaseline(java.lang.Boolean)">setIsBaseline</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the isBaseline property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setIsTemplate(java.lang.Boolean)">setIsTemplate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the isTemplate property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setIsWorkPackage(java.lang.Boolean)">setIsWorkPackage</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the isWorkPackage property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -2328,6 +2385,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setProposedBudget(java.lang.Double)">setProposedBudget</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the proposedBudget property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setRolledUpFinishDate(java.util.Date)">setRolledUpFinishDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
+<div class="block">Sets the value of the rolledUpFinishDate property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html#setRolledUpStartDate(java.util.Date)">setRolledUpStartDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
+<div class="block">Sets the value of the rolledUpStartDate property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -3342,6 +3411,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> integratedType</pre>
 </li>
 </ul>
+<a name="integratedWBS">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>integratedWBS</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> integratedWBS</pre>
+</li>
+</ul>
 <a name="isBaseline">
 <!--   -->
 </a>
@@ -3358,6 +3436,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>isTemplate</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> isTemplate</pre>
+</li>
+</ul>
+<a name="isWorkPackage">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isWorkPackage</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> isWorkPackage</pre>
 </li>
 </ul>
 <a name="lastUpdateDate">
@@ -3457,6 +3544,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>proposedBudget</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a> proposedBudget</pre>
+</li>
+</ul>
+<a name="rolledUpFinishDate">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rolledUpFinishDate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a> rolledUpFinishDate</pre>
+</li>
+</ul>
+<a name="rolledUpStartDate">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rolledUpStartDate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a> rolledUpStartDate</pre>
 </li>
 </ul>
 <a name="sequenceNumber">
@@ -5206,6 +5311,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
+<a name="isIntegratedWBS()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isIntegratedWBS</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isIntegratedWBS()</pre>
+<div class="block">Gets the value of the integratedWBS property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setIntegratedWBS(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setIntegratedWBS</h4>
+<pre>public&nbsp;void&nbsp;setIntegratedWBS(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the integratedWBS property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
 <a name="isIsBaseline()">
 <!--   -->
 </a>
@@ -5250,6 +5379,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setIsTemplate</h4>
 <pre>public&nbsp;void&nbsp;setIsTemplate(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the isTemplate property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="isIsWorkPackage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isIsWorkPackage</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isIsWorkPackage()</pre>
+<div class="block">Gets the value of the isWorkPackage property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setIsWorkPackage(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setIsWorkPackage</h4>
+<pre>public&nbsp;void&nbsp;setIsWorkPackage(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the isWorkPackage property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
@@ -5516,6 +5669,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Sets the value of the proposedBudget property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang"><code>Double</code></a></dd></dl>
+</li>
+</ul>
+<a name="getRolledUpFinishDate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRolledUpFinishDate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;getRolledUpFinishDate()</pre>
+<div class="block">Gets the value of the rolledUpFinishDate property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setRolledUpFinishDate(java.util.Date)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRolledUpFinishDate</h4>
+<pre>public&nbsp;void&nbsp;setRolledUpFinishDate(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the rolledUpFinishDate property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getRolledUpStartDate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRolledUpStartDate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;getRolledUpStartDate()</pre>
+<div class="block">Gets the value of the rolledUpStartDate property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setRolledUpStartDate(java.util.Date)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRolledUpStartDate</h4>
+<pre>public&nbsp;void&nbsp;setRolledUpStartDate(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the rolledUpStartDate property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
 <a name="getSequenceNumber()">

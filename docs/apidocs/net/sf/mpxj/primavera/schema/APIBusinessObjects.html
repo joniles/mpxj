@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>APIBusinessObjects (MPXJ 6.1.2 API)</title>
+<title>APIBusinessObjects (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="APIBusinessObjects (MPXJ 6.1.2 API)";
+        parent.document.title="APIBusinessObjects (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -106,115 +106,130 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
    &lt;complexContent>
      &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
        &lt;sequence>
-         &lt;element name="ProjectResourceCategory" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectResourceCategoryType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UnitOfMeasure" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UnitOfMeasureType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="CostAccount" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}CostAccountType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Currency" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}CurrencyType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UDFType" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UDFTypeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UDFCode" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UDFCodeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ExpenseCategory" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ExpenseCategoryType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="NotebookTopic" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}NotebookTopicType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="WBSCategory" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}WBSCategoryType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="FundingSource" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}FundingSourceType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ThresholdParameter" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ThresholdParameterType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="OBS" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}OBSType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ShiftPeriod" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ShiftPeriodType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Shift" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ShiftType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Calendar" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}CalendarType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectCodeType" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectCodeTypeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectCode" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectCodeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceCodeType" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceCodeTypeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceCode" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceCodeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceCurve" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceCurveType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Role" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RoleType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RoleRate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RoleRateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RoleLimit" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RoleLimitType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Resource" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceRate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceRateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityCodeType" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityCodeTypeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityCode" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityCodeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="FinancialPeriod" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}FinancialPeriodType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceRole" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceRoleType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="EPS" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}EPSType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="DocumentCategory" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}DocumentCategoryType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="DocumentStatusCode" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}DocumentStatusCodeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskCategory" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskCategoryType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskThreshold" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskThresholdType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskThresholdLevel" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskThresholdLevelType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskMatrix" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskMatrixType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskMatrixScore" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskMatrixScoreType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskMatrixThreshold" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskMatrixThresholdType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Activity" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityCodeAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityCodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityCodeUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityCodeUpdateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityComment" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityCommentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityExpense" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityExpenseType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityNote" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityNoteType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityOwner" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityOwnerType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityPeriodActual" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityPeriodActualType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityRisk" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityRiskType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityStep" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityStepType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityStepCreate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityStepCreateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityStepDelete" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityStepDeleteType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityStepTemplate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityStepTemplateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityStepTemplateItem" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityStepTemplateItemType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityStepUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityStepUpdateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ActivityUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ActivityUpdateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="BaselineProject" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}BaselineProjectType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="BaselineType" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}BaselineTypeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ChangeSet" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ChangeSetType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Document" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}DocumentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="EPSBudgetChangeLog" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}EPSBudgetChangeLogType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="EPSFunding" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}EPSFundingType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="EPSNote" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}EPSNoteType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="EPSSpendingPlan" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}EPSSpendingPlanType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="GlobalPreferences" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}GlobalPreferencesType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="GlobalProfile" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}GlobalProfileType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="IssueHistory" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}IssueHistoryType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Location" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}LocationType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="OverheadCode" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}OverheadCodeType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Project" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectBudgetChangeLog" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectBudgetChangeLogType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectCodeAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectCodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectDocument" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectDocumentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectFunding" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectFundingType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectIssue" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectIssueType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectNote" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectNoteType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectPortfolio" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectPortfolioType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectProfile" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectProfileType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectResource" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectResourceType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectResourceQuantity" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectResourceQuantityType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectSpendingPlan" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectSpendingPlanType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectThreshold" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectThresholdType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Relationship" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RelationshipType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceAccess" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceAccessType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceAssignmentPeriodActual" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceAssignmentPeriodActualType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceAssignmentUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceAssignmentUpdateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceCodeAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceCodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceHour" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceHourType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceLocation" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceLocationType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ResourceTeam" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceTeamType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Risk" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskImpact" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskImpactType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskResponseAction" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskResponseActionType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskResponseActionImpact" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskResponseActionImpactType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RiskResponsePlan" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RiskResponsePlanType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="RoleTeam" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}RoleTeamType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ScheduleOptions" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ScheduleOptionsType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="Timesheet" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}TimesheetType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="TimesheetAudit" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}TimesheetAuditType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="TimesheetDelegate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}TimesheetDelegateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="TimesheetPeriod" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}TimesheetPeriodType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UDFValue" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UDFValueType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="User" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UserType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UserDefinedValueUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UserDefinedValueUpdateType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UserFieldTitle" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UserFieldTitleType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UserInterfaceView" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UserInterfaceViewType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UserLicense" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UserLicenseType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UserOBS" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UserOBSType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="WBS" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}WBSType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="WBSMilestone" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}WBSMilestoneType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="CHECKUID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="ProjectList" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectListType" minOccurs="0"/>
+         &lt;element name="ProjectResourceCategory" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectResourceCategoryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UnitOfMeasure" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UnitOfMeasureType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="CostAccount" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}CostAccountType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Currency" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}CurrencyType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UDFType" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UDFTypeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UDFCode" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UDFCodeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ExpenseCategory" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ExpenseCategoryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="NotebookTopic" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}NotebookTopicType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="WBSCategory" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}WBSCategoryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="FundingSource" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}FundingSourceType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ThresholdParameter" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ThresholdParameterType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="OBS" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}OBSType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ShiftPeriod" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ShiftPeriodType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Shift" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ShiftType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Calendar" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}CalendarType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectCodeType" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectCodeTypeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectCode" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectCodeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceCodeType" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceCodeTypeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceCode" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceCodeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceCurve" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceCurveType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Role" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RoleType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RoleRate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RoleRateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RoleLimit" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RoleLimitType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Resource" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceRate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceRateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityCodeType" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityCodeTypeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityCode" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityCodeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="FinancialPeriod" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}FinancialPeriodType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceRole" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceRoleType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="EPS" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}EPSType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="DocumentCategory" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}DocumentCategoryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="DocumentStatusCode" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}DocumentStatusCodeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskCategory" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskCategoryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskThreshold" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskThresholdType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskThresholdLevel" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskThresholdLevelType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskMatrix" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskMatrixType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskMatrixScore" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskMatrixScoreType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskMatrixThreshold" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskMatrixThresholdType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Activity" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityCodeAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityCodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityCodeUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityCodeUpdateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityComment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityCommentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityExpense" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityExpenseType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityFilter" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityFilterType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityNote" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityNoteType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityNoteUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityNoteUpdateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityOwner" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityOwnerType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityPeriodActual" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityPeriodActualType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityRisk" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityRiskType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityStep" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityStepType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityStepCreate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityStepCreateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityStepDelete" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityStepDeleteType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityStepTemplate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityStepTemplateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityStepTemplateItem" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityStepTemplateItemType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityStepUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityStepUpdateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ActivityUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ActivityUpdateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="BaselineType" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}BaselineTypeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="CBS" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}CBSType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="CBSDurationSummary" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}CBSDurationSummaryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ChangeSet" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ChangeSetType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Document" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}DocumentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="EPSBudgetChangeLog" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}EPSBudgetChangeLogType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="EPSFunding" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}EPSFundingType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="EPSNote" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}EPSNoteType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="EPSSpendingPlan" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}EPSSpendingPlanType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="GatewayDeployment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}GatewayDeploymentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="GlobalPreferences" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}GlobalPreferencesType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="GlobalProfile" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}GlobalProfileType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="GlobalReplace" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}GlobalReplaceType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ImportOptionsTemplate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ImportOptionsTemplateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="IssueHistory" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}IssueHistoryType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="JobService" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}JobServiceType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Location" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}LocationType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="MSPTemplate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}MSPTemplateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="OverheadCode" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}OverheadCodeType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Project" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="BaselineProject" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}BaselineProjectType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectBudgetChangeLog" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectBudgetChangeLogType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectCodeAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectCodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectDeployment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectDeploymentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectDocument" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectDocumentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectFunding" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectFundingType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectIssue" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectIssueType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectNote" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectNoteType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectPortfolio" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectPortfolioType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectProfile" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectProfileType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectResource" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectResourceType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectResourceQuantity" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectResourceQuantityType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectSpendingPlan" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectSpendingPlanType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectThreshold" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectThresholdType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Relationship" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RelationshipType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceAccess" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceAccessType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceAssignmentCreate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceAssignmentCreateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceAssignmentPeriodActual" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceAssignmentPeriodActualType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceAssignmentUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceAssignmentUpdateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceCodeAssignment" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceCodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceHour" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceHourType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceLocation" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceLocationType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ResourceTeam" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceTeamType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Risk" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskImpact" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskImpactType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskResponseAction" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskResponseActionType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskResponseActionImpact" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskResponseActionImpactType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RiskResponsePlan" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RiskResponsePlanType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="RoleTeam" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}RoleTeamType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ScheduleCheckOption" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ScheduleCheckOptionType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ScheduleOptions" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ScheduleOptionsType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Timesheet" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}TimesheetType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="TimesheetAudit" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}TimesheetAuditType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="TimesheetDelegate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}TimesheetDelegateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="TimesheetPeriod" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}TimesheetPeriodType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UDFValue" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UDFValueType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UpdateBaselineOption" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UpdateBaselineOptionType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="User" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UserType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UserDefinedValueUpdate" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UserDefinedValueUpdateType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UserFieldTitle" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UserFieldTitleType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UserInterfaceView" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UserInterfaceViewType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UserLicense" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UserLicenseType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UserOBS" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UserOBSType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="WBS" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}WBSType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="WBSMilestone" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}WBSMilestoneType" maxOccurs="unbounded" minOccurs="0"/>
        &lt;/sequence>
      &lt;/restriction>
    &lt;/complexContent>
@@ -267,8 +282,16 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#activityExpense">activityExpense</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema">ActivityFilterType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#activityFilter">activityFilter</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#activityNote">activityNote</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteUpdateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#activityNoteUpdate">activityNoteUpdate</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityOwnerType.html" title="class in net.sf.mpxj.primavera.schema">ActivityOwnerType</a>&gt;</code></td>
@@ -323,60 +346,76 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#calendar">calendar</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSType.html" title="class in net.sf.mpxj.primavera.schema">CBSType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#cbs">cbs</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSDurationSummaryType.html" title="class in net.sf.mpxj.primavera.schema">CBSDurationSummaryType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#cbsDurationSummary">cbsDurationSummary</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ChangeSetType.html" title="class in net.sf.mpxj.primavera.schema">ChangeSetType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#changeSet">changeSet</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#checkuid">checkuid</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CostAccountType.html" title="class in net.sf.mpxj.primavera.schema">CostAccountType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#costAccount">costAccount</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CurrencyType.html" title="class in net.sf.mpxj.primavera.schema">CurrencyType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#currency">currency</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/DocumentType.html" title="class in net.sf.mpxj.primavera.schema">DocumentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#document">document</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/DocumentCategoryType.html" title="class in net.sf.mpxj.primavera.schema">DocumentCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#documentCategory">documentCategory</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/DocumentStatusCodeType.html" title="class in net.sf.mpxj.primavera.schema">DocumentStatusCodeType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#documentStatusCode">documentStatusCode</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSType.html" title="class in net.sf.mpxj.primavera.schema">EPSType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#eps">eps</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSBudgetChangeLogType.html" title="class in net.sf.mpxj.primavera.schema">EPSBudgetChangeLogType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#epsBudgetChangeLog">epsBudgetChangeLog</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSFundingType.html" title="class in net.sf.mpxj.primavera.schema">EPSFundingType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#epsFunding">epsFunding</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSNoteType.html" title="class in net.sf.mpxj.primavera.schema">EPSNoteType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#epsNote">epsNote</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSSpendingPlanType.html" title="class in net.sf.mpxj.primavera.schema">EPSSpendingPlanType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#epsSpendingPlan">epsSpendingPlan</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ExpenseCategoryType.html" title="class in net.sf.mpxj.primavera.schema">ExpenseCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#expenseCategory">expenseCategory</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/FinancialPeriodType.html" title="class in net.sf.mpxj.primavera.schema">FinancialPeriodType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#financialPeriod">financialPeriod</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/FundingSourceType.html" title="class in net.sf.mpxj.primavera.schema">FundingSourceType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#fundingSource">fundingSource</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">GatewayDeploymentType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#gatewayDeployment">gatewayDeployment</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GlobalPreferencesType.html" title="class in net.sf.mpxj.primavera.schema">GlobalPreferencesType</a>&gt;</code></td>
@@ -387,12 +426,28 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#globalProfile">globalProfile</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GlobalReplaceType.html" title="class in net.sf.mpxj.primavera.schema">GlobalReplaceType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#globalReplace">globalReplace</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ImportOptionsTemplateType.html" title="class in net.sf.mpxj.primavera.schema">ImportOptionsTemplateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#importOptionsTemplate">importOptionsTemplate</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/IssueHistoryType.html" title="class in net.sf.mpxj.primavera.schema">IssueHistoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#issueHistory">issueHistory</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/JobServiceType.html" title="class in net.sf.mpxj.primavera.schema">JobServiceType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#jobService">jobService</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/LocationType.html" title="class in net.sf.mpxj.primavera.schema">LocationType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#location">location</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/MSPTemplateType.html" title="class in net.sf.mpxj.primavera.schema">MSPTemplateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#mspTemplate">mspTemplate</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/NotebookTopicType.html" title="class in net.sf.mpxj.primavera.schema">NotebookTopicType</a>&gt;</code></td>
@@ -427,16 +482,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#projectCodeType">projectCodeType</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectDeploymentType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#projectDeployment">projectDeployment</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDocumentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectDocumentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#projectDocument">projectDocument</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectFundingType.html" title="class in net.sf.mpxj.primavera.schema">ProjectFundingType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#projectFunding">projectFunding</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectIssueType.html" title="class in net.sf.mpxj.primavera.schema">ProjectIssueType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#projectIssue">projectIssue</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema">ProjectListType</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#projectList">projectList</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectNoteType.html" title="class in net.sf.mpxj.primavera.schema">ProjectNoteType</a>&gt;</code></td>
@@ -487,108 +550,116 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceAssignment">resourceAssignment</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentCreateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentCreateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceAssignmentCreate">resourceAssignmentCreate</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentPeriodActualType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentPeriodActualType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceAssignmentPeriodActual">resourceAssignmentPeriodActual</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentUpdateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceAssignmentUpdate">resourceAssignmentUpdate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCodeType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCodeType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceCode">resourceCode</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCodeAssignmentType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCodeAssignmentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceCodeAssignment">resourceCodeAssignment</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCodeTypeType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCodeTypeType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceCodeType">resourceCodeType</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCurveType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCurveType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceCurve">resourceCurve</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceHourType.html" title="class in net.sf.mpxj.primavera.schema">ResourceHourType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceHour">resourceHour</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceLocationType.html" title="class in net.sf.mpxj.primavera.schema">ResourceLocationType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceLocation">resourceLocation</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceRateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceRateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceRate">resourceRate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceRoleType.html" title="class in net.sf.mpxj.primavera.schema">ResourceRoleType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceRole">resourceRole</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceTeamType.html" title="class in net.sf.mpxj.primavera.schema">ResourceTeamType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#resourceTeam">resourceTeam</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskType.html" title="class in net.sf.mpxj.primavera.schema">RiskType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#risk">risk</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskCategoryType.html" title="class in net.sf.mpxj.primavera.schema">RiskCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskCategory">riskCategory</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskImpactType.html" title="class in net.sf.mpxj.primavera.schema">RiskImpactType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskImpact">riskImpact</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskMatrixType.html" title="class in net.sf.mpxj.primavera.schema">RiskMatrixType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskMatrix">riskMatrix</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskMatrixScoreType.html" title="class in net.sf.mpxj.primavera.schema">RiskMatrixScoreType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskMatrixScore">riskMatrixScore</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskMatrixThresholdType.html" title="class in net.sf.mpxj.primavera.schema">RiskMatrixThresholdType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskMatrixThreshold">riskMatrixThreshold</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html" title="class in net.sf.mpxj.primavera.schema">RiskResponseActionType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskResponseAction">riskResponseAction</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionImpactType.html" title="class in net.sf.mpxj.primavera.schema">RiskResponseActionImpactType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskResponseActionImpact">riskResponseActionImpact</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponsePlanType.html" title="class in net.sf.mpxj.primavera.schema">RiskResponsePlanType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskResponsePlan">riskResponsePlan</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskThresholdType.html" title="class in net.sf.mpxj.primavera.schema">RiskThresholdType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskThreshold">riskThreshold</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskThresholdLevelType.html" title="class in net.sf.mpxj.primavera.schema">RiskThresholdLevelType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#riskThresholdLevel">riskThresholdLevel</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleType.html" title="class in net.sf.mpxj.primavera.schema">RoleType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#role">role</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleLimitType.html" title="class in net.sf.mpxj.primavera.schema">RoleLimitType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#roleLimit">roleLimit</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleRateType.html" title="class in net.sf.mpxj.primavera.schema">RoleRateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#roleRate">roleRate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleTeamType.html" title="class in net.sf.mpxj.primavera.schema">RoleTeamType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#roleTeam">roleTeam</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ScheduleCheckOptionType.html" title="class in net.sf.mpxj.primavera.schema">ScheduleCheckOptionType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#scheduleCheckOption">scheduleCheckOption</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ScheduleOptionsType.html" title="class in net.sf.mpxj.primavera.schema">ScheduleOptionsType</a>&gt;</code></td>
@@ -639,38 +710,42 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#unitOfMeasure">unitOfMeasure</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UpdateBaselineOptionType.html" title="class in net.sf.mpxj.primavera.schema">UpdateBaselineOptionType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#updateBaselineOption">updateBaselineOption</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html" title="class in net.sf.mpxj.primavera.schema">UserType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#user">user</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserDefinedValueUpdateType.html" title="class in net.sf.mpxj.primavera.schema">UserDefinedValueUpdateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#userDefinedValueUpdate">userDefinedValueUpdate</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserFieldTitleType.html" title="class in net.sf.mpxj.primavera.schema">UserFieldTitleType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#userFieldTitle">userFieldTitle</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserInterfaceViewType.html" title="class in net.sf.mpxj.primavera.schema">UserInterfaceViewType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#userInterfaceView">userInterfaceView</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserLicenseType.html" title="class in net.sf.mpxj.primavera.schema">UserLicenseType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#userLicense">userLicense</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserOBSType.html" title="class in net.sf.mpxj.primavera.schema">UserOBSType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#userOBS">userOBS</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html" title="class in net.sf.mpxj.primavera.schema">WBSType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#wbs">wbs</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/WBSCategoryType.html" title="class in net.sf.mpxj.primavera.schema">WBSCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#wbsCategory">wbsCategory</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/WBSMilestoneType.html" title="class in net.sf.mpxj.primavera.schema">WBSMilestoneType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#wbsMilestone">wbsMilestone</a></strong></code>&nbsp;</td>
 </tr>
@@ -749,9 +824,21 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema">ActivityFilterType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getActivityFilter()">getActivityFilter</a></strong>()</code>
+<div class="block">Gets the value of the activityFilter property.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getActivityNote()">getActivityNote</a></strong>()</code>
 <div class="block">Gets the value of the activityNote property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteUpdateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getActivityNoteUpdate()">getActivityNoteUpdate</a></strong>()</code>
+<div class="block">Gets the value of the activityNoteUpdate property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -833,87 +920,111 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSType.html" title="class in net.sf.mpxj.primavera.schema">CBSType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getCBS()">getCBS</a></strong>()</code>
+<div class="block">Gets the value of the cbs property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSDurationSummaryType.html" title="class in net.sf.mpxj.primavera.schema">CBSDurationSummaryType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getCBSDurationSummary()">getCBSDurationSummary</a></strong>()</code>
+<div class="block">Gets the value of the cbsDurationSummary property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ChangeSetType.html" title="class in net.sf.mpxj.primavera.schema">ChangeSetType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getChangeSet()">getChangeSet</a></strong>()</code>
 <div class="block">Gets the value of the changeSet property.</div>
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getCHECKUID()">getCHECKUID</a></strong>()</code>
+<div class="block">Gets the value of the checkuid property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CostAccountType.html" title="class in net.sf.mpxj.primavera.schema">CostAccountType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getCostAccount()">getCostAccount</a></strong>()</code>
 <div class="block">Gets the value of the costAccount property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CurrencyType.html" title="class in net.sf.mpxj.primavera.schema">CurrencyType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getCurrency()">getCurrency</a></strong>()</code>
 <div class="block">Gets the value of the currency property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/DocumentType.html" title="class in net.sf.mpxj.primavera.schema">DocumentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getDocument()">getDocument</a></strong>()</code>
 <div class="block">Gets the value of the document property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/DocumentCategoryType.html" title="class in net.sf.mpxj.primavera.schema">DocumentCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getDocumentCategory()">getDocumentCategory</a></strong>()</code>
 <div class="block">Gets the value of the documentCategory property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/DocumentStatusCodeType.html" title="class in net.sf.mpxj.primavera.schema">DocumentStatusCodeType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getDocumentStatusCode()">getDocumentStatusCode</a></strong>()</code>
 <div class="block">Gets the value of the documentStatusCode property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSType.html" title="class in net.sf.mpxj.primavera.schema">EPSType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getEPS()">getEPS</a></strong>()</code>
 <div class="block">Gets the value of the eps property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSBudgetChangeLogType.html" title="class in net.sf.mpxj.primavera.schema">EPSBudgetChangeLogType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getEPSBudgetChangeLog()">getEPSBudgetChangeLog</a></strong>()</code>
 <div class="block">Gets the value of the epsBudgetChangeLog property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSFundingType.html" title="class in net.sf.mpxj.primavera.schema">EPSFundingType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getEPSFunding()">getEPSFunding</a></strong>()</code>
 <div class="block">Gets the value of the epsFunding property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSNoteType.html" title="class in net.sf.mpxj.primavera.schema">EPSNoteType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getEPSNote()">getEPSNote</a></strong>()</code>
 <div class="block">Gets the value of the epsNote property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSSpendingPlanType.html" title="class in net.sf.mpxj.primavera.schema">EPSSpendingPlanType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getEPSSpendingPlan()">getEPSSpendingPlan</a></strong>()</code>
 <div class="block">Gets the value of the epsSpendingPlan property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ExpenseCategoryType.html" title="class in net.sf.mpxj.primavera.schema">ExpenseCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getExpenseCategory()">getExpenseCategory</a></strong>()</code>
 <div class="block">Gets the value of the expenseCategory property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/FinancialPeriodType.html" title="class in net.sf.mpxj.primavera.schema">FinancialPeriodType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getFinancialPeriod()">getFinancialPeriod</a></strong>()</code>
 <div class="block">Gets the value of the financialPeriod property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/FundingSourceType.html" title="class in net.sf.mpxj.primavera.schema">FundingSourceType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getFundingSource()">getFundingSource</a></strong>()</code>
 <div class="block">Gets the value of the fundingSource property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">GatewayDeploymentType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getGatewayDeployment()">getGatewayDeployment</a></strong>()</code>
+<div class="block">Gets the value of the gatewayDeployment property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -929,15 +1040,39 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GlobalReplaceType.html" title="class in net.sf.mpxj.primavera.schema">GlobalReplaceType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getGlobalReplace()">getGlobalReplace</a></strong>()</code>
+<div class="block">Gets the value of the globalReplace property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ImportOptionsTemplateType.html" title="class in net.sf.mpxj.primavera.schema">ImportOptionsTemplateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getImportOptionsTemplate()">getImportOptionsTemplate</a></strong>()</code>
+<div class="block">Gets the value of the importOptionsTemplate property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/IssueHistoryType.html" title="class in net.sf.mpxj.primavera.schema">IssueHistoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getIssueHistory()">getIssueHistory</a></strong>()</code>
 <div class="block">Gets the value of the issueHistory property.</div>
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/JobServiceType.html" title="class in net.sf.mpxj.primavera.schema">JobServiceType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getJobService()">getJobService</a></strong>()</code>
+<div class="block">Gets the value of the jobService property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/LocationType.html" title="class in net.sf.mpxj.primavera.schema">LocationType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getLocation()">getLocation</a></strong>()</code>
 <div class="block">Gets the value of the location property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/MSPTemplateType.html" title="class in net.sf.mpxj.primavera.schema">MSPTemplateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getMSPTemplate()">getMSPTemplate</a></strong>()</code>
+<div class="block">Gets the value of the mspTemplate property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -989,21 +1124,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectDeploymentType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getProjectDeployment()">getProjectDeployment</a></strong>()</code>
+<div class="block">Gets the value of the projectDeployment property.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDocumentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectDocumentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getProjectDocument()">getProjectDocument</a></strong>()</code>
 <div class="block">Gets the value of the projectDocument property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectFundingType.html" title="class in net.sf.mpxj.primavera.schema">ProjectFundingType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getProjectFunding()">getProjectFunding</a></strong>()</code>
 <div class="block">Gets the value of the projectFunding property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectIssueType.html" title="class in net.sf.mpxj.primavera.schema">ProjectIssueType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getProjectIssue()">getProjectIssue</a></strong>()</code>
 <div class="block">Gets the value of the projectIssue property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema">ProjectListType</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getProjectList()">getProjectList</a></strong>()</code>
+<div class="block">Gets the value of the projectList property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -1079,159 +1226,171 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentCreateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentCreateType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceAssignmentCreate()">getResourceAssignmentCreate</a></strong>()</code>
+<div class="block">Gets the value of the resourceAssignmentCreate property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentPeriodActualType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentPeriodActualType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceAssignmentPeriodActual()">getResourceAssignmentPeriodActual</a></strong>()</code>
 <div class="block">Gets the value of the resourceAssignmentPeriodActual property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentUpdateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceAssignmentUpdate()">getResourceAssignmentUpdate</a></strong>()</code>
 <div class="block">Gets the value of the resourceAssignmentUpdate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCodeType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCodeType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceCode()">getResourceCode</a></strong>()</code>
 <div class="block">Gets the value of the resourceCode property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCodeAssignmentType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCodeAssignmentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceCodeAssignment()">getResourceCodeAssignment</a></strong>()</code>
 <div class="block">Gets the value of the resourceCodeAssignment property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCodeTypeType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCodeTypeType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceCodeType()">getResourceCodeType</a></strong>()</code>
 <div class="block">Gets the value of the resourceCodeType property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceCurveType.html" title="class in net.sf.mpxj.primavera.schema">ResourceCurveType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceCurve()">getResourceCurve</a></strong>()</code>
 <div class="block">Gets the value of the resourceCurve property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceHourType.html" title="class in net.sf.mpxj.primavera.schema">ResourceHourType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceHour()">getResourceHour</a></strong>()</code>
 <div class="block">Gets the value of the resourceHour property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceLocationType.html" title="class in net.sf.mpxj.primavera.schema">ResourceLocationType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceLocation()">getResourceLocation</a></strong>()</code>
 <div class="block">Gets the value of the resourceLocation property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceRateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceRateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceRate()">getResourceRate</a></strong>()</code>
 <div class="block">Gets the value of the resourceRate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceRoleType.html" title="class in net.sf.mpxj.primavera.schema">ResourceRoleType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceRole()">getResourceRole</a></strong>()</code>
 <div class="block">Gets the value of the resourceRole property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceTeamType.html" title="class in net.sf.mpxj.primavera.schema">ResourceTeamType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getResourceTeam()">getResourceTeam</a></strong>()</code>
 <div class="block">Gets the value of the resourceTeam property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskType.html" title="class in net.sf.mpxj.primavera.schema">RiskType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRisk()">getRisk</a></strong>()</code>
 <div class="block">Gets the value of the risk property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskCategoryType.html" title="class in net.sf.mpxj.primavera.schema">RiskCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskCategory()">getRiskCategory</a></strong>()</code>
 <div class="block">Gets the value of the riskCategory property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskImpactType.html" title="class in net.sf.mpxj.primavera.schema">RiskImpactType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskImpact()">getRiskImpact</a></strong>()</code>
 <div class="block">Gets the value of the riskImpact property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskMatrixType.html" title="class in net.sf.mpxj.primavera.schema">RiskMatrixType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskMatrix()">getRiskMatrix</a></strong>()</code>
 <div class="block">Gets the value of the riskMatrix property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskMatrixScoreType.html" title="class in net.sf.mpxj.primavera.schema">RiskMatrixScoreType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskMatrixScore()">getRiskMatrixScore</a></strong>()</code>
 <div class="block">Gets the value of the riskMatrixScore property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskMatrixThresholdType.html" title="class in net.sf.mpxj.primavera.schema">RiskMatrixThresholdType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskMatrixThreshold()">getRiskMatrixThreshold</a></strong>()</code>
 <div class="block">Gets the value of the riskMatrixThreshold property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html" title="class in net.sf.mpxj.primavera.schema">RiskResponseActionType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskResponseAction()">getRiskResponseAction</a></strong>()</code>
 <div class="block">Gets the value of the riskResponseAction property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionImpactType.html" title="class in net.sf.mpxj.primavera.schema">RiskResponseActionImpactType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskResponseActionImpact()">getRiskResponseActionImpact</a></strong>()</code>
 <div class="block">Gets the value of the riskResponseActionImpact property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponsePlanType.html" title="class in net.sf.mpxj.primavera.schema">RiskResponsePlanType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskResponsePlan()">getRiskResponsePlan</a></strong>()</code>
 <div class="block">Gets the value of the riskResponsePlan property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskThresholdType.html" title="class in net.sf.mpxj.primavera.schema">RiskThresholdType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskThreshold()">getRiskThreshold</a></strong>()</code>
 <div class="block">Gets the value of the riskThreshold property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RiskThresholdLevelType.html" title="class in net.sf.mpxj.primavera.schema">RiskThresholdLevelType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRiskThresholdLevel()">getRiskThresholdLevel</a></strong>()</code>
 <div class="block">Gets the value of the riskThresholdLevel property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleType.html" title="class in net.sf.mpxj.primavera.schema">RoleType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRole()">getRole</a></strong>()</code>
 <div class="block">Gets the value of the role property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleLimitType.html" title="class in net.sf.mpxj.primavera.schema">RoleLimitType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRoleLimit()">getRoleLimit</a></strong>()</code>
 <div class="block">Gets the value of the roleLimit property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleRateType.html" title="class in net.sf.mpxj.primavera.schema">RoleRateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRoleRate()">getRoleRate</a></strong>()</code>
 <div class="block">Gets the value of the roleRate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleTeamType.html" title="class in net.sf.mpxj.primavera.schema">RoleTeamType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getRoleTeam()">getRoleTeam</a></strong>()</code>
 <div class="block">Gets the value of the roleTeam property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ScheduleCheckOptionType.html" title="class in net.sf.mpxj.primavera.schema">ScheduleCheckOptionType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getScheduleCheckOption()">getScheduleCheckOption</a></strong>()</code>
+<div class="block">Gets the value of the scheduleCheckOption property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -1307,57 +1466,75 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UpdateBaselineOptionType.html" title="class in net.sf.mpxj.primavera.schema">UpdateBaselineOptionType</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUpdateBaselineOption()">getUpdateBaselineOption</a></strong>()</code>
+<div class="block">Gets the value of the updateBaselineOption property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html" title="class in net.sf.mpxj.primavera.schema">UserType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUser()">getUser</a></strong>()</code>
 <div class="block">Gets the value of the user property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserDefinedValueUpdateType.html" title="class in net.sf.mpxj.primavera.schema">UserDefinedValueUpdateType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUserDefinedValueUpdate()">getUserDefinedValueUpdate</a></strong>()</code>
 <div class="block">Gets the value of the userDefinedValueUpdate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserFieldTitleType.html" title="class in net.sf.mpxj.primavera.schema">UserFieldTitleType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUserFieldTitle()">getUserFieldTitle</a></strong>()</code>
 <div class="block">Gets the value of the userFieldTitle property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserInterfaceViewType.html" title="class in net.sf.mpxj.primavera.schema">UserInterfaceViewType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUserInterfaceView()">getUserInterfaceView</a></strong>()</code>
 <div class="block">Gets the value of the userInterfaceView property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserLicenseType.html" title="class in net.sf.mpxj.primavera.schema">UserLicenseType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUserLicense()">getUserLicense</a></strong>()</code>
 <div class="block">Gets the value of the userLicense property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UserOBSType.html" title="class in net.sf.mpxj.primavera.schema">UserOBSType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getUserOBS()">getUserOBS</a></strong>()</code>
 <div class="block">Gets the value of the userOBS property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/WBSType.html" title="class in net.sf.mpxj.primavera.schema">WBSType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getWBS()">getWBS</a></strong>()</code>
 <div class="block">Gets the value of the wbs property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/WBSCategoryType.html" title="class in net.sf.mpxj.primavera.schema">WBSCategoryType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getWBSCategory()">getWBSCategory</a></strong>()</code>
 <div class="block">Gets the value of the wbsCategory property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/WBSMilestoneType.html" title="class in net.sf.mpxj.primavera.schema">WBSMilestoneType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#getWBSMilestone()">getWBSMilestone</a></strong>()</code>
 <div class="block">Gets the value of the wbsMilestone property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#setCHECKUID(java.lang.String)">setCHECKUID</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the checkuid property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/APIBusinessObjects.html#setProjectList(net.sf.mpxj.primavera.schema.ProjectListType)">setProjectList</a></strong>(<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema">ProjectListType</a>&nbsp;value)</code>
+<div class="block">Sets the value of the projectList property.</div>
 </td>
 </tr>
 </table>
@@ -1382,6 +1559,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <!--   -->
 </a>
 <h3>Field Detail</h3>
+<a name="checkuid">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>checkuid</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> checkuid</pre>
+</li>
+</ul>
+<a name="projectList">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>projectList</h4>
+<pre>protected&nbsp;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema">ProjectListType</a> projectList</pre>
+</li>
+</ul>
 <a name="projectResourceCategory">
 <!--   -->
 </a>
@@ -1769,6 +1964,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html" title="class in net.sf.mpxj.primavera.schema">ActivityExpenseType</a>&gt; activityExpense</pre>
 </li>
 </ul>
+<a name="activityFilter">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>activityFilter</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema">ActivityFilterType</a>&gt; activityFilter</pre>
+</li>
+</ul>
 <a name="activityNote">
 <!--   -->
 </a>
@@ -1776,6 +1980,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>activityNote</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteType</a>&gt; activityNote</pre>
+</li>
+</ul>
+<a name="activityNoteUpdate">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>activityNoteUpdate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteUpdateType</a>&gt; activityNoteUpdate</pre>
 </li>
 </ul>
 <a name="activityOwner">
@@ -1868,15 +2081,6 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ActivityUpdateType</a>&gt; activityUpdate</pre>
 </li>
 </ul>
-<a name="baselineProject">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>baselineProject</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/BaselineProjectType.html" title="class in net.sf.mpxj.primavera.schema">BaselineProjectType</a>&gt; baselineProject</pre>
-</li>
-</ul>
 <a name="baselineType">
 <!--   -->
 </a>
@@ -1884,6 +2088,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>baselineType</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/BaselineTypeType.html" title="class in net.sf.mpxj.primavera.schema">BaselineTypeType</a>&gt; baselineType</pre>
+</li>
+</ul>
+<a name="cbs">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>cbs</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSType.html" title="class in net.sf.mpxj.primavera.schema">CBSType</a>&gt; cbs</pre>
+</li>
+</ul>
+<a name="cbsDurationSummary">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>cbsDurationSummary</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSDurationSummaryType.html" title="class in net.sf.mpxj.primavera.schema">CBSDurationSummaryType</a>&gt; cbsDurationSummary</pre>
 </li>
 </ul>
 <a name="changeSet">
@@ -1940,6 +2162,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/EPSSpendingPlanType.html" title="class in net.sf.mpxj.primavera.schema">EPSSpendingPlanType</a>&gt; epsSpendingPlan</pre>
 </li>
 </ul>
+<a name="gatewayDeployment">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gatewayDeployment</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">GatewayDeploymentType</a>&gt; gatewayDeployment</pre>
+</li>
+</ul>
 <a name="globalPreferences">
 <!--   -->
 </a>
@@ -1958,6 +2189,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GlobalProfileType.html" title="class in net.sf.mpxj.primavera.schema">GlobalProfileType</a>&gt; globalProfile</pre>
 </li>
 </ul>
+<a name="globalReplace">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>globalReplace</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GlobalReplaceType.html" title="class in net.sf.mpxj.primavera.schema">GlobalReplaceType</a>&gt; globalReplace</pre>
+</li>
+</ul>
+<a name="importOptionsTemplate">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>importOptionsTemplate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ImportOptionsTemplateType.html" title="class in net.sf.mpxj.primavera.schema">ImportOptionsTemplateType</a>&gt; importOptionsTemplate</pre>
+</li>
+</ul>
 <a name="issueHistory">
 <!--   -->
 </a>
@@ -1967,6 +2216,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/IssueHistoryType.html" title="class in net.sf.mpxj.primavera.schema">IssueHistoryType</a>&gt; issueHistory</pre>
 </li>
 </ul>
+<a name="jobService">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>jobService</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/JobServiceType.html" title="class in net.sf.mpxj.primavera.schema">JobServiceType</a>&gt; jobService</pre>
+</li>
+</ul>
 <a name="location">
 <!--   -->
 </a>
@@ -1974,6 +2232,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>location</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/LocationType.html" title="class in net.sf.mpxj.primavera.schema">LocationType</a>&gt; location</pre>
+</li>
+</ul>
+<a name="mspTemplate">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>mspTemplate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/MSPTemplateType.html" title="class in net.sf.mpxj.primavera.schema">MSPTemplateType</a>&gt; mspTemplate</pre>
 </li>
 </ul>
 <a name="overheadCode">
@@ -1994,6 +2261,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectType.html" title="class in net.sf.mpxj.primavera.schema">ProjectType</a>&gt; project</pre>
 </li>
 </ul>
+<a name="baselineProject">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>baselineProject</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/BaselineProjectType.html" title="class in net.sf.mpxj.primavera.schema">BaselineProjectType</a>&gt; baselineProject</pre>
+</li>
+</ul>
 <a name="projectBudgetChangeLog">
 <!--   -->
 </a>
@@ -2010,6 +2286,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>projectCodeAssignment</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectCodeAssignmentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectCodeAssignmentType</a>&gt; projectCodeAssignment</pre>
+</li>
+</ul>
+<a name="projectDeployment">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>projectDeployment</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectDeploymentType</a>&gt; projectDeployment</pre>
 </li>
 </ul>
 <a name="projectDocument">
@@ -2129,6 +2414,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentType</a>&gt; resourceAssignment</pre>
 </li>
 </ul>
+<a name="resourceAssignmentCreate">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resourceAssignmentCreate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentCreateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentCreateType</a>&gt; resourceAssignmentCreate</pre>
+</li>
+</ul>
 <a name="resourceAssignmentPeriodActual">
 <!--   -->
 </a>
@@ -2237,6 +2531,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/RoleTeamType.html" title="class in net.sf.mpxj.primavera.schema">RoleTeamType</a>&gt; roleTeam</pre>
 </li>
 </ul>
+<a name="scheduleCheckOption">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>scheduleCheckOption</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ScheduleCheckOptionType.html" title="class in net.sf.mpxj.primavera.schema">ScheduleCheckOptionType</a>&gt; scheduleCheckOption</pre>
+</li>
+</ul>
 <a name="scheduleOptions">
 <!--   -->
 </a>
@@ -2289,6 +2592,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>udfValue</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UDFValueType.html" title="class in net.sf.mpxj.primavera.schema">UDFValueType</a>&gt; udfValue</pre>
+</li>
+</ul>
+<a name="updateBaselineOption">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>updateBaselineOption</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UpdateBaselineOptionType.html" title="class in net.sf.mpxj.primavera.schema">UpdateBaselineOptionType</a>&gt; updateBaselineOption</pre>
 </li>
 </ul>
 <a name="user">
@@ -2388,6 +2700,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getCHECKUID()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCHECKUID</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getCHECKUID()</pre>
+<div class="block">Gets the value of the checkuid property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setCHECKUID(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCHECKUID</h4>
+<pre>public&nbsp;void&nbsp;setCHECKUID(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the checkuid property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getProjectList()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getProjectList</h4>
+<pre>public&nbsp;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema">ProjectListType</a>&nbsp;getProjectList()</pre>
+<div class="block">Gets the value of the projectList property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema"><code>ProjectListType</code></a></dd></dl>
+</li>
+</ul>
+<a name="setProjectList(net.sf.mpxj.primavera.schema.ProjectListType)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setProjectList</h4>
+<pre>public&nbsp;void&nbsp;setProjectList(<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema">ProjectListType</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the projectList property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="../../../../../net/sf/mpxj/primavera/schema/ProjectListType.html" title="class in net.sf.mpxj.primavera.schema"><code>ProjectListType</code></a></dd></dl>
+</li>
+</ul>
 <a name="getProjectResourceCategory()">
 <!--   -->
 </a>
@@ -3549,6 +3909,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html" title="class in net.sf.mpxj.primavera.schema"><code>ActivityExpenseType</code></a></div>
 </li>
 </ul>
+<a name="getActivityFilter()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getActivityFilter</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema">ActivityFilterType</a>&gt;&nbsp;getActivityFilter()</pre>
+<div class="block">Gets the value of the activityFilter property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the activityFilter property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getActivityFilter().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema"><code>ActivityFilterType</code></a></div>
+</li>
+</ul>
 <a name="getActivityNote()">
 <!--   -->
 </a>
@@ -3574,6 +3961,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteType.html" title="class in net.sf.mpxj.primavera.schema"><code>ActivityNoteType</code></a></div>
+</li>
+</ul>
+<a name="getActivityNoteUpdate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getActivityNoteUpdate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteUpdateType.html" title="class in net.sf.mpxj.primavera.schema">ActivityNoteUpdateType</a>&gt;&nbsp;getActivityNoteUpdate()</pre>
+<div class="block">Gets the value of the activityNoteUpdate property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the activityNoteUpdate property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getActivityNoteUpdate().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteUpdateType.html" title="class in net.sf.mpxj.primavera.schema"><code>ActivityNoteUpdateType</code></a></div>
 </li>
 </ul>
 <a name="getActivityOwner()">
@@ -3846,33 +4260,6 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/ActivityUpdateType.html" title="class in net.sf.mpxj.primavera.schema"><code>ActivityUpdateType</code></a></div>
 </li>
 </ul>
-<a name="getBaselineProject()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getBaselineProject</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/BaselineProjectType.html" title="class in net.sf.mpxj.primavera.schema">BaselineProjectType</a>&gt;&nbsp;getBaselineProject()</pre>
-<div class="block">Gets the value of the baselineProject property.
-
- <p>
- This accessor method returns a reference to the live list,
- not a snapshot. Therefore any modification you make to the
- returned list will be present inside the JAXB object.
- This is why there is not a <CODE>set</CODE> method for the baselineProject property.
-
- <p>
- For example, to add a new item, do as follows:
- <pre>
-    getBaselineProject().add(newItem);
- </pre>
-
-
- <p>
- Objects of the following type(s) are allowed in the list
- <a href="../../../../../net/sf/mpxj/primavera/schema/BaselineProjectType.html" title="class in net.sf.mpxj.primavera.schema"><code>BaselineProjectType</code></a></div>
-</li>
-</ul>
 <a name="getBaselineType()">
 <!--   -->
 </a>
@@ -3898,6 +4285,60 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/primavera/schema/BaselineTypeType.html" title="class in net.sf.mpxj.primavera.schema"><code>BaselineTypeType</code></a></div>
+</li>
+</ul>
+<a name="getCBS()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCBS</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSType.html" title="class in net.sf.mpxj.primavera.schema">CBSType</a>&gt;&nbsp;getCBS()</pre>
+<div class="block">Gets the value of the cbs property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the cbs property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getCBS().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/CBSType.html" title="class in net.sf.mpxj.primavera.schema"><code>CBSType</code></a></div>
+</li>
+</ul>
+<a name="getCBSDurationSummary()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCBSDurationSummary</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/CBSDurationSummaryType.html" title="class in net.sf.mpxj.primavera.schema">CBSDurationSummaryType</a>&gt;&nbsp;getCBSDurationSummary()</pre>
+<div class="block">Gets the value of the cbsDurationSummary property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the cbsDurationSummary property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getCBSDurationSummary().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/CBSDurationSummaryType.html" title="class in net.sf.mpxj.primavera.schema"><code>CBSDurationSummaryType</code></a></div>
 </li>
 </ul>
 <a name="getChangeSet()">
@@ -4062,6 +4503,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/EPSSpendingPlanType.html" title="class in net.sf.mpxj.primavera.schema"><code>EPSSpendingPlanType</code></a></div>
 </li>
 </ul>
+<a name="getGatewayDeployment()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGatewayDeployment</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">GatewayDeploymentType</a>&gt;&nbsp;getGatewayDeployment()</pre>
+<div class="block">Gets the value of the gatewayDeployment property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the gatewayDeployment property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getGatewayDeployment().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/GatewayDeploymentType.html" title="class in net.sf.mpxj.primavera.schema"><code>GatewayDeploymentType</code></a></div>
+</li>
+</ul>
 <a name="getGlobalPreferences()">
 <!--   -->
 </a>
@@ -4116,6 +4584,60 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/GlobalProfileType.html" title="class in net.sf.mpxj.primavera.schema"><code>GlobalProfileType</code></a></div>
 </li>
 </ul>
+<a name="getGlobalReplace()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGlobalReplace</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/GlobalReplaceType.html" title="class in net.sf.mpxj.primavera.schema">GlobalReplaceType</a>&gt;&nbsp;getGlobalReplace()</pre>
+<div class="block">Gets the value of the globalReplace property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the globalReplace property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getGlobalReplace().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/GlobalReplaceType.html" title="class in net.sf.mpxj.primavera.schema"><code>GlobalReplaceType</code></a></div>
+</li>
+</ul>
+<a name="getImportOptionsTemplate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getImportOptionsTemplate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ImportOptionsTemplateType.html" title="class in net.sf.mpxj.primavera.schema">ImportOptionsTemplateType</a>&gt;&nbsp;getImportOptionsTemplate()</pre>
+<div class="block">Gets the value of the importOptionsTemplate property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the importOptionsTemplate property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getImportOptionsTemplate().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/ImportOptionsTemplateType.html" title="class in net.sf.mpxj.primavera.schema"><code>ImportOptionsTemplateType</code></a></div>
+</li>
+</ul>
 <a name="getIssueHistory()">
 <!--   -->
 </a>
@@ -4143,6 +4665,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/IssueHistoryType.html" title="class in net.sf.mpxj.primavera.schema"><code>IssueHistoryType</code></a></div>
 </li>
 </ul>
+<a name="getJobService()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getJobService</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/JobServiceType.html" title="class in net.sf.mpxj.primavera.schema">JobServiceType</a>&gt;&nbsp;getJobService()</pre>
+<div class="block">Gets the value of the jobService property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the jobService property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getJobService().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/JobServiceType.html" title="class in net.sf.mpxj.primavera.schema"><code>JobServiceType</code></a></div>
+</li>
+</ul>
 <a name="getLocation()">
 <!--   -->
 </a>
@@ -4168,6 +4717,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/primavera/schema/LocationType.html" title="class in net.sf.mpxj.primavera.schema"><code>LocationType</code></a></div>
+</li>
+</ul>
+<a name="getMSPTemplate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMSPTemplate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/MSPTemplateType.html" title="class in net.sf.mpxj.primavera.schema">MSPTemplateType</a>&gt;&nbsp;getMSPTemplate()</pre>
+<div class="block">Gets the value of the mspTemplate property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the mspTemplate property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getMSPTemplate().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/MSPTemplateType.html" title="class in net.sf.mpxj.primavera.schema"><code>MSPTemplateType</code></a></div>
 </li>
 </ul>
 <a name="getOverheadCode()">
@@ -4224,6 +4800,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/ProjectType.html" title="class in net.sf.mpxj.primavera.schema"><code>ProjectType</code></a></div>
 </li>
 </ul>
+<a name="getBaselineProject()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBaselineProject</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/BaselineProjectType.html" title="class in net.sf.mpxj.primavera.schema">BaselineProjectType</a>&gt;&nbsp;getBaselineProject()</pre>
+<div class="block">Gets the value of the baselineProject property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the baselineProject property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getBaselineProject().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/BaselineProjectType.html" title="class in net.sf.mpxj.primavera.schema"><code>BaselineProjectType</code></a></div>
+</li>
+</ul>
 <a name="getProjectBudgetChangeLog()">
 <!--   -->
 </a>
@@ -4276,6 +4879,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/primavera/schema/ProjectCodeAssignmentType.html" title="class in net.sf.mpxj.primavera.schema"><code>ProjectCodeAssignmentType</code></a></div>
+</li>
+</ul>
+<a name="getProjectDeployment()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getProjectDeployment</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDeploymentType.html" title="class in net.sf.mpxj.primavera.schema">ProjectDeploymentType</a>&gt;&nbsp;getProjectDeployment()</pre>
+<div class="block">Gets the value of the projectDeployment property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the projectDeployment property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getProjectDeployment().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/ProjectDeploymentType.html" title="class in net.sf.mpxj.primavera.schema"><code>ProjectDeploymentType</code></a></div>
 </li>
 </ul>
 <a name="getProjectDocument()">
@@ -4629,6 +5259,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentType.html" title="class in net.sf.mpxj.primavera.schema"><code>ResourceAssignmentType</code></a></div>
 </li>
 </ul>
+<a name="getResourceAssignmentCreate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getResourceAssignmentCreate</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentCreateType.html" title="class in net.sf.mpxj.primavera.schema">ResourceAssignmentCreateType</a>&gt;&nbsp;getResourceAssignmentCreate()</pre>
+<div class="block">Gets the value of the resourceAssignmentCreate property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCreate property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getResourceAssignmentCreate().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/ResourceAssignmentCreateType.html" title="class in net.sf.mpxj.primavera.schema"><code>ResourceAssignmentCreateType</code></a></div>
+</li>
+</ul>
 <a name="getResourceAssignmentPeriodActual()">
 <!--   -->
 </a>
@@ -4953,6 +5610,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <a href="../../../../../net/sf/mpxj/primavera/schema/RoleTeamType.html" title="class in net.sf.mpxj.primavera.schema"><code>RoleTeamType</code></a></div>
 </li>
 </ul>
+<a name="getScheduleCheckOption()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getScheduleCheckOption</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/ScheduleCheckOptionType.html" title="class in net.sf.mpxj.primavera.schema">ScheduleCheckOptionType</a>&gt;&nbsp;getScheduleCheckOption()</pre>
+<div class="block">Gets the value of the scheduleCheckOption property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the scheduleCheckOption property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getScheduleCheckOption().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/ScheduleCheckOptionType.html" title="class in net.sf.mpxj.primavera.schema"><code>ScheduleCheckOptionType</code></a></div>
+</li>
+</ul>
 <a name="getScheduleOptions()">
 <!--   -->
 </a>
@@ -5113,6 +5797,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  <p>
  Objects of the following type(s) are allowed in the list
  <a href="../../../../../net/sf/mpxj/primavera/schema/UDFValueType.html" title="class in net.sf.mpxj.primavera.schema"><code>UDFValueType</code></a></div>
+</li>
+</ul>
+<a name="getUpdateBaselineOption()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getUpdateBaselineOption</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UpdateBaselineOptionType.html" title="class in net.sf.mpxj.primavera.schema">UpdateBaselineOptionType</a>&gt;&nbsp;getUpdateBaselineOption()</pre>
+<div class="block">Gets the value of the updateBaselineOption property.
+
+ <p>
+ This accessor method returns a reference to the live list,
+ not a snapshot. Therefore any modification you make to the
+ returned list will be present inside the JAXB object.
+ This is why there is not a <CODE>set</CODE> method for the updateBaselineOption property.
+
+ <p>
+ For example, to add a new item, do as follows:
+ <pre>
+    getUpdateBaselineOption().add(newItem);
+ </pre>
+
+
+ <p>
+ Objects of the following type(s) are allowed in the list
+ <a href="../../../../../net/sf/mpxj/primavera/schema/UpdateBaselineOptionType.html" title="class in net.sf.mpxj.primavera.schema"><code>UpdateBaselineOptionType</code></a></div>
 </li>
 </ul>
 <a name="getUser()">

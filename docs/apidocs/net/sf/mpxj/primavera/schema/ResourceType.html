@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ResourceType (MPXJ 6.1.2 API)</title>
+<title>ResourceType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ResourceType (MPXJ 6.1.2 API)";
+        parent.document.title="ResourceType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -111,7 +111,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="CalendarName" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="60"/>
+               &lt;maxLength value="255"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -180,7 +180,8 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
                &lt;enumeration value=""/>
                &lt;enumeration value="ERP"/>
-               &lt;enumeration value="Fusion"/>
+               &lt;enumeration value="Gateway"/>
+               &lt;enumeration value="PrimeScope"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -194,14 +195,16 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="Latitude" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
          &lt;element name="LocationName" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="100"/>
+               &lt;maxLength value="255"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="LocationObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+         &lt;element name="Longitude" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
          &lt;element name="MaxUnitsPerTime" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
          &lt;element name="Name" minOccurs="0">
            &lt;simpleType>
@@ -214,14 +217,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="OfficePhone" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="32"/>
+               &lt;maxLength value="20"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="OtherPhone" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="32"/>
+               &lt;maxLength value="20"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -238,7 +241,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="PrimaryRoleId" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="20"/>
+               &lt;maxLength value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -271,6 +274,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="UnitOfMeasureAbbreviation" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;maxLength value="16"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="UnitOfMeasureName" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;maxLength value="100"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
          &lt;element name="UnitOfMeasureObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="UseTimesheets" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="UserName" minOccurs="0">
@@ -281,9 +298,9 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="UserObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-         &lt;element name="Code" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}CodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="UDF" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UDFAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
-         &lt;element name="ProjectResourceSpread" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ProjectResourceSpreadType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="Code" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}CodeAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UDF" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UDFAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="ProjectResourceSpread" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ProjectResourceSpreadType" maxOccurs="unbounded" minOccurs="0"/>
        &lt;/sequence>
      &lt;/restriction>
    &lt;/complexContent>
@@ -392,12 +409,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#lastUpdateUser">lastUpdateUser</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#latitude">latitude</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#locationName">locationName</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#locationObjectId">locationObjectId</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#longitude">longitude</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
@@ -478,6 +503,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UDFAssignmentType.html" title="class in net.sf.mpxj.primavera.schema">UDFAssignmentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#udf">udf</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#unitOfMeasureAbbreviation">unitOfMeasureAbbreviation</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#unitOfMeasureName">unitOfMeasureName</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
@@ -630,15 +663,27 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getLatitude()">getLatitude</a></strong>()</code>
+<div class="block">Gets the value of the latitude property.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getLocationName()">getLocationName</a></strong>()</code>
 <div class="block">Gets the value of the locationName property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getLocationObjectId()">getLocationObjectId</a></strong>()</code>
 <div class="block">Gets the value of the locationObjectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getLongitude()">getLongitude</a></strong>()</code>
+<div class="block">Gets the value of the longitude property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -759,6 +804,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../net/sf/mpxj/primavera/schema/UDFAssignmentType.html" title="class in net.sf.mpxj.primavera.schema">UDFAssignmentType</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getUDF()">getUDF</a></strong>()</code>
 <div class="block">Gets the value of the udf property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getUnitOfMeasureAbbreviation()">getUnitOfMeasureAbbreviation</a></strong>()</code>
+<div class="block">Gets the value of the unitOfMeasureAbbreviation property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#getUnitOfMeasureName()">getUnitOfMeasureName</a></strong>()</code>
+<div class="block">Gets the value of the unitOfMeasureName property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -931,14 +988,26 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setLocationName(java.lang.String)">setLocationName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
-<div class="block">Sets the value of the locationName property.</div>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setLatitude(java.lang.Double)">setLatitude</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
+<div class="block">Sets the value of the latitude property.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setLocationName(java.lang.String)">setLocationName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the locationName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setLocationObjectId(java.lang.Integer)">setLocationObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the locationObjectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setLongitude(java.lang.Double)">setLongitude</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
+<div class="block">Sets the value of the longitude property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1047,6 +1116,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setTitle(java.lang.String)">setTitle</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the title property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setUnitOfMeasureAbbreviation(java.lang.String)">setUnitOfMeasureAbbreviation</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the unitOfMeasureAbbreviation property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ResourceType.html#setUnitOfMeasureName(java.lang.String)">setUnitOfMeasureName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the unitOfMeasureName property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1275,6 +1356,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> lastUpdateUser</pre>
 </li>
 </ul>
+<a name="latitude">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>latitude</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a> latitude</pre>
+</li>
+</ul>
 <a name="locationName">
 <!--   -->
 </a>
@@ -1291,6 +1381,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>locationObjectId</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> locationObjectId</pre>
+</li>
+</ul>
+<a name="longitude">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>longitude</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a> longitude</pre>
 </li>
 </ul>
 <a name="maxUnitsPerTime">
@@ -1453,6 +1552,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>title</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> title</pre>
+</li>
+</ul>
+<a name="unitOfMeasureAbbreviation">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>unitOfMeasureAbbreviation</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> unitOfMeasureAbbreviation</pre>
+</li>
+</ul>
+<a name="unitOfMeasureName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>unitOfMeasureName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> unitOfMeasureName</pre>
 </li>
 </ul>
 <a name="unitOfMeasureObjectId">
@@ -2023,6 +2140,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
+<a name="getLatitude()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLatitude</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;getLatitude()</pre>
+<div class="block">Gets the value of the latitude property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang"><code>Double</code></a></dd></dl>
+</li>
+</ul>
+<a name="setLatitude(java.lang.Double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setLatitude</h4>
+<pre>public&nbsp;void&nbsp;setLatitude(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the latitude property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang"><code>Double</code></a></dd></dl>
+</li>
+</ul>
 <a name="getLocationName()">
 <!--   -->
 </a>
@@ -2069,6 +2210,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Sets the value of the locationObjectId property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="getLongitude()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLongitude</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;getLongitude()</pre>
+<div class="block">Gets the value of the longitude property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang"><code>Double</code></a></dd></dl>
+</li>
+</ul>
+<a name="setLongitude(java.lang.Double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setLongitude</h4>
+<pre>public&nbsp;void&nbsp;setLongitude(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the longitude property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang"><code>Double</code></a></dd></dl>
 </li>
 </ul>
 <a name="getMaxUnitsPerTime()">
@@ -2499,6 +2664,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setTitle</h4>
 <pre>public&nbsp;void&nbsp;setTitle(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the title property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getUnitOfMeasureAbbreviation()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getUnitOfMeasureAbbreviation</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getUnitOfMeasureAbbreviation()</pre>
+<div class="block">Gets the value of the unitOfMeasureAbbreviation property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setUnitOfMeasureAbbreviation(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setUnitOfMeasureAbbreviation</h4>
+<pre>public&nbsp;void&nbsp;setUnitOfMeasureAbbreviation(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the unitOfMeasureAbbreviation property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getUnitOfMeasureName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getUnitOfMeasureName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getUnitOfMeasureName()</pre>
+<div class="block">Gets the value of the unitOfMeasureName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setUnitOfMeasureName(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setUnitOfMeasureName</h4>
+<pre>public&nbsp;void&nbsp;setUnitOfMeasureName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the unitOfMeasureName property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>

@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>RiskResponseActionType (MPXJ 6.1.2 API)</title>
+<title>RiskResponseActionType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="RiskResponseActionType (MPXJ 6.1.2 API)";
+        parent.document.title="RiskResponseActionType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -166,6 +166,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="ResourceObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+         &lt;element name="RiskId" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;maxLength value="40"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="RiskObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="RiskResponsePlanId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="RiskResponsePlanName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="RiskResponsePlanObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
@@ -314,6 +322,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#resourceObjectId">resourceObjectId</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#riskId">riskId</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#riskObjectId">riskObjectId</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -509,6 +525,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#getResourceObjectId()">getResourceObjectId</a></strong>()</code>
 <div class="block">Gets the value of the resourceObjectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#getRiskId()">getRiskId</a></strong>()</code>
+<div class="block">Gets the value of the riskId property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#getRiskObjectId()">getRiskObjectId</a></strong>()</code>
+<div class="block">Gets the value of the riskObjectId property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -713,6 +741,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#setResourceObjectId(java.lang.Integer)">setResourceObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the resourceObjectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#setRiskId(java.lang.String)">setRiskId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the riskId property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/RiskResponseActionType.html#setRiskObjectId(java.lang.Integer)">setRiskObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
+<div class="block">Sets the value of the riskObjectId property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -999,6 +1039,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>resourceObjectId</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> resourceObjectId</pre>
+</li>
+</ul>
+<a name="riskId">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>riskId</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> riskId</pre>
+</li>
+</ul>
+<a name="riskObjectId">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>riskObjectId</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> riskObjectId</pre>
 </li>
 </ul>
 <a name="riskResponsePlanId">
@@ -1670,6 +1728,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setResourceObjectId</h4>
 <pre>public&nbsp;void&nbsp;setResourceObjectId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the resourceObjectId property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="getRiskId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRiskId</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getRiskId()</pre>
+<div class="block">Gets the value of the riskId property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setRiskId(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRiskId</h4>
+<pre>public&nbsp;void&nbsp;setRiskId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the riskId property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getRiskObjectId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRiskObjectId</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;getRiskObjectId()</pre>
+<div class="block">Gets the value of the riskObjectId property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="setRiskObjectId(java.lang.Integer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRiskObjectId</h4>
+<pre>public&nbsp;void&nbsp;setRiskObjectId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the riskObjectId property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
 </li>

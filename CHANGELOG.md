@@ -1,6 +1,8 @@
 # Changelog
 
-## 6.2.0 (git master)
+## 6.2.1 (git master)
+
+## 6.2.0 (06/10/2017)
 * Added support for reading Work Weeks from MPP files.
 * Add support for calendar exception names for MPP and MSPDI files.
 * Updated to use POI 3.17.
@@ -8,6 +10,10 @@
 * Only write non-default user-defined field values to a PMXML file.
 * Use Primavera P6 17.7 XML schema.
 * Gracefully handle corrupt document summary information in MPP files.
+* Don't duplicate exceptions when reading from an MSPDI file.
+* MPP DataType: Non-unique enumeration value.
+* Calendar Work Week missing from MPP data extraction.
+* TimephasedWork Negative TotalAmount.
 * Date conversion fails in PrimaveraReader.
 
 ## 6.1.2 (12/09/2017)

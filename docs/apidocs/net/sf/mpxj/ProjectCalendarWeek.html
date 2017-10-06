@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ProjectCalendarWeek (MPXJ 6.1.2 API)</title>
+<title>ProjectCalendarWeek (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ProjectCalendarWeek (MPXJ 6.1.2 API)";
+        parent.document.title="ProjectCalendarWeek (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -94,13 +94,18 @@
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&gt;</dd>
+</dl>
+<dl>
 <dt>Direct Known Subclasses:</dt>
 <dd><a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="strong">ProjectCalendarWeek</span>
-extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
+extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
+implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&gt;</pre>
 <div class="block">This class represents a basic working week, with no exceptions.</div>
 </li>
 </ul>
@@ -197,89 +202,93 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#compareTo(net.sf.mpxj.ProjectCalendarWeek)">compareTo</a></strong>(<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&nbsp;o)</code></td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getCalendarHours(net.sf.mpxj.Day)">getCalendarHours</a></strong>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">This method retrieves the calendar hours for the specified day.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/DateRange.html" title="class in net.sf.mpxj">DateRange</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDateRange()">getDateRange</a></strong>()</code>
 <div class="block">Retrieves the data range for which this week is valid.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/DayType.html" title="enum in net.sf.mpxj">DayType</a>[]</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDays()">getDays</a></strong>()</code>
 <div class="block">Retrieve an array representing the days of the week for this calendar.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a>[]</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours()">getHours</a></strong>()</code>
 <div class="block">Retrieve an array representing all of the calendar hours defined
  by this calendar.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours(net.sf.mpxj.Day)">getHours</a></strong>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">This method retrieves the calendar hours for the specified day.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getName()">getName</a></strong>()</code>
 <div class="block">Calendar name.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getParent()">getParent</a></strong>()</code>
 <div class="block">If this week is derived from a another week, this method
  will return the parent week.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/DayType.html" title="enum in net.sf.mpxj">DayType</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getWorkingDay(net.sf.mpxj.Day)">getWorkingDay</a></strong>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">This method allows the retrieval of the actual working day flag,
  which can take the values DEFAULT, WORKING, or NONWORKING.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#isDerived()">isDerived</a></strong>()</code>
 <div class="block">Flag indicating if this week is derived from another week.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#removeHoursFromDay(net.sf.mpxj.ProjectCalendarHours)">removeHoursFromDay</a></strong>(<a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a>&nbsp;hours)</code>
 <div class="block">Removes a set of calendar hours from the day to which they
  are currently attached.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setDateRange(net.sf.mpxj.DateRange)">setDateRange</a></strong>(<a href="../../../net/sf/mpxj/DateRange.html" title="class in net.sf.mpxj">DateRange</a>&nbsp;range)</code>
 <div class="block">Sets the date range for this week.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setName(java.lang.String)">setName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</code>
 <div class="block">Calendar name.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay(net.sf.mpxj.Day,%20boolean)">setWorkingDay</a></strong>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day,
              boolean&nbsp;working)</code>
 <div class="block">convenience method for setting working or non-working days.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay(net.sf.mpxj.Day,%20net.sf.mpxj.DayType)">setWorkingDay</a></strong>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day,
              <a href="../../../net/sf/mpxj/DayType.html" title="enum in net.sf.mpxj">DayType</a>&nbsp;working)</code>
@@ -288,13 +297,17 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  identify the required day.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#toString()">toString</a></strong>()</code></td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
-<code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long,%20int)" title="class or interface in java.lang">wait</a></code></li>
+<code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long,%20int)" title="class or interface in java.lang">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -583,7 +596,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <a name="setWorkingDay(net.sf.mpxj.Day, net.sf.mpxj.DayType)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setWorkingDay</h4>
 <pre>public&nbsp;void&nbsp;setWorkingDay(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day,
@@ -592,6 +605,32 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
  as working or non-working, by using the day number to
  identify the required day.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>day</code> - required day</dd><dd><code>working</code> - flag indicating if the day is a working day</dd></dl>
+</li>
+</ul>
+<a name="compareTo(net.sf.mpxj.ProjectCalendarWeek)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>compareTo</h4>
+<pre>public&nbsp;int&nbsp;compareTo(<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&nbsp;o)</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang">compareTo</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
+<a name="toString()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>toString</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;toString()</pre>
+<dl>
+<dt><strong>Overrides:</strong></dt>
+<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+</dl>
 </li>
 </ul>
 </li>

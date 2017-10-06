@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>MPXJTimeFormat (MPXJ 6.1.2 API)</title>
+<title>MPXJTimeFormat (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="MPXJTimeFormat (MPXJ 6.1.2 API)";
+        parent.document.title="MPXJTimeFormat (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -92,7 +92,12 @@
 <li><a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text">java.text.DateFormat</a></li>
 <li>
 <ul class="inheritance">
+<li><a href="../../../../net/sf/mpxj/common/MultiDateFormat.html" title="class in net.sf.mpxj.common">net.sf.mpxj.common.MultiDateFormat</a></li>
+<li>
+<ul class="inheritance">
 <li>net.sf.mpxj.mpx.MPXJTimeFormat</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -110,7 +115,7 @@
 <hr>
 <br>
 <pre>public final class <span class="strong">MPXJTimeFormat</span>
-extends <a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text">DateFormat</a></pre>
+extends <a href="../../../../net/sf/mpxj/common/MultiDateFormat.html" title="class in net.sf.mpxj.common">MultiDateFormat</a></pre>
 <div class="block">This class wraps the functionality provided by the SimpleDateFormat class
  to make it suitable for use with the time conventions used in MPX files.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#net.sf.mpxj.mpx.MPXJTimeFormat">Serialized Form</a></dd></dl>
@@ -148,14 +153,17 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.h
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html?is-external=true" title="class or interface in java.text">SimpleDateFormat</a>[]</code></td>
-<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#m_formats">m_formats</a></strong></code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#m_null">m_null</a></strong></code>&nbsp;</td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="fields_inherited_from_class_net.sf.mpxj.common.MultiDateFormat">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;net.sf.mpxj.common.<a href="../../../../net/sf/mpxj/common/MultiDateFormat.html" title="class in net.sf.mpxj.common">MultiDateFormat</a></h3>
+<code><a href="../../../../net/sf/mpxj/common/MultiDateFormat.html#m_formats">m_formats</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="fields_inherited_from_class_java.text.DateFormat">
 <!--   -->
@@ -203,30 +211,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.h
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/StringBuffer.html?is-external=true" title="class or interface in java.lang">StringBuffer</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#format(java.util.Date,%20java.lang.StringBuffer,%20java.text.FieldPosition)">format</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date,
-      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/StringBuffer.html?is-external=true" title="class or interface in java.lang">StringBuffer</a>&nbsp;toAppendTo,
-      <a href="http://docs.oracle.com/javase/6/docs/api/java/text/FieldPosition.html?is-external=true" title="class or interface in java.text">FieldPosition</a>&nbsp;fieldPosition)</code></td>
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#parseNonNullDate(java.lang.String,%20java.text.ParsePosition)">parseNonNullDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;str,
+                <a href="http://docs.oracle.com/javase/6/docs/api/java/text/ParsePosition.html?is-external=true" title="class or interface in java.text">ParsePosition</a>&nbsp;pos)</code>
+<div class="block">We have a non-null date, try each format in turn to see if it can be parsed.</div>
+</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#parse(java.lang.String,%20java.text.ParsePosition)">parse</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;str,
-     <a href="http://docs.oracle.com/javase/6/docs/api/java/text/ParsePosition.html?is-external=true" title="class or interface in java.text">ParsePosition</a>&nbsp;pos)</code></td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#setAmPmText(java.lang.String,%20java.lang.String)">setAmPmText</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;am,
            <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;pm)</code>
 <div class="block">Allows the AM/PM text to be set.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mpx/MPXJTimeFormat.html#setNullText(java.lang.String)">setNullText</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;nullText)</code>
 <div class="block">This method allows the null text value to be set.</div>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_net.sf.mpxj.common.MultiDateFormat">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;net.sf.mpxj.common.<a href="../../../../net/sf/mpxj/common/MultiDateFormat.html" title="class in net.sf.mpxj.common">MultiDateFormat</a></h3>
+<code><a href="../../../../net/sf/mpxj/common/MultiDateFormat.html#format(java.util.Date,%20java.lang.StringBuffer,%20java.text.FieldPosition)">format</a>, <a href="../../../../net/sf/mpxj/common/MultiDateFormat.html#parse(java.lang.String,%20java.text.ParsePosition)">parse</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.text.DateFormat">
 <!--   -->
@@ -265,19 +276,10 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.h
 <a name="m_null">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>m_null</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> m_null</pre>
-</li>
-</ul>
-<a name="m_formats">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>m_formats</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html?is-external=true" title="class or interface in java.text">SimpleDateFormat</a>[] m_formats</pre>
 </li>
 </ul>
 </li>
@@ -329,20 +331,6 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.h
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>patterns</code> - new format patterns</dd></dl>
 </li>
 </ul>
-<a name="parse(java.lang.String, java.text.ParsePosition)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>parse</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;parse(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;str,
-         <a href="http://docs.oracle.com/javase/6/docs/api/java/text/ParsePosition.html?is-external=true" title="class or interface in java.text">ParsePosition</a>&nbsp;pos)</pre>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.html?is-external=true#parse(java.lang.String,%20java.text.ParsePosition)" title="class or interface in java.text">parse</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text">DateFormat</a></code></dd>
-</dl>
-</li>
-</ul>
 <a name="setAmPmText(java.lang.String, java.lang.String)">
 <!--   -->
 </a>
@@ -355,19 +343,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.h
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>am</code> - AM text</dd><dd><code>pm</code> - PM text</dd></dl>
 </li>
 </ul>
-<a name="format(java.util.Date, java.lang.StringBuffer, java.text.FieldPosition)">
+<a name="parseNonNullDate(java.lang.String, java.text.ParsePosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>format</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/StringBuffer.html?is-external=true" title="class or interface in java.lang">StringBuffer</a>&nbsp;format(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date,
-                  <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/StringBuffer.html?is-external=true" title="class or interface in java.lang">StringBuffer</a>&nbsp;toAppendTo,
-                  <a href="http://docs.oracle.com/javase/6/docs/api/java/text/FieldPosition.html?is-external=true" title="class or interface in java.text">FieldPosition</a>&nbsp;fieldPosition)</pre>
+<h4>parseNonNullDate</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;parseNonNullDate(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;str,
+                    <a href="http://docs.oracle.com/javase/6/docs/api/java/text/ParsePosition.html?is-external=true" title="class or interface in java.text">ParsePosition</a>&nbsp;pos)</pre>
+<div class="block">We have a non-null date, try each format in turn to see if it can be parsed.</div>
 <dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.html?is-external=true#format(java.util.Date,%20java.lang.StringBuffer,%20java.text.FieldPosition)" title="class or interface in java.text">format</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/6/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text">DateFormat</a></code></dd>
-</dl>
+<dt><strong>Overrides:</strong></dt>
+<dd><code><a href="../../../../net/sf/mpxj/common/MultiDateFormat.html#parseNonNullDate(java.lang.String,%20java.text.ParsePosition)">parseNonNullDate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../net/sf/mpxj/common/MultiDateFormat.html" title="class in net.sf.mpxj.common">MultiDateFormat</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>str</code> - date to parse</dd><dd><code>pos</code> - position at which to start parsing</dd>
+<dt><span class="strong">Returns:</span></dt><dd>Date instance</dd></dl>
 </li>
 </ul>
 </li>

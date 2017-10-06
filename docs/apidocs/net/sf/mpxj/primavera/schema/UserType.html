@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>UserType (MPXJ 6.1.2 API)</title>
+<title>UserType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="UserType (MPXJ 6.1.2 API)";
+        parent.document.title="UserType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -129,11 +129,67 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="CurrencyName" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="40"/>
+               &lt;maxLength value="80"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="CurrencyObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+         &lt;element name="CurrencyShowDecimals" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="CurrencyShowSymbol" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="DateFormatType" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="Month, Day, Year"/>
+               &lt;enumeration value="Day, Month, Year"/>
+               &lt;enumeration value="Year, Month, Day"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="DateSeparator" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="/"/>
+               &lt;enumeration value="-"/>
+               &lt;enumeration value="."/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="DateShowFourDigitYear" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="DateShowMinutes" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="DateTimeFormatType" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="12 hour (1:30 PM)"/>
+               &lt;enumeration value="24 hour (13:30)"/>
+               &lt;enumeration value="Do not show time"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="DateUseLeadingZero" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="DateUseMonthName" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="DurationDecimalCount" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="0"/>
+               &lt;enumeration value="1"/>
+               &lt;enumeration value="2"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="DurationUnitType" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="Hour"/>
+               &lt;enumeration value="Day"/>
+               &lt;enumeration value="Week"/>
+               &lt;enumeration value="Month"/>
+               &lt;enumeration value="Year"/>
+               &lt;enumeration value="Days Hours"/>
+               &lt;enumeration value="Hours Minutes"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="DurationUseFraction" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="EmailAddress" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -228,15 +284,46 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="ShowDurationTimeUnit" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="ShowTimeUnit" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="SmallScaleDecimalCount" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="0"/>
+               &lt;enumeration value="1"/>
+               &lt;enumeration value="2"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="SmallScaleUnitType" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;enumeration value="Hour"/>
+               &lt;enumeration value="Day"/>
+               &lt;enumeration value="Week"/>
+               &lt;enumeration value="Month"/>
+               &lt;enumeration value="Year"/>
+               &lt;enumeration value="Days Hours"/>
+               &lt;enumeration value="Hours Minutes"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
+         &lt;element name="SmallScaleUseFraction" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="TeamMemberActivityFilters" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="TeamMemberActivityFiltersJoin" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="TeamMemberActivitySortField" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="TeamMemberActivitySortOrder" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberApplicationTheme" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberDateFormat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="TeamMemberDisplayQRQuickAccess" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberDisplayTimeFlag" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="TeamMemberDisplayTimeFormat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberLocale" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberProjectFilter" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="TeamMemberResourceFilter" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberTaskStatusFilter" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberTimeframeFilter" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="TeamMemberWBSFilter" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
          &lt;element name="TeamMemberWorkUnitType" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -250,13 +337,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
+         &lt;element name="UnitsPerTimeShowAsPercentage" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
          &lt;element name="UserInterfaceViewObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="ResourceRequests" minOccurs="0">
            &lt;complexType>
              &lt;complexContent>
                &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                  &lt;sequence>
-                   &lt;element name="ResourceRequest" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}ResourceRequestType" maxOccurs="unbounded" minOccurs="0"/>
+                   &lt;element name="ResourceRequest" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}ResourceRequestType" maxOccurs="unbounded" minOccurs="0"/>
                  &lt;/sequence>
                &lt;/restriction>
              &lt;/complexContent>
@@ -333,6 +421,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#currencyObjectId">currencyObjectId</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#currencyShowDecimals">currencyShowDecimals</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#currencyShowSymbol">currencyShowSymbol</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateFormatType">dateFormatType</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateSeparator">dateSeparator</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateShowFourDigitYear">dateShowFourDigitYear</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateShowMinutes">dateShowMinutes</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateTimeFormatType">dateTimeFormatType</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateUseLeadingZero">dateUseLeadingZero</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#dateUseMonthName">dateUseMonthName</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#durationDecimalCount">durationDecimalCount</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#durationUnitType">durationUnitType</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#durationUseFraction">durationUseFraction</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -419,8 +555,40 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#roleLimitDisplayOption">roleLimitDisplayOption</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#showDurationTimeUnit">showDurationTimeUnit</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#showTimeUnit">showTimeUnit</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#smallScaleDecimalCount">smallScaleDecimalCount</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#smallScaleUnitType">smallScaleUnitType</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#smallScaleUseFraction">smallScaleUseFraction</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberActivityFilters">teamMemberActivityFilters</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberActivityFiltersJoin">teamMemberActivityFiltersJoin</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberActivitySortField">teamMemberActivitySortField</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberActivitySortOrder">teamMemberActivitySortOrder</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -431,20 +599,28 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberDateFormat">teamMemberDateFormat</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberDisplayQRQuickAccess">teamMemberDisplayQRQuickAccess</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberDisplayTimeFlag">teamMemberDisplayTimeFlag</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberDisplayTimeFormat">teamMemberDisplayTimeFormat</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberLocale">teamMemberLocale</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberProjectFilter">teamMemberProjectFilter</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberResourceFilter">teamMemberResourceFilter</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -456,7 +632,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberWBSFilter">teamMemberWBSFilter</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#teamMemberWorkUnitType">teamMemberWorkUnitType</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#unitsPerTimeShowAsPercentage">unitsPerTimeShowAsPercentage</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
@@ -532,116 +716,176 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getDateFormatType()">getDateFormatType</a></strong>()</code>
+<div class="block">Gets the value of the dateFormatType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getDateSeparator()">getDateSeparator</a></strong>()</code>
+<div class="block">Gets the value of the dateSeparator property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getDateTimeFormatType()">getDateTimeFormatType</a></strong>()</code>
+<div class="block">Gets the value of the dateTimeFormatType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getDurationDecimalCount()">getDurationDecimalCount</a></strong>()</code>
+<div class="block">Gets the value of the durationDecimalCount property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getDurationUnitType()">getDurationUnitType</a></strong>()</code>
+<div class="block">Gets the value of the durationUnitType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getEmailAddress()">getEmailAddress</a></strong>()</code>
 <div class="block">Gets the value of the emailAddress property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getEmailProtocol()">getEmailProtocol</a></strong>()</code>
 <div class="block">Gets the value of the emailProtocol property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getFinancialPeriodEndObjectId()">getFinancialPeriodEndObjectId</a></strong>()</code>
 <div class="block">Gets the value of the financialPeriodEndObjectId property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getFinancialPeriodStartObjectId()">getFinancialPeriodStartObjectId</a></strong>()</code>
 <div class="block">Gets the value of the financialPeriodStartObjectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getGlobalProfileObjectId()">getGlobalProfileObjectId</a></strong>()</code>
 <div class="block">Gets the value of the globalProfileObjectId property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getGUID()">getGUID</a></strong>()</code>
 <div class="block">Gets the value of the guid property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getLastUpdateDate()">getLastUpdateDate</a></strong>()</code>
 <div class="block">Gets the value of the lastUpdateDate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getLastUpdateUser()">getLastUpdateUser</a></strong>()</code>
 <div class="block">Gets the value of the lastUpdateUser property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getMailServerLoginName()">getMailServerLoginName</a></strong>()</code>
 <div class="block">Gets the value of the mailServerLoginName property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getName()">getName</a></strong>()</code>
 <div class="block">Gets the value of the name property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getNewProjectDurationType()">getNewProjectDurationType</a></strong>()</code>
 <div class="block">Gets the value of the newProjectDurationType property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getObjectId()">getObjectId</a></strong>()</code>
 <div class="block">Gets the value of the objectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getOfficePhone()">getOfficePhone</a></strong>()</code>
 <div class="block">Gets the value of the officePhone property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getOutgoingMailServer()">getOutgoingMailServer</a></strong>()</code>
 <div class="block">Gets the value of the outgoingMailServer property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getPersonalName()">getPersonalName</a></strong>()</code>
 <div class="block">Gets the value of the personalName property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getRateSourcePreference()">getRateSourcePreference</a></strong>()</code>
 <div class="block">Gets the value of the rateSourcePreference property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.ResourceRequests.html" title="class in net.sf.mpxj.primavera.schema">UserType.ResourceRequests</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getResourceRequests()">getResourceRequests</a></strong>()</code>
 <div class="block">Gets the value of the resourceRequests property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getRoleLimitDisplayOption()">getRoleLimitDisplayOption</a></strong>()</code>
 <div class="block">Gets the value of the roleLimitDisplayOption property.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getSmallScaleDecimalCount()">getSmallScaleDecimalCount</a></strong>()</code>
+<div class="block">Gets the value of the smallScaleDecimalCount property.</div>
+</td>
+</tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getSmallScaleUnitType()">getSmallScaleUnitType</a></strong>()</code>
+<div class="block">Gets the value of the smallScaleUnitType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberActivityFilters()">getTeamMemberActivityFilters</a></strong>()</code>
 <div class="block">Gets the value of the teamMemberActivityFilters property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberActivityFiltersJoin()">getTeamMemberActivityFiltersJoin</a></strong>()</code>
+<div class="block">Gets the value of the teamMemberActivityFiltersJoin property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberActivitySortField()">getTeamMemberActivitySortField</a></strong>()</code>
+<div class="block">Gets the value of the teamMemberActivitySortField property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberActivitySortOrder()">getTeamMemberActivitySortOrder</a></strong>()</code>
+<div class="block">Gets the value of the teamMemberActivitySortOrder property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -658,20 +902,32 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberDisplayQRQuickAccess()">getTeamMemberDisplayQRQuickAccess</a></strong>()</code>
+<div class="block">Gets the value of the teamMemberDisplayQRQuickAccess property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberDisplayTimeFormat()">getTeamMemberDisplayTimeFormat</a></strong>()</code>
 <div class="block">Gets the value of the teamMemberDisplayTimeFormat property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberLocale()">getTeamMemberLocale</a></strong>()</code>
 <div class="block">Gets the value of the teamMemberLocale property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberProjectFilter()">getTeamMemberProjectFilter</a></strong>()</code>
 <div class="block">Gets the value of the teamMemberProjectFilter property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberResourceFilter()">getTeamMemberResourceFilter</a></strong>()</code>
+<div class="block">Gets the value of the teamMemberResourceFilter property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -688,20 +944,68 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberWBSFilter()">getTeamMemberWBSFilter</a></strong>()</code>
+<div class="block">Gets the value of the teamMemberWBSFilter property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getTeamMemberWorkUnitType()">getTeamMemberWorkUnitType</a></strong>()</code>
 <div class="block">Gets the value of the teamMemberWorkUnitType property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#getUserInterfaceViewObjectId()">getUserInterfaceViewObjectId</a></strong>()</code>
 <div class="block">Gets the value of the userInterfaceViewObjectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isAllResourceAccessFlag()">isAllResourceAccessFlag</a></strong>()</code>
 <div class="block">Gets the value of the allResourceAccessFlag property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isCurrencyShowDecimals()">isCurrencyShowDecimals</a></strong>()</code>
+<div class="block">Gets the value of the currencyShowDecimals property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isCurrencyShowSymbol()">isCurrencyShowSymbol</a></strong>()</code>
+<div class="block">Gets the value of the currencyShowSymbol property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isDateShowFourDigitYear()">isDateShowFourDigitYear</a></strong>()</code>
+<div class="block">Gets the value of the dateShowFourDigitYear property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isDateShowMinutes()">isDateShowMinutes</a></strong>()</code>
+<div class="block">Gets the value of the dateShowMinutes property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isDateUseLeadingZero()">isDateUseLeadingZero</a></strong>()</code>
+<div class="block">Gets the value of the dateUseLeadingZero property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isDateUseMonthName()">isDateUseMonthName</a></strong>()</code>
+<div class="block">Gets the value of the dateUseMonthName property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isDurationUseFraction()">isDurationUseFraction</a></strong>()</code>
+<div class="block">Gets the value of the durationUseFraction property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -724,8 +1028,32 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isShowDurationTimeUnit()">isShowDurationTimeUnit</a></strong>()</code>
+<div class="block">Gets the value of the showDurationTimeUnit property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isShowTimeUnit()">isShowTimeUnit</a></strong>()</code>
+<div class="block">Gets the value of the showTimeUnit property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isSmallScaleUseFraction()">isSmallScaleUseFraction</a></strong>()</code>
+<div class="block">Gets the value of the smallScaleUseFraction property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isTeamMemberDisplayTimeFlag()">isTeamMemberDisplayTimeFlag</a></strong>()</code>
 <div class="block">Gets the value of the teamMemberDisplayTimeFlag property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#isUnitsPerTimeShowAsPercentage()">isUnitsPerTimeShowAsPercentage</a></strong>()</code>
+<div class="block">Gets the value of the unitsPerTimeShowAsPercentage property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -768,6 +1096,78 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setCurrencyObjectId(java.lang.Integer)">setCurrencyObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the currencyObjectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setCurrencyShowDecimals(java.lang.Boolean)">setCurrencyShowDecimals</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the currencyShowDecimals property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setCurrencyShowSymbol(java.lang.Boolean)">setCurrencyShowSymbol</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the currencyShowSymbol property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateFormatType(java.lang.String)">setDateFormatType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateFormatType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateSeparator(java.lang.String)">setDateSeparator</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateSeparator property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateShowFourDigitYear(java.lang.Boolean)">setDateShowFourDigitYear</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateShowFourDigitYear property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateShowMinutes(java.lang.Boolean)">setDateShowMinutes</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateShowMinutes property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateTimeFormatType(java.lang.String)">setDateTimeFormatType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateTimeFormatType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateUseLeadingZero(java.lang.Boolean)">setDateUseLeadingZero</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateUseLeadingZero property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDateUseMonthName(java.lang.Boolean)">setDateUseMonthName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the dateUseMonthName property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDurationDecimalCount(java.lang.String)">setDurationDecimalCount</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the durationDecimalCount property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDurationUnitType(java.lang.String)">setDurationUnitType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the durationUnitType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setDurationUseFraction(java.lang.Boolean)">setDurationUseFraction</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the durationUseFraction property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -898,8 +1298,56 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setShowDurationTimeUnit(java.lang.Boolean)">setShowDurationTimeUnit</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the showDurationTimeUnit property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setShowTimeUnit(java.lang.Boolean)">setShowTimeUnit</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the showTimeUnit property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setSmallScaleDecimalCount(java.lang.String)">setSmallScaleDecimalCount</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the smallScaleDecimalCount property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setSmallScaleUnitType(java.lang.String)">setSmallScaleUnitType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the smallScaleUnitType property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setSmallScaleUseFraction(java.lang.Boolean)">setSmallScaleUseFraction</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the smallScaleUseFraction property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberActivityFilters(java.lang.String)">setTeamMemberActivityFilters</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the teamMemberActivityFilters property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberActivityFiltersJoin(java.lang.String)">setTeamMemberActivityFiltersJoin</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the teamMemberActivityFiltersJoin property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberActivitySortField(java.lang.String)">setTeamMemberActivitySortField</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the teamMemberActivitySortField property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberActivitySortOrder(java.lang.String)">setTeamMemberActivitySortOrder</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the teamMemberActivitySortOrder property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -916,26 +1364,38 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberDisplayQRQuickAccess(java.lang.String)">setTeamMemberDisplayQRQuickAccess</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the teamMemberDisplayQRQuickAccess property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberDisplayTimeFlag(java.lang.Boolean)">setTeamMemberDisplayTimeFlag</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the teamMemberDisplayTimeFlag property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberDisplayTimeFormat(java.lang.String)">setTeamMemberDisplayTimeFormat</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the teamMemberDisplayTimeFormat property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberLocale(java.lang.String)">setTeamMemberLocale</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the teamMemberLocale property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberProjectFilter(java.lang.String)">setTeamMemberProjectFilter</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the teamMemberProjectFilter property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberResourceFilter(java.lang.String)">setTeamMemberResourceFilter</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the teamMemberResourceFilter property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -952,8 +1412,20 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberWBSFilter(java.lang.String)">setTeamMemberWBSFilter</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the teamMemberWBSFilter property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setTeamMemberWorkUnitType(java.lang.String)">setTeamMemberWorkUnitType</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the teamMemberWorkUnitType property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/UserType.html#setUnitsPerTimeShowAsPercentage(java.lang.Boolean)">setUnitsPerTimeShowAsPercentage</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
+<div class="block">Sets the value of the unitsPerTimeShowAsPercentage property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1045,6 +1517,114 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>currencyObjectId</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> currencyObjectId</pre>
+</li>
+</ul>
+<a name="currencyShowDecimals">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>currencyShowDecimals</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> currencyShowDecimals</pre>
+</li>
+</ul>
+<a name="currencyShowSymbol">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>currencyShowSymbol</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> currencyShowSymbol</pre>
+</li>
+</ul>
+<a name="dateFormatType">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateFormatType</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> dateFormatType</pre>
+</li>
+</ul>
+<a name="dateSeparator">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateSeparator</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> dateSeparator</pre>
+</li>
+</ul>
+<a name="dateShowFourDigitYear">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateShowFourDigitYear</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> dateShowFourDigitYear</pre>
+</li>
+</ul>
+<a name="dateShowMinutes">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateShowMinutes</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> dateShowMinutes</pre>
+</li>
+</ul>
+<a name="dateTimeFormatType">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateTimeFormatType</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> dateTimeFormatType</pre>
+</li>
+</ul>
+<a name="dateUseLeadingZero">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateUseLeadingZero</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> dateUseLeadingZero</pre>
+</li>
+</ul>
+<a name="dateUseMonthName">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>dateUseMonthName</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> dateUseMonthName</pre>
+</li>
+</ul>
+<a name="durationDecimalCount">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>durationDecimalCount</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> durationDecimalCount</pre>
+</li>
+</ul>
+<a name="durationUnitType">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>durationUnitType</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> durationUnitType</pre>
+</li>
+</ul>
+<a name="durationUseFraction">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>durationUseFraction</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> durationUseFraction</pre>
 </li>
 </ul>
 <a name="emailAddress">
@@ -1227,6 +1807,51 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> roleLimitDisplayOption</pre>
 </li>
 </ul>
+<a name="showDurationTimeUnit">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>showDurationTimeUnit</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> showDurationTimeUnit</pre>
+</li>
+</ul>
+<a name="showTimeUnit">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>showTimeUnit</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> showTimeUnit</pre>
+</li>
+</ul>
+<a name="smallScaleDecimalCount">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>smallScaleDecimalCount</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> smallScaleDecimalCount</pre>
+</li>
+</ul>
+<a name="smallScaleUnitType">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>smallScaleUnitType</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> smallScaleUnitType</pre>
+</li>
+</ul>
+<a name="smallScaleUseFraction">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>smallScaleUseFraction</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> smallScaleUseFraction</pre>
+</li>
+</ul>
 <a name="teamMemberActivityFilters">
 <!--   -->
 </a>
@@ -1234,6 +1859,33 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>teamMemberActivityFilters</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberActivityFilters</pre>
+</li>
+</ul>
+<a name="teamMemberActivityFiltersJoin">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>teamMemberActivityFiltersJoin</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberActivityFiltersJoin</pre>
+</li>
+</ul>
+<a name="teamMemberActivitySortField">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>teamMemberActivitySortField</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberActivitySortField</pre>
+</li>
+</ul>
+<a name="teamMemberActivitySortOrder">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>teamMemberActivitySortOrder</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberActivitySortOrder</pre>
 </li>
 </ul>
 <a name="teamMemberApplicationTheme">
@@ -1252,6 +1904,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>teamMemberDateFormat</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberDateFormat</pre>
+</li>
+</ul>
+<a name="teamMemberDisplayQRQuickAccess">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>teamMemberDisplayQRQuickAccess</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberDisplayQRQuickAccess</pre>
 </li>
 </ul>
 <a name="teamMemberDisplayTimeFlag">
@@ -1290,6 +1951,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberProjectFilter</pre>
 </li>
 </ul>
+<a name="teamMemberResourceFilter">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>teamMemberResourceFilter</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberResourceFilter</pre>
+</li>
+</ul>
 <a name="teamMemberTaskStatusFilter">
 <!--   -->
 </a>
@@ -1308,6 +1978,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberTimeframeFilter</pre>
 </li>
 </ul>
+<a name="teamMemberWBSFilter">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>teamMemberWBSFilter</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberWBSFilter</pre>
+</li>
+</ul>
 <a name="teamMemberWorkUnitType">
 <!--   -->
 </a>
@@ -1315,6 +1994,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>teamMemberWorkUnitType</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> teamMemberWorkUnitType</pre>
+</li>
+</ul>
+<a name="unitsPerTimeShowAsPercentage">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>unitsPerTimeShowAsPercentage</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> unitsPerTimeShowAsPercentage</pre>
 </li>
 </ul>
 <a name="userInterfaceViewObjectId">
@@ -1526,6 +2214,294 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Sets the value of the currencyObjectId property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="isCurrencyShowDecimals()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isCurrencyShowDecimals</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isCurrencyShowDecimals()</pre>
+<div class="block">Gets the value of the currencyShowDecimals property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setCurrencyShowDecimals(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCurrencyShowDecimals</h4>
+<pre>public&nbsp;void&nbsp;setCurrencyShowDecimals(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the currencyShowDecimals property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="isCurrencyShowSymbol()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isCurrencyShowSymbol</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isCurrencyShowSymbol()</pre>
+<div class="block">Gets the value of the currencyShowSymbol property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setCurrencyShowSymbol(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCurrencyShowSymbol</h4>
+<pre>public&nbsp;void&nbsp;setCurrencyShowSymbol(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the currencyShowSymbol property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="getDateFormatType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDateFormatType</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getDateFormatType()</pre>
+<div class="block">Gets the value of the dateFormatType property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateFormatType(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateFormatType</h4>
+<pre>public&nbsp;void&nbsp;setDateFormatType(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateFormatType property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getDateSeparator()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDateSeparator</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getDateSeparator()</pre>
+<div class="block">Gets the value of the dateSeparator property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateSeparator(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateSeparator</h4>
+<pre>public&nbsp;void&nbsp;setDateSeparator(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateSeparator property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isDateShowFourDigitYear()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isDateShowFourDigitYear</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isDateShowFourDigitYear()</pre>
+<div class="block">Gets the value of the dateShowFourDigitYear property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateShowFourDigitYear(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateShowFourDigitYear</h4>
+<pre>public&nbsp;void&nbsp;setDateShowFourDigitYear(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateShowFourDigitYear property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="isDateShowMinutes()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isDateShowMinutes</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isDateShowMinutes()</pre>
+<div class="block">Gets the value of the dateShowMinutes property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateShowMinutes(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateShowMinutes</h4>
+<pre>public&nbsp;void&nbsp;setDateShowMinutes(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateShowMinutes property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="getDateTimeFormatType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDateTimeFormatType</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getDateTimeFormatType()</pre>
+<div class="block">Gets the value of the dateTimeFormatType property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateTimeFormatType(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateTimeFormatType</h4>
+<pre>public&nbsp;void&nbsp;setDateTimeFormatType(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateTimeFormatType property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isDateUseLeadingZero()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isDateUseLeadingZero</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isDateUseLeadingZero()</pre>
+<div class="block">Gets the value of the dateUseLeadingZero property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateUseLeadingZero(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateUseLeadingZero</h4>
+<pre>public&nbsp;void&nbsp;setDateUseLeadingZero(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateUseLeadingZero property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="isDateUseMonthName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isDateUseMonthName</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isDateUseMonthName()</pre>
+<div class="block">Gets the value of the dateUseMonthName property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDateUseMonthName(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateUseMonthName</h4>
+<pre>public&nbsp;void&nbsp;setDateUseMonthName(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the dateUseMonthName property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="getDurationDecimalCount()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDurationDecimalCount</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getDurationDecimalCount()</pre>
+<div class="block">Gets the value of the durationDecimalCount property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDurationDecimalCount(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDurationDecimalCount</h4>
+<pre>public&nbsp;void&nbsp;setDurationDecimalCount(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the durationDecimalCount property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getDurationUnitType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDurationUnitType</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getDurationUnitType()</pre>
+<div class="block">Gets the value of the durationUnitType property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDurationUnitType(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDurationUnitType</h4>
+<pre>public&nbsp;void&nbsp;setDurationUnitType(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the durationUnitType property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isDurationUseFraction()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isDurationUseFraction</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isDurationUseFraction()</pre>
+<div class="block">Gets the value of the durationUseFraction property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setDurationUseFraction(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDurationUseFraction</h4>
+<pre>public&nbsp;void&nbsp;setDurationUseFraction(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the durationUseFraction property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getEmailAddress()">
@@ -2008,6 +2984,126 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
+<a name="isShowDurationTimeUnit()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isShowDurationTimeUnit</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isShowDurationTimeUnit()</pre>
+<div class="block">Gets the value of the showDurationTimeUnit property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setShowDurationTimeUnit(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setShowDurationTimeUnit</h4>
+<pre>public&nbsp;void&nbsp;setShowDurationTimeUnit(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the showDurationTimeUnit property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="isShowTimeUnit()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isShowTimeUnit</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isShowTimeUnit()</pre>
+<div class="block">Gets the value of the showTimeUnit property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setShowTimeUnit(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setShowTimeUnit</h4>
+<pre>public&nbsp;void&nbsp;setShowTimeUnit(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the showTimeUnit property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="getSmallScaleDecimalCount()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSmallScaleDecimalCount</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getSmallScaleDecimalCount()</pre>
+<div class="block">Gets the value of the smallScaleDecimalCount property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setSmallScaleDecimalCount(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setSmallScaleDecimalCount</h4>
+<pre>public&nbsp;void&nbsp;setSmallScaleDecimalCount(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the smallScaleDecimalCount property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getSmallScaleUnitType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSmallScaleUnitType</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getSmallScaleUnitType()</pre>
+<div class="block">Gets the value of the smallScaleUnitType property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setSmallScaleUnitType(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setSmallScaleUnitType</h4>
+<pre>public&nbsp;void&nbsp;setSmallScaleUnitType(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the smallScaleUnitType property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isSmallScaleUseFraction()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSmallScaleUseFraction</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isSmallScaleUseFraction()</pre>
+<div class="block">Gets the value of the smallScaleUseFraction property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setSmallScaleUseFraction(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setSmallScaleUseFraction</h4>
+<pre>public&nbsp;void&nbsp;setSmallScaleUseFraction(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the smallScaleUseFraction property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
 <a name="getTeamMemberActivityFilters()">
 <!--   -->
 </a>
@@ -2028,6 +3124,78 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setTeamMemberActivityFilters</h4>
 <pre>public&nbsp;void&nbsp;setTeamMemberActivityFilters(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the teamMemberActivityFilters property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getTeamMemberActivityFiltersJoin()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTeamMemberActivityFiltersJoin</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTeamMemberActivityFiltersJoin()</pre>
+<div class="block">Gets the value of the teamMemberActivityFiltersJoin property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTeamMemberActivityFiltersJoin(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTeamMemberActivityFiltersJoin</h4>
+<pre>public&nbsp;void&nbsp;setTeamMemberActivityFiltersJoin(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the teamMemberActivityFiltersJoin property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getTeamMemberActivitySortField()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTeamMemberActivitySortField</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTeamMemberActivitySortField()</pre>
+<div class="block">Gets the value of the teamMemberActivitySortField property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTeamMemberActivitySortField(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTeamMemberActivitySortField</h4>
+<pre>public&nbsp;void&nbsp;setTeamMemberActivitySortField(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the teamMemberActivitySortField property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getTeamMemberActivitySortOrder()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTeamMemberActivitySortOrder</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTeamMemberActivitySortOrder()</pre>
+<div class="block">Gets the value of the teamMemberActivitySortOrder property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTeamMemberActivitySortOrder(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTeamMemberActivitySortOrder</h4>
+<pre>public&nbsp;void&nbsp;setTeamMemberActivitySortOrder(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the teamMemberActivitySortOrder property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
@@ -2076,6 +3244,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <h4>setTeamMemberDateFormat</h4>
 <pre>public&nbsp;void&nbsp;setTeamMemberDateFormat(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
 <div class="block">Sets the value of the teamMemberDateFormat property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getTeamMemberDisplayQRQuickAccess()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTeamMemberDisplayQRQuickAccess</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTeamMemberDisplayQRQuickAccess()</pre>
+<div class="block">Gets the value of the teamMemberDisplayQRQuickAccess property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTeamMemberDisplayQRQuickAccess(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTeamMemberDisplayQRQuickAccess</h4>
+<pre>public&nbsp;void&nbsp;setTeamMemberDisplayQRQuickAccess(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the teamMemberDisplayQRQuickAccess property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
@@ -2176,6 +3368,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
+<a name="getTeamMemberResourceFilter()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTeamMemberResourceFilter</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTeamMemberResourceFilter()</pre>
+<div class="block">Gets the value of the teamMemberResourceFilter property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTeamMemberResourceFilter(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTeamMemberResourceFilter</h4>
+<pre>public&nbsp;void&nbsp;setTeamMemberResourceFilter(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the teamMemberResourceFilter property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
 <a name="getTeamMemberTaskStatusFilter()">
 <!--   -->
 </a>
@@ -2224,6 +3440,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
+<a name="getTeamMemberWBSFilter()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTeamMemberWBSFilter</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getTeamMemberWBSFilter()</pre>
+<div class="block">Gets the value of the teamMemberWBSFilter property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setTeamMemberWBSFilter(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTeamMemberWBSFilter</h4>
+<pre>public&nbsp;void&nbsp;setTeamMemberWBSFilter(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the teamMemberWBSFilter property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
 <a name="getTeamMemberWorkUnitType()">
 <!--   -->
 </a>
@@ -2246,6 +3486,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Sets the value of the teamMemberWorkUnitType property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="isUnitsPerTimeShowAsPercentage()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isUnitsPerTimeShowAsPercentage</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;isUnitsPerTimeShowAsPercentage()</pre>
+<div class="block">Gets the value of the unitsPerTimeShowAsPercentage property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="setUnitsPerTimeShowAsPercentage(java.lang.Boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setUnitsPerTimeShowAsPercentage</h4>
+<pre>public&nbsp;void&nbsp;setUnitsPerTimeShowAsPercentage(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the unitsPerTimeShowAsPercentage property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
 </li>
 </ul>
 <a name="getUserInterfaceViewObjectId()">

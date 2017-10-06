@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>CalendarType (MPXJ 6.1.2 API)</title>
+<title>CalendarType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="CalendarType (MPXJ 6.1.2 API)";
+        parent.document.title="CalendarType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -167,6 +167,13 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="ObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+         &lt;element name="ProjectId" minOccurs="0">
+           &lt;simpleType>
+             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+               &lt;maxLength value="40"/>
+             &lt;/restriction>
+           &lt;/simpleType>
+         &lt;/element>
          &lt;element name="ProjectObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="Type" minOccurs="0">
            &lt;simpleType>
@@ -200,7 +207,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                                  &lt;/restriction>
                                &lt;/simpleType>
                              &lt;/element>
-                             &lt;element name="WorkTime" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}WorkTimeType" maxOccurs="24"/>
+                             &lt;element name="WorkTime" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}WorkTimeType" maxOccurs="24"/>
                            &lt;/sequence>
                          &lt;/restriction>
                        &lt;/complexContent>
@@ -222,7 +229,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
                          &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                            &lt;sequence>
                              &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-                             &lt;element name="WorkTime" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}WorkTimeType" maxOccurs="24"/>
+                             &lt;element name="WorkTime" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}WorkTimeType" maxOccurs="24"/>
                            &lt;/sequence>
                          &lt;/restriction>
                        &lt;/complexContent>
@@ -348,14 +355,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#objectId">objectId</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#projectId">projectId</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#projectObjectId">projectObjectId</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.StandardWorkWeek.html" title="class in net.sf.mpxj.primavera.schema">CalendarType.StandardWorkWeek</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#standardWorkWeek">standardWorkWeek</a></strong></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#type">type</a></strong></code>&nbsp;</td>
 </tr>
@@ -464,141 +475,153 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#getProjectId()">getProjectId</a></strong>()</code>
+<div class="block">Gets the value of the projectId property.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#getProjectObjectId()">getProjectObjectId</a></strong>()</code>
 <div class="block">Gets the value of the projectObjectId property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.StandardWorkWeek.html" title="class in net.sf.mpxj.primavera.schema">CalendarType.StandardWorkWeek</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#getStandardWorkWeek()">getStandardWorkWeek</a></strong>()</code>
 <div class="block">Gets the value of the standardWorkWeek property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#getType()">getType</a></strong>()</code>
 <div class="block">Gets the value of the type property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#isIsBaseline()">isIsBaseline</a></strong>()</code>
 <div class="block">Gets the value of the isBaseline property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#isIsDefault()">isIsDefault</a></strong>()</code>
 <div class="block">Gets the value of the isDefault property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#isIsPersonal()">isIsPersonal</a></strong>()</code>
 <div class="block">Gets the value of the isPersonal property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#isIsTemplate()">isIsTemplate</a></strong>()</code>
 <div class="block">Gets the value of the isTemplate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setBaseCalendarObjectId(java.lang.Integer)">setBaseCalendarObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the baseCalendarObjectId property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setCreateDate(java.util.Date)">setCreateDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Sets the value of the createDate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setCreateUser(java.lang.String)">setCreateUser</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the createUser property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setHolidayOrExceptions(net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions)">setHolidayOrExceptions</a></strong>(<a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.HolidayOrExceptions.html" title="class in net.sf.mpxj.primavera.schema">CalendarType.HolidayOrExceptions</a>&nbsp;value)</code>
 <div class="block">Sets the value of the holidayOrExceptions property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setHoursPerDay(java.lang.Double)">setHoursPerDay</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the hoursPerDay property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setHoursPerMonth(java.lang.Double)">setHoursPerMonth</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the hoursPerMonth property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setHoursPerWeek(java.lang.Double)">setHoursPerWeek</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the hoursPerWeek property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setHoursPerYear(java.lang.Double)">setHoursPerYear</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&nbsp;value)</code>
 <div class="block">Sets the value of the hoursPerYear property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setIsBaseline(java.lang.Boolean)">setIsBaseline</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the isBaseline property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setIsDefault(java.lang.Boolean)">setIsDefault</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the isDefault property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setIsPersonal(java.lang.Boolean)">setIsPersonal</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the isPersonal property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setIsTemplate(java.lang.Boolean)">setIsTemplate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the isTemplate property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setLastUpdateDate(java.util.Date)">setLastUpdateDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;value)</code>
 <div class="block">Sets the value of the lastUpdateDate property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setLastUpdateUser(java.lang.String)">setLastUpdateUser</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the lastUpdateUser property.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setName(java.lang.String)">setName</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
 <div class="block">Sets the value of the name property.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setObjectId(java.lang.Integer)">setObjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
 <div class="block">Sets the value of the objectId property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/CalendarType.html#setProjectId(java.lang.String)">setProjectId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the projectId property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -774,6 +797,15 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>objectId</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> objectId</pre>
+</li>
+</ul>
+<a name="projectId">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>projectId</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> projectId</pre>
 </li>
 </ul>
 <a name="projectObjectId">
@@ -1195,6 +1227,30 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Sets the value of the objectId property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="getProjectId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getProjectId</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getProjectId()</pre>
+<div class="block">Gets the value of the projectId property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setProjectId(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setProjectId</h4>
+<pre>public&nbsp;void&nbsp;setProjectId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the projectId property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
 </li>
 </ul>
 <a name="getProjectObjectId()">

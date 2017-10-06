@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ActivityExpenseType (MPXJ 6.1.2 API)</title>
+<title>ActivityExpenseType (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ActivityExpenseType (MPXJ 6.1.2 API)";
+        parent.document.title="ActivityExpenseType (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -36,7 +36,7 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityCommentType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?net/sf/mpxj/primavera/schema/ActivityExpenseType.html" target="_top">Frames</a></li>
@@ -118,7 +118,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="ActivityId" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="20"/>
+               &lt;maxLength value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -135,10 +135,12 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="AtCompletionCost" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
          &lt;element name="AtCompletionUnits" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
          &lt;element name="AutoComputeActuals" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+         &lt;element name="CBSCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+         &lt;element name="CBSId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
          &lt;element name="CostAccountId" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="20"/>
+               &lt;maxLength value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -200,7 +202,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
          &lt;element name="ProjectId" minOccurs="0">
            &lt;simpleType>
              &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-               &lt;maxLength value="20"/>
+               &lt;maxLength value="40"/>
              &lt;/restriction>
            &lt;/simpleType>
          &lt;/element>
@@ -222,7 +224,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
            &lt;/simpleType>
          &lt;/element>
          &lt;element name="WBSObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-         &lt;element name="UDF" type="{http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects}UDFAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
+         &lt;element name="UDF" type="{http://xmlns.oracle.com/Primavera/P6/V17.7/API/BusinessObjects}UDFAssignmentType" maxOccurs="unbounded" minOccurs="0"/>
        &lt;/sequence>
      &lt;/restriction>
    &lt;/complexContent>
@@ -281,6 +283,14 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#autoComputeActuals">autoComputeActuals</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#cbsCode">cbsCode</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#cbsId">cbsId</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -472,6 +482,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#getAtCompletionUnits()">getAtCompletionUnits</a></strong>()</code>
 <div class="block">Gets the value of the atCompletionUnits property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#getCBSCode()">getCBSCode</a></strong>()</code>
+<div class="block">Gets the value of the cbsCode property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#getCBSId()">getCBSId</a></strong>()</code>
+<div class="block">Gets the value of the cbsId property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -700,6 +722,18 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#setAutoComputeActuals(java.lang.Boolean)">setAutoComputeActuals</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;value)</code>
 <div class="block">Sets the value of the autoComputeActuals property.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#setCBSCode(java.lang.String)">setCBSCode</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</code>
+<div class="block">Sets the value of the cbsCode property.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityExpenseType.html#setCBSId(java.lang.Integer)">setCBSId</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</code>
+<div class="block">Sets the value of the cbsId property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -965,6 +999,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>autoComputeActuals</h4>
 <pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a> autoComputeActuals</pre>
+</li>
+</ul>
+<a name="cbsCode">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>cbsCode</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> cbsCode</pre>
+</li>
+</ul>
+<a name="cbsId">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>cbsId</h4>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a> cbsId</pre>
 </li>
 </ul>
 <a name="costAccountId">
@@ -1458,6 +1510,54 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Sets the value of the autoComputeActuals property.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
      <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><code>Boolean</code></a></dd></dl>
+</li>
+</ul>
+<a name="getCBSCode()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCBSCode</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getCBSCode()</pre>
+<div class="block">Gets the value of the cbsCode property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="setCBSCode(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCBSCode</h4>
+<pre>public&nbsp;void&nbsp;setCBSCode(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the cbsCode property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a></dd></dl>
+</li>
+</ul>
+<a name="getCBSId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCBSId</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;getCBSId()</pre>
+<div class="block">Gets the value of the cbsId property.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>possible object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
+</li>
+</ul>
+<a name="setCBSId(java.lang.Integer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCBSId</h4>
+<pre>public&nbsp;void&nbsp;setCBSId(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;value)</pre>
+<div class="block">Sets the value of the cbsId property.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - allowed object is
+     <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a></dd></dl>
 </li>
 </ul>
 <a name="getCostAccountId()">
@@ -2162,7 +2262,7 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityCommentType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityNoteType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../../net/sf/mpxj/primavera/schema/ActivityFilterType.html" title="class in net.sf.mpxj.primavera.schema"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?net/sf/mpxj/primavera/schema/ActivityExpenseType.html" target="_top">Frames</a></li>

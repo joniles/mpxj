@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ProjectCalendar (MPXJ 6.1.2 API)</title>
+<title>ProjectCalendar (MPXJ 6.2.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ProjectCalendar (MPXJ 6.1.2 API)";
+        parent.document.title="ProjectCalendar (MPXJ 6.2.0 API)";
     }
 //-->
 </script>
@@ -100,7 +100,7 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="interface in net.sf.mpxj">ProjectEntityWithUniqueID</a></dd>
+<dd><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&gt;, <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="interface in net.sf.mpxj">ProjectEntityWithUniqueID</a></dd>
 </dl>
 <hr>
 <br>
@@ -223,17 +223,23 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#clearWorkWeeks()">clearWorkWeeks</a></strong>()</code>
+<div class="block">Clears the list of calendar exceptions.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#copy(net.sf.mpxj.ProjectCalendar)">copy</a></strong>(<a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;cal)</code>
 <div class="block">Copy the settings from another calendar to this calendar.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getCalendarExceptions()">getCalendarExceptions</a></strong>()</code>
 <div class="block">This method retrieves a list of exceptions to the current calendar.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getDate(java.util.Date,%20net.sf.mpxj.Duration,%20boolean)">getDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;startDate,
        <a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;duration,
@@ -242,13 +248,13 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
  end date.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getDerivedCalendars()">getDerivedCalendars</a></strong>()</code>
 <div class="block">Retrieve a list of derived calendars.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getDuration(java.util.Date,%20java.util.Date)">getDuration</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;startDate,
            <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;endDate)</code>
@@ -257,77 +263,77 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
  days based on this calendar instance.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getException(java.util.Date)">getException</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
-<div class="block">Retrieve a calendar calendar exception which applies to this date.</div>
+<div class="block">Retrieve a calendar exception which applies to this date.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getFinishTime(java.util.Date)">getFinishTime</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
 <div class="block">Retrieves the time at which work finishes on the given date, or returns
  null if this is a non-working day.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getMinutesPerDay()">getMinutesPerDay</a></strong>()</code>
 <div class="block">Retrieve the number of minutes per day for this calendar.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getMinutesPerMonth()">getMinutesPerMonth</a></strong>()</code>
 <div class="block">Retrieve the number of minutes per month for this calendar.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getMinutesPerWeek()">getMinutesPerWeek</a></strong>()</code>
 <div class="block">Retrieve the number of minutes per week for this calendar.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getMinutesPerYear()">getMinutesPerYear</a></strong>()</code>
 <div class="block">Retrieve the number of minutes per year for this calendar.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getNextWorkStart(java.util.Date)">getNextWorkStart</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
 <div class="block">Utility method to retrieve the next working date start time, given
  a date and time as a starting point.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getParent()">getParent</a></strong>()</code>
 <div class="block">If this week is derived from a another week, this method
  will return the parent week.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getParentFile()">getParentFile</a></strong>()</code>
 <div class="block">Accessor method allowing retrieval of ProjectFile reference.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getPreviousWorkFinish(java.util.Date)">getPreviousWorkFinish</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
 <div class="block">Utility method to retrieve the previous working date finish time, given
  a date and time as a starting point.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getResource()">getResource</a></strong>()</code>
 <div class="block">Retrieve the resource to which this calendar is linked.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getStartDate(java.util.Date,%20net.sf.mpxj.Duration)">getStartDate</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;finishDate,
             <a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a>&nbsp;duration)</code>
@@ -335,20 +341,20 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
  start date.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getStartTime(java.util.Date)">getStartTime</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
 <div class="block">Retrieves the time at which work starts on the given date, or returns
  null if this is a non-working day.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getUniqueID()">getUniqueID</a></strong>()</code>
 <div class="block">Accessor method to retrieve the unique ID of this calendar.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getWork(java.util.Date,%20java.util.Date,%20net.sf.mpxj.TimeUnit)">getWork</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;startDate,
        <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;endDate,
@@ -357,12 +363,18 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
  work between two dates based on this calendar.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/Duration.html" title="class in net.sf.mpxj">Duration</a></code></td>
 <td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getWork(java.util.Date,%20net.sf.mpxj.TimeUnit)">getWork</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date,
        <a href="../../../net/sf/mpxj/TimeUnit.html" title="enum in net.sf.mpxj">TimeUnit</a>&nbsp;format)</code>
 <div class="block">Retrieves the amount of work on a given day, and
  returns it in the specified format.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a></code></td>
+<td class="colLast"><code><strong><a href="../../../net/sf/mpxj/ProjectCalendar.html#getWorkWeek(java.util.Date)">getWorkWeek</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</code>
+<div class="block">Retrieve a work week which applies to this date.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -455,7 +467,7 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;net.sf.mpxj.<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a></h3>
-<code><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#addCalendarHours()">addCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#addDefaultCalendarHours()">addDefaultCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#addDefaultCalendarHours(net.sf.mpxj.Day)">addDefaultCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getCalendarHours(net.sf.mpxj.Day)">getCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDateRange()">getDateRange</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDays()">getDays</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours()">getHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours(net.sf.mpxj.Day)">getHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getName()">getName</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getWorkingDay(net.sf.mpxj.Day)">getWorkingDay</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#isDerived()">isDerived</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setDateRange(net.sf.mpxj.DateRange)">setDateRange</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setName(java.lang.String)">setName</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay(net.sf.mpxj.Day,%20boolean)">setWorkingDay</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay(net.sf.mpxj.Day,%20net.sf.mpxj.DayType)">setWorkingDay</a></code></li>
+<code><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#addCalendarHours()">addCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#addDefaultCalendarHours()">addDefaultCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#addDefaultCalendarHours(net.sf.mpxj.Day)">addDefaultCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#compareTo(net.sf.mpxj.ProjectCalendarWeek)">compareTo</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getCalendarHours(net.sf.mpxj.Day)">getCalendarHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDateRange()">getDateRange</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDays()">getDays</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours()">getHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours(net.sf.mpxj.Day)">getHours</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getName()">getName</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getWorkingDay(net.sf.mpxj.Day)">getWorkingDay</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#isDerived()">isDerived</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setDateRange(net.sf.mpxj.DateRange)">setDateRange</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setName(java.lang.String)">setName</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay(net.sf.mpxj.Day,%20boolean)">setWorkingDay</a>, <a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay(net.sf.mpxj.Day,%20net.sf.mpxj.DayType)">setWorkingDay</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -626,6 +638,16 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <pre>public&nbsp;<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&nbsp;addWorkWeek()</pre>
 <div class="block">Add an empty work week.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>new work week</dd></dl>
+</li>
+</ul>
+<a name="clearWorkWeeks()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>clearWorkWeeks</h4>
+<pre>public&nbsp;void&nbsp;clearWorkWeeks()</pre>
+<div class="block">Clears the list of calendar exceptions.</div>
 </li>
 </ul>
 <a name="getWorkWeeks()">
@@ -944,9 +966,21 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <li class="blockList">
 <h4>getException</h4>
 <pre>public&nbsp;<a href="../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a>&nbsp;getException(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</pre>
-<div class="block">Retrieve a calendar calendar exception which applies to this date.</div>
+<div class="block">Retrieve a calendar exception which applies to this date.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>date</code> - target date</dd>
 <dt><span class="strong">Returns:</span></dt><dd>calendar exception, or null if none match this date</dd></dl>
+</li>
+</ul>
+<a name="getWorkWeek(java.util.Date)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWorkWeek</h4>
+<pre>public&nbsp;<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&nbsp;getWorkWeek(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util">Date</a>&nbsp;date)</pre>
+<div class="block">Retrieve a work week which applies to this date.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>date</code> - target date</dd>
+<dt><span class="strong">Returns:</span></dt><dd>work week, or null if none match this date</dd></dl>
 </li>
 </ul>
 <a name="getWork(java.util.Date, net.sf.mpxj.TimeUnit)">
@@ -1020,7 +1054,7 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;toString()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dd><code><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a></code></dd>
 </dl>
 </li>
 </ul>
