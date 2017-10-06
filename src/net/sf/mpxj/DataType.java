@@ -46,7 +46,6 @@ public enum DataType implements MpxjEnum
    RELATION_LIST(13),
    TASK_TYPE(14),
    RESOURCE_TYPE(15),
-   TIME_UNITS(15),
    WORK(16),
    INTEGER(17),
    ASCII_STRING(18),
@@ -69,7 +68,8 @@ public enum DataType implements MpxjEnum
    MAP(35),
    MPX_FILE_VERSION(36),
    MPX_CODE_PAGE(37),
-   BOOKING_TYPE(38);
+   BOOKING_TYPE(38),
+   TIME_UNITS(39);
 
    /**
     * Private constructor.

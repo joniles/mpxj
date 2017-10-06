@@ -14,7 +14,8 @@
 			<action dev="joniles" type="update">Improve accuracy of calendar exception dates read from XER files and P6 database.</action>
 			<action dev="joniles" type="update">Only write non-default user-defined field values to a PMXML file.</action>
 			<action dev="joniles" type="update">Use Primavera P6 17.7 XML schema.</action>
-			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>			
+			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>									
+			<action dev="joniles" issue="231" type="fix">MPP DataType: Non-unique enumeration value.</action>
 			<action dev="joniles" issue="258" type="fix">Calendar Work Week missing from MPP data extraction.</action>			
 			<action dev="joniles" issue="318" type="fix">TimephasedWork Negative TotalAmount.</action>
 			<action dev="joniles" issue="320" type="fix">Date conversion fails in PrimaveraReader.</action>
