@@ -78,6 +78,14 @@ final class Var2Data extends MPPComponent
 
          int size = readInt(is);
 
+         //
+         // Try our best to handle corrupt files gracefully
+         //
+         if (size < 0 || size > is.available())
+         {
+            continue;
+         }
+
          data = readByteArray(is, size);
 
          m_map.put(Integer.valueOf(itemOffset), data);
