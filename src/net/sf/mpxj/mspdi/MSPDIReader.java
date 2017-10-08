@@ -1040,7 +1040,6 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFlag9();
          //mpx.setFlag10();
          // This is not correct?
-         mpx.setFreeSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFreeSlack()));
          mpx.setHideBar(BooleanHelper.getBoolean(xml.isHideBar()));
          mpx.setHyperlink(xml.getHyperlink());
          mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
@@ -1137,7 +1136,10 @@ public final class MSPDIReader extends AbstractProjectReader
          validateFinishDate(mpx);
 
          // read last to ensure correct caching
-         mpx.setTotalSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getTotalSlack()));
+         mpx.setStartSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getStartSlack()));
+         mpx.setFinishSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getFinishSlack()));
+         mpx.setFreeSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getFreeSlack()));
+         mpx.setTotalSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getTotalSlack()));
          mpx.setCritical(BooleanHelper.getBoolean(xml.isCritical()));
 
          readTaskExtendedAttributes(xml, mpx);

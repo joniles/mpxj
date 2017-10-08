@@ -979,6 +979,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setExternalTask(Boolean.valueOf(mpx.getExternalTask()));
       xml.setExternalTaskProject(mpx.getProject());
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
+      xml.setFinishSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFinishSlack()));
       xml.setFinishText(mpx.getFinishText());
       xml.setFinishVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getFinishVariance()));
       xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
@@ -989,10 +990,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          fixedCostAccrual = AccrueType.PRORATED;
       }
       xml.setFixedCostAccrual(fixedCostAccrual);
-
-      // This is not correct
-      //xml.setFreeSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getFreeSlack())*1000));
-      //xml.setFreeSlack(BIGINTEGER_ZERO);
+      xml.setFreeSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFreeSlack()));
       xml.setHideBar(Boolean.valueOf(mpx.getHideBar()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
       xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject() != null));
@@ -1068,12 +1066,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setResumeValid(Boolean.valueOf(mpx.getResumeValid()));
       xml.setRollup(Boolean.valueOf(mpx.getRollup()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
+      xml.setStartSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getStartSlack()));
       xml.setStartText(mpx.getStartText());
       xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
       xml.setStop(DatatypeConverter.printDate(mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
       xml.setSummary(Boolean.valueOf(mpx.getSummary()));
-      xml.setTotalSlack(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getTotalSlack()));
+      xml.setTotalSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getTotalSlack()));
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
       xml.setWBS(mpx.getWBS());
