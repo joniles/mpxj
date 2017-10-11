@@ -540,7 +540,7 @@ public final class MSPDIReader extends AbstractProjectReader
             Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
             Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
 
-            // Vico Schedule Planner seems to write start and end dates to FromeTime and ToTime
+            // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
             // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
             // so we will ignore it too!
             if (fromDate != null && toDate != null)
