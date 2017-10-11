@@ -1,6 +1,12 @@
 # Changelog
 
-## 6.2.1 (git master)
+## 6.2.2 (git master)
+
+## 6.2.1 (11/10/2017)
+* Gracefully handle corrupt MPP files.
+* Improve reading and writing slack values for MSPDI files.
+* Improve activity hierarchy extraction from Phoenix files.
+* MSPDI Slack values not correctly set while loading.
 
 ## 6.2.0 (06/10/2017)
 * Added support for reading Work Weeks from MPP files.

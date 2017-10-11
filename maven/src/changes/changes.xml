@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="6.2.1">
+		<release date="git master" version="6.2.2">
+		</release>
+		<release date="11/10/2017" version="6.2.1">
 			<action dev="joniles" type="update">Gracefully handle corrupt MPP files.</action>
 			<action dev="joniles" type="update">Improve reading and writing slack values for MSPDI files.</action>
 			<action dev="joniles" type="update">Improve activity hierarchy extraction from Phoenix files.</action>
