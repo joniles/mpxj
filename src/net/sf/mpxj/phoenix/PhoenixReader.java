@@ -42,6 +42,10 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -79,10 +83,6 @@ import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.R
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.
@@ -420,6 +420,11 @@ public final class PhoenixReader extends AbstractProjectReader
 
                if (codeValue1 == null || codeValue2 == null)
                {
+                  if (codeValue1 == null && codeValue2 == null)
+                  {
+                     continue;
+                  }
+
                   if (codeValue1 == null)
                   {
                      return -1;
