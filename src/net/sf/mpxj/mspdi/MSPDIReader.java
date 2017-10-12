@@ -1566,7 +1566,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
          else
          {
-            work = Duration.getInstance(NumberHelper.truncate(work.getDuration(), 2), TimeUnit.MINUTES);
+            work = Duration.getInstance(NumberHelper.round(work.getDuration(), 2), TimeUnit.MINUTES);
          }
 
          TimephasedWork tra = new TimephasedWork();

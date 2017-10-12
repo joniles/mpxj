@@ -436,7 +436,24 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
       //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+
+      //
+      // Can we skip come computation by working forward from the
+      // last call to this method?
+      //
+      Date getDateLastStartDate = m_getDateLastStartDate;
+      double getDateLastRemainingMinutes = m_getDateLastRemainingMinutes;
+
+      m_getDateLastStartDate = startDate;
+      m_getDateLastRemainingMinutes = remainingMinutes;
+
+      if (m_getDateLastResult != null && DateHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMinutes >= getDateLastRemainingMinutes)
+      {
+         startDate = m_getDateLastResult;
+         remainingMinutes = remainingMinutes - getDateLastRemainingMinutes;
+      }
+
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
       Calendar endCal = Calendar.getInstance();
@@ -461,7 +478,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.truncate(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
 
             //
             // Move the calendar forward to the next working day
@@ -554,7 +571,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
                if (remainingMinutes > rangeMinutes)
                {
-                  remainingMinutes = NumberHelper.truncate(remainingMinutes - rangeMinutes, 2);
+                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
                }
                else
                {
@@ -581,6 +598,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
       }
 
+      m_getDateLastResult = cal.getTime();
       if (returnNextWorkStart)
       {
          updateToNextWorkStart(cal);
@@ -605,7 +623,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
       //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
       Calendar cal = Calendar.getInstance();
       cal.setTime(finishDate);
       Calendar startCal = Calendar.getInstance();
@@ -630,7 +648,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.truncate(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
 
             //
             // Move the calendar backward to the previous working day
@@ -728,7 +746,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
                if (remainingMinutes > rangeMinutes)
                {
-                  remainingMinutes = NumberHelper.truncate(remainingMinutes - rangeMinutes, 2);
+                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
                }
                else
                {
@@ -1868,6 +1886,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       m_workingDateCache.clear();
       m_startTimeCache.clear();
+      m_getDateLastResult = null;
       for (ProjectCalendar calendar : m_derivedCalendars)
       {
          calendar.clearWorkingDateCache();
@@ -1982,6 +2001,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<DateRange, Long>();
    private Map<Date, Date> m_startTimeCache = new WeakHashMap<Date, Date>();
+   private Date m_getDateLastStartDate;
+   private double m_getDateLastRemainingMinutes;
+   private Date m_getDateLastResult;
 
    /**
     * Work week definitions.
