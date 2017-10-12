@@ -153,7 +153,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
             splitMinutes *= assignmentWork.getDuration();
             splitMinutes /= calendarWork.getDuration();
-            splitMinutes = NumberHelper.truncate(splitMinutes, 2);
+            splitMinutes = NumberHelper.round(splitMinutes, 2);
 
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
