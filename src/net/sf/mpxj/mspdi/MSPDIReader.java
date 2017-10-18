@@ -24,7 +24,9 @@
 package net.sf.mpxj.mspdi;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -82,6 +84,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
@@ -108,6 +111,42 @@ import net.sf.mpxj.reader.AbstractProjectReader;
  */
 public final class MSPDIReader extends AbstractProjectReader
 {
+   /**
+    * Sets the character encoding used when reading an XER file.
+    *
+    * @param encoding encoding name
+    */
+   public void setEncoding(String encoding)
+   {
+      m_encoding = encoding;
+   }
+
+   /**
+    * Alternative way to set the file encoding. If both an encoding name and a Charset instance
+    * are supplied, the Charset instance is used.
+    *
+    * @param charset Charset used when reading the file
+    */
+   public void setCharset(Charset charset)
+   {
+      m_charset = charset;
+   }
+
+   /**
+    * Retrieve the Charset used to read the file.
+    *
+    * @return Charset instance
+    */
+   private Charset getCharset()
+   {
+      Charset result = m_charset;
+      if (result == null)
+      {
+         result = m_encoding == null ? CharsetHelper.UTF8 : Charset.forName(m_encoding);
+      }
+      return result;
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -148,7 +187,7 @@ public final class MSPDIReader extends AbstractProjectReader
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(new InputStreamReader(stream, getCharset())));
 
          if (CONTEXT == null)
          {
@@ -311,7 +350,14 @@ public final class MSPDIReader extends AbstractProjectReader
       }
       else
       {
-         properties.setFileApplication("Microsoft");
+         if (properties.getAuthor() != null && properties.getAuthor().equals("SG Project"))
+         {
+            properties.setFileApplication("Simple Genius");
+         }
+         else
+         {
+            properties.setFileApplication("Microsoft");
+         }
       }
       properties.setFileType("MSPDI");
    }
@@ -1639,7 +1685,8 @@ public final class MSPDIReader extends AbstractProjectReader
    }
 
    private boolean m_compatibleInput = true;
-
+   private String m_encoding;
+   private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;

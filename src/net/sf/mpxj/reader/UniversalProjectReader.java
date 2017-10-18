@@ -42,6 +42,8 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.asta.AstaDatabaseFileReader;
@@ -63,8 +65,6 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
-
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 /**
  * This class implements a universal project reader: given a file or a stream this reader
@@ -139,7 +139,9 @@ public class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT))
          {
-            return new MSPDIReader().read(bis);
+            MSPDIReader reader = new MSPDIReader();
+            reader.setCharset(m_charset);
+            return reader.read(bis);
          }
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
@@ -249,7 +251,7 @@ public class UniversalProjectReader extends AbstractProjectReader
     */
    private boolean matchesFingerprint(byte[] buffer, Pattern fingerprint)
    {
-      return fingerprint.matcher(new String(buffer)).matches();
+      return fingerprint.matcher(m_charset == null ? new String(buffer) : new String(buffer, m_charset)).matches();
    }
 
    /**
@@ -638,8 +640,8 @@ public class UniversalProjectReader extends AbstractProjectReader
 
    private static final byte[] UTF16LE_BOM_FINGERPRINT =
    {
-      (byte) 0xFE,
-      (byte) 0xFF
+      (byte) 0xFF,
+      (byte) 0xFE
    };
 
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
