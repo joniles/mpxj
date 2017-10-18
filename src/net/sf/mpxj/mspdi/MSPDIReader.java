@@ -92,6 +92,7 @@ import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.common.ReplaceOnceStream;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
@@ -166,6 +167,12 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       try
       {
+         //
+         // This is a hack to ensure that the incoming file has a namespace
+         // which JAXB will accept.
+         //
+         InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, getCharset());
+
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -187,7 +194,7 @@ public final class MSPDIReader extends AbstractProjectReader
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(new InputStreamReader(stream, getCharset())));
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(new InputStreamReader(namespaceCorrectedStream, getCharset())));
 
          if (CONTEXT == null)
          {
@@ -1690,4 +1697,8 @@ public final class MSPDIReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+
+   private static final int NAMESPACE_SCOPE = 512;
+   private static final String NAMESPACE_REGEX = "xmlns=\\\"http://schemas\\.microsoft\\.com/project.*\\\"";
+   private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://schemas.microsoft.com/project\"";
 }

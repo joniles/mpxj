@@ -8,6 +8,7 @@
 		<release date="git master" version="6.2.2">
 			<action dev="joniles" issue="321" type="fix">Cannot read mpp file using getProjectReader.</action>
 			<action dev="joniles" type="update">Correctly handle MSPDI files with Byte Order Marks.</action>
+			<action dev="joniles" type="update">Handle MSPDI files with varying namespaces.</action>
 		</release>
 		<release date="11/10/2017" version="6.2.1">
 			<action dev="joniles" type="update">Gracefully handle corrupt MPP files.</action>

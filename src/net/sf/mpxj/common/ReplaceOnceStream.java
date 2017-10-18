@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera;
+package net.sf.mpxj.common;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +36,7 @@ import net.sf.mpxj.MPXJException;
  * internal buffer, then delegates all further read() calls straight to the
  * parent stream.
  */
-class ReplaceOnceStream extends InputStream
+public class ReplaceOnceStream extends InputStream
 {
    /**
     * Constructor.
