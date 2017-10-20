@@ -243,7 +243,7 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
       assertFalse(rt.getRelative());
-      assertEquals("15/06", dm.format(rt.getYearlyAbsoluteDate()));
+      assertEquals("15/06", dm.format(rt.getYearlyAbsoluteAsDate()));
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("15/06/2010", df.format(rt.getFinishDate()));
       assertEquals(3, rt.getOccurrences().intValue());

@@ -79,7 +79,7 @@ final class RecurringTaskReader
       rt.setYearlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 60)));
       rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62) + 1));
       rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
-      rt.setYearlyAbsoluteDate(MPPUtility.getDate(data, 70));
+      rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, 70));
 
       switch (rt.getRecurrenceType())
       {

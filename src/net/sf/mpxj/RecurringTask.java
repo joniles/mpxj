@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -42,7 +43,7 @@ public final class RecurringTask
     */
    public Date getStartDate()
    {
-      return (m_startDate);
+      return m_startDate;
    }
 
    /**
@@ -62,7 +63,7 @@ public final class RecurringTask
     */
    public Date getFinishDate()
    {
-      return (m_finishDate);
+      return m_finishDate;
    }
 
    /**
@@ -82,7 +83,7 @@ public final class RecurringTask
     */
    public Duration getDuration()
    {
-      return (m_duration);
+      return m_duration;
    }
 
    /**
@@ -102,7 +103,7 @@ public final class RecurringTask
     */
    public Integer getOccurrences()
    {
-      return (m_occurrences);
+      return m_occurrences;
    }
 
    /**
@@ -122,7 +123,7 @@ public final class RecurringTask
     */
    public RecurrenceType getRecurrenceType()
    {
-      return (m_recurrenceType);
+      return m_recurrenceType;
    }
 
    /**
@@ -142,7 +143,7 @@ public final class RecurringTask
     */
    public boolean getUseEndDate()
    {
-      return (m_useEndDate);
+      return m_useEndDate;
    }
 
    /**
@@ -162,7 +163,7 @@ public final class RecurringTask
     */
    public boolean getDailyWorkday()
    {
-      return (m_dailyWorkday);
+      return m_dailyWorkday;
    }
 
    /**
@@ -183,7 +184,7 @@ public final class RecurringTask
     */
    public Integer getWeeklyDays()
    {
-      return (m_weeklyDays);
+      return m_weeklyDays;
    }
 
    /**
@@ -224,7 +225,7 @@ public final class RecurringTask
     */
    public Integer getDailyFrequency()
    {
-      return (m_dailyFrequency);
+      return m_dailyFrequency;
    }
 
    /**
@@ -244,7 +245,7 @@ public final class RecurringTask
     */
    public Integer getWeeklyFrequency()
    {
-      return (m_weeklyFrequency);
+      return m_weeklyFrequency;
    }
 
    /**
@@ -264,7 +265,7 @@ public final class RecurringTask
     */
    public Integer getMonthlyRelativeOrdinal()
    {
-      return (m_monthlyRelativeOrdinal);
+      return m_monthlyRelativeOrdinal;
    }
 
    /**
@@ -284,7 +285,7 @@ public final class RecurringTask
     */
    public Day getMonthlyRelativeDay()
    {
-      return (m_monthlyRelativeDay);
+      return m_monthlyRelativeDay;
    }
 
    /**
@@ -304,7 +305,7 @@ public final class RecurringTask
     */
    public Integer getMonthlyRelativeFrequency()
    {
-      return (m_monthlyRelativeFrequency);
+      return m_monthlyRelativeFrequency;
    }
 
    /**
@@ -324,7 +325,7 @@ public final class RecurringTask
     */
    public Integer getMonthlyAbsoluteDay()
    {
-      return (m_monthlyAbsoluteDay);
+      return m_monthlyAbsoluteDay;
    }
 
    /**
@@ -344,7 +345,7 @@ public final class RecurringTask
     */
    public Integer getMonthlyAbsoluteFrequency()
    {
-      return (m_monthlyAbsoluteFrequency);
+      return m_monthlyAbsoluteFrequency;
    }
 
    /**
@@ -364,7 +365,7 @@ public final class RecurringTask
     */
    public Integer getYearlyRelativeOrdinal()
    {
-      return (m_yearlyRelativeOrdinal);
+      return m_yearlyRelativeOrdinal;
    }
 
    /**
@@ -384,7 +385,7 @@ public final class RecurringTask
     */
    public Day getYearlyRelativeDay()
    {
-      return (m_yearlyRelativeDay);
+      return m_yearlyRelativeDay;
    }
 
    /**
@@ -404,7 +405,7 @@ public final class RecurringTask
     */
    public Integer getYearlyRelativeMonth()
    {
-      return (m_yearlyRelativeMonth);
+      return m_yearlyRelativeMonth;
    }
 
    /**
@@ -418,13 +419,66 @@ public final class RecurringTask
    }
 
    /**
+    * Retrieve the yearly absolute day.
+    *
+    * @return yearly absolute day
+    */
+   public Integer getYearlyAbsoluteDay()
+   {
+      return m_yearlyAbsoluteDay;
+   }
+
+   /**
+    * Set the yearly absolute day.
+    *
+    * @param yearlyAbsoluteDay day of month
+    */
+   public void setYearlyAbsoluteDay(Integer yearlyAbsoluteDay)
+   {
+      m_yearlyAbsoluteDay = yearlyAbsoluteDay;
+   }
+
+   /**
+    * Retrieve the yearly absolute month.
+    *
+    * @return month number
+    */
+   public Integer getYearlyAbsoluteMonth()
+   {
+      return m_yearlyAbsoluteMonth;
+   }
+
+   /**
+    * Set the yearly absolute month.
+    *
+    * @param yearlyAbsoluteMonth month number
+    */
+   public void setYearlyAbsoluteMonth(Integer yearlyAbsoluteMonth)
+   {
+      m_yearlyAbsoluteMonth = yearlyAbsoluteMonth;
+   }
+
+   /**
     * Retrieves the yearly absolute date.
     *
     * @return yearly absolute date
     */
-   public Date getYearlyAbsoluteDate()
+   public Date getYearlyAbsoluteAsDate()
    {
-      return (m_yearlyAbsoluteDate);
+      Date result;
+      if (m_yearlyAbsoluteDay == null || m_yearlyAbsoluteMonth == null)
+      {
+         result = null;
+      }
+      else
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(m_startDate);
+         cal.set(Calendar.MONTH, m_yearlyAbsoluteMonth.intValue() - 1);
+         cal.set(Calendar.DAY_OF_MONTH, m_yearlyAbsoluteDay.intValue());
+         result = cal.getTime();
+      }
+      return result;
    }
 
    /**
@@ -432,9 +486,15 @@ public final class RecurringTask
     *
     * @param date yearly absolute date
     */
-   public void setYearlyAbsoluteDate(Date date)
+   public void setYearlyAbsoluteFromDate(Date date)
    {
-      m_yearlyAbsoluteDate = date;
+      if (date != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(date);
+         m_yearlyAbsoluteDay = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+         m_yearlyAbsoluteMonth = Integer.valueOf(cal.get(Calendar.MONTH) + 1);
+      }
    }
 
    /**
@@ -443,7 +503,6 @@ public final class RecurringTask
    @Override public String toString()
    {
       DateFormatSymbols dfs = new DateFormatSymbols();
-      SimpleDateFormat df = new SimpleDateFormat("d MMM");
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
       pw.print("[RecurringTask");
@@ -468,37 +527,37 @@ public final class RecurringTask
                pw.print(" week on ");
                if ((m_weeklyDays.intValue() & 0x40) != 0)
                {
-                  pw.print("Sunday");
+                  pw.print(dfs.getWeekdays()[Calendar.SUNDAY]);
                }
 
                if ((m_weeklyDays.intValue() & 0x20) != 0)
                {
-                  pw.print("Monday");
+                  pw.print(dfs.getWeekdays()[Calendar.MONDAY]);
                }
 
                if ((m_weeklyDays.intValue() & 0x10) != 0)
                {
-                  pw.print("Tuesday");
+                  pw.print(dfs.getWeekdays()[Calendar.TUESDAY]);
                }
 
                if ((m_weeklyDays.intValue() & 0x08) != 0)
                {
-                  pw.print("Wednesday");
+                  pw.print(dfs.getWeekdays()[Calendar.WEDNESDAY]);
                }
 
                if ((m_weeklyDays.intValue() & 0x04) != 0)
                {
-                  pw.print("Thursday");
+                  pw.print(dfs.getWeekdays()[Calendar.THURSDAY]);
                }
 
                if ((m_weeklyDays.intValue() & 0x02) != 0)
                {
-                  pw.print("Friday");
+                  pw.print(dfs.getWeekdays()[Calendar.FRIDAY]);
                }
 
                if ((m_weeklyDays.intValue() & 0x01) != 0)
                {
-                  pw.print("Saturday");
+                  pw.print(dfs.getWeekdays()[Calendar.SATURDAY]);
                }
 
                break;
@@ -539,7 +598,8 @@ public final class RecurringTask
                }
                else
                {
-                  pw.print(df.format(m_yearlyAbsoluteDate));
+                  SimpleDateFormat df = new SimpleDateFormat("d MMM");
+                  pw.print(df.format(getYearlyAbsoluteAsDate()));
                }
                break;
             }
@@ -621,7 +681,8 @@ public final class RecurringTask
    //
    // Yearly recurrence attributes
    //
-   private Date m_yearlyAbsoluteDate;
+   private Integer m_yearlyAbsoluteDay;
+   private Integer m_yearlyAbsoluteMonth;
    private Integer m_yearlyRelativeOrdinal;
    private Day m_yearlyRelativeDay;
    private Integer m_yearlyRelativeMonth;
@@ -631,4 +692,5 @@ public final class RecurringTask
    // Only relevant to monthly and yearly.
    //
    private boolean m_relative;
+
 }

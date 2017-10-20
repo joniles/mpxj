@@ -729,7 +729,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getYearlyRelativeMonth()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(record.getYearlyAbsoluteDate())));
+         m_buffer.append(format(formatDateTime(record.getYearlyAbsoluteAsDate())));
 
          stripTrailingDelimiters(m_buffer);
       }

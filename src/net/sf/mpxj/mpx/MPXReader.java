@@ -1324,7 +1324,7 @@ public final class MPXReader extends AbstractProjectReader
       task.setYearlyRelativeOrdinal(record.getInteger(20));
       task.setYearlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(21)));
       task.setYearlyRelativeMonth(record.getInteger(22));
-      task.setYearlyAbsoluteDate(record.getDateTime(23));
+      task.setYearlyAbsoluteFromDate(record.getDateTime(23));
 
       RecurrenceType type = task.getRecurrenceType();
       if (type != null)
