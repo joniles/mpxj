@@ -571,7 +571,7 @@ public final class PhoenixReader extends AbstractProjectReader
       // Work through the activity codes in sequence
       //
       ChildTaskContainer parent = m_projectFile;
-      StringBuffer uniqueIdentifier = new StringBuffer();
+      StringBuilder uniqueIdentifier = new StringBuilder();
       for (UUID activityCode : m_codeSequence)
       {
          UUID activityCodeValue = map.get(activityCode);
