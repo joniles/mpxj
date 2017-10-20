@@ -46,6 +46,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -1313,8 +1314,6 @@ public final class MPXReader extends AbstractProjectReader
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
       task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
       task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
-      task.setMonthlyRelative(NumberHelper.getInt(record.getInteger(11)) == 1);
-      task.setYearlyAbsolute(NumberHelper.getInt(record.getInteger(12)) == 1);
       task.setDailyFrequency(record.getInteger(13));
       task.setWeeklyFrequency(record.getInteger(14));
       task.setMonthlyRelativeOrdinal(record.getInteger(15));
@@ -1326,6 +1325,32 @@ public final class MPXReader extends AbstractProjectReader
       task.setYearlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(21)));
       task.setYearlyRelativeMonth(record.getInteger(22));
       task.setYearlyAbsoluteDate(record.getDateTime(23));
+
+      RecurrenceType type = task.getRecurrenceType();
+      if (type != null)
+      {
+         switch (task.getRecurrenceType())
+         {
+            case MONTHLY:
+            {
+               task.setRelative(NumberHelper.getInt(record.getInteger(11)) == 1);
+               break;
+            }
+
+            case YEARLY:
+            {
+               task.setRelative(NumberHelper.getInt(record.getInteger(12)) != 1);
+               break;
+            }
+
+            default:
+            {
+               // Flag not required
+               break;
+            }
+         }
+      }
+
       //System.out.println(task);
    }
 

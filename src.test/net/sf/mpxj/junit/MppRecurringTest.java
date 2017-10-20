@@ -28,6 +28,8 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.junit.Test;
+
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
@@ -36,8 +38,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
-
-import org.junit.Test;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of MPP
@@ -205,7 +205,7 @@ public class MppRecurringTest
       assertEquals(1, (int) rt.getDuration().getDuration());
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.MONTHLY, rt.getRecurrenceType());
-      assertFalse(rt.getMonthlyRelative());
+      assertFalse(rt.getRelative());
       assertEquals(15, rt.getMonthlyAbsoluteDay().intValue());
       assertEquals(1, rt.getMonthlyAbsoluteFrequency().intValue());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
@@ -223,7 +223,7 @@ public class MppRecurringTest
       assertEquals(1, (int) rt.getDuration().getDuration());
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.MONTHLY, rt.getRecurrenceType());
-      assertTrue(rt.getMonthlyRelative());
+      assertTrue(rt.getRelative());
       assertEquals(3, rt.getMonthlyRelativeOrdinal().intValue());
       assertEquals(Day.MONDAY, rt.getMonthlyRelativeDay());
       assertEquals(1, rt.getMonthlyRelativeFrequency().intValue());
@@ -242,7 +242,7 @@ public class MppRecurringTest
       assertEquals(1, (int) rt.getDuration().getDuration());
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
-      assertTrue(rt.getYearlyAbsolute());
+      assertFalse(rt.getRelative());
       assertEquals("15/06", dm.format(rt.getYearlyAbsoluteDate()));
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("15/06/2010", df.format(rt.getFinishDate()));
@@ -259,7 +259,7 @@ public class MppRecurringTest
       assertEquals(1, (int) rt.getDuration().getDuration());
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
-      assertFalse(rt.getYearlyAbsolute());
+      assertTrue(rt.getRelative());
       assertEquals(3, rt.getYearlyRelativeOrdinal().intValue());
       assertEquals(Day.MONDAY, rt.getYearlyRelativeDay());
       assertEquals(6, rt.getYearlyRelativeMonth().intValue());

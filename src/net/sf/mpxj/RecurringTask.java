@@ -198,43 +198,23 @@ public final class RecurringTask
    }
 
    /**
-    * Retrieves the monthly relative flag.
+    * Retrieves the relative flag. This is only relevant for monthly and yearly recurrence.
     *
     * @return boolean flag
     */
-   public boolean getMonthlyRelative()
+   public boolean getRelative()
    {
-      return (m_monthlyRelative);
+      return m_relative;
    }
 
    /**
-    * Sets the monthly relative flag.
+    * Sets the relative flag. This is only relevant for monthly and yearly recurrence.
     *
     * @param relative boolean flag
     */
-   public void setMonthlyRelative(boolean relative)
+   public void setRelative(boolean relative)
    {
-      m_monthlyRelative = relative;
-   }
-
-   /**
-    * Retrieve the yearly relative flag.
-    *
-    * @return boolean flag
-    */
-   public boolean getYearlyAbsolute()
-   {
-      return (m_yearlyAbsolute);
-   }
-
-   /**
-    * Set the yearly relative flag.
-    *
-    * @param absolute boolean flag
-    */
-   public void setYearlyAbsolute(boolean absolute)
-   {
-      m_yearlyAbsolute = absolute;
+      m_relative = relative;
    }
 
    /**
@@ -526,7 +506,7 @@ public final class RecurringTask
 
             case MONTHLY:
             {
-               if (m_monthlyRelative)
+               if (m_relative)
                {
                   pw.print(" on The ");
                   pw.print(DAY_ORDINAL[m_monthlyRelativeOrdinal.intValue()]);
@@ -549,17 +529,17 @@ public final class RecurringTask
             case YEARLY:
             {
                pw.print(" on the ");
-               if (m_yearlyAbsolute)
-               {
-                  pw.print(df.format(m_yearlyAbsoluteDate));
-               }
-               else
+               if (m_relative)
                {
                   pw.print(DAY_ORDINAL[m_yearlyRelativeOrdinal.intValue()]);
                   pw.print(" ");
                   pw.print(dfs.getWeekdays()[m_yearlyRelativeDay.getValue()]);
                   pw.print(" of ");
                   pw.print(dfs.getMonths()[m_yearlyRelativeMonth.intValue() - 1]);
+               }
+               else
+               {
+                  pw.print(df.format(m_yearlyAbsoluteDate));
                }
                break;
             }
@@ -632,7 +612,6 @@ public final class RecurringTask
    //
    // Monthly recurrence attributes
    //
-   private boolean m_monthlyRelative;
    private Integer m_monthlyRelativeOrdinal;
    private Day m_monthlyRelativeDay;
    private Integer m_monthlyRelativeFrequency;
@@ -642,9 +621,14 @@ public final class RecurringTask
    //
    // Yearly recurrence attributes
    //
-   private boolean m_yearlyAbsolute;
    private Date m_yearlyAbsoluteDate;
    private Integer m_yearlyRelativeOrdinal;
    private Day m_yearlyRelativeDay;
    private Integer m_yearlyRelativeMonth;
+
+   //
+   // Absolute/relative flag.
+   // Only relevant to monthly and yearly.
+   //
+   private boolean m_relative;
 }

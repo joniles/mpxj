@@ -69,8 +69,6 @@ final class RecurringTaskReader
       days += (MPPUtility.getShort(data, 38) == 1 ? 0x02 : 0x00);
       days += (MPPUtility.getShort(data, 40) == 1 ? 0x01 : 0x00);
       rt.setWeeklyDays(Integer.valueOf(days));
-      rt.setMonthlyRelative(MPPUtility.getShort(data, 42) == 1);
-      rt.setYearlyAbsolute(MPPUtility.getShort(data, 44) == 1);
       rt.setDailyFrequency(Integer.valueOf(MPPUtility.getShort(data, 46)));
       rt.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, 48)));
       rt.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 50)));
@@ -82,6 +80,28 @@ final class RecurringTaskReader
       rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62) + 1));
       rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
       rt.setYearlyAbsoluteDate(MPPUtility.getDate(data, 70));
+
+      switch (rt.getRecurrenceType())
+      {
+         case MONTHLY:
+         {
+            rt.setRelative(MPPUtility.getShort(data, 42) == 1);
+            break;
+         }
+
+         case YEARLY:
+         {
+            rt.setRelative(MPPUtility.getShort(data, 44) != 1);
+            break;
+         }
+
+         default:
+         {
+            // Flag not required
+            break;
+         }
+      }
+
    }
 
    private ProjectProperties m_properties;
