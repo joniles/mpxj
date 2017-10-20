@@ -496,7 +496,7 @@ public class RecurringData
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
       pw.print("[RecurringData");
-      pw.print(" Recurring " + m_recurrenceType);
+      pw.print(m_recurrenceType);
 
       switch (m_recurrenceType)
       {
@@ -515,11 +515,14 @@ public class RecurringData
             StringBuilder sb = new StringBuilder();
             for (Day day : Day.values())
             {
-               if (sb.length() != 0)
+               if (getWeeklyDay(day))
                {
-                  sb.append(", ");
+                  if (sb.length() != 0)
+                  {
+                     sb.append(", ");
+                  }
+                  sb.append(dfs.getWeekdays()[day.getValue()]);
                }
-               sb.append(dfs.getWeekdays()[day.getValue()]);
             }
             pw.print(sb.toString());
             break;
