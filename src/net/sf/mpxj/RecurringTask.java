@@ -177,6 +177,17 @@ public final class RecurringTask
    }
 
    /**
+    * Returns true if this day is part of a weekly recurrence.
+    *
+    * @param day Day instance
+    * @return true if this day is included
+    */
+   public boolean getWeeklyDay(Day day)
+   {
+      return (m_weeklyDays.intValue() & DAY_MASKS[day.getValue()]) != 0;
+   }
+
+   /**
     * Retrieves a bit field representing days of the week.
     * MSB=Sunday, LSB=Saturday.
     *
@@ -525,41 +536,17 @@ public final class RecurringTask
             {
                pw.print(" " + ORDINAL[m_weeklyFrequency.intValue()]);
                pw.print(" week on ");
-               if ((m_weeklyDays.intValue() & 0x40) != 0)
-               {
-                  pw.print(dfs.getWeekdays()[Calendar.SUNDAY]);
-               }
 
-               if ((m_weeklyDays.intValue() & 0x20) != 0)
+               StringBuilder sb = new StringBuilder();
+               for (Day day : Day.values())
                {
-                  pw.print(dfs.getWeekdays()[Calendar.MONDAY]);
+                  if (sb.length() != 0)
+                  {
+                     sb.append(", ");
+                  }
+                  sb.append(dfs.getWeekdays()[day.getValue()]);
                }
-
-               if ((m_weeklyDays.intValue() & 0x10) != 0)
-               {
-                  pw.print(dfs.getWeekdays()[Calendar.TUESDAY]);
-               }
-
-               if ((m_weeklyDays.intValue() & 0x08) != 0)
-               {
-                  pw.print(dfs.getWeekdays()[Calendar.WEDNESDAY]);
-               }
-
-               if ((m_weeklyDays.intValue() & 0x04) != 0)
-               {
-                  pw.print(dfs.getWeekdays()[Calendar.THURSDAY]);
-               }
-
-               if ((m_weeklyDays.intValue() & 0x02) != 0)
-               {
-                  pw.print(dfs.getWeekdays()[Calendar.FRIDAY]);
-               }
-
-               if ((m_weeklyDays.intValue() & 0x01) != 0)
-               {
-                  pw.print(dfs.getWeekdays()[Calendar.SATURDAY]);
-               }
-
+               pw.print(sb.toString());
                break;
             }
 
@@ -645,6 +632,18 @@ public final class RecurringTask
       "Third",
       "Fourth",
       "Last"
+   };
+
+   private static final int[] DAY_MASKS =
+   {
+      0x00,
+      0x40, // Sunday
+      0x20, // Monday
+      0x10, // Tuesday
+      0x08, // Wednesday
+      0x04, // Thursday
+      0x02, // Friday
+      0x01, // Saturday
    };
 
    //
