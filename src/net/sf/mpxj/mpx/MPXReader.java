@@ -1315,13 +1315,9 @@ public final class MPXReader extends AbstractProjectReader
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
       task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
       task.setWeeklyDaysFromBitmap(RecurrenceUtility.getDays(record.getString(10)), RecurringData.RECURRING_TASK_DAY_MASKS);
-      task.setDailyFrequency(record.getInteger(13));
-      task.setWeeklyFrequency(record.getInteger(14));
       task.setMonthlyRelativeOrdinal(record.getInteger(15));
       task.setMonthlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(16)));
-      task.setMonthlyRelativeFrequency(record.getInteger(17));
       task.setMonthlyAbsoluteDay(record.getInteger(18));
-      task.setMonthlyAbsoluteFrequency(record.getInteger(19));
       task.setYearlyRelativeOrdinal(record.getInteger(20));
       task.setYearlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(21)));
       task.setYearlyRelativeMonth(record.getInteger(22));
@@ -1332,9 +1328,29 @@ public final class MPXReader extends AbstractProjectReader
       {
          switch (task.getRecurrenceType())
          {
+            case DAILY:
+            {
+               task.setFrequency(record.getInteger(13));
+               break;
+            }
+
+            case WEEKLY:
+            {
+               task.setFrequency(record.getInteger(14));
+               break;
+            }
+
             case MONTHLY:
             {
                task.setRelative(NumberHelper.getInt(record.getInteger(11)) == 1);
+               if (task.getRelative())
+               {
+                  task.setFrequency(record.getInteger(17));
+               }
+               else
+               {
+                  task.setFrequency(record.getInteger(19));
+               }
                break;
             }
 

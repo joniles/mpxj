@@ -70,23 +70,41 @@ final class RecurringTaskReader
       days += (MPPUtility.getShort(data, 38) == 1 ? 0x02 : 0x00);
       days += (MPPUtility.getShort(data, 40) == 1 ? 0x01 : 0x00);
       rt.setWeeklyDaysFromBitmap(Integer.valueOf(days), RecurringData.RECURRING_TASK_DAY_MASKS);
-      rt.setDailyFrequency(Integer.valueOf(MPPUtility.getShort(data, 46)));
-      rt.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, 48)));
       rt.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 50)));
       rt.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 52) + 1));
-      rt.setMonthlyAbsoluteFrequency(Integer.valueOf(MPPUtility.getShort(data, 54)));
       rt.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getShort(data, 56)));
-      rt.setMonthlyRelativeFrequency(Integer.valueOf(MPPUtility.getShort(data, 58)));
       rt.setYearlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 60)));
       rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62) + 1));
       rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
       rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, 70));
 
+      int frequencyOffset = 0;
       switch (rt.getRecurrenceType())
       {
+         case DAILY:
+         {
+            frequencyOffset = 46;
+            break;
+         }
+
+         case WEEKLY:
+         {
+            frequencyOffset = 48;
+            break;
+         }
+
          case MONTHLY:
          {
             rt.setRelative(MPPUtility.getShort(data, 42) == 1);
+            if (rt.getRelative())
+            {
+               frequencyOffset = 58;
+            }
+            else
+            {
+               frequencyOffset = 54;
+            }
+
             break;
          }
 
@@ -95,14 +113,12 @@ final class RecurringTaskReader
             rt.setRelative(MPPUtility.getShort(data, 44) != 1);
             break;
          }
-
-         default:
-         {
-            // Flag not required
-            break;
-         }
       }
 
+      if (frequencyOffset != 0)
+      {
+         rt.setFrequency(Integer.valueOf(MPPUtility.getShort(data, frequencyOffset)));
+      }
    }
 
    private ProjectProperties m_properties;

@@ -36,9 +36,9 @@ import java.util.Date;
 public class RecurringData
 {
    /**
-    * Gets the start date of this recurring task.
+    * Gets the start date of this recurrence.
     *
-    * @return date to start recurring task
+    * @return recurrence start date
     */
    public Date getStartDate()
    {
@@ -46,9 +46,9 @@ public class RecurringData
    }
 
    /**
-    * Sets the start date of this recurring task.
+    * Sets the start date of this recurrence.
     *
-    * @param val date to start recurring task
+    * @param val recurrence start date
     */
    public void setStartDate(Date val)
    {
@@ -56,9 +56,9 @@ public class RecurringData
    }
 
    /**
-    * Gets the finish date of this recurring task.
+    * Gets the finish date of this recurrence.
     *
-    * @return date to finish recurring task
+    * @return recurrence finish date
     */
    public Date getFinishDate()
    {
@@ -66,9 +66,9 @@ public class RecurringData
    }
 
    /**
-    * Sets the finish date of this recurring task.
+    * Sets the finish date of this recurrence.
     *
-    * @param val date to finish recurring task
+    * @param val recurrence finish date
     */
    public void setFinishDate(Date val)
    {
@@ -240,43 +240,23 @@ public class RecurringData
    }
 
    /**
-    * Retrieves the recurring task frequency.
+    * Retrieves the recurrence frequency.
     *
-    * @return recurring task frequency
+    * @return recurrence frequency
     */
-   public Integer getDailyFrequency()
+   public Integer getFrequency()
    {
-      return m_dailyFrequency;
+      return m_frequency;
    }
 
    /**
-    * Set the recurring task frequency.
+    * Set the recurrence frequency.
     *
-    * @param frequency recurring task frequency
+    * @param frequency recurrence frequency
     */
-   public void setDailyFrequency(Integer frequency)
+   public void setFrequency(Integer frequency)
    {
-      m_dailyFrequency = frequency;
-   }
-
-   /**
-    * Retrieves the recurring task frequency.
-    *
-    * @return recurring task frequency
-    */
-   public Integer getWeeklyFrequency()
-   {
-      return m_weeklyFrequency;
-   }
-
-   /**
-    * Set the recurring task frequency.
-    *
-    * @param frequency recurring task frequency
-    */
-   public void setWeeklyFrequency(Integer frequency)
-   {
-      m_weeklyFrequency = frequency;
+      m_frequency = frequency;
    }
 
    /**
@@ -320,26 +300,6 @@ public class RecurringData
    }
 
    /**
-    * Sets the monthly relative frequency.
-    *
-    * @return monthly relative frequency
-    */
-   public Integer getMonthlyRelativeFrequency()
-   {
-      return m_monthlyRelativeFrequency;
-   }
-
-   /**
-    * Retrieves the monthly relative frequency.
-    *
-    * @param frequency monthly relative frequency
-    */
-   public void setMonthlyRelativeFrequency(Integer frequency)
-   {
-      m_monthlyRelativeFrequency = frequency;
-   }
-
-   /**
     * Retrieves the monthly absolute day.
     *
     * @return monthly absolute day.
@@ -357,26 +317,6 @@ public class RecurringData
    public void setMonthlyAbsoluteDay(Integer day)
    {
       m_monthlyAbsoluteDay = day;
-   }
-
-   /**
-    * Retrieves the monthly absolute frequency.
-    *
-    * @return monthly absolute frequency
-    */
-   public Integer getMonthlyAbsoluteFrequency()
-   {
-      return m_monthlyAbsoluteFrequency;
-   }
-
-   /**
-    * Sets the monthly absolute frequency.
-    *
-    * @param frequency monthly absolute frequency
-    */
-   public void setMonthlyAbsoluteFrequency(Integer frequency)
-   {
-      m_monthlyAbsoluteFrequency = frequency;
    }
 
    /**
@@ -519,6 +459,27 @@ public class RecurringData
    }
 
    /**
+    * Retrieve the ordinal text for a given integer.
+    *
+    * @param value integer value
+    * @return ordinal text
+    */
+   private String getOrdinal(Integer value)
+   {
+      String result;
+      int index = value.intValue();
+      if (index >= ORDINAL.length)
+      {
+         result = "every " + index + "th";
+      }
+      else
+      {
+         result = ORDINAL[index];
+      }
+      return result;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
@@ -533,14 +494,14 @@ public class RecurringData
       {
          case DAILY:
          {
-            pw.print(" " + ORDINAL[m_dailyFrequency.intValue()]);
+            pw.print(" " + getOrdinal(m_frequency));
             pw.print(m_dailyWorkday ? " Workday" : " Day");
             break;
          }
 
          case WEEKLY:
          {
-            pw.print(" " + ORDINAL[m_weeklyFrequency.intValue()]);
+            pw.print(" " + getOrdinal(m_frequency));
             pw.print(" week on ");
 
             StringBuilder sb = new StringBuilder();
@@ -568,14 +529,14 @@ public class RecurringData
                pw.print(" ");
                pw.print(dfs.getWeekdays()[m_monthlyRelativeDay.getValue()]);
                pw.print(" of ");
-               pw.print(ORDINAL[m_monthlyRelativeFrequency.intValue()]);
+               pw.print(getOrdinal(m_frequency));
             }
             else
             {
                pw.print(" on Day ");
                pw.print(m_monthlyAbsoluteDay);
                pw.print(" of ");
-               pw.print(ORDINAL[m_monthlyAbsoluteFrequency.intValue()]);
+               pw.print(getOrdinal(m_frequency));
             }
             pw.print(" month");
             break;
@@ -618,16 +579,7 @@ public class RecurringData
       null,
       "every",
       "every other",
-      "every 3rd",
-      "every 4th",
-      "every 5th",
-      "every 6th",
-      "every 7th",
-      "every 8th",
-      "every 9th",
-      "every 10th",
-      "every 11th",
-      "every 12th"
+      "every 3rd"
    };
 
    /**
@@ -675,17 +627,16 @@ public class RecurringData
    private Integer m_occurrences;
    private RecurrenceType m_recurrenceType;
    private boolean m_useEndDate;
+   private Integer m_frequency;
 
    //
    // Daily recurrence attributes
    //
-   private Integer m_dailyFrequency;
    private boolean m_dailyWorkday;
 
    //
    // Weekly recurrence attributes
    //
-   private Integer m_weeklyFrequency;
    private boolean[] m_weeklyDays = new boolean[8];
 
    //
@@ -693,9 +644,7 @@ public class RecurringData
    //
    private Integer m_monthlyRelativeOrdinal;
    private Day m_monthlyRelativeDay;
-   private Integer m_monthlyRelativeFrequency;
    private Integer m_monthlyAbsoluteDay;
-   private Integer m_monthlyAbsoluteFrequency;
 
    //
    // Yearly recurrence attributes
