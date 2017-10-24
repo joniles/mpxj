@@ -47,6 +47,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -1313,7 +1314,7 @@ public final class MPXReader extends AbstractProjectReader
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
       task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
-      task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
+      task.setWeeklyDaysFromBitmap(RecurrenceUtility.getDays(record.getString(10)), RecurringData.RECURRING_TASK_DAY_MASKS);
       task.setDailyFrequency(record.getInteger(13));
       task.setWeeklyFrequency(record.getInteger(14));
       task.setMonthlyRelativeOrdinal(record.getInteger(15));

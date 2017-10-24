@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Task;
 
@@ -68,7 +69,7 @@ final class RecurringTaskReader
       days += (MPPUtility.getShort(data, 36) == 1 ? 0x04 : 0x00);
       days += (MPPUtility.getShort(data, 38) == 1 ? 0x02 : 0x00);
       days += (MPPUtility.getShort(data, 40) == 1 ? 0x01 : 0x00);
-      rt.setWeeklyDays(Integer.valueOf(days));
+      rt.setWeeklyDaysFromBitmap(Integer.valueOf(days), RecurringData.RECURRING_TASK_DAY_MASKS);
       rt.setDailyFrequency(Integer.valueOf(MPPUtility.getShort(data, 46)));
       rt.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, 48)));
       rt.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 50)));

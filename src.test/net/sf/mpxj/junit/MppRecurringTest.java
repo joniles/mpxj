@@ -33,6 +33,7 @@ import org.junit.Test;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -189,7 +190,7 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.WEEKLY, rt.getRecurrenceType());
       assertEquals(1, rt.getWeeklyFrequency().intValue());
-      assertEquals(0x2A, rt.getWeeklyDays().intValue());
+      assertEquals(0x2A, rt.getWeeklyDaysAsBitmap(RecurringData.RECURRING_TASK_DAY_MASKS).intValue());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("20/06/2008", df.format(rt.getFinishDate()));
       assertEquals(3, rt.getOccurrences().intValue());

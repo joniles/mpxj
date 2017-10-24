@@ -163,29 +163,60 @@ public class RecurringData
     */
    public boolean getWeeklyDay(Day day)
    {
-      return (m_weeklyDays.intValue() & DAY_MASKS[day.getValue()]) != 0;
+      return m_weeklyDays[day.getValue()];
    }
 
    /**
-    * Retrieves a bit field representing days of the week.
-    * MSB=Sunday, LSB=Saturday.
+    * Set the state of an individual day in a weekly recurrence.
     *
-    * @return integer bit field
+    * @param day Day instance
+    * @param value true if this day is included in the recurrence
     */
-   public Integer getWeeklyDays()
+   public void setWeeklyDay(Day day, boolean value)
    {
-      return m_weeklyDays;
+      m_weeklyDays[day.getValue()] = value;
    }
 
    /**
-    * Sets a bit field representing days of the week.
-    * MSB=Sunday, LSB=Saturday.
+    * Retrieves the state of all seven days for a weekly recurrence,
+    * represented as a bitmap. The masks array determines how the
+    * bitmap is formed.
     *
-    * @param days integer bit field
+    * @param masks array of mask values
+    * @return bitmap
     */
-   public void setWeeklyDays(Integer days)
+   public Integer getWeeklyDaysAsBitmap(int[] masks)
    {
-      m_weeklyDays = days;
+      int result = 0;
+
+      for (Day day : Day.values())
+      {
+         if (getWeeklyDay(day))
+         {
+            result = result | masks[day.getValue()];
+         }
+      }
+
+      return Integer.valueOf(result);
+   }
+
+   /**
+    * Converts from a bitmap to individual day flags for a weekly recurrence,
+    * using the array of masks.
+    *
+    * @param days bitmap
+    * @param masks array of mask values
+    */
+   public void setWeeklyDaysFromBitmap(Integer days, int[] masks)
+   {
+      if (days != null)
+      {
+         int value = days.intValue();
+         for (Day day : Day.values())
+         {
+            setWeeklyDay(day, ((value & masks[day.getValue()]) != 0));
+         }
+      }
    }
 
    /**
@@ -612,7 +643,7 @@ public class RecurringData
       "Last"
    };
 
-   private static final int[] DAY_MASKS =
+   public static final int[] RECURRING_TASK_DAY_MASKS =
    {
       0x00,
       0x40, // Sunday
@@ -643,7 +674,7 @@ public class RecurringData
    // Weekly recurrence attributes
    //
    private Integer m_weeklyFrequency;
-   private Integer m_weeklyDays;
+   private boolean[] m_weeklyDays = new boolean[8];
 
    //
    // Monthly recurrence attributes
