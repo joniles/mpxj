@@ -35,6 +35,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -124,73 +125,71 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
 
                //System.out.println(MPPUtility.hexdump(data, offset, 92, false));
 
-               //               RecurringData rd = new RecurringData();
-               //               int recurrenceTypeValue = MPPUtility.getShort(data, offset + 72);
-               //               rd.setStartDate(fromDate);
-               //               rd.setFinishDate(toDate);
-               //               rd.setRecurrenceType(getRecurrenceType(recurrenceTypeValue));
-               //               rd.setRelative(getRelative(recurrenceTypeValue));
-               //               rd.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, offset + 4)));
-               //
-               //               switch (rd.getRecurrenceType())
-               //               {
-               //                  case DAILY:
-               //                  {
-               //                     int frequency;
-               //                     if (recurrenceTypeValue == 1)
-               //                     {
-               //                        frequency = 1;
-               //                     }
-               //                     else
-               //                     {
-               //                        frequency = MPPUtility.getShort(data, offset + 76);
-               //                     }
-               //                     rd.setDailyFrequency(Integer.valueOf(frequency));
-               //                     break;
-               //                  }
-               //
-               //                  case WEEKLY:
-               //                  {
-               //                     System.out.println(Integer.toHexString(MPPUtility.getByte(data, offset + 76)));
-               //                     rd.setWeeklyDays(Integer.valueOf(MPPUtility.getByte(data, offset + 76)));
-               //                     rd.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
-               //                     break;
-               //                  }
-               //
-               //                  case MONTHLY:
-               //                  {
-               //                     if (rd.getRelative())
-               //                     {
-               //                        rd.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
-               //                        rd.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getByte(data, offset + 76)));
-               //                        //rd.setMonthlyRelativeFrequency(frequency); ? TODO this should be shared!
-               //                     }
-               //                     else
-               //                     {
-               //                        rd.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getByte(data, offset + 76)));
-               //                        rd.setMonthlyAbsoluteFrequency(Integer.valueOf(MPPUtility.getByte(data, offset + 78)));
-               //                     }
-               //                     break;
-               //                  }
-               //
-               //                  case YEARLY:
-               //                  {
-               //                     if (rd.getRelative())
-               //                     {
-               //                        rd.setYearlyRelativeDay(Day.getInstance(MPPUtility.getByte(data, offset + 78) - 2));
-               //                        rd.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
-               //                        rd.setYearlyRelativeOrdinal(Integer.valueOf(MPPUtility.getByte(data, offset + 77) + 1));
-               //                     }
-               //                     else
-               //                     {
-               //                        rd.setYearlyAbsoluteDay(Integer.valueOf(MPPUtility.getByte(data, offset + 77)));
-               //                        rd.setYearlyAbsoluteMonth(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
-               //                     }
-               //                     break;
-               //                  }
-               //               }
-               //               System.out.println(exception.getName());
-               //               System.out.println(rd);
+               RecurringData rd = new RecurringData();
+               int recurrenceTypeValue = MPPUtility.getShort(data, offset + 72);
+               rd.setStartDate(fromDate);
+               rd.setFinishDate(toDate);
+               rd.setRecurrenceType(getRecurrenceType(recurrenceTypeValue));
+               rd.setRelative(getRelative(recurrenceTypeValue));
+               rd.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, offset + 4)));
+               // TODO shared frequency!
+
+               switch (rd.getRecurrenceType())
+               {
+                  case DAILY:
+                  {
+                     int frequency;
+                     if (recurrenceTypeValue == 1)
+                     {
+                        frequency = 1;
+                     }
+                     else
+                     {
+                        frequency = MPPUtility.getShort(data, offset + 76);
+                     }
+                     rd.setDailyFrequency(Integer.valueOf(frequency));
+                     break;
+                  }
+
+                  case WEEKLY:
+                  {
+                     rd.setWeeklyDaysFromBitmap(Integer.valueOf(MPPUtility.getByte(data, offset + 76)), RecurringData.RECURRING_EXCEPTION_DAY_MASKS);
+                     rd.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
+                     break;
+                  }
+
+                  case MONTHLY:
+                  {
+                     if (rd.getRelative())
+                     {
+                        rd.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
+                        rd.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
+                        rd.setMonthlyRelativeFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
+                     }
+                     else
+                     {
+                        rd.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getByte(data, offset + 76)));
+                        rd.setMonthlyAbsoluteFrequency(Integer.valueOf(MPPUtility.getByte(data, offset + 78)));
+                     }
+                     break;
+                  }
+
+                  case YEARLY:
+                  {
+                     if (rd.getRelative())
+                     {
+                        rd.setYearlyRelativeDay(Day.getInstance(MPPUtility.getByte(data, offset + 78) - 2));
+                        rd.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
+                        rd.setYearlyRelativeOrdinal(Integer.valueOf(MPPUtility.getByte(data, offset + 77) + 1));
+                     }
+                     else
+                     {
+                        rd.setYearlyAbsoluteDay(Integer.valueOf(MPPUtility.getByte(data, offset + 77)));
+                        rd.setYearlyAbsoluteMonth(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
+                     }
+                     break;
+                  }
+               }
 
                //               System.out.println(MPPUtility.hexdump(data, offset, 92, false));
                //               System.out.println(MPPUtility.hexdump(data, offset + 92, exceptionNameLength, true));
@@ -305,35 +304,35 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       }
    }
 
-   //   private RecurrenceType getRecurrenceType(int value)
-   //   {
-   //      RecurrenceType result;
-   //      if (value < 0 || value >= RECURRENCE_TYPES.length)
-   //      {
-   //         result = null;
-   //      }
-   //      else
-   //      {
-   //         result = RECURRENCE_TYPES[value];
-   //      }
-   //
-   //      return result;
-   //   }
+   private RecurrenceType getRecurrenceType(int value)
+   {
+      RecurrenceType result;
+      if (value < 0 || value >= RECURRENCE_TYPES.length)
+      {
+         result = null;
+      }
+      else
+      {
+         result = RECURRENCE_TYPES[value];
+      }
 
-   //   private boolean getRelative(int value)
-   //   {
-   //      boolean result;
-   //      if (value < 0 || value >= RELATIVE_MAP.length)
-   //      {
-   //         result = false;
-   //      }
-   //      else
-   //      {
-   //         result = RELATIVE_MAP[value];
-   //      }
-   //
-   //      return result;
-   //   }
+      return result;
+   }
+
+   private boolean getRelative(int value)
+   {
+      boolean result;
+      if (value < 0 || value >= RELATIVE_MAP.length)
+      {
+         result = false;
+      }
+      else
+      {
+         result = RELATIVE_MAP[value];
+      }
+
+      return result;
+   }
 
    private static final RecurrenceType[] RECURRENCE_TYPES = new RecurrenceType[8];
    static

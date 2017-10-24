@@ -655,6 +655,18 @@ public class RecurringData
       0x01, // Saturday
    };
 
+   public static final int[] RECURRING_EXCEPTION_DAY_MASKS =
+   {
+      0x00,
+      0x01, // Sunday
+      0x02, // Monday
+      0x04, // Tuesday
+      0x08, // Wednesday
+      0x10, // Thursday
+      0x20, // Friday
+      0x40, // Saturday
+   };
+
    //
    // Common attributes
    //
