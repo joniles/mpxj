@@ -152,7 +152,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
 
                   case WEEKLY:
                   {
-                     rd.setWeeklyDaysFromBitmap(Integer.valueOf(MPPUtility.getByte(data, offset + 76)), RecurringData.RECURRING_EXCEPTION_DAY_MASKS);
+                     rd.setWeeklyDaysFromBitmap(Integer.valueOf(MPPUtility.getByte(data, offset + 76)), DAY_MASKS);
                      rd.setFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
                      break;
                   }
@@ -346,22 +346,38 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       return result;
    }
 
-   private static final RecurrenceType[] RECURRENCE_TYPES = new RecurrenceType[8];
-   static
+   private static final RecurrenceType[] RECURRENCE_TYPES =
    {
-      RECURRENCE_TYPES[1] = RecurrenceType.DAILY;
-      RECURRENCE_TYPES[2] = RecurrenceType.YEARLY; // Absolute
-      RECURRENCE_TYPES[3] = RecurrenceType.YEARLY; // Relative
-      RECURRENCE_TYPES[4] = RecurrenceType.MONTHLY; // Absolute
-      RECURRENCE_TYPES[5] = RecurrenceType.MONTHLY; // Relative
-      RECURRENCE_TYPES[6] = RecurrenceType.WEEKLY;
-      RECURRENCE_TYPES[7] = RecurrenceType.DAILY;
-   }
+      null,
+      RecurrenceType.DAILY,
+      RecurrenceType.YEARLY, // Absolute
+      RecurrenceType.YEARLY, // Relative
+      RecurrenceType.MONTHLY, // Absolute
+      RecurrenceType.MONTHLY, // Relative
+      RecurrenceType.WEEKLY,
+      RecurrenceType.DAILY
+   };
 
-   private static final boolean[] RELATIVE_MAP = new boolean[7];
-   static
+   private static final boolean[] RELATIVE_MAP =
    {
-      RELATIVE_MAP[3] = true;
-      RELATIVE_MAP[5] = true;
-   }
+      false,
+      false,
+      false,
+      true,
+      false,
+      true
+   };
+
+   private static final int[] DAY_MASKS =
+   {
+      0x00,
+      0x01, // Sunday
+      0x02, // Monday
+      0x04, // Tuesday
+      0x08, // Wednesday
+      0x10, // Thursday
+      0x20, // Friday
+      0x40, // Saturday
+   };
+
 }
