@@ -317,4 +317,16 @@ final class RecurrenceUtility
       DAY_MAP.put(Day.SATURDAY, Integer.valueOf(6));
       DAY_MAP.put(Day.SUNDAY, Integer.valueOf(7));
    }
+
+   public static final int[] RECURRING_TASK_DAY_MASKS =
+   {
+      0x00,
+      0x40, // Sunday
+      0x20, // Monday
+      0x10, // Tuesday
+      0x08, // Wednesday
+      0x04, // Thursday
+      0x02, // Friday
+      0x01, // Saturday
+   };
 }

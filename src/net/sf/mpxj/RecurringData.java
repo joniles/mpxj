@@ -595,18 +595,6 @@ public class RecurringData
       "Last"
    };
 
-   public static final int[] RECURRING_TASK_DAY_MASKS =
-   {
-      0x00,
-      0x40, // Sunday
-      0x20, // Monday
-      0x10, // Tuesday
-      0x08, // Wednesday
-      0x04, // Thursday
-      0x02, // Friday
-      0x01, // Saturday
-   };
-
    //
    // Common attributes
    //
@@ -648,5 +636,4 @@ public class RecurringData
    // Only relevant to monthly and yearly.
    //
    private boolean m_relative;
-
 }

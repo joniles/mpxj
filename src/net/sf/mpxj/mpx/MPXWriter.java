@@ -48,7 +48,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.RecurrenceType;
-import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -704,7 +703,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getDailyWorkday() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDays(record.getWeeklyDaysAsBitmap(RecurringData.RECURRING_TASK_DAY_MASKS))));
+         m_buffer.append(format(RecurrenceUtility.getDays(record.getWeeklyDaysAsBitmap(RecurrenceUtility.RECURRING_TASK_DAY_MASKS))));
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getRecurrenceType() == RecurrenceType.MONTHLY && record.getRelative() ? "1" : "0");
          m_buffer.append(m_delimiter);
