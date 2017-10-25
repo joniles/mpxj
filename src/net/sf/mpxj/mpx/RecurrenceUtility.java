@@ -190,21 +190,19 @@ final class RecurrenceUtility
    }
 
    /**
-    * Converts an integer bit field into a string representation.
+    * Convert weekly recurrence days into a bit field.
     *
-    * @param days integer bit field
-    * @return string representation
+    * @param task recurring task
+    * @return bit field as a string
     */
-   public static String getDays(Integer days)
+   public static String getDays(RecurringTask task)
    {
-      String result = null;
-      if (days != null)
+      StringBuilder sb = new StringBuilder();
+      for (Day day : Day.values())
       {
-         StringBuilder sb = new StringBuilder("0000000");
-         sb.append(Integer.toBinaryString(days.intValue()));
-         result = sb.toString().substring(sb.length() - 7);
+         sb.append(task.getWeeklyDay(day) ? "1" : "0");
       }
-      return (result);
+      return sb.toString();
    }
 
    /**

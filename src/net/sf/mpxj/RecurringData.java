@@ -178,29 +178,6 @@ public class RecurringData
    }
 
    /**
-    * Retrieves the state of all seven days for a weekly recurrence,
-    * represented as a bitmap. The masks array determines how the
-    * bitmap is formed.
-    *
-    * @param masks array of mask values
-    * @return bitmap
-    */
-   public Integer getWeeklyDaysAsBitmap(int[] masks)
-   {
-      int result = 0;
-
-      for (Day day : Day.values())
-      {
-         if (getWeeklyDay(day))
-         {
-            result = result | masks[day.getValue()];
-         }
-      }
-
-      return Integer.valueOf(result);
-   }
-
-   /**
     * Converts from a bitmap to individual day flags for a weekly recurrence,
     * using the array of masks.
     *
