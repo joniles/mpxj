@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -532,8 +531,7 @@ public class RecurringData
             }
             else
             {
-               SimpleDateFormat df = new SimpleDateFormat("d MMM");
-               pw.print(df.format(getYearlyAbsoluteAsDate()));
+               pw.print(m_yearlyAbsoluteDay + " " + dfs.getMonths()[m_yearlyAbsoluteMonth.intValue() - 1]);
             }
             break;
          }

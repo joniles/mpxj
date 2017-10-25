@@ -142,7 +142,6 @@ public class MppRecurringTest
    private void testRecurringTasks(ProjectFile mpp)
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      DateFormat dm = new SimpleDateFormat("dd/MM");
 
       //
       // Task 1
@@ -249,7 +248,8 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
       assertFalse(rt.getRelative());
-      assertEquals("15/06", dm.format(rt.getYearlyAbsoluteAsDate()));
+      assertEquals(15, rt.getYearlyAbsoluteDay().intValue());
+      assertEquals(6, rt.getYearlyAbsoluteMonth().intValue());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("15/06/2010", df.format(rt.getFinishDate()));
       assertEquals(3, rt.getOccurrences().intValue());
