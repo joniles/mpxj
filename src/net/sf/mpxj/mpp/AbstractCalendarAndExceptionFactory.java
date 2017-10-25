@@ -190,10 +190,14 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   }
                }
 
-               //               System.out.println(MPPUtility.hexdump(data, offset, 92, false));
-               //               System.out.println(MPPUtility.hexdump(data, offset + 92, exceptionNameLength, true));
-               //               System.out.println(exception);
-               // System.out.println(rd);
+               //
+               // The default values for a non-recurring exception are daily, with 1 occurrence.
+               // Only add recurrence data if it is non-default.
+               //
+               if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getOccurrences().intValue() != 1)
+               {
+                  exception.setRecurring(rd);
+               }
 
                offset += (92 + exceptionNameLength);
             }

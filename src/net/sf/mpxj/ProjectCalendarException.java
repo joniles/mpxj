@@ -87,6 +87,28 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    }
 
    /**
+    * Retrieve any recurrence data associated with this exception.
+    * This will return null if this is a default single day exception.
+    *
+    * @return recurrence data
+    */
+   public RecurringData getRecurring()
+   {
+      return m_recurring;
+   }
+
+   /**
+    * Set the recurrence data associated with this exception.
+    * Set this to null if this is a default single day exception.
+    *
+    * @param recurring recurrence data
+    */
+   public void setRecurring(RecurringData recurring)
+   {
+      m_recurring = recurring;
+   }
+
+   /**
     * Gets working status.
     *
     * @return boolean value
@@ -141,6 +163,11 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       sb.append(" fromDate=" + m_fromDate);
       sb.append(" toDate=" + m_toDate);
 
+      if (m_recurring != null)
+      {
+         sb.append(" recurring=" + m_recurring);
+      }
+
       for (DateRange range : this)
       {
          sb.append(range.toString());
@@ -153,4 +180,5 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    private Date m_fromDate;
    private Date m_toDate;
    private String m_name;
+   private RecurringData m_recurring;
 }
