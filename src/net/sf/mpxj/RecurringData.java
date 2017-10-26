@@ -396,29 +396,6 @@ public class RecurringData
    }
 
    /**
-    * Retrieves the yearly absolute date.
-    *
-    * @return yearly absolute date
-    */
-   public Date getYearlyAbsoluteAsDate()
-   {
-      Date result;
-      if (m_yearlyAbsoluteDay == null || m_yearlyAbsoluteMonth == null)
-      {
-         result = null;
-      }
-      else
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(m_startDate);
-         cal.set(Calendar.MONTH, m_yearlyAbsoluteMonth.intValue() - 1);
-         cal.set(Calendar.DAY_OF_MONTH, m_yearlyAbsoluteDay.intValue());
-         result = cal.getTime();
-      }
-      return result;
-   }
-
-   /**
     * Sets the yearly absolute date.
     *
     * @param date yearly absolute date

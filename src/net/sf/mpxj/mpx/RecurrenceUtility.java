@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpx;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
 
@@ -235,6 +238,34 @@ final class RecurrenceUtility
          result = DAY_MAP.get(day);
       }
       return (result);
+   }
+
+   /**
+    * Retrieves the yearly absolute date.
+    *
+    * @param data recurrence data
+    * @return yearly absolute date
+    */
+   public static Date getYearlyAbsoluteAsDate(RecurringData data)
+   {
+      Date result;
+      Integer yearlyAbsoluteDay = data.getYearlyAbsoluteDay();
+      Integer yearlyAbsoluteMonth = data.getYearlyAbsoluteMonth();
+      Date startDate = data.getStartDate();
+
+      if (yearlyAbsoluteDay == null || yearlyAbsoluteMonth == null || startDate == null)
+      {
+         result = null;
+      }
+      else
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(startDate);
+         cal.set(Calendar.MONTH, yearlyAbsoluteMonth.intValue() - 1);
+         cal.set(Calendar.DAY_OF_MONTH, yearlyAbsoluteDay.intValue());
+         result = cal.getTime();
+      }
+      return result;
    }
 
    /**
