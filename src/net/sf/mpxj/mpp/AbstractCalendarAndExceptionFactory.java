@@ -127,8 +127,8 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
 
                RecurringData rd = new RecurringData();
                int recurrenceTypeValue = MPPUtility.getShort(data, offset + 72);
-               rd.setStartDate(fromDate);
-               rd.setFinishDate(toDate);
+               rd.setStartDate(exception.getFromDate());
+               rd.setFinishDate(exception.getToDate());
                rd.setRecurrenceType(getRecurrenceType(recurrenceTypeValue));
                rd.setRelative(getRelative(recurrenceTypeValue));
                rd.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, offset + 4)));

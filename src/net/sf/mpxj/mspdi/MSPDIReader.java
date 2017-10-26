@@ -70,6 +70,8 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -590,43 +592,180 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          for (Project.Calendars.Calendar.Exceptions.Exception exception : exceptions.getException())
          {
-            Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
-            Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+            readException(bc, exception);
+         }
+      }
+   }
 
-            // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
-            // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
-            // so we will ignore it too!
-            if (fromDate != null && toDate != null)
+   /**
+    * Read a single calendar exception.
+    *
+    * @param bc parent calendar
+    * @param exception exception data
+    */
+   private void readException(ProjectCalendar bc, Project.Calendars.Calendar.Exceptions.Exception exception)
+   {
+      Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
+      Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+
+      // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
+      // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
+      // so we will ignore it too!
+      if (fromDate != null && toDate != null)
+      {
+         ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+         bce.setName(exception.getName());
+         readRecurringData(bce, exception);
+         Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
+         if (times != null)
+         {
+            List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
+            for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
             {
-               ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
-               bce.setName(exception.getName());
+               Date startTime = DatatypeConverter.parseTime(period.getFromTime());
+               Date endTime = DatatypeConverter.parseTime(period.getToTime());
 
-               Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
-               if (times != null)
+               if (startTime != null && endTime != null)
                {
-                  List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
-                  for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
+                  if (startTime.getTime() >= endTime.getTime())
                   {
-                     Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-                     Date endTime = DatatypeConverter.parseTime(period.getToTime());
-
-                     if (startTime != null && endTime != null)
-                     {
-                        if (startTime.getTime() >= endTime.getTime())
-                        {
-                           Calendar cal = Calendar.getInstance();
-                           cal.setTime(endTime);
-                           cal.add(Calendar.DAY_OF_YEAR, 1);
-                           endTime = cal.getTime();
-                        }
-
-                        bce.addRange(new DateRange(startTime, endTime));
-                     }
+                     Calendar cal = Calendar.getInstance();
+                     cal.setTime(endTime);
+                     cal.add(Calendar.DAY_OF_YEAR, 1);
+                     endTime = cal.getTime();
                   }
+
+                  bce.addRange(new DateRange(startTime, endTime));
                }
             }
          }
       }
+   }
+
+   /**
+    * Read recurring data for a calendar exception.
+    *
+    * @param bce MPXJ calendar exception
+    * @param exception XML calendar exception
+    */
+   private void readRecurringData(ProjectCalendarException bce, Project.Calendars.Calendar.Exceptions.Exception exception)
+   {
+      RecurringData rd = new RecurringData();
+      rd.setStartDate(bce.getFromDate());
+      rd.setFinishDate(bce.getToDate());
+      rd.setRecurrenceType(getRecurrenceType(NumberHelper.getInt(exception.getType())));
+      rd.setRelative(getRelative(NumberHelper.getInt(exception.getType())));
+      rd.setOccurrences(NumberHelper.getInteger(exception.getOccurrences()));
+
+      switch (rd.getRecurrenceType())
+      {
+         case DAILY:
+         {
+            rd.setFrequency(getFrequency(exception));
+            break;
+         }
+
+         case WEEKLY:
+         {
+            rd.setWeeklyDaysFromBitmap(NumberHelper.getInteger(exception.getDaysOfWeek()), DAY_MASKS);
+            rd.setFrequency(getFrequency(exception));
+            break;
+         }
+
+         case MONTHLY:
+         {
+            if (rd.getRelative())
+            {
+               rd.setMonthlyRelativeDay(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+               rd.setMonthlyRelativeOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+            }
+            else
+            {
+               rd.setMonthlyAbsoluteDay(NumberHelper.getInteger(exception.getMonthDay()));
+            }
+            rd.setFrequency(getFrequency(exception));
+            break;
+         }
+
+         case YEARLY:
+         {
+            if (rd.getRelative())
+            {
+               rd.setYearlyRelativeDay(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+               rd.setYearlyRelativeMonth(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
+               rd.setYearlyRelativeOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+            }
+            else
+            {
+               rd.setYearlyAbsoluteDay(NumberHelper.getInteger(exception.getMonthDay()));
+               rd.setYearlyAbsoluteMonth(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
+            }
+            break;
+         }
+      }
+
+      if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getOccurrences().intValue() != 1)
+      {
+         bce.setRecurring(rd);
+      }
+   }
+
+   /**
+    * Retrieve the recurrence type.
+    *
+    * @param value integer value
+    * @return RecurrenceType instance
+    */
+   private RecurrenceType getRecurrenceType(int value)
+   {
+      RecurrenceType result;
+      if (value < 0 || value >= RECURRENCE_TYPES.length)
+      {
+         result = null;
+      }
+      else
+      {
+         result = RECURRENCE_TYPES[value];
+      }
+
+      return result;
+   }
+
+   /**
+    * Determine if the exception is relative based on the recurrence type integer value.
+    *
+    * @param value integer value
+    * @return true if the recurrence is relative
+    */
+   private boolean getRelative(int value)
+   {
+      boolean result;
+      if (value < 0 || value >= RELATIVE_MAP.length)
+      {
+         result = false;
+      }
+      else
+      {
+         result = RELATIVE_MAP[value];
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieve the frequency of an exception.
+    *
+    * @param exception XML calendar exception
+    * @return frequency
+    */
+   private Integer getFrequency(Project.Calendars.Calendar.Exceptions.Exception exception)
+   {
+      Integer period = NumberHelper.getInteger(exception.getPeriod());
+      if (period == null)
+      {
+         period = Integer.valueOf(1);
+      }
+      return period;
    }
 
    /**
@@ -1697,6 +1836,40 @@ public final class MSPDIReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+
+   private static final RecurrenceType[] RECURRENCE_TYPES =
+   {
+      null,
+      RecurrenceType.DAILY,
+      RecurrenceType.YEARLY, // Absolute
+      RecurrenceType.YEARLY, // Relative
+      RecurrenceType.MONTHLY, // Absolute
+      RecurrenceType.MONTHLY, // Relative
+      RecurrenceType.WEEKLY,
+      RecurrenceType.DAILY
+   };
+
+   private static final boolean[] RELATIVE_MAP =
+   {
+      false,
+      false,
+      false,
+      true,
+      false,
+      true
+   };
+
+   private static final int[] DAY_MASKS =
+   {
+      0x00,
+      0x01, // Sunday
+      0x02, // Monday
+      0x04, // Tuesday
+      0x08, // Wednesday
+      0x10, // Thursday
+      0x20, // Friday
+      0x40, // Saturday
+   };
 
    private static final int NAMESPACE_SCOPE = 512;
    private static final String NAMESPACE_REGEX = "xmlns=\\\"http://schemas\\.microsoft\\.com/project.*\\\"";
