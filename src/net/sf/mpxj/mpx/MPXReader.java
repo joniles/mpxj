@@ -1314,10 +1314,8 @@ public final class MPXReader extends AbstractProjectReader
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
       task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
       task.setWeeklyDaysFromBitmap(RecurrenceUtility.getDays(record.getString(10)), RecurrenceUtility.RECURRING_TASK_DAY_MASKS);
-      task.setMonthlyRelativeOrdinal(record.getInteger(15));
       task.setMonthlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(16)));
       task.setMonthlyAbsoluteDay(record.getInteger(18));
-      task.setYearlyRelativeOrdinal(record.getInteger(20));
       task.setYearlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(21)));
       task.setYearlyRelativeMonth(record.getInteger(22));
       task.setYearlyAbsoluteFromDate(record.getDateTime(23));
@@ -1345,6 +1343,7 @@ public final class MPXReader extends AbstractProjectReader
                if (task.getRelative())
                {
                   task.setFrequency(record.getInteger(17));
+                  task.setOrdinal(record.getInteger(15));
                }
                else
                {
@@ -1356,6 +1355,10 @@ public final class MPXReader extends AbstractProjectReader
             case YEARLY:
             {
                task.setRelative(NumberHelper.getInt(record.getInteger(12)) != 1);
+               if (task.getRelative())
+               {
+                  task.setOrdinal(record.getInteger(20));
+               }
                break;
             }
 

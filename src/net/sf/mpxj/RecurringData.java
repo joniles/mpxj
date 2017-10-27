@@ -236,23 +236,23 @@ public class RecurringData
    }
 
    /**
-    * Retrieves the monthly relative ordinal value.
+    * Retrieves the monthly or yearly relative ordinal value.
     *
-    * @return monthly relative ordinal value
+    * @return relative ordinal value
     */
-   public Integer getMonthlyRelativeOrdinal()
+   public Integer getOrdinal()
    {
-      return m_monthlyRelativeOrdinal;
+      return m_ordinal;
    }
 
    /**
-    * Sets the monthly relative ordinal value.
+    * Sets the monthly or yearly relative ordinal value.
     *
-    * @param ordinal monthly relative ordinal value
+    * @param ordinal relative ordinal value
     */
-   public void setMonthlyRelativeOrdinal(Integer ordinal)
+   public void setOrdinal(Integer ordinal)
    {
-      m_monthlyRelativeOrdinal = ordinal;
+      m_ordinal = ordinal;
    }
 
    /**
@@ -293,26 +293,6 @@ public class RecurringData
    public void setMonthlyAbsoluteDay(Integer day)
    {
       m_monthlyAbsoluteDay = day;
-   }
-
-   /**
-    * Retrieves the yearly relative ordinal.
-    *
-    * @return yearly relative ordinal
-    */
-   public Integer getYearlyRelativeOrdinal()
-   {
-      return m_yearlyRelativeOrdinal;
-   }
-
-   /**
-    * Sets the yearly relative ordinal.
-    *
-    * @param ordinal yearly relative ordinal
-    */
-   public void setYearlyRelativeOrdinal(Integer ordinal)
-   {
-      m_yearlyRelativeOrdinal = ordinal;
    }
 
    /**
@@ -478,7 +458,7 @@ public class RecurringData
             if (m_relative)
             {
                pw.print(" on The ");
-               pw.print(DAY_ORDINAL[m_monthlyRelativeOrdinal.intValue()]);
+               pw.print(DAY_ORDINAL[m_ordinal.intValue()]);
                pw.print(" ");
                pw.print(dfs.getWeekdays()[m_monthlyRelativeDay.getValue()]);
                pw.print(" of ");
@@ -500,7 +480,7 @@ public class RecurringData
             pw.print(" on the ");
             if (m_relative)
             {
-               pw.print(DAY_ORDINAL[m_yearlyRelativeOrdinal.intValue()]);
+               pw.print(DAY_ORDINAL[m_ordinal.intValue()]);
                pw.print(" ");
                pw.print(dfs.getWeekdays()[m_yearlyRelativeDay.getValue()]);
                pw.print(" of ");
@@ -556,6 +536,7 @@ public class RecurringData
    private RecurrenceType m_recurrenceType;
    private boolean m_useEndDate;
    private Integer m_frequency;
+   private Integer m_ordinal;
 
    //
    // Daily recurrence attributes
@@ -570,7 +551,6 @@ public class RecurringData
    //
    // Monthly recurrence attributes
    //
-   private Integer m_monthlyRelativeOrdinal;
    private Day m_monthlyRelativeDay;
    private Integer m_monthlyAbsoluteDay;
 
@@ -579,7 +559,6 @@ public class RecurringData
    //
    private Integer m_yearlyAbsoluteDay;
    private Integer m_yearlyAbsoluteMonth;
-   private Integer m_yearlyRelativeOrdinal;
    private Day m_yearlyRelativeDay;
    private Integer m_yearlyRelativeMonth;
 

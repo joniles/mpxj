@@ -677,7 +677,7 @@ public final class MSPDIReader extends AbstractProjectReader
             if (rd.getRelative())
             {
                rd.setMonthlyRelativeDay(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
-               rd.setMonthlyRelativeOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+               rd.setOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
             }
             else
             {
@@ -693,7 +693,7 @@ public final class MSPDIReader extends AbstractProjectReader
             {
                rd.setYearlyRelativeDay(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
                rd.setYearlyRelativeMonth(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
-               rd.setYearlyRelativeOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+               rd.setOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
             }
             else
             {
