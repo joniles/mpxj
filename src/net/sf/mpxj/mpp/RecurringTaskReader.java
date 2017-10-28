@@ -67,13 +67,13 @@ final class RecurringTaskReader
       rt.setWeeklyDay(Day.THURSDAY, MPPUtility.getShort(data, 36) == 1);
       rt.setWeeklyDay(Day.FRIDAY, MPPUtility.getShort(data, 38) == 1);
       rt.setWeeklyDay(Day.SATURDAY, MPPUtility.getShort(data, 40) == 1);
-      rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
-      rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, 70));
 
       int frequencyOffset = 0;
       int ordinalOffset = 0;
       int dayOfWeekOffset = 0;
       int dayNumberOffset = 0;
+      int monthNumberOffset = 0;
+      int dateOffset = 0;
 
       switch (rt.getRecurrenceType())
       {
@@ -114,6 +114,11 @@ final class RecurringTaskReader
             {
                ordinalOffset = 60;
                dayOfWeekOffset = 62;
+               monthNumberOffset = 64;
+            }
+            else
+            {
+               dateOffset = 70;
             }
             break;
          }
@@ -137,6 +142,16 @@ final class RecurringTaskReader
       if (dayNumberOffset != 0)
       {
          rt.setDayNumber(Integer.valueOf(MPPUtility.getShort(data, dayNumberOffset)));
+      }
+
+      if (monthNumberOffset != 0)
+      {
+         rt.setMonthNumber(Integer.valueOf(MPPUtility.getShort(data, monthNumberOffset)));
+      }
+
+      if (dateOffset != 0)
+      {
+         rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, dateOffset));
       }
    }
 

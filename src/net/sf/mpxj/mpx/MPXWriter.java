@@ -727,7 +727,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDay(record.getRecurrenceType() == RecurrenceType.YEARLY && record.getRelative() ? record.getDayOfWeek() : Day.MONDAY)));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyRelativeMonth()));
+         m_buffer.append(format(record.getMonthNumber()));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(formatDateTime(RecurrenceUtility.getYearlyAbsoluteAsDate(record))));
 

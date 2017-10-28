@@ -249,7 +249,7 @@ public class MppRecurringTest
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
       assertFalse(rt.getRelative());
       assertEquals(15, rt.getDayNumber().intValue());
-      assertEquals(6, rt.getYearlyAbsoluteMonth().intValue());
+      assertEquals(6, rt.getMonthNumber().intValue());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("15/06/2010", df.format(rt.getFinishDate()));
       assertEquals(3, rt.getOccurrences().intValue());
@@ -268,7 +268,7 @@ public class MppRecurringTest
       assertTrue(rt.getRelative());
       assertEquals(3, rt.getOrdinal().intValue());
       assertEquals(Day.MONDAY, rt.getDayOfWeek());
-      assertEquals(6, rt.getYearlyRelativeMonth().intValue());
+      assertEquals(6, rt.getMonthNumber().intValue());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("21/06/2010", df.format(rt.getFinishDate()));
       assertEquals(3, rt.getOccurrences().intValue());

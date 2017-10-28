@@ -692,14 +692,13 @@ public final class MSPDIReader extends AbstractProjectReader
             if (rd.getRelative())
             {
                rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
-               rd.setYearlyRelativeMonth(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
                rd.setOrdinal(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
             }
             else
             {
                rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
-               rd.setYearlyAbsoluteMonth(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
             }
+            rd.setMonthNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
             break;
          }
       }

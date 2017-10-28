@@ -250,7 +250,7 @@ final class RecurrenceUtility
    {
       Date result;
       Integer yearlyAbsoluteDay = data.getDayNumber();
-      Integer yearlyAbsoluteMonth = data.getYearlyAbsoluteMonth();
+      Integer yearlyAbsoluteMonth = data.getMonthNumber();
       Date startDate = data.getStartDate();
 
       if (yearlyAbsoluteDay == null || yearlyAbsoluteMonth == null || startDate == null)
