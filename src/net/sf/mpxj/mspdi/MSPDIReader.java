@@ -681,7 +681,7 @@ public final class MSPDIReader extends AbstractProjectReader
             }
             else
             {
-               rd.setMonthlyAbsoluteDay(NumberHelper.getInteger(exception.getMonthDay()));
+               rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
             }
             rd.setFrequency(getFrequency(exception));
             break;
@@ -697,7 +697,7 @@ public final class MSPDIReader extends AbstractProjectReader
             }
             else
             {
-               rd.setYearlyAbsoluteDay(NumberHelper.getInteger(exception.getMonthDay()));
+               rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
                rd.setYearlyAbsoluteMonth(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
             }
             break;

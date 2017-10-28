@@ -249,7 +249,7 @@ final class RecurrenceUtility
    public static Date getYearlyAbsoluteAsDate(RecurringData data)
    {
       Date result;
-      Integer yearlyAbsoluteDay = data.getYearlyAbsoluteDay();
+      Integer yearlyAbsoluteDay = data.getDayNumber();
       Integer yearlyAbsoluteMonth = data.getYearlyAbsoluteMonth();
       Date startDate = data.getStartDate();
 

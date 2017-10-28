@@ -276,23 +276,23 @@ public class RecurringData
    }
 
    /**
-    * Retrieves the monthly absolute day.
+    * Retrieves the monthly or yearly absolute day number.
     *
-    * @return monthly absolute day.
+    * @return absolute day number.
     */
-   public Integer getMonthlyAbsoluteDay()
+   public Integer getDayNumber()
    {
-      return m_monthlyAbsoluteDay;
+      return m_dayNumber;
    }
 
    /**
-    * Sets the monthly absolute day.
+    * Sets the monthly or yearly absolute day number.
     *
-    * @param day monthly absolute day
+    * @param day absolute day number
     */
-   public void setMonthlyAbsoluteDay(Integer day)
+   public void setDayNumber(Integer day)
    {
-      m_monthlyAbsoluteDay = day;
+      m_dayNumber = day;
    }
 
    /**
@@ -313,26 +313,6 @@ public class RecurringData
    public void setYearlyRelativeMonth(Integer month)
    {
       m_yearlyRelativeMonth = month;
-   }
-
-   /**
-    * Retrieve the yearly absolute day.
-    *
-    * @return yearly absolute day
-    */
-   public Integer getYearlyAbsoluteDay()
-   {
-      return m_yearlyAbsoluteDay;
-   }
-
-   /**
-    * Set the yearly absolute day.
-    *
-    * @param yearlyAbsoluteDay day of month
-    */
-   public void setYearlyAbsoluteDay(Integer yearlyAbsoluteDay)
-   {
-      m_yearlyAbsoluteDay = yearlyAbsoluteDay;
    }
 
    /**
@@ -366,7 +346,7 @@ public class RecurringData
       {
          Calendar cal = Calendar.getInstance();
          cal.setTime(date);
-         m_yearlyAbsoluteDay = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+         m_dayNumber = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
          m_yearlyAbsoluteMonth = Integer.valueOf(cal.get(Calendar.MONTH) + 1);
       }
    }
@@ -447,7 +427,7 @@ public class RecurringData
             else
             {
                pw.print(" on Day ");
-               pw.print(m_monthlyAbsoluteDay);
+               pw.print(m_dayNumber);
                pw.print(" of ");
                pw.print(getOrdinal(m_frequency));
             }
@@ -468,7 +448,7 @@ public class RecurringData
             }
             else
             {
-               pw.print(m_yearlyAbsoluteDay + " " + dfs.getMonths()[m_yearlyAbsoluteMonth.intValue() - 1]);
+               pw.print(m_dayNumber + " " + dfs.getMonths()[m_yearlyAbsoluteMonth.intValue() - 1]);
             }
             break;
          }
@@ -518,6 +498,7 @@ public class RecurringData
    private Integer m_frequency;
    private Integer m_ordinal;
    private Day m_dayOfWeek;
+   private Integer m_dayNumber;
 
    //
    // Daily recurrence attributes
@@ -530,14 +511,8 @@ public class RecurringData
    private boolean[] m_weeklyDays = new boolean[8];
 
    //
-   // Monthly recurrence attributes
-   //
-   private Integer m_monthlyAbsoluteDay;
-
-   //
    // Yearly recurrence attributes
    //
-   private Integer m_yearlyAbsoluteDay;
    private Integer m_yearlyAbsoluteMonth;
    private Integer m_yearlyRelativeMonth;
 

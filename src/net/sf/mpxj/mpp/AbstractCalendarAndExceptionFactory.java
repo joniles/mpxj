@@ -167,7 +167,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                      }
                      else
                      {
-                        rd.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getByte(data, offset + 76)));
+                        rd.setDayNumber(Integer.valueOf(MPPUtility.getByte(data, offset + 76)));
                         rd.setFrequency(Integer.valueOf(MPPUtility.getByte(data, offset + 78)));
                      }
                      break;
@@ -183,7 +183,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                      }
                      else
                      {
-                        rd.setYearlyAbsoluteDay(Integer.valueOf(MPPUtility.getByte(data, offset + 77)));
+                        rd.setDayNumber(Integer.valueOf(MPPUtility.getByte(data, offset + 77)));
                         rd.setYearlyAbsoluteMonth(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
                      }
                      break;
