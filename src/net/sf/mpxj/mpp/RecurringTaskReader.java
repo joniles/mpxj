@@ -67,14 +67,14 @@ final class RecurringTaskReader
       rt.setWeeklyDay(Day.THURSDAY, MPPUtility.getShort(data, 36) == 1);
       rt.setWeeklyDay(Day.FRIDAY, MPPUtility.getShort(data, 38) == 1);
       rt.setWeeklyDay(Day.SATURDAY, MPPUtility.getShort(data, 40) == 1);
-      rt.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 52) + 1));
       rt.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getShort(data, 56)));
-      rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62) + 1));
       rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
       rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, 70));
 
       int frequencyOffset = 0;
       int ordinalOffset = 0;
+      int dayOfWeekOffset = 0;
+
       switch (rt.getRecurrenceType())
       {
          case DAILY:
@@ -96,6 +96,7 @@ final class RecurringTaskReader
             {
                frequencyOffset = 58;
                ordinalOffset = 50;
+               dayOfWeekOffset = 52;
             }
             else
             {
@@ -111,6 +112,7 @@ final class RecurringTaskReader
             if (rt.getRelative())
             {
                ordinalOffset = 60;
+               dayOfWeekOffset = 62;
             }
             break;
          }
@@ -124,7 +126,11 @@ final class RecurringTaskReader
       if (ordinalOffset != 0)
       {
          rt.setOrdinal(Integer.valueOf(MPPUtility.getShort(data, ordinalOffset)));
+      }
 
+      if (dayOfWeekOffset != 0)
+      {
+         rt.setDayOfWeek(Day.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
       }
    }
 

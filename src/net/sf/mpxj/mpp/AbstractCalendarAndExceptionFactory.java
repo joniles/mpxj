@@ -161,7 +161,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   {
                      if (rd.getRelative())
                      {
-                        rd.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
+                        rd.setDayOfWeek(Day.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
                         rd.setOrdinal(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
                         rd.setFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
                      }
@@ -177,7 +177,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   {
                      if (rd.getRelative())
                      {
-                        rd.setYearlyRelativeDay(Day.getInstance(MPPUtility.getByte(data, offset + 78) - 2));
+                        rd.setDayOfWeek(Day.getInstance(MPPUtility.getByte(data, offset + 78) - 2));
                         rd.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
                         rd.setOrdinal(Integer.valueOf(MPPUtility.getByte(data, offset + 77) + 1));
                      }
