@@ -59,7 +59,7 @@ final class RecurringTaskReader
       rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
       rt.setUseEndDate(MPPUtility.getShort(data, 24) == 1);
-      rt.setDailyWorkday(MPPUtility.getShort(data, 26) == 1);
+      rt.setWorkingDaysOnly(MPPUtility.getShort(data, 26) == 1);
       rt.setWeeklyDay(Day.SUNDAY, MPPUtility.getShort(data, 28) == 1);
       rt.setWeeklyDay(Day.MONDAY, MPPUtility.getShort(data, 30) == 1);
       rt.setWeeklyDay(Day.TUESDAY, MPPUtility.getShort(data, 32) == 1);

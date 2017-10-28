@@ -135,23 +135,23 @@ public class RecurringData
    }
 
    /**
-    * Retrieve the daily workday flag.
+    * Returns true if daily recurrence applies to working days only.
     *
-    * @return boolean flag
+    * @return true if daily recurrence applies to working days only
     */
-   public boolean getDailyWorkday()
+   public boolean isWorkingDaysOnly()
    {
-      return m_dailyWorkday;
+      return m_workingDaysOnly;
    }
 
    /**
-    * Set the daily workday flag.
+    * Set to true if daily recurrence applies to working days only.
     *
-    * @param workday workday flag
+    * @param workingDaysOnly true if daily recurrence applies to working days only
     */
-   public void setDailyWorkday(boolean workday)
+   public void setWorkingDaysOnly(boolean workingDaysOnly)
    {
-      m_dailyWorkday = workday;
+      m_workingDaysOnly = workingDaysOnly;
    }
 
    /**
@@ -368,7 +368,7 @@ public class RecurringData
          case DAILY:
          {
             pw.print(" " + getOrdinal(m_frequency));
-            pw.print(m_dailyWorkday ? " Workday" : " Day");
+            pw.print(m_workingDaysOnly ? " Working day" : " Day");
             break;
          }
 
@@ -475,17 +475,13 @@ public class RecurringData
    private Integer m_occurrences;
    private RecurrenceType m_recurrenceType;
    private boolean m_relative;
+   private boolean m_workingDaysOnly;
    private boolean m_useEndDate;
    private Integer m_frequency;
    private Integer m_ordinal;
    private Day m_dayOfWeek;
    private Integer m_dayNumber;
    private Integer m_monthNumber;
-
-   //
-   // Daily recurrence attributes
-   //
-   private boolean m_dailyWorkday;
 
    //
    // Weekly recurrence attributes

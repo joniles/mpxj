@@ -1312,7 +1312,7 @@ public final class MPXReader extends AbstractProjectReader
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
-      task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
+      task.setWorkingDaysOnly(NumberHelper.getInt(record.getInteger(9)) == 1);
       task.setWeeklyDaysFromBitmap(RecurrenceUtility.getDays(record.getString(10)), RecurrenceUtility.RECURRING_TASK_DAY_MASKS);
 
       RecurrenceType type = task.getRecurrenceType();

@@ -154,7 +154,7 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.DAILY, rt.getRecurrenceType());
       assertEquals(1, rt.getFrequency().intValue());
-      assertFalse(rt.getDailyWorkday());
+      assertFalse(rt.isWorkingDaysOnly());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("16/06/2008", df.format(rt.getFinishDate()));
       assertEquals(2, rt.getOccurrences().intValue());
@@ -171,7 +171,7 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.DAILY, rt.getRecurrenceType());
       assertEquals(2, rt.getFrequency().intValue());
-      assertTrue(rt.getDailyWorkday());
+      assertTrue(rt.isWorkingDaysOnly());
       assertEquals("15/06/2008", df.format(rt.getStartDate()));
       assertEquals("23/06/2008", df.format(rt.getFinishDate()));
       assertEquals(3, rt.getOccurrences().intValue());

@@ -701,7 +701,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getUseEndDate() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getDailyWorkday() ? "1" : "0");
+         m_buffer.append(record.isWorkingDaysOnly() ? "1" : "0");
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDays(record)));
          m_buffer.append(m_delimiter);
