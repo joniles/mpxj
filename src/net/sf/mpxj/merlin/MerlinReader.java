@@ -576,7 +576,10 @@ public class MerlinReader implements ProjectReader
          if (result.getUnits() == TimeUnit.PERCENT)
          {
             Duration taskWork = task.getWork();
-            result = Duration.getInstance(taskWork.getDuration() * result.getDuration(), taskWork.getUnits());
+            if (taskWork != null)
+            {
+               result = Duration.getInstance(taskWork.getDuration() * result.getDuration(), taskWork.getUnits());
+            }
          }
       }
       return result;
