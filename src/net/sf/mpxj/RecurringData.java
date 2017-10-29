@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EnumSet;
 
 /**
  * This class provides a description of a recurring event.
@@ -162,7 +163,7 @@ public class RecurringData
     */
    public boolean getWeeklyDay(Day day)
    {
-      return m_weeklyDays[day.getValue()];
+      return m_days.contains(day);
    }
 
    /**
@@ -173,7 +174,14 @@ public class RecurringData
     */
    public void setWeeklyDay(Day day, boolean value)
    {
-      m_weeklyDays[day.getValue()] = value;
+      if (value)
+      {
+         m_days.add(day);
+      }
+      else
+      {
+         m_days.remove(day);
+      }
    }
 
    /**
@@ -262,7 +270,12 @@ public class RecurringData
     */
    public Day getDayOfWeek()
    {
-      return m_dayOfWeek;
+      Day result = null;
+      if (!m_days.isEmpty())
+      {
+         result = m_days.iterator().next();
+      }
+      return result;
    }
 
    /**
@@ -272,7 +285,8 @@ public class RecurringData
     */
    public void setDayOfWeek(Day day)
    {
-      m_dayOfWeek = day;
+      m_days.clear();
+      m_days.add(day);
    }
 
    /**
@@ -400,7 +414,7 @@ public class RecurringData
                pw.print(" on The ");
                pw.print(DAY_ORDINAL[m_ordinal.intValue()]);
                pw.print(" ");
-               pw.print(dfs.getWeekdays()[m_dayOfWeek.getValue()]);
+               pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
                pw.print(" of ");
                pw.print(getOrdinal(m_frequency));
             }
@@ -422,7 +436,7 @@ public class RecurringData
             {
                pw.print(DAY_ORDINAL[m_ordinal.intValue()]);
                pw.print(" ");
-               pw.print(dfs.getWeekdays()[m_dayOfWeek.getValue()]);
+               pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
                pw.print(" of ");
                pw.print(dfs.getMonths()[m_monthNumber.intValue() - 1]);
             }
@@ -479,12 +493,7 @@ public class RecurringData
    private boolean m_useEndDate;
    private Integer m_frequency;
    private Integer m_ordinal;
-   private Day m_dayOfWeek;
    private Integer m_dayNumber;
    private Integer m_monthNumber;
-
-   //
-   // Weekly recurrence attributes
-   //
-   private boolean[] m_weeklyDays = new boolean[8];
+   private EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
 }
