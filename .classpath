@@ -9,6 +9,6 @@
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.10.1.jar"/>
 	<classpathentry kind="lib" path="lib/rtfparserkit-1.10.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.17.jar" sourcepath="C:/java/poi-3.17/src"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

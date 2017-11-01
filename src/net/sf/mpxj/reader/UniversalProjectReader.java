@@ -288,7 +288,7 @@ public class UniversalProjectReader extends AbstractProjectReader
     */
    private ProjectFile handleOleCompoundDocument(InputStream stream) throws Exception
    {
-      POIFSFileSystem fs = new POIFSFileSystem(stream);
+      POIFSFileSystem fs = new POIFSFileSystem(POIFSFileSystem.createNonClosingInputStream(stream));
       MPPReader reader = new MPPReader();
       String fileFormat = reader.getFileFormat(fs);
       if (fileFormat.startsWith("MSProject"))

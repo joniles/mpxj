@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Handle MSPDI files with varying namespaces.</action>
 			<action dev="joniles" type="update">Improve robustness Merlin file reader.</action>
 			<action dev="joniles" type="update">Improve extraction of task start and finish dates from PMXML files only containing partial data.</action>
+			<action dev="joniles" type="update">Prevent POI from closing the input stream.</action>
 		</release>
 		<release date="11/10/2017" version="6.2.1">
 			<action dev="joniles" type="update">Gracefully handle corrupt MPP files.</action>
