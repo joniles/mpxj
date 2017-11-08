@@ -1,6 +1,15 @@
 # Changelog
 
-## 6.2.2 (git master)
+## 7.0.0 (git master)
+* Added support for reading recurring exceptions from MPP and MSPDI files.
+* Updated RecurringTask class interface (Note: this is a breaking API change)
+* MSPDI writer now uses save version 14 by default (Note: this may affect applications which consume MSPDI files you generate)
+* Correctly handle MSPDI files with Byte Order Marks.
+* Handle MSPDI files with varying namespaces.
+* Improve robustness Merlin file reader.
+* Improve extraction of task start and finish dates from PMXML files only containing partial data.
+* Prevent POI from closing the input stream when using UniversalProjectReader
+* Cannot read mpp file using getProjectReader.
 
 ## 6.2.1 (11/10/2017)
 * Gracefully handle corrupt MPP files.

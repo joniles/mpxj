@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="6.2.1" />
+		<property name="current.version" value="7.0.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
@@ -396,7 +396,13 @@
 		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/> 
 	</target>
 
-	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog" description="Create library files"/>
+	<target name="releasenote" depends="init-props" description="Create release.md">
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/../release.md" style="${basedir}/doc/releasenote.xsl">
+			<param name="version" expression="${current.version}"/>
+		</xslt>
+	</target>
+
+	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog,releasenote" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -544,6 +550,18 @@
 		</exec>
 	</target>
 
+	<target name="github-deploy" depends="init-props" description="Deploy to GitHub">
+		<exec executable="hub">
+			<arg line="tag v${current.version}" />
+		</exec>
+		<exec executable="hub">
+			<arg line="push origin v${current.version}" />
+		</exec>
+		<exec executable="hub">
+			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../release.md'/>
+		</exec>
+	</target>
+	
 	<!-- Adapted from http://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
 	<target name="git.revision" description="Store git revision in ${repository.version}">
 	    <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
