@@ -6,7 +6,9 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.0.0">
-			<action dev="joniles" type="update">MSPDI writer now uses save version 14 by default.</action>
+			<action dev="joniles" type="add">Added support for reading recurring exceptions from MPP and MSPDI files.</action>
+			<action dev="joniles" type="update">Updated RecurringTask class interface (Note: this is a breaking API change)</action>
+			<action dev="joniles" type="update">MSPDI writer now uses save version 14 by default (Note: this may affect applications which consume MSPDI files you generate)</action>
 			<action dev="joniles" type="update">Correctly handle MSPDI files with Byte Order Marks.</action>
 			<action dev="joniles" type="update">Handle MSPDI files with varying namespaces.</action>
 			<action dev="joniles" type="update">Improve robustness Merlin file reader.</action>
