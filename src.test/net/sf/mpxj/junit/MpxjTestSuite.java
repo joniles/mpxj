@@ -23,10 +23,14 @@
 
 package net.sf.mpxj.junit;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import net.sf.mpxj.junit.assignment.AssignmentAssignmentsTest;
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
+import net.sf.mpxj.junit.calendar.RecurringExceptionsTest;
 import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.primavera.PrimaveraDatabaseReaderTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
@@ -53,9 +57,6 @@ import net.sf.mpxj.junit.task.TaskPercentCompleteTest;
 import net.sf.mpxj.junit.task.TaskStartsTest;
 import net.sf.mpxj.junit.task.TaskTextTest;
 import net.sf.mpxj.junit.task.TaskTextValuesTest;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
 /**
  * Test suite to collect together MPXJ tests.
@@ -136,6 +137,7 @@ import org.junit.runners.Suite;
    ResourceFlagsTest.class,
    ResourceNumbersTest.class,
    ResourceTextTest.class,
+   RecurringExceptionsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

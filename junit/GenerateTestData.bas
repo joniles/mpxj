@@ -743,6 +743,12 @@ Sub GenerateResourceCustomText()
     
 End Sub
 
+' If you have a file which contains manually created test data
+' you can still save different versions of it by updating and
+' using this sub.
+Sub SaveCurrentFile
+	SaveFiles "<your base filename here>"
+End Sub
 
 Sub SaveFiles(FilenameBase As String)
 
