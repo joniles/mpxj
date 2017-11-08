@@ -234,7 +234,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(1), data.getOrdinal());
+      assertEquals(Integer.valueOf(1), data.getDayNumber());
       assertEquals(Day.MONDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(2), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -246,7 +246,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(2), data.getOrdinal());
+      assertEquals(Integer.valueOf(2), data.getDayNumber());
       assertEquals(Day.TUESDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(3), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -258,7 +258,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(3), data.getOrdinal());
+      assertEquals(Integer.valueOf(3), data.getDayNumber());
       assertEquals(Day.WEDNESDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(4), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -270,7 +270,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(4), data.getOrdinal());
+      assertEquals(Integer.valueOf(4), data.getDayNumber());
       assertEquals(Day.THURSDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(5), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -282,7 +282,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(5), data.getOrdinal());
+      assertEquals(Integer.valueOf(5), data.getDayNumber());
       assertEquals(Day.FRIDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(6), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -294,7 +294,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(1), data.getOrdinal());
+      assertEquals(Integer.valueOf(1), data.getDayNumber());
       assertEquals(Day.SATURDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(7), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -306,7 +306,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(2), data.getOrdinal());
+      assertEquals(Integer.valueOf(2), data.getDayNumber());
       assertEquals(Day.SUNDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(8), data.getFrequency());
       assertEquals("01/01/2002", df.format(data.getStartDate()));
@@ -340,7 +340,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.YEARLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(1), data.getOrdinal());
+      assertEquals(Integer.valueOf(1), data.getDayNumber());
       assertEquals(Day.TUESDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(3), data.getMonthNumber());
       assertEquals("01/01/2004", df.format(data.getStartDate()));
@@ -352,7 +352,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.YEARLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(2), data.getOrdinal());
+      assertEquals(Integer.valueOf(2), data.getDayNumber());
       assertEquals(Day.WEDNESDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(4), data.getMonthNumber());
       assertEquals("01/01/2004", df.format(data.getStartDate()));
@@ -364,7 +364,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.YEARLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(3), data.getOrdinal());
+      assertEquals(Integer.valueOf(3), data.getDayNumber());
       assertEquals(Day.THURSDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(5), data.getMonthNumber());
       assertEquals("01/01/2004", df.format(data.getStartDate()));
@@ -409,7 +409,7 @@ public class RecurringExceptionsTest
       data = exception.getRecurring();
       assertEquals(RecurrenceType.MONTHLY, data.getRecurrenceType());
       assertTrue(data.getRelative());
-      assertEquals(Integer.valueOf(1), data.getOrdinal());
+      assertEquals(Integer.valueOf(1), data.getDayNumber());
       assertEquals(Day.SATURDAY, data.getDayOfWeek());
       assertEquals(Integer.valueOf(1), data.getFrequency());
       assertEquals("01/01/2010", df.format(data.getStartDate()));

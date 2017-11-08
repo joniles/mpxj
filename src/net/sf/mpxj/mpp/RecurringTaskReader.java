@@ -69,7 +69,6 @@ final class RecurringTaskReader
       rt.setWeeklyDay(Day.SATURDAY, MPPUtility.getShort(data, 40) == 1);
 
       int frequencyOffset = 0;
-      int ordinalOffset = 0;
       int dayOfWeekOffset = 0;
       int dayNumberOffset = 0;
       int monthNumberOffset = 0;
@@ -95,7 +94,7 @@ final class RecurringTaskReader
             if (rt.getRelative())
             {
                frequencyOffset = 58;
-               ordinalOffset = 50;
+               dayNumberOffset = 50;
                dayOfWeekOffset = 52;
             }
             else
@@ -112,7 +111,7 @@ final class RecurringTaskReader
             rt.setRelative(MPPUtility.getShort(data, 44) != 1);
             if (rt.getRelative())
             {
-               ordinalOffset = 60;
+               dayNumberOffset = 60;
                dayOfWeekOffset = 62;
                monthNumberOffset = 64;
             }
@@ -127,11 +126,6 @@ final class RecurringTaskReader
       if (frequencyOffset != 0)
       {
          rt.setFrequency(Integer.valueOf(MPPUtility.getShort(data, frequencyOffset)));
-      }
-
-      if (ordinalOffset != 0)
-      {
-         rt.setOrdinal(Integer.valueOf(MPPUtility.getShort(data, ordinalOffset)));
       }
 
       if (dayOfWeekOffset != 0)

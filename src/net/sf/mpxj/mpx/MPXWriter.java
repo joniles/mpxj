@@ -718,7 +718,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getRecurrenceType() == RecurrenceType.WEEKLY ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(monthlyRelative ? record.getOrdinal() : "1"));
+         m_buffer.append(format(monthlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDay(monthlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
          m_buffer.append(m_delimiter);
@@ -728,7 +728,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(monthlyAbsolute ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(yearlyRelative ? record.getOrdinal() : "1"));
+         m_buffer.append(format(yearlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDay(yearlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
          m_buffer.append(m_delimiter);

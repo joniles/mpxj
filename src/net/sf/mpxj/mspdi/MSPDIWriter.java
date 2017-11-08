@@ -596,7 +596,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             {
                xmlException.setType(BigInteger.valueOf(5));
                xmlException.setMonthItem(BigInteger.valueOf(data.getDayOfWeek().getValue() + 2));
-               xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getOrdinal()) - 1));
+               xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getDayNumber()) - 1));
             }
             else
             {
@@ -613,7 +613,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             {
                xmlException.setType(BigInteger.valueOf(3));
                xmlException.setMonthItem(BigInteger.valueOf(data.getDayOfWeek().getValue() + 2));
-               xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getOrdinal()) - 1));
+               xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getDayNumber()) - 1));
             }
             else
             {

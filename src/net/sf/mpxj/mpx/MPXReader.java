@@ -1338,7 +1338,7 @@ public final class MPXReader extends AbstractProjectReader
                if (task.getRelative())
                {
                   task.setFrequency(record.getInteger(17));
-                  task.setOrdinal(record.getInteger(15));
+                  task.setDayNumber(record.getInteger(15));
                   task.setDayOfWeek(RecurrenceUtility.getDay(record.getInteger(16)));
                }
                else
@@ -1354,7 +1354,7 @@ public final class MPXReader extends AbstractProjectReader
                task.setRelative(NumberHelper.getInt(record.getInteger(12)) != 1);
                if (task.getRelative())
                {
-                  task.setOrdinal(record.getInteger(20));
+                  task.setDayNumber(record.getInteger(20));
                   task.setDayOfWeek(RecurrenceUtility.getDay(record.getInteger(21)));
                   task.setMonthNumber(record.getInteger(22));
                }

@@ -244,26 +244,6 @@ public class RecurringData
    }
 
    /**
-    * Retrieves the monthly or yearly relative ordinal value.
-    *
-    * @return relative ordinal value
-    */
-   public Integer getOrdinal()
-   {
-      return m_ordinal;
-   }
-
-   /**
-    * Sets the monthly or yearly relative ordinal value.
-    *
-    * @param ordinal relative ordinal value
-    */
-   public void setOrdinal(Integer ordinal)
-   {
-      m_ordinal = ordinal;
-   }
-
-   /**
     * Retrieves the monthly or yearly relative day of the week.
     *
     * @return day of the week
@@ -412,7 +392,7 @@ public class RecurringData
             if (m_relative)
             {
                pw.print(" on The ");
-               pw.print(DAY_ORDINAL[m_ordinal.intValue()]);
+               pw.print(DAY_ORDINAL[m_dayNumber.intValue()]);
                pw.print(" ");
                pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
                pw.print(" of ");
@@ -434,7 +414,7 @@ public class RecurringData
             pw.print(" on the ");
             if (m_relative)
             {
-               pw.print(DAY_ORDINAL[m_ordinal.intValue()]);
+               pw.print(DAY_ORDINAL[m_dayNumber.intValue()]);
                pw.print(" ");
                pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
                pw.print(" of ");
@@ -492,7 +472,6 @@ public class RecurringData
    private boolean m_workingDaysOnly;
    private boolean m_useEndDate;
    private Integer m_frequency;
-   private Integer m_ordinal;
    private Integer m_dayNumber;
    private Integer m_monthNumber;
    private EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
