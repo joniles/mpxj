@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>MSPDIReader (MPXJ 6.2.1 API)</title>
+<title>MSPDIReader (MPXJ 7.0.0 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="MSPDIReader (MPXJ 6.2.1 API)";
+        parent.document.title="MSPDIReader (MPXJ 7.0.0 API)";
     }
 //-->
 </script>
@@ -164,6 +164,18 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#setCharset(java.nio.charset.Charset)">setCharset</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</code>
+<div class="block">Alternative way to set the file encoding.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#setEncoding(java.lang.String)">setEncoding</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;encoding)</code>
+<div class="block">Sets the character encoding used when reading an XER file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#setMicrosoftProjectCompatibleInput(boolean)">setMicrosoftProjectCompatibleInput</a></strong>(boolean&nbsp;flag)</code>
 <div class="block">Sets a flag indicating that this class will attempt to correct
  and read XML which is not compliant with the XML Schema.</div>
@@ -215,6 +227,29 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="setEncoding(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setEncoding</h4>
+<pre>public&nbsp;void&nbsp;setEncoding(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;encoding)</pre>
+<div class="block">Sets the character encoding used when reading an XER file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>encoding</code> - encoding name</dd></dl>
+</li>
+</ul>
+<a name="setCharset(java.nio.charset.Charset)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCharset</h4>
+<pre>public&nbsp;void&nbsp;setCharset(<a href="http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
+<div class="block">Alternative way to set the file encoding. If both an encoding name and a Charset instance
+ are supplied, the Charset instance is used.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>charset</code> - Charset used when reading the file</dd></dl>
+</li>
+</ul>
 <a name="addProjectListener(net.sf.mpxj.listener.ProjectListener)">
 <!--   -->
 </a>
