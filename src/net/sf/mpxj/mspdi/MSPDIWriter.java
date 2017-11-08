@@ -59,6 +59,7 @@ import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -522,12 +523,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
          el.add(ex);
 
          ex.setName(exception.getName());
-         ex.setEnteredByOccurrences(Boolean.FALSE);
-         ex.setOccurrences(BigInteger.ONE);
-         ex.setType(BigInteger.ONE);
-
          boolean working = exception.getWorking();
          ex.setDayWorking(Boolean.valueOf(working));
+
+         if (exception.getRecurring() == null)
+         {
+            ex.setEnteredByOccurrences(Boolean.FALSE);
+            ex.setOccurrences(BigInteger.ONE);
+            ex.setType(BigInteger.ONE);
+         }
+         else
+         {
+            populateRecurringException(exception, ex);
+         }
 
          Project.Calendars.Calendar.Exceptions.Exception.TimePeriod period = m_factory.createProjectCalendarsCalendarExceptionsExceptionTimePeriod();
          ex.setTimePeriod(period);
@@ -550,6 +558,89 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
          }
       }
+   }
+
+   /**
+    * Writes the details of a recurring exception.
+    *
+    * @param mpxjException source MPXJ calendar exception
+    * @param xmlException target MSPDI exception
+    */
+   private void populateRecurringException(ProjectCalendarException mpxjException, Exceptions.Exception xmlException)
+   {
+      RecurringData data = mpxjException.getRecurring();
+      xmlException.setEnteredByOccurrences(Boolean.TRUE);
+      xmlException.setOccurrences(NumberHelper.getBigInteger(data.getOccurrences()));
+
+      switch (data.getRecurrenceType())
+      {
+         case DAILY:
+         {
+            xmlException.setType(BigInteger.valueOf(7));
+            xmlException.setPeriod(NumberHelper.getBigInteger(data.getFrequency()));
+            break;
+         }
+
+         case WEEKLY:
+         {
+            xmlException.setType(BigInteger.valueOf(6));
+            xmlException.setPeriod(NumberHelper.getBigInteger(data.getFrequency()));
+            xmlException.setDaysOfWeek(getDaysOfTheWeek(data));
+            break;
+         }
+
+         case MONTHLY:
+         {
+            xmlException.setPeriod(NumberHelper.getBigInteger(data.getFrequency()));
+            if (data.getRelative())
+            {
+               xmlException.setType(BigInteger.valueOf(5));
+               xmlException.setMonthItem(BigInteger.valueOf(data.getDayOfWeek().getValue() + 2));
+               xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getOrdinal()) - 1));
+            }
+            else
+            {
+               xmlException.setType(BigInteger.valueOf(4));
+               xmlException.setMonthDay(NumberHelper.getBigInteger(data.getDayNumber()));
+            }
+            break;
+         }
+
+         case YEARLY:
+         {
+            xmlException.setMonth(BigInteger.valueOf(NumberHelper.getInt(data.getMonthNumber()) - 1));
+            if (data.getRelative())
+            {
+               xmlException.setType(BigInteger.valueOf(3));
+               xmlException.setMonthItem(BigInteger.valueOf(data.getDayOfWeek().getValue() + 2));
+               xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getOrdinal()) - 1));
+            }
+            else
+            {
+               xmlException.setType(BigInteger.valueOf(2));
+               xmlException.setMonthDay(NumberHelper.getBigInteger(data.getDayNumber()));
+            }
+         }
+      }
+   }
+
+   /**
+    * Converts days of the week into a bit field.
+    *
+    * @param data recurring data
+    * @return bit field
+    */
+   private BigInteger getDaysOfTheWeek(RecurringData data)
+   {
+      int value = 0;
+      for (Day day : Day.values())
+      {
+         if (data.getWeeklyDay(day))
+         {
+            value = value | DAY_MASKS[day.getValue()];
+         }
+      }
+      return BigInteger.valueOf(value);
    }
 
    /**
@@ -1908,6 +1999,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
+   // TODO share this
+   private static final int[] DAY_MASKS =
+   {
+      0x00,
+      0x01, // Sunday
+      0x02, // Monday
+      0x04, // Tuesday
+      0x08, // Wednesday
+      0x10, // Thursday
+      0x20, // Friday
+      0x40, // Saturday
+   };
+
    private ObjectFactory m_factory;
 
    private ProjectFile m_projectFile;
@@ -1920,7 +2024,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private boolean m_writeTimphasedData;
 
-   private SaveVersion m_saveVersion = SaveVersion.Project2002;
+   private SaveVersion m_saveVersion = SaveVersion.Project2016;
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 

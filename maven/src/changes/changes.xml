@@ -6,12 +6,13 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.0.0">
-			<action dev="joniles" issue="321" type="fix">Cannot read mpp file using getProjectReader.</action>
+			<action dev="joniles" type="update">MSPDI writer now uses save version 14 by default.</action>
 			<action dev="joniles" type="update">Correctly handle MSPDI files with Byte Order Marks.</action>
 			<action dev="joniles" type="update">Handle MSPDI files with varying namespaces.</action>
 			<action dev="joniles" type="update">Improve robustness Merlin file reader.</action>
 			<action dev="joniles" type="update">Improve extraction of task start and finish dates from PMXML files only containing partial data.</action>
-			<action dev="joniles" type="update">Prevent POI from closing the input stream.</action>
+			<action dev="joniles" type="update">Prevent POI from closing the input stream when using UniversalProjectReader</action>
+			<action dev="joniles" issue="321" type="fix">Cannot read mpp file using getProjectReader.</action>
 		</release>
 		<release date="11/10/2017" version="6.2.1">
 			<action dev="joniles" type="update">Gracefully handle corrupt MPP files.</action>
