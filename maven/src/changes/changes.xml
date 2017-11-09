@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.0.1">
+			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
 		</release>	
 		<release date="08/11/2017" version="7.0.0">
 			<action dev="joniles" type="add">Added support for reading recurring exceptions from MPP and MSPDI files.</action>
