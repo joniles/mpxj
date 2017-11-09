@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.0.0 (git master)
+## 7.0.1 (git master)
+
+## 7.0.0 (08/11/2017)
 * Added support for reading recurring exceptions from MPP and MSPDI files.
 * Updated RecurringTask class interface (Note: this is a breaking API change)
 * MSPDI writer now uses save version 14 by default (Note: this may affect applications which consume MSPDI files you generate)
