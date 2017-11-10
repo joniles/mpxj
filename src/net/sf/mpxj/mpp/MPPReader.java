@@ -31,6 +31,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
@@ -40,11 +45,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPP file.
@@ -146,8 +146,6 @@ public final class MPPReader extends AbstractProjectReader
          //
          CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
          ProjectProperties projectProperties = projectFile.getProjectProperties();
-         projectProperties.setFileApplication("Microsoft");
-         projectProperties.setFileType("MPP");
          projectProperties.setFullApplicationName(compObj.getApplicationName());
          projectProperties.setApplicationVersion(compObj.getApplicationVersion());
          String format = compObj.getFileFormat();
@@ -187,6 +185,20 @@ public final class MPPReader extends AbstractProjectReader
          // Ensure that the unique ID counters are correct
          //
          config.updateUniqueCounters();
+
+         //
+         // Add some analytics
+         //
+         String projectFilePath = projectFile.getProjectProperties().getProjectFilePath();
+         if (projectFilePath != null && projectFilePath.startsWith("<>\\"))
+         {
+            projectProperties.setFileApplication("Microsoft Project Server");
+         }
+         else
+         {
+            projectProperties.setFileApplication("Microsoft");
+         }
+         projectProperties.setFileType("MPP");
 
          return (projectFile);
       }
