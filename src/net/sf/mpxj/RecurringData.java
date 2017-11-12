@@ -30,6 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * This class provides a description of a recurring event.
  */
@@ -307,6 +309,205 @@ public class RecurringData
    public void setMonthNumber(Integer month)
    {
       m_monthNumber = month;
+   }
+
+   public Date[] getDates()
+   {
+      int occurrences = NumberHelper.getInt(m_occurrences);
+      if (occurrences < 1)
+      {
+         occurrences = 1;
+      }
+
+      int frequency = NumberHelper.getInt(m_frequency);
+      if (frequency < 1)
+      {
+
+         frequency = 1;
+      }
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(m_startDate);
+      Date[] dates = new Date[occurrences];
+
+      switch (m_recurrenceType)
+      {
+         case DAILY:
+         {
+            getDailyDates(calendar, frequency, dates);
+            break;
+         }
+
+         case WEEKLY:
+         {
+            getWeeklyDates(calendar, frequency, dates);
+            break;
+         }
+
+         case MONTHLY:
+         {
+            getMonthlyDates(calendar, frequency, dates);
+            break;
+         }
+
+         case YEARLY:
+         {
+            break;
+         }
+      }
+
+      return dates;
+   }
+
+   private void getDailyDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      for (int index = 0; index < dates.length; index++)
+      {
+         dates[index] = calendar.getTime();
+         calendar.add(Calendar.DAY_OF_YEAR, frequency);
+      }
+   }
+
+   private void getWeeklyDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+      int occurrenceIndex = 0;
+
+      while (occurrenceIndex < dates.length)
+      {
+         int offset = 0;
+         for (int dayIndex = 0; dayIndex < 7; dayIndex++)
+         {
+            if (getWeeklyDay(Day.getInstance(currentDay)))
+            {
+               if (offset != 0)
+               {
+                  calendar.add(Calendar.DAY_OF_YEAR, offset);
+                  offset = 0;
+               }
+               dates[occurrenceIndex] = calendar.getTime();
+               ++occurrenceIndex;
+               if (occurrenceIndex == dates.length)
+               {
+                  break;
+               }
+            }
+
+            ++offset;
+            ++currentDay;
+
+            if (currentDay > 7)
+            {
+               currentDay = 1;
+            }
+         }
+
+         if (frequency > 1)
+         {
+            offset += (7 * (frequency - 1));
+         }
+         calendar.add(Calendar.DAY_OF_YEAR, offset);
+      }
+   }
+
+   private void getMonthlyDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      if (m_relative)
+      {
+         getMonthlyRelativeDates(calendar, frequency, dates);
+      }
+      else
+      {
+         getMonthlyAbsoluteDates(calendar, frequency, dates);
+      }
+   }
+
+   private void getMonthlyRelativeDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      int occurrenceIndex = 0;
+      long startDate = calendar.getTimeInMillis();
+      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      int dayNumber = NumberHelper.getInt(m_dayNumber);
+
+      while (occurrenceIndex < dates.length)
+      {
+         if (dayNumber > 4)
+         {
+            setCalendarToLastRelativeDay(calendar);
+         }
+         else
+         {
+            setCalendarToOrdinalRelativeDay(calendar, dayNumber);
+         }
+
+         if (calendar.getTimeInMillis() > startDate)
+         {
+            dates[occurrenceIndex] = calendar.getTime();
+            ++occurrenceIndex;
+            if (occurrenceIndex == dates.length)
+            {
+               break;
+            }
+         }
+         calendar.set(Calendar.DAY_OF_MONTH, 1);
+         calendar.add(Calendar.MONTH, frequency);
+      }
+   }
+
+   private void setCalendarToOrdinalRelativeDay(Calendar calendar, int dayNumber)
+   {
+      int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int dayOfWeekOffset = 0;
+      if (requiredDayOfWeek > currentDayOfWeek)
+      {
+         dayOfWeekOffset = requiredDayOfWeek - currentDayOfWeek;
+      }
+      else
+      {
+         if (requiredDayOfWeek < currentDayOfWeek)
+         {
+            dayOfWeekOffset = 7 - (currentDayOfWeek - requiredDayOfWeek);
+         }
+      }
+
+      if (dayOfWeekOffset != 0)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, dayOfWeekOffset);
+      }
+
+      if (dayNumber > 1)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, (7 * (dayNumber - 1)));
+      }
+   }
+
+   private void setCalendarToLastRelativeDay(Calendar calendar)
+   {
+      calendar.set(Calendar.DAY_OF_MONTH, calendar.getMaximum(Calendar.DAY_OF_MONTH));
+      int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int dayOfWeekOffset = 0;
+
+      if (currentDayOfWeek > requiredDayOfWeek)
+      {
+         dayOfWeekOffset = requiredDayOfWeek - currentDayOfWeek;
+      }
+      else
+      {
+         if (currentDayOfWeek < requiredDayOfWeek)
+         {
+            dayOfWeekOffset = -7 + (requiredDayOfWeek - currentDayOfWeek);
+         }
+      }
+
+      if (dayOfWeekOffset != 0)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, dayOfWeekOffset);
+      }
+   }
+
+   private void getMonthlyAbsoluteDates(Calendar calendar, int frequency, Date[] dates)
+   {
    }
 
    /**
