@@ -30,6 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * This class provides a description of a recurring event.
  */
@@ -307,6 +309,369 @@ public class RecurringData
    public void setMonthNumber(Integer month)
    {
       m_monthNumber = month;
+   }
+
+   /**
+    * Retrieve the set of start dates represented by this recurrence data.
+    *
+    * @return array of start dates
+    */
+   public Date[] getDates()
+   {
+      int occurrences = NumberHelper.getInt(m_occurrences);
+      if (occurrences < 1)
+      {
+         occurrences = 1;
+      }
+
+      int frequency = NumberHelper.getInt(m_frequency);
+      if (frequency < 1)
+      {
+
+         frequency = 1;
+      }
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(m_startDate);
+      Date[] dates = new Date[occurrences];
+
+      switch (m_recurrenceType)
+      {
+         case DAILY:
+         {
+            getDailyDates(calendar, frequency, dates);
+            break;
+         }
+
+         case WEEKLY:
+         {
+            getWeeklyDates(calendar, frequency, dates);
+            break;
+         }
+
+         case MONTHLY:
+         {
+            getMonthlyDates(calendar, frequency, dates);
+            break;
+         }
+
+         case YEARLY:
+         {
+            getYearlyDates(calendar, dates);
+            break;
+         }
+      }
+
+      return dates;
+   }
+
+   /**
+    * Calculate start dates for a daily recurrence.
+    *
+    * @param calendar current date
+    * @param frequency frequency
+    * @param dates array of start dates
+    */
+   private void getDailyDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      for (int index = 0; index < dates.length; index++)
+      {
+         dates[index] = calendar.getTime();
+         calendar.add(Calendar.DAY_OF_YEAR, frequency);
+      }
+   }
+
+   /**
+    * Calculate start dates for a weekly recurrence.
+    *
+    * @param calendar current date
+    * @param frequency frequency
+    * @param dates array of start dates
+    */
+   private void getWeeklyDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+      int occurrenceIndex = 0;
+
+      while (occurrenceIndex < dates.length)
+      {
+         int offset = 0;
+         for (int dayIndex = 0; dayIndex < 7; dayIndex++)
+         {
+            if (getWeeklyDay(Day.getInstance(currentDay)))
+            {
+               if (offset != 0)
+               {
+                  calendar.add(Calendar.DAY_OF_YEAR, offset);
+                  offset = 0;
+               }
+               dates[occurrenceIndex] = calendar.getTime();
+               ++occurrenceIndex;
+               if (occurrenceIndex == dates.length)
+               {
+                  break;
+               }
+            }
+
+            ++offset;
+            ++currentDay;
+
+            if (currentDay > 7)
+            {
+               currentDay = 1;
+            }
+         }
+
+         if (frequency > 1)
+         {
+            offset += (7 * (frequency - 1));
+         }
+         calendar.add(Calendar.DAY_OF_YEAR, offset);
+      }
+   }
+
+   /**
+    * Calculate start dates for a monthly recurrence.
+    *
+    * @param calendar current date
+    * @param frequency frequency
+    * @param dates array of start dates
+    */
+   private void getMonthlyDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      if (m_relative)
+      {
+         getMonthlyRelativeDates(calendar, frequency, dates);
+      }
+      else
+      {
+         getMonthlyAbsoluteDates(calendar, frequency, dates);
+      }
+   }
+
+   /**
+    * Calculate start dates for a monthly relative recurrence.
+    *
+    * @param calendar current date
+    * @param frequency frequency
+    * @param dates array of start dates
+    */
+   private void getMonthlyRelativeDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      int occurrenceIndex = 0;
+      long startDate = calendar.getTimeInMillis();
+      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      int dayNumber = NumberHelper.getInt(m_dayNumber);
+
+      while (occurrenceIndex < dates.length)
+      {
+         if (dayNumber > 4)
+         {
+            setCalendarToLastRelativeDay(calendar);
+         }
+         else
+         {
+            setCalendarToOrdinalRelativeDay(calendar, dayNumber);
+         }
+
+         if (calendar.getTimeInMillis() > startDate)
+         {
+            dates[occurrenceIndex] = calendar.getTime();
+            ++occurrenceIndex;
+            if (occurrenceIndex == dates.length)
+            {
+               break;
+            }
+         }
+         calendar.set(Calendar.DAY_OF_MONTH, 1);
+         calendar.add(Calendar.MONTH, frequency);
+      }
+   }
+
+   /**
+    * Calculate start dates for a monthly absolute recurrence.
+    *
+    * @param calendar current date
+    * @param frequency frequency
+    * @param dates array of start dates
+    */
+   private void getMonthlyAbsoluteDates(Calendar calendar, int frequency, Date[] dates)
+   {
+      int currentDayNumber = calendar.get(Calendar.DAY_OF_MONTH);
+      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
+      if (requiredDayNumber < currentDayNumber)
+      {
+         calendar.add(Calendar.MONTH, 1);
+      }
+
+      for (int occurrenceIndex = 0; occurrenceIndex < dates.length; occurrenceIndex++)
+      {
+         int useDayNumber = requiredDayNumber;
+         int maxDayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+         if (useDayNumber > maxDayNumber)
+         {
+            useDayNumber = maxDayNumber;
+         }
+         calendar.set(Calendar.DAY_OF_MONTH, useDayNumber);
+         dates[occurrenceIndex] = calendar.getTime();
+         calendar.set(Calendar.DAY_OF_MONTH, 1);
+         calendar.add(Calendar.MONTH, frequency);
+      }
+   }
+
+   /**
+    * Calculate start dates for a yearly recurrence.
+    *
+    * @param calendar current date
+    * @param dates array of start dates
+    */
+   private void getYearlyDates(Calendar calendar, Date[] dates)
+   {
+      if (m_relative)
+      {
+         getYearlyRelativeDates(calendar, dates);
+      }
+      else
+      {
+         getYearlyAbsoluteDates(calendar, dates);
+      }
+   }
+
+   /**
+    * Calculate start dates for a yearly relative recurrence.
+    *
+    * @param calendar current date
+    * @param dates array of start dates
+    */
+   private void getYearlyRelativeDates(Calendar calendar, Date[] dates)
+   {
+      int occurrenceIndex = 0;
+      long startDate = calendar.getTimeInMillis();
+      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      calendar.set(Calendar.MONTH, NumberHelper.getInt(m_monthNumber) - 1);
+
+      int dayNumber = NumberHelper.getInt(m_dayNumber);
+      while (occurrenceIndex < dates.length)
+      {
+         if (dayNumber > 4)
+         {
+            setCalendarToLastRelativeDay(calendar);
+         }
+         else
+         {
+            setCalendarToOrdinalRelativeDay(calendar, dayNumber);
+         }
+
+         if (calendar.getTimeInMillis() > startDate)
+         {
+            dates[occurrenceIndex] = calendar.getTime();
+            ++occurrenceIndex;
+            if (occurrenceIndex == dates.length)
+            {
+               break;
+            }
+         }
+         calendar.set(Calendar.DAY_OF_MONTH, 1);
+         calendar.add(Calendar.YEAR, 1);
+      }
+   }
+
+   /**
+    * Calculate start dates for a yearly absolute recurrence.
+    *
+    * @param calendar current date
+    * @param dates array of start dates
+    */
+   private void getYearlyAbsoluteDates(Calendar calendar, Date[] dates)
+   {
+      long startDate = calendar.getTimeInMillis();
+      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      calendar.set(Calendar.MONTH, NumberHelper.getInt(m_monthNumber) - 1);
+      int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
+
+      for (int occurrenceIndex = 0; occurrenceIndex < dates.length; occurrenceIndex++)
+      {
+         int useDayNumber = requiredDayNumber;
+         int maxDayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+         if (useDayNumber > maxDayNumber)
+         {
+            useDayNumber = maxDayNumber;
+         }
+
+         calendar.set(Calendar.DAY_OF_MONTH, useDayNumber);
+         if (calendar.getTimeInMillis() < startDate)
+         {
+            calendar.add(Calendar.YEAR, 1);
+         }
+
+         dates[occurrenceIndex] = calendar.getTime();
+         calendar.set(Calendar.DAY_OF_MONTH, 1);
+         calendar.add(Calendar.YEAR, 1);
+      }
+   }
+
+   /**
+    * Moves a calendar to the nth named day of the month.
+    *
+    * @param calendar current date
+    * @param dayNumber nth day
+    */
+   private void setCalendarToOrdinalRelativeDay(Calendar calendar, int dayNumber)
+   {
+      int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int dayOfWeekOffset = 0;
+      if (requiredDayOfWeek > currentDayOfWeek)
+      {
+         dayOfWeekOffset = requiredDayOfWeek - currentDayOfWeek;
+      }
+      else
+      {
+         if (requiredDayOfWeek < currentDayOfWeek)
+         {
+            dayOfWeekOffset = 7 - (currentDayOfWeek - requiredDayOfWeek);
+         }
+      }
+
+      if (dayOfWeekOffset != 0)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, dayOfWeekOffset);
+      }
+
+      if (dayNumber > 1)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, (7 * (dayNumber - 1)));
+      }
+   }
+
+   /**
+    * Moves a calendar to the last named day of the month.
+    *
+    * @param calendar current date
+    */
+   private void setCalendarToLastRelativeDay(Calendar calendar)
+   {
+      calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+      int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int dayOfWeekOffset = 0;
+
+      if (currentDayOfWeek > requiredDayOfWeek)
+      {
+         dayOfWeekOffset = requiredDayOfWeek - currentDayOfWeek;
+      }
+      else
+      {
+         if (currentDayOfWeek < requiredDayOfWeek)
+         {
+            dayOfWeekOffset = -7 + (requiredDayOfWeek - currentDayOfWeek);
+         }
+      }
+
+      if (dayOfWeekOffset != 0)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, dayOfWeekOffset);
+      }
    }
 
    /**
