@@ -160,5 +160,121 @@ public class RecurringDataTest
       assertEquals("25/12/2017", df.format(dates[1]));
       assertEquals("29/01/2018", df.format(dates[2]));
 
+      //
+      // Monthly absolute
+      //
+      data.setRecurrenceType(RecurrenceType.MONTHLY);
+      data.setRelative(false);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(11));
+      data.setFrequency(Integer.valueOf(1));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("11/11/2017", df.format(dates[0]));
+      assertEquals("11/12/2017", df.format(dates[1]));
+      assertEquals("11/01/2018", df.format(dates[2]));
+
+      data.setRecurrenceType(RecurrenceType.MONTHLY);
+      data.setRelative(false);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(31));
+      data.setFrequency(Integer.valueOf(1));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("30/11/2017", df.format(dates[0]));
+      assertEquals("31/12/2017", df.format(dates[1]));
+      assertEquals("31/01/2018", df.format(dates[2]));
+
+      data.setRecurrenceType(RecurrenceType.MONTHLY);
+      data.setRelative(false);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(31));
+      data.setFrequency(Integer.valueOf(2));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("30/11/2017", df.format(dates[0]));
+      assertEquals("31/01/2018", df.format(dates[1]));
+      assertEquals("31/03/2018", df.format(dates[2]));
+
+      //
+      // Yearly relative
+      //
+      data.setRecurrenceType(RecurrenceType.YEARLY);
+      data.setRelative(true);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(3));
+      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setMonthNumber(Integer.valueOf(12));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("20/12/2017", df.format(dates[0]));
+      assertEquals("19/12/2018", df.format(dates[1]));
+      assertEquals("18/12/2019", df.format(dates[2]));
+
+      data.setRecurrenceType(RecurrenceType.YEARLY);
+      data.setRelative(true);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(3));
+      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setMonthNumber(Integer.valueOf(9));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("19/09/2018", df.format(dates[0]));
+      assertEquals("18/09/2019", df.format(dates[1]));
+      assertEquals("16/09/2020", df.format(dates[2]));
+
+      data.setRecurrenceType(RecurrenceType.YEARLY);
+      data.setRelative(true);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(5));
+      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setMonthNumber(Integer.valueOf(6));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("27/06/2018", df.format(dates[0]));
+      assertEquals("26/06/2019", df.format(dates[1]));
+      assertEquals("24/06/2020", df.format(dates[2]));
+
+      //
+      // Yearly absolute
+      //
+      data.setRecurrenceType(RecurrenceType.YEARLY);
+      data.setRelative(false);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(15));
+      data.setMonthNumber(Integer.valueOf(12));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("15/12/2017", df.format(dates[0]));
+      assertEquals("15/12/2018", df.format(dates[1]));
+      assertEquals("15/12/2019", df.format(dates[2]));
+
+      data.setRecurrenceType(RecurrenceType.YEARLY);
+      data.setRelative(false);
+      data.setStartDate(df.parse("01/11/2017"));
+      data.setDayNumber(Integer.valueOf(15));
+      data.setMonthNumber(Integer.valueOf(06));
+      data.setOccurrences(Integer.valueOf(3));
+
+      dates = data.getDates();
+      assertEquals(3, dates.length);
+      assertEquals("15/06/2018", df.format(dates[0]));
+      assertEquals("15/06/2019", df.format(dates[1]));
+      assertEquals("15/06/2020", df.format(dates[2]));
+
    }
 }
