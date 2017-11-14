@@ -138,6 +138,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    ResourceNumbersTest.class,
    ResourceTextTest.class,
    RecurringExceptionsTest.class,
+   RecurringDataTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
