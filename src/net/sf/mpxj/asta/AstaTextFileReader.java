@@ -233,6 +233,7 @@ public final class AstaTextFileReader extends AbstractProjectReader
          AbstractFileFormat format = fileFormatClass.newInstance();
          m_tableDefinitions = format.tableDefinitions();
          m_epochDateFormat = format.epochDateFormat();
+         m_reader.setPruneDisplacedItems(format.pruneDisplacedItems());
       }
       catch (Exception ex)
       {

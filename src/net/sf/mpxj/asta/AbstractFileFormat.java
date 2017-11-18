@@ -183,6 +183,13 @@ abstract class AbstractFileFormat
    protected abstract String[] wbsEntryColumnsOrder();
 
    /**
+    * Shoould the reader prune displaced items.
+    *
+    * @return true if the reader should prune displaced items
+    */
+   protected abstract boolean pruneDisplacedItems();
+
+   /**
     * Generate an ordered set of column definitions from an ordered set of column names.
     *
     * @param columns column definitions

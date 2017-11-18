@@ -113,6 +113,11 @@ class FileFormat8020 extends AbstractFileFormat
       return WBS_ENTRY_COLUMNS_ORDER;
    }
 
+   @Override protected boolean pruneDisplacedItems()
+   {
+      return false;
+   }
+
    private static final String[] BAR_COLUMNS_ORDER =
    {
       "BARID",

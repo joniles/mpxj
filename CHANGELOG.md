@@ -2,6 +2,7 @@
 
 ## 7.0.1 (git master)
 * Improve robustness when reading MPP files when using certain 64 bit Java runtimes.
+* Ensure that tasks are not discarded when reading PP files from older Asta versions.
 
 ## 7.0.0 (08/11/2017)
 * Added support for reading recurring exceptions from MPP and MSPDI files.
