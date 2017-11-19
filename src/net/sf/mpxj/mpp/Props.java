@@ -282,6 +282,7 @@ class Props extends MPPComponent
 
    public static final Integer WEEK_START_DAY = Integer.valueOf(37748773);
    public static final Integer FISCAL_YEAR_START_MONTH = Integer.valueOf(37748780);
+   public static final Integer DEFAULT_TASK_TYPE = Integer.valueOf(37748785);
    public static final Integer HONOR_CONSTRAINTS = Integer.valueOf(37748794);
    public static final Integer FISCAL_YEAR_START = Integer.valueOf(37748801);
    public static final Integer EDITABLE_ACTUAL_COSTS = Integer.valueOf(37748802);

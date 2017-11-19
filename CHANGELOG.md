@@ -4,6 +4,7 @@
 * Improve robustness when reading MPP files when using certain 64 bit Java runtimes.
 * Ensure that tasks are not discarded when reading PP files from older Asta versions.
 * Fixed [Issue 319](https://sourceforge.net/p/mpxj/bugs/319): Wrong date ranges for split tasks
+* Fixed [Issue 222](https://sourceforge.net/p/mpxj/bugs/222): getDefaultTaskType() not returning correct default task type
 
 ## 7.0.0 (08/11/2017)
 * Added support for reading recurring exceptions from MPP and MSPDI files.
