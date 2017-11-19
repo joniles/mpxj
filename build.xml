@@ -396,13 +396,16 @@
 		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/> 
 	</target>
 
-	<target name="releasenote" depends="init-props" description="Create release.md">
-		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/../release.md" style="${basedir}/doc/releasenote.xsl">
+	<target name="releasenotes" depends="init-props" description="Create release notes">
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/../github-release.md" style="${basedir}/doc/github-releasenote.xsl">
+			<param name="version" expression="${current.version}"/>
+		</xslt>
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/../readme.md" style="${basedir}/doc/sourceforge-releasenote.xsl">
 			<param name="version" expression="${current.version}"/>
 		</xslt>
 	</target>
 
-	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog,releasenote" description="Create library files"/>
+	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -558,7 +561,7 @@
 			<arg line="push origin v${current.version}" />
 		</exec>
 		<exec executable="hub">
-			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../release.md'/>
+			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
 		</exec>
 	</target>
 	
