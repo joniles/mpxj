@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -187,6 +186,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate);
       m_exceptions.add(bce);
+      m_expandedExceptions.clear();
       m_exceptionsSorted = false;
       clearWorkingDateCache();
       return bce;
@@ -198,6 +198,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public void clearCalendarExceptions()
    {
       m_exceptions.clear();
+      m_expandedExceptions.clear();
       m_exceptionsSorted = false;
       clearWorkingDateCache();
    }
@@ -1094,18 +1095,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendarException getException(Date date)
    {
       ProjectCalendarException exception = null;
-      if (!m_exceptions.isEmpty())
+
+      // We're working with expanded exceptions, which includes any recurring exceptions
+      // expanded into individual entries.
+      populateExpandedExceptions();
+      if (!m_expandedExceptions.isEmpty())
       {
          sortExceptions();
 
          int low = 0;
-         int high = m_exceptions.size() - 1;
+         int high = m_expandedExceptions.size() - 1;
          long targetDate = date.getTime();
 
          while (low <= high)
          {
             int mid = (low + high) >>> 1;
-            ProjectCalendarException midVal = m_exceptions.get(mid);
+            ProjectCalendarException midVal = m_expandedExceptions.get(mid);
             int cmp = 0 - DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
 
             if (cmp < 0)
@@ -1840,6 +1845,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       // For now just combine the exceptions. Probably overkill (although would be more accurate) to also merge the exceptions.
       m_exceptions.addAll(taskCalendar.getCalendarExceptions());
       m_exceptions.addAll(resourceCalendar.getCalendarExceptions());
+      m_expandedExceptions.clear();
       m_exceptionsSorted = false;
 
       m_workWeeks.addAll(taskCalendar.getWorkWeeks());
@@ -1940,6 +1946,42 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Populate the expanded exceptions list based on the main exceptions list.
+    * Where we find recurring exception definitions, we generate individual
+    * exceptions for each recurrence to ensure that we account for them correctly.
+    */
+   private void populateExpandedExceptions()
+   {
+      if (!m_exceptions.isEmpty() && m_expandedExceptions.isEmpty())
+      {
+         for (ProjectCalendarException exception : m_exceptions)
+         {
+            RecurringData recurring = exception.getRecurring();
+            if (recurring == null)
+            {
+               m_expandedExceptions.add(exception);
+            }
+            else
+            {
+               for (Date date : recurring.getDates())
+               {
+                  Date startDate = DateHelper.getDayStartDate(date);
+                  Date endDate = DateHelper.getDayEndDate(date);
+                  ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+                  int rangeCount = exception.getRangeCount();
+                  for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
+                  {
+                     newException.addRange(exception.getRange(rangeIndex));
+                  }
+                  m_expandedExceptions.add(newException);
+               }
+            }
+         }
+         Collections.sort(m_expandedExceptions);
+      }
+   }
+
+   /**
     * Ensure work weeks are sorted.
     */
    private void sortWorkWeeks()
@@ -1974,7 +2016,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of exceptions to the base calendar.
     */
-   private List<ProjectCalendarException> m_exceptions = new LinkedList<ProjectCalendarException>();
+   private List<ProjectCalendarException> m_exceptions = new ArrayList<ProjectCalendarException>();
+
+   /**
+    * List of exceptions, including expansion of recurring exceptions.
+    */
+   private List<ProjectCalendarException> m_expandedExceptions = new ArrayList<ProjectCalendarException>();
 
    /**
     * Flag indicating if the list of exceptions is sorted.
