@@ -4,7 +4,12 @@
 <xsl:template match="/"># Changelog
 <xsl:for-each select="/document/body/release">
 ## <xsl:value-of select="@version"/> (<xsl:value-of select="@date"/>)
-<xsl:for-each select="action">* <xsl:value-of select="text()"/><xsl:text>&#xa;</xsl:text></xsl:for-each>
+<xsl:for-each select="action">
+<xsl:choose>
+<xsl:when test="not(@issue)">* <xsl:value-of select="text()"/><xsl:text>&#xa;</xsl:text></xsl:when>
+<xsl:otherwise>* Fixed [Issue <xsl:value-of select="@issue"/>](https://sourceforge.net/p/mpxj/bugs/<xsl:value-of select="@issue"/>): <xsl:value-of select="text()"/><xsl:text>&#xa;</xsl:text></xsl:otherwise>
+</xsl:choose>
+</xsl:for-each>
 </xsl:for-each>
 </xsl:template>
 </xsl:stylesheet>
