@@ -83,17 +83,6 @@ final class AstaReader
    }
 
    /**
-    * Set the flag indicating if the heuristic should be applied to prune
-    * what we believe are deleted items.
-    *
-    * @param pruneDisplacedItems true if displaced items should be pruned
-    */
-   public void setPruneDisplacedItems(boolean pruneDisplacedItems)
-   {
-      m_pruneDisplacedItems = pruneDisplacedItems;
-   }
-
-   /**
     * Retrieves the project data read from this file.
     *
     * @return project data
@@ -294,20 +283,15 @@ final class AstaReader
       // Prune any "displaced items" from the top level.
       // We're using a heuristic here as this is the only thing I
       // can see which differs between bars that we want to include
-      // and bars that we want to exclude. This heuristic seemed to unnecessarily
-      // remove tasks from older file formats, so now we set a flag
-      // to determine if this should be applied or not.
+      // and bars that we want to exclude.
       //
-      if (m_pruneDisplacedItems)
+      Iterator<Row> iter = parentBars.iterator();
+      while (iter.hasNext())
       {
-         Iterator<Row> iter = parentBars.iterator();
-         while (iter.hasNext())
+         Row bar = iter.next();
+         if (bar.getDate("LAST_EDITED_DATE") == null)
          {
-            Row bar = iter.next();
-            if (bar.getDate("LAST_EDITED_DATE") == null)
-            {
-               iter.remove();
-            }
+            iter.remove();
          }
       }
 
@@ -1308,7 +1292,6 @@ final class AstaReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private boolean m_pruneDisplacedItems = true;
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
