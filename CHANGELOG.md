@@ -1,7 +1,10 @@
 # Changelog
 
-## 7.0.1 (git master)
+## 7.0.2 (git master)
+
+## 7.0.1 (20/11/2017)
 * Improve robustness when reading MPP files when using certain 64 bit Java runtimes.
+* Populate the project's comments property when reading an MSPDI file.
 * Ensure that tasks are not discarded when reading PP files from older Asta versions.
 * Fixed [Issue 319](https://sourceforge.net/p/mpxj/bugs/319): Wrong date ranges for split tasks
 * Fixed [Issue 222](https://sourceforge.net/p/mpxj/bugs/222): getDefaultTaskType() not returning correct default task type

@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.0.1">
+		<release date="git master" version="7.0.2">
+		</release>		
+		<release date="20/11/2017" version="7.0.1">
 			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
 			<action dev="joniles" type="update">Populate the project's comments property when reading an MSPDI file.</action>
 			<action dev="joniles" type="fix">Ensure that tasks are not discarded when reading PP files from older Asta versions.</action>
