@@ -289,7 +289,8 @@ final class AstaReader
       while (iter.hasNext())
       {
          Row bar = iter.next();
-         if (bar.getDate("LAST_EDITED_DATE") == null)
+         String barName = bar.getString("NAMH");
+         if (barName == null || barName.isEmpty() || barName.equals("Displaced Items"))
          {
             iter.remove();
          }
