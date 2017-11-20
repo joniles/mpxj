@@ -1341,11 +1341,31 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             mpx.setManualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getManualDuration()));
          }
+
+         //
+         // When reading an MSPDI file, the project summary task contains
+         // some of the values used to populate the project properties.
+         //
+         if (NumberHelper.getInt(mpx.getUniqueID()) == 0)
+         {
+            updateProjectProperties(mpx);
+         }
       }
 
       m_eventManager.fireTaskReadEvent(mpx);
 
       return mpx;
+   }
+
+   /**
+    * Update the project properties from the project summary task.
+    *
+    * @param task project summary task
+    */
+   private void updateProjectProperties(Task task)
+   {
+      ProjectProperties props = m_projectFile.getProjectProperties();
+      props.setComments(task.getNotes());
    }
 
    /**

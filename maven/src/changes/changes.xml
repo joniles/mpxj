@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="7.0.1">
 			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
+			<action dev="joniles" type="update">Populate the project's comments property when reading an MSPDI file.</action>
 			<action dev="joniles" type="fix">Ensure that tasks are not discarded when reading PP files from older Asta versions.</action>
 			<action dev="joniles" issue="319" type="fix">Wrong date ranges for split tasks</action>
 			<action dev="joniles" issue="222" type="fix">getDefaultTaskType() not returning correct default task type</action>
