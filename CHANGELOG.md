@@ -1,6 +1,9 @@
 # Changelog
 
-## 7.0.2 (git master)
+## 7.0.3 (git master)
+
+## 7.0.2 (20/11/2017)
+* Further improvements to task pruning for Asta PP files.
 
 ## 7.0.1 (20/11/2017)
 * Improve robustness when reading MPP files when using certain 64 bit Java runtimes.

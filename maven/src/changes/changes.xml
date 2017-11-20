@@ -5,8 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.0.2">
-			<action dev="joniles" type="update">Further improvements to task pruning for PP files.</action>
+		<release date="git master" version="7.0.3">
+		</release>		
+		<release date="20/11/2017" version="7.0.2">
+			<action dev="joniles" type="update">Further improvements to task pruning for Asta PP files.</action>
 		</release>		
 		<release date="20/11/2017" version="7.0.1">
 			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
