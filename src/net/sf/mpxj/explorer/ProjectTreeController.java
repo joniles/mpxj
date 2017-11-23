@@ -24,6 +24,8 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -34,14 +36,33 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.json.JsonWriter;
+import net.sf.mpxj.mpx.MPXWriter;
+import net.sf.mpxj.mspdi.MSPDIWriter;
+import net.sf.mpxj.planner.PlannerWriter;
+import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.reader.UniversalProjectReader;
+import net.sf.mpxj.sdef.SDEFWriter;
+import net.sf.mpxj.writer.ProjectWriter;
 
 /**
  * Implements the controller component of the ProjectTree MVC.
  */
 public class ProjectTreeController
 {
+   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>>();
+   static
+   {
+      WRITER_MAP.put("MPX", MPXWriter.class);
+      WRITER_MAP.put("MSPDI", MSPDIWriter.class);
+      WRITER_MAP.put("PMXML", PrimaveraPMFileWriter.class);
+      WRITER_MAP.put("PLANNER", PlannerWriter.class);
+      WRITER_MAP.put("JSON", JsonWriter.class);
+      WRITER_MAP.put("SDEF", SDEFWriter.class);
+   }
+
    private final ProjectTreeModel m_model;
+   private ProjectFile m_projectFile;
 
    /**
     * Constructor.
@@ -60,12 +81,10 @@ public class ProjectTreeController
     */
    public void loadFile(File file)
    {
-      ProjectFile projectFile;
-
       try
       {
-         projectFile = new UniversalProjectReader().read(file);
-         if (projectFile == null)
+         m_projectFile = new UniversalProjectReader().read(file);
+         if (m_projectFile == null)
          {
             throw new IllegalArgumentException("Unsupported file type");
          }
@@ -76,9 +95,9 @@ public class ProjectTreeController
          throw new RuntimeException(ex);
       }
 
-      DefaultMutableTreeNode projectNode = new DefaultMutableTreeNode(projectFile);
+      DefaultMutableTreeNode projectNode = new DefaultMutableTreeNode(m_projectFile);
 
-      DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode(projectFile.getProjectProperties())
+      DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode(m_projectFile.getProjectProperties())
       {
          @Override public String toString()
          {
@@ -90,23 +109,23 @@ public class ProjectTreeController
 
       DefaultMutableTreeNode tasksFolder = new DefaultMutableTreeNode("Tasks");
       projectNode.add(tasksFolder);
-      addTasks(tasksFolder, projectFile);
+      addTasks(tasksFolder, m_projectFile);
 
       DefaultMutableTreeNode resourcesFolder = new DefaultMutableTreeNode("Resources");
       projectNode.add(resourcesFolder);
-      addResources(resourcesFolder, projectFile);
+      addResources(resourcesFolder, m_projectFile);
 
       DefaultMutableTreeNode assignmentsFolder = new DefaultMutableTreeNode("Assignments");
       projectNode.add(assignmentsFolder);
-      addAssignments(assignmentsFolder, projectFile);
+      addAssignments(assignmentsFolder, m_projectFile);
 
       DefaultMutableTreeNode calendarsFolder = new DefaultMutableTreeNode("Calendars");
       projectNode.add(calendarsFolder);
-      addCalendars(calendarsFolder, projectFile);
+      addCalendars(calendarsFolder, m_projectFile);
 
       DefaultMutableTreeNode groupsFolder = new DefaultMutableTreeNode("Groups");
       projectNode.add(groupsFolder);
-      addGroups(groupsFolder, projectFile);
+      addGroups(groupsFolder, m_projectFile);
 
       m_model.setRoot(projectNode);
    }
@@ -223,6 +242,32 @@ public class ProjectTreeController
             }
          };
          parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Save the current file as the given type.
+    *
+    * @param file target file
+    * @param type file type
+    */
+   public void saveFile(File file, String type)
+   {
+      try
+      {
+         Class<? extends ProjectWriter> fileClass = WRITER_MAP.get(type);
+         if (fileClass == null)
+         {
+            throw new IllegalArgumentException("Cannot write files of type: " + type);
+         }
+
+         ProjectWriter writer = fileClass.newInstance();
+         writer.write(m_projectFile, file);
+      }
+
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
       }
    }
 
