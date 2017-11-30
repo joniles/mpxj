@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.0.3 (git master)
+* Use the Windows-1252 character set as the default when reading XER files.
 
 ## 7.0.2 (20/11/2017)
 * Further improvements to task pruning for Asta PP files.
