@@ -28,17 +28,19 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.common.CharsetHelper;
+
 /**
  * Instances of this class represent enumerated code page values.
  */
 public enum CodePage
 {
-   ANSI("ANSI", "Cp1252"),
-   MAC("MAC", "MacRoman"),
-   LATIN("850", "Cp850"),
-   US("437", "Cp437"),
-   ZH("ZH", "GB2312"),
-   RU("RU", "Cp1251");
+   ANSI("ANSI", CharsetHelper.CP1252),
+   MAC("MAC", CharsetHelper.MAC_ROMAN),
+   LATIN("850", CharsetHelper.CP850),
+   US("437", CharsetHelper.CP437),
+   ZH("ZH", CharsetHelper.GB2312),
+   RU("RU", CharsetHelper.CP1251);
 
    /**
     * Private constructor.
@@ -46,7 +48,7 @@ public enum CodePage
     * @param value MPX code page name
     * @param charset Java character set name
     */
-   private CodePage(String value, String charset)
+   private CodePage(String value, Charset charset)
    {
       m_value = value;
       m_charset = charset;
@@ -75,7 +77,7 @@ public enum CodePage
     */
    public Charset getCharset()
    {
-      return (Charset.forName(m_charset));
+      return m_charset;
    }
 
    /**
@@ -89,7 +91,7 @@ public enum CodePage
    }
 
    private String m_value;
-   private String m_charset;
+   private Charset m_charset;
 
    private static final Map<String, CodePage> NAME_MAP = new HashMap<String, CodePage>();
    static

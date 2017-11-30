@@ -25,6 +25,8 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
 
+import net.sf.mpxj.common.CharsetHelper;
+
 /**
  * Column containing text values.
  */
@@ -82,7 +84,7 @@ class StringColumn extends AbstractColumn
       {
          int itemNameLength = blockOffsets[index + 1] - blockOffsets[index];
          FastTrackUtility.validateSize(itemNameLength);
-         m_data[index] = new String(buffer, offset, itemNameLength, FastTrackUtility.UTF16LE);
+         m_data[index] = new String(buffer, offset, itemNameLength, CharsetHelper.UTF16LE);
          offset += itemNameLength;
       }
       return offset;

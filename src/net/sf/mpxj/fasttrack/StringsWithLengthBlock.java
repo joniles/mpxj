@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.fasttrack;
 
+import net.sf.mpxj.common.CharsetHelper;
+
 /**
  * Reads data from a block containing text strings.
  */
@@ -55,7 +57,7 @@ class StringsWithLengthBlock
          offset += 2;
          int itemNameLength = FastTrackUtility.getInt(buffer, offset);
          offset += 4;
-         m_data[index] = new String(buffer, offset, itemNameLength, FastTrackUtility.UTF16LE);
+         m_data[index] = new String(buffer, offset, itemNameLength, CharsetHelper.UTF16LE);
          offset += itemNameLength;
       }
 
