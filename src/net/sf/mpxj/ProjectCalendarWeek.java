@@ -23,12 +23,15 @@
 
 package net.sf.mpxj;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+
 import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class represents a basic working week, with no exceptions.
  */
-public class ProjectCalendarWeek
+public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 {
    /**
     * Calendar name.
@@ -322,6 +325,51 @@ public class ProjectCalendarWeek
       }
 
       m_days[day.getValue() - 1] = value;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public int compareTo(ProjectCalendarWeek o)
+   {
+      long fromTime1 = m_dateRange.getStart().getTime();
+      long fromTime2 = o.m_dateRange.getStart().getTime();
+      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("[ProjectCalendarWeek");
+      pw.println("   name=" + getName());
+      pw.println("   date_range=" + getDateRange());
+
+      String[] dayName =
+      {
+         "Sunday",
+         "Monday",
+         "Tuesday",
+         "Wednesday",
+         "Thursday",
+         "Friday",
+         "Saturday"
+      };
+
+      for (int loop = 0; loop < 7; loop++)
+      {
+         pw.println("   [Day " + dayName[loop]);
+         pw.println("      type=" + getDays()[loop]);
+         pw.println("      hours=" + getHours()[loop]);
+         pw.println("   ]");
+      }
+
+      pw.println("]");
+      pw.flush();
+      return (os.toString());
    }
 
    /**

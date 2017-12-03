@@ -347,8 +347,19 @@ class MapRow implements Row
       //
       // Let's assume that we always receive well-formed values.
       //
-      char unitsChar = value.charAt(value.length() - 1);
-      double durationValue = Double.parseDouble(value.substring(0, value.length() - 1));
+      int unitsLength = 1;
+      char unitsChar = value.charAt(value.length() - unitsLength);
+
+      //
+      // Handle an estimated duration
+      //
+      if (unitsChar == '?')
+      {
+         unitsLength = 2;
+         unitsChar = value.charAt(value.length() - unitsLength);
+      }
+
+      double durationValue = Double.parseDouble(value.substring(0, value.length() - unitsLength));
 
       //
       // Note that we don't handle 'u' the material type here

@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpx;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
 
@@ -190,21 +193,19 @@ final class RecurrenceUtility
    }
 
    /**
-    * Converts an integer bit field into a string representation.
+    * Convert weekly recurrence days into a bit field.
     *
-    * @param days integer bit field
-    * @return string representation
+    * @param task recurring task
+    * @return bit field as a string
     */
-   public static String getDays(Integer days)
+   public static String getDays(RecurringTask task)
    {
-      String result = null;
-      if (days != null)
+      StringBuilder sb = new StringBuilder();
+      for (Day day : Day.values())
       {
-         StringBuilder sb = new StringBuilder("0000000");
-         sb.append(Integer.toBinaryString(days.intValue()));
-         result = sb.toString().substring(sb.length() - 7);
+         sb.append(task.getWeeklyDay(day) ? "1" : "0");
       }
-      return (result);
+      return sb.toString();
    }
 
    /**
@@ -237,6 +238,34 @@ final class RecurrenceUtility
          result = DAY_MAP.get(day);
       }
       return (result);
+   }
+
+   /**
+    * Retrieves the yearly absolute date.
+    *
+    * @param data recurrence data
+    * @return yearly absolute date
+    */
+   public static Date getYearlyAbsoluteAsDate(RecurringData data)
+   {
+      Date result;
+      Integer yearlyAbsoluteDay = data.getDayNumber();
+      Integer yearlyAbsoluteMonth = data.getMonthNumber();
+      Date startDate = data.getStartDate();
+
+      if (yearlyAbsoluteDay == null || yearlyAbsoluteMonth == null || startDate == null)
+      {
+         result = null;
+      }
+      else
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(startDate);
+         cal.set(Calendar.MONTH, yearlyAbsoluteMonth.intValue() - 1);
+         cal.set(Calendar.DAY_OF_MONTH, yearlyAbsoluteDay.intValue());
+         result = cal.getTime();
+      }
+      return result;
    }
 
    /**
@@ -317,4 +346,16 @@ final class RecurrenceUtility
       DAY_MAP.put(Day.SATURDAY, Integer.valueOf(6));
       DAY_MAP.put(Day.SUNDAY, Integer.valueOf(7));
    }
+
+   public static final int[] RECURRING_TASK_DAY_MASKS =
+   {
+      0x00,
+      0x40, // Sunday
+      0x20, // Monday
+      0x10, // Tuesday
+      0x08, // Wednesday
+      0x04, // Thursday
+      0x02, // Friday
+      0x01, // Saturday
+   };
 }

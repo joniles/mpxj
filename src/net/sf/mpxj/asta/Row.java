@@ -24,6 +24,7 @@
 package net.sf.mpxj.asta;
 
 import java.util.Date;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 
@@ -108,4 +109,26 @@ interface Row
     * @return attribute value
     */
    public Duration getWork(String name);
+
+   /**
+    * Add a child Row to this row.
+    *
+    * @param row child row
+    */
+   public void addChild(Row row);
+
+   /**
+    * Retrieve a list of child rows.
+    *
+    * @return list of child rows
+    */
+   public List<Row> getChildRows();
+
+   /**
+    * Merge the columns from another row with this row.
+    *
+    * @param row row to merge
+    * @param prefix prefix used to avoid name collisions
+    */
+   public void merge(Row row, String prefix);
 }

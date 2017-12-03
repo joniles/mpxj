@@ -27,10 +27,11 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.junit.Test;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Duration;
@@ -44,8 +45,6 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.ApplicationVersion;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure task task baseline values are correctly handled.
@@ -76,14 +75,7 @@ public class TaskBaselinesTest
     */
    @Test public void testTaskBaselineValues() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-baselines"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("task-baselines");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/task-baselines", "task-baselines"))
       {
          testTaskBaselineValues(file);
       }

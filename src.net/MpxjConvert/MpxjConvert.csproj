@@ -148,8 +148,11 @@
     <Reference Include="mpxj-for-csharp">
       <HintPath>..\..\lib.net\mpxj-for-csharp.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.15">
-      <HintPath>..\..\lib.net\poi-3.15.dll</HintPath>
+    <Reference Include="poi-3.17">
+      <HintPath>..\..\lib.net\poi-3.17.dll</HintPath>
+    </Reference>
+    <Reference Include="commons-collections4-4.1">
+      <HintPath>..\..\lib.net\commons-collections4-4.1.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.10.0">
       <HintPath>..\..\lib.net\rtfparserkit-1.10.0.dll</HintPath>

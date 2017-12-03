@@ -47,6 +47,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -683,6 +684,11 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (record.getRecurrenceType() != null)
       {
+         boolean monthlyRelative = record.getRecurrenceType() == RecurrenceType.MONTHLY && record.getRelative();
+         boolean monthlyAbsolute = record.getRecurrenceType() == RecurrenceType.MONTHLY && !record.getRelative();
+         boolean yearlyRelative = record.getRecurrenceType() == RecurrenceType.YEARLY && record.getRelative();
+         boolean yearlyAbsolute = record.getRecurrenceType() == RecurrenceType.YEARLY && !record.getRelative();
+
          m_buffer.append(m_delimiter);
          m_buffer.append(format(formatDateTime(record.getStartDate())));
          m_buffer.append(m_delimiter);
@@ -700,35 +706,35 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getUseEndDate() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getDailyWorkday() ? "1" : "0");
+         m_buffer.append(record.isWorkingDaysOnly() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDays(record.getWeeklyDays())));
+         m_buffer.append(format(RecurrenceUtility.getDays(record)));
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getMonthlyRelative() ? "1" : "0");
+         m_buffer.append(monthlyRelative ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getYearlyAbsolute() ? "1" : "0");
+         m_buffer.append(yearlyAbsolute ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getDailyFrequency()));
+         m_buffer.append(format(record.getRecurrenceType() == RecurrenceType.DAILY ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getWeeklyFrequency()));
+         m_buffer.append(format(record.getRecurrenceType() == RecurrenceType.WEEKLY ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getMonthlyRelativeOrdinal()));
+         m_buffer.append(format(monthlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDay(record.getMonthlyRelativeDay())));
+         m_buffer.append(format(RecurrenceUtility.getDay(monthlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getMonthlyRelativeFrequency()));
+         m_buffer.append(format(monthlyRelative ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getMonthlyAbsoluteDay()));
+         m_buffer.append(format(monthlyAbsolute ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getMonthlyAbsoluteFrequency()));
+         m_buffer.append(format(monthlyAbsolute ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyRelativeOrdinal()));
+         m_buffer.append(format(yearlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDay(record.getYearlyRelativeDay())));
+         m_buffer.append(format(RecurrenceUtility.getDay(yearlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyRelativeMonth()));
+         m_buffer.append(format(record.getMonthNumber()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(record.getYearlyAbsoluteDate())));
+         m_buffer.append(format(formatDateTime(RecurrenceUtility.getYearlyAbsoluteAsDate(record))));
 
          stripTrailingDelimiters(m_buffer);
       }

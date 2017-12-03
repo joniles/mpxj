@@ -5,7 +5,122 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Git master" version="5.7.2">
+		<release date="git master" version="7.0.3">
+		</release>		
+		<release date="20/11/2017" version="7.0.2">
+			<action dev="joniles" type="update">Further improvements to task pruning for Asta PP files.</action>
+		</release>		
+		<release date="20/11/2017" version="7.0.1">
+			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
+			<action dev="joniles" type="update">Populate the project's comments property when reading an MSPDI file.</action>
+			<action dev="joniles" type="fix">Ensure that tasks are not discarded when reading PP files from older Asta versions.</action>
+			<action dev="joniles" issue="319" type="fix">Wrong date ranges for split tasks</action>
+			<action dev="joniles" issue="222" type="fix">getDefaultTaskType() not returning correct default task type</action>
+		</release>	
+		<release date="08/11/2017" version="7.0.0">
+			<action dev="joniles" type="add">Added support for reading recurring exceptions from MPP and MSPDI files.</action>
+			<action dev="joniles" type="update">Updated RecurringTask class interface (Note: this is a breaking API change)</action>
+			<action dev="joniles" type="update">MSPDI writer now uses save version 14 by default (Note: this may affect applications which consume MSPDI files you generate)</action>
+			<action dev="joniles" type="update">Correctly handle MSPDI files with Byte Order Marks.</action>
+			<action dev="joniles" type="update">Handle MSPDI files with varying namespaces.</action>
+			<action dev="joniles" type="update">Improve robustness Merlin file reader.</action>
+			<action dev="joniles" type="update">Improve extraction of task start and finish dates from PMXML files only containing partial data.</action>
+			<action dev="joniles" type="update">Prevent POI from closing the input stream when using UniversalProjectReader</action>
+			<action dev="joniles" issue="321" type="fix">Cannot read mpp file using getProjectReader.</action>
+		</release>
+		<release date="11/10/2017" version="6.2.1">
+			<action dev="joniles" type="update">Gracefully handle corrupt MPP files.</action>
+			<action dev="joniles" type="update">Improve reading and writing slack values for MSPDI files.</action>
+			<action dev="joniles" type="update">Improve activity hierarchy extraction from Phoenix files.</action>
+			<action dev="joniles" issue="243" type="fix">MSPDI Slack values not correctly set while loading.</action>		
+		</release>
+		<release date="06/10/2017" version="6.2.0">
+			<action dev="joniles" type="add">Added support for reading Work Weeks from MPP files.</action>
+			<action dev="joniles" type="add">Add support for calendar exception names for MPP and MSPDI files.</action>
+			<action dev="joniles" type="update">Updated to use POI 3.17.</action>
+			<action dev="joniles" type="update">Improve accuracy of calendar exception dates read from XER files and P6 database.</action>
+			<action dev="joniles" type="update">Only write non-default user-defined field values to a PMXML file.</action>
+			<action dev="joniles" type="update">Use Primavera P6 17.7 XML schema.</action>
+			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>									
+			<action dev="joniles" type="update">Don't duplicate exceptions when reading from an MSPDI file.</action>
+			<action dev="joniles" issue="231" type="fix">MPP DataType: Non-unique enumeration value.</action>
+			<action dev="joniles" issue="258" type="fix">Calendar Work Week missing from MPP data extraction.</action>			
+			<action dev="joniles" issue="318" type="fix">TimephasedWork Negative TotalAmount.</action>
+			<action dev="joniles" issue="320" type="fix">Date conversion fails in PrimaveraReader.</action>
+		</release>
+		<release date="12/09/2017" version="6.1.2">
+			<action dev="joniles" type="update">Gracefully handle incomplete records in XER files.</action>
+		</release>
+		<release date="30/08/2017" version="6.1.1">
+			<action dev="joniles" type="fix">Ensure all classes in the gem are required</action>
+		</release>
+		<release date="28/07/2017" version="6.1.0">
+			<action dev="joniles" type="add">Provide Task.getEffectiveCalendar() method</action>
+			<action dev="joniles" type="add">Populate missing finish dates in MSPDI files</action>
+		</release>
+		<release date="22/07/2017" version="6.0.0">
+			<action dev="joniles" type="update">Gracefully handle invalid calendar data in XER files.</action>
+			<action dev="joniles" type="update">Handle XER files containing blank lines.</action>
+			<action dev="brandonherzog" type="add">Add support for reading resource rates and availability tables from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Include overtime in work and cost fields when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Read default project calendar from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Read resource rate and assignment units from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Set ignore resource calendar flag for tasks from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Change P6 costs to be calculated from resource assignment to support XER files without the cost table (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Map anticipated end date to deadline for P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Update task work to include actual and remaining work when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Calculate summary task work fields by summing up children when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Set task project name when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="fix">Fix &quot;00:00&quot; calendar finish times to parse as end of day when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Add default working hours if a calendar does not specify any hours when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Read fiscal year start month from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="fix">Fix bug in rollup of child task dates containing null values that could set incorrect end date when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="fix">Fix date offset in parse of P6 calendar exceptions (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="fix">Fix count of P6 UDFs that map to same data type (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="add">Add support for reading Resource and Assignment UDFs from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Update P6 UDFs to fill into multiple field types to expand storage capacity, for example into TEXT and ENTERPRISE_TEXT (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Use only the WBS as activity code for WBS tasks instead of also appending name for P6 tasks (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="add">Add the ability to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="add">Add function to clear all exceptions from ProjectCalendar instances (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Reading the lag calendar scheduling option as the &quot;LagCalendar&quot; custom project property when reading from P6 (Contributed by Brandon Herzog).</action>
+			<action dev="brandonherzog" type="update">Updated UDF parsing to handle values as booleans if the user chooses to map them to Flag fields (Contributed by Brandon Herzog).</action>
+		</release>
+		<release date="13/07/2017" version="5.14.0">
+			<action dev="joniles" type="update">Improve handling of activity codes read from Phoenix files</action>
+			<action dev="joniles" type="add">Calculate percent complete for tasks read from Phoenix files</action>
+			<action dev="joniles" type="update">Populate task duration with Original Duration attribute when reading from XER files or P6 databases.</action>
+			<action dev="joniles" type="update">Ensure that task finish dates are read correctly from Phoenix files.</action>
+			<action dev="joniles" type="update">Improve UniversalProjectReader's handling of non-MPP OLE compound documents.</action>
+			<action dev="joniles" type="update">Improve task hierarchy and ordering when reading some MPP files.</action>
+		</release>
+		<release date="27/06/2017" version="5.13.0">
+			<action dev="joniles" type="update">Further improve handling of WBS, bar, and task structure from Asta files.</action>
+		</release>
+		<release date="26/06/2017" version="5.12.0">
+			<action dev="joniles" type="update">Improve handling of WBS, bar, and task structure from Asta files.</action>
+		</release>
+		<release date="20/06/2017" version="5.11.0">
+			<action dev="joniles" type="update">Improve handling of malformed durations in MSPDI files.</action>
+			<action dev="joniles" type="update">Improve performance when reading MPP files with certain kinds of timephased data.</action>
+			<action dev="joniles" type="update">Raise a specific &quot;password protected&quot; exception type from the Ruby gem.</action>
+			<action dev="joniles" type="update">Fix an issue with the storage of the &quot;earned value method&quot; task attribute.</action>
+		</release>
+		<release date="23/05/2017" version="5.10.0">
+			<action dev="joniles" type="update">Improve handling of deleted tasks in MPP files.</action>
+			<action dev="joniles" type="update">Improve handling of invalid predecessor tasks in MPX files.</action>
+			<action dev="joniles" type="update">Improve handling of invalid saved view state in MPP files.</action>
+			<action dev="joniles" issue="313" type="fix">Empty baseline dates populated with garbage date instead of null.</action>
+		</release>
+		<release date="27/04/2017" version="5.9.0">
+			<action dev="joniles" type="add">Add support for reading ProjectLibre POD files (from ProjectLibre version 1.5.5 onwards).</action>
+			<action dev="joniles" type="update">Correct getter method name for &quot;file application&quot; project property.</action>
+		</release>
+		<release date="21/04/2017" version="5.8.0">
+			<action dev="joniles" type="update">Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).</action>
+			<action dev="joniles" type="update">Improve support for estimated durations in Merlin files.</action>
+			<action dev="joniles" type="update">Read task notes from Asta files.</action>
+			<action dev="joniles" type="update">Improve support for reading resource rates from Phoenix files.</action>
+			<action dev="joniles" type="add">Add &quot;file application&quot; and &quot;file type&quot; to project properties to determine source of schedule data.</action>
 		</release>
 		<release date="22/03/2017" version="5.7.1">
 			<action dev="joniles" type="update">Improve support for Phoenix Project Manager XML files.</action>

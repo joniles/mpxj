@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -105,13 +106,15 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_udfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
          ProjectFile project = m_reader.getProject();
          project.getEventManager().addProjectListeners(m_projectListeners);
 
+         processAnalytics();
          processProjectProperties();
          processCalendars();
          processResources();
+         processResourceRates();
          processTasks();
          processPredecessors();
          processAssignments();
@@ -166,6 +169,37 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
+    * Populate data for analytics.
+    */
+   private void processAnalytics() throws SQLException
+   {
+      allocateConnection();
+
+      try
+      {
+         DatabaseMetaData meta = m_connection.getMetaData();
+         String productName = meta.getDatabaseProductName();
+         if (productName == null || productName.isEmpty())
+         {
+            productName = "DATABASE";
+         }
+         else
+         {
+            productName = productName.toUpperCase();
+         }
+
+         ProjectProperties properties = m_reader.getProject().getProjectProperties();
+         properties.setFileApplication("Primavera");
+         properties.setFileType(productName);
+      }
+
+      finally
+      {
+         releaseConnection();
+      }
+   }
+
+   /**
     * Select the project properties from the database.
     *
     * @throws SQLException
@@ -193,6 +227,38 @@ public final class PrimaveraDatabaseReader implements ProjectReader
          ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
 
          processDefaultCurrency(row.getInteger("curr_id"));
+      }
+
+      processSchedulingProjectProperties();
+   }
+
+   /**
+    * Process the scheduling project property from PROJPROP. This table only seems to exist
+    * in P6 databases, not XER files.
+    *
+    * @throws SQLException
+    */
+   private void processSchedulingProjectProperties() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);
+      if (!rows.isEmpty())
+      {
+         Row row = rows.get(0);
+         Record record = Record.getRecord(row.getString("prop_value"));
+         if (record != null)
+         {
+            String[] keyValues = record.getValue().split("\\|");
+            for (int i = 0; i < keyValues.length - 1; ++i)
+            {
+               if ("sched_calendar_on_relationship_lag".equals(keyValues[i]))
+               {
+                  Map<String, Object> customProperties = new HashMap<String, Object>();
+                  customProperties.put("LagCalendar", keyValues[i + 1]);
+                  m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
+                  break;
+               }
+            }
+         }
       }
    }
 
@@ -223,6 +289,17 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
+    * Process resource rates.
+    *
+    * @throws SQLException
+    */
+   private void processResourceRates() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "rsrcrate where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_rate_id", m_projectID);
+      m_reader.processResourceRates(rows);
+   }
+
+   /**
     * Process tasks.
     *
     * @throws SQLException
@@ -231,8 +308,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? and delete_date is null order by parent_wbs_id,seq_num", m_projectID);
       List<Row> tasks = getRows("select * from " + m_schema + "task where proj_id=? and delete_date is null", m_projectID);
-      List<Row> costs = getRows("select * from " + m_schema + "projcost where proj_id=? and delete_date is null", m_projectID);
-      m_reader.processTasks(wbs, tasks, costs);
+      m_reader.processTasks(wbs, tasks);
    }
 
    /**
@@ -493,14 +569,36 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    }
 
    /**
-    * Override the default field name mapping for user defined types.
+    * Override the default field name mapping for Task user defined types.
     *
     * @param type target user defined data type
-    * @param fieldName field name
+    * @param fieldNames field names
     */
-   public void setFieldNameForUdfType(UserFieldDataType type, String fieldName)
+   public void setFieldNamesForTaskUdfType(UserFieldDataType type, String[] fieldNames)
    {
-      m_udfCounters.setFieldNameForType(type, fieldName);
+      m_taskUdfCounters.setFieldNamesForType(type, fieldNames);
+   }
+
+   /**
+    * Override the default field name mapping for Resource user defined types.
+    *
+    * @param type target user defined data type
+    * @param fieldNames field names
+    */
+   public void setFieldNamesForResourceUdfType(UserFieldDataType type, String[] fieldNames)
+   {
+      m_resourceUdfCounters.setFieldNamesForType(type, fieldNames);
+   }
+
+   /**
+    * Override the default field name mapping for Assignment user defined types.
+    *
+    * @param type target user defined data type
+    * @param fieldNames field names
+    */
+   public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String[] fieldNames)
+   {
+      m_assignmentUdfCounters.setFieldNamesForType(type, fieldNames);
    }
 
    /**
@@ -587,7 +685,9 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private List<ProjectListener> m_projectListeners;
-   private UserFieldCounters m_udfCounters = new UserFieldCounters();
+   private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
+   private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
+   private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
 
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();

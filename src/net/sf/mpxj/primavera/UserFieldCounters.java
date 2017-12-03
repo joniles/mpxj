@@ -23,10 +23,17 @@
 
 package net.sf.mpxj.primavera;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * Simple container holding counters used to generate field names
  * for user defined field types.
  */
+
 class UserFieldCounters
 {
    /**
@@ -34,12 +41,9 @@ class UserFieldCounters
     */
    public UserFieldCounters()
    {
-      //
-      // Set the default name for each type
-      //
       for (UserFieldDataType type : UserFieldDataType.values())
       {
-         m_names[type.ordinal()] = type.getDefaultFieldName();
+         m_names[type.ordinal()] = type.getDefaultFieldNames();
       }
    }
 
@@ -48,23 +52,40 @@ class UserFieldCounters
     * to a user defined data type.
     *
     * @param type target type
-    * @param fieldName field name overriding the default
+    * @param fieldNames field names overriding the default
     */
-   public void setFieldNameForType(UserFieldDataType type, String fieldName)
+   public void setFieldNamesForType(UserFieldDataType type, String[] fieldNames)
    {
-      m_names[type.ordinal()] = fieldName;
+      m_names[type.ordinal()] = fieldNames;
    }
 
    /**
-    * Generate the next name for a user defined field.
+    * Generate the next available field for a user defined field.
     *
+    * @param <E> field type class
+    * @param clazz class of the desired field enum
     * @param type user defined field type.
-    * @return field name
+    * @return field of specified type
     */
-   public String nextName(UserFieldDataType type)
+   public <E extends Enum<E> & FieldType> E nextField(Class<E> clazz, UserFieldDataType type)
    {
-      int counter = ++m_counters[type.ordinal()];
-      return type.getDefaultFieldName() + counter;
+      for (String name : m_names[type.ordinal()])
+      {
+         int i = NumberHelper.getInt(m_counters.get(name)) + 1;
+         try
+         {
+            E e = Enum.valueOf(clazz, name + i);
+            m_counters.put(name, Integer.valueOf(i));
+            return e;
+         }
+         catch (IllegalArgumentException ex)
+         {
+            // try the next name
+         }
+      }
+
+      // no more fields available
+      throw new IllegalArgumentException("No fields for type " + type + " available");
    }
 
    /**
@@ -72,12 +93,9 @@ class UserFieldCounters
     */
    public void reset()
    {
-      for (int index = 0; index < m_counters.length; index++)
-      {
-         m_counters[index] = 0;
-      }
+      m_counters.clear();
    }
 
-   private int[] m_counters = new int[UserFieldDataType.values().length];
-   private String[] m_names = new String[UserFieldDataType.values().length];
+   private final Map<String, Integer> m_counters = new HashMap<String, Integer>();
+   private final String[][] m_names = new String[UserFieldDataType.values().length][];
 }

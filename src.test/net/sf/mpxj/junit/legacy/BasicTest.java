@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.Test;
+
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
@@ -56,8 +58,6 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
-
-import org.junit.Test;
 
 /**
  * This class contains a small set of tests to exercise the MPXJ library.
@@ -388,7 +388,7 @@ public class BasicTest
          {
             for (Relation rel : rels)
             {
-               mpx.getTaskByUniqueID(rel.getTargetTask().getUniqueID());
+               assertNotNull(mpx.getTaskByUniqueID(rel.getTargetTask().getUniqueID()));
             }
          }
       }

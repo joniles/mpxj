@@ -38,7 +38,6 @@ import java.util.Map.Entry;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
@@ -84,8 +83,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
          processTasks();
          processPredecessors();
          processAssignments();
-
-         updateStructure(project);
 
          return (project);
       }
@@ -316,18 +313,12 @@ public final class AstaTextFileReader extends AbstractProjectReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> barRows = getTable("BAR");
-      List<Row> expandedTaskRows = getTable("EXPANDED_TASK");
-      List<Row> bars = join(barRows, "EXPANDED_TASK", "EXPANDED_TASK", expandedTaskRows, "EXPANDED_TASKID");
-      filterNotNull(bars, "STARV");
-      Collections.sort(bars, BAR_COMPARATOR);
-
+      List<Row> bars = getTable("BAR");
+      List<Row> expandedTasks = getTable("EXPANDED_TASK");
       List<Row> tasks = getTable("TASK");
-      Collections.sort(tasks, TASK_COMPARATOR);
-
       List<Row> milestones = getTable("MILESTONE");
 
-      m_reader.processTasks(bars, tasks, milestones);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
    }
 
    /**
@@ -355,97 +346,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
       List<Row> permanentAssignments = join(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
       Collections.sort(permanentAssignments, ALLOCATION_COMPARATOR);
       m_reader.processAssignments(permanentAssignments);
-   }
-
-   /**
-    * Cleans up the structure, removes unnecessary summary tasks and
-    * ensures tasks with blank names inherit their names from the
-    * parent task.
-    *
-    * @param project ProjectFile instance
-    */
-   private void updateStructure(ProjectFile project)
-   {
-      //
-      // Build the hierarchy
-      //
-      project.updateStructure();
-
-      //
-      // Ensure tasks with blank names inherit parent task names
-      //
-      for (Task task : project.getChildTasks())
-      {
-         updateBlankNames(null, task);
-      }
-
-      //
-      // Create a list of tasks to prune
-      //
-      List<Task> tasks = new LinkedList<Task>();
-      for (Task task : project.getAllTasks())
-      {
-         if (task.getChildTasks().size() == 1 && task.getChildTasks().get(0).getChildTasks().size() == 0 && task.getWBS().equals("-"))
-         {
-            tasks.add(task);
-         }
-      }
-
-      //
-      // Prune these tasks
-      //
-      for (Task task : tasks)
-      {
-         Task child = task.getChildTasks().get(0);
-         Task parent = task.getParentTask();
-
-         if (parent == null)
-         {
-            List<Task> parentList = project.getChildTasks();
-            int parentListIndex = parentList.indexOf(task);
-            if (parentListIndex == -1)
-            {
-               parentList.add(child);
-            }
-            else
-            {
-               parentList.add(parentListIndex, child);
-            }
-         }
-         else
-         {
-            parent.addChildTaskBefore(child, task);
-         }
-         task.getChildTasks().clear();
-         task.remove();
-      }
-
-      //
-      // Ensure we have no gaps in the ID sequence
-      //
-      project.renumberTaskIDs();
-
-      project.updateStructure();
-   }
-
-   /**
-    * Called recursively to replace blank task names
-    * with names inherited from parent tasks.
-    *
-    * @param parent parent task
-    * @param task current task
-    */
-   private void updateBlankNames(Task parent, Task task)
-   {
-      if (parent != null && (task.getName() == null || task.getName().length() == 0))
-      {
-         task.setName(parent.getName());
-      }
-
-      for (Task child : task.getChildTasks())
-      {
-         updateBlankNames(task, child);
-      }
    }
 
    /**
@@ -525,25 +425,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
    }
 
    /**
-    * Removes rows with a null value in a given column.
-    *
-    * @param rows result set
-    * @param column column being tested for null
-    */
-   private void filterNotNull(List<Row> rows, String column)
-   {
-      ListIterator<Row> iter = rows.listIterator();
-      while (iter.hasNext())
-      {
-         MapRow row = (MapRow) iter.next();
-         if (row.getObject(column) == null)
-         {
-            iter.remove();
-         }
-      }
-   }
-
-   /**
     * Retrieve table data, return an empty result set if no table data is present.
     *
     * @param name table name
@@ -570,8 +451,6 @@ public final class AstaTextFileReader extends AbstractProjectReader
    private static final RowComparator CALENDAR_COMPARATOR = new RowComparator("CALENDARID");
    private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("PERMANENT_RESOURCEID");
    private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("CONSUMABLE_RESOURCEID");
-   private static final RowComparator BAR_COMPARATOR = new RowComparator("NATURAL_ORDER");
-   private static final RowComparator TASK_COMPARATOR = new RowComparator("WBT", "NATURAO_ORDER");
    private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");
    private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
 

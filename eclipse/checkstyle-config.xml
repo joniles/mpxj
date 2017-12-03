@@ -65,7 +65,5 @@
     <module name="JavadocStyle">
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
-    <module name="ForbidReturnInFinalBlockCheck"/>
-    <module name="ReturnNullInsteadOfBoolean"/>
   </module>
 </module>

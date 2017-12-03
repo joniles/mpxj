@@ -35,6 +35,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -42,11 +47,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.MPPReader;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 /**
  * This class allows the caller to replace the content of an MPP file
@@ -135,6 +135,13 @@ public class MppCleanUtility
          case 12:
          {
             projectDirName = "   112";
+            varDataFileName = "Var2Data";
+            break;
+         }
+
+         case 14:
+         {
+            projectDirName = "   114";
             varDataFileName = "Var2Data";
             break;
          }

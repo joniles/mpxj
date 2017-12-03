@@ -1353,4 +1353,3 @@ TASK_IS_READONLY_SUBPROJ = false ( java.lang.Boolean)
 TASK_BASE_DUR_FMT = 39 ( java.lang.Short)
 TASK_WBS_RIGHTMOST_LEVEL = null ( )
 */
-

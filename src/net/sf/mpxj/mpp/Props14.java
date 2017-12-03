@@ -53,6 +53,15 @@ final class Props14 extends Props
 
       while (foundCount < headerCount)
       {
+         // I found a weird issue with an MPP file which would read OK
+         // on Windows with a 1.7.0 JRE, but failed on the 64 bit version below:
+         // OpenJDK Runtime Environment (IcedTea 2.6.11) (7u151-2.6.11-0ubuntu1.14.04.1)
+         // This was the fix: if we don't have at least 12 bytes left to read, then bail out.
+         if (availableBytes < 12)
+         {
+            break;
+         }
+
          int attrib1 = readInt(is);
          int attrib2 = readInt(is);
          /*int attrib3 = */readInt(is);

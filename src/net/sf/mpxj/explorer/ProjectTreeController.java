@@ -215,7 +215,11 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return a.getResource().getName() + "->" + a.getTask().getName();
+               Resource resource = a.getResource();
+               String resourceName = resource == null ? "(unknown resource)" : resource.getName();
+               Task task = a.getTask();
+               String taskName = task == null ? "(unknown task)" : task.getName();
+               return resourceName + "->" + taskName;
             }
          };
          parentNode.add(childNode);

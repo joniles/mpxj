@@ -2572,6 +2572,46 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Retrieves the vendor of the file used to populate this ProjectFile instance.
+    *
+    * @return file type
+    */
+   public String getFileApplication()
+   {
+      return (String) getCachedValue(ProjectField.FILE_APPLICATION);
+   }
+
+   /**
+    * Sets the vendor of file used to populate this ProjectFile instance.
+    *
+    * @param type file type
+    */
+   public void setFileApplication(String type)
+   {
+      set(ProjectField.FILE_APPLICATION, type);
+   }
+
+   /**
+    * Retrieves the type of file used to populate this ProjectFile instance.
+    *
+    * @return file type
+    */
+   public String getFileType()
+   {
+      return (String) getCachedValue(ProjectField.FILE_TYPE);
+   }
+
+   /**
+    * Sets the type of file used to populate this ProjectFile instance.
+    *
+    * @param type file type
+    */
+   public void setFileType(String type)
+   {
+      set(ProjectField.FILE_TYPE, type);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void addFieldListener(FieldListener listener)

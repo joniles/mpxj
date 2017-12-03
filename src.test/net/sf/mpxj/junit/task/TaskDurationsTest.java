@@ -27,7 +27,8 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
+
+import org.junit.Test;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
@@ -41,8 +42,6 @@ import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
-import org.junit.Test;
-
 /**
  * Tests to ensure task custom durations are correctly handled.
  */
@@ -53,14 +52,7 @@ public class TaskDurationsTest
     */
    @Test public void testTaskDurations() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-durations"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("task-durations");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/task-durations", "task-durations"))
       {
          ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
          if (reader instanceof MPDDatabaseReader)

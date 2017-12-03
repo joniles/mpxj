@@ -123,6 +123,9 @@ public final class PlannerReader extends AbstractProjectReader
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
 
+         m_projectFile.getProjectProperties().setFileApplication("Planner");
+         m_projectFile.getProjectProperties().setFileType("XML");
+
          m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();

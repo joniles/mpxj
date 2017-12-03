@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -53,9 +54,15 @@ final class Var2Data extends MPPComponent
       byte[] data;
 
       int currentOffset = 0;
+      int available = is.available();
 
       for (int itemOffset : meta.getOffsets())
       {
+         if (itemOffset >= available)
+         {
+            continue;
+         }
+
          if (currentOffset > itemOffset)
          {
             is.reset();
@@ -70,6 +77,14 @@ final class Var2Data extends MPPComponent
          }
 
          int size = readInt(is);
+
+         //
+         // Try our best to handle corrupt files gracefully
+         //
+         if (size < 0 || size > is.available())
+         {
+            continue;
+         }
 
          data = readByteArray(is, size);
 
@@ -390,11 +405,10 @@ final class Var2Data extends MPPComponent
       PrintWriter pw = new PrintWriter(sw);
 
       pw.println("BEGIN Var2Data");
-      for (Integer offset : m_map.keySet())
+      for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
-         byte[] data = m_map.get(offset);
-         pw.println("   Data at offset: " + offset + " size: " + data.length);
-         pw.println(MPPUtility.hexdump(data, true, 16, "   "));
+         pw.println("   Data at offset: " + entry.getKey() + " size: " + entry.getValue().length);
+         pw.println(MPPUtility.hexdump(entry.getValue(), true, 16, "   "));
       }
 
       pw.println("END Var2Data");

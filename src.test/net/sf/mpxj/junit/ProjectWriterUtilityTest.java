@@ -24,13 +24,16 @@
 package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
+
+import java.util.Set;
+
+import org.junit.Test;
+
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
-
-import org.junit.Test;
 
 /**
  * The tests contained in this class exercise the ProjectWriterUtility class.
@@ -83,6 +86,7 @@ public class ProjectWriterUtilityTest
     */
    @Test public void testGetSupportedFileExtensions()
    {
-      ProjectWriterUtility.getSupportedFileExtensions();
+      Set<String> extensions = ProjectWriterUtility.getSupportedFileExtensions();
+      assertTrue(extensions.contains("MPX"));
    }
 }

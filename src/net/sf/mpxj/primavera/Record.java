@@ -54,6 +54,35 @@ class Record
    }
 
    /**
+    * Create a structured Record instance from the flat text data.
+    * Null is returned if errors are encountered during parse.
+    *
+    * @param text flat text data
+    * @return Record instance
+    */
+   public static Record getRecord(String text)
+   {
+      Record root;
+
+      try
+      {
+         root = new Record(text);
+      }
+
+      //
+      // I've come across invalid calendar data in an otherwise fine Primavera
+      // database belonging to a customer. We deal with this gracefully here
+      // rather than propagating an exception.
+      //
+      catch (Exception ex)
+      {
+         root = null;
+      }
+
+      return root;
+   }
+
+   /**
     * Retrieve the field represented by this record.
     *
     * @return field

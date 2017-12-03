@@ -27,9 +27,10 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import org.junit.Test;
 
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -42,8 +43,6 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
-import org.junit.Test;
-
 /**
  * Tests to ensure project custom field value lists are correctly handled.
  */
@@ -54,14 +53,7 @@ public class ProjectValueListsTest
     */
    @Test public void testProjectValueLists() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/project-valuelists"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("project-valuelists");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/project-valuelists", "project-valuelists"))
       {
          testProjectValueLists(file);
       }

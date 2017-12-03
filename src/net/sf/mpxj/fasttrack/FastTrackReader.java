@@ -150,6 +150,9 @@ public class FastTrackReader implements ProjectReader
       config.setAutoWBS(false);
       config.setAutoOutlineNumber(false);
 
+      m_project.getProjectProperties().setFileApplication("FastTrack");
+      m_project.getProjectProperties().setFileType("FTS");
+
       m_eventManager.addProjectListeners(m_projectListeners);
 
       // processProject();

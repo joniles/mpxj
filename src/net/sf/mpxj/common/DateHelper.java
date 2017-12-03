@@ -179,6 +179,60 @@ public final class DateHelper
    }
 
    /**
+    * Returns the earlier of two dates, handling null values. A non-null Date
+    * is always considered to be earlier than a null Date.
+    *
+    * @param d1 Date instance
+    * @param d2 Date instance
+    * @return Date earliest date
+    */
+   public static Date min(Date d1, Date d2)
+   {
+      Date result;
+      if (d1 == null)
+      {
+         result = d2;
+      }
+      else
+         if (d2 == null)
+         {
+            result = d1;
+         }
+         else
+         {
+            result = (d1.compareTo(d2) < 0) ? d1 : d2;
+         }
+      return result;
+   }
+
+   /**
+    * Returns the later of two dates, handling null values. A non-null Date
+    * is always considered to be later than a null Date.
+    *
+    * @param d1 Date instance
+    * @param d2 Date instance
+    * @return Date latest date
+    */
+   public static Date max(Date d1, Date d2)
+   {
+      Date result;
+      if (d1 == null)
+      {
+         result = d2;
+      }
+      else
+         if (d2 == null)
+         {
+            result = d1;
+         }
+         else
+         {
+            result = (d1.compareTo(d2) > 0) ? d1 : d2;
+         }
+      return result;
+   }
+
+   /**
     * This utility method calculates the difference in working
     * time between two dates, given the context of a task.
     *
@@ -194,12 +248,7 @@ public final class DateHelper
 
       if (date1 != null && date2 != null)
       {
-         ProjectCalendar calendar = task.getCalendar();
-         if (calendar == null)
-         {
-            calendar = task.getParentFile().getDefaultCalendar();
-         }
-
+         ProjectCalendar calendar = task.getEffectiveCalendar();
          if (calendar != null)
          {
             variance = calendar.getWork(date1, date2, format);

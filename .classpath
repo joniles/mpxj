@@ -7,7 +7,8 @@
 	<classpathentry kind="lib" path="jgoodies/jgoodies-common-1.8.0.jar" sourcepath="D:/java/jgoodies-common-1_8_0/jgoodies-common-1.8.0/jgoodies-common-1.8.0-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.10.1.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.15.jar" sourcepath="C:/java/poi-3.15/src"/>
 	<classpathentry kind="lib" path="lib/rtfparserkit-1.10.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.17.jar" sourcepath="C:/java/poi-3.17/src"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

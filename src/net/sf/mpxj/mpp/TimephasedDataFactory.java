@@ -53,16 +53,19 @@ final class TimephasedDataFactory
     * the day by day work carried out for a specific resource assignment.
     *
     * @param calendar calendar on which date calculations are based
-    * @param startDate assignment start date
+    * @param resourceAssignment resource assignment
     * @param data completed work data block
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, Date startDate, byte[] data)
+   public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
       LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
       if (calendar != null && data != null && data.length > 0)
       {
+         Date startDate = resourceAssignment.getStart();
+         double finishTime = MPPUtility.getInt(data, 24);
+
          int blockCount = MPPUtility.getShort(data, 0);
          double previousCumulativeWork = 0;
          TimephasedWork previousAssignment = null;
@@ -72,7 +75,19 @@ final class TimephasedDataFactory
          while (currentBlock < blockCount && index + 20 <= data.length)
          {
             double time = MPPUtility.getInt(data, index + 0);
-            time /= 80;
+
+            // If the start of this block is before the start of the assignment, or after the end of the assignment
+            // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.
+            // This deals with an issue where odd timephased data like this was causing an MPP file to be read
+            // extremely slowly.
+            if (time < 0 || time > finishTime)
+            {
+               time = 0;
+            }
+            else
+            {
+               time /= 80;
+            }
             Duration startWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
             double currentCumulativeWork = (long) MPPUtility.getDouble(data, index + 4);
@@ -119,9 +134,7 @@ final class TimephasedDataFactory
 
          if (previousAssignment != null)
          {
-            double time = MPPUtility.getInt(data, 24);
-            time /= 80;
-            Duration finishWork = Duration.getInstance(time, TimeUnit.MINUTES);
+            Duration finishWork = Duration.getInstance(finishTime / 80, TimeUnit.MINUTES);
             Date finish = calendar.getDate(startDate, finishWork, false);
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())

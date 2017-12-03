@@ -27,11 +27,12 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.junit.Test;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -40,8 +41,6 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure task custom start dates are correctly handled.
@@ -53,14 +52,7 @@ public class TaskStartsTest
     */
    @Test public void testTaskStartDates() throws Exception
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-starts"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("task-starts");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/task-starts", "task-starts"))
       {
          testTaskStartDates(file);
       }

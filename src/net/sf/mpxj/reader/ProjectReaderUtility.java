@@ -38,6 +38,7 @@ import net.sf.mpxj.phoenix.PhoenixReader;
 import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import net.sf.mpxj.projectlibre.ProjectLibreReader;
 
 /**
  * This class contains utility methods for working with ProjectReaders.
@@ -114,5 +115,6 @@ public final class ProjectReaderUtility
       READER_MAP.put("PP", AstaFileReader.class);
       READER_MAP.put("PPX", PhoenixReader.class);
       READER_MAP.put("FTS", FastTrackReader.class);
+      READER_MAP.put("POD", ProjectLibreReader.class);
    }
 }

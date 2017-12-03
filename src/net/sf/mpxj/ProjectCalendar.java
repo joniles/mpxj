@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -150,7 +149,19 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       ProjectCalendarWeek week = new ProjectCalendarWeek();
       week.setParent(this);
       m_workWeeks.add(week);
+      m_weeksSorted = false;
+      clearWorkingDateCache();
       return week;
+   }
+
+   /**
+    * Clears the list of calendar exceptions.
+    */
+   public void clearWorkWeeks()
+   {
+      m_workWeeks.clear();
+      m_weeksSorted = false;
+      clearWorkingDateCache();
    }
 
    /**
@@ -175,9 +186,21 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate);
       m_exceptions.add(bce);
+      m_expandedExceptions.clear();
       m_exceptionsSorted = false;
       clearWorkingDateCache();
-      return (bce);
+      return bce;
+   }
+
+   /**
+    * Clears the list of calendar exceptions.
+    */
+   public void clearCalendarExceptions()
+   {
+      m_exceptions.clear();
+      m_expandedExceptions.clear();
+      m_exceptionsSorted = false;
+      clearWorkingDateCache();
    }
 
    /**
@@ -187,11 +210,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public List<ProjectCalendarException> getCalendarExceptions()
    {
-      if (!m_exceptionsSorted)
-      {
-         Collections.sort(m_exceptions);
-      }
-      return (m_exceptions);
+      sortExceptions();
+      return m_exceptions;
    }
 
    /**
@@ -417,7 +437,24 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
       //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+
+      //
+      // Can we skip come computation by working forward from the
+      // last call to this method?
+      //
+      Date getDateLastStartDate = m_getDateLastStartDate;
+      double getDateLastRemainingMinutes = m_getDateLastRemainingMinutes;
+
+      m_getDateLastStartDate = startDate;
+      m_getDateLastRemainingMinutes = remainingMinutes;
+
+      if (m_getDateLastResult != null && DateHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMinutes >= getDateLastRemainingMinutes)
+      {
+         startDate = m_getDateLastResult;
+         remainingMinutes = remainingMinutes - getDateLastRemainingMinutes;
+      }
+
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
       Calendar endCal = Calendar.getInstance();
@@ -442,7 +479,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.truncate(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
 
             //
             // Move the calendar forward to the next working day
@@ -535,7 +572,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
                if (remainingMinutes > rangeMinutes)
                {
-                  remainingMinutes = NumberHelper.truncate(remainingMinutes - rangeMinutes, 2);
+                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
                }
                else
                {
@@ -562,6 +599,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
       }
 
+      m_getDateLastResult = cal.getTime();
       if (returnNextWorkStart)
       {
          updateToNextWorkStart(cal);
@@ -586,7 +624,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
       //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.truncate(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
       Calendar cal = Calendar.getInstance();
       cal.setTime(finishDate);
       Calendar startCal = Calendar.getInstance();
@@ -611,7 +649,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.truncate(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
 
             //
             // Move the calendar backward to the previous working day
@@ -709,7 +747,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
                if (remainingMinutes > rangeMinutes)
                {
-                  remainingMinutes = NumberHelper.truncate(remainingMinutes - rangeMinutes, 2);
+                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
                }
                else
                {
@@ -1049,7 +1087,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Retrieve a calendar calendar exception which applies to this date.
+    * Retrieve a calendar exception which applies to this date.
     *
     * @param date target date
     * @return calendar exception, or null if none match this date
@@ -1057,22 +1095,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendarException getException(Date date)
    {
       ProjectCalendarException exception = null;
-      if (!m_exceptions.isEmpty())
+
+      // We're working with expanded exceptions, which includes any recurring exceptions
+      // expanded into individual entries.
+      populateExpandedExceptions();
+      if (!m_expandedExceptions.isEmpty())
       {
-         if (!m_exceptionsSorted)
-         {
-            Collections.sort(m_exceptions);
-            m_exceptionsSorted = true;
-         }
+         sortExceptions();
 
          int low = 0;
-         int high = m_exceptions.size() - 1;
+         int high = m_expandedExceptions.size() - 1;
          long targetDate = date.getTime();
 
          while (low <= high)
          {
             int mid = (low + high) >>> 1;
-            ProjectCalendarException midVal = m_exceptions.get(mid);
+            ProjectCalendarException midVal = m_expandedExceptions.get(mid);
             int cmp = 0 - DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
 
             if (cmp < 0)
@@ -1100,6 +1138,56 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          exception = getParent().getException(date);
       }
       return (exception);
+   }
+
+   /**
+    * Retrieve a work week which applies to this date.
+    *
+    * @param date target date
+    * @return work week, or null if none match this date
+    */
+   public ProjectCalendarWeek getWorkWeek(Date date)
+   {
+      ProjectCalendarWeek week = null;
+      if (!m_workWeeks.isEmpty())
+      {
+         sortWorkWeeks();
+
+         int low = 0;
+         int high = m_workWeeks.size() - 1;
+         long targetDate = date.getTime();
+
+         while (low <= high)
+         {
+            int mid = (low + high) >>> 1;
+            ProjectCalendarWeek midVal = m_workWeeks.get(mid);
+            int cmp = 0 - DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
+
+            if (cmp < 0)
+            {
+               low = mid + 1;
+            }
+            else
+            {
+               if (cmp > 0)
+               {
+                  high = mid - 1;
+               }
+               else
+               {
+                  week = midVal;
+                  break;
+               }
+            }
+         }
+      }
+
+      if (week == null && getParent() != null)
+      {
+         // Check base calendar as well for a work week.
+         week = getParent().getWorkWeek(date);
+      }
+      return (week);
    }
 
    /**
@@ -1642,6 +1730,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          pw.println("   ]");
       }
 
+      if (!m_workWeeks.isEmpty())
+      {
+         pw.println("   [WorkWeeks=");
+         for (ProjectCalendarWeek week : m_workWeeks)
+         {
+            pw.println("      " + week.toString());
+         }
+         pw.println("   ]");
+      }
+
       pw.println("]");
       pw.flush();
       return (os.toString());
@@ -1747,7 +1845,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       // For now just combine the exceptions. Probably overkill (although would be more accurate) to also merge the exceptions.
       m_exceptions.addAll(taskCalendar.getCalendarExceptions());
       m_exceptions.addAll(resourceCalendar.getCalendarExceptions());
+      m_expandedExceptions.clear();
       m_exceptionsSorted = false;
+
+      m_workWeeks.addAll(taskCalendar.getWorkWeeks());
+      m_workWeeks.addAll(resourceCalendar.getWorkWeeks());
+      m_weeksSorted = false;
    }
 
    /**
@@ -1789,6 +1892,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       m_workingDateCache.clear();
       m_startTimeCache.clear();
+      m_getDateLastResult = null;
       for (ProjectCalendar calendar : m_derivedCalendars)
       {
          calendar.clearWorkingDateCache();
@@ -1808,6 +1912,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       ProjectCalendarDateRanges ranges = getException(date);
       if (ranges == null)
       {
+         ProjectCalendarWeek week = getWorkWeek(date);
+         if (week == null)
+         {
+            week = this;
+         }
+
          if (day == null)
          {
             if (cal == null)
@@ -1817,9 +1927,70 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             }
             day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          }
-         ranges = getHours(day);
+
+         ranges = week.getHours(day);
       }
       return ranges;
+   }
+
+   /**
+    * Ensure exceptions are sorted.
+    */
+   private void sortExceptions()
+   {
+      if (!m_exceptionsSorted)
+      {
+         Collections.sort(m_exceptions);
+         m_exceptionsSorted = true;
+      }
+   }
+
+   /**
+    * Populate the expanded exceptions list based on the main exceptions list.
+    * Where we find recurring exception definitions, we generate individual
+    * exceptions for each recurrence to ensure that we account for them correctly.
+    */
+   private void populateExpandedExceptions()
+   {
+      if (!m_exceptions.isEmpty() && m_expandedExceptions.isEmpty())
+      {
+         for (ProjectCalendarException exception : m_exceptions)
+         {
+            RecurringData recurring = exception.getRecurring();
+            if (recurring == null)
+            {
+               m_expandedExceptions.add(exception);
+            }
+            else
+            {
+               for (Date date : recurring.getDates())
+               {
+                  Date startDate = DateHelper.getDayStartDate(date);
+                  Date endDate = DateHelper.getDayEndDate(date);
+                  ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+                  int rangeCount = exception.getRangeCount();
+                  for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
+                  {
+                     newException.addRange(exception.getRange(rangeIndex));
+                  }
+                  m_expandedExceptions.add(newException);
+               }
+            }
+         }
+         Collections.sort(m_expandedExceptions);
+      }
+   }
+
+   /**
+    * Ensure work weeks are sorted.
+    */
+   private void sortWorkWeeks()
+   {
+      if (!m_weeksSorted)
+      {
+         Collections.sort(m_workWeeks);
+         m_weeksSorted = true;
+      }
    }
 
    /**
@@ -1845,12 +2016,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of exceptions to the base calendar.
     */
-   private List<ProjectCalendarException> m_exceptions = new LinkedList<ProjectCalendarException>();
+   private List<ProjectCalendarException> m_exceptions = new ArrayList<ProjectCalendarException>();
+
+   /**
+    * List of exceptions, including expansion of recurring exceptions.
+    */
+   private List<ProjectCalendarException> m_expandedExceptions = new ArrayList<ProjectCalendarException>();
 
    /**
     * Flag indicating if the list of exceptions is sorted.
     */
    private boolean m_exceptionsSorted;
+
+   /**
+    * Flag indicating if the list of weeks is sorted.
+    */
+   private boolean m_weeksSorted;
 
    /**
     * This resource to which this calendar is attached.
@@ -1867,6 +2048,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<DateRange, Long>();
    private Map<Date, Date> m_startTimeCache = new WeakHashMap<Date, Date>();
+   private Date m_getDateLastStartDate;
+   private double m_getDateLastRemainingMinutes;
+   private Date m_getDateLastResult;
 
    /**
     * Work week definitions.

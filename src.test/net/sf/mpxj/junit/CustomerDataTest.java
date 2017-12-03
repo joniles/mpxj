@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Test;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
@@ -40,8 +42,6 @@ import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
-
-import org.junit.Test;
 
 /**
  * The tests contained in this class exercise MPXJ
@@ -198,8 +198,10 @@ public class CustomerDataTest
    {
       String runtime = System.getProperty("java.runtime.name");
       boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
+      File[] fileList = parent.listFiles();
+      assertNotNull(fileList);
 
-      for (File file : parent.listFiles())
+      for (File file : fileList)
       {
          if (file.isDirectory())
          {

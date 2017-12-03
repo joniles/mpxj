@@ -51,6 +51,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -68,6 +69,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
@@ -728,7 +730,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Writes a list of IDF types.
+    * Writes a list of UDF types.
     *
     * @author lsong
     * @param type parent entity type
@@ -744,13 +746,92 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          FieldType fieldType = cf.getFieldType();
          if (fieldType != null && type == fieldType.getFieldTypeClass())
          {
-            UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-            udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
-            UDFAssignmentType.setUserFieldValue(udf, fieldType.getDataType(), mpxj.getCachedValue(fieldType));
-            out.add(udf);
+            Object value = mpxj.getCachedValue(fieldType);
+            if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
+            {
+               UDFAssignmentType udf = m_factory.createUDFAssignmentType();
+               udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
+               setUserFieldValue(udf, fieldType.getDataType(), value);
+               out.add(udf);
+            }
          }
       }
       return out;
+   }
+
+   /**
+    * Sets the value of a UDF.
+    *
+    * @param udf user defined field
+    * @param dataType MPXJ data type
+    * @param value field value
+    */
+   private void setUserFieldValue(UDFAssignmentType udf, DataType dataType, Object value)
+   {
+      switch (dataType)
+      {
+         case DURATION:
+         {
+            udf.setTextValue(((Duration) value).toString());
+            break;
+         }
+
+         case CURRENCY:
+         {
+            if (!(value instanceof Double))
+            {
+               value = Double.valueOf(((Number) value).doubleValue());
+            }
+            udf.setCostValue((Double) value);
+            break;
+         }
+
+         case BINARY:
+         {
+            udf.setTextValue("");
+            break;
+         }
+
+         case STRING:
+         {
+            udf.setTextValue((String) value);
+            break;
+         }
+
+         case DATE:
+         {
+            udf.setStartDateValue((Date) value);
+            break;
+         }
+
+         case NUMERIC:
+         {
+            if (!(value instanceof Double))
+            {
+               value = Double.valueOf(((Number) value).doubleValue());
+            }
+            udf.setDoubleValue((Double) value);
+            break;
+         }
+
+         case BOOLEAN:
+         {
+            udf.setIntegerValue(BooleanHelper.getBoolean((Boolean) value) ? Integer.valueOf(1) : Integer.valueOf(0));
+            break;
+         }
+
+         case INTEGER:
+         case SHORT:
+         {
+            udf.setIntegerValue(NumberHelper.getInteger((Number) value));
+            break;
+         }
+
+         default:
+         {
+            throw new RuntimeException("Unconvertible data type: " + dataType);
+         }
+      }
    }
 
    /**

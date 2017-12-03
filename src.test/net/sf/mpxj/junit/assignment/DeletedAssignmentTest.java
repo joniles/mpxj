@@ -26,16 +26,15 @@ package net.sf.mpxj.junit.assignment;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.List;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure delete resource assignments are correctly handled.
@@ -70,15 +69,7 @@ public class DeletedAssignmentTest
     */
    @Test public void testDeletedResourceAssignments() throws Exception
    {
-      File testDataDir = new File(MpxjTestData.filePath("assignment/assignment-deletion"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("deleted-resource-assignments");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("assignment/assignment-deletion", "deleted-resource-assignments"))
       {
          testDeletedResourceAssignments(file);
       }

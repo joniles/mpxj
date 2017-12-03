@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 
 /**
@@ -72,4 +73,29 @@ public class MpxjTestData
    {
       return DATA_DIR + "/" + fileName;
    }
+
+   /**
+    * Helper method used to retrieve a list of test files.
+    *
+    * @param path path to test files
+    * @param name file name prefix
+    * @return list of files
+    */
+   public static File[] listFiles(String path, final String name)
+   {
+      File testDataDir = new File(filePath(path));
+      File[] result = testDataDir.listFiles(new FileFilter()
+      {
+         @Override public boolean accept(File pathname)
+         {
+            return pathname.getName().startsWith(name);
+         }
+      });
+      if (result == null)
+      {
+         result = new File[0];
+      }
+      return result;
+   }
+
 }

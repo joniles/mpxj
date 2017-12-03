@@ -3,10 +3,14 @@
 	
 	<googleAnalyticsAccountId>UA-7202224-1</googleAnalyticsAccountId>
 	
-    <poweredBy>
-      <logo name="SourceForge.net Logo" href="http://sourceforge.net/projects/mpxj" img="http://sourceforge.net/sflogo.php?group_id=70649&amp;type=1"/>      
-    </poweredBy>
+    <poweredBy/>
 	
+	<skin>
+	    <groupId>org.apache.maven.skins</groupId>
+	    <artifactId>maven-fluido-skin</artifactId>
+	    <version>1.6</version>
+  	</skin>
+
 	<body>
     <menu name="MPXJ">
       <item name="Overview" href="/index.html" />

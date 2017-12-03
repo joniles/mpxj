@@ -391,6 +391,41 @@ public final class Duration implements Comparable<Duration>
    }
 
    /**
+    * If a and b are not null, returns a new duration of a + b.
+    * If a is null and b is not null, returns b.
+    * If a is not null and b is null, returns a.
+    * If a and b are null, returns null.
+    * If needed, b is converted to a's time unit using the project properties.
+    *
+    * @param a first duration
+    * @param b second duration
+    * @param defaults project properties containing default values
+    * @return a + b
+    */
+   public static Duration add(Duration a, Duration b, ProjectProperties defaults)
+   {
+      if (a == null && b == null)
+      {
+         return null;
+      }
+      if (a == null)
+      {
+         return b;
+      }
+      if (b == null)
+      {
+         return a;
+      }
+      TimeUnit unit = a.getUnits();
+      if (b.getUnits() != unit)
+      {
+         b = b.convertUnits(unit, defaults);
+      }
+
+      return Duration.getInstance(a.getDuration() + b.getDuration(), unit);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()

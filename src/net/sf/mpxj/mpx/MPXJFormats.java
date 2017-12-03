@@ -398,7 +398,7 @@ public final class MPXJFormats
                case YMD:
                case MDY:
                {
-                  patterns.addAll(generateDateTimePatterns(" MMM dd", timePatterns));
+                  patterns.addAll(generateDateTimePatterns("MMM dd", timePatterns));
                   break;
                }
             }
@@ -532,7 +532,7 @@ public final class MPXJFormats
 
                case MDY:
                {
-                  patterns.add("EEE MM dd ''yy");
+                  patterns.add("EEE MMM dd ''yy");
                   break;
                }
 
