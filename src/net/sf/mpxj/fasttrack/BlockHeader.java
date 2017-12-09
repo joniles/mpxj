@@ -26,6 +26,8 @@ package net.sf.mpxj.fasttrack;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import net.sf.mpxj.common.CharsetHelper;
+
 /**
  * Common header structure which appears at the start of each block containing column data.
  */
@@ -55,7 +57,7 @@ class BlockHeader
          throw new UnexpectedStructureException();
       }
 
-      m_name = new String(buffer, m_offset, nameLength, FastTrackUtility.UTF16LE);
+      m_name = new String(buffer, m_offset, nameLength, CharsetHelper.UTF16LE);
       m_offset += nameLength;
 
       m_columnType = FastTrackUtility.getShort(buffer, m_offset);

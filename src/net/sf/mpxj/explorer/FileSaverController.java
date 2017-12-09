@@ -1,8 +1,8 @@
 /*
- * file:       CharsetHelper.java
+ * file:       FileSaverController.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
- * date:       16/02/2017
+ * date:       2017-11-23
  */
 
 /*
@@ -21,22 +21,30 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.common;
-
-import java.nio.charset.Charset;
+package net.sf.mpxj.explorer;
 
 /**
- * Commonly used character sets.
+ * Implements the controller component of the FileSaver MVC.
  */
-public class CharsetHelper
+public class FileSaverController
 {
-   public static final Charset UTF8 = Charset.forName("UTF-8");
-   public static final Charset UTF16 = Charset.forName("UTF-16");
-   public static final Charset UTF16LE = Charset.forName("UTF-16LE");
-   public static final Charset CP1252 = Charset.forName("Cp1252");
-   public static final Charset MAC_ROMAN = Charset.forName("MacRoman");
-   public static final Charset CP850 = Charset.forName("Cp850");
-   public static final Charset CP437 = Charset.forName("Cp437");
-   public static final Charset GB2312 = Charset.forName("GB2312");
-   public static final Charset CP1251 = Charset.forName("Cp1251");
+   private final FileSaverModel m_model;
+
+   /**
+    * Constructor.
+    *
+    * @param model file chooser model
+    */
+   public FileSaverController(FileSaverModel model)
+   {
+      m_model = model;
+   }
+
+   /**
+    * Open the file choose dialog.
+    */
+   public void openFileSaver()
+   {
+      m_model.setShowDialog(true);
+   }
 }

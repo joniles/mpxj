@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.fasttrack;
 
-import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 
 import net.sf.mpxj.TimeUnit;
@@ -323,8 +322,6 @@ final class FastTrackUtility
    }
 
    private static final long NULL_DOUBLE = 0x3949F623D5A8A733L;
-
-   public static final Charset UTF16LE = Charset.forName("UTF-16LE");
 
    private static final char[] HEX_DIGITS =
    {

@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.0.3">
+			<action dev="joniles" type="update">Use the Windows-1252 character set as the default when reading XER files.</action>		
 		</release>		
 		<release date="20/11/2017" version="7.0.2">
 			<action dev="joniles" type="update">Further improvements to task pruning for Asta PP files.</action>

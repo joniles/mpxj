@@ -41,9 +41,9 @@ import javax.swing.tree.TreePath;
  */
 public class ProjectFilePanel extends JPanel
 {
-   private ProjectTreeModel m_treeModel;
-   private ProjectTreeController m_treeController;
-   private ProjectTreeView m_treeView;
+   private final ProjectTreeModel m_treeModel;
+   private final ProjectTreeController m_treeController;
+   private final ProjectTreeView m_treeView;
 
    /**
     * Constructor.
@@ -67,7 +67,6 @@ public class ProjectFilePanel extends JPanel
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       splitPane.setRightComponent(tabbedPane);
-      //tabbedPane.add("Hex Dump", m_hexDumpView);
 
       m_treeView.addTreeSelectionListener(new TreeSelectionListener()
       {
@@ -80,5 +79,19 @@ public class ProjectFilePanel extends JPanel
       });
 
       m_treeController.loadFile(file);
+   }
+
+   /**
+    * Saves the project file displayed in this panel.
+    *
+    * @param file target file
+    * @param type file type
+    */
+   public void saveFile(File file, String type)
+   {
+      if (file != null)
+      {
+         m_treeController.saveFile(file, type);
+      }
    }
 }

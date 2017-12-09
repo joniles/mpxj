@@ -45,6 +45,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.MultiDateFormat;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
@@ -312,7 +313,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       Charset result = m_charset;
       if (result == null)
       {
-         result = m_encoding == null ? Charset.defaultCharset() : Charset.forName(m_encoding);
+         // We default to CP1252 as this seems to be the most common encoding
+         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
       }
       return result;
    }
