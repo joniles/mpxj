@@ -24,6 +24,8 @@
 package net.sf.mpxj.ganttproject;
 
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,26 +37,34 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.ganttproject.schema.Calendars;
+import net.sf.mpxj.ganttproject.schema.DayTypes;
+import net.sf.mpxj.ganttproject.schema.DefaultWeek;
 import net.sf.mpxj.ganttproject.schema.Project;
+import net.sf.mpxj.ganttproject.schema.Resources;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttProject file.
@@ -84,10 +94,10 @@ public final class GanttProjectReader extends AbstractProjectReader
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
-         config.setAutoResourceUniqueID(true);
-         config.setAutoOutlineLevel(false);
-         config.setAutoOutlineNumber(false);
-         config.setAutoWBS(false);
+         config.setAutoResourceUniqueID(false);
+         config.setAutoOutlineLevel(true);
+         config.setAutoOutlineNumber(true);
+         config.setAutoWBS(true);
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
@@ -160,61 +170,77 @@ public final class GanttProjectReader extends AbstractProjectReader
     */
    private void readCalendars(Project ganttProject)
    {
-      //      Calendars calendars = phoenixProject.getCalendars();
-      //      if (calendars != null)
-      //      {
-      //         for (Calendar calendar : calendars.getCalendar())
-      //         {
-      //            readCalendar(calendar);
-      //         }
-      //
-      //         ProjectCalendar defaultCalendar = m_projectFile.getCalendarByName(phoenixProject.getDefaultCalendar());
-      //         if (defaultCalendar != null)
-      //         {
-      //            m_projectFile.getProjectProperties().setDefaultCalendarName(defaultCalendar.getName());
-      //         }
-      //      }
+      ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
+
+      Calendars gpCalendar = ganttProject.getCalendars();
+      setWorkingDays(mpxjCalendar, gpCalendar);
    }
 
-   /**
-    * This method extracts data for a single calendar from a Phoenix file.
-    *
-    * @param calendar calendar data
-    */
-   //   private void readCalendar(Calendar calendar)
-   //   {
-   //      // Create the calendar
-   //      ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
-   //      mpxjCalendar.setName(calendar.getName());
-   //
-   //      // Default all days to working
-   //      for (Day day : Day.values())
-   //      {
-   //         mpxjCalendar.setWorkingDay(day, true);
-   //      }
-   //
-   //      // Mark non-working days
-   //      List<NonWork> nonWorkingDays = calendar.getNonWork();
-   //      for (NonWork nonWorkingDay : nonWorkingDays)
-   //      {
-   //         // TODO: handle recurring exceptions
-   //         if (nonWorkingDay.getType().equals("internal_weekly"))
-   //         {
-   //            mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
-   //         }
-   //      }
-   //
-   //      // Add default working hours for working days
-   //      for (Day day : Day.values())
-   //      {
-   //         if (mpxjCalendar.isWorkingDay(day))
-   //         {
-   //            ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
-   //            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-   //            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
-   //         }
-   //      }
-   //   }
+   private void setWorkingDays(ProjectCalendar mpxjCalendar, Calendars gpCalendar)
+   {
+      DayTypes dayTypes = gpCalendar.getDayTypes();
+      DefaultWeek defaultWeek = dayTypes.getDefaultWeek();
+
+      mpxjCalendar.setWorkingDay(Day.MONDAY, isWorkingDay(defaultWeek.getMon()));
+      mpxjCalendar.setWorkingDay(Day.TUESDAY, isWorkingDay(defaultWeek.getTue()));
+      mpxjCalendar.setWorkingDay(Day.WEDNESDAY, isWorkingDay(defaultWeek.getWed()));
+      mpxjCalendar.setWorkingDay(Day.THURSDAY, isWorkingDay(defaultWeek.getThu()));
+      mpxjCalendar.setWorkingDay(Day.FRIDAY, isWorkingDay(defaultWeek.getFri()));
+      mpxjCalendar.setWorkingDay(Day.SATURDAY, isWorkingDay(defaultWeek.getSat()));
+      mpxjCalendar.setWorkingDay(Day.SUNDAY, isWorkingDay(defaultWeek.getSun()));
+
+      for (Day day : Day.values())
+      {
+         if (mpxjCalendar.isWorkingDay(day))
+         {
+            ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
+            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+         }
+      }
+   }
+
+   private boolean isWorkingDay(Integer value)
+   {
+      return NumberHelper.getInt(value) == 0;
+   }
+
+   private void setExceptions(ProjectCalendar mpxjCalendar, Calendars gpCalendar)
+   {
+      List<net.sf.mpxj.ganttproject.schema.Date> dates = gpCalendar.getDate();
+      for (net.sf.mpxj.ganttproject.schema.Date date : dates)
+      {
+         addException(mpxjCalendar, date);
+      }
+   }
+
+   private void addException(ProjectCalendar mpxjCalendar, net.sf.mpxj.ganttproject.schema.Date date)
+   {
+      String year = date.getYear();
+      if (year == null || year.isEmpty())
+      {
+         // In order to process recurring exceptions using MPXJ, we need a start and end date
+         // to constrain the number of dates we generate.
+         // May need to pre-process the tasks in order to calculate a start and finish date.
+         // TODO: handle recurring exceptions
+      }
+      else
+      {
+         Calendar calendar = Calendar.getInstance();
+         calendar.set(Calendar.YEAR, Integer.parseInt(year));
+         calendar.set(Calendar.MONTH, NumberHelper.getInt(date.getMonth()));
+         calendar.set(Calendar.DAY_OF_MONTH, NumberHelper.getInt(date.getDate()));
+         Date exceptionDate = calendar.getTime();
+         ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
+
+         // TODO: not sure how NEUTRAL should be handled
+         if ("WORKING_DAY".equals(date.getType()))
+         {
+            exception.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+            exception.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+         }
+      }
+   }
 
    /**
     * This method extracts resource data from a GanttProject file.
@@ -223,40 +249,26 @@ public final class GanttProjectReader extends AbstractProjectReader
     */
    private void readResources(Project ganttProject)
    {
-      //      Resources resources = phoenixProject.getResources();
-      //      if (resources != null)
-      //      {
-      //         for (net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res : resources.getResource())
-      //         {
-      //            Resource resource = readResource(res);
-      //            readAssignments(resource, res);
-      //         }
-      //      }
+      Resources resources = ganttProject.getResources();
+      for (net.sf.mpxj.ganttproject.schema.Resource gpResource : resources.getResource())
+      {
+         readResource(gpResource);
+      }
    }
 
    /**
-    * This method extracts data for a single resource from a Phoenix file.
+    * This method extracts data for a single resource from a GanttProject file.
     *
-    * @param phoenixResource resource data
-    * @return Resource instance
+    * @param gpResource resource data
     */
-   private Resource readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
+   private void readResource(net.sf.mpxj.ganttproject.schema.Resource gpResource)
    {
+      // TODO: roles, custom fields
       Resource mpxjResource = m_projectFile.addResource();
-
-      // phoenixResource.getMaximum()
-      mpxjResource.setCostPerUse(phoenixResource.getMonetarycostperuse());
-      mpxjResource.setStandardRate(new Rate(phoenixResource.getMonetaryrate(), phoenixResource.getMonetarybase()));
-      mpxjResource.setStandardRateUnits(phoenixResource.getMonetarybase());
-      mpxjResource.setName(phoenixResource.getName());
-      mpxjResource.setType(phoenixResource.getType());
-      mpxjResource.setMaterialLabel(phoenixResource.getUnitslabel());
-      //phoenixResource.getUnitsperbase()
-      mpxjResource.setGUID(phoenixResource.getUuid());
-
-      m_eventManager.fireResourceReadEvent(mpxjResource);
-
-      return mpxjResource;
+      mpxjResource.setUniqueID(gpResource.getId());
+      mpxjResource.setName(gpResource.getName());
+      mpxjResource.setEmailAddress(gpResource.getContacts());
+      mpxjResource.setNotes(gpResource.getPhone());
    }
 
    private void readTasks(Project ganttProject, ChildTaskContainer parent)
