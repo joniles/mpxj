@@ -205,7 +205,7 @@
     </xs:sequence>
   </xs:complexType>
   
-  <xs:complexType name="roles" mixed="true">
+  <xs:complexType name="roles">
     <xs:sequence>
       <xs:element type="role" name="role" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
@@ -215,8 +215,8 @@
   <xs:complexType name="role">
     <xs:simpleContent>
       <xs:extension base="xs:string">
-        <xs:attribute type="xs:int" name="id" use="optional"/>
-        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:string" name="id"/>
+        <xs:attribute type="xs:string" name="name"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

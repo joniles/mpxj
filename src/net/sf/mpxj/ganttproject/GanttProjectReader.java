@@ -76,6 +76,8 @@ import net.sf.mpxj.ganttproject.schema.DayTypes;
 import net.sf.mpxj.ganttproject.schema.DefaultWeek;
 import net.sf.mpxj.ganttproject.schema.Project;
 import net.sf.mpxj.ganttproject.schema.Resources;
+import net.sf.mpxj.ganttproject.schema.Role;
+import net.sf.mpxj.ganttproject.schema.Roles;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -270,6 +272,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    {
       Resources resources = ganttProject.getResources();
       readCustomPropertyDefinitions(resources);
+      readRoleDefinitions(ganttProject);
 
       for (net.sf.mpxj.ganttproject.schema.Resource gpResource : resources.getResource())
       {
@@ -316,6 +319,24 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   private void readRoleDefinitions(Project ganttProject)
+   {
+      m_roleDefinitions.put("Default:1", "project manager");
+
+      for (Roles roles : ganttProject.getRoles())
+      {
+         if ("Default".equals(roles.getRolesetName()))
+         {
+            continue;
+         }
+
+         for (Role role : roles.getRole())
+         {
+            m_roleDefinitions.put(role.getId(), role.getName());
+         }
+      }
+   }
+
    /**
     * This method extracts data for a single resource from a GanttProject file.
     *
@@ -331,6 +352,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       mpxjResource.setName(gpResource.getName());
       mpxjResource.setEmailAddress(gpResource.getContacts());
       mpxjResource.setText(1, gpResource.getPhone());
+      mpxjResource.setGroup(m_roleDefinitions.get(gpResource.getFunction()));
 
       net.sf.mpxj.ganttproject.schema.Rate gpRate = gpResource.getRate();
       if (gpRate != null)
@@ -427,8 +449,6 @@ public final class GanttProjectReader extends AbstractProjectReader
             mpxjResource.set(item.getKey(), item.getValue());
          }
       }
-
-      // TODO: roles
    }
 
    private void readTasks(Project ganttProject, ChildTaskContainer parent)
@@ -514,6 +534,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    private List<ProjectListener> m_projectListeners;
    private DateFormat m_localeDateFormat;
    private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
+   private Map<String, String> m_roleDefinitions = new HashMap<String, String>();
 
    private static final Map<String, CustomProperty> RESOURCE_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
    static
