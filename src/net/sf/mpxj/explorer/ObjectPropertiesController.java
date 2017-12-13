@@ -71,7 +71,7 @@ public class ObjectPropertiesController
       List<Method> methods = new ArrayList<Method>();
       for (Method method : object.getClass().getMethods())
       {
-         if (method.getParameterTypes().length == 0)
+         if ((method.getParameterTypes().length == 0) || (method.getParameterTypes().length == 1 && method.getParameterTypes()[0] == int.class))
          {
             String name = method.getName();
             if (name.startsWith("get") || name.startsWith("is"))
@@ -84,19 +84,13 @@ public class ObjectPropertiesController
       Map<String, String> map = new TreeMap<String, String>();
       for (Method method : methods)
       {
-         Object value;
-         try
+         if (method.getParameterTypes().length == 0)
          {
-            value = method.invoke(object);
+            getSingleValue(method, object, map);
          }
-         catch (Exception ex)
+         else
          {
-            value = ex.toString();
-         }
-
-         if (value != null)
-         {
-            map.put(getPropertyName(method), String.valueOf(value));
+            getMultipleValues(method, object, map);
          }
       }
 
@@ -127,6 +121,75 @@ public class ObjectPropertiesController
    }
 
    /**
+    * Retrieve a single value property.
+    *
+    * @param method method definition
+    * @param object target object
+    * @param map parameter values
+    */
+   private void getSingleValue(Method method, Object object, Map<String, String> map)
+   {
+      Object value;
+      try
+      {
+         value = method.invoke(object);
+         if (value instanceof Boolean && !((Boolean) value).booleanValue())
+         {
+            value = null;
+         }
+         if (value instanceof String && ((String) value).isEmpty())
+         {
+            value = null;
+         }
+      }
+      catch (Exception ex)
+      {
+         value = ex.toString();
+      }
+
+      if (value != null)
+      {
+         map.put(getPropertyName(method), String.valueOf(value));
+      }
+   }
+
+   /**
+    * Retrieve multiple properties.
+    *
+    * @param method method definition
+    * @param object target object
+    * @param map parameter values
+    */
+   private void getMultipleValues(Method method, Object object, Map<String, String> map)
+   {
+      try
+      {
+         int index = 1;
+         while (true)
+         {
+            Object value = method.invoke(object, Integer.valueOf(index));
+            if (value instanceof Boolean && !((Boolean) value).booleanValue())
+            {
+               value = null;
+            }
+            if (value instanceof String && ((String) value).isEmpty())
+            {
+               value = null;
+            }
+            if (value != null)
+            {
+               map.put(getPropertyName(method, index), String.valueOf(value));
+            }
+            ++index;
+         }
+      }
+      catch (Exception ex)
+      {
+         // Reached the end of the valid indexes
+      }
+   }
+
+   /**
     * Convert a method name into a property name.
     *
     * @param method target method
@@ -140,6 +203,18 @@ public class ObjectPropertiesController
          result = result.substring(3);
       }
       return result;
+   }
+
+   /**
+    * Convert a method name into a property name.
+    *
+    * @param method target method
+    * @param index property index
+    * @return property name
+    */
+   private String getPropertyName(Method method, int index)
+   {
+      return method.getName().substring(3) + index;
    }
 
 }

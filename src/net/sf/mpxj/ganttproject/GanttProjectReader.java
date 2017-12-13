@@ -24,10 +24,15 @@
 package net.sf.mpxj.ganttproject;
 
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -43,9 +48,11 @@ import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomField;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -54,17 +61,27 @@ import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.ganttproject.schema.Calendars;
+import net.sf.mpxj.ganttproject.schema.CustomPropertyDefinition;
+import net.sf.mpxj.ganttproject.schema.CustomResourceProperty;
 import net.sf.mpxj.ganttproject.schema.DayTypes;
 import net.sf.mpxj.ganttproject.schema.DefaultWeek;
 import net.sf.mpxj.ganttproject.schema.Project;
 import net.sf.mpxj.ganttproject.schema.Resources;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
+
+//
+// TODO: cleanup member data on exit
+//
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttProject file.
@@ -161,6 +178,8 @@ public final class GanttProjectReader extends AbstractProjectReader
       mpxjProperties.setName(ganttProject.getName());
       mpxjProperties.setCompany(ganttProject.getCompany());
       mpxjProperties.setDefaultDurationUnits(TimeUnit.DAYS);
+
+      m_localeDateFormat = DateFormat.getDateInstance(DateFormat.SHORT, new Locale(ganttProject.getLocale()));
    }
 
    /**
@@ -250,9 +269,50 @@ public final class GanttProjectReader extends AbstractProjectReader
    private void readResources(Project ganttProject)
    {
       Resources resources = ganttProject.getResources();
+      readCustomPropertyDefinitions(resources);
+
       for (net.sf.mpxj.ganttproject.schema.Resource gpResource : resources.getResource())
       {
          readResource(gpResource);
+      }
+   }
+
+   private void readCustomPropertyDefinitions(Resources gpResources)
+   {
+      CustomField field = m_projectFile.getCustomFields().getCustomField(ResourceField.TEXT1);
+      field.setAlias("Phone");
+
+      for (CustomPropertyDefinition definition : gpResources.getCustomPropertyDefinition())
+      {
+         //
+         // Find the next available field of the correct type.
+         //
+         String type = definition.getType();
+         FieldType fieldType = RESOURCE_PROPERTY_TYPES.get(type).getField();
+
+         //
+         // If we have run out of fields of the right type, try using a text field.
+         //
+         if (fieldType == null)
+         {
+            fieldType = RESOURCE_PROPERTY_TYPES.get("text").getField();
+         }
+
+         //
+         // If we actually have a field available, set the alias to match
+         // the name used in Ganttproject.
+         //
+         if (fieldType != null)
+         {
+            field = m_projectFile.getCustomFields().getCustomField(fieldType);
+            field.setAlias(definition.getName());
+            String defaultValue = definition.getDefaultValue();
+            if (defaultValue != null && defaultValue.isEmpty())
+            {
+               defaultValue = null;
+            }
+            m_resourcePropertyDefinitions.put(definition.getId(), new Pair<FieldType, String>(fieldType, defaultValue));
+         }
       }
    }
 
@@ -263,12 +323,112 @@ public final class GanttProjectReader extends AbstractProjectReader
     */
    private void readResource(net.sf.mpxj.ganttproject.schema.Resource gpResource)
    {
-      // TODO: roles, custom fields
+      //
+      // Read fixed fields
+      //
       Resource mpxjResource = m_projectFile.addResource();
       mpxjResource.setUniqueID(gpResource.getId());
       mpxjResource.setName(gpResource.getName());
       mpxjResource.setEmailAddress(gpResource.getContacts());
-      mpxjResource.setNotes(gpResource.getPhone());
+      mpxjResource.setText(1, gpResource.getPhone());
+
+      net.sf.mpxj.ganttproject.schema.Rate gpRate = gpResource.getRate();
+      if (gpRate != null)
+      {
+         mpxjResource.setStandardRate(new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS));
+      }
+
+      //
+      // Populate custom field default values
+      //
+      Map<FieldType, Object> customFields = new HashMap<FieldType, Object>();
+      for (Pair<FieldType, String> definition : m_resourcePropertyDefinitions.values())
+      {
+         customFields.put(definition.getFirst(), definition.getSecond());
+      }
+
+      //
+      // Update with custom field actual values
+      //
+      for (CustomResourceProperty property : gpResource.getCustomProperty())
+      {
+         Pair<FieldType, String> definition = m_resourcePropertyDefinitions.get(property.getDefinitionId());
+         if (definition != null)
+         {
+            //
+            // Retrieve the value. If it is empty, use the default.
+            //
+            String value = property.getValueAttribute();
+            if (value.isEmpty())
+            {
+               value = null;
+            }
+
+            //
+            // If we have a value,convert it to the correct type
+            //
+            if (value != null)
+            {
+               Object result;
+
+               switch (definition.getFirst().getDataType())
+               {
+                  case NUMERIC:
+                  {
+                     if (value.indexOf('.') == -1)
+                     {
+                        result = Integer.valueOf(value);
+                     }
+                     else
+                     {
+                        result = Double.valueOf(value);
+                     }
+                     break;
+                  }
+
+                  case DATE:
+                  {
+                     try
+                     {
+                        result = m_localeDateFormat.parse(value);
+                     }
+                     catch (ParseException ex)
+                     {
+                        result = null;
+                     }
+                     break;
+                  }
+
+                  case BOOLEAN:
+                  {
+                     result = Boolean.valueOf(value.equals("true"));
+                     break;
+                  }
+
+                  default:
+                  {
+                     result = value;
+                     break;
+                  }
+               }
+
+               if (result != null)
+               {
+                  customFields.put(definition.getFirst(), result);
+               }
+            }
+         }
+      }
+
+      for (Map.Entry<FieldType, Object> item : customFields.entrySet())
+      {
+         if (item.getValue() != null)
+         {
+            mpxjResource.set(item.getKey(), item.getValue());
+         }
+      }
+
+      // TODO: roles
    }
 
    private void readTasks(Project ganttProject, ChildTaskContainer parent)
@@ -352,6 +512,19 @@ public final class GanttProjectReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+   private DateFormat m_localeDateFormat;
+   private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
+
+   private static final Map<String, CustomProperty> RESOURCE_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
+   static
+   {
+      CustomProperty numeric = new CustomProperty(ResourceFieldLists.CUSTOM_NUMBER);
+      RESOURCE_PROPERTY_TYPES.put("int", numeric);
+      RESOURCE_PROPERTY_TYPES.put("double", numeric);
+      RESOURCE_PROPERTY_TYPES.put("text", new CustomProperty(ResourceFieldLists.CUSTOM_TEXT, 1));
+      RESOURCE_PROPERTY_TYPES.put("date", new CustomProperty(ResourceFieldLists.CUSTOM_DATE));
+      RESOURCE_PROPERTY_TYPES.put("boolean", new CustomProperty(ResourceFieldLists.CUSTOM_FLAG));
+   }
 
    /**
     * Cached context to minimise construction cost.

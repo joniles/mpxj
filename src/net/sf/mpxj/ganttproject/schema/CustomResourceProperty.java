@@ -16,16 +16,16 @@ import javax.xml.bind.annotation.XmlValue;
 
 
 /**
- * <p>Java class for rate complex type.
+ * <p>Java class for custom-resource-property complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="rate">
+ * &lt;complexType name="custom-resource-property">
  *   &lt;simpleContent>
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}int" />
+ *       &lt;attribute name="definition-id" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/extension>
  *   &lt;/simpleContent>
  * &lt;/complexType>
@@ -34,17 +34,17 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "rate", propOrder = {
+@XmlType(name = "custom-resource-property", propOrder = {
     "value"
 })
-public class Rate {
+public class CustomResourceProperty {
 
     @XmlValue
     protected String value;
-    @XmlAttribute(name = "name")
-    protected String name;
+    @XmlAttribute(name = "definition-id")
+    protected String definitionId;
     @XmlAttribute(name = "value")
-    protected Integer valueAttribute;
+    protected String valueAttribute;
 
     /**
      * Gets the value of the value property.
@@ -71,27 +71,27 @@ public class Rate {
     }
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the definitionId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getDefinitionId() {
+        return definitionId;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the definitionId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setDefinitionId(String value) {
+        this.definitionId = value;
     }
 
     /**
@@ -99,10 +99,10 @@ public class Rate {
      * 
      * @return
      *     possible object is
-     *     {@link Integer }
+     *     {@link String }
      *     
      */
-    public Integer getValueAttribute() {
+    public String getValueAttribute() {
         return valueAttribute;
     }
 
@@ -111,10 +111,10 @@ public class Rate {
      * 
      * @param value
      *     allowed object is
-     *     {@link Integer }
+     *     {@link String }
      *     
      */
-    public void setValueAttribute(Integer value) {
+    public void setValueAttribute(String value) {
         this.valueAttribute = value;
     }
 
