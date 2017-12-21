@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.0.3">
+		<release date="git master" version="7.0.4">
+		</release>
+		<release date="21/12/2017" version="7.0.3">
 			<action dev="joniles" type="update">Use the Windows-1252 character set as the default when reading XER files.</action>
 			<action dev="joniles" type="update">Gracefully handle POI issue 61677 to allow MPP affected MPP files to be read successfully.</action>
 			<action dev="joniles" type="update">Handle recurring calendar exceptions read from MSPDI files without an occurrence count.</action>
