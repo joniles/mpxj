@@ -26,9 +26,11 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -318,21 +320,15 @@ public class RecurringData
     */
    public Date[] getDates()
    {
-      int occurrences = NumberHelper.getInt(m_occurrences);
-      if (occurrences < 1)
-      {
-         occurrences = 1;
-      }
-
       int frequency = NumberHelper.getInt(m_frequency);
       if (frequency < 1)
       {
-
          frequency = 1;
       }
+
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(m_startDate);
-      Date[] dates = new Date[occurrences];
+      List<Date> dates = new ArrayList<Date>();
 
       switch (m_recurrenceType)
       {
@@ -361,7 +357,36 @@ public class RecurringData
          }
       }
 
-      return dates;
+      return dates.toArray(new Date[dates.size()]);
+   }
+
+   /**
+    * Determines if we need to calculate more dates.
+    * If we do not have a finish date, this method falls back on using the
+    * occurrences attribute. If we have a finish date, we'll use that instead.
+    * We're assuming that the recurring data has one or other of those values.
+    *
+    * @param calendar current date
+    * @param dates dates generated so far
+    * @return true if we should calculate another date
+    */
+   private boolean moreDates(Calendar calendar, List<Date> dates)
+   {
+      boolean result;
+      if (m_finishDate == null)
+      {
+         int occurrences = NumberHelper.getInt(m_occurrences);
+         if (occurrences < 1)
+         {
+            occurrences = 1;
+         }
+         result = dates.size() < occurrences;
+      }
+      else
+      {
+         result = calendar.getTimeInMillis() <= m_finishDate.getTime();
+      }
+      return result;
    }
 
    /**
@@ -371,11 +396,11 @@ public class RecurringData
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getDailyDates(Calendar calendar, int frequency, Date[] dates)
+   private void getDailyDates(Calendar calendar, int frequency, List<Date> dates)
    {
-      for (int index = 0; index < dates.length; index++)
+      while (moreDates(calendar, dates))
       {
-         dates[index] = calendar.getTime();
+         dates.add(calendar.getTime());
          calendar.add(Calendar.DAY_OF_YEAR, frequency);
       }
    }
@@ -387,12 +412,11 @@ public class RecurringData
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getWeeklyDates(Calendar calendar, int frequency, Date[] dates)
+   private void getWeeklyDates(Calendar calendar, int frequency, List<Date> dates)
    {
       int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
-      int occurrenceIndex = 0;
 
-      while (occurrenceIndex < dates.length)
+      while (moreDates(calendar, dates))
       {
          int offset = 0;
          for (int dayIndex = 0; dayIndex < 7; dayIndex++)
@@ -404,12 +428,11 @@ public class RecurringData
                   calendar.add(Calendar.DAY_OF_YEAR, offset);
                   offset = 0;
                }
-               dates[occurrenceIndex] = calendar.getTime();
-               ++occurrenceIndex;
-               if (occurrenceIndex == dates.length)
+               if (!moreDates(calendar, dates))
                {
                   break;
                }
+               dates.add(calendar.getTime());
             }
 
             ++offset;
@@ -436,7 +459,7 @@ public class RecurringData
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getMonthlyDates(Calendar calendar, int frequency, Date[] dates)
+   private void getMonthlyDates(Calendar calendar, int frequency, List<Date> dates)
    {
       if (m_relative)
       {
@@ -455,14 +478,13 @@ public class RecurringData
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getMonthlyRelativeDates(Calendar calendar, int frequency, Date[] dates)
+   private void getMonthlyRelativeDates(Calendar calendar, int frequency, List<Date> dates)
    {
-      int occurrenceIndex = 0;
       long startDate = calendar.getTimeInMillis();
       calendar.set(Calendar.DAY_OF_MONTH, 1);
       int dayNumber = NumberHelper.getInt(m_dayNumber);
 
-      while (occurrenceIndex < dates.length)
+      while (moreDates(calendar, dates))
       {
          if (dayNumber > 4)
          {
@@ -475,9 +497,8 @@ public class RecurringData
 
          if (calendar.getTimeInMillis() > startDate)
          {
-            dates[occurrenceIndex] = calendar.getTime();
-            ++occurrenceIndex;
-            if (occurrenceIndex == dates.length)
+            dates.add(calendar.getTime());
+            if (!moreDates(calendar, dates))
             {
                break;
             }
@@ -494,7 +515,7 @@ public class RecurringData
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getMonthlyAbsoluteDates(Calendar calendar, int frequency, Date[] dates)
+   private void getMonthlyAbsoluteDates(Calendar calendar, int frequency, List<Date> dates)
    {
       int currentDayNumber = calendar.get(Calendar.DAY_OF_MONTH);
       calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -504,7 +525,7 @@ public class RecurringData
          calendar.add(Calendar.MONTH, 1);
       }
 
-      for (int occurrenceIndex = 0; occurrenceIndex < dates.length; occurrenceIndex++)
+      while (moreDates(calendar, dates))
       {
          int useDayNumber = requiredDayNumber;
          int maxDayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -513,7 +534,7 @@ public class RecurringData
             useDayNumber = maxDayNumber;
          }
          calendar.set(Calendar.DAY_OF_MONTH, useDayNumber);
-         dates[occurrenceIndex] = calendar.getTime();
+         dates.add(calendar.getTime());
          calendar.set(Calendar.DAY_OF_MONTH, 1);
          calendar.add(Calendar.MONTH, frequency);
       }
@@ -525,7 +546,7 @@ public class RecurringData
     * @param calendar current date
     * @param dates array of start dates
     */
-   private void getYearlyDates(Calendar calendar, Date[] dates)
+   private void getYearlyDates(Calendar calendar, List<Date> dates)
    {
       if (m_relative)
       {
@@ -543,15 +564,14 @@ public class RecurringData
     * @param calendar current date
     * @param dates array of start dates
     */
-   private void getYearlyRelativeDates(Calendar calendar, Date[] dates)
+   private void getYearlyRelativeDates(Calendar calendar, List<Date> dates)
    {
-      int occurrenceIndex = 0;
       long startDate = calendar.getTimeInMillis();
       calendar.set(Calendar.DAY_OF_MONTH, 1);
       calendar.set(Calendar.MONTH, NumberHelper.getInt(m_monthNumber) - 1);
 
       int dayNumber = NumberHelper.getInt(m_dayNumber);
-      while (occurrenceIndex < dates.length)
+      while (moreDates(calendar, dates))
       {
          if (dayNumber > 4)
          {
@@ -564,9 +584,8 @@ public class RecurringData
 
          if (calendar.getTimeInMillis() > startDate)
          {
-            dates[occurrenceIndex] = calendar.getTime();
-            ++occurrenceIndex;
-            if (occurrenceIndex == dates.length)
+            dates.add(calendar.getTime());
+            if (!moreDates(calendar, dates))
             {
                break;
             }
@@ -582,14 +601,14 @@ public class RecurringData
     * @param calendar current date
     * @param dates array of start dates
     */
-   private void getYearlyAbsoluteDates(Calendar calendar, Date[] dates)
+   private void getYearlyAbsoluteDates(Calendar calendar, List<Date> dates)
    {
       long startDate = calendar.getTimeInMillis();
       calendar.set(Calendar.DAY_OF_MONTH, 1);
       calendar.set(Calendar.MONTH, NumberHelper.getInt(m_monthNumber) - 1);
       int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
 
-      for (int occurrenceIndex = 0; occurrenceIndex < dates.length; occurrenceIndex++)
+      while (moreDates(calendar, dates))
       {
          int useDayNumber = requiredDayNumber;
          int maxDayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -604,7 +623,7 @@ public class RecurringData
             calendar.add(Calendar.YEAR, 1);
          }
 
-         dates[occurrenceIndex] = calendar.getTime();
+         dates.add(calendar.getTime());
          calendar.set(Calendar.DAY_OF_MONTH, 1);
          calendar.add(Calendar.YEAR, 1);
       }

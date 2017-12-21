@@ -703,7 +703,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
       }
 
-      if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getOccurrences().intValue() != 1)
+      if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getDates().length > 1)
       {
          bce.setRecurring(rd);
       }
