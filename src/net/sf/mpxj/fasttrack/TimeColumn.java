@@ -55,12 +55,15 @@ class TimeColumn extends AbstractColumn
       m_data = new Date[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
-         int value = FastTrackUtility.getShort(rawData[index], 0);
-         cal.set(Calendar.HOUR_OF_DAY, (value / 60));
-         cal.set(Calendar.MINUTE, (value % 60));
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         m_data[index] = cal.getTime();
+         if (rawData[index].length > 1)
+         {
+            int value = FastTrackUtility.getShort(rawData[index], 0);
+            cal.set(Calendar.HOUR_OF_DAY, (value / 60));
+            cal.set(Calendar.MINUTE, (value % 60));
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            m_data[index] = cal.getTime();
+         }
       }
 
       return offset;
