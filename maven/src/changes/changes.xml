@@ -6,18 +6,19 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.0.3">
-			<action dev="joniles" type="update">Use the Windows-1252 character set as the default when reading XER files.</action>		
-		</release>		
+			<action dev="joniles" type="update">Use the Windows-1252 character set as the default when reading XER files.</action>
+			<action dev="joniles" type="update">Gracefully handle POI issue 61677 to allow MPP affected MPP files to be read successfully.</action>
+		</release>
 		<release date="20/11/2017" version="7.0.2">
 			<action dev="joniles" type="update">Further improvements to task pruning for Asta PP files.</action>
-		</release>		
+		</release>
 		<release date="20/11/2017" version="7.0.1">
 			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
 			<action dev="joniles" type="update">Populate the project's comments property when reading an MSPDI file.</action>
 			<action dev="joniles" type="fix">Ensure that tasks are not discarded when reading PP files from older Asta versions.</action>
 			<action dev="joniles" issue="319" type="fix">Wrong date ranges for split tasks</action>
 			<action dev="joniles" issue="222" type="fix">getDefaultTaskType() not returning correct default task type</action>
-		</release>	
+		</release>
 		<release date="08/11/2017" version="7.0.0">
 			<action dev="joniles" type="add">Added support for reading recurring exceptions from MPP and MSPDI files.</action>
 			<action dev="joniles" type="update">Updated RecurringTask class interface (Note: this is a breaking API change)</action>
@@ -33,7 +34,7 @@
 			<action dev="joniles" type="update">Gracefully handle corrupt MPP files.</action>
 			<action dev="joniles" type="update">Improve reading and writing slack values for MSPDI files.</action>
 			<action dev="joniles" type="update">Improve activity hierarchy extraction from Phoenix files.</action>
-			<action dev="joniles" issue="243" type="fix">MSPDI Slack values not correctly set while loading.</action>		
+			<action dev="joniles" issue="243" type="fix">MSPDI Slack values not correctly set while loading.</action>
 		</release>
 		<release date="06/10/2017" version="6.2.0">
 			<action dev="joniles" type="add">Added support for reading Work Weeks from MPP files.</action>
@@ -42,10 +43,10 @@
 			<action dev="joniles" type="update">Improve accuracy of calendar exception dates read from XER files and P6 database.</action>
 			<action dev="joniles" type="update">Only write non-default user-defined field values to a PMXML file.</action>
 			<action dev="joniles" type="update">Use Primavera P6 17.7 XML schema.</action>
-			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>									
+			<action dev="joniles" type="update">Gracefully handle corrupt document summary information in MPP files.</action>
 			<action dev="joniles" type="update">Don't duplicate exceptions when reading from an MSPDI file.</action>
 			<action dev="joniles" issue="231" type="fix">MPP DataType: Non-unique enumeration value.</action>
-			<action dev="joniles" issue="258" type="fix">Calendar Work Week missing from MPP data extraction.</action>			
+			<action dev="joniles" issue="258" type="fix">Calendar Work Week missing from MPP data extraction.</action>
 			<action dev="joniles" issue="318" type="fix">TimephasedWork Negative TotalAmount.</action>
 			<action dev="joniles" issue="320" type="fix">Date conversion fails in PrimaveraReader.</action>
 		</release>
