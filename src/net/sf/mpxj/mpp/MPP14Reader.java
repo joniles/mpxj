@@ -1831,10 +1831,26 @@ final class MPP14Reader implements MPPVariantReader
    private void processFilterData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+      FixedMeta fixedMeta;
+      FixedData fixedData;
+      VarMeta varMeta;
+      Var2Data varData;
+
+      try
+      {
+         fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+         fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      }
+
+      catch (IOException ex)
+      {
+         // I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
+         // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
+         return;
+      }
 
       //System.out.println(fixedMeta);
       //System.out.println(fixedData);
