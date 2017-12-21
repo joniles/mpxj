@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Gracefully handle POI issue 61677 to allow MPP affected MPP files to be read successfully.</action>
 			<action dev="joniles" type="update">Handle recurring calendar exceptions read from MSPDI files without an occurrence count.</action>
 			<action dev="joniles" type="update">Improve robustness of FastTrack schedule reader.</action>
+			<action dev="joniles" type="update">Avoid reading empty calendar exceptions from MPX files.</action>
 		</release>
 		<release date="20/11/2017" version="7.0.2">
 			<action dev="joniles" type="update">Further improvements to task pruning for Asta PP files.</action>

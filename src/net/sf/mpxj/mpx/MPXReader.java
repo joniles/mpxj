@@ -637,7 +637,7 @@ public final class MPXReader extends AbstractProjectReader
    }
 
    /**
-    * Get a date range that correctly handles the cae where the end time
+    * Get a date range that correctly handles the case where the end time
     * is midnight. In this instance the end time should be the start of the
     * next day.
     *
@@ -678,9 +678,24 @@ public final class MPXReader extends AbstractProjectReader
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)
       {
-         exception.addRange(new DateRange(record.getTime(3), record.getTime(4)));
-         exception.addRange(new DateRange(record.getTime(5), record.getTime(6)));
-         exception.addRange(new DateRange(record.getTime(7), record.getTime(8)));
+         addExceptionRange(exception, record.getTime(3), record.getTime(4));
+         addExceptionRange(exception, record.getTime(5), record.getTime(6));
+         addExceptionRange(exception, record.getTime(7), record.getTime(8));
+      }
+   }
+
+   /**
+    * Add a range to an exception, ensure that we don't try to add null ranges.
+    *
+    * @param exception target exception
+    * @param start exception start
+    * @param finish exception finish
+    */
+   private void addExceptionRange(ProjectCalendarException exception, Date start, Date finish)
+   {
+      if (start != null && finish != null)
+      {
+         exception.addRange(new DateRange(start, finish));
       }
    }
 
