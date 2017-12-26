@@ -191,10 +191,12 @@ public final class GanttProjectReader extends AbstractProjectReader
     */
    private void readCalendars(Project ganttProject)
    {
-      ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
+      m_mpxjCalendar = m_projectFile.addCalendar();
+      m_mpxjCalendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
       Calendars gpCalendar = ganttProject.getCalendars();
-      setWorkingDays(mpxjCalendar, gpCalendar);
+      setWorkingDays(m_mpxjCalendar, gpCalendar);
+      setExceptions(m_mpxjCalendar, gpCalendar);
    }
 
    private void setWorkingDays(ProjectCalendar mpxjCalendar, Calendars gpCalendar)
@@ -455,19 +457,38 @@ public final class GanttProjectReader extends AbstractProjectReader
    {
       for (net.sf.mpxj.ganttproject.schema.Task task : ganttProject.getTasks().getTask())
       {
-         Task mpxjTask = parent.addTask();
-         mpxjTask.setPercentageComplete(task.getComplete());
-         mpxjTask.setDuration(Duration.getInstance(NumberHelper.getDouble(task.getDuration()), TimeUnit.DAYS));
-         mpxjTask.setUniqueID(Integer.valueOf(NumberHelper.getInt(task.getId()) + 1));
-         mpxjTask.setName(task.getName());
-         mpxjTask.setStart(task.getStart());
-         mpxjTask.setConstraintDate(task.getThirdDate());
-         if (mpxjTask.getConstraintDate() != null)
-         {
-            // Can you change this in GanttProject?
-            mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
-         }
+         readTask(parent, task);
       }
+   }
+
+   private void readTask(ChildTaskContainer parent, net.sf.mpxj.ganttproject.schema.Task gpTask)
+   {
+      Task mpxjTask = parent.addTask();
+      mpxjTask.setUniqueID(Integer.valueOf(NumberHelper.getInt(gpTask.getId()) + 1));
+      mpxjTask.setName(gpTask.getName());
+      mpxjTask.setPercentageComplete(gpTask.getComplete());
+
+      Duration duration = Duration.getInstance(NumberHelper.getDouble(gpTask.getDuration()), TimeUnit.DAYS);
+      mpxjTask.setDuration(duration);
+
+      if (duration.getDuration() == 0)
+      {
+         mpxjTask.setMilestone(true);
+      }
+      else
+      {
+         mpxjTask.setStart(gpTask.getStart());
+         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration(), false));
+      }
+
+      mpxjTask.setConstraintDate(gpTask.getThirdDate());
+      if (mpxjTask.getConstraintDate() != null)
+      {
+         // TODO: you don't appear to be able to change this setting in GanttProject
+         // task.getThirdDateConstraint()
+         mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
+      }
+
    }
 
    /**
@@ -530,6 +551,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    //   }
 
    private ProjectFile m_projectFile;
+   private ProjectCalendar m_mpxjCalendar;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private DateFormat m_localeDateFormat;

@@ -124,6 +124,7 @@
     <xs:attribute type="xs:string" name="expand" use="optional"/>
     <xs:attribute type="xs:date" name="thirdDate" use="optional"/>
     <xs:attribute type="xs:int" name="thirdDate-constraint" use="optional"/>
+    <xs:attribute type="xs:int" name="priority" use="optional"/>
   </xs:complexType>
 
   <xs:complexType name="tasks">
