@@ -72,6 +72,7 @@
     </xs:sequence>
     <xs:attribute type="xs:string" name="base-id"/>
   </xs:complexType>
+  
   <xs:complexType name="taskproperty">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -83,11 +84,13 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  
   <xs:complexType name="taskproperties">
     <xs:sequence>
       <xs:element type="taskproperty" name="taskproperty" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
+  
   <xs:complexType name="depend">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -98,7 +101,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  
+    
   <xs:complexType name="custom-task-property">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -108,9 +111,11 @@
     </xs:simpleContent>
   </xs:complexType>
   
-  <xs:complexType name="task" mixed="true">
+  <xs:complexType name="task">
     <xs:sequence>
-      <xs:element type="depend" name="depend" minOccurs="0"/>
+      <xs:sequence>
+        <xs:element type="depend" name="depend" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
       <xs:element type="custom-task-property" name="customproperty" maxOccurs="unbounded" minOccurs="0"/>
       <xs:element type="task" name="task" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>

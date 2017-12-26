@@ -60,7 +60,7 @@ public final class DatatypeConverter
       DateFormat df = DATE_FORMAT.get();
       if (df == null)
       {
-         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+         df = new SimpleDateFormat("yyyy-MM-dd");
          df.setLenient(false);
       }
       return (df);

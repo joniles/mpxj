@@ -63,6 +63,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
@@ -75,6 +76,7 @@ import net.sf.mpxj.ganttproject.schema.CustomPropertyDefinition;
 import net.sf.mpxj.ganttproject.schema.CustomResourceProperty;
 import net.sf.mpxj.ganttproject.schema.DayTypes;
 import net.sf.mpxj.ganttproject.schema.DefaultWeek;
+import net.sf.mpxj.ganttproject.schema.Depend;
 import net.sf.mpxj.ganttproject.schema.Project;
 import net.sf.mpxj.ganttproject.schema.Resources;
 import net.sf.mpxj.ganttproject.schema.Role;
@@ -137,8 +139,8 @@ public final class GanttProjectReader extends AbstractProjectReader
 
          readProjectProperties(ganttProject);
          readCalendars(ganttProject);
-         readTasks(ganttProject, m_projectFile);
          readResources(ganttProject);
+         readTasks(ganttProject, m_projectFile);
          readRelationships(ganttProject);
 
          //
@@ -469,7 +471,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       mpxjTask.setName(gpTask.getName());
       mpxjTask.setPercentageComplete(gpTask.getComplete());
       mpxjTask.setPriority(getPriority(gpTask.getPriority()));
-      // TODO: url
+      mpxjTask.setHyperlink(gpTask.getWebLink());
 
       Duration duration = Duration.getInstance(NumberHelper.getDouble(gpTask.getDuration()), TimeUnit.DAYS);
       mpxjTask.setDuration(duration);
@@ -490,6 +492,14 @@ public final class GanttProjectReader extends AbstractProjectReader
          // TODO: you don't appear to be able to change this setting in GanttProject
          // task.getThirdDateConstraint()
          mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
+      }
+
+      //
+      // Process child tasks
+      //
+      for (net.sf.mpxj.ganttproject.schema.Task childTask : gpTask.getTask())
+      {
+         readTask(mpxjTask, childTask);
       }
    }
 
@@ -544,17 +554,46 @@ public final class GanttProjectReader extends AbstractProjectReader
    //      }
    //   }
 
-   /**
-    * Read task relationships from a Phoenix file.
-    *
-    * @param ganttProject Phoenix project data
-    */
-   private void readRelationships(Project ganttProject)
+   private void readRelationships(Project gpProject)
    {
-      //      for (Relationship relation : phoenixProject.getRelationships().getRelationship())
-      //      {
-      //         readRelation(relation);
-      //      }
+      for (net.sf.mpxj.ganttproject.schema.Task gpTask : gpProject.getTasks().getTask())
+      {
+         readRelationships(gpTask);
+      }
+   }
+
+   private void readRelationships(net.sf.mpxj.ganttproject.schema.Task gpTask)
+   {
+      for (Depend depend : gpTask.getDepend())
+      {
+         Task task1 = m_projectFile.getTaskByUniqueID(Integer.valueOf(NumberHelper.getInt(gpTask.getId()) + 1));
+         Task task2 = m_projectFile.getTaskByUniqueID(Integer.valueOf(NumberHelper.getInt(depend.getId()) + 1));
+         if (task1 != null && task2 != null)
+         {
+            Duration lag = Duration.getInstance(NumberHelper.getInt(depend.getDifference()), TimeUnit.DAYS);
+            task2.addPredecessor(task1, getRelationType(depend.getType()), lag);
+         }
+      }
+   }
+
+   private RelationType getRelationType(Integer type)
+   {
+      RelationType result = null;
+      if (type != null)
+      {
+         int index = NumberHelper.getInt(type);
+         if (index > 0 && index < RELATION.length)
+         {
+            result = RELATION[index];
+         }
+      }
+
+      if (result == null)
+      {
+         result = RelationType.FINISH_START;
+      }
+
+      return result;
    }
 
    /**
@@ -600,6 +639,15 @@ public final class GanttProjectReader extends AbstractProjectReader
       Priority.HIGH, // 2 - High
       Priority.LOWEST, // 3- Lowest
       Priority.HIGHEST, // 4 - Highest
+   };
+
+   static final RelationType[] RELATION =
+   {
+      null, //0
+      RelationType.START_START, // 1 - Start Start
+      RelationType.FINISH_START, // 2 - Finish Start
+      RelationType.FINISH_FINISH, // 3 - Finish Finish
+      RelationType.START_FINISH // 4 - Start Finish
    };
 
    /**
