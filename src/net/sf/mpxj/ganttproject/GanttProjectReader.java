@@ -54,6 +54,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -467,6 +468,8 @@ public final class GanttProjectReader extends AbstractProjectReader
       mpxjTask.setUniqueID(Integer.valueOf(NumberHelper.getInt(gpTask.getId()) + 1));
       mpxjTask.setName(gpTask.getName());
       mpxjTask.setPercentageComplete(gpTask.getComplete());
+      mpxjTask.setPriority(getPriority(gpTask.getPriority()));
+      // TODO: url
 
       Duration duration = Duration.getInstance(NumberHelper.getDouble(gpTask.getDuration()), TimeUnit.DAYS);
       mpxjTask.setDuration(duration);
@@ -488,7 +491,28 @@ public final class GanttProjectReader extends AbstractProjectReader
          // task.getThirdDateConstraint()
          mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
       }
+   }
 
+   private Priority getPriority(Integer priority)
+   {
+      int result;
+      if (priority == null)
+      {
+         result = Priority.MEDIUM;
+      }
+      else
+      {
+         int index = priority.intValue();
+         if (index < 0 || index >= PRIORITY.length)
+         {
+            result = Priority.MEDIUM;
+         }
+         else
+         {
+            result = PRIORITY[index];
+         }
+      }
+      return Priority.getInstance(result);
    }
 
    /**
@@ -568,6 +592,15 @@ public final class GanttProjectReader extends AbstractProjectReader
       RESOURCE_PROPERTY_TYPES.put("date", new CustomProperty(ResourceFieldLists.CUSTOM_DATE));
       RESOURCE_PROPERTY_TYPES.put("boolean", new CustomProperty(ResourceFieldLists.CUSTOM_FLAG));
    }
+
+   private static final int[] PRIORITY =
+   {
+      Priority.LOW, // 0 - Low
+      Priority.MEDIUM, // 1 - Normal
+      Priority.HIGH, // 2 - High
+      Priority.LOWEST, // 3- Lowest
+      Priority.HIGHEST, // 4 - Highest
+   };
 
    /**
     * Cached context to minimise construction cost.
