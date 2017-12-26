@@ -65,12 +65,15 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResourceFieldLists;
+import net.sf.mpxj.ganttproject.schema.Allocation;
+import net.sf.mpxj.ganttproject.schema.Allocations;
 import net.sf.mpxj.ganttproject.schema.Calendars;
 import net.sf.mpxj.ganttproject.schema.CustomPropertyDefinition;
 import net.sf.mpxj.ganttproject.schema.CustomResourceProperty;
@@ -117,6 +120,7 @@ public final class GanttProjectReader extends AbstractProjectReader
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
+         config.setAutoTaskUniqueID(false);
          config.setAutoOutlineLevel(true);
          config.setAutoOutlineNumber(true);
          config.setAutoWBS(true);
@@ -142,6 +146,7 @@ public final class GanttProjectReader extends AbstractProjectReader
          readResources(ganttProject);
          readTasks(ganttProject, m_projectFile);
          readRelationships(ganttProject);
+         readResourceAssignments(ganttProject);
 
          //
          // Ensure that the unique ID counters are correct
@@ -202,6 +207,12 @@ public final class GanttProjectReader extends AbstractProjectReader
       setExceptions(m_mpxjCalendar, gpCalendar);
    }
 
+   /**
+    * Add working days and working time to a calendar.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param gpCalendar GanttProject calendar
+    */
    private void setWorkingDays(ProjectCalendar mpxjCalendar, Calendars gpCalendar)
    {
       DayTypes dayTypes = gpCalendar.getDayTypes();
@@ -226,11 +237,23 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Returns true if the flag indicates a working day.
+    *
+    * @param value flag value
+    * @return true if this is a working day
+    */
    private boolean isWorkingDay(Integer value)
    {
       return NumberHelper.getInt(value) == 0;
    }
 
+   /**
+    * Add exceptions to the calendar.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param gpCalendar GanttProject calendar
+    */
    private void setExceptions(ProjectCalendar mpxjCalendar, Calendars gpCalendar)
    {
       List<net.sf.mpxj.ganttproject.schema.Date> dates = gpCalendar.getDate();
@@ -240,6 +263,12 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Add a single exception to a calendar.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param date calendar exception
+    */
    private void addException(ProjectCalendar mpxjCalendar, net.sf.mpxj.ganttproject.schema.Date date)
    {
       String year = date.getYear();
@@ -285,6 +314,11 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read custom property definitions for resources.
+    *
+    * @param gpResources GanttProject resources
+    */
    private void readCustomPropertyDefinitions(Resources gpResources)
    {
       CustomField field = m_projectFile.getCustomFields().getCustomField(ResourceField.TEXT1);
@@ -353,7 +387,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       // Read fixed fields
       //
       Resource mpxjResource = m_projectFile.addResource();
-      mpxjResource.setUniqueID(gpResource.getId());
+      mpxjResource.setUniqueID(Integer.valueOf(NumberHelper.getInt(gpResource.getId()) + 1));
       mpxjResource.setName(gpResource.getName());
       mpxjResource.setEmailAddress(gpResource.getContacts());
       mpxjResource.setText(1, gpResource.getPhone());
@@ -494,6 +528,8 @@ public final class GanttProjectReader extends AbstractProjectReader
          mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
       }
 
+      // TODO: read custom values
+
       //
       // Process child tasks
       //
@@ -525,35 +561,6 @@ public final class GanttProjectReader extends AbstractProjectReader
       return Priority.getInstance(result);
    }
 
-   /**
-    * Reads Phoenix resource assignments.
-    *
-    * @param mpxjResource MPXJ resource
-    * @param res Phoenix resource
-    */
-   //   private void readAssignments(Resource mpxjResource, net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res)
-   //   {
-   //      for (Assignment assignment : res.getAssignment())
-   //      {
-   //         readAssignment(mpxjResource, assignment);
-   //      }
-   //   }
-
-   /**
-    * Read a single resource assignment.
-    *
-    * @param resource MPXJ resource
-    * @param assignment Phoenix assignment
-    */
-   //   private void readAssignment(Resource resource, Assignment assignment)
-   //   {
-   //      Task task = m_activityMap.get(assignment.getActivity());
-   //      if (task != null)
-   //      {
-   //         task.addResourceAssignment(resource);
-   //      }
-   //   }
-
    private void readRelationships(Project gpProject)
    {
       for (net.sf.mpxj.ganttproject.schema.Task gpTask : gpProject.getTasks().getTask())
@@ -576,6 +583,31 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   private void readResourceAssignments(Project ganttProject)
+   {
+      Allocations allocations = ganttProject.getAllocations();
+      if (allocations != null)
+      {
+         for (Allocation allocation : allocations.getAllocation())
+         {
+            readResourceAssignment(allocation);
+         }
+      }
+   }
+
+   private void readResourceAssignment(Allocation allocation)
+   {
+      Integer taskID = Integer.valueOf(NumberHelper.getInt(allocation.getTaskId()) + 1);
+      Integer resourceID = Integer.valueOf(NumberHelper.getInt(allocation.getResourceId()) + 1);
+      Task task = m_projectFile.getTaskByUniqueID(taskID);
+      Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+      if (task != null && resource != null)
+      {
+         ResourceAssignment assignment = task.addResourceAssignment(resource);
+         assignment.setUnits(allocation.getLoad());
+      }
+   }
+
    private RelationType getRelationType(Integer type)
    {
       RelationType result = null;
@@ -595,23 +627,6 @@ public final class GanttProjectReader extends AbstractProjectReader
 
       return result;
    }
-
-   /**
-    * Read an individual Phoenix task relationship.
-    *
-    * @param relation Phoenix task relationship
-    */
-   //   private void readRelation(Relationship relation)
-   //   {
-   //      Task predecessor = m_projectFile.getTaskByUniqueID(relation.getPredecessor());
-   //      Task successor = m_projectFile.getTaskByUniqueID(relation.getSuccessor());
-   //      if (predecessor != null && successor != null)
-   //      {
-   //         Duration lag = relation.getLag();
-   //         RelationType type = relation.getType();
-   //         successor.addPredecessor(predecessor, type, lag);
-   //      }
-   //   }
 
    private ProjectFile m_projectFile;
    private ProjectCalendar m_mpxjCalendar;
