@@ -73,6 +73,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResourceFieldLists;
+import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.ganttproject.schema.Allocation;
 import net.sf.mpxj.ganttproject.schema.Allocations;
 import net.sf.mpxj.ganttproject.schema.Calendars;
@@ -85,6 +86,8 @@ import net.sf.mpxj.ganttproject.schema.Project;
 import net.sf.mpxj.ganttproject.schema.Resources;
 import net.sf.mpxj.ganttproject.schema.Role;
 import net.sf.mpxj.ganttproject.schema.Roles;
+import net.sf.mpxj.ganttproject.schema.Taskproperty;
+import net.sf.mpxj.ganttproject.schema.Tasks;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -115,6 +118,7 @@ public final class GanttProjectReader extends AbstractProjectReader
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
          m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
+         m_taskPropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
          m_roleDefinitions = new HashMap<String, String>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -178,6 +182,7 @@ public final class GanttProjectReader extends AbstractProjectReader
          m_projectListeners = null;
          m_localeDateFormat = null;
          m_resourcePropertyDefinitions = null;
+         m_taskPropertyDefinitions = null;
          m_roleDefinitions = null;
       }
    }
@@ -364,6 +369,50 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   private void readTaskCustomPropertyDefinitions(Tasks gpTasks)
+   {
+      for (Taskproperty definition : gpTasks.getTaskproperties().getTaskproperty())
+      {
+         //
+         // Ignore everything but custom values
+         //
+         if (!"custom".equals(definition.getType()))
+         {
+            continue;
+         }
+
+         //
+         // Find the next available field of the correct type.
+         //
+         String type = definition.getValuetype();
+         FieldType fieldType = TASK_PROPERTY_TYPES.get(type).getField();
+
+         //
+         // If we have run out of fields of the right type, try using a text field.
+         //
+         if (fieldType == null)
+         {
+            fieldType = TASK_PROPERTY_TYPES.get("text").getField();
+         }
+
+         //
+         // If we actually have a field available, set the alias to match
+         // the name used in GanttProject.
+         //
+         if (fieldType != null)
+         {
+            CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+            field.setAlias(definition.getName());
+            String defaultValue = definition.getDefaultvalue();
+            if (defaultValue != null && defaultValue.isEmpty())
+            {
+               defaultValue = null;
+            }
+            m_taskPropertyDefinitions.put(definition.getId(), new Pair<FieldType, String>(fieldType, defaultValue));
+         }
+      }
+   }
+
    /**
     * Read the role definitions from a GanttProject project.
     *
@@ -516,7 +565,9 @@ public final class GanttProjectReader extends AbstractProjectReader
     */
    private void readTasks(Project gpProject)
    {
-      for (net.sf.mpxj.ganttproject.schema.Task task : gpProject.getTasks().getTask())
+      Tasks tasks = gpProject.getTasks();
+      readTaskCustomPropertyDefinitions(tasks);
+      for (net.sf.mpxj.ganttproject.schema.Task task : tasks.getTask())
       {
          readTask(m_projectFile, task);
       }
@@ -700,6 +751,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    private List<ProjectListener> m_projectListeners;
    private DateFormat m_localeDateFormat;
    private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions;
+   private Map<String, Pair<FieldType, String>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
 
    private static final Map<String, CustomProperty> RESOURCE_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
@@ -711,6 +763,17 @@ public final class GanttProjectReader extends AbstractProjectReader
       RESOURCE_PROPERTY_TYPES.put("text", new CustomProperty(ResourceFieldLists.CUSTOM_TEXT, 1));
       RESOURCE_PROPERTY_TYPES.put("date", new CustomProperty(ResourceFieldLists.CUSTOM_DATE));
       RESOURCE_PROPERTY_TYPES.put("boolean", new CustomProperty(ResourceFieldLists.CUSTOM_FLAG));
+   }
+
+   private static final Map<String, CustomProperty> TASK_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
+   static
+   {
+      CustomProperty numeric = new CustomProperty(TaskFieldLists.CUSTOM_NUMBER);
+      TASK_PROPERTY_TYPES.put("int", numeric);
+      TASK_PROPERTY_TYPES.put("double", numeric);
+      TASK_PROPERTY_TYPES.put("text", new CustomProperty(TaskFieldLists.CUSTOM_TEXT));
+      TASK_PROPERTY_TYPES.put("date", new CustomProperty(TaskFieldLists.CUSTOM_DATE));
+      TASK_PROPERTY_TYPES.put("boolean", new CustomProperty(TaskFieldLists.CUSTOM_FLAG));
    }
 
    private static final int[] PRIORITY =
