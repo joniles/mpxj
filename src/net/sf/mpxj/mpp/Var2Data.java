@@ -86,7 +86,19 @@ final class Var2Data extends MPPComponent
             continue;
          }
 
-         data = readByteArray(is, size);
+         try
+         {
+            data = readByteArray(is, size);
+         }
+
+         catch (ArrayIndexOutOfBoundsException ex)
+         {
+            // POI fails to read certain MPP files with this exception:
+            // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
+            // There is no fix presently, we just have to bail out at
+            // this point - we're unable to read any more data.
+            break;
+         }
 
          m_map.put(Integer.valueOf(itemOffset), data);
          currentOffset = itemOffset + 4 + size;

@@ -136,7 +136,7 @@ public final class GanttChartView14 extends GanttChartView
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
    {
       byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
-      if (viewPropertyData != null)
+      if (viewPropertyData != null && viewPropertyData.length > 41360)
       {
          //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(viewPropertyData, false, 16, "").getBytes());
 

@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>ProjectTreeController (MPXJ 7.0.2 API)</title>
+<title>ProjectTreeController (MPXJ 7.0.3 API)</title>
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ProjectTreeController (MPXJ 7.0.2 API)";
+        parent.document.title="ProjectTreeController (MPXJ 7.0.3 API)";
     }
 //-->
 </script>
@@ -141,6 +141,13 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <div class="block">Command to load a file.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../net/sf/mpxj/explorer/ProjectTreeController.html#saveFile(java.io.File,%20java.lang.String)">saveFile</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+        <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;type)</code>
+<div class="block">Save the current file as the given type.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -185,12 +192,24 @@ extends <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?
 <a name="loadFile(java.io.File)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>loadFile</h4>
 <pre>public&nbsp;void&nbsp;loadFile(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)</pre>
 <div class="block">Command to load a file.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>file</code> - file to load</dd></dl>
+</li>
+</ul>
+<a name="saveFile(java.io.File, java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>saveFile</h4>
+<pre>public&nbsp;void&nbsp;saveFile(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+            <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;type)</pre>
+<div class="block">Save the current file as the given type.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>file</code> - target file</dd><dd><code>type</code> - file type</dd></dl>
 </li>
 </ul>
 </li>

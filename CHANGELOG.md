@@ -1,7 +1,13 @@
 # Changelog
 
-## 7.0.3 (git master)
+## 7.0.4 (git master)
+
+## 7.0.3 (21/12/2017)
 * Use the Windows-1252 character set as the default when reading XER files.
+* Gracefully handle POI issue 61677 to allow MPP affected MPP files to be read successfully.
+* Handle recurring calendar exceptions read from MSPDI files without an occurrence count.
+* Improve robustness of FastTrack schedule reader.
+* Avoid reading empty calendar exceptions from MPX files.
 
 ## 7.0.2 (20/11/2017)
 * Further improvements to task pruning for Asta PP files.
