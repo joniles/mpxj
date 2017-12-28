@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+
   <xs:complexType name="field">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -10,6 +11,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  
   <xs:complexType name="view">
     <xs:sequence>
       <xs:element type="field" name="field" maxOccurs="unbounded" minOccurs="0"/>
@@ -17,6 +19,7 @@
     <xs:attribute type="xs:string" name="zooming-state" use="optional"/>
     <xs:attribute type="xs:string" name="id" use="optional"/>
   </xs:complexType>
+  
   <xs:complexType name="day-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -24,6 +27,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  
   <xs:complexType name="default-week">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -39,6 +43,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  
   <xs:complexType name="only-show-weekends">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -46,6 +51,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  
   <xs:complexType name="day-types">
     <xs:sequence>
       <xs:element type="day-type" name="day-type" maxOccurs="unbounded" minOccurs="0"/>
@@ -55,6 +61,7 @@
       <xs:element type="xs:string" name="days"/>
     </xs:sequence>
   </xs:complexType>
+  
   <xs:complexType name="date">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -65,6 +72,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  
   <xs:complexType name="calendars">
     <xs:sequence>
       <xs:element type="day-types" name="day-types"/>

@@ -26,6 +26,7 @@ package net.sf.mpxj.ganttproject;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -79,6 +80,7 @@ import net.sf.mpxj.ganttproject.schema.Allocations;
 import net.sf.mpxj.ganttproject.schema.Calendars;
 import net.sf.mpxj.ganttproject.schema.CustomPropertyDefinition;
 import net.sf.mpxj.ganttproject.schema.CustomResourceProperty;
+import net.sf.mpxj.ganttproject.schema.CustomTaskProperty;
 import net.sf.mpxj.ganttproject.schema.DayTypes;
 import net.sf.mpxj.ganttproject.schema.DefaultWeek;
 import net.sf.mpxj.ganttproject.schema.Depend;
@@ -120,6 +122,7 @@ public final class GanttProjectReader extends AbstractProjectReader
          m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
          m_taskPropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
          m_roleDefinitions = new HashMap<String, String>();
+         m_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
@@ -369,6 +372,11 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read custom property definitions for tasks.
+    *
+    * @param gpTasks GanttProject tasks
+    */
    private void readTaskCustomPropertyDefinitions(Tasks gpTasks)
    {
       for (Taskproperty definition : gpTasks.getTaskproperties().getTaskproperty())
@@ -559,6 +567,105 @@ public final class GanttProjectReader extends AbstractProjectReader
    }
 
    /**
+    * Read custom fields for a GanttProject task.
+    *
+    * @param gpTask GanttProject task
+    * @param mpxjTask MPXJ Task instance
+    */
+   private void readTaskCustomFields(net.sf.mpxj.ganttproject.schema.Task gpTask, Task mpxjTask)
+   {
+      //
+      // Populate custom field default values
+      //
+      Map<FieldType, Object> customFields = new HashMap<FieldType, Object>();
+      for (Pair<FieldType, String> definition : m_taskPropertyDefinitions.values())
+      {
+         customFields.put(definition.getFirst(), definition.getSecond());
+      }
+
+      //
+      // Update with custom field actual values
+      //
+      for (CustomTaskProperty property : gpTask.getCustomproperty())
+      {
+         Pair<FieldType, String> definition = m_taskPropertyDefinitions.get(property.getTaskpropertyId());
+         if (definition != null)
+         {
+            //
+            // Retrieve the value. If it is empty, use the default.
+            //
+            String value = property.getValueAttribute();
+            if (value.isEmpty())
+            {
+               value = null;
+            }
+
+            //
+            // If we have a value,convert it to the correct type
+            //
+            if (value != null)
+            {
+               Object result;
+
+               switch (definition.getFirst().getDataType())
+               {
+                  case NUMERIC:
+                  {
+                     if (value.indexOf('.') == -1)
+                     {
+                        result = Integer.valueOf(value);
+                     }
+                     else
+                     {
+                        result = Double.valueOf(value);
+                     }
+                     break;
+                  }
+
+                  case DATE:
+                  {
+                     try
+                     {
+                        result = m_dateFormat.parse(value);
+                     }
+                     catch (ParseException ex)
+                     {
+                        result = null;
+                     }
+                     break;
+                  }
+
+                  case BOOLEAN:
+                  {
+                     result = Boolean.valueOf(value.equals("true"));
+                     break;
+                  }
+
+                  default:
+                  {
+                     result = value;
+                     break;
+                  }
+               }
+
+               if (result != null)
+               {
+                  customFields.put(definition.getFirst(), result);
+               }
+            }
+         }
+      }
+
+      for (Map.Entry<FieldType, Object> item : customFields.entrySet())
+      {
+         if (item.getValue() != null)
+         {
+            mpxjTask.set(item.getKey(), item.getValue());
+         }
+      }
+   }
+
+   /**
     * Read the top level tasks from GanttProject.
     *
     * @param gpProject GanttProject project
@@ -608,6 +715,8 @@ public final class GanttProjectReader extends AbstractProjectReader
          // task.getThirdDateConstraint()
          mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
       }
+
+      readTaskCustomFields(gpTask, mpxjTask);
 
       m_eventManager.fireTaskReadEvent(mpxjTask);
 
@@ -750,6 +859,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private DateFormat m_localeDateFormat;
+   private DateFormat m_dateFormat;
    private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions;
    private Map<String, Pair<FieldType, String>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
