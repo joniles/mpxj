@@ -63,6 +63,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -86,10 +87,6 @@ import net.sf.mpxj.ganttproject.schema.Role;
 import net.sf.mpxj.ganttproject.schema.Roles;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-//
-// TODO: cleanup member data on exit
-//
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttProject file.
@@ -117,6 +114,8 @@ public final class GanttProjectReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
+         m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
+         m_roleDefinitions = new HashMap<String, String>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
@@ -144,7 +143,7 @@ public final class GanttProjectReader extends AbstractProjectReader
          readProjectProperties(ganttProject);
          readCalendars(ganttProject);
          readResources(ganttProject);
-         readTasks(ganttProject, m_projectFile);
+         readTasks(ganttProject);
          readRelationships(ganttProject);
          readResourceAssignments(ganttProject);
 
@@ -174,6 +173,12 @@ public final class GanttProjectReader extends AbstractProjectReader
       finally
       {
          m_projectFile = null;
+         m_mpxjCalendar = null;
+         m_eventManager = null;
+         m_projectListeners = null;
+         m_localeDateFormat = null;
+         m_resourcePropertyDefinitions = null;
+         m_roleDefinitions = null;
       }
    }
 
@@ -205,6 +210,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       Calendars gpCalendar = ganttProject.getCalendars();
       setWorkingDays(m_mpxjCalendar, gpCalendar);
       setExceptions(m_mpxjCalendar, gpCalendar);
+      m_eventManager.fireCalendarReadEvent(m_mpxjCalendar);
    }
 
    /**
@@ -305,7 +311,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    private void readResources(Project ganttProject)
    {
       Resources resources = ganttProject.getResources();
-      readCustomPropertyDefinitions(resources);
+      readResourceCustomPropertyDefinitions(resources);
       readRoleDefinitions(ganttProject);
 
       for (net.sf.mpxj.ganttproject.schema.Resource gpResource : resources.getResource())
@@ -319,7 +325,7 @@ public final class GanttProjectReader extends AbstractProjectReader
     *
     * @param gpResources GanttProject resources
     */
-   private void readCustomPropertyDefinitions(Resources gpResources)
+   private void readResourceCustomPropertyDefinitions(Resources gpResources)
    {
       CustomField field = m_projectFile.getCustomFields().getCustomField(ResourceField.TEXT1);
       field.setAlias("Phone");
@@ -342,7 +348,7 @@ public final class GanttProjectReader extends AbstractProjectReader
 
          //
          // If we actually have a field available, set the alias to match
-         // the name used in Ganttproject.
+         // the name used in GanttProject.
          //
          if (fieldType != null)
          {
@@ -358,11 +364,16 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
-   private void readRoleDefinitions(Project ganttProject)
+   /**
+    * Read the role definitions from a GanttProject project.
+    *
+    * @param gpProject GanttProject project
+    */
+   private void readRoleDefinitions(Project gpProject)
    {
       m_roleDefinitions.put("Default:1", "project manager");
 
-      for (Roles roles : ganttProject.getRoles())
+      for (Roles roles : gpProject.getRoles())
       {
          if ("Default".equals(roles.getRolesetName()))
          {
@@ -383,9 +394,6 @@ public final class GanttProjectReader extends AbstractProjectReader
     */
    private void readResource(net.sf.mpxj.ganttproject.schema.Resource gpResource)
    {
-      //
-      // Read fixed fields
-      //
       Resource mpxjResource = m_projectFile.addResource();
       mpxjResource.setUniqueID(Integer.valueOf(NumberHelper.getInt(gpResource.getId()) + 1));
       mpxjResource.setName(gpResource.getName());
@@ -398,7 +406,18 @@ public final class GanttProjectReader extends AbstractProjectReader
       {
          mpxjResource.setStandardRate(new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS));
       }
+      readResourceCustomFields(gpResource, mpxjResource);
+      m_eventManager.fireResourceReadEvent(mpxjResource);
+   }
 
+   /**
+    * Read custom fields for a GanttProject resource.
+    *
+    * @param gpResource GanttProject resource
+    * @param mpxjResource MPXJ Resource instance
+    */
+   private void readResourceCustomFields(net.sf.mpxj.ganttproject.schema.Resource gpResource, Resource mpxjResource)
+   {
       //
       // Populate custom field default values
       //
@@ -490,17 +509,28 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
-   private void readTasks(Project ganttProject, ChildTaskContainer parent)
+   /**
+    * Read the top level tasks from GanttProject.
+    *
+    * @param gpProject GanttProject project
+    */
+   private void readTasks(Project gpProject)
    {
-      for (net.sf.mpxj.ganttproject.schema.Task task : ganttProject.getTasks().getTask())
+      for (net.sf.mpxj.ganttproject.schema.Task task : gpProject.getTasks().getTask())
       {
-         readTask(parent, task);
+         readTask(m_projectFile, task);
       }
    }
 
-   private void readTask(ChildTaskContainer parent, net.sf.mpxj.ganttproject.schema.Task gpTask)
+   /**
+    * Recursively read a task, and any sub tasks.
+    *
+    * @param mpxjParent Parent for the MPXJ tasks
+    * @param gpTask GanttProject task
+    */
+   private void readTask(ChildTaskContainer mpxjParent, net.sf.mpxj.ganttproject.schema.Task gpTask)
    {
-      Task mpxjTask = parent.addTask();
+      Task mpxjTask = mpxjParent.addTask();
       mpxjTask.setUniqueID(Integer.valueOf(NumberHelper.getInt(gpTask.getId()) + 1));
       mpxjTask.setName(gpTask.getName());
       mpxjTask.setPercentageComplete(gpTask.getComplete());
@@ -528,6 +558,8 @@ public final class GanttProjectReader extends AbstractProjectReader
          mpxjTask.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
       }
 
+      m_eventManager.fireTaskReadEvent(mpxjTask);
+
       // TODO: read custom values
 
       //
@@ -539,16 +571,22 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
-   private Priority getPriority(Integer priority)
+   /**
+    * Given a GanttProject priority value, turn this into an MPXJ Priority instance.
+    *
+    * @param gpPriority GanttProject priority
+    * @return Priority instance
+    */
+   private Priority getPriority(Integer gpPriority)
    {
       int result;
-      if (priority == null)
+      if (gpPriority == null)
       {
          result = Priority.MEDIUM;
       }
       else
       {
-         int index = priority.intValue();
+         int index = gpPriority.intValue();
          if (index < 0 || index >= PRIORITY.length)
          {
             result = Priority.MEDIUM;
@@ -561,6 +599,11 @@ public final class GanttProjectReader extends AbstractProjectReader
       return Priority.getInstance(result);
    }
 
+   /**
+    * Read all task relationships from a GanttProject.
+    *
+    * @param gpProject GanttProject project
+    */
    private void readRelationships(Project gpProject)
    {
       for (net.sf.mpxj.ganttproject.schema.Task gpTask : gpProject.getTasks().getTask())
@@ -569,6 +612,11 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read the relationships for an individual GanttProject task.
+    *
+    * @param gpTask GanttProject task
+    */
    private void readRelationships(net.sf.mpxj.ganttproject.schema.Task gpTask)
    {
       for (Depend depend : gpTask.getDepend())
@@ -578,42 +626,24 @@ public final class GanttProjectReader extends AbstractProjectReader
          if (task1 != null && task2 != null)
          {
             Duration lag = Duration.getInstance(NumberHelper.getInt(depend.getDifference()), TimeUnit.DAYS);
-            task2.addPredecessor(task1, getRelationType(depend.getType()), lag);
+            Relation relation = task2.addPredecessor(task1, getRelationType(depend.getType()), lag);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
 
-   private void readResourceAssignments(Project ganttProject)
-   {
-      Allocations allocations = ganttProject.getAllocations();
-      if (allocations != null)
-      {
-         for (Allocation allocation : allocations.getAllocation())
-         {
-            readResourceAssignment(allocation);
-         }
-      }
-   }
-
-   private void readResourceAssignment(Allocation allocation)
-   {
-      Integer taskID = Integer.valueOf(NumberHelper.getInt(allocation.getTaskId()) + 1);
-      Integer resourceID = Integer.valueOf(NumberHelper.getInt(allocation.getResourceId()) + 1);
-      Task task = m_projectFile.getTaskByUniqueID(taskID);
-      Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
-      if (task != null && resource != null)
-      {
-         ResourceAssignment assignment = task.addResourceAssignment(resource);
-         assignment.setUnits(allocation.getLoad());
-      }
-   }
-
-   private RelationType getRelationType(Integer type)
+   /**
+    * Convert a GanttProject task relationship type into an MPXJ RelationType instance.
+    *
+    * @param gpType GanttProject task relation type
+    * @return RelationType instance
+    */
+   private RelationType getRelationType(Integer gpType)
    {
       RelationType result = null;
-      if (type != null)
+      if (gpType != null)
       {
-         int index = NumberHelper.getInt(type);
+         int index = NumberHelper.getInt(gpType);
          if (index > 0 && index < RELATION.length)
          {
             result = RELATION[index];
@@ -628,13 +658,49 @@ public final class GanttProjectReader extends AbstractProjectReader
       return result;
    }
 
+   /**
+    * Read all resource assignments from a GanttProject project.
+    *
+    * @param gpProject GanttProject project
+    */
+   private void readResourceAssignments(Project gpProject)
+   {
+      Allocations allocations = gpProject.getAllocations();
+      if (allocations != null)
+      {
+         for (Allocation allocation : allocations.getAllocation())
+         {
+            readResourceAssignment(allocation);
+         }
+      }
+   }
+
+   /**
+    * Read an individual GanttProject resource assignment.
+    *
+    * @param gpAllocation GanttProject resource assignment.
+    */
+   private void readResourceAssignment(Allocation gpAllocation)
+   {
+      Integer taskID = Integer.valueOf(NumberHelper.getInt(gpAllocation.getTaskId()) + 1);
+      Integer resourceID = Integer.valueOf(NumberHelper.getInt(gpAllocation.getResourceId()) + 1);
+      Task task = m_projectFile.getTaskByUniqueID(taskID);
+      Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+      if (task != null && resource != null)
+      {
+         ResourceAssignment mpxjAssignment = task.addResourceAssignment(resource);
+         mpxjAssignment.setUnits(gpAllocation.getLoad());
+         m_eventManager.fireAssignmentReadEvent(mpxjAssignment);
+      }
+   }
+
    private ProjectFile m_projectFile;
    private ProjectCalendar m_mpxjCalendar;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private DateFormat m_localeDateFormat;
-   private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
-   private Map<String, String> m_roleDefinitions = new HashMap<String, String>();
+   private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions;
+   private Map<String, String> m_roleDefinitions;
 
    private static final Map<String, CustomProperty> RESOURCE_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
    static
