@@ -33,7 +33,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -73,8 +72,8 @@ public class ProjectFilePanel extends JPanel
          @Override public void valueChanged(TreeSelectionEvent e)
          {
             TreePath path = e.getPath();
-            DefaultMutableTreeNode component = (DefaultMutableTreeNode) path.getLastPathComponent();
-            tabbedPane.add(component.toString(), new ObjectPropertiesPanel(component.getUserObject()));
+            MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
+            tabbedPane.add(component.toString(), new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods()));
          }
       });
 

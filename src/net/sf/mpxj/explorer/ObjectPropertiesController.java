@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.table.DefaultTableModel;
@@ -54,19 +55,21 @@ public class ObjectPropertiesController
     * Populate the model with the object's properties.
     *
     * @param object object whose properties we're displaying
+    * @param excludedMethods method names to exclude
     */
-   public void loadObject(Object object)
+   public void loadObject(Object object, Set<String> excludedMethods)
    {
-      m_model.setTableModel(createTableModel(object));
+      m_model.setTableModel(createTableModel(object, excludedMethods));
    }
 
    /**
     * Create a table model from an object's properties.
     *
     * @param object target object
+    * @param excludedMethods method names to exclude
     * @return table model
     */
-   private TableModel createTableModel(Object object)
+   private TableModel createTableModel(Object object, Set<String> excludedMethods)
    {
       List<Method> methods = new ArrayList<Method>();
       for (Method method : object.getClass().getMethods())
@@ -74,7 +77,7 @@ public class ObjectPropertiesController
          if ((method.getParameterTypes().length == 0) || (method.getParameterTypes().length == 1 && method.getParameterTypes()[0] == int.class))
          {
             String name = method.getName();
-            if (name.startsWith("get") || name.startsWith("is"))
+            if (!excludedMethods.contains(name) && (name.startsWith("get") || name.startsWith("is")))
             {
                methods.add(method);
             }

@@ -24,12 +24,12 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -95,9 +95,9 @@ public class ProjectTreeController
          throw new RuntimeException(ex);
       }
 
-      DefaultMutableTreeNode projectNode = new DefaultMutableTreeNode(m_projectFile);
+      MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile);
 
-      DefaultMutableTreeNode propertiesNode = new DefaultMutableTreeNode(m_projectFile.getProjectProperties())
+      MpxjTreeNode propertiesNode = new MpxjTreeNode(m_projectFile.getProjectProperties())
       {
          @Override public String toString()
          {
@@ -107,23 +107,23 @@ public class ProjectTreeController
 
       projectNode.add(propertiesNode);
 
-      DefaultMutableTreeNode tasksFolder = new DefaultMutableTreeNode("Tasks");
+      MpxjTreeNode tasksFolder = new MpxjTreeNode("Tasks");
       projectNode.add(tasksFolder);
       addTasks(tasksFolder, m_projectFile);
 
-      DefaultMutableTreeNode resourcesFolder = new DefaultMutableTreeNode("Resources");
+      MpxjTreeNode resourcesFolder = new MpxjTreeNode("Resources");
       projectNode.add(resourcesFolder);
       addResources(resourcesFolder, m_projectFile);
 
-      DefaultMutableTreeNode assignmentsFolder = new DefaultMutableTreeNode("Assignments");
+      MpxjTreeNode assignmentsFolder = new MpxjTreeNode("Assignments");
       projectNode.add(assignmentsFolder);
       addAssignments(assignmentsFolder, m_projectFile);
 
-      DefaultMutableTreeNode calendarsFolder = new DefaultMutableTreeNode("Calendars");
+      MpxjTreeNode calendarsFolder = new MpxjTreeNode("Calendars");
       projectNode.add(calendarsFolder);
       addCalendars(calendarsFolder, m_projectFile);
 
-      DefaultMutableTreeNode groupsFolder = new DefaultMutableTreeNode("Groups");
+      MpxjTreeNode groupsFolder = new MpxjTreeNode("Groups");
       projectNode.add(groupsFolder);
       addGroups(groupsFolder, m_projectFile);
 
@@ -136,12 +136,12 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param parent parent task container
     */
-   private void addTasks(DefaultMutableTreeNode parentNode, ChildTaskContainer parent)
+   private void addTasks(MpxjTreeNode parentNode, ChildTaskContainer parent)
    {
       for (Task task : parent.getChildTasks())
       {
          final Task t = task;
-         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(task)
+         MpxjTreeNode childNode = new MpxjTreeNode(task)
          {
             @Override public String toString()
             {
@@ -159,12 +159,12 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param file resource container
     */
-   private void addResources(DefaultMutableTreeNode parentNode, ProjectFile file)
+   private void addResources(MpxjTreeNode parentNode, ProjectFile file)
    {
       for (Resource resource : file.getAllResources())
       {
          final Resource r = resource;
-         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(resource)
+         MpxjTreeNode childNode = new MpxjTreeNode(resource)
          {
             @Override public String toString()
             {
@@ -181,20 +181,53 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param file calendar container
     */
-   private void addCalendars(DefaultMutableTreeNode parentNode, ProjectFile file)
+   private void addCalendars(MpxjTreeNode parentNode, ProjectFile file)
    {
       for (ProjectCalendar calendar : file.getCalendars())
       {
-         final ProjectCalendar c = calendar;
-         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(calendar)
-         {
-            @Override public String toString()
-            {
-               return c.getName();
-            }
-         };
-         parentNode.add(childNode);
+         addCalendar(parentNode, calendar);
       }
+   }
+
+   /**
+    * Add a calendar node.
+    *
+    * @param parentNode parent node
+    * @param calendar calendar
+    */
+   private void addCalendar(MpxjTreeNode parentNode, final ProjectCalendar calendar)
+   {
+      MpxjTreeNode childNode = new MpxjTreeNode(calendar, Arrays.asList("getCalendarExceptions"))
+      {
+         @Override public String toString()
+         {
+            return calendar.getName();
+         }
+      };
+      parentNode.add(childNode);
+
+      for (Day day : Day.values())
+      {
+         addCalendarDay(childNode, day);
+      }
+   }
+
+   /**
+    * Add a calendar day node.
+    *
+    * @param parentNode parent node
+    * @param day calendar day
+    */
+   private void addCalendarDay(MpxjTreeNode parentNode, final Day day)
+   {
+      MpxjTreeNode dayNode = new MpxjTreeNode(day)
+      {
+         @Override public String toString()
+         {
+            return day.name();
+         }
+      };
+      parentNode.add(dayNode);
    }
 
    /**
@@ -203,12 +236,12 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param file group container
     */
-   private void addGroups(DefaultMutableTreeNode parentNode, ProjectFile file)
+   private void addGroups(MpxjTreeNode parentNode, ProjectFile file)
    {
       for (Group group : file.getGroups())
       {
          final Group g = group;
-         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(group)
+         MpxjTreeNode childNode = new MpxjTreeNode(group)
          {
             @Override public String toString()
             {
@@ -225,12 +258,12 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param file assignments container
     */
-   private void addAssignments(DefaultMutableTreeNode parentNode, ProjectFile file)
+   private void addAssignments(MpxjTreeNode parentNode, ProjectFile file)
    {
       for (ResourceAssignment assignment : file.getAllResourceAssignments())
       {
          final ResourceAssignment a = assignment;
-         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(a)
+         MpxjTreeNode childNode = new MpxjTreeNode(a)
          {
             @Override public String toString()
             {
