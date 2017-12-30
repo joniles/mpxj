@@ -24,14 +24,18 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDateRanges;
+import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -60,6 +64,8 @@ public class ProjectTreeController
       WRITER_MAP.put("JSON", JsonWriter.class);
       WRITER_MAP.put("SDEF", SDEFWriter.class);
    }
+
+   static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
    private final ProjectTreeModel m_model;
    private ProjectFile m_projectFile;
@@ -197,18 +203,29 @@ public class ProjectTreeController
     */
    private void addCalendar(MpxjTreeNode parentNode, final ProjectCalendar calendar)
    {
-      MpxjTreeNode childNode = new MpxjTreeNode(calendar, Arrays.asList("getCalendarExceptions"))
+      MpxjTreeNode calendarNode = new MpxjTreeNode(calendar, Arrays.asList("getCalendarExceptions"))
       {
          @Override public String toString()
          {
             return calendar.getName();
          }
       };
-      parentNode.add(childNode);
+      parentNode.add(calendarNode);
+
+      MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
+      calendarNode.add(daysFolder);
 
       for (Day day : Day.values())
       {
-         addCalendarDay(childNode, day);
+         addCalendarDay(daysFolder, calendar, day);
+      }
+
+      MpxjTreeNode exceptionsFolder = new MpxjTreeNode("Exceptions");
+      calendarNode.add(exceptionsFolder);
+
+      for (ProjectCalendarException exception : calendar.getCalendarExceptions())
+      {
+         addCalendarException(exceptionsFolder, exception);
       }
    }
 
@@ -218,7 +235,7 @@ public class ProjectTreeController
     * @param parentNode parent node
     * @param day calendar day
     */
-   private void addCalendarDay(MpxjTreeNode parentNode, final Day day)
+   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendar calendar, final Day day)
    {
       MpxjTreeNode dayNode = new MpxjTreeNode(day)
       {
@@ -228,6 +245,37 @@ public class ProjectTreeController
          }
       };
       parentNode.add(dayNode);
+      addHours(dayNode, calendar.getHours(day));
+   }
+
+   private void addHours(MpxjTreeNode parentNode, ProjectCalendarDateRanges hours)
+   {
+      for (DateRange range : hours)
+      {
+         final DateRange r = range;
+         MpxjTreeNode rangeNode = new MpxjTreeNode(range)
+         {
+            @Override public String toString()
+            {
+               return TIME_FORMAT.format(r.getStart()) + " - " + TIME_FORMAT.format(r.getEnd());
+            }
+         };
+         parentNode.add(rangeNode);
+      }
+   }
+
+   private void addCalendarException(MpxjTreeNode parentNode, ProjectCalendarException exception)
+   {
+      final ProjectCalendarException e = exception;
+      MpxjTreeNode exceptionNode = new MpxjTreeNode(exception)
+      {
+         @Override public String toString()
+         {
+            return e.toString();
+         }
+      };
+      parentNode.add(exceptionNode);
+      addHours(exceptionNode, exception);
    }
 
    /**
