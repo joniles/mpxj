@@ -28,12 +28,15 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Filter;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -70,7 +73,7 @@ public class ProjectTreeController
    final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
    final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-   private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars");
+   private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties");
    private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions");
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
@@ -109,7 +112,13 @@ public class ProjectTreeController
          throw new RuntimeException(ex);
       }
 
-      MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile, FILE_EXCLUDED_METHODS);
+      MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile, FILE_EXCLUDED_METHODS)
+      {
+         @Override public String toString()
+         {
+            return "Project";
+         }
+      };
 
       MpxjTreeNode propertiesNode = new MpxjTreeNode(m_projectFile.getProjectProperties())
       {
@@ -140,6 +149,18 @@ public class ProjectTreeController
       MpxjTreeNode groupsFolder = new MpxjTreeNode("Groups");
       projectNode.add(groupsFolder);
       addGroups(groupsFolder, m_projectFile);
+
+      MpxjTreeNode customFieldsFolder = new MpxjTreeNode("Custom Fields");
+      projectNode.add(customFieldsFolder);
+      addCustomFields(customFieldsFolder, m_projectFile);
+
+      MpxjTreeNode taskFiltersFolder = new MpxjTreeNode("Task Filters");
+      projectNode.add(taskFiltersFolder);
+      addFilters(taskFiltersFolder, m_projectFile.getFilters().getTaskFilters());
+
+      MpxjTreeNode resourceFiltersFolder = new MpxjTreeNode("Resource Filters");
+      projectNode.add(resourceFiltersFolder);
+      addFilters(resourceFiltersFolder, m_projectFile.getFilters().getResourceFilters());
 
       m_model.setRoot(projectNode);
    }
@@ -314,6 +335,50 @@ public class ProjectTreeController
             @Override public String toString()
             {
                return g.getName();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add custom fields to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file custom fields container
+    */
+   private void addCustomFields(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      for (CustomField field : file.getCustomFields())
+      {
+         final CustomField c = field;
+         MpxjTreeNode childNode = new MpxjTreeNode(field)
+         {
+            @Override public String toString()
+            {
+               return c.getFieldType().toString();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add filters to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param filters list of filters
+    */
+   private void addFilters(MpxjTreeNode parentNode, List<Filter> filters)
+   {
+      for (Filter field : filters)
+      {
+         final Filter f = field;
+         MpxjTreeNode childNode = new MpxjTreeNode(field)
+         {
+            @Override public String toString()
+            {
+               return f.getName();
             }
          };
          parentNode.add(childNode);
