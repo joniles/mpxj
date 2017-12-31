@@ -45,6 +45,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
@@ -73,7 +74,7 @@ public class ProjectTreeController
    final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
    final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-   private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties");
+   private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews");
    private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions");
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
@@ -120,6 +121,15 @@ public class ProjectTreeController
          }
       };
 
+      MpxjTreeNode configNode = new MpxjTreeNode(m_projectFile.getProjectConfig())
+      {
+         @Override public String toString()
+         {
+            return "MPXJ Configuration";
+         }
+      };
+      projectNode.add(configNode);
+
       MpxjTreeNode propertiesNode = new MpxjTreeNode(m_projectFile.getProjectProperties())
       {
          @Override public String toString()
@@ -127,7 +137,6 @@ public class ProjectTreeController
             return "Properties";
          }
       };
-
       projectNode.add(propertiesNode);
 
       MpxjTreeNode tasksFolder = new MpxjTreeNode("Tasks");
@@ -154,13 +163,20 @@ public class ProjectTreeController
       projectNode.add(customFieldsFolder);
       addCustomFields(customFieldsFolder, m_projectFile);
 
+      MpxjTreeNode filtersFolder = new MpxjTreeNode("Filters");
+      projectNode.add(filtersFolder);
+
       MpxjTreeNode taskFiltersFolder = new MpxjTreeNode("Task Filters");
-      projectNode.add(taskFiltersFolder);
+      filtersFolder.add(taskFiltersFolder);
       addFilters(taskFiltersFolder, m_projectFile.getFilters().getTaskFilters());
 
       MpxjTreeNode resourceFiltersFolder = new MpxjTreeNode("Resource Filters");
-      projectNode.add(resourceFiltersFolder);
+      filtersFolder.add(resourceFiltersFolder);
       addFilters(resourceFiltersFolder, m_projectFile.getFilters().getResourceFilters());
+
+      MpxjTreeNode viewsFolder = new MpxjTreeNode("Views");
+      projectNode.add(viewsFolder);
+      addViews(viewsFolder, m_projectFile);
 
       m_model.setRoot(projectNode);
    }
@@ -357,6 +373,28 @@ public class ProjectTreeController
             @Override public String toString()
             {
                return c.getFieldType().toString();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add views to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file views container
+    */
+   private void addViews(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      for (View view : file.getViews())
+      {
+         final View v = view;
+         MpxjTreeNode childNode = new MpxjTreeNode(view)
+         {
+            @Override public String toString()
+            {
+               return v.getName();
             }
          };
          parentNode.add(childNode);

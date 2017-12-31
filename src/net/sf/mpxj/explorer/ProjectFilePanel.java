@@ -78,14 +78,17 @@ public class ProjectFilePanel extends JPanel
          {
             TreePath path = e.getPath();
             MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
-            ObjectPropertiesPanel panel = m_openTabs.get(component);
-            if (panel == null)
+            if (!(component.getUserObject() instanceof String))
             {
-               panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
-               tabbedPane.add(component.toString(), panel);
-               m_openTabs.put(component, panel);
+               ObjectPropertiesPanel panel = m_openTabs.get(component);
+               if (panel == null)
+               {
+                  panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
+                  tabbedPane.add(component.toString(), panel);
+                  m_openTabs.put(component, panel);
+               }
+               tabbedPane.setSelectedComponent(panel);
             }
-            tabbedPane.setSelectedComponent(panel);
          }
       });
 
