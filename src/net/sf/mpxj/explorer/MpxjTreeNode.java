@@ -25,7 +25,6 @@ package net.sf.mpxj.explorer;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -51,7 +50,7 @@ public class MpxjTreeNode extends DefaultMutableTreeNode
     */
    public MpxjTreeNode(Object object)
    {
-      this(object, null);
+      this(object, DEFAULT_EXCLUDED_METHODS);
    }
 
    /**
@@ -60,13 +59,10 @@ public class MpxjTreeNode extends DefaultMutableTreeNode
     * @param object tree node object
     * @param excludedMethods set of excluded method names
     */
-   public MpxjTreeNode(Object object, List<String> excludedMethods)
+   public MpxjTreeNode(Object object, Set<String> excludedMethods)
    {
       super(object);
-      if (excludedMethods != null)
-      {
-         m_excludedMethods.addAll(excludedMethods);
-      }
+      m_excludedMethods = excludedMethods;
    }
 
    /**
@@ -79,7 +75,8 @@ public class MpxjTreeNode extends DefaultMutableTreeNode
       return m_excludedMethods;
    }
 
-   private Set<String> m_excludedMethods = new HashSet<String>(DEFAULT_EXCLUDED_METHODS);
+   private Set<String> m_excludedMethods;
 
-   private static final List<String> DEFAULT_EXCLUDED_METHODS = Arrays.asList("getClass", "getParentFile", "getInstance");
+   public static final Set<String> DEFAULT_EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getClass", "getParentFile", "getInstance"));
+
 }

@@ -27,7 +27,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.DateRange;
@@ -65,7 +67,13 @@ public class ProjectTreeController
       WRITER_MAP.put("SDEF", SDEFWriter.class);
    }
 
-   static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+   final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
+   final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+   private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars");
+   private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions");
+   private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar");
+   private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
 
    private final ProjectTreeModel m_model;
    private ProjectFile m_projectFile;
@@ -101,7 +109,7 @@ public class ProjectTreeController
          throw new RuntimeException(ex);
       }
 
-      MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile);
+      MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile, FILE_EXCLUDED_METHODS);
 
       MpxjTreeNode propertiesNode = new MpxjTreeNode(m_projectFile.getProjectProperties())
       {
@@ -147,7 +155,7 @@ public class ProjectTreeController
       for (Task task : parent.getChildTasks())
       {
          final Task t = task;
-         MpxjTreeNode childNode = new MpxjTreeNode(task)
+         MpxjTreeNode childNode = new MpxjTreeNode(task, TASK_EXCLUDED_METHODS)
          {
             @Override public String toString()
             {
@@ -203,7 +211,7 @@ public class ProjectTreeController
     */
    private void addCalendar(MpxjTreeNode parentNode, final ProjectCalendar calendar)
    {
-      MpxjTreeNode calendarNode = new MpxjTreeNode(calendar, Arrays.asList("getCalendarExceptions"))
+      MpxjTreeNode calendarNode = new MpxjTreeNode(calendar, CALENDAR_EXCLUDED_METHODS)
       {
          @Override public String toString()
          {
@@ -233,6 +241,7 @@ public class ProjectTreeController
     * Add a calendar day node.
     *
     * @param parentNode parent node
+    * @param calendar ProjectCalendar instance
     * @param day calendar day
     */
    private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendar calendar, final Day day)
@@ -248,6 +257,12 @@ public class ProjectTreeController
       addHours(dayNode, calendar.getHours(day));
    }
 
+   /**
+    * Add hours to a parent object.
+    *
+    * @param parentNode parent node
+    * @param hours list of ranges
+    */
    private void addHours(MpxjTreeNode parentNode, ProjectCalendarDateRanges hours)
    {
       for (DateRange range : hours)
@@ -257,21 +272,26 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return TIME_FORMAT.format(r.getStart()) + " - " + TIME_FORMAT.format(r.getEnd());
+               return m_timeFormat.format(r.getStart()) + " - " + m_timeFormat.format(r.getEnd());
             }
          };
          parentNode.add(rangeNode);
       }
    }
 
-   private void addCalendarException(MpxjTreeNode parentNode, ProjectCalendarException exception)
+   /**
+    * Add an exception to a calendar.
+    *
+    * @param parentNode parent node
+    * @param exception calendar exceptions
+    */
+   private void addCalendarException(MpxjTreeNode parentNode, final ProjectCalendarException exception)
    {
-      final ProjectCalendarException e = exception;
-      MpxjTreeNode exceptionNode = new MpxjTreeNode(exception)
+      MpxjTreeNode exceptionNode = new MpxjTreeNode(exception, CALENDAR_EXCEPTION_EXCLUDED_METHODS)
       {
          @Override public String toString()
          {
-            return e.toString();
+            return m_dateFormat.format(exception.getFromDate());
          }
       };
       parentNode.add(exceptionNode);
@@ -352,4 +372,16 @@ public class ProjectTreeController
       }
    }
 
+   /**
+    * Generates a set of excluded method names.
+    *
+    * @param methodNames method names
+    * @return set of method names
+    */
+   private static Set<String> excludedMethods(String... methodNames)
+   {
+      Set<String> set = new HashSet<String>(MpxjTreeNode.DEFAULT_EXCLUDED_METHODS);
+      set.addAll(Arrays.asList(methodNames));
+      return set;
+   }
 }

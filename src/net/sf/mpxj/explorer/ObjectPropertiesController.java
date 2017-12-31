@@ -34,6 +34,8 @@ import java.util.TreeMap;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import net.sf.mpxj.Duration;
+
 /**
  * Implements the controller component of the ObjectProperties MVC.
  */
@@ -124,6 +126,38 @@ public class ObjectPropertiesController
    }
 
    /**
+    * Replace default values will null, allowing them to be ignored.
+    *
+    * @param value value to test
+    * @return filtered value
+    */
+   private Object filterValue(Object value)
+   {
+      if (value instanceof Boolean && !((Boolean) value).booleanValue())
+      {
+         value = null;
+      }
+      if (value instanceof String && ((String) value).isEmpty())
+      {
+         value = null;
+      }
+      if (value instanceof Double && ((Double) value).doubleValue() == 0.0)
+      {
+         value = null;
+      }
+      if (value instanceof Integer && ((Integer) value).intValue() == 0)
+      {
+         value = null;
+      }
+      if (value instanceof Duration && ((Duration) value).getDuration() == 0.0)
+      {
+         value = null;
+      }
+
+      return value;
+   }
+
+   /**
     * Retrieve a single value property.
     *
     * @param method method definition
@@ -135,15 +169,7 @@ public class ObjectPropertiesController
       Object value;
       try
       {
-         value = method.invoke(object);
-         if (value instanceof Boolean && !((Boolean) value).booleanValue())
-         {
-            value = null;
-         }
-         if (value instanceof String && ((String) value).isEmpty())
-         {
-            value = null;
-         }
+         value = filterValue(method.invoke(object));
       }
       catch (Exception ex)
       {
@@ -170,15 +196,7 @@ public class ObjectPropertiesController
          int index = 1;
          while (true)
          {
-            Object value = method.invoke(object, Integer.valueOf(index));
-            if (value instanceof Boolean && !((Boolean) value).booleanValue())
-            {
-               value = null;
-            }
-            if (value instanceof String && ((String) value).isEmpty())
-            {
-               value = null;
-            }
+            Object value = filterValue(method.invoke(object, Integer.valueOf(index)));
             if (value != null)
             {
                map.put(getPropertyName(method, index), String.valueOf(value));
