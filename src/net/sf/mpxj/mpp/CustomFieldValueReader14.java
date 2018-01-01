@@ -98,7 +98,10 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             int type = MPPUtility.getShort(b2, typeOffset);
             item.setValue(getTypedValue(type, value));
             FieldType field = map.get(parentField);
-            m_container.getCustomField(field).getLookupTable().add(item);
+            if (field != null)
+            {
+               m_container.getCustomField(field).getLookupTable().add(item);
+            }
          }
       }
    }

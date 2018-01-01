@@ -25,6 +25,8 @@ package net.sf.mpxj.explorer;
 
 import java.awt.GridLayout;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,7 +35,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -44,6 +45,7 @@ public class ProjectFilePanel extends JPanel
    private final ProjectTreeModel m_treeModel;
    private final ProjectTreeController m_treeController;
    private final ProjectTreeView m_treeView;
+   final Map<MpxjTreeNode, ObjectPropertiesPanel> m_openTabs;
 
    /**
     * Constructor.
@@ -68,13 +70,25 @@ public class ProjectFilePanel extends JPanel
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       splitPane.setRightComponent(tabbedPane);
 
+      m_openTabs = new HashMap<MpxjTreeNode, ObjectPropertiesPanel>();
+
       m_treeView.addTreeSelectionListener(new TreeSelectionListener()
       {
          @Override public void valueChanged(TreeSelectionEvent e)
          {
             TreePath path = e.getPath();
-            DefaultMutableTreeNode component = (DefaultMutableTreeNode) path.getLastPathComponent();
-            tabbedPane.add(component.toString(), new ObjectPropertiesPanel(component.getUserObject()));
+            MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
+            if (!(component.getUserObject() instanceof String))
+            {
+               ObjectPropertiesPanel panel = m_openTabs.get(component);
+               if (panel == null)
+               {
+                  panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
+                  tabbedPane.add(component.toString(), panel);
+                  m_openTabs.put(component, panel);
+               }
+               tabbedPane.setSelectedComponent(panel);
+            }
          }
       });
 

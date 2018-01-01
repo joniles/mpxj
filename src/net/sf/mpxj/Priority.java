@@ -86,6 +86,14 @@ public final class Priority
    }
 
    /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      return ("[Priority value=" + m_value + "]");
+   }
+
+   /**
     * Constant for lowest priority.
     */
    public static final int LOWEST = 100;

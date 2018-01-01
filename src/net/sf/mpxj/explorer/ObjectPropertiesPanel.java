@@ -24,6 +24,7 @@
 package net.sf.mpxj.explorer;
 
 import java.awt.GridLayout;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -42,8 +43,9 @@ public class ObjectPropertiesPanel extends JPanel
     * Constructor.
     *
     * @param object the object whose properties we will display
+    * @param excludedMethods method names to exclude
     */
-   public ObjectPropertiesPanel(Object object)
+   public ObjectPropertiesPanel(Object object, Set<String> excludedMethods)
    {
       setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -53,6 +55,6 @@ public class ObjectPropertiesPanel extends JPanel
 
       add(m_objectPropertiesView);
 
-      m_objectPropertiesController.loadObject(object);
+      m_objectPropertiesController.loadObject(object, excludedMethods);
    }
 }
