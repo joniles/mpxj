@@ -59,6 +59,8 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDateRanges;
+import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
@@ -313,40 +315,51 @@ final class PrimaveraReader
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          for (Record recWorkingHours : recHours)
          {
-            if (recWorkingHours.getValue() != null)
+            addHours(hours, recWorkingHours);
+         }
+      }
+   }
+
+   /**
+    * Parses a record containing hours and add them to a container.
+    *
+    * @param ranges hours container
+    * @param hoursRecord hours record
+    */
+   private void addHours(ProjectCalendarDateRanges ranges, Record hoursRecord)
+   {
+      if (hoursRecord.getValue() != null)
+      {
+         String[] wh = hoursRecord.getValue().split("\\|");
+         try
+         {
+            String startText;
+            String endText;
+
+            if (wh[0].equals("s"))
             {
-               String[] wh = recWorkingHours.getValue().split("\\|");
-               try
-               {
-                  String startText;
-                  String endText;
-
-                  if (wh[0].equals("s"))
-                  {
-                     startText = wh[1];
-                     endText = wh[3];
-                  }
-                  else
-                  {
-                     startText = wh[3];
-                     endText = wh[1];
-                  }
-
-                  // for end time treat midnight as midnight next day
-                  if (endText.equals("00:00"))
-                  {
-                     endText = "24:00";
-                  }
-                  Date start = m_calendarTimeFormat.parse(startText);
-                  Date end = m_calendarTimeFormat.parse(endText);
-
-                  hours.addRange(new DateRange(start, end));
-               }
-               catch (ParseException e)
-               {
-                  // silently ignore date parse exceptions
-               }
+               startText = wh[1];
+               endText = wh[3];
             }
+            else
+            {
+               startText = wh[3];
+               endText = wh[1];
+            }
+
+            // for end time treat midnight as midnight next day
+            if (endText.equals("00:00"))
+            {
+               endText = "24:00";
+            }
+            Date start = m_calendarTimeFormat.parse(startText);
+            Date end = m_calendarTimeFormat.parse(endText);
+
+            ranges.addRange(new DateRange(start, end));
+         }
+         catch (ParseException e)
+         {
+            // silently ignore date parse exceptions
          }
       }
    }
@@ -370,7 +383,11 @@ final class PrimaveraReader
             cal.setTimeInMillis(EXCEPTION_EPOCH);
             cal.add(Calendar.DAY_OF_YEAR, daysFromEpoch);
             Date startEx = cal.getTime();
-            calendar.addCalendarException(startEx, startEx);
+            ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
+            for (Record exceptionHours : exception.getChildren())
+            {
+               addHours(pce, exceptionHours);
+            }
          }
       }
    }
