@@ -170,7 +170,7 @@ public final class MPPReader extends AbstractProjectReader
          // Perform post-processing to set the summary flag and clean
          // up any instances where a task has an empty splits list.
          //
-         for (Task task : projectFile.getAllTasks())
+         for (Task task : projectFile.getTasks())
          {
             task.setSummary(task.getChildTasks().size() != 0);
             List<DateRange> splits = task.getSplits();

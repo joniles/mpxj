@@ -115,10 +115,10 @@ public final class SDEFWriter extends AbstractProjectWriter
       writeProjectProperties(m_projectFile.getProjectProperties()); // PROJ
       writeCalendars(m_projectFile.getCalendars()); // CLDR
       writeExceptions(m_projectFile.getCalendars()); // HOLI
-      writeTasks(m_projectFile.getAllTasks()); // ACTV
-      writePredecessors(m_projectFile.getAllTasks()); // PRED
+      writeTasks(m_projectFile.getTasks()); // ACTV
+      writePredecessors(m_projectFile.getTasks()); // PRED
       // skipped UNIT cost record for now
-      writeProgress(m_projectFile.getAllTasks()); // PROG
+      writeProgress(m_projectFile.getTasks()); // PROG
       m_writer.println("END"); // last line, that's the end!!!
    }
 

@@ -49,7 +49,7 @@ public class DeletedAssignmentTest
    {
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("assignment/assignment-deletion/sf248.mpp"));
 
-      List<ResourceAssignment> assignments = file.getAllResourceAssignments();
+      List<ResourceAssignment> assignments = file.getResourceAssignments();
       assertEquals(2, assignments.size());
       testAssignment(assignments, 0, "Task2", "Vijay");
       testAssignment(assignments, 1, "Task1", "Anil");
@@ -84,7 +84,7 @@ public class DeletedAssignmentTest
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(file);
-      List<ResourceAssignment> assignments = mpp.getAllResourceAssignments();
+      List<ResourceAssignment> assignments = mpp.getResourceAssignments();
       assertEquals(file.getName() + " does not contain 5 resource assignments", 5, assignments.size());
 
       testAssignment(assignments, 0, "Task 1", "Resource 1");

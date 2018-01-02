@@ -64,12 +64,12 @@ public class ProjectPropertiesOnlyTest
    {
       MPPReader reader = new MPPReader();
       ProjectFile project = reader.read(file);
-      assertTrue(project.getAllTasks().size() > 0);
+      assertTrue(project.getTasks().size() > 0);
       assertEquals("Project User", project.getProjectProperties().getAuthor());
 
       reader.setReadPropertiesOnly(true);
       project = reader.read(file);
-      assertTrue(project.getAllTasks().size() == 0);
+      assertTrue(project.getTasks().size() == 0);
       assertEquals("Project User", project.getProjectProperties().getAuthor());
    }
 }

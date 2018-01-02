@@ -47,7 +47,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       m_uniqueIDMap.remove(resource.getUniqueID());
       m_idMap.remove(resource.getID());
 
-      Iterator<ResourceAssignment> iter = m_projectFile.getAllResourceAssignments().iterator();
+      Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
       Integer resourceUniqueID = resource.getUniqueID();
       while (iter.hasNext() == true)
       {

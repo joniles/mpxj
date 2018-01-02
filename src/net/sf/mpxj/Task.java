@@ -217,7 +217,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       m_children.add(task);
 
-      parent.getAllTasks().add(task);
+      parent.getTasks().add(task);
 
       setSummary(true);
 
@@ -364,7 +364,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       {
          assignment = new ResourceAssignment(getParentFile(), this);
          m_assignments.add(assignment);
-         getParentFile().getAllResourceAssignments().add(assignment);
+         getParentFile().getResourceAssignments().add(assignment);
 
          assignment.setTaskUniqueID(getUniqueID());
          assignment.setWork(getDuration());
@@ -390,7 +390,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (getExistingResourceAssignment(assignment.getResource()) == null)
       {
          m_assignments.add(assignment);
-         getParentFile().getAllResourceAssignments().add(assignment);
+         getParentFile().getResourceAssignments().add(assignment);
 
          Resource resource = assignment.getResource();
          if (resource != null)
@@ -1037,10 +1037,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       if (previous != null)
       {
-         parent.getAllTasks().unmapID(previous);
+         parent.getTasks().unmapID(previous);
       }
 
-      parent.getAllTasks().mapID(val, this);
+      parent.getTasks().mapID(val, this);
 
       set(TaskField.ID, val);
    }
@@ -4761,9 +4761,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             ProjectFile parent = getParentFile();
             if (oldValue != null)
             {
-               parent.getAllTasks().unmapUniqueID((Integer) oldValue);
+               parent.getTasks().unmapUniqueID((Integer) oldValue);
             }
-            parent.getAllTasks().mapUniqueID((Integer) newValue, this);
+            parent.getTasks().mapUniqueID((Integer) newValue, this);
             break;
          }
 

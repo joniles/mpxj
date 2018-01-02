@@ -176,7 +176,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeAttributeTypes("resource_types", ResourceField.values());
 
       m_writer.writeStartList("resources");
-      for (Resource resource : m_projectFile.getAllResources())
+      for (Resource resource : m_projectFile.getResources())
       {
          writeFields(null, resource, ResourceField.values());
       }
@@ -222,7 +222,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeAttributeTypes("assignment_types", AssignmentField.values());
 
       m_writer.writeStartList("assignments");
-      for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
+      for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
       {
          writeFields(null, assignment, AssignmentField.values());
       }

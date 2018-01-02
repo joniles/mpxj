@@ -73,7 +73,7 @@ public class TaskDateDump
    public void process(String name) throws Exception
    {
       ProjectFile file = new UniversalProjectReader().read(name);
-      for (Task task : file.getAllTasks())
+      for (Task task : file.getTasks())
       {
          if (!task.getSummary())
          {

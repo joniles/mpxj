@@ -219,7 +219,7 @@ public class ProjectTreeController
     */
    private void addResources(MpxjTreeNode parentNode, ProjectFile file)
    {
-      for (Resource resource : file.getAllResources())
+      for (Resource resource : file.getResources())
       {
          final Resource r = resource;
          MpxjTreeNode childNode = new MpxjTreeNode(resource)
@@ -484,7 +484,7 @@ public class ProjectTreeController
     */
    private void addAssignments(MpxjTreeNode parentNode, ProjectFile file)
    {
-      for (ResourceAssignment assignment : file.getAllResourceAssignments())
+      for (ResourceAssignment assignment : file.getResourceAssignments())
       {
          final ResourceAssignment a = assignment;
          MpxjTreeNode childNode = new MpxjTreeNode(a)

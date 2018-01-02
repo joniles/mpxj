@@ -896,7 +896,7 @@ final class AstaReader
       // Count the number of times each calendar is used
       //
       Map<ProjectCalendar, Integer> map = new HashMap<ProjectCalendar, Integer>();
-      for (Task task : m_project.getAllTasks())
+      for (Task task : m_project.getTasks())
       {
          ProjectCalendar calendar = task.getCalendar();
          Integer count = map.get(calendar);
@@ -933,7 +933,7 @@ final class AstaReader
       if (defaultCalendar != null)
       {
          m_project.setDefaultCalendar(defaultCalendar);
-         for (Task task : m_project.getAllTasks())
+         for (Task task : m_project.getTasks())
          {
             if (task.getCalendar() == defaultCalendar)
             {

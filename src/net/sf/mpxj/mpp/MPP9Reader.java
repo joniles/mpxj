@@ -2021,7 +2021,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void postProcessTasks()
    {
-      List<Task> allTasks = m_file.getAllTasks();
+      List<Task> allTasks = m_file.getTasks();
       if (allTasks.size() > 1)
       {
          Collections.sort(allTasks);

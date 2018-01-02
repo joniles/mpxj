@@ -346,7 +346,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processSubProjects()
    {
       int subprojectIndex = 1;
-      for (Task task : m_project.getAllTasks())
+      for (Task task : m_project.getTasks())
       {
          String subProjectFileName = task.getSubprojectName();
          if (subProjectFileName != null)

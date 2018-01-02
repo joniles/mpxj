@@ -122,7 +122,7 @@ final class ResourceModel
          Arrays.fill(m_flags, false);
       }
 
-      for (Resource resource : m_parentFile.getAllResources())
+      for (Resource resource : m_parentFile.getResources())
       {
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {

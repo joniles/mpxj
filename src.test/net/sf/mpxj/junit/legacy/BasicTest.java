@@ -381,7 +381,7 @@ public class BasicTest
       File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
 
-      for (Task task : mpx.getAllTasks())
+      for (Task task : mpx.getTasks())
       {
          List<Relation> rels = task.getPredecessors();
          if (rels != null)
@@ -564,7 +564,7 @@ public class BasicTest
       File in = new File(MpxjTestData.filePath("legacy/bug3.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
 
-      for (Task task : mpp.getAllTasks())
+      for (Task task : mpp.getTasks())
       {
          assertEquals("Outline levels do not match", task.getOutlineLevel().intValue(), calculateOutlineLevel(task));
       }
@@ -614,7 +614,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/mpp8flags1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      List<Task> tasks = mpp.getAllTasks();
+      List<Task> tasks = mpp.getTasks();
       assertTrue("Not enough tasks", (tasks.size() > 0));
       assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
 
@@ -682,7 +682,7 @@ public class BasicTest
       int index = 0;
       boolean[] flags;
 
-      for (Task task : mpp.getAllTasks())
+      for (Task task : mpp.getTasks())
       {
          if (task.getName().startsWith("Parent") == false)
          {
@@ -778,7 +778,7 @@ public class BasicTest
       int index = 0;
       boolean[] flags;
 
-      for (Task task : mpp.getAllTasks())
+      for (Task task : mpp.getTasks())
       {
          if (task.getUniqueID().intValue() != 0 && task.getName().startsWith("Parent") == false)
          {
@@ -912,7 +912,7 @@ public class BasicTest
       ProjectFile mpp = new MPPReader().read(in);
       ProjectCalendar cal;
 
-      for (Task task : mpp.getAllTasks())
+      for (Task task : mpp.getTasks())
       {
          cal = task.getCalendar();
          if (cal != null)
@@ -932,7 +932,7 @@ public class BasicTest
       // calendar names to ensure consistency
       //
       ProjectFile mspdi = new MSPDIReader().read(out.getCanonicalPath());
-      for (Task task : mspdi.getAllTasks())
+      for (Task task : mspdi.getTasks())
       {
          cal = task.getCalendar();
          if (cal != null)
@@ -1288,8 +1288,8 @@ public class BasicTest
       // Ensure we can read it successfully
       //
       file = new MPXReader().read(out);
-      assertEquals(1, file.getAllTasks().size());
-      assertEquals(1, file.getAllResources().size());
+      assertEquals(1, file.getTasks().size());
+      assertEquals(1, file.getResources().size());
 
       properties = file.getProjectProperties();
       assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", properties.getComments());
@@ -1380,7 +1380,7 @@ public class BasicTest
     */
    private void commonMspdiExtendedAttributeTests(ProjectFile xml)
    {
-      List<Task> tasks = xml.getAllTasks();
+      List<Task> tasks = xml.getTasks();
       assertEquals(2, tasks.size());
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -1395,7 +1395,7 @@ public class BasicTest
       assertEquals(13.0, task.getDuration(1).getDuration(), 0.0);
       assertEquals(TimeUnit.DAYS, task.getDuration(1).getUnits());
 
-      List<Resource> resources = xml.getAllResources();
+      List<Resource> resources = xml.getResources();
       assertEquals(2, resources.size());
 
       Resource resource = resources.get(1);
@@ -1670,9 +1670,9 @@ public class BasicTest
       // tasks, resources, and assignments.
       //
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/remove.mpp"));
-      assertEquals(10, mpp.getAllTasks().size());
-      assertEquals(8, mpp.getAllResources().size());
-      assertEquals(8, mpp.getAllResourceAssignments().size());
+      assertEquals(10, mpp.getTasks().size());
+      assertEquals(8, mpp.getResources().size());
+      assertEquals(8, mpp.getResourceAssignments().size());
 
       //
       // Remove a task with no assignments
@@ -1680,9 +1680,9 @@ public class BasicTest
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       assertEquals("Task One", task.getName());
       task.remove();
-      assertEquals(9, mpp.getAllTasks().size());
-      assertEquals(8, mpp.getAllResources().size());
-      assertEquals(8, mpp.getAllResourceAssignments().size());
+      assertEquals(9, mpp.getTasks().size());
+      assertEquals(8, mpp.getResources().size());
+      assertEquals(8, mpp.getResourceAssignments().size());
 
       //
       // Remove a resource with no assignments
@@ -1690,9 +1690,9 @@ public class BasicTest
       Resource resource = mpp.getResourceByUniqueID(Integer.valueOf(1));
       assertEquals("Resource One", resource.getName());
       resource.remove();
-      assertEquals(9, mpp.getAllTasks().size());
-      assertEquals(7, mpp.getAllResources().size());
-      assertEquals(8, mpp.getAllResourceAssignments().size());
+      assertEquals(9, mpp.getTasks().size());
+      assertEquals(7, mpp.getResources().size());
+      assertEquals(8, mpp.getResourceAssignments().size());
 
       //
       // Remove a task with a single assignment
@@ -1700,9 +1700,9 @@ public class BasicTest
       task = mpp.getTaskByUniqueID(Integer.valueOf(2));
       assertEquals("Task Two", task.getName());
       task.remove();
-      assertEquals(8, mpp.getAllTasks().size());
-      assertEquals(7, mpp.getAllResources().size());
-      assertEquals(7, mpp.getAllResourceAssignments().size());
+      assertEquals(8, mpp.getTasks().size());
+      assertEquals(7, mpp.getResources().size());
+      assertEquals(7, mpp.getResourceAssignments().size());
 
       //
       // Remove a resource with a single assignment
@@ -1710,9 +1710,9 @@ public class BasicTest
       resource = mpp.getResourceByUniqueID(Integer.valueOf(3));
       assertEquals("Resource Three", resource.getName());
       resource.remove();
-      assertEquals(8, mpp.getAllTasks().size());
-      assertEquals(6, mpp.getAllResources().size());
-      assertEquals(6, mpp.getAllResourceAssignments().size());
+      assertEquals(8, mpp.getTasks().size());
+      assertEquals(6, mpp.getResources().size());
+      assertEquals(6, mpp.getResourceAssignments().size());
 
       //
       // Remove an assignment
@@ -1731,9 +1731,9 @@ public class BasicTest
       assertEquals(1, assignments.size());
       assignments = resource.getTaskAssignments();
       assertEquals(0, assignments.size());
-      assertEquals(8, mpp.getAllTasks().size());
-      assertEquals(6, mpp.getAllResources().size());
-      assertEquals(5, mpp.getAllResourceAssignments().size());
+      assertEquals(8, mpp.getTasks().size());
+      assertEquals(6, mpp.getResources().size());
+      assertEquals(5, mpp.getResourceAssignments().size());
 
       //
       // Remove a task with child tasks - the child tasks will also be removed
@@ -1741,9 +1741,9 @@ public class BasicTest
       task = mpp.getTaskByUniqueID(Integer.valueOf(8));
       assertEquals("Task Eight", task.getName());
       task.remove();
-      assertEquals(6, mpp.getAllTasks().size());
-      assertEquals(6, mpp.getAllResources().size());
-      assertEquals(4, mpp.getAllResourceAssignments().size());
+      assertEquals(6, mpp.getTasks().size());
+      assertEquals(6, mpp.getResources().size());
+      assertEquals(4, mpp.getResourceAssignments().size());
 
       //
       // As we have removed tasks and resources, call the synchronize methods
@@ -1760,9 +1760,9 @@ public class BasicTest
       new MPXWriter().write(mpp, out);
 
       ProjectFile mpx = new MPXReader().read(out);
-      assertEquals(6, mpx.getAllTasks().size());
-      assertEquals(6, mpx.getAllResources().size());
-      assertEquals(3, mpx.getAllResourceAssignments().size());
+      assertEquals(6, mpx.getTasks().size());
+      assertEquals(6, mpx.getResources().size());
+      assertEquals(3, mpx.getResourceAssignments().size());
       out.deleteOnExit();
    }
 

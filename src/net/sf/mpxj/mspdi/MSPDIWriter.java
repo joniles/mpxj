@@ -724,7 +724,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setResources(resources);
       List<Project.Resources.Resource> list = resources.getResource();
 
-      for (Resource resource : m_projectFile.getAllResources())
+      for (Resource resource : m_projectFile.getResources())
       {
          list.add(writeResource(resource));
       }
@@ -1021,7 +1021,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setTasks(tasks);
       List<Project.Tasks.Task> list = tasks.getTask();
 
-      for (Task task : m_projectFile.getAllTasks())
+      for (Task task : m_projectFile.getTasks())
       {
          list.add(writeTask(task));
       }
@@ -1421,7 +1421,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setAssignments(assignments);
       List<Project.Assignments.Assignment> list = assignments.getAssignment();
 
-      for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
+      for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
       {
          list.add(writeAssignment(assignment));
       }
@@ -1439,12 +1439,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          config.setAutoAssignmentUniqueID(true);
       }
 
-      for (Task task : m_projectFile.getAllTasks())
+      for (Task task : m_projectFile.getTasks())
       {
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
          if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
          {
-            ResourceAssignment dummy = m_projectFile.newResourceAssignment(task);
+            ResourceAssignment dummy = new ResourceAssignment(m_projectFile, task);
             Duration duration = task.getDuration();
             if (duration == null)
             {

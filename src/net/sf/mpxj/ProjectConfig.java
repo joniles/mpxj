@@ -299,7 +299,7 @@ public class ProjectConfig
       //
       // Update task unique IDs
       //
-      for (Task task : m_parent.getAllTasks())
+      for (Task task : m_parent.getTasks())
       {
          int uniqueID = NumberHelper.getInt(task.getUniqueID());
          if (uniqueID > m_taskUniqueID)
@@ -311,7 +311,7 @@ public class ProjectConfig
       //
       // Update resource unique IDs
       //
-      for (Resource resource : m_parent.getAllResources())
+      for (Resource resource : m_parent.getResources())
       {
          int uniqueID = NumberHelper.getInt(resource.getUniqueID());
          if (uniqueID > m_resourceUniqueID)
@@ -335,7 +335,7 @@ public class ProjectConfig
       //
       // Update assignment unique IDs
       //
-      for (ResourceAssignment assignment : m_parent.getAllResourceAssignments())
+      for (ResourceAssignment assignment : m_parent.getResourceAssignments())
       {
          int uniqueID = NumberHelper.getInt(assignment.getUniqueID());
          if (uniqueID > m_assignmentUniqueID)

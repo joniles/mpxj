@@ -479,7 +479,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeResources()
    {
-      for (Resource resource : m_projectFile.getAllResources())
+      for (Resource resource : m_projectFile.getResources())
       {
          if (resource.getUniqueID().intValue() != 0)
          {
@@ -648,7 +648,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeAssignments()
    {
-      for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
+      for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
       {
          Resource resource = assignment.getResource();
          if (resource != null)

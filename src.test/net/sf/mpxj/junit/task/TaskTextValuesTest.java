@@ -61,7 +61,7 @@ public class TaskTextValuesTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getAllTasks().size());
+      assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getTasks().size());
       for (int loop = 0; loop < EXPECTED_VALUES.length; loop++)
       {
          Task task = project.getTaskByID(Integer.valueOf(loop + 1));

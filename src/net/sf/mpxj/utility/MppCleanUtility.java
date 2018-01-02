@@ -169,7 +169,7 @@ public class MppCleanUtility
       // Process Tasks
       //
       Map<String, String> replacements = new HashMap<String, String>();
-      for (Task task : m_project.getAllTasks())
+      for (Task task : m_project.getTasks())
       {
          mapText(task.getName(), replacements);
       }
@@ -179,7 +179,7 @@ public class MppCleanUtility
       // Process Resources
       //
       replacements.clear();
-      for (Resource resource : m_project.getAllResources())
+      for (Resource resource : m_project.getResources())
       {
          mapText(resource.getName(), replacements);
          mapText(resource.getInitials(), replacements);

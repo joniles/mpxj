@@ -1390,9 +1390,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       Integer previous = getID();
       if (previous != null)
       {
-         parent.getAllResources().unmapID(previous);
+         parent.getResources().unmapID(previous);
       }
-      parent.getAllResources().mapID(val, this);
+      parent.getResources().mapID(val, this);
 
       set(ResourceField.ID, val);
    }
@@ -2378,9 +2378,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
             ProjectFile parent = getParentFile();
             if (oldValue != null)
             {
-               parent.getAllResources().unmapUniqueID((Integer) oldValue);
+               parent.getResources().unmapUniqueID((Integer) oldValue);
             }
-            parent.getAllResources().mapUniqueID((Integer) newValue, this);
+            parent.getResources().mapUniqueID((Integer) newValue, this);
 
             if (m_assignments.isEmpty() == false)
             {

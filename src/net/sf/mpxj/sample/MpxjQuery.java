@@ -137,7 +137,7 @@ public class MpxjQuery
     */
    private static void listResources(ProjectFile file)
    {
-      for (Resource resource : file.getAllResources())
+      for (Resource resource : file.getResources())
       {
          System.out.println("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID() + ") Start=" + resource.getStart() + " Finish=" + resource.getFinish());
       }
@@ -153,7 +153,7 @@ public class MpxjQuery
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
 
-      for (Task task : file.getAllTasks())
+      for (Task task : file.getTasks())
       {
          Date date = task.getStart();
          String text = task.getStartText();
@@ -233,7 +233,7 @@ public class MpxjQuery
       String taskName;
       String resourceName;
 
-      for (ResourceAssignment assignment : file.getAllResourceAssignments())
+      for (ResourceAssignment assignment : file.getResourceAssignments())
       {
          task = assignment.getTask();
          if (task == null)
@@ -305,7 +305,7 @@ public class MpxjQuery
     */
    private static void listAssignmentsByTask(ProjectFile file)
    {
-      for (Task task : file.getAllTasks())
+      for (Task task : file.getTasks())
       {
          System.out.println("Assignments for task " + task.getName() + ":");
 
@@ -339,7 +339,7 @@ public class MpxjQuery
     */
    private static void listAssignmentsByResource(ProjectFile file)
    {
-      for (Resource resource : file.getAllResources())
+      for (Resource resource : file.getResources())
       {
          System.out.println("Assignments for resource " + resource.getName() + ":");
 
@@ -360,7 +360,7 @@ public class MpxjQuery
     */
    private static void listTaskNotes(ProjectFile file)
    {
-      for (Task task : file.getAllTasks())
+      for (Task task : file.getTasks())
       {
          String notes = task.getNotes();
 
@@ -380,7 +380,7 @@ public class MpxjQuery
     */
    private static void listResourceNotes(ProjectFile file)
    {
-      for (Resource resource : file.getAllResources())
+      for (Resource resource : file.getResources())
       {
          String notes = resource.getNotes();
 
@@ -400,7 +400,7 @@ public class MpxjQuery
     */
    private static void listRelationships(ProjectFile file)
    {
-      for (Task task : file.getAllTasks())
+      for (Task task : file.getTasks())
       {
          System.out.print(task.getID());
          System.out.print('\t');
@@ -466,7 +466,7 @@ public class MpxjQuery
     */
    private static void listSlack(ProjectFile file)
    {
-      for (Task task : file.getAllTasks())
+      for (Task task : file.getTasks())
       {
          System.out.println(task.getName() + " Total Slack=" + task.getTotalSlack() + " Start Slack=" + task.getStartSlack() + " Finish Slack=" + task.getFinishSlack());
       }

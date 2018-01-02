@@ -584,7 +584,7 @@ public class FastTrackReader implements ProjectReader
       Set<Task> tasksWithBars = new HashSet<Task>();
       FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
       Map<String, Resource> resources = new HashMap<String, Resource>();
-      for (Resource resource : m_project.getAllResources())
+      for (Resource resource : m_project.getResources())
       {
          resources.put(resource.getName(), resource);
       }

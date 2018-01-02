@@ -89,7 +89,7 @@ public class TaskDeletionTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      assertEquals(expectedNames.length + 1, project.getAllTasks().size());
+      assertEquals(expectedNames.length + 1, project.getTasks().size());
       for (int index = 0; index < expectedNames.length; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index + 1));

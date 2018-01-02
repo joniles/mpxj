@@ -115,17 +115,17 @@ public final class MPXWriter extends AbstractProjectWriter
       writeFileCreationRecord();
       writeProjectHeader(m_projectFile.getProjectProperties());
 
-      if (m_projectFile.getAllResources().isEmpty() == false)
+      if (m_projectFile.getResources().isEmpty() == false)
       {
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
          m_writer.write(m_resourceModel.toString());
-         for (Resource resource : m_projectFile.getAllResources())
+         for (Resource resource : m_projectFile.getResources())
          {
             writeResource(resource);
          }
       }
 
-      if (m_projectFile.getAllTasks().isEmpty() == false)
+      if (m_projectFile.getTasks().isEmpty() == false)
       {
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_writer.write(m_taskModel.toString());

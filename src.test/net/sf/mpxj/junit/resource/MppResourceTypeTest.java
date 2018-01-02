@@ -87,7 +87,7 @@ public class MppResourceTypeTest
    private void testResourceType(File file) throws MPXJException
    {
       ProjectFile project = new MPPReader().read(file);
-      List<Resource> resources = project.getAllResources();
+      List<Resource> resources = project.getResources();
       assertEquals(10, resources.size());
 
       testResource(file, project, 1, "Work 1", ResourceType.WORK);

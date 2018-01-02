@@ -113,7 +113,7 @@ public class MppFilterLogicTest
     */
    private void testFilterLogic(ProjectFile mpp)
    {
-      List<Task> listAllTasks = mpp.getAllTasks();
+      List<Task> listAllTasks = mpp.getTasks();
       Task ac1 = listAllTasks.get(1);
       assertEquals("ac1", ac1.getName());
 
