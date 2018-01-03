@@ -1,6 +1,12 @@
 # Changelog
 
-## 7.0.4 (git master)
+## 7.1.1 (git master)
+
+## 7.1.0 (03/01/2018)
+* Added support for reading GanttProject files.
+* Ensure that calendar exception dates are read correctly from XER files and P6 databases regardless of the user's timezone.
+* Read working day calendar exceptions from XER files and P6 database.
+* Mark some ProjectFile methods as deprecated.
 
 ## 7.0.3 (21/12/2017)
 * Use the Windows-1252 character set as the default when reading XER files.
