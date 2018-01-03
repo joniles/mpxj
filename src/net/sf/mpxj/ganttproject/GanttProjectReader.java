@@ -131,6 +131,9 @@ public final class GanttProjectReader extends AbstractProjectReader
          config.setAutoOutlineNumber(true);
          config.setAutoWBS(true);
 
+         m_projectFile.getProjectProperties().setFileApplication("GanttProject");
+         m_projectFile.getProjectProperties().setFileType("GAN");
+
          m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
