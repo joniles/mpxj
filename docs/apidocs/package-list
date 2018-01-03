@@ -9,6 +9,8 @@ net.sf.mpxj.asta
 net.sf.mpxj.common
 net.sf.mpxj.explorer
 net.sf.mpxj.fasttrack
+net.sf.mpxj.ganttproject
+net.sf.mpxj.ganttproject.schema
 net.sf.mpxj.ikvm
 net.sf.mpxj.json
 net.sf.mpxj.listener

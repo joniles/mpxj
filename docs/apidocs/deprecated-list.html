@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<title>Deprecated List (MPXJ 7.0.3 API)</title>
+<title>Deprecated List (MPXJ 7.1.0 API)</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
 </head>
 <body>
 <script type="text/javascript"><!--
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Deprecated List (MPXJ 7.0.3 API)";
+        parent.document.title="Deprecated List (MPXJ 7.1.0 API)";
     }
 //-->
 </script>
@@ -64,6 +64,55 @@
 <div class="header">
 <h1 title="Deprecated API" class="title">Deprecated API</h1>
 <h2 title="Contents">Contents</h2>
+<ul>
+<li><a href="#method">Deprecated Methods</a></li>
+</ul>
+</div>
+<div class="contentContainer"><a name="method">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<table border="0" cellpadding="3" cellspacing="0" summary="Deprecated Methods table, listing deprecated methods, and an explanation">
+<caption><span>Deprecated Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colOne"><a href="net/sf/mpxj/ProjectFile.html#getAllResourceAssignments()">net.sf.mpxj.ProjectFile.getAllResourceAssignments()</a>
+<div class="block"><i>Use getResourceAssignments</i></div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><a href="net/sf/mpxj/ProjectFile.html#getAllResources()">net.sf.mpxj.ProjectFile.getAllResources()</a>
+<div class="block"><i>Use getResources()</i></div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><a href="net/sf/mpxj/ProjectFile.html#getAllTasks()">net.sf.mpxj.ProjectFile.getAllTasks()</a>
+<div class="block"><i>Use getTasks()</i></div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><a href="net/sf/mpxj/ProjectFile.html#getDuration(java.util.Date,%20java.util.Date)">net.sf.mpxj.ProjectFile.getDuration(Date, Date)</a>
+<div class="block"><i>use calendar.getDuration(startDate, endDate)</i></div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><a href="net/sf/mpxj/ProjectFile.html#getDuration(java.lang.String,%20java.util.Date,%20java.util.Date)">net.sf.mpxj.ProjectFile.getDuration(String, Date, Date)</a>
+<div class="block"><i>use calendar.getDuration(startDate, endDate)</i></div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><a href="net/sf/mpxj/ProjectFile.html#newResourceAssignment(net.sf.mpxj.Task)">net.sf.mpxj.ProjectFile.newResourceAssignment(Task)</a>
+<div class="block"><i>Use Task.addResourceAssignment(resource) instead</i></div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
 </div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
 <div class="bottomNav"><a name="navbar_bottom">
@@ -110,6 +159,6 @@
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2000&#x2013;2017 <a href="http://mpxj.org">Packwood Software</a>. All rights reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2000&#x2013;2018 <a href="http://mpxj.org">Packwood Software</a>. All rights reserved.</small></p>
 </body>
 </html>
