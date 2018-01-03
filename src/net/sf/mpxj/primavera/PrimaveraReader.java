@@ -27,7 +27,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -376,13 +375,11 @@ final class PrimaveraReader
       Record exceptions = root.getChild("Exceptions");
       if (exceptions != null)
       {
-         Calendar cal = Calendar.getInstance();
          for (Record exception : exceptions.getChildren())
          {
-            int daysFromEpoch = Integer.parseInt(exception.getValue().split("\\|")[1]);
-            cal.setTimeInMillis(EXCEPTION_EPOCH);
-            cal.add(Calendar.DAY_OF_YEAR, daysFromEpoch);
-            Date startEx = cal.getTime();
+            long daysFromEpoch = Integer.parseInt(exception.getValue().split("\\|")[1]);
+            Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
+
             ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
             for (Record exceptionHours : exception.getChildren())
             {

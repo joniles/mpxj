@@ -320,7 +320,7 @@ public final class MPPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + (days * MS_PER_DAY));
+         result = DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
       }
 
       return (result);
@@ -356,7 +356,7 @@ public final class MPPUtility
     */
    public static final long getDuration(byte[] data, int offset)
    {
-      return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
+      return ((getShort(data, offset) * DateHelper.MS_PER_MINUTE) / 10);
    }
 
    /**
@@ -390,7 +390,7 @@ public final class MPPUtility
          {
             time = 0;
          }
-         result = DateHelper.getTimestampFromLong((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)));
+         result = DateHelper.getTimestampFromLong((EPOCH + (days * DateHelper.MS_PER_DAY) + ((time * DateHelper.MS_PER_MINUTE) / 10)));
       }
 
       return (result);
@@ -1437,16 +1437,6 @@ public final class MPPUtility
     * Epoch Date as a Date instance.
     */
    private static Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
-
-   /**
-    * Number of milliseconds per day.
-    */
-   private static final long MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-   /**
-    * Number of milliseconds per minute.
-    */
-   private static final long MS_PER_MINUTE = 60 * 1000;
 
    /**
     * Constants used to convert bytes to hex digits.
