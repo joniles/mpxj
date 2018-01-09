@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.1.1 (git master)
+* Handle numeric values with leading spaces in XER files.
 
 ## 7.1.0 (03/01/2018)
 * Added support for reading GanttProject files.

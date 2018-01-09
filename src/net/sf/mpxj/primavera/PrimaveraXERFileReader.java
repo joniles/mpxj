@@ -623,7 +623,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                         {
                            try
                            {
-                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue).doubleValue());
+                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue.trim()).doubleValue());
                            }
 
                            catch (ParseException ex)
@@ -635,7 +635,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
                         case INTEGER:
                         {
-                           objectValue = Integer.valueOf(fieldValue);
+                           objectValue = Integer.valueOf(fieldValue.trim());
                            break;
                         }
 
