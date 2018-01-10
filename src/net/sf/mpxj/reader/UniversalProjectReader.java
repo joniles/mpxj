@@ -66,6 +66,7 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
+import net.sf.mpxj.turboproject.TurboProjectReader;
 
 /**
  * This class implements a universal project reader: given a file or a stream this reader
@@ -225,6 +226,11 @@ public class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, GANTTPROJECT_FINGERPRINT))
          {
             return readProjectFile(new GanttProjectReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, TURBOPROJECT_FINGERPRINT))
+         {
+            return readProjectFile(new TurboProjectReader(), bis);
          }
 
          return null;
@@ -629,6 +635,11 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) 0xED,
       (byte) 0x00,
       (byte) 0x05
+   };
+
+   private static final byte[] TURBOPROJECT_FINGERPRINT =
+   {
+      (byte) 0x27
    };
 
    private static final byte[] UTF8_BOM_FINGERPRINT =
