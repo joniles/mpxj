@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -81,11 +82,13 @@ public final class TurboProjectReader extends AbstractProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
+         applyAliases();
+
          readFile(stream);
          //         readProjectProperties(ganttProject);
          //         readCalendars(ganttProject);
          readResources();
-         //         readTasks(ganttProject);
+         readTasks();
          //         readRelationships(ganttProject);
          //         readResourceAssignments(ganttProject);
 
@@ -182,8 +185,6 @@ public final class TurboProjectReader extends AbstractProjectReader
 
    private void readResources()
    {
-      // TODO setup aliases
-
       for (MapRow row : getTable("RTAB"))
       {
          Resource resource = m_projectFile.addResource();
@@ -193,17 +194,17 @@ public final class TurboProjectReader extends AbstractProjectReader
          }
       }
 
-      // TODO: Correctly handle calendar and rate
+      // TODO: Correctly handle calendar
    }
 
-   /**
-    * Read the top level tasks from GanttProject.
-    *
-    * @param gpProject GanttProject project
-    */
-   //   private void readTasks(Project gpProject)
-   //   {
-   //   }
+   private void readTasks()
+   {
+      for (MapRow row : getTable("A0TAB"))
+      {
+         Integer uniqueID = row.getInteger("UNIQUE_ID");
+         System.out.println("Task: " + uniqueID + " " + row.getBoolean("DELETED"));
+      }
+   }
 
    /**
     * Read all task relationships from a GanttProject.
@@ -233,6 +234,29 @@ public final class TurboProjectReader extends AbstractProjectReader
       return table;
    }
 
+   private void applyAliases()
+   {
+      CustomFieldContainer fields = m_projectFile.getCustomFields();
+      for (Map.Entry<FieldType, String> entry : ALIASES.entrySet())
+      {
+         fields.getCustomField(entry.getKey()).setAlias(entry.getValue());
+      }
+   }
+
+   private static void defineField(Map<String, FieldType> container, String name, FieldType type)
+   {
+      defineField(container, name, type, null);
+   }
+
+   private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
+   {
+      container.put(name, type);
+      if (alias != null)
+      {
+         ALIASES.put(type, alias);
+      }
+   }
+
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
@@ -244,24 +268,29 @@ public final class TurboProjectReader extends AbstractProjectReader
    static
    {
       TABLE_CLASSES.put("RTAB", TableRTAB.class);
+      TABLE_CLASSES.put("A0TAB", TableA0TAB.class);
    }
 
+   private static final Map<FieldType, String> ALIASES = new HashMap<FieldType, String>();
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
+
    static
    {
-      RESOURCE_FIELDS.put("ID", ResourceField.ID);
-      RESOURCE_FIELDS.put("UNIQUE_ID", ResourceField.UNIQUE_ID);
-      RESOURCE_FIELDS.put("NAME", ResourceField.NAME);
-      RESOURCE_FIELDS.put("GROUP", ResourceField.GROUP);
-      RESOURCE_FIELDS.put("UNIT", ResourceField.TEXT1);
-      RESOURCE_FIELDS.put("RATE", ResourceField.NUMBER1);
-      RESOURCE_FIELDS.put("DESCRIPTION", ResourceField.NOTES);
-      RESOURCE_FIELDS.put("POOL", ResourceField.NUMBER2);
-      RESOURCE_FIELDS.put("PER_DAY", ResourceField.NUMBER3);
-      RESOURCE_FIELDS.put("EXPENSES_ONLY", ResourceField.FLAG1);
-      RESOURCE_FIELDS.put("MODIFY_ON_INTEGRATE", ResourceField.FLAG2);
-      RESOURCE_FIELDS.put("PRIORITY", ResourceField.NUMBER4);
-      RESOURCE_FIELDS.put("PERIOD_DUE", ResourceField.NUMBER4);
-      RESOURCE_FIELDS.put("PARENT_ID", ResourceField.PARENT_ID);
+      defineField(RESOURCE_FIELDS, "ID", ResourceField.ID);
+      defineField(RESOURCE_FIELDS, "UNIQUE_ID", ResourceField.UNIQUE_ID);
+      defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
+      defineField(RESOURCE_FIELDS, "GROUP", ResourceField.GROUP);
+      defineField(RESOURCE_FIELDS, "DESCRIPTION", ResourceField.NOTES);
+      defineField(RESOURCE_FIELDS, "PARENT_ID", ResourceField.PARENT_ID);
+
+      defineField(RESOURCE_FIELDS, "RATE", ResourceField.NUMBER1, "Rate");
+      defineField(RESOURCE_FIELDS, "POOL", ResourceField.NUMBER2, "Pool");
+      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceField.NUMBER3, "Per Day");
+      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceField.NUMBER4, "Priority");
+      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceField.NUMBER5, "Period Dur");
+      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceField.FLAG1, "Expenses Only");
+      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceField.FLAG2, "Modify On Integrate");
+      defineField(RESOURCE_FIELDS, "UNIT", ResourceField.TEXT1, "Unit");
    }
+
 }

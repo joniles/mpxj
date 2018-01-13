@@ -22,8 +22,19 @@ class Table implements Iterable<MapRow>
       int headerLength = PEPUtility.getShort(headerBlock, 8);
       int recordCount = PEPUtility.getInt(headerBlock, 10);
       int recordLength = PEPUtility.getInt(headerBlock, 16);
+      long skip = headerLength - headerBlock.length;
 
-      is.skip(headerLength - headerBlock.length);
+      System.out.println("\nTable: " + getClass().getSimpleName());
+      System.out.println("Header Length: " + headerLength);
+      System.out.println("Records: " + recordCount);
+      System.out.println("Record Length: " + recordLength);
+      System.out.println("Skip: " + skip);
+
+      while (skip > 0)
+      {
+         skip -= is.skip(skip);
+         System.out.println("Skip: " + skip);
+      }
 
       byte[] record = new byte[recordLength];
       for (int recordIndex = 1; recordIndex <= recordCount; recordIndex++)
