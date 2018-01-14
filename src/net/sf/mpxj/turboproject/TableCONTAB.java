@@ -1,5 +1,5 @@
 /*
- * file:       TableA0TAB.java
+ * file:       TableCONTAB.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       12/01/2018
@@ -26,10 +26,14 @@ package net.sf.mpxj.turboproject;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.RelationType;
+import net.sf.mpxj.TimeUnit;
+
 /**
- * Read the contents of the A0TAB table.
+ * Read the contents of the CONTAB table.
  */
-class TableA0TAB extends Table
+class TableCONTAB extends Table
 {
    /**
     * {@inheritDoc}
@@ -37,11 +41,35 @@ class TableA0TAB extends Table
    @Override protected void readRow(int uniqueID, byte[] data)
    {
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("ID", Integer.valueOf(m_id++));
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
       map.put("DELETED", Boolean.valueOf(data[0] == (byte) 0xFF));
+      map.put("TASK_ID_1", Integer.valueOf(PEPUtility.getShort(data, 1)));
+      map.put("TASK_ID_2", Integer.valueOf(PEPUtility.getShort(data, 3)));
+      map.put("TYPE", getRelationType(PEPUtility.getShort(data, 9)));
+      map.put("LAG", Duration.getInstance(PEPUtility.getShort(data, 11), TimeUnit.DAYS));
       addRow(uniqueID, map);
    }
 
-   private int m_id = 1;
+   private RelationType getRelationType(int value)
+   {
+      RelationType result = null;
+      if (value >= 0 || value < RELATION_TYPES.length)
+      {
+         result = RELATION_TYPES[value];
+      }
+      if (result == null)
+      {
+         result = RelationType.FINISH_START;
+      }
+      return result;
+   }
+
+   private static final RelationType[] RELATION_TYPES =
+   {
+      null,
+      RelationType.START_START,
+      null,
+      RelationType.START_FINISH,
+      RelationType.FINISH_FINISH
+   };
 }

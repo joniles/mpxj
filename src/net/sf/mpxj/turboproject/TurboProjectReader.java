@@ -31,14 +31,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -71,7 +75,9 @@ public final class TurboProjectReader extends AbstractProjectReader
          m_tables = new HashMap<String, Table>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
+         config.setAutoResourceID(false);
          config.setAutoResourceUniqueID(false);
+         config.setAutoTaskID(false);
          config.setAutoTaskUniqueID(false);
          config.setAutoOutlineLevel(true);
          config.setAutoOutlineNumber(true);
@@ -85,12 +91,12 @@ public final class TurboProjectReader extends AbstractProjectReader
          applyAliases();
 
          readFile(stream);
-         //         readProjectProperties(ganttProject);
-         //         readCalendars(ganttProject);
+         //         readProjectProperties();
+         //         readCalendars();
          readResources();
          readTasks();
-         //         readRelationships(ganttProject);
-         //         readResourceAssignments(ganttProject);
+         //         readRelationships();
+         //         readResourceAssignments();
 
          //
          // Ensure that the unique ID counters are correct
@@ -188,10 +194,8 @@ public final class TurboProjectReader extends AbstractProjectReader
       for (MapRow row : getTable("RTAB"))
       {
          Resource resource = m_projectFile.addResource();
-         for (Map.Entry<String, FieldType> entry : RESOURCE_FIELDS.entrySet())
-         {
-            resource.set(entry.getValue(), row.getObject(entry.getKey()));
-         }
+         setFields(RESOURCE_FIELDS, row, resource);
+         // TODO: fire event
       }
 
       // TODO: Correctly handle calendar
@@ -199,10 +203,35 @@ public final class TurboProjectReader extends AbstractProjectReader
 
    private void readTasks()
    {
+      Table a1 = getTable("A1TAB");
+      Table a2 = getTable("A2TAB");
+      Table a3 = getTable("A3TAB");
+      Table a5 = getTable("A5TAB");
+
       for (MapRow row : getTable("A0TAB"))
       {
          Integer uniqueID = row.getInteger("UNIQUE_ID");
-         System.out.println("Task: " + uniqueID + " " + row.getBoolean("DELETED"));
+         if (!row.getBoolean("DELETED"))
+         {
+            Integer parentID = a1.find(uniqueID).getInteger("PARENT_ID");
+
+            ChildTaskContainer parent;
+            if (parentID.intValue() == 0)
+            {
+               parent = m_projectFile;
+            }
+            else
+            {
+               parent = m_projectFile.getTaskByUniqueID(parentID);
+            }
+            Task task = parent.addTask();
+
+            setFields(A0TAB_FIELDS, row, task);
+            setFields(A1TAB_FIELDS, a1.find(uniqueID), task);
+            setFields(A2TAB_FIELDS, a2.find(uniqueID), task);
+            setFields(A3TAB_FIELDS, a3.find(uniqueID), task);
+            setFields(A5TAB_FIELDS, a5.find(uniqueID), task);
+         }
       }
    }
 
@@ -243,6 +272,17 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
+   private void setFields(Map<String, FieldType> map, MapRow row, FieldContainer container)
+   {
+      if (row != null)
+      {
+         for (Map.Entry<String, FieldType> entry : map.entrySet())
+         {
+            container.set(entry.getValue(), row.getObject(entry.getKey()));
+         }
+      }
+   }
+
    private static void defineField(Map<String, FieldType> container, String name, FieldType type)
    {
       defineField(container, name, type, null);
@@ -269,10 +309,19 @@ public final class TurboProjectReader extends AbstractProjectReader
    {
       TABLE_CLASSES.put("RTAB", TableRTAB.class);
       TABLE_CLASSES.put("A0TAB", TableA0TAB.class);
+      TABLE_CLASSES.put("A1TAB", TableA1TAB.class);
+      TABLE_CLASSES.put("A2TAB", TableA2TAB.class);
+      TABLE_CLASSES.put("A3TAB", TableA3TAB.class);
+      TABLE_CLASSES.put("A5TAB", TableA5TAB.class);
    }
 
    private static final Map<FieldType, String> ALIASES = new HashMap<FieldType, String>();
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> A0TAB_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> A1TAB_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> A2TAB_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> A3TAB_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> A5TAB_FIELDS = new HashMap<String, FieldType>();
 
    static
    {
@@ -291,6 +340,27 @@ public final class TurboProjectReader extends AbstractProjectReader
       defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceField.FLAG1, "Expenses Only");
       defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceField.FLAG2, "Modify On Integrate");
       defineField(RESOURCE_FIELDS, "UNIT", ResourceField.TEXT1, "Unit");
+
+      defineField(A0TAB_FIELDS, "ID", TaskField.ID);
+      defineField(A0TAB_FIELDS, "UNIQUE_ID", TaskField.UNIQUE_ID);
+
+      defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
+      defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
+
+      defineField(A2TAB_FIELDS, "NAME", TaskField.NAME);
+
+      defineField(A3TAB_FIELDS, "EARLY_START", TaskField.EARLY_START);
+      defineField(A3TAB_FIELDS, "LATE_START", TaskField.LATE_START);
+      defineField(A3TAB_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
+      defineField(A3TAB_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
+
+      defineField(A5TAB_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
+      defineField(A5TAB_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
+      defineField(A5TAB_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
+      defineField(A5TAB_FIELDS, "TARGET_START", TaskField.DATE1, "Target Start");
+      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskField.DATE2, "Target Finish");
+      defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
+      defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
    }
 
 }

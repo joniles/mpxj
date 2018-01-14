@@ -1,5 +1,5 @@
 /*
- * file:       TableA0TAB.java
+ * file:       TableA2TAB.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       12/01/2018
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Read the contents of the A0TAB table.
  */
-class TableA0TAB extends Table
+class TableA2TAB extends Table
 {
    /**
     * {@inheritDoc}
@@ -37,11 +37,8 @@ class TableA0TAB extends Table
    @Override protected void readRow(int uniqueID, byte[] data)
    {
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("ID", Integer.valueOf(m_id++));
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
-      map.put("DELETED", Boolean.valueOf(data[0] == (byte) 0xFF));
+      map.put("NAME", PEPUtility.getString(data, 50, 51));
       addRow(uniqueID, map);
    }
-
-   private int m_id = 1;
 }

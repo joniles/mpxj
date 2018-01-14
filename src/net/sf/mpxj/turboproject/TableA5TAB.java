@@ -1,5 +1,5 @@
 /*
- * file:       TableA0TAB.java
+ * file:       TableA5TAB.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       12/01/2018
@@ -26,10 +26,13 @@ package net.sf.mpxj.turboproject;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
+
 /**
- * Read the contents of the A0TAB table.
+ * Read the contents of the A3TAB table.
  */
-class TableA0TAB extends Table
+class TableA5TAB extends Table
 {
    /**
     * {@inheritDoc}
@@ -37,11 +40,20 @@ class TableA0TAB extends Table
    @Override protected void readRow(int uniqueID, byte[] data)
    {
       Map<String, Object> map = new HashMap<String, Object>();
-      map.put("ID", Integer.valueOf(m_id++));
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
-      map.put("DELETED", Boolean.valueOf(data[0] == (byte) 0xFF));
+
+      int originalDuration = PEPUtility.getShort(data, 22);
+      int remainingDuration = PEPUtility.getShort(data, 24);
+      int percentComplete = ((originalDuration - remainingDuration) * 100) / originalDuration;
+
+      map.put("ORIGINAL_DURATION", Duration.getInstance(originalDuration, TimeUnit.DAYS));
+      map.put("REMAINING_DURATION", Duration.getInstance(remainingDuration, TimeUnit.DAYS));
+      map.put("PERCENT_COMPLETE", Integer.valueOf(percentComplete));
+      map.put("TARGET_START", PEPUtility.getStartDate(data, 4));
+      map.put("TARGET_FINISH", PEPUtility.getFinishDate(data, 6));
+      map.put("ACTUAL_START", PEPUtility.getStartDate(data, 16));
+      map.put("ACTUAL_FINISH", PEPUtility.getFinishDate(data, 18));
+
       addRow(uniqueID, map);
    }
-
-   private int m_id = 1;
 }
