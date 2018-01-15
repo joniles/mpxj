@@ -4,6 +4,10 @@ package net.sf.mpxj.mpp;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectFile;
@@ -13,10 +17,6 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
  * Common implementation detail to extract task constraint data from
@@ -69,39 +69,54 @@ public class ConstraintFactory
             // SourceForge bug 2209477: we were reading an int here, but
             // it looks like the deleted flag is just a short.
             //
-            if (MPPUtility.getShort(metaData, 0) == 0)
+            if (MPPUtility.getShort(metaData, 0) != 0)
             {
-               int index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
-               if (index != -1)
-               {
-                  //                  byte[] metaData2 = consFixed2Meta.getByteArrayValue(loop);
-                  //                  int index2 = consFixed2Data.getIndexFromOffset(MPPUtility.getInt(metaData2, 4));
-                  //                  byte[] data2 = consFixed2Data.getByteArrayValue(index2);
+               continue;
+            }
 
-                  byte[] data = consFixedData.getByteArrayValue(index);
-                  int constraintID = MPPUtility.getInt(data, 0);
-                  if (constraintID > lastConstraintID)
-                  {
-                     lastConstraintID = constraintID;
-                     int taskID1 = MPPUtility.getInt(data, 4);
-                     int taskID2 = MPPUtility.getInt(data, 8);
+            int index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
+            if (index == -1)
+            {
+               continue;
+            }
 
-                     if (taskID1 != taskID2)
-                     {
-                        Task task1 = file.getTaskByUniqueID(Integer.valueOf(taskID1));
-                        Task task2 = file.getTaskByUniqueID(Integer.valueOf(taskID2));
+            //
+            // Do we have enough data?
+            //
+            byte[] data = consFixedData.getByteArrayValue(index);
+            if (data.length < 14)
+            {
+               continue;
+            }
 
-                        if (task1 != null && task2 != null)
-                        {
-                           RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
-                           TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset));
-                           Duration lag = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), durationUnits);
-                           Relation relation = task2.addPredecessor(task1, type, lag);
-                           eventManager.fireRelationReadEvent(relation);
-                        }
-                     }
-                  }
-               }
+            int constraintID = MPPUtility.getInt(data, 0);
+            if (constraintID <= lastConstraintID)
+            {
+               continue;
+            }
+
+            lastConstraintID = constraintID;
+            int taskID1 = MPPUtility.getInt(data, 4);
+            int taskID2 = MPPUtility.getInt(data, 8);
+
+            if (taskID1 == taskID2)
+            {
+               continue;
+            }
+
+            // byte[] metaData2 = consFixed2Meta.getByteArrayValue(loop);
+            // int index2 = consFixed2Data.getIndexFromOffset(MPPUtility.getInt(metaData2, 4));
+            // byte[] data2 = consFixed2Data.getByteArrayValue(index2);
+
+            Task task1 = file.getTaskByUniqueID(Integer.valueOf(taskID1));
+            Task task2 = file.getTaskByUniqueID(Integer.valueOf(taskID2));
+            if (task1 != null && task2 != null)
+            {
+               RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
+               TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset));
+               Duration lag = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), durationUnits);
+               Relation relation = task2.addPredecessor(task1, type, lag);
+               eventManager.fireRelationReadEvent(relation);
             }
          }
       }
