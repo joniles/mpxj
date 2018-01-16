@@ -67,7 +67,6 @@ class Table implements Iterable<MapRow>
       while (skip > 0)
       {
          skip -= is.skip(skip);
-         System.out.println("Skip: " + skip);
       }
 
       byte[] record = new byte[recordLength];

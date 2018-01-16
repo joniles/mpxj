@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
+import java.util.Date;
 import java.util.Map;
 
 import net.sf.mpxj.Duration;
@@ -106,6 +107,17 @@ class MapRow
    public final Duration getDuration(String name)
    {
       return (Duration) getObject(name);
+   }
+
+   /**
+    * Retrieve a date value.
+    *
+    * @param name column name
+    * @return date value
+    */
+   public final Date getDate(String name)
+   {
+      return (Date) getObject(name);
    }
 
    /**

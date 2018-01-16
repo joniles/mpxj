@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,15 +35,21 @@ import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -50,7 +57,7 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
- * This class creates a new ProjectFile instance by reading a GanttProject file.
+ * This class creates a new ProjectFile instance by reading a TurboProject PEP file.
  */
 public final class TurboProjectReader extends AbstractProjectReader
 {
@@ -122,6 +129,11 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Reads a PEP file from the input stream.
+    *
+    * @param is input stream representing a PEP file
+    */
    private void readFile(InputStream is) throws IOException
    {
       is.skip(64);
@@ -173,22 +185,104 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read calendar data from a PEP file.
+    */
    private void readCalendars()
    {
+      //
+      // Create the calendars
+      //
+      for (MapRow row : getTable("NCALTAB"))
+      {
+         ProjectCalendar calendar = m_projectFile.addCalendar();
+         calendar.setUniqueID(row.getInteger("UNIQUE_ID"));
+         calendar.setName(row.getString("NAME"));
+         calendar.setWorkingDay(Day.SUNDAY, row.getBoolean("SUNDAY"));
+         calendar.setWorkingDay(Day.MONDAY, row.getBoolean("MONDAY"));
+         calendar.setWorkingDay(Day.TUESDAY, row.getBoolean("TUESDAY"));
+         calendar.setWorkingDay(Day.WEDNESDAY, row.getBoolean("WEDNESDAY"));
+         calendar.setWorkingDay(Day.THURSDAY, row.getBoolean("THURSDAY"));
+         calendar.setWorkingDay(Day.FRIDAY, row.getBoolean("FRIDAY"));
+         calendar.setWorkingDay(Day.SATURDAY, row.getBoolean("SATURDAY"));
+
+         for (Day day : Day.values())
+         {
+            if (calendar.isWorkingDay(day))
+            {
+               // TODO: this is an approximation
+               calendar.addDefaultCalendarHours(day);
+            }
+         }
+      }
+
+      //
+      // Set up the hierarchy and add exceptions
+      //
+      Table exceptionsTable = getTable("CALXTAB");
+      for (MapRow row : getTable("NCALTAB"))
+      {
+         ProjectCalendar child = m_projectFile.getCalendarByUniqueID(row.getInteger("UNIQUE_ID"));
+         ProjectCalendar parent = m_projectFile.getCalendarByUniqueID(row.getInteger("BASE_CALENDAR_ID"));
+         if (child != null && parent != null)
+         {
+            child.setParent(parent);
+         }
+
+         addCalendarExceptions(exceptionsTable, child, row.getInteger("FIRST_CALENDAR_EXCEPTION_ID"));
+
+         m_eventManager.fireCalendarReadEvent(child);
+      }
    }
 
+   /**
+    * Read exceptions for a calendar.
+    *
+    * @param table calendar exception data
+    * @param calendar calendar
+    * @param exceptionID first exception ID
+    */
+   private void addCalendarExceptions(Table table, ProjectCalendar calendar, Integer exceptionID)
+   {
+      Integer currentExceptionID = exceptionID;
+      while (true)
+      {
+         MapRow row = table.find(currentExceptionID);
+         if (row == null)
+         {
+            break;
+         }
+
+         Date date = row.getDate("DATE");
+         ProjectCalendarException exception = calendar.addCalendarException(date, date);
+         if (row.getBoolean("WORKING"))
+         {
+            exception.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+            exception.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+         }
+
+         currentExceptionID = row.getInteger("NEXT_CALENDAR_EXCEPTION_ID");
+      }
+   }
+
+   /**
+    * Read resource data from a PEP file.
+    */
    private void readResources()
    {
       for (MapRow row : getTable("RTAB"))
       {
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
-         // TODO: fire event
+         m_eventManager.fireResourceReadEvent(resource);
       }
 
       // TODO: Correctly handle calendar
    }
 
+   /**
+    * Read task data from a PEP file.
+    */
    private void readTasks()
    {
       Table a1 = getTable("A1TAB");
@@ -222,6 +316,8 @@ public final class TurboProjectReader extends AbstractProjectReader
 
             task.setStart(task.getEarlyStart());
             task.setFinish(task.getEarlyFinish());
+
+            m_eventManager.fireTaskReadEvent(task);
          }
       }
 
@@ -240,7 +336,7 @@ public final class TurboProjectReader extends AbstractProjectReader
     * the position of the task relative to its siblings. We'll
     * sort each level of the hierarchy using this method.
     *
-    * @param tasks
+    * @param tasks list of tasks to sort
     */
    private void sortTasks(List<Task> tasks)
    {
@@ -251,6 +347,9 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read relationship data from a PEP file.
+    */
    private void readRelationships()
    {
       for (MapRow row : getTable("CONTAB"))
@@ -262,11 +361,15 @@ public final class TurboProjectReader extends AbstractProjectReader
          {
             RelationType type = row.getRelationType("TYPE");
             Duration lag = row.getDuration("LAG");
-            task2.addPredecessor(task1, type, lag);
+            Relation relation = task2.addPredecessor(task1, type, lag);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
 
+   /**
+    * Read resource assignment data from a PEP file.
+    */
    private void readResourceAssignments()
    {
       for (MapRow row : getTable("USGTAB"))
@@ -275,11 +378,18 @@ public final class TurboProjectReader extends AbstractProjectReader
          Resource resource = m_projectFile.getResourceByUniqueID(row.getInteger("RESOURCE_ID"));
          if (task != null && resource != null)
          {
-            task.addResourceAssignment(resource);
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
    }
 
+   /**
+    * Retrieve a table by name.
+    *
+    * @param name table name
+    * @return Table instance
+    */
    private Table getTable(String name)
    {
       Table table = m_tables.get(name);
@@ -290,6 +400,9 @@ public final class TurboProjectReader extends AbstractProjectReader
       return table;
    }
 
+   /**
+    * Configure column aliases.
+    */
    private void applyAliases()
    {
       CustomFieldContainer fields = m_projectFile.getCustomFields();
@@ -299,6 +412,13 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Set the value of one or more fields based on the contents of a database row.
+    *
+    * @param map column to field map
+    * @param row database row
+    * @param container field container
+    */
    private void setFields(Map<String, FieldType> map, MapRow row, FieldContainer container)
    {
       if (row != null)
@@ -310,11 +430,27 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Configure the mapping between a database column and a field.
+    *
+    * @param container column to field map
+    * @param name column name
+    * @param type field type
+    */
    private static void defineField(Map<String, FieldType> container, String name, FieldType type)
    {
       defineField(container, name, type, null);
    }
 
+   /**
+    * Configure the mapping between a database column and a field, including definition of
+    * an alias.
+    *
+    * @param container column to field map
+    * @param name column name
+    * @param type field type
+    * @param alias field alias
+    */
    private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
    {
       container.put(name, type);
