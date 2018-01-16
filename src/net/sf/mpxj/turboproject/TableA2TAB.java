@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Read the contents of the A0TAB table.
+ * Read the contents of the A2TAB table.
  */
 class TableA2TAB extends Table
 {

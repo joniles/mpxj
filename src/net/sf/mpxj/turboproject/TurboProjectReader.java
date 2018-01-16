@@ -26,6 +26,7 @@ package net.sf.mpxj.turboproject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,12 +34,14 @@ import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
@@ -91,12 +94,11 @@ public final class TurboProjectReader extends AbstractProjectReader
          applyAliases();
 
          readFile(stream);
-         //         readProjectProperties();
-         //         readCalendars();
+         readCalendars();
          readResources();
          readTasks();
-         //         readRelationships();
-         //         readResourceAssignments();
+         readRelationships();
+         readResourceAssignments();
 
          //
          // Ensure that the unique ID counters are correct
@@ -171,23 +173,9 @@ public final class TurboProjectReader extends AbstractProjectReader
       }
    }
 
-   /**
-    * This method extracts project properties from a GanttProject file.
-    *
-    * @param tpProject TurboProject file
-    */
-   //   private void readProjectProperties(Project tpProject)
-   //   {
-   //   }
-
-   /**
-    * This method extracts calendar data from a GanttProject file.
-    *
-    * @param ganttProject Root node of the GanttProject file
-    */
-   //   private void readCalendars(Project ganttProject)
-   //   {
-   //   }
+   private void readCalendars()
+   {
+   }
 
    private void readResources()
    {
@@ -210,9 +198,9 @@ public final class TurboProjectReader extends AbstractProjectReader
 
       for (MapRow row : getTable("A0TAB"))
       {
-         Integer uniqueID = row.getInteger("UNIQUE_ID");
          if (!row.getBoolean("DELETED"))
          {
+            Integer uniqueID = row.getInteger("UNIQUE_ID");
             Integer parentID = a1.find(uniqueID).getInteger("PARENT_ID");
 
             ChildTaskContainer parent;
@@ -231,27 +219,66 @@ public final class TurboProjectReader extends AbstractProjectReader
             setFields(A2TAB_FIELDS, a2.find(uniqueID), task);
             setFields(A3TAB_FIELDS, a3.find(uniqueID), task);
             setFields(A5TAB_FIELDS, a5.find(uniqueID), task);
+
+            task.setStart(task.getEarlyStart());
+            task.setFinish(task.getEarlyFinish());
+         }
+      }
+
+      //
+      // Sort the tasks into the correct order,
+      // then renumber the ID attribute to match
+      // the hierarchy and task order.
+      //
+      sortTasks(m_projectFile.getChildTasks());
+      m_projectFile.getTasks().synchronizeTaskIDToHierarchy();
+   }
+
+   /**
+    * When we call this method, we've populated the ID
+    * attribute of each task with an "order" value representing
+    * the position of the task relative to its siblings. We'll
+    * sort each level of the hierarchy using this method.
+    *
+    * @param tasks
+    */
+   private void sortTasks(List<Task> tasks)
+   {
+      Collections.sort(tasks);
+      for (Task task : tasks)
+      {
+         sortTasks(task.getChildTasks());
+      }
+   }
+
+   private void readRelationships()
+   {
+      for (MapRow row : getTable("CONTAB"))
+      {
+         Task task1 = m_projectFile.getTaskByUniqueID(row.getInteger("TASK_ID_1"));
+         Task task2 = m_projectFile.getTaskByUniqueID(row.getInteger("TASK_ID_2"));
+
+         if (task1 != null && task2 != null)
+         {
+            RelationType type = row.getRelationType("TYPE");
+            Duration lag = row.getDuration("LAG");
+            task2.addPredecessor(task1, type, lag);
          }
       }
    }
 
-   /**
-    * Read all task relationships from a GanttProject.
-    *
-    * @param gpProject GanttProject project
-    */
-   //   private void readRelationships(Project gpProject)
-   //   {
-   //   }
-
-   /**
-    * Read all resource assignments from a GanttProject project.
-    *
-    * @param gpProject GanttProject project
-    */
-   //   private void readResourceAssignments(Project gpProject)
-   //   {
-   //   }
+   private void readResourceAssignments()
+   {
+      for (MapRow row : getTable("USGTAB"))
+      {
+         Task task = m_projectFile.getTaskByUniqueID(row.getInteger("TASK_ID"));
+         Resource resource = m_projectFile.getResourceByUniqueID(row.getInteger("RESOURCE_ID"));
+         if (task != null && resource != null)
+         {
+            task.addResourceAssignment(resource);
+         }
+      }
+   }
 
    private Table getTable(String name)
    {
@@ -313,6 +340,10 @@ public final class TurboProjectReader extends AbstractProjectReader
       TABLE_CLASSES.put("A2TAB", TableA2TAB.class);
       TABLE_CLASSES.put("A3TAB", TableA3TAB.class);
       TABLE_CLASSES.put("A5TAB", TableA5TAB.class);
+      TABLE_CLASSES.put("CONTAB", TableCONTAB.class);
+      TABLE_CLASSES.put("USGTAB", TableUSGTAB.class);
+      TABLE_CLASSES.put("NCALTAB", TableNCALTAB.class);
+      TABLE_CLASSES.put("CALXTAB", TableCALXTAB.class);
    }
 
    private static final Map<FieldType, String> ALIASES = new HashMap<FieldType, String>();
@@ -341,9 +372,9 @@ public final class TurboProjectReader extends AbstractProjectReader
       defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceField.FLAG2, "Modify On Integrate");
       defineField(RESOURCE_FIELDS, "UNIT", ResourceField.TEXT1, "Unit");
 
-      defineField(A0TAB_FIELDS, "ID", TaskField.ID);
       defineField(A0TAB_FIELDS, "UNIQUE_ID", TaskField.UNIQUE_ID);
 
+      defineField(A1TAB_FIELDS, "ORDER", TaskField.ID);
       defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
       defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
 
@@ -362,5 +393,4 @@ public final class TurboProjectReader extends AbstractProjectReader
       defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
       defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
    }
-
 }

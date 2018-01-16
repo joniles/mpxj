@@ -1,5 +1,5 @@
 /*
- * file:       TableA1TAB.java
+ * file:       TableCALXTAB.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       12/01/2018
@@ -27,21 +27,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Read the contents of the A1TAB table.
+ * Read the contents of the CALXTAB table.
  */
-class TableA1TAB extends Table
+class TableCALXTAB extends Table
 {
    /**
     * {@inheritDoc}
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
-      map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
-      map.put("ORDER", Integer.valueOf(PEPUtility.getShort(data, 16)));
-      map.put("PARENT_ID", Integer.valueOf(PEPUtility.getShort(data, 0)));
-      map.put("PLANNED_START", PEPUtility.getStartDate(data, 22));
-      map.put("PLANNED_FINISH", PEPUtility.getFinishDate(data, 24));
-      addRow(uniqueID, map);
+      if (data[0] != (byte) 0xFF)
+      {
+         Map<String, Object> map = new HashMap<String, Object>();
+         map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
+
+         map.put("DATE", PEPUtility.getStartDate(data, 1));
+         map.put("WORKING", Boolean.valueOf(data[3] == (byte) 0x00));
+         map.put("NEXT_CALENDAR_EXCEPTION_ID", Integer.valueOf(PEPUtility.getShort(data, 4)));
+
+         addRow(uniqueID, map);
+      }
    }
 }

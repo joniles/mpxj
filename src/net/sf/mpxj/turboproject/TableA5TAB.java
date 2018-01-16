@@ -30,7 +30,8 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 
 /**
- * Read the contents of the A3TAB table.
+ * Read the contents of the A3
+ * 5TAB table.
  */
 class TableA5TAB extends Table
 {
@@ -44,7 +45,12 @@ class TableA5TAB extends Table
 
       int originalDuration = PEPUtility.getShort(data, 22);
       int remainingDuration = PEPUtility.getShort(data, 24);
-      int percentComplete = ((originalDuration - remainingDuration) * 100) / originalDuration;
+      int percentComplete = 0;
+
+      if (originalDuration != 0)
+      {
+         percentComplete = ((originalDuration - remainingDuration) * 100) / originalDuration;
+      }
 
       map.put("ORIGINAL_DURATION", Duration.getInstance(originalDuration, TimeUnit.DAYS));
       map.put("REMAINING_DURATION", Duration.getInstance(remainingDuration, TimeUnit.DAYS));

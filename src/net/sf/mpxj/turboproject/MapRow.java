@@ -1,8 +1,8 @@
 /*
  * file:       MapRow.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2010
- * date:       22/03/2010
+ * copyright:  (c) Packwood Software 2018
+ * date:       12/01/2018
  */
 
 /*
@@ -23,15 +23,17 @@
 
 package net.sf.mpxj.turboproject;
 
-import java.util.Date;
 import java.util.Map;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.common.BooleanHelper;
 
 /**
- * Implementation of the Row interface, wrapping a Map.
+ * Wraps a simple map which contains name value
+ * pairs representing the column values
+ * from an individual row. Provides type-specific
+ * methods to retrieve the column values.
  */
 class MapRow
 {
@@ -46,7 +48,10 @@ class MapRow
    }
 
    /**
-    * {@inheritDoc}
+    * Retrieve a string value.
+    *
+    * @param name column name
+    * @return string value
     */
    public final String getString(String name)
    {
@@ -54,7 +59,10 @@ class MapRow
    }
 
    /**
-    * {@inheritDoc}
+    * Retrieve an integer value.
+    *
+    * @param name column name
+    * @return integer value
     */
    public final Integer getInteger(String name)
    {
@@ -62,21 +70,21 @@ class MapRow
    }
 
    /**
-    * {@inheritDoc}
+    * Retrieve a relation type value.
+    *
+    * @param name column name
+    * @return relation type value
     */
-   public final Double getCurrency(String name)
+   public final RelationType getRelationType(String name)
    {
-      Double result = null;
-      Integer value = (Integer) getObject(name);
-      if (value != null)
-      {
-         result = Double.valueOf(value.doubleValue() / 100);
-      }
-      return result;
+      return (RelationType) getObject(name);
    }
 
    /**
-    * {@inheritDoc}
+    * Retrieve a boolean value.
+    *
+    * @param name column name
+    * @return boolean value
     */
    public final boolean getBoolean(String name)
    {
@@ -84,43 +92,31 @@ class MapRow
       Boolean value = (Boolean) getObject(name);
       if (value != null)
       {
-         result = BooleanHelper.getBoolean((Boolean) value);
+         result = BooleanHelper.getBoolean(value);
       }
       return result;
    }
 
    /**
-    * {@inheritDoc}
-    */
-   public final Date getDate(String name)
-   {
-      return (Date) getObject(name);
-   }
-
-   /**
-    * {@inheritDoc}
+    * Retrieve a duration value.
+    *
+    * @param name column name
+    * @return duration value
     */
    public final Duration getDuration(String name)
    {
-      Duration result = null;
-      Integer duration = (Integer) getObject(name);
-      if (duration != null)
-      {
-         result = Duration.getInstance(duration.intValue(), TimeUnit.DAYS);
-      }
-      return result;
+      return (Duration) getObject(name);
    }
 
    /**
-    * Retrieve a value from the map.
+    * Retrieve a value without being specific about its type.
     *
     * @param name column name
-    * @return column value
+    * @return value
     */
    public final Object getObject(String name)
    {
-      Object result = m_map.get(name);
-      return (result);
+      return m_map.get(name);
    }
 
    protected Map<String, Object> m_map;

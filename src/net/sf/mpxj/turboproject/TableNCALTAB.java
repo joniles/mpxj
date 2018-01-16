@@ -1,5 +1,5 @@
 /*
- * file:       TableCONTAB.java
+ * file:       TableNCALTAB.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       12/01/2018
@@ -26,14 +26,10 @@ package net.sf.mpxj.turboproject;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.RelationType;
-import net.sf.mpxj.TimeUnit;
-
 /**
- * Read the contents of the CONTAB table.
+ * Read the contents of the NCALTAB table.
  */
-class TableCONTAB extends Table
+class TableNCALTAB extends Table
 {
    /**
     * {@inheritDoc}
@@ -44,40 +40,20 @@ class TableCONTAB extends Table
       {
          Map<String, Object> map = new HashMap<String, Object>();
          map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
-         map.put("TASK_ID_1", Integer.valueOf(PEPUtility.getShort(data, 1)));
-         map.put("TASK_ID_2", Integer.valueOf(PEPUtility.getShort(data, 3)));
-         map.put("TYPE", getRelationType(PEPUtility.getShort(data, 9)));
-         map.put("LAG", Duration.getInstance(PEPUtility.getShort(data, 11), TimeUnit.DAYS));
+
+         map.put("NAME", PEPUtility.getString(data, 1, 8));
+         map.put("START", PEPUtility.getStartDate(data, 9));
+         map.put("BASE_CALENDAR_ID", Integer.valueOf(PEPUtility.getShort(data, 11)));
+         map.put("FIRST_CALENDAR_EXCEPTION_ID", Integer.valueOf(PEPUtility.getShort(data, 13)));
+         map.put("SUNDAY", Boolean.valueOf((data[17] & 0x40) == 0));
+         map.put("MONDAY", Boolean.valueOf((data[17] & 0x02) == 0));
+         map.put("TUESDAY", Boolean.valueOf((data[17] & 0x04) == 0));
+         map.put("WEDNESDAY", Boolean.valueOf((data[17] & 0x08) == 0));
+         map.put("THURSDAY", Boolean.valueOf((data[17] & 0x10) == 0));
+         map.put("FRIDAY", Boolean.valueOf((data[17] & 0x20) == 0));
+         map.put("SATURDAY", Boolean.valueOf((data[17] & 0x01) == 0));
+
          addRow(uniqueID, map);
       }
    }
-
-   /**
-    * Convert an integer into a RelationType instance.
-    *
-    * @param value relation type as an integer
-    * @return RelationType instance
-    */
-   private RelationType getRelationType(int value)
-   {
-      RelationType result = null;
-      if (value >= 0 || value < RELATION_TYPES.length)
-      {
-         result = RELATION_TYPES[value];
-      }
-      if (result == null)
-      {
-         result = RelationType.FINISH_START;
-      }
-      return result;
-   }
-
-   private static final RelationType[] RELATION_TYPES =
-   {
-      null,
-      RelationType.START_START,
-      null,
-      RelationType.FINISH_START,
-      RelationType.FINISH_FINISH
-   };
 }
