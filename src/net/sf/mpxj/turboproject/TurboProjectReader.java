@@ -26,7 +26,6 @@ package net.sf.mpxj.turboproject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -285,66 +284,116 @@ public final class TurboProjectReader extends AbstractProjectReader
     */
    private void readTasks()
    {
-      Table a1 = getTable("A1TAB");
-      Table a2 = getTable("A2TAB");
-      Table a3 = getTable("A3TAB");
-      Table a5 = getTable("A5TAB");
-
-      for (MapRow row : getTable("A0TAB"))
-      {
-         if (!row.getBoolean("DELETED"))
-         {
-            Integer uniqueID = row.getInteger("UNIQUE_ID");
-            Integer parentID = a1.find(uniqueID).getInteger("PARENT_ID");
-
-            ChildTaskContainer parent;
-            if (parentID.intValue() == 0)
-            {
-               parent = m_projectFile;
-            }
-            else
-            {
-               parent = m_projectFile.getTaskByUniqueID(parentID);
-            }
-            Task task = parent.addTask();
-
-            setFields(A0TAB_FIELDS, row, task);
-            setFields(A1TAB_FIELDS, a1.find(uniqueID), task);
-            setFields(A2TAB_FIELDS, a2.find(uniqueID), task);
-            setFields(A3TAB_FIELDS, a3.find(uniqueID), task);
-            setFields(A5TAB_FIELDS, a5.find(uniqueID), task);
-
-            task.setStart(task.getEarlyStart());
-            task.setFinish(task.getEarlyFinish());
-
-            m_eventManager.fireTaskReadEvent(task);
-         }
-      }
-
-      //
-      // Sort the tasks into the correct order,
-      // then renumber the ID attribute to match
-      // the hierarchy and task order.
-      //
-      sortTasks(m_projectFile.getChildTasks());
+      Integer rootID = Integer.valueOf(1);
+      readWBS(m_projectFile, rootID);
+      readTasks(rootID);
       m_projectFile.getTasks().synchronizeTaskIDToHierarchy();
    }
 
    /**
-    * When we call this method, we've populated the ID
-    * attribute of each task with an "order" value representing
-    * the position of the task relative to its siblings. We'll
-    * sort each level of the hierarchy using this method.
+    * Recursively read the WBS structure from a PEP file.
     *
-    * @param tasks list of tasks to sort
+    * @param parent parent container for tasks
+    * @param id initial WBS ID
     */
-   private void sortTasks(List<Task> tasks)
+   private void readWBS(ChildTaskContainer parent, Integer id)
    {
-      Collections.sort(tasks);
-      for (Task task : tasks)
+      Integer currentID = id;
+      Table table = getTable("WBSTAB");
+
+      while (currentID.intValue() != 0)
       {
-         sortTasks(task.getChildTasks());
+         MapRow row = table.find(currentID);
+         Integer taskID = row.getInteger("TASK_ID");
+         Task task = readTask(parent, taskID);
+         Integer childID = row.getInteger("CHILD_ID");
+         if (childID.intValue() != 0)
+         {
+            readWBS(task, childID);
+         }
+         currentID = row.getInteger("NEXT_ID");
       }
+   }
+
+   /**
+    * Read leaf tasks attached to the WBS.
+    *
+    * @param id initial WBS ID
+    */
+   private void readTasks(Integer id)
+   {
+      Integer currentID = id;
+      Table table = getTable("WBSTAB");
+
+      while (currentID.intValue() != 0)
+      {
+         MapRow row = table.find(currentID);
+         Task task = m_projectFile.getTaskByUniqueID(row.getInteger("TASK_ID"));
+         readLeafTasks(task, row.getInteger("FIRST_CHILD_TASK_ID"));
+         Integer childID = row.getInteger("CHILD_ID");
+         if (childID.intValue() != 0)
+         {
+            readTasks(childID);
+         }
+         currentID = row.getInteger("NEXT_ID");
+      }
+   }
+
+   /**
+    * Read the leaf tasks for an individual WBS node.
+    *
+    * @param parent parent task
+    * @param id first task ID
+    */
+   private void readLeafTasks(Task parent, Integer id)
+   {
+      Integer currentID = id;
+      Table table = getTable("A1TAB");
+      while (currentID.intValue() != 0)
+      {
+         if (m_projectFile.getTaskByUniqueID(currentID) == null)
+         {
+            readTask(parent, currentID);
+         }
+         currentID = table.find(currentID).getInteger("NEXT_TASK_ID");
+      }
+   }
+
+   /**
+    * Read data for an individual task from the tables in a PEP file.
+    *
+    * @param parent parent task
+    * @param id task ID
+    * @return task instance
+    */
+   private Task readTask(ChildTaskContainer parent, Integer id)
+   {
+      Table a0 = getTable("A0TAB");
+      Table a1 = getTable("A1TAB");
+      Table a2 = getTable("A2TAB");
+      Table a3 = getTable("A3TAB");
+      Table a4 = getTable("A4TAB");
+
+      Task task = parent.addTask();
+      MapRow a1Row = a1.find(id);
+      MapRow a2Row = a2.find(id);
+
+      setFields(A0TAB_FIELDS, a0.find(id), task);
+      setFields(A1TAB_FIELDS, a1Row, task);
+      setFields(A2TAB_FIELDS, a2Row, task);
+      setFields(A3TAB_FIELDS, a3.find(id), task);
+      setFields(A5TAB_FIELDS, a4.find(id), task);
+
+      task.setStart(task.getEarlyStart());
+      task.setFinish(task.getEarlyFinish());
+      if (task.getName() == null)
+      {
+         task.setName(task.getText(1));
+      }
+
+      m_eventManager.fireTaskReadEvent(task);
+
+      return task;
    }
 
    /**
@@ -480,6 +529,7 @@ public final class TurboProjectReader extends AbstractProjectReader
       TABLE_CLASSES.put("USGTAB", TableUSGTAB.class);
       TABLE_CLASSES.put("NCALTAB", TableNCALTAB.class);
       TABLE_CLASSES.put("CALXTAB", TableCALXTAB.class);
+      TABLE_CLASSES.put("WBSTAB", TableWBSTAB.class);
    }
 
    private static final Map<FieldType, String> ALIASES = new HashMap<FieldType, String>();
@@ -514,7 +564,7 @@ public final class TurboProjectReader extends AbstractProjectReader
       defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
       defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
 
-      defineField(A2TAB_FIELDS, "NAME", TaskField.NAME);
+      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskField.TEXT1, "Description");
 
       defineField(A3TAB_FIELDS, "EARLY_START", TaskField.EARLY_START);
       defineField(A3TAB_FIELDS, "LATE_START", TaskField.LATE_START);

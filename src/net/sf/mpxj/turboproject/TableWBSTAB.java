@@ -1,5 +1,5 @@
 /*
- * file:       TableA2TAB.java
+ * file:       TableWBSTAB.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       12/01/2018
@@ -27,19 +27,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Read the contents of the A2TAB table.
+ * Read the contents of the WBSTAB table.
  */
-class TableA2TAB extends Table
+class TableWBSTAB extends Table
 {
    /**
     * {@inheritDoc}
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
-      map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
-      map.put("DESCRIPTION", PEPUtility.getString(data, 50, 51));
-      map.put("FIRST_CHILD_TASK_ID", Integer.valueOf(PEPUtility.getShort(data, 116)));
-      addRow(uniqueID, map);
+      if ((data[0] != (byte) 0xFF))
+      {
+         Map<String, Object> map = new HashMap<String, Object>();
+         map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
+         map.put("CHILD_ID", Integer.valueOf(PEPUtility.getShort(data, 7)));
+         map.put("NEXT_ID", Integer.valueOf(PEPUtility.getShort(data, 5)));
+         map.put("TASK_ID", Integer.valueOf(PEPUtility.getShort(data, 9)));
+         map.put("FIRST_CHILD_TASK_ID", Integer.valueOf(PEPUtility.getShort(data, 39)));
+         addRow(uniqueID, map);
+      }
    }
 }

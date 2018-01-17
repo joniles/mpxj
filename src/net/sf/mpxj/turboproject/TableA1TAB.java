@@ -38,8 +38,10 @@ class TableA1TAB extends Table
    {
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
+      map.put("NAME", PEPUtility.getString(data, 1, 15));
       map.put("ORDER", Integer.valueOf(PEPUtility.getShort(data, 16)));
-      map.put("PARENT_ID", Integer.valueOf(PEPUtility.getShort(data, 0)));
+      map.put("PREVIOUS_TASK_ID", Integer.valueOf(PEPUtility.getShort(data, 18)));
+      map.put("NEXT_TASK_ID", Integer.valueOf(PEPUtility.getShort(data, 26)));
       map.put("PLANNED_START", PEPUtility.getStartDate(data, 22));
       map.put("PLANNED_FINISH", PEPUtility.getFinishDate(data, 24));
       addRow(uniqueID, map);
