@@ -5,12 +5,13 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.1.1">
+		<release date="git master" version="7.2.0">
+			<action dev="joniles" type="add">Added support for reading TurboProject PEP files.</action>
 			<action dev="joniles" type="update">Handle numeric values with leading spaces in XER files.</action>
 			<action dev="joniles" type="update">Fix array bounds error when reading constraints from certain MPP files.</action>
 		</release>
 		<release date="03/01/2018" version="7.1.0">
-			<action dev="joniles" type="add">Added support for reading GanttProject files.</action>
+			<action dev="joniles" type="add">Added support for reading GanttProject GAN files.</action>
 			<action dev="joniles" type="fix">Ensure that calendar exception dates are read correctly from XER files and P6 databases regardless of the user's timezone.</action>
 			<action dev="joniles" type="update">Read working day calendar exceptions from XER files and P6 database.</action>
 			<action dev="joniles" type="update">Mark some ProjectFile methods as deprecated.</action>
