@@ -1,11 +1,12 @@
 # Changelog
 
-## 7.1.1 (git master)
+## 7.2.0 (git master)
+* Added support for reading TurboProject PEP files.
 * Handle numeric values with leading spaces in XER files.
 * Fix array bounds error when reading constraints from certain MPP files.
 
 ## 7.1.0 (03/01/2018)
-* Added support for reading GanttProject files.
+* Added support for reading GanttProject GAN files.
 * Ensure that calendar exception dates are read correctly from XER files and P6 databases regardless of the user's timezone.
 * Read working day calendar exceptions from XER files and P6 database.
 * Mark some ProjectFile methods as deprecated.
