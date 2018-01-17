@@ -637,11 +637,6 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) 0x05
    };
 
-   private static final byte[] TURBOPROJECT_FINGERPRINT =
-   {
-      (byte) 0x27
-   };
-
    private static final byte[] UTF8_BOM_FINGERPRINT =
    {
       (byte) 0xEF,
@@ -670,5 +665,7 @@ public class UniversalProjectReader extends AbstractProjectReader
    private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
+
+   private static final Pattern TURBOPROJECT_FINGERPRINT = Pattern.compile(".*dWBSTAB.*", Pattern.DOTALL);
 
 }
