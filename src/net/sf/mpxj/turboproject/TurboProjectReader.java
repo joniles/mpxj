@@ -86,6 +86,7 @@ public final class TurboProjectReader extends AbstractProjectReader
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceID(false);
+         config.setAutoCalendarUniqueID(false);
          config.setAutoResourceUniqueID(false);
          config.setAutoTaskID(false);
          config.setAutoTaskUniqueID(false);
@@ -275,9 +276,8 @@ public final class TurboProjectReader extends AbstractProjectReader
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
          m_eventManager.fireResourceReadEvent(resource);
+         // TODO: Correctly handle calendar
       }
-
-      // TODO: Correctly handle calendar
    }
 
    /**
