@@ -17,7 +17,8 @@ a range of data formats: Microsoft Project Exchange (MPX), Microsoft
 Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
 Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), 
 Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager (PPX),
-FastTrack Schedule (FTS), GanttProject (GAN), and the Standard Data Exchange Format (SDEF).</p>
+FastTrack Schedule (FTS), GanttProject (GAN), TurboProject (PEP),
+and the Standard Data Exchange Format (SDEF).</p>
 
 <p>The library is currently based around a set of structures
 modelled on the data described by the MPP file format. All
@@ -84,6 +85,9 @@ tool aimed primarily at the construction industry. Phoenix writes PPX files whic
 which MPXJ can read.</li> 
 
 <li><b>GANTTPROJECT:</b> GanttProject is an open source general purpose planning tool. GanttProject writes GAN files
+which MPXJ can read.</li> 
+
+<li><b>TURBOPROJECT:</b> TurboProject is general purpose planning tool. TurboProject writes PEP files
 which MPXJ can read.</li> 
 
 <li><b>SDEF:</b> SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
