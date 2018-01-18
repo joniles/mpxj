@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.2.0 (git master)
+## 7.2.1 (git master)
+
+## 7.2.0 (18/01/2018)
 * Added support for reading TurboProject PEP files.
 * Handle numeric values with leading spaces in XER files.
 * Fix array bounds error when reading constraints from certain MPP files.
