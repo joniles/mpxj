@@ -30,5 +30,6 @@ net.sf.mpxj.projectlibre
 net.sf.mpxj.reader
 net.sf.mpxj.sample
 net.sf.mpxj.sdef
+net.sf.mpxj.turboproject
 net.sf.mpxj.utility
 net.sf.mpxj.writer
