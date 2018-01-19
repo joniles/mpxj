@@ -30,6 +30,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * This class represents the Props files found in Microsoft Project MPP8 files.
  * These files appear to be collections of properties, indexed by an integer
@@ -108,7 +110,7 @@ final class Props8 extends Props
             //
             if (data.length % 2 != 0)
             {
-               is.skip(1);
+               StreamHelper.skip(is, 1);
             }
          }
 

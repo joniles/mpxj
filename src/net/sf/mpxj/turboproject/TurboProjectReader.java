@@ -52,6 +52,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -136,7 +137,7 @@ public final class TurboProjectReader extends AbstractProjectReader
     */
    private void readFile(InputStream is) throws IOException
    {
-      is.skip(64);
+      StreamHelper.skip(is, 64);
       int index = 64;
 
       ArrayList<Integer> offsetList = new ArrayList<Integer>();
@@ -158,7 +159,7 @@ public final class TurboProjectReader extends AbstractProjectReader
          nameList.add(PEPUtility.getString(table, 5).toUpperCase());
       }
 
-      is.skip(offsetList.get(0).intValue() - index);
+      StreamHelper.skip(is, offsetList.get(0).intValue() - index);
 
       for (int offsetIndex = 1; offsetIndex < offsetList.size() - 1; offsetIndex++)
       {

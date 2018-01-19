@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * This class represents a table read from a PEP file.
  * The class is responsible for breaking down the raw
@@ -62,12 +64,7 @@ class Table implements Iterable<MapRow>
       int headerLength = PEPUtility.getShort(headerBlock, 8);
       int recordCount = PEPUtility.getInt(headerBlock, 10);
       int recordLength = PEPUtility.getInt(headerBlock, 16);
-      long skip = headerLength - headerBlock.length;
-
-      while (skip > 0)
-      {
-         skip -= is.skip(skip);
-      }
+      StreamHelper.skip(is, headerLength - headerBlock.length);
 
       byte[] record = new byte[recordLength];
       for (int recordIndex = 1; recordIndex <= recordCount; recordIndex++)

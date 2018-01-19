@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * This class represents a block of variable data. Each block of
  * data is represented by a 4 byte size, followed by the data itself.
@@ -66,13 +68,13 @@ final class Var2Data extends MPPComponent
          if (currentOffset > itemOffset)
          {
             is.reset();
-            is.skip(itemOffset);
+            StreamHelper.skip(is, itemOffset);
          }
          else
          {
             if (currentOffset < itemOffset)
             {
-               is.skip(itemOffset - currentOffset);
+               StreamHelper.skip(is, itemOffset - currentOffset);
             }
          }
 
