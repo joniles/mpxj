@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.2.1 (git master)
+* More work to gracefully handle POI issue 61677, allowing MPP affected MPP files to be read successfully.
 
 ## 7.2.0 (18/01/2018)
 * Added support for reading TurboProject PEP files.

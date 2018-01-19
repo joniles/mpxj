@@ -91,7 +91,7 @@ final class Var2Data extends MPPComponent
             data = readByteArray(is, size);
          }
 
-         catch (ArrayIndexOutOfBoundsException ex)
+         catch (IndexOutOfBoundsException ex)
          {
             // POI fails to read certain MPP files with this exception:
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
