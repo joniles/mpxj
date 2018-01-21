@@ -763,7 +763,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
          parentTask.setRemainingDuration(remainingDuration);
 
-         if (baselineDuration != null && remainingDuration != null)
+         if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
          {
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
