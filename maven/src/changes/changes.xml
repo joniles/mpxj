@@ -7,7 +7,8 @@
 	<body>
 		<release date="git master" version="7.2.1">
 			<action dev="joniles" type="update">More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.</action>
-			<action dev="joniles" type="update">Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.</action>		
+			<action dev="joniles" type="update">Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.</action>
+			<action dev="joniles" type="update">UniversalProjectReader updated to recognise MPX files with non-default separator characters.</action>							
 		</release>
 		<release date="18/01/2018" version="7.2.0">
 			<action dev="joniles" type="add">Added support for reading TurboProject PEP files.</action>

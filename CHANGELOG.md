@@ -1,7 +1,9 @@
 # Changelog
 
 ## 7.2.1 (git master)
-* More work to gracefully handle POI issue 61677, allowing MPP affected MPP files to be read successfully.
+* More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.
+* Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.
+* UniversalProjectReader updated to recognise MPX files with non-default separator characters.
 
 ## 7.2.0 (18/01/2018)
 * Added support for reading TurboProject PEP files.

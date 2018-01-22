@@ -546,8 +546,7 @@ public class UniversalProjectReader extends AbstractProjectReader
    {
       (byte) 'M',
       (byte) 'P',
-      (byte) 'X',
-      (byte) ','
+      (byte) 'X'
    };
 
    private static final byte[] MDB_FINGERPRINT =
