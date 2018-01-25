@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">UniversalProjectReader updated to recognise MPX files with non-default separator characters.</action>
 			<action dev="joniles" type="update">Update FastTrack reader to handle invalid percentage values on resource assignments.</action>							
 			<action dev="joniles" type="update">Update FastTrack reader to handle variations in UUID format.</action>
+			<action dev="joniles" type="update">Read the full project name from XER files and the Primavera database and store it in the project title attribute.</action>
 		</release>
 		<release date="18/01/2018" version="7.2.0">
 			<action dev="joniles" type="add">Added support for reading TurboProject PEP files.</action>
