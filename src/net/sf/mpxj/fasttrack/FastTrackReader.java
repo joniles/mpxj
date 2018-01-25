@@ -40,6 +40,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -260,6 +261,7 @@ public class FastTrackReader implements ProjectReader
          resource.setText(29, row.getString(ResourceField.TEXT_29));
          resource.setText(30, row.getString(ResourceField.TEXT_30));
          resource.setUniqueID(Integer.valueOf(uniqueID));
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -341,6 +343,7 @@ public class FastTrackReader implements ProjectReader
          task.setWBS(row.getString(ActivityField.WBS));
          task.setGUID(row.getUUID(ActivityField._ACTIVITY_GUID));
          task.setOutlineLevel(getOutlineLevel(task));
+         m_eventManager.fireTaskReadEvent(task);
       }
 
       FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
@@ -570,7 +573,8 @@ public class FastTrackReader implements ProjectReader
             if (targetTask != null)
             {
                Duration lagDuration = Duration.getInstance(lag, m_data.getDurationTimeUnit());
-               task.addPredecessor(targetTask, type, lagDuration);
+               Relation relation = task.addPredecessor(targetTask, type, lagDuration);
+               m_eventManager.fireRelationReadEvent(relation);
             }
          }
       }
@@ -618,6 +622,7 @@ public class FastTrackReader implements ProjectReader
                {
                   ra.setUnits(Integer.valueOf(units));
                }
+               m_eventManager.fireAssignmentReadEvent(ra);
             }
          }
       }
@@ -648,7 +653,7 @@ public class FastTrackReader implements ProjectReader
 
    private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
    private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
-   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(\\[(\\d+)\\%\\])?");
+   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(\\[(-?\\d+)\\%\\])?");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
    static
