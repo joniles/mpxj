@@ -4,6 +4,8 @@
 * More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.
 * Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.
 * UniversalProjectReader updated to recognise MPX files with non-default separator characters.
+* Update FastTrack reader to handle invalid percentage values on resource assignments.
+* Update FastTrack reader to handle variations in UUID format.
 
 ## 7.2.0 (18/01/2018)
 * Added support for reading TurboProject PEP files.

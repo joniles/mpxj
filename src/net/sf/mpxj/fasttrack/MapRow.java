@@ -210,7 +210,20 @@ class MapRow
    public UUID getUUID(FastTrackField type)
    {
       String value = getString(type);
-      return value == null || value.isEmpty() ? null : UUID.fromString(value.substring(1, value.length() - 1));
+      UUID result = null;
+      if (value != null && !value.isEmpty() && value.length() >= 36)
+      {
+         if (value.startsWith("{"))
+         {
+            value = value.substring(1, value.length() - 1);
+         }
+         if (value.length() > 16)
+         {
+            value = value.substring(0, 36);
+         }
+         result = UUID.fromString(value);
+      }
+      return result;
    }
 
    /**

@@ -610,6 +610,11 @@ public class FastTrackReader implements ProjectReader
 
          for (String assignment : assignments.split(", "))
          {
+            if (assignment.isEmpty())
+            {
+               continue;
+            }
+
             Matcher matcher = ASSIGNMENT_REGEX.matcher(assignment);
             matcher.matches();
 
@@ -617,7 +622,7 @@ public class FastTrackReader implements ProjectReader
             if (resource != null)
             {
                ResourceAssignment ra = task.addResourceAssignment(resource);
-               String units = matcher.group(3);
+               String units = matcher.group(2);
                if (units != null)
                {
                   ra.setUnits(Integer.valueOf(units));
@@ -653,7 +658,7 @@ public class FastTrackReader implements ProjectReader
 
    private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
    private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
-   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(\\[(-?\\d+)\\%\\])?");
+   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(?:(?:\\[(-?\\d+)\\%\\])|(?:\\[.+\\]))?");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
    static
@@ -663,5 +668,4 @@ public class FastTrackReader implements ProjectReader
       RELATION_TYPE_MAP.put("SS", RelationType.START_START);
       RELATION_TYPE_MAP.put("SF", RelationType.START_FINISH);
    }
-
 }
