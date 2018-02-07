@@ -342,18 +342,54 @@ public class P3Dump
       new StringColumn("UNDEFINED_10", 488, 18)
    };
 
+   private static final ColumnDefinition[] AIT_COLUMNS =
+   {
+      new StringColumn("ACTID", 2, 10),
+      new StringColumn("ACTIDEXT", 12, 2),
+      new StringColumn("RES", 14, 8),
+      new StringColumn("COSTACCOUNTNUMBER", 22, 12),
+      new StringColumn("RESOURCEID", 34, 1),
+      new StringColumn("UNDEFINED1", 35, 3),
+      new DateColumn("PLANNED_START", 38),
+      new DateColumn("PLANNED_FINISH", 42),
+      new IntColumn("APPROVED_CHANGES", 46)
+   };
+
+   private static final ColumnDefinition[] DTL_COLUMNS =
+   {
+      new StringColumn("CODE_NAME", 2, 4),
+      new StringColumn("CODE_VALUE", 6, 10),
+      new StringColumn("DESCRIPTION", 16, 48)
+   };
+
+   private static final ColumnDefinition[] HOL_COLUMNS =
+   {
+      new ShortColumn("CAL_ID", 2),
+      new DateColumn("START_OF_HOLIDAY", 4),
+      new DateColumn("END_OF_HOLIDAY", 8)
+   };
+
+   private static final ColumnDefinition[] LOG_COLUMNS =
+   {
+      new StringColumn("ACT_ID", 2, 10),
+      new StringColumn("ACT_ID_EXT", 12, 2),
+      new ShortColumn("LOG_SEQ_NUMBER", 14),
+      new StringColumn("LOG_MASK", 16, 2),
+      new StringColumn("LOG_RECORD_INFO", 18, 48),
+   };
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
       TABLE_DEFINITIONS.put("AC2", new TableDefinition(512, 34, AC2_COLUMNS));
       TABLE_DEFINITIONS.put("ACC", new TableDefinition(512, 58, ACC_COLUMNS));
       TABLE_DEFINITIONS.put("ACT", new TableDefinition(1024, 250, ACT_COLUMNS));
-      TABLE_DEFINITIONS.put("AIT", new TableDefinition(1024, 214));
+      TABLE_DEFINITIONS.put("AIT", new TableDefinition(1024, 214, AIT_COLUMNS));
       TABLE_DEFINITIONS.put("DIR", new TableDefinition(512, 506, DIR_COLUMNS));
-      TABLE_DEFINITIONS.put("DTL", new TableDefinition(1024, 64));
-      TABLE_DEFINITIONS.put("HOL", new TableDefinition(512, 12));
-      TABLE_DEFINITIONS.put("ITM", new TableDefinition(1024, 42));
-      TABLE_DEFINITIONS.put("LOG", new TableDefinition(1024, 66));
+      TABLE_DEFINITIONS.put("DTL", new TableDefinition(1024, 64, DTL_COLUMNS));
+      TABLE_DEFINITIONS.put("HOL", new TableDefinition(512, 12, HOL_COLUMNS));
+      //TABLE_DEFINITIONS.put("ITM", new TableDefinition(1024, 42));
+      TABLE_DEFINITIONS.put("LOG", new TableDefinition(1024, 66, LOG_COLUMNS));
       TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46));
       TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114));
