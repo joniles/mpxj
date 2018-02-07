@@ -389,6 +389,33 @@ public class P3Dump
       new StringColumn("DRIVING_REL", 30, 1),
    };
 
+   private static final ColumnDefinition[] RES_COLUMNS =
+   {
+      new StringColumn("ACTID STRING", 2, 10),
+      new StringColumn("UNDEFINED_1", 12, 2),
+      new StringColumn("RES_ID", 14, 8),
+      new StringColumn("COST_ACCOUNT_NUMBER", 22, 12),
+      new ShortColumn("PCT_COMPLETE", 34),
+      new ShortColumn("LAG", 36),
+      new ShortColumn("REM_DUR", 38),
+      new StringColumn("RES_DESIGNATOR", 40, 1),
+      new StringColumn("DRIVING_RESOURCE", 41, 1),
+      new IntColumn("BUDGET_QUANTITY", 42),
+      new IntColumn("QTY_THIS_PERIOD", 46),
+      new IntColumn("QTY_TO_DATE", 50),
+      new IntColumn("QTY_AT_COMPLETE", 54),
+      new DateColumn("ST_RES_EARLY_START", 58),
+      new DateColumn("ST_RES_EARLY_FINISH", 62),
+      new IntColumn("UNDEFINED_2", 66),
+      new IntColumn("BUDGET_COST", 70),
+      new IntColumn("COST_THIS_PERIOD", 74),
+      new IntColumn("COST_TO_DATE", 78),
+      new IntColumn("COST_AT_COMPLETION", 82),
+      new DateColumn("ST_RES_LATE_START", 86),
+      new DateColumn("ST_RES_LATE_FINISH", 90),
+      new IntColumn("UNDEFINED_3", 94)
+   };
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
@@ -403,7 +430,7 @@ public class P3Dump
       TABLE_DEFINITIONS.put("LOG", new TableDefinition(1024, 66, LOG_COLUMNS));
       //TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46));
       TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31, REL_COLUMNS));
-      TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114));
+      TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114, RES_COLUMNS));
       TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214));
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182));
       TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37));
