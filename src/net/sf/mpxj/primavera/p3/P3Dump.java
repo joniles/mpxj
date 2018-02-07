@@ -378,6 +378,17 @@ public class P3Dump
       new StringColumn("LOG_RECORD_INFO", 18, 48),
    };
 
+   private static final ColumnDefinition[] REL_COLUMNS =
+   {
+      new StringColumn("PRED_ACT", 2, 10),
+      new StringColumn("PRED_ACT_EXT", 12, 2),
+      new StringColumn("SUCC_ACT", 14, 10),
+      new StringColumn("SUCCACT_EXT", 24, 2),
+      new ShortColumn("LAG_TYPE", 26),
+      new ShortColumn("LAG_VALUE", 28),
+      new StringColumn("DRIVING_REL", 30, 1),
+   };
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
@@ -390,8 +401,8 @@ public class P3Dump
       TABLE_DEFINITIONS.put("HOL", new TableDefinition(512, 12, HOL_COLUMNS));
       //TABLE_DEFINITIONS.put("ITM", new TableDefinition(1024, 42));
       TABLE_DEFINITIONS.put("LOG", new TableDefinition(1024, 66, LOG_COLUMNS));
-      TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46));
-      TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31));
+      //TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46));
+      TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31, REL_COLUMNS));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114));
       TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214));
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182));
