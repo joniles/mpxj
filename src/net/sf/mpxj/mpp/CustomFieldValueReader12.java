@@ -108,7 +108,11 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
       index += (8 * recordCount);
 
       // 200 byte blocks
-      while (index + 200 <= data.length)
+      // The index > 0 test is a little odd, but I have an example MPP file where
+      // recordCount comes back as an unfeasibly large number (which is a good indicator
+      // that we don't understand this structure well enough), and this large recordCount
+      // overflows the int index value... hence becomes negative.
+      while (index > 0 && index + 200 <= data.length)
       {
          FieldType field = FieldTypeHelper.getInstance(MPPUtility.getInt(data, index + 4));
          UUID guid = MPPUtility.getGUID(data, index + 160);

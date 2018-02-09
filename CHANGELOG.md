@@ -1,6 +1,7 @@
 # Changelog
 
-## 7.2.1 (git master)
+## 7.2.2 (git master)
+* Improve robustness when reading MPP files containing apparently invalid custom field data.
 
 ## 7.2.1 (26/01/2018)
 * More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.

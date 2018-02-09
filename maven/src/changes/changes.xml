@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.2.1">
+		<release date="git master" version="7.2.2">
+			<action dev="joniles" type="update">Improve robustness when reading MPP files containing apparently invalid custom field data.</action>
 		</release>
 		<release date="26/01/2018" version="7.2.1">
 			<action dev="joniles" type="update">More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.</action>
