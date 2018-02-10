@@ -391,7 +391,7 @@ public class P3Dump
 
    private static final ColumnDefinition[] RES_COLUMNS =
    {
-      new StringColumn("ACTID STRING", 2, 10),
+      new StringColumn("ACTID", 2, 10),
       new StringColumn("UNDEFINED_1", 12, 2),
       new StringColumn("RES_ID", 14, 8),
       new StringColumn("COST_ACCOUNT_NUMBER", 22, 12),
@@ -416,6 +416,66 @@ public class P3Dump
       new IntColumn("UNDEFINED_3", 94)
    };
 
+   private static final ColumnDefinition[] RIT_COLUMNS =
+   {
+      new StringColumn("ACTID", 2, 10),
+      new StringColumn("ACTID_EXT", 12, 2),
+      new StringColumn("RES", 13, 8),
+      new StringColumn("COST_ACCOUNT_NUMBER", 21, 12),
+      new StringColumn("RESOURCE_ID", 33, 1),
+      new StringColumn("UNDEFINED_1", 34, 3),
+      new IntColumn("COMMITMENT_AMT", 37),
+      new IntColumn("ORIGINAL_BUDGET", 41),
+   };
+
+   private static final ColumnDefinition[] RLB_COLUMNS =
+   {
+      new StringColumn("RES_ID", 2, 8),
+      new StringColumn("UNIT_OF_MEASURE", 10, 4),
+      new StringColumn("RES_TITLE", 14, 40),
+      new IntColumn("ESCALATION_VAL_1", 54),
+      new IntColumn("ESCALATION_DATE_1", 58),
+      new IntColumn("ESCALATION_VAL_2", 62),
+      new IntColumn("ESCALATION_DATE_2", 66),
+      new IntColumn("ESCALATION_VAL_3", 70),
+      new IntColumn("ESCALATION_DATE_3", 7),
+      new IntColumn("ESCALATION_VAL_4", 78),
+      new IntColumn("ESCALATION_DATE_4", 8),
+      new IntColumn("ESCALATION_VAL_5", 86),
+      new IntColumn("ESCALATION_DATE_5", 9),
+      new IntColumn("ESCALATION_VAL_6", 94),
+      new IntColumn("ESCALATION_DATE_6", 9),
+      new IntColumn("NORM_LIM_VAL_1", 102),
+      new IntColumn("MAX_LIM_VAL_1", 106),
+      new IntColumn("LIM_TO_DATE_1", 110),
+      new IntColumn("NORM_LIM_VAL_2", 114),
+      new IntColumn("MAX_LIM_VAL_2", 118),
+      new IntColumn("LIM_TO_DATE_2", 122),
+      new IntColumn("NORM_LIM_VAL_3", 126),
+      new IntColumn("MAX_LIM_VAL_3", 130),
+      new IntColumn("LIM_TO_DATE_3", 134),
+      new IntColumn("NORM_LIM_VAL_4", 138),
+      new IntColumn("MAX_LIM_VAL_4", 142),
+      new IntColumn("LIM_TO_DATE_4", 146),
+      new IntColumn("NORM_LIM_VAL_5", 150),
+      new IntColumn("MAX_LIM_VAL_5", 154),
+      new IntColumn("LIM_TO_DATE_5", 158),
+      new IntColumn("NORM_LIM_VAL_6", 162),
+      new IntColumn("MAX_LIM_VAL_6", 166),
+      new IntColumn("LIM_TO_DATE_6", 170),
+      new ShortColumn("SHIFT_NUMB", 174),
+      new ShortColumn("SHIFT_LIMIT_TABLE", 176),
+      new ShortColumn("DRIVING_RESOURCE", 178),
+      new ShortColumn("UNDEFINED_1", 180)
+   };
+
+   private static final ColumnDefinition[] SRT_COLUMNS =
+   {
+      new IntColumn("SEQ_NUMBER", 2),
+      new StringColumn("ACT_ID", 2, 10),
+      new StringColumn("UNDEFINED_1", 2, 16)
+   };
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
@@ -431,10 +491,11 @@ public class P3Dump
       //TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46));
       TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31, REL_COLUMNS));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114, RES_COLUMNS));
-      TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214));
-      TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182));
-      TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37));
-      TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122));
+      TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214, RIT_COLUMNS));
+      TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, RLB_COLUMNS));
+      //TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37));
+      TABLE_DEFINITIONS.put("SRT", new TableDefinition(4096, 16, SRT_COLUMNS));
+      //TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122));
       TABLE_DEFINITIONS.put("STW", new TableDefinition(1024, 58));
       TABLE_DEFINITIONS.put("TIM", new TableDefinition(1024, 153));
       TABLE_DEFINITIONS.put("TTL", new TableDefinition(1024, 67));
