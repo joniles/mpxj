@@ -163,12 +163,12 @@ public class P3Dump
 
    private static final ColumnDefinition[] AC2_COLUMNS =
    {
-      new StringColumn("UNKNOWN1", 2, 4),
-      new StringColumn("UNKNOWN2", 6, 8),
-      new ShortColumn("UNKNOWN3", 14),
-      new ShortColumn("UNKNOWN4", 16),
-      new StringColumn("UNKNOWN5", 18, 4),
-      new StringColumn("UNKNOWN6", 26, 8)
+      new StringColumn("UNKNOWN_1", 2, 4),
+      new StringColumn("UNKNOWN_2", 6, 8),
+      new ShortColumn("UNKNOWN_3", 14),
+      new ShortColumn("UNKNOWN_4", 16),
+      new StringColumn("UNKNOWN_5", 18, 4),
+      new StringColumn("UNKNOWN_6", 26, 8)
    };
 
    private static final ColumnDefinition[] ACC_COLUMNS =
@@ -476,6 +476,64 @@ public class P3Dump
       new StringColumn("UNDEFINED_1", 2, 16)
    };
 
+   private static final ColumnDefinition[] STR_COLUMNS =
+   {
+      new StringColumn("INDICATOR", 2, 1),
+      new StringColumn("INDICATOREXT", 3, 1),
+      new ShortColumn("LEVELNUM", 4),
+      new StringColumn("UNDEFINED2", 6, 4),
+      new StringColumn("CODEVALUE", 10, 48),
+      new StringColumn("CODETITLE", 58, 48)
+   };
+
+   private static final ColumnDefinition[] TTL_COLUMNS =
+   {
+      new IntColumn("CODE_NAME", 2),
+      new StringColumn("CODE_VALUE", 6, 12),
+      new StringColumn("DESCRIPTION", 18, 48),
+      new ByteColumn("SORT_ORDER", 66)
+   };
+
+   private static final ColumnDefinition[] WBS_COLUMNS =
+   {
+      new StringColumn("ACTIVITY_ID", 2, 10),
+      new StringColumn("ACTIVITY_ID_EXT", 12, 2),
+      new StringColumn("CODE_VALUE", 14, 48),
+      new StringColumn("INDICATOR", 62, 1)
+   };
+
+   private static final ColumnDefinition[] ITM_COLUMNS =
+   {
+      new StringColumn("UNKNOWN_1", 2, 12),
+      new StringColumn("UNKNOWN_2", 14, 24),
+      new ShortColumn("UNKNOWN_3", 38),
+      new ShortColumn("UNKNOWN_4", 40)
+   };
+
+   private static final ColumnDefinition[] PPA_COLUMNS =
+   {
+      new StringColumn("UNKNOWN_1", 2, 10),
+      new StringColumn("UNKNOWN_2", 12, 19),
+      new StringColumn("UNKNOWN_3", 31, 2)
+            // additional unknown fields
+   };
+
+   private static final ColumnDefinition[] SPR_COLUMNS =
+   {
+      new ShortColumn("UNKNOWN_1", 4)
+            // additional unknown fields
+   };
+
+   private static final ColumnDefinition[] STW_COLUMNS =
+   {
+            // unknown fields
+   };
+
+   private static final ColumnDefinition[] TIM_COLUMNS =
+   {
+            // unknown fields
+   };
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
@@ -486,19 +544,19 @@ public class P3Dump
       TABLE_DEFINITIONS.put("DIR", new TableDefinition(512, 506, DIR_COLUMNS));
       TABLE_DEFINITIONS.put("DTL", new TableDefinition(1024, 64, DTL_COLUMNS));
       TABLE_DEFINITIONS.put("HOL", new TableDefinition(512, 12, HOL_COLUMNS));
-      //TABLE_DEFINITIONS.put("ITM", new TableDefinition(1024, 42));
+      TABLE_DEFINITIONS.put("ITM", new TableDefinition(1024, 42, ITM_COLUMNS));
       TABLE_DEFINITIONS.put("LOG", new TableDefinition(1024, 66, LOG_COLUMNS));
-      //TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46));
+      TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46, PPA_COLUMNS));
       TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31, REL_COLUMNS));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114, RES_COLUMNS));
       TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214, RIT_COLUMNS));
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, RLB_COLUMNS));
-      //TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37));
+      TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37, SPR_COLUMNS));
       TABLE_DEFINITIONS.put("SRT", new TableDefinition(4096, 16, SRT_COLUMNS));
-      //TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122));
-      TABLE_DEFINITIONS.put("STW", new TableDefinition(1024, 58));
-      TABLE_DEFINITIONS.put("TIM", new TableDefinition(1024, 153));
-      TABLE_DEFINITIONS.put("TTL", new TableDefinition(1024, 67));
-      TABLE_DEFINITIONS.put("WBS", new TableDefinition(1024, 63));
+      TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122, STR_COLUMNS));
+      TABLE_DEFINITIONS.put("STW", new TableDefinition(1024, 58, STW_COLUMNS));
+      TABLE_DEFINITIONS.put("TIM", new TableDefinition(1024, 153, TIM_COLUMNS));
+      TABLE_DEFINITIONS.put("TTL", new TableDefinition(1024, 67, TTL_COLUMNS));
+      TABLE_DEFINITIONS.put("WBS", new TableDefinition(1024, 63, WBS_COLUMNS));
    }
 }
