@@ -61,6 +61,8 @@ public class P3Dump
 
    public void process(String directory, String prefix) throws Exception
    {
+      m_tables = new HashMap<String, Table>();
+
       File dir = new File(directory);
       for (File file : dir.listFiles())
       {
@@ -75,42 +77,16 @@ public class P3Dump
          TableDefinition definition = TABLE_DEFINITIONS.get(type);
          if (definition != null)
          {
+            Table table = new Table();
             System.out.println("Reading " + file.getName());
             TableReader reader = new TableReader(definition);
-            reader.read(file);
+            reader.read(file, table);
+            m_tables.put(type, table);
          }
       }
-      /*
-      processFile(dir, prefix, "AC2", 512, 66);
-      processFile(dir, prefix, "ACC", 512, 56);
-      processFile(dir, prefix, "ACT", 1024, 248);
-      processFile(dir, prefix, "AIT", 1024, 212);
-      // AUD - can't determine structure
-      // CAL - can't determine structure
-      processFile(dir, prefix, "DIR", 512, 504);
-      // DST - can't determine structure
-      processFile(dir, prefix, "DTL", 1024, 62);
-      processFile(dir, prefix, "HOL", 512, 10);
-      processFile(dir, prefix, "ITM", 1024, 40);
-      // LAY - can't determine structure
-      processFile(dir, prefix, "LOG", 1024, 64);
-      // PLT - can't determine structure
-      processFile(dir, prefix, "PPA", 1024, 44);
-      processFile(dir, prefix, "REL", 512, 29);
-      // REP - can't determine structure
-      processFile(dir, prefix, "RES", 1024, 112);
-      processFile(dir, prefix, "RIT", 1024, 212);
-      processFile(dir, prefix, "RLB", 1024, 180);
-      processFile(dir, prefix, "SPR", 1024, 35);
-      processFile(dir, prefix, "STR", 512, 120);
-      processFile(dir, prefix, "STW", 1024, 56);
-      processFile(dir, prefix, "TIM", 1024, 151);
-      processFile(dir, prefix, "TTL", 1024, 65);
-      processFile(dir, prefix, "WBS", 1024, 61);
-      */
    }
 
-   //   private void processFile(File dir, String prefix, String name, int pageSize, int recordLength) throws Exception
+   //   private void dumpFile(File dir, String prefix, String name) throws Exception
    //   {
    //      File input = new File(dir, prefix + name + ".P3");
    //      File output = new File("c:/temp/" + prefix + name + ".TXT");
@@ -120,46 +96,14 @@ public class P3Dump
    //
    //      byte[] buffer = new byte[is.available()];
    //      is.read(buffer);
-   //      splitIntoPages(pageSize, recordLength, buffer, pw);
    //
+   //      pw.println(MPPUtility.hexdump(buffer, true, 16, ""));
    //      is.close();
    //      pw.flush();
    //      pw.close();
    //   }
 
-   //   private void splitIntoPages(int pageSize, int recordLength, byte[] buffer, PrintWriter pw)
-   //   {
-   //      int pageCount = buffer.length / pageSize;
-   //      int remainingBytes = buffer.length - (pageCount * pageSize);
-   //      pw.println("HEADER");
-   //      pw.println(MPPUtility.hexdump(buffer, 0, remainingBytes, true, 16, ""));
-   //
-   //      for (int index = 0; index < pageCount; index++)
-   //      {
-   //         pw.println("PAGE: " + (index + 1));
-   //         int offset = remainingBytes + (index * pageSize);
-   //         dumpPage(offset, pageSize, recordLength, buffer, pw);
-   //      }
-   //   }
-
-   //   private static void dumpPage(int pageOffset, int pageSize, int recordLength, byte[] buffer, PrintWriter pw)
-   //   {
-   //      pw.println(MPPUtility.hexdump(buffer, pageOffset, 6, true, 16, ""));
-   //      int actualRecordLength = recordLength + 2;
-   //
-   //      int offsetInPage = 6;
-   //      while (offsetInPage + actualRecordLength <= pageSize)
-   //      {
-   //         pw.println(MPPUtility.hexdump(buffer, pageOffset + offsetInPage, actualRecordLength, true, 16, ""));
-   //         offsetInPage += actualRecordLength;
-   //      }
-   //
-   //      if (offsetInPage < pageSize)
-   //      {
-   //         pw.println("EXTRA:");
-   //         pw.println(MPPUtility.hexdump(buffer, pageOffset + offsetInPage, (pageSize - offsetInPage), true, 16, ""));
-   //      }
-   //   }
+   private HashMap<String, Table> m_tables;
 
    private static final ColumnDefinition[] AC2_COLUMNS =
    {
@@ -344,12 +288,12 @@ public class P3Dump
 
    private static final ColumnDefinition[] AIT_COLUMNS =
    {
-      new StringColumn("ACTID", 2, 10),
-      new StringColumn("ACTIDEXT", 12, 2),
+      new StringColumn("ACT_ID", 2, 10),
+      new StringColumn("ACTID_EXT", 12, 2),
       new StringColumn("RES", 14, 8),
-      new StringColumn("COSTACCOUNTNUMBER", 22, 12),
-      new StringColumn("RESOURCEID", 34, 1),
-      new StringColumn("UNDEFINED1", 35, 3),
+      new StringColumn("COST_ACCOUNT_NUMBER", 22, 12),
+      new StringColumn("RESOURCE_ID", 34, 1),
+      new StringColumn("UNDEFINED_1", 35, 3),
       new DateColumn("PLANNED_START", 38),
       new DateColumn("PLANNED_FINISH", 42),
       new IntColumn("APPROVED_CHANGES", 46)
@@ -534,6 +478,26 @@ public class P3Dump
             // unknown fields
    };
 
+   private static final ColumnDefinition[] AUD_COLUMNS =
+   {
+            // unknown fields
+   };
+
+   private static final ColumnDefinition[] REP_COLUMNS =
+   {
+            // unknown fields
+   };
+
+   private static final ColumnDefinition[] LAY_COLUMNS =
+   {
+            // unknown fields
+   };
+
+   private static final ColumnDefinition[] PLT_COLUMNS =
+   {
+            // unknown fields
+   };
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
@@ -541,13 +505,19 @@ public class P3Dump
       TABLE_DEFINITIONS.put("ACC", new TableDefinition(512, 58, ACC_COLUMNS));
       TABLE_DEFINITIONS.put("ACT", new TableDefinition(1024, 250, ACT_COLUMNS));
       TABLE_DEFINITIONS.put("AIT", new TableDefinition(1024, 214, AIT_COLUMNS));
+      TABLE_DEFINITIONS.put("AUD", new TableDefinition(1024, 143, AUD_COLUMNS));
+      // CAL - not a Btrieve file
       TABLE_DEFINITIONS.put("DIR", new TableDefinition(512, 506, DIR_COLUMNS));
+      // DST - not a Btrieve file
       TABLE_DEFINITIONS.put("DTL", new TableDefinition(1024, 64, DTL_COLUMNS));
       TABLE_DEFINITIONS.put("HOL", new TableDefinition(512, 12, HOL_COLUMNS));
       TABLE_DEFINITIONS.put("ITM", new TableDefinition(1024, 42, ITM_COLUMNS));
+      TABLE_DEFINITIONS.put("LAY", new TableDefinition(512, 14, LAY_COLUMNS));
       TABLE_DEFINITIONS.put("LOG", new TableDefinition(1024, 66, LOG_COLUMNS));
+      TABLE_DEFINITIONS.put("PLT", new TableDefinition(512, 21, PLT_COLUMNS));
       TABLE_DEFINITIONS.put("PPA", new TableDefinition(1024, 46, PPA_COLUMNS));
       TABLE_DEFINITIONS.put("REL", new TableDefinition(512, 31, REL_COLUMNS));
+      TABLE_DEFINITIONS.put("REP", new TableDefinition(512, 21, REP_COLUMNS));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114, RES_COLUMNS));
       TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214, RIT_COLUMNS));
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, RLB_COLUMNS));

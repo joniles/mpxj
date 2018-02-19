@@ -1,9 +1,12 @@
+
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
@@ -12,17 +15,17 @@ public class TableReader
    public TableReader(TableDefinition definition)
    {
       m_definition = definition;
-   }   
-   
-   public void read(File file) throws IOException
+   }
+
+   public void read(File file, Table table) throws IOException
    {
       InputStream is = null;
       try
       {
          is = new FileInputStream(file);
-         read(is);
+         read(is, table);
       }
-      
+
       finally
       {
          if (is != null)
@@ -31,16 +34,16 @@ public class TableReader
             {
                is.close();
             }
-            
-            catch(IOException ex)
+
+            catch (IOException ex)
             {
                // Ignore
             }
          }
       }
    }
-   
-   private void read(InputStream is) throws IOException
+
+   private void read(InputStream is, Table table) throws IOException
    {
       byte[] buffer = new byte[m_definition.getPageSize()];
       while (true)
@@ -50,17 +53,17 @@ public class TableReader
          {
             break;
          }
-         
+
          if (bytesRead != buffer.length)
          {
             throw new IOException("Unexpected end of file");
          }
-         
-         readPage(buffer);
+
+         readPage(buffer, table);
       }
    }
-   
-   private void readPage(byte[] buffer)
+
+   private void readPage(byte[] buffer, Table table)
    {
       int magicNumber = getShort(buffer, 0);
       if (magicNumber == 0x4400)
@@ -68,19 +71,23 @@ public class TableReader
          System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
          int recordSize = m_definition.getRecordSize();
 
+         Map<String, Object> row = new HashMap<String, Object>();
          int index = 6;
          while (index + recordSize <= buffer.length)
          {
             System.out.println(MPPUtility.hexdump(buffer, index, recordSize, true, 16, ""));
             for (ColumnDefinition column : m_definition.getColumns())
             {
-               System.out.println(column.getName() + ": " + column.read(index, buffer));
+               Object value = column.read(index, buffer);
+               System.out.println(column.getName() + ": " + value);
+               row.put(column.getName(), value);
             }
             index += recordSize;
          }
+         table.addRow(row);
       }
    }
-   
+
    private int getShort(byte[] data, int offset)
    {
       int result = 0;
@@ -92,7 +99,6 @@ public class TableReader
       }
       return result;
    }
-
 
    private final TableDefinition m_definition;
 }
