@@ -41,7 +41,10 @@ public class DateColumn extends AbstractColumn
             cal.set(Calendar.SECOND, 0);
             cal.set(Calendar.MILLISECOND, 0);
 
-            result = cal.getTime();
+            if (cal.getTimeInMillis() > DatabaseReader.EPOCH)
+            {
+               result = cal.getTime();
+            }
          }
       }
 

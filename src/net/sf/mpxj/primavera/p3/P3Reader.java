@@ -106,6 +106,7 @@ public final class P3Reader implements ProjectReader
 
    private void readResources()
    {
+      // RLB
    }
 
    private void readTasks()

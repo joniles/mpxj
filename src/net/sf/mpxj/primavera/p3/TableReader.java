@@ -70,6 +70,8 @@ public class TableReader
       {
          System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
          int recordSize = m_definition.getRecordSize();
+         RowValidator rowValidator = m_definition.getRowValidator();
+         String primaryKeyColumnName = m_definition.getPrimaryKeyColumnName();
 
          int index = 6;
          while (index + recordSize <= buffer.length)
@@ -86,7 +88,11 @@ public class TableReader
                   System.out.println(column.getName() + ": " + value);
                   row.put(column.getName(), value);
                }
-               table.addRow(m_definition.getPrimaryKeyColumnName(), row);
+
+               if (rowValidator == null || rowValidator.validRow(row))
+               {
+                  table.addRow(primaryKeyColumnName, row);
+               }
             }
             index += recordSize;
          }

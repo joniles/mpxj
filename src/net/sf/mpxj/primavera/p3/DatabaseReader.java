@@ -4,6 +4,7 @@ package net.sf.mpxj.primavera.p3;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -388,35 +389,35 @@ public class DatabaseReader
       new StringColumn("UNIT_OF_MEASURE", 10, 4),
       new StringColumn("RES_TITLE", 14, 40),
       new IntColumn("ESCALATION_VAL_1", 54),
-      new IntColumn("ESCALATION_DATE_1", 58),
+      new DateColumn("ESCALATION_DATE_1", 58),
       new IntColumn("ESCALATION_VAL_2", 62),
-      new IntColumn("ESCALATION_DATE_2", 66),
+      new DateColumn("ESCALATION_DATE_2", 66),
       new IntColumn("ESCALATION_VAL_3", 70),
-      new IntColumn("ESCALATION_DATE_3", 7),
+      new DateColumn("ESCALATION_DATE_3", 7),
       new IntColumn("ESCALATION_VAL_4", 78),
-      new IntColumn("ESCALATION_DATE_4", 8),
+      new DateColumn("ESCALATION_DATE_4", 8),
       new IntColumn("ESCALATION_VAL_5", 86),
-      new IntColumn("ESCALATION_DATE_5", 9),
+      new DateColumn("ESCALATION_DATE_5", 9),
       new IntColumn("ESCALATION_VAL_6", 94),
-      new IntColumn("ESCALATION_DATE_6", 9),
+      new DateColumn("ESCALATION_DATE_6", 9),
       new IntColumn("NORM_LIM_VAL_1", 102),
       new IntColumn("MAX_LIM_VAL_1", 106),
-      new IntColumn("LIM_TO_DATE_1", 110),
+      new DateColumn("LIM_TO_DATE_1", 110),
       new IntColumn("NORM_LIM_VAL_2", 114),
       new IntColumn("MAX_LIM_VAL_2", 118),
-      new IntColumn("LIM_TO_DATE_2", 122),
+      new DateColumn("LIM_TO_DATE_2", 122),
       new IntColumn("NORM_LIM_VAL_3", 126),
       new IntColumn("MAX_LIM_VAL_3", 130),
-      new IntColumn("LIM_TO_DATE_3", 134),
+      new DateColumn("LIM_TO_DATE_3", 134),
       new IntColumn("NORM_LIM_VAL_4", 138),
       new IntColumn("MAX_LIM_VAL_4", 142),
-      new IntColumn("LIM_TO_DATE_4", 146),
+      new DateColumn("LIM_TO_DATE_4", 146),
       new IntColumn("NORM_LIM_VAL_5", 150),
       new IntColumn("MAX_LIM_VAL_5", 154),
-      new IntColumn("LIM_TO_DATE_5", 158),
+      new DateColumn("LIM_TO_DATE_5", 158),
       new IntColumn("NORM_LIM_VAL_6", 162),
       new IntColumn("MAX_LIM_VAL_6", 166),
-      new IntColumn("LIM_TO_DATE_6", 170),
+      new DateColumn("LIM_TO_DATE_6", 170),
       new ShortColumn("SHIFT_NUMB", 174),
       new ShortColumn("SHIFT_LIMIT_TABLE", 176),
       new ShortColumn("DRIVING_RESOURCE", 178),
@@ -511,6 +512,21 @@ public class DatabaseReader
             // unknown fields
    };
 
+   private static final RowValidator DIR_ROW_VALIDATOR = new RowValidator()
+   {
+
+      @Override public boolean validRow(Map<String, Object> row)
+      {
+         Date date = (Date) row.get("PROJECT_START_DATE");
+         return date != null && date.getTime() > EPOCH;
+      }
+   };
+
+   /**
+    * 31/12/1983.
+    */
+   static final long EPOCH = 441676800000L;
+
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static
    {
@@ -520,7 +536,7 @@ public class DatabaseReader
       TABLE_DEFINITIONS.put("AIT", new TableDefinition(1024, 214, AIT_COLUMNS));
       TABLE_DEFINITIONS.put("AUD", new TableDefinition(1024, 143, AUD_COLUMNS));
       // CAL - not a Btrieve file
-      TABLE_DEFINITIONS.put("DIR", new TableDefinition(512, 506, DIR_COLUMNS));
+      TABLE_DEFINITIONS.put("DIR", new TableDefinition(512, 506, "SUB_PROJECT_NAME", DIR_ROW_VALIDATOR, DIR_COLUMNS));
       // DST - not a Btrieve file
       TABLE_DEFINITIONS.put("DTL", new TableDefinition(1024, 64, DTL_COLUMNS));
       TABLE_DEFINITIONS.put("HOL", new TableDefinition(512, 12, HOL_COLUMNS));
@@ -536,7 +552,7 @@ public class DatabaseReader
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, RLB_COLUMNS));
       TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37, SPR_COLUMNS));
       TABLE_DEFINITIONS.put("SRT", new TableDefinition(4096, 16, SRT_COLUMNS));
-      TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122, "CODE_VALUE", STR_COLUMNS));
+      TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122, "CODE_VALUE", null, STR_COLUMNS));
       TABLE_DEFINITIONS.put("STW", new TableDefinition(1024, 58, STW_COLUMNS));
       TABLE_DEFINITIONS.put("TIM", new TableDefinition(1024, 153, TIM_COLUMNS));
       TABLE_DEFINITIONS.put("TTL", new TableDefinition(1024, 67, TTL_COLUMNS));
