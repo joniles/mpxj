@@ -71,20 +71,25 @@ public class TableReader
          System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
          int recordSize = m_definition.getRecordSize();
 
-         Map<String, Object> row = new HashMap<String, Object>();
          int index = 6;
          while (index + recordSize <= buffer.length)
          {
             System.out.println(MPPUtility.hexdump(buffer, index, recordSize, true, 16, ""));
-            for (ColumnDefinition column : m_definition.getColumns())
+            int btrieveValue = getShort(buffer, index);
+            if (btrieveValue != 0)
             {
-               Object value = column.read(index, buffer);
-               System.out.println(column.getName() + ": " + value);
-               row.put(column.getName(), value);
+               Map<String, Object> row = new HashMap<String, Object>();
+               row.put("ROW_VERSION", Integer.valueOf(btrieveValue));
+               for (ColumnDefinition column : m_definition.getColumns())
+               {
+                  Object value = column.read(index, buffer);
+                  System.out.println(column.getName() + ": " + value);
+                  row.put(column.getName(), value);
+               }
+               table.addRow(m_definition.getPrimaryKeyColumnName(), row);
             }
             index += recordSize;
          }
-         table.addRow(row);
       }
    }
 

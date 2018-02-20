@@ -23,10 +23,9 @@
 
 package net.sf.mpxj.primavera.p3;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class represents a table read from a PEP file.
@@ -44,7 +43,7 @@ class Table implements Iterable<MapRow>
     */
    @Override public Iterator<MapRow> iterator()
    {
-      return m_rows.iterator();
+      return m_rows.values().iterator();
    }
 
    /**
@@ -58,11 +57,37 @@ class Table implements Iterable<MapRow>
    //      return m_rows.get(uniqueID);
    //   }
 
-   protected void addRow(Map<String, Object> map)
+   public void addRow(String primaryKeyColumnName, Map<String, Object> map)
    {
-      m_rows.add(new MapRow(map));
+      Integer rowNumber = Integer.valueOf(m_rowNumber++);
+      map.put("ROW_NUMBER", rowNumber);
+      Object primaryKey;
+      if (primaryKeyColumnName == null)
+      {
+         primaryKey = rowNumber;
+      }
+      else
+      {
+         primaryKey = map.get(primaryKeyColumnName);
+      }
+
+      MapRow newRow = new MapRow(map);
+      MapRow oldRow = m_rows.get(primaryKey);
+      if (oldRow == null)
+      {
+         m_rows.put(primaryKey, newRow);
+      }
+      else
+      {
+         int oldVersion = oldRow.getInteger("ROW_VERSION").intValue();
+         int newVersion = newRow.getInteger("ROW_VERSION").intValue();
+         if (newVersion > oldVersion)
+         {
+            m_rows.put(primaryKey, newRow);
+         }
+      }
    }
 
-   //   private final Map<Integer, MapRow> m_rows = new TreeMap<Integer, MapRow>();
-   private final List<MapRow> m_rows = new ArrayList<MapRow>();
+   private final Map<Object, MapRow> m_rows = new TreeMap<Object, MapRow>();
+   private int m_rowNumber = 1;
 }

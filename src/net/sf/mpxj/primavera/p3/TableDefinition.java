@@ -5,8 +5,14 @@ public class TableDefinition
 {
    public TableDefinition(int pageSize, int recordSize, ColumnDefinition... columns)
    {
+      this(pageSize, recordSize, null, columns);
+   }
+
+   public TableDefinition(int pageSize, int recordSize, String primaryKeyColumnName, ColumnDefinition... columns)
+   {
       m_pageSize = pageSize;
       m_recordSize = recordSize;
+      m_primaryKeyColumnName = primaryKeyColumnName;
       m_columns = columns;
    }
 
@@ -20,6 +26,11 @@ public class TableDefinition
       return m_recordSize;
    }
 
+   public String getPrimaryKeyColumnName()
+   {
+      return m_primaryKeyColumnName;
+   }
+
    public ColumnDefinition[] getColumns()
    {
       return m_columns;
@@ -27,5 +38,6 @@ public class TableDefinition
 
    private final int m_pageSize;
    private final int m_recordSize;
+   private final String m_primaryKeyColumnName;
    private final ColumnDefinition[] m_columns;
 }

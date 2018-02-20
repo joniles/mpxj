@@ -1,33 +1,13 @@
-/*
- * file:       MppDump.java
- * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2003
- * date:       07/02/2003
- */
-
-/*
- * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by the
- * Free Software Foundation; either version 2.1 of the License, or (at your
- * option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- */
 
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class P3Dump
+public class DatabaseReader
 {
    /**
     * Main method.
@@ -46,8 +26,8 @@ public class P3Dump
          {
             System.out.println("Dump started.");
             long start = System.currentTimeMillis();
-            P3Dump dumper = new P3Dump();
-            dumper.process(args[0], args[1]);
+            DatabaseReader dumper = new DatabaseReader();
+            dumper.process(new File(args[0]), args[1]);
             long elapsed = System.currentTimeMillis() - start;
             System.out.println("Dump completed in " + elapsed + "ms");
          }
@@ -59,12 +39,11 @@ public class P3Dump
       }
    }
 
-   public void process(String directory, String prefix) throws Exception
+   public Map<String, Table> process(File directory, String prefix) throws IOException
    {
-      m_tables = new HashMap<String, Table>();
+      Map<String, Table> tables = new HashMap<String, Table>();
 
-      File dir = new File(directory);
-      for (File file : dir.listFiles())
+      for (File file : directory.listFiles())
       {
          String name = file.getName().toUpperCase();
          if (!name.startsWith(prefix))
@@ -81,9 +60,42 @@ public class P3Dump
             System.out.println("Reading " + file.getName());
             TableReader reader = new TableReader(definition);
             reader.read(file, table);
-            m_tables.put(type, table);
+            tables.put(type, table);
+            dumpCSV(type, definition, table);
          }
       }
+
+      return tables;
+   }
+
+   private void dumpCSV(String type, TableDefinition definition, Table table) throws IOException
+   {
+      PrintWriter pw = new PrintWriter(new File("c:/temp/" + type + ".csv"));
+      pw.print("ROW_NUMBER,ROW_VERSION,");
+
+      for (ColumnDefinition column : definition.getColumns())
+      {
+         pw.print(column.getName());
+         pw.print(',');
+      }
+      pw.println();
+
+      for (MapRow row : table)
+      {
+         pw.print(row.getObject("ROW_NUMBER"));
+         pw.print(',');
+         pw.print(row.getObject("ROW_VERSION"));
+         pw.print(',');
+
+         for (ColumnDefinition column : definition.getColumns())
+         {
+            pw.print(row.getObject(column.getName()));
+            pw.print(',');
+         }
+         pw.println();
+      }
+
+      pw.close();
    }
 
    //   private void dumpFile(File dir, String prefix, String name) throws Exception
@@ -102,8 +114,6 @@ public class P3Dump
    //      pw.flush();
    //      pw.close();
    //   }
-
-   private HashMap<String, Table> m_tables;
 
    private static final ColumnDefinition[] AC2_COLUMNS =
    {
@@ -176,14 +186,14 @@ public class P3Dump
 
    private static final ColumnDefinition[] DIR_COLUMNS =
    {
-      new StringColumn("SUBP_NAME", 2, 4),
-      new IntColumn("SEQ_NUMBER", 6),
+      new StringColumn("SUB_PROJECT_NAME", 2, 4),
+      new IntColumn("SEQUENCE__NUMBER", 6),
       new IntColumn("PRODUCT_CODE", 10),
-      new DateColumn("PROJ_START_DATE", 14),
+      new DateColumn("PROJECT_START_DATE", 14),
       new IntColumn("HOLIDAY_CONVENTION", 18),
-      new StringColumn("SUBPROJ_ID", 22, 2),
+      new StringColumn("SUB_PROJECT_ID", 22, 2),
       new StringColumn("UNDEFINED_1", 24, 2),
-      new DateColumn("PROJ_FINISH_DATE", 26),
+      new DateColumn("PROJECT_FINISH_DATE", 26),
       new IntColumn("REPORT_COUNTER", 30),
       new StringColumn("ACT_CODE_1_TO_4_SIZE", 34, 4),
       new StringColumn("ACT_CODE_5_TO_8_SIZE", 38, 4),
@@ -191,14 +201,14 @@ public class P3Dump
       new StringColumn("ACT_CODE_13_TO_16_SIZE", 46, 4),
       new StringColumn("ACT_CODE_17_TO_20_SIZE", 50, 4),
       new StringColumn("ACT_ID_CODE_1_TO_4_SIZE", 54, 4),
-      new IntColumn("PROJ_TYPE", 58),
+      new IntColumn("PROJECT_TYPE", 58),
       new DateColumn("CURRENT_DATA_DATE", 62),
-      new DateColumn("CAL_START_DATE", 66),
+      new DateColumn("CALENDAR_START_DATE", 66),
       new StringColumn("UNDEFINED_2", 70, 4),
       new StringColumn("COMPANY_TITLE", 74, 36),
-      new StringColumn("PROJ_TITLE", 110, 36),
+      new StringColumn("PROJECT_TITLE", 110, 36),
       new StringColumn("REPORT_TITLE", 146, 48),
-      new StringColumn("PROJ_VERSION", 194, 16),
+      new StringColumn("PROJECT_VERSION", 194, 16),
       new StringColumn("UNDEFINED_3", 210, 32),
       new StringColumn("AUTO_COST_SET", 242, 4),
       new DateColumn("AUTO_COST_DATE", 246),
@@ -206,7 +216,7 @@ public class P3Dump
       new StringColumn("UNDEFINED_4", 264, 14),
       new IntColumn("SCHEDULE_LOGIC", 278),
       new IntColumn("INTERRUPTIBLE_FLAG", 282),
-      new IntColumn("LATE_ST_EARLY_FINISH", 286),
+      new DateColumn("LATEST_EARLY_FINISH", 286),
       new StringColumn("TARGET_1_NAME", 290, 4),
       new StringColumn("UNDEFINED_5", 294, 4),
       new StringColumn("TARGET_2_NAME", 298, 4),
@@ -216,16 +226,16 @@ public class P3Dump
       new StringColumn("UNDEFINED_7", 310, 4),
       new ShortColumn("START_DAY_OF_WEEK", 314),
       new StringColumn("UNDEFINED_8", 316, 2),
-      new ShortColumn("MASTER_CAL_TYPE", 318),
-      new ShortColumn("MAST_CAL_TYPE_AUX", 320),
-      new StringColumn("GRAPHICSUMARYPROJ", 322, 1),
-      new StringColumn("SCHEDMASTSUBBOTH", 323, 1),
-      new StringColumn("DECIMALPLACES", 324, 1),
-      new StringColumn("UPDATESUBDATADATE", 325, 1),
-      new StringColumn("SUMMARYCALID", 326, 1),
-      new StringColumn("ENDDATEFROMMS", 327, 1),
-      new StringColumn("SSLAGFROMASES", 328, 1),
-      new StringColumn("UNDEFINED9", 329, 1),
+      new ShortColumn("MASTER_CALENDAR_TYPE", 318),
+      new ShortColumn("MASTER_CALENDAR_TYPE_AUX", 320),
+      new StringColumn("GRAPHIC_SUMMARY_PROJECT", 322, 1),
+      new StringColumn("SCHED_MAST_SUB_BOTH", 323, 1),
+      new StringColumn("DECIMAL_PLACES", 324, 1),
+      new StringColumn("UPDATE_SUB_DATA_DATE", 325, 1),
+      new StringColumn("SUMMARY_CAL_ID", 326, 1),
+      new StringColumn("END_DATE_FROM_MS", 327, 1),
+      new StringColumn("SS_LAG_FROM_ASES", 328, 1),
+      new StringColumn("UNDEFINED_9", 329, 1),
       new ByteColumn("WBSW_01", 330),
       new StringColumn("WBSS_01", 331, 1),
       new ByteColumn("WBSW_02", 332),
@@ -423,11 +433,11 @@ public class P3Dump
    private static final ColumnDefinition[] STR_COLUMNS =
    {
       new StringColumn("INDICATOR", 2, 1),
-      new StringColumn("INDICATOREXT", 3, 1),
-      new ShortColumn("LEVELNUM", 4),
-      new StringColumn("UNDEFINED2", 6, 4),
-      new StringColumn("CODEVALUE", 10, 48),
-      new StringColumn("CODETITLE", 58, 48)
+      new StringColumn("INDICATOR_EXT", 3, 1),
+      new ShortColumn("LEVEL_NUMBER", 4),
+      new StringColumn("UNDEFINED_2", 6, 4),
+      new StringColumn("CODE_VALUE", 10, 48),
+      new StringColumn("CODE_TITLE", 58, 48)
    };
 
    private static final ColumnDefinition[] TTL_COLUMNS =
@@ -446,10 +456,13 @@ public class P3Dump
       new StringColumn("INDICATOR", 62, 1)
    };
 
+   // Budget Summary
    private static final ColumnDefinition[] ITM_COLUMNS =
    {
-      new StringColumn("UNKNOWN_1", 2, 12),
-      new StringColumn("UNKNOWN_2", 14, 24),
+      new StringColumn("ACTIVITY_ID", 2, 12),
+      new StringColumn("RESOURCE", 14, 8),
+      new StringColumn("COST_ACCOUNT", 22, 11),
+      new StringColumn("CATEGORY", 33, 5),
       new ShortColumn("UNKNOWN_3", 38),
       new ShortColumn("UNKNOWN_4", 40)
    };
@@ -523,7 +536,7 @@ public class P3Dump
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, RLB_COLUMNS));
       TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37, SPR_COLUMNS));
       TABLE_DEFINITIONS.put("SRT", new TableDefinition(4096, 16, SRT_COLUMNS));
-      TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122, STR_COLUMNS));
+      TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122, "CODE_VALUE", STR_COLUMNS));
       TABLE_DEFINITIONS.put("STW", new TableDefinition(1024, 58, STW_COLUMNS));
       TABLE_DEFINITIONS.put("TIM", new TableDefinition(1024, 153, TIM_COLUMNS));
       TABLE_DEFINITIONS.put("TTL", new TableDefinition(1024, 67, TTL_COLUMNS));
