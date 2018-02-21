@@ -25,6 +25,7 @@ package net.sf.mpxj.reader;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.Connection;
@@ -32,6 +33,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -39,8 +41,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -73,7 +73,7 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  * will sample the content and determine the type of file it has been given. It will then
  * instantiate the correct reader for that file type and proceed to read the file.
  */
-public class UniversalProjectReader extends AbstractProjectReader
+public class UniversalProjectReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
@@ -107,6 +107,56 @@ public class UniversalProjectReader extends AbstractProjectReader
    void setCharset(Charset charset)
    {
       m_charset = charset;
+   }
+
+   @Override public ProjectFile read(String fileName) throws MPXJException
+   {
+      return read(new File(fileName));
+   }
+
+   @Override public ProjectFile read(File file) throws MPXJException
+   {
+      try
+      {
+         ProjectFile result;
+         if (file.isDirectory())
+         {
+            result = handleDirectory(file);
+         }
+         else
+         {
+            FileInputStream fis = null;
+
+            try
+            {
+               fis = new FileInputStream(file);
+               ProjectFile projectFile = read(fis);
+               fis.close();
+               return (projectFile);
+            }
+
+            finally
+            {
+               if (fis != null)
+               {
+                  try
+                  {
+                     fis.close();
+                  }
+
+                  catch (Exception ex)
+                  {
+                     // Silently ignore exceptions on close
+                  }
+               }
+            }
+         }
+         return result;
+      }
+      catch (Exception ex)
+      {
+         throw new MPXJException(MPXJException.INVALID_FILE, ex);
+      }
    }
 
    /**
@@ -408,36 +458,69 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    /**
-    * We have identified that we have a zip file. Work our way through the entries in the
-    * file passing the stream representing that entry to UniversalProjectReader to
-    * see if we recognise a file type. Keep doing that until we have processed all of
-    * the entries, or we have found an entry we can read.
+    * We have identified that we have a zip file. Extract the contents into
+    * a temporary directory and process.
     *
     * @param stream schedule data
     * @return ProjectFile instance
     */
    private ProjectFile handleZipFile(InputStream stream) throws Exception
    {
-      ZipInputStream zip = new ZipInputStream(stream);
-      while (true)
+      File dir = null;
+
+      try
       {
-         ZipEntry entry = zip.getNextEntry();
-         if (entry == null)
-         {
-            break;
-         }
-
-         if (entry.isDirectory())
-         {
-            continue;
-         }
-
-         ProjectFile result = new UniversalProjectReader().read(zip);
+         dir = InputStreamHelper.writeZipStreamToTempDir(stream);
+         ProjectFile result = handleDirectory(dir);
          if (result != null)
          {
             return result;
          }
       }
+
+      finally
+      {
+         if (dir != null)
+         {
+            dir.delete();
+         }
+      }
+
+      return null;
+   }
+
+   private ProjectFile handleDirectory(File dir) throws Exception
+   {
+      List<File> directories = new ArrayList<File>();
+
+      // Work breadth first through the files
+      for (File file : dir.listFiles())
+      {
+         if (file.isDirectory())
+         {
+            directories.add(file);
+         }
+         else
+         {
+            UniversalProjectReader reader = new UniversalProjectReader();
+            ProjectFile result = reader.read(file);
+            if (result != null)
+            {
+               return result;
+            }
+         }
+      }
+
+      // Haven't found a file we can read? Try the directories.
+      for (File file : directories)
+      {
+         ProjectFile result = handleDirectory(file);
+         if (result != null)
+         {
+            return result;
+         }
+      }
+
       return null;
    }
 
@@ -666,5 +749,4 @@ public class UniversalProjectReader extends AbstractProjectReader
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
 
    private static final Pattern TURBOPROJECT_FINGERPRINT = Pattern.compile(".*dWBSTAB.*", Pattern.DOTALL);
-
 }

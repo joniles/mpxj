@@ -14,12 +14,10 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Resource;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
-/**
- * This class creates a new ProjectFile instance by reading a TurboProject PEP file.
- */
 public final class P3Reader implements ProjectReader
 {
    /**
@@ -61,8 +59,9 @@ public final class P3Reader implements ProjectReader
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceID(true);
-         config.setAutoTaskID(true);
          config.setAutoResourceUniqueID(true);
+
+         config.setAutoTaskID(true);
          config.setAutoTaskUniqueID(true);
 
          //         config.setAutoCalendarUniqueID(false);
@@ -106,7 +105,12 @@ public final class P3Reader implements ProjectReader
 
    private void readResources()
    {
-      // RLB
+      for (MapRow row : m_tables.get("RLB"))
+      {
+         Resource resource = m_projectFile.addResource();
+         resource.setName(row.getString("RES_TITLE"));
+         resource.setCode(row.getString("RES_ID"));
+      }
    }
 
    private void readTasks()

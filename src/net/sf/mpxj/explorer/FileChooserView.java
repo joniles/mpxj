@@ -50,6 +50,7 @@ public class FileChooserView
    public FileChooserView(Component parent, FileChooserModel model)
    {
       m_fileChooser = new JFileChooser();
+      m_fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
       m_parent = parent;
       m_model = model;
 
@@ -79,7 +80,6 @@ public class FileChooserView
    {
       if (m_model.getShowDialog())
       {
-
          if (m_fileChooser.showOpenDialog(m_parent) == JFileChooser.APPROVE_OPTION)
          {
             m_model.setFile(m_fileChooser.getSelectedFile());
