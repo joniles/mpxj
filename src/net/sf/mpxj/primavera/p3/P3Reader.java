@@ -42,6 +42,11 @@ public final class P3Reader implements ProjectReader
       throw new UnsupportedOperationException();
    }
 
+   public void setPrefix(String prefix)
+   {
+      m_prefix = prefix;
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -74,7 +79,7 @@ public final class P3Reader implements ProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
-         m_tables = new DatabaseReader().process(directory, "APEX");
+         m_tables = new DatabaseReader().process(directory, m_prefix);
 
          readCalendars();
          readResources();
@@ -173,6 +178,7 @@ public final class P3Reader implements ProjectReader
       //      }
    }
 
+   private String m_prefix;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;

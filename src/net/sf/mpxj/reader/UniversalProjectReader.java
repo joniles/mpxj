@@ -26,6 +26,7 @@ package net.sf.mpxj.reader;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.Connection;
@@ -65,6 +66,7 @@ import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import net.sf.mpxj.primavera.p3.P3Reader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -489,11 +491,54 @@ public class UniversalProjectReader implements ProjectReader
       return null;
    }
 
-   private ProjectFile handleDirectory(File dir) throws Exception
+   private ProjectFile handleDirectory(File directory) throws Exception
+   {
+      ProjectFile result = handleDatabaseInDirectory(directory);
+      if (result == null)
+      {
+         result = handleFileInDirectory(directory);
+      }
+      return result;
+   }
+
+   private ProjectFile handleDatabaseInDirectory(File directory) throws Exception
+   {
+      byte[] buffer = new byte[BUFFER_SIZE];
+
+      for (File file : directory.listFiles())
+      {
+         if (file.isDirectory())
+         {
+            continue;
+         }
+
+         FileInputStream fis = new FileInputStream(file);
+         int bytesRead = fis.read(buffer);
+         fis.close();
+
+         //
+         // If the file is smaller than the buffer we are peeking into,
+         // it's probably not a valid schedule file.
+         //
+         if (bytesRead != BUFFER_SIZE)
+         {
+            continue;
+         }
+
+         if (matchesFingerprint(buffer, BTRIEVE_FINGERPRINT))
+         {
+            return handleBtrieveDatabase(directory);
+         }
+      }
+
+      return null;
+   }
+
+   private ProjectFile handleFileInDirectory(File dir) throws Exception
    {
       List<File> directories = new ArrayList<File>();
 
-      // Work breadth first through the files
+      // Try files first
       for (File file : dir.listFiles())
       {
          if (file.isDirectory())
@@ -519,6 +564,28 @@ public class UniversalProjectReader implements ProjectReader
          {
             return result;
          }
+      }
+
+      return null;
+   }
+
+   private ProjectFile handleBtrieveDatabase(File directory) throws Exception
+   {
+      File[] files = directory.listFiles(new FilenameFilter()
+      {
+         @Override public boolean accept(File dir, String name)
+         {
+            return name.toUpperCase().endsWith("STR.P3");
+         }
+      });
+
+      if (files.length != 0)
+      {
+         String fileName = files[0].getName();
+         String prefix = fileName.substring(0, fileName.length() - 6);
+         P3Reader reader = new P3Reader();
+         reader.setPrefix(prefix);
+         return reader.read(directory);
       }
 
       return null;
@@ -717,6 +784,14 @@ public class UniversalProjectReader implements ProjectReader
       (byte) 0xED,
       (byte) 0x00,
       (byte) 0x05
+   };
+
+   private static final byte[] BTRIEVE_FINGERPRINT =
+   {
+      (byte) 0x46,
+      (byte) 0x43,
+      (byte) 0x00,
+      (byte) 0x00
    };
 
    private static final byte[] UTF8_BOM_FINGERPRINT =
