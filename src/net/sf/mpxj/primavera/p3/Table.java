@@ -52,10 +52,10 @@ class Table implements Iterable<MapRow>
     * @param uniqueID unique ID of the required row
     * @return MapRow instance, or null if the row is not found
     */
-   //   public MapRow find(Integer uniqueID)
-   //   {
-   //      return m_rows.get(uniqueID);
-   //   }
+   public MapRow find(Object uniqueID)
+   {
+      return m_rows.get(uniqueID);
+   }
 
    public void addRow(String primaryKeyColumnName, Map<String, Object> map)
    {
