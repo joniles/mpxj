@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +23,8 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
@@ -71,14 +75,14 @@ public final class P3Reader implements ProjectReader
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceID(true);
          config.setAutoResourceUniqueID(true);
-
          config.setAutoTaskID(true);
          config.setAutoTaskUniqueID(true);
-
-         //         config.setAutoCalendarUniqueID(false);
-         //         config.setAutoOutlineLevel(true);
-         //         config.setAutoOutlineNumber(true);
+         config.setAutoOutlineLevel(true);
+         config.setAutoOutlineNumber(true);
          config.setAutoWBS(false);
+
+         // Activity ID
+         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
 
          m_projectFile.getProjectProperties().setFileApplication("P3");
          m_projectFile.getProjectProperties().setFileType("BTRIEVE");
@@ -157,7 +161,7 @@ public final class P3Reader implements ProjectReader
       }
 
       int level = 1;
-      Map<String, Task> wbsMap = new HashMap<String, Task>();
+      m_wbsMap = new HashMap<String, Task>();
 
       while (true)
       {
@@ -167,15 +171,28 @@ public final class P3Reader implements ProjectReader
             break;
          }
 
-         // TODO - add columns and sort???
-
          for (MapRow row : items)
          {
             m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
             String parentWbsValue = m_wbsFormat.getFormattedParentValue();
             String wbsValue = m_wbsFormat.getFormatedValue();
+            Map<String, Object> map = row.getMap();
+            map.put("WBS", wbsValue);
+            map.put("PARENT_WBS", parentWbsValue);
+         }
 
-            ChildTaskContainer parent = wbsMap.get(parentWbsValue);
+         final AlphanumComparator comparator = new AlphanumComparator();
+         Collections.sort(items, new Comparator<MapRow>()
+         {
+            @Override public int compare(MapRow o1, MapRow o2)
+            {
+               return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
+            }
+         });
+
+         for (MapRow row : items)
+         {
+            ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
             if (parent == null)
             {
                parent = m_projectFile;
@@ -183,16 +200,39 @@ public final class P3Reader implements ProjectReader
 
             Task task = parent.addTask();
             task.setName(row.getString("CODE_TITLE"));
-            task.setWBS(wbsValue);
+            task.setWBS(row.getString("WBS"));
 
-            wbsMap.put(wbsValue, task);
+            m_wbsMap.put(row.getString("WBS"), task);
          }
       }
    }
 
    private void readActivities()
    {
+      Map<String, ChildTaskContainer> parentMap = new HashMap<String, ChildTaskContainer>();
+      for (MapRow row : m_tables.get("WBS"))
+      {
+         String activityID = row.getString("ACTIVITY_ID");
+         m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
+         String parentWBS = m_wbsFormat.getFormattedParentValue();
+         ChildTaskContainer parent = m_wbsMap.get(parentWBS);
+         if (parent == null)
+         {
+            parent = m_projectFile;
+         }
+         parentMap.put(activityID, parent);
+      }
 
+      for (MapRow row : m_tables.get("ACT"))
+      {
+         ChildTaskContainer parent = parentMap.get(row.getString("ACTIVITY_ID"));
+         Task task = parent.addTask();
+         setFields(TASK_FIELDS, row, task);
+
+         // Milestone
+         // Critical
+         // set start and finish dates correctly
+      }
    }
 
    private void readRelationships()
@@ -257,9 +297,11 @@ public final class P3Reader implements ProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
    private WbsFormat m_wbsFormat;
+   private Map<String, Task> m_wbsMap;
 
    private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<String, FieldType>();
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<String, FieldType>();
 
    static
    {
@@ -272,41 +314,17 @@ public final class P3Reader implements ProjectReader
       defineField(RESOURCE_FIELDS, "RES_TITLE", ResourceField.NAME);
       defineField(RESOURCE_FIELDS, "RES_ID", ResourceField.CODE);
 
-      //      defineField(RESOURCE_FIELDS, "UNIQUE_ID", ResourceField.UNIQUE_ID);
-      //      defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
-      //      defineField(RESOURCE_FIELDS, "GROUP", ResourceField.GROUP);
-      //      defineField(RESOURCE_FIELDS, "DESCRIPTION", ResourceField.NOTES);
-      //      defineField(RESOURCE_FIELDS, "PARENT_ID", ResourceField.PARENT_ID);
-      //
-      //      defineField(RESOURCE_FIELDS, "RATE", ResourceField.NUMBER1, "Rate");
-      //      defineField(RESOURCE_FIELDS, "POOL", ResourceField.NUMBER2, "Pool");
-      //      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceField.NUMBER3, "Per Day");
-      //      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceField.NUMBER4, "Priority");
-      //      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceField.NUMBER5, "Period Dur");
-      //      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceField.FLAG1, "Expenses Only");
-      //      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceField.FLAG2, "Modify On Integrate");
-      //      defineField(RESOURCE_FIELDS, "UNIT", ResourceField.TEXT1, "Unit");
-      //
-      //      defineField(A0TAB_FIELDS, "UNIQUE_ID", TaskField.UNIQUE_ID);
-      //
-      //      defineField(A1TAB_FIELDS, "ORDER", TaskField.ID);
-      //      defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
-      //      defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
-      //
-      //      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskField.TEXT1, "Description");
-      //
-      //      defineField(A3TAB_FIELDS, "EARLY_START", TaskField.EARLY_START);
-      //      defineField(A3TAB_FIELDS, "LATE_START", TaskField.LATE_START);
-      //      defineField(A3TAB_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
-      //      defineField(A3TAB_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
-      //
-      //      defineField(A5TAB_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
-      //      defineField(A5TAB_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
-      //      defineField(A5TAB_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      //      defineField(A5TAB_FIELDS, "TARGET_START", TaskField.DATE1, "Target Start");
-      //      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskField.DATE2, "Target Finish");
-      //      defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
-      //      defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
+      defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
+      defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
+      defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
+      defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
+      defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
+      defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
+      defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);
+      defineField(TASK_FIELDS, "LATE_START", TaskField.LATE_START);
+      defineField(TASK_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
+      defineField(TASK_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
    }
 
 }

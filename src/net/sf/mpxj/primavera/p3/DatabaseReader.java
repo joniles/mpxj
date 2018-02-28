@@ -135,23 +135,23 @@ public class DatabaseReader
 
    private static final ColumnDefinition[] ACT_COLUMNS =
    {
-      new StringColumn("ACT_ID", 2, 10),
+      new StringColumn("ACTIVITY_ID", 2, 10),
       new StringColumn("UNDEFINED_1", 12, 2),
-      new ShortColumn("FREE_FLOAT", 14),
-      new ShortColumn("CAL_ID", 16),
+      new DurationColumn("FREE_FLOAT", 14),
+      new ShortColumn("CALENDAR_ID", 16),
       new IntColumn("DURATION_CALC_CODE", 18),
-      new ShortColumn("ORIG_DUR", 22),
-      new ShortColumn("REM_DUR", 24),
-      new ShortColumn("AS_OR_CONSTRAINT_FLAG", 26),
-      new ShortColumn("AF_OR_CONSTRAINT_FLAG", 28),
-      new IntColumn("PCT", 30),
-      new DateColumn("ES_INTERNAL", 34),
-      new DateColumn("LS_INTERNAL", 38),
-      new IntColumn("AS_OR_ED_CONSTRAINT", 42),
-      new IntColumn("AF_OR_LD_CONSTRAINT", 46),
+      new DurationColumn("ORIGINAL_DURATION", 22),
+      new DurationColumn("REMAINING_DURATION", 24),
+      new ShortColumn("ACTUAL_START_OR_CONSTRAINT_FLAG", 26),
+      new ShortColumn("ACTUAL_FINISH_OR_CONSTRAINT_FLAG", 28),
+      new PercentColumn("PERCENT_COMPLETE", 30),
+      new DateColumn("EARLY_START_INTERNAL", 34),
+      new DateColumn("LATE_START_INTERNAL", 38),
+      new DateColumn("AS_OR_ED_CONSTRAINT", 42),
+      new DateColumn("AF_OR_LD_CONSTRAINT", 46),
       new DateColumn("EF_INTERNAL", 50),
       new DateColumn("LF_INTERNAL", 54),
-      new ShortColumn("TOTAL_FLOAT", 58),
+      new DurationColumn("TOTAL_FLOAT", 58),
       new StringColumn("MILESTONE", 60, 1),
       new StringColumn("CRITICAL_FLAG", 61, 1),
       new StringColumn("UNDEFINED_4", 62, 8),
@@ -172,16 +172,16 @@ public class DatabaseReader
       new IntColumn("UNDEFINED_8C", 202),
       new IntColumn("UNDEFINED_8D", 206),
       new IntColumn("UNDEFINED_8E", 210),
-      new BtrieveDateColumn("ES", 214),
-      new BtrieveDateColumn("LS", 218),
-      new BtrieveDateColumn("EF", 222),
-      new BtrieveDateColumn("LF", 226),
-      new ByteColumn("ES_HOUR", 230),
-      new ByteColumn("LS_HOUR", 231),
-      new ByteColumn("EF_HOUR", 232),
-      new ByteColumn("LF_HOUR", 233),
-      new StringColumn("AS_FLAG", 234, 1),
-      new StringColumn("AF_FLAG", 235, 1),
+      new BtrieveDateColumn("EARLY_START", 214),
+      new BtrieveDateColumn("LATE_START", 218),
+      new BtrieveDateColumn("EARLY_FINISH", 222),
+      new BtrieveDateColumn("LATE_FINISH", 226),
+      new ByteColumn("EARLY_START_HOUR", 230),
+      new ByteColumn("LATE_START_HOUR", 231),
+      new ByteColumn("EARLY_FINISH_HOUR", 232),
+      new ByteColumn("LATE_FINISH_HOUR", 233),
+      new StringColumn("ACTUAL_START_FLAG", 234, 1),
+      new StringColumn("ACTUAL_FINISH_FLAG", 235, 1),
       new StringColumn("UNDEFINED_10", 236, 10)
    };
 
@@ -532,7 +532,7 @@ public class DatabaseReader
    {
       TABLE_DEFINITIONS.put("AC2", new TableDefinition(512, 34, AC2_COLUMNS));
       TABLE_DEFINITIONS.put("ACC", new TableDefinition(512, 58, ACC_COLUMNS));
-      TABLE_DEFINITIONS.put("ACT", new TableDefinition(1024, 250, ACT_COLUMNS));
+      TABLE_DEFINITIONS.put("ACT", new TableDefinition(1024, 250, "ACTIVITY_ID", null, ACT_COLUMNS));
       TABLE_DEFINITIONS.put("AIT", new TableDefinition(1024, 214, AIT_COLUMNS));
       TABLE_DEFINITIONS.put("AUD", new TableDefinition(1024, 143, AUD_COLUMNS));
       // CAL - not a Btrieve file
@@ -556,6 +556,6 @@ public class DatabaseReader
       TABLE_DEFINITIONS.put("STW", new TableDefinition(1024, 58, STW_COLUMNS));
       TABLE_DEFINITIONS.put("TIM", new TableDefinition(1024, 153, TIM_COLUMNS));
       TABLE_DEFINITIONS.put("TTL", new TableDefinition(1024, 67, TTL_COLUMNS));
-      TABLE_DEFINITIONS.put("WBS", new TableDefinition(1024, 63, WBS_COLUMNS));
+      TABLE_DEFINITIONS.put("WBS", new TableDefinition(1024, 63, "ACTIVITY_ID", null, WBS_COLUMNS));
    }
 }

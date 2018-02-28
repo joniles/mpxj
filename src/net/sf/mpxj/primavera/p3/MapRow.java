@@ -131,5 +131,10 @@ class MapRow
       return m_map.get(name);
    }
 
+   public final Map<String, Object> getMap()
+   {
+      return m_map;
+   }
+
    protected Map<String, Object> m_map;
 }
