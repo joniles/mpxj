@@ -335,30 +335,30 @@ public class DatabaseReader
 
    private static final ColumnDefinition[] REL_COLUMNS =
    {
-      new StringColumn("PRED_ACT", 2, 10),
-      new StringColumn("PRED_ACT_EXT", 12, 2),
-      new StringColumn("SUCC_ACT", 14, 10),
-      new StringColumn("SUCCACT_EXT", 24, 2),
-      new ShortColumn("LAG_TYPE", 26),
-      new ShortColumn("LAG_VALUE", 28),
+      new StringColumn("PREDECESSOR_ACTIVITY_ID", 2, 10),
+      new StringColumn("PREDECESSOR_ACTIVITY_EXT", 12, 2),
+      new StringColumn("SUCCESSOR_ACTIVITY_ID", 14, 10),
+      new StringColumn("SUCCESSOR_ACTIVITY_EXT", 24, 2),
+      new RelationTypeColumn("LAG_TYPE", 26),
+      new DurationColumn("LAG_VALUE", 28),
       new StringColumn("DRIVING_REL", 30, 1),
    };
 
    private static final ColumnDefinition[] RES_COLUMNS =
    {
-      new StringColumn("ACTID", 2, 10),
+      new StringColumn("ACTIVITY_ID", 2, 10),
       new StringColumn("UNDEFINED_1", 12, 2),
-      new StringColumn("RES_ID", 14, 8),
+      new StringColumn("RESOURCE_ID", 14, 8),
       new StringColumn("COST_ACCOUNT_NUMBER", 22, 12),
-      new ShortColumn("PCT_COMPLETE", 34),
+      new ShortColumn("PERCENT_COMPLETE", 34),
       new ShortColumn("LAG", 36),
-      new ShortColumn("REM_DUR", 38),
+      new DurationColumn("REMAINING_DURATION", 38),
       new StringColumn("RES_DESIGNATOR", 40, 1),
       new StringColumn("DRIVING_RESOURCE", 41, 1),
       new IntColumn("BUDGET_QUANTITY", 42),
-      new IntColumn("QTY_THIS_PERIOD", 46),
-      new IntColumn("QTY_TO_DATE", 50),
-      new IntColumn("QTY_AT_COMPLETE", 54),
+      new IntColumn("QUANTITY_THIS_PERIOD", 46),
+      new IntColumn("QUANTITY_TO_DATE", 50),
+      new IntColumn("QUANTITY_AT_COMPLETE", 54),
       new DateColumn("ST_RES_EARLY_START", 58),
       new DateColumn("ST_RES_EARLY_FINISH", 62),
       new IntColumn("UNDEFINED_2", 66),
@@ -379,7 +379,7 @@ public class DatabaseReader
       new StringColumn("COST_ACCOUNT_NUMBER", 21, 12),
       new StringColumn("RESOURCE_ID", 33, 1),
       new StringColumn("UNDEFINED_1", 34, 3),
-      new IntColumn("COMMITMENT_AMT", 37),
+      new IntColumn("COMMITMENT_AMOUNT", 37),
       new IntColumn("ORIGINAL_BUDGET", 41),
    };
 

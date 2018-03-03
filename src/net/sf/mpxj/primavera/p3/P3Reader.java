@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -20,6 +21,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
@@ -132,10 +134,12 @@ public final class P3Reader implements ProjectReader
 
    private void readResources()
    {
+      m_resourceMap = new HashMap<String, Resource>();
       for (MapRow row : m_tables.get("RLB"))
       {
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
+         m_resourceMap.put(resource.getCode(), resource);
       }
    }
 
@@ -192,17 +196,21 @@ public final class P3Reader implements ProjectReader
 
          for (MapRow row : items)
          {
-            ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
-            if (parent == null)
+            String wbs = row.getString("WBS");
+            if (wbs != null && !wbs.isEmpty())
             {
-               parent = m_projectFile;
+               ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
+               if (parent == null)
+               {
+                  parent = m_projectFile;
+               }
+
+               Task task = parent.addTask();
+               task.setName(row.getString("CODE_TITLE"));
+               task.setWBS(wbs);
+
+               m_wbsMap.put(wbs, task);
             }
-
-            Task task = parent.addTask();
-            task.setName(row.getString("CODE_TITLE"));
-            task.setWBS(row.getString("WBS"));
-
-            m_wbsMap.put(row.getString("WBS"), task);
          }
       }
    }
@@ -223,24 +231,52 @@ public final class P3Reader implements ProjectReader
          parentMap.put(activityID, parent);
       }
 
+      m_activityMap = new HashMap<String, Task>();
+
       for (MapRow row : m_tables.get("ACT"))
       {
-         ChildTaskContainer parent = parentMap.get(row.getString("ACTIVITY_ID"));
+         String activityID = row.getString("ACTIVITY_ID");
+         ChildTaskContainer parent = parentMap.get(activityID);
          Task task = parent.addTask();
          setFields(TASK_FIELDS, row, task);
-
-         // Milestone
-         // Critical
-         // set start and finish dates correctly
+         task.setStart(task.getEarlyStart());
+         task.setFinish(task.getEarlyFinish());
+         task.setMilestone(task.getDuration().getDuration() == 0);
+         if (parent instanceof Task)
+         {
+            task.setWBS(((Task) parent).getWBS());
+         }
+         m_activityMap.put(activityID, task);
       }
    }
 
    private void readRelationships()
    {
+      for (MapRow row : m_tables.get("REL"))
+      {
+         Task predecessor = m_activityMap.get(row.getString("PREDECESSOR_ACTIVITY_ID"));
+         Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
+         if (predecessor != null && successor != null)
+         {
+            Duration lag = row.getDuration("LAG_VALUE");
+            RelationType type = row.getRelationType("LAG_TYPE");
+
+            successor.addPredecessor(predecessor, type, lag);
+         }
+      }
    }
 
    private void readResourceAssignments()
    {
+      for (MapRow row : m_tables.get("RES"))
+      {
+         Task task = m_activityMap.get(row.getString("ACTIVITY_ID"));
+         Resource resource = m_resourceMap.get(row.getString("RESOURCE_ID"));
+         if (task != null && resource != null)
+         {
+            task.addResourceAssignment(resource);
+         }
+      }
    }
 
    /**
@@ -297,7 +333,9 @@ public final class P3Reader implements ProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
    private WbsFormat m_wbsFormat;
+   private Map<String, Resource> m_resourceMap;
    private Map<String, Task> m_wbsMap;
+   private Map<String, Task> m_activityMap;
 
    private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<String, FieldType>();
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
@@ -316,15 +354,15 @@ public final class P3Reader implements ProjectReader
 
       defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
       defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
-      defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
       defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
       defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);
       defineField(TASK_FIELDS, "LATE_START", TaskField.LATE_START);
       defineField(TASK_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
       defineField(TASK_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
+      defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
+      defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
    }
 
 }
