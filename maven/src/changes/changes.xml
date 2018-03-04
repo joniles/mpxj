@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.2.2">
+		<release date="git master" version="7.3.0">
+			<action dev="joniles" type="add">Added support for reading Primavera P3 databases from directories or zip files</action>
 			<action dev="joniles" type="update">Improve robustness when reading MPP files containing apparently invalid custom field data.</action>
 			<action dev="joniles" type="update">Improve UniversalProjectReader byte order mark handling.</action>			
 		</release>
