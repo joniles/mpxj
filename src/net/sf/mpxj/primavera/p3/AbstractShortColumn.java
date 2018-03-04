@@ -1,5 +1,5 @@
 /*
- * file:       DurationColumn.java
+ * file:       AbstractShortColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -23,13 +23,10 @@
 
 package net.sf.mpxj.primavera.p3;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
-
 /**
- * Extract column data from a table.
+ * Common methods for columns based on short integers.
  */
-public class DurationColumn extends AbstractShortColumn
+public abstract class AbstractShortColumn extends AbstractColumn
 {
    /**
     * Constructor.
@@ -37,13 +34,27 @@ public class DurationColumn extends AbstractShortColumn
     * @param name column name
     * @param offset offset within data
     */
-   public DurationColumn(String name, int offset)
+   public AbstractShortColumn(String name, int offset)
    {
       super(name, offset);
    }
 
-   @Override public Duration read(int offset, byte[] data)
+   /**
+    * Read a two byte integer from the data.
+    *
+    * @param offset current offset into data block
+    * @param data data block
+    * @return int value
+    */
+   protected int readShort(int offset, byte[] data)
    {
-      return Duration.getInstance(readShort(offset, data), TimeUnit.DAYS);
+      int result = 0;
+      int i = offset + m_offset;
+      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
+      {
+         result |= ((data[i] & 0xff)) << shiftBy;
+         ++i;
+      }
+      return result;
    }
 }
