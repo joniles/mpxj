@@ -1,7 +1,9 @@
 # Changelog
 
-## 7.2.2 (git master)
+## 7.3.0 (git master)
+* Added support for reading Primavera P3 databases from directories or zip files
 * Improve robustness when reading MPP files containing apparently invalid custom field data.
+* Improve UniversalProjectReader byte order mark handling.
 
 ## 7.2.1 (26/01/2018)
 * More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.

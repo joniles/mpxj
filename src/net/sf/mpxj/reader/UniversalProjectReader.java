@@ -25,6 +25,8 @@ package net.sf.mpxj.reader;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.Connection;
@@ -32,6 +34,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -39,8 +42,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -65,6 +66,7 @@ import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import net.sf.mpxj.primavera.p3.P3Reader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -73,7 +75,7 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  * will sample the content and determine the type of file it has been given. It will then
  * instantiate the correct reader for that file type and proceed to read the file.
  */
-public class UniversalProjectReader extends AbstractProjectReader
+public class UniversalProjectReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
@@ -107,6 +109,56 @@ public class UniversalProjectReader extends AbstractProjectReader
    void setCharset(Charset charset)
    {
       m_charset = charset;
+   }
+
+   @Override public ProjectFile read(String fileName) throws MPXJException
+   {
+      return read(new File(fileName));
+   }
+
+   @Override public ProjectFile read(File file) throws MPXJException
+   {
+      try
+      {
+         ProjectFile result;
+         if (file.isDirectory())
+         {
+            result = handleDirectory(file);
+         }
+         else
+         {
+            FileInputStream fis = null;
+
+            try
+            {
+               fis = new FileInputStream(file);
+               ProjectFile projectFile = read(fis);
+               fis.close();
+               return (projectFile);
+            }
+
+            finally
+            {
+               if (fis != null)
+               {
+                  try
+                  {
+                     fis.close();
+                  }
+
+                  catch (Exception ex)
+                  {
+                     // Silently ignore exceptions on close
+                  }
+               }
+            }
+         }
+         return result;
+      }
+      catch (Exception ex)
+      {
+         throw new MPXJException(MPXJException.INVALID_FILE, ex);
+      }
    }
 
    /**
@@ -414,36 +466,167 @@ public class UniversalProjectReader extends AbstractProjectReader
    }
 
    /**
-    * We have identified that we have a zip file. Work our way through the entries in the
-    * file passing the stream representing that entry to UniversalProjectReader to
-    * see if we recognise a file type. Keep doing that until we have processed all of
-    * the entries, or we have found an entry we can read.
+    * We have identified that we have a zip file. Extract the contents into
+    * a temporary directory and process.
     *
     * @param stream schedule data
     * @return ProjectFile instance
     */
    private ProjectFile handleZipFile(InputStream stream) throws Exception
    {
-      ZipInputStream zip = new ZipInputStream(stream);
-      while (true)
+      File dir = null;
+
+      try
       {
-         ZipEntry entry = zip.getNextEntry();
-         if (entry == null)
-         {
-            break;
-         }
-
-         if (entry.isDirectory())
-         {
-            continue;
-         }
-
-         ProjectFile result = new UniversalProjectReader().read(zip);
+         dir = InputStreamHelper.writeZipStreamToTempDir(stream);
+         ProjectFile result = handleDirectory(dir);
          if (result != null)
          {
             return result;
          }
       }
+
+      finally
+      {
+         if (dir != null)
+         {
+            dir.delete();
+         }
+      }
+
+      return null;
+   }
+
+   /**
+    * We have a directory. Determine if this contains a multi-file database we understand, if so
+    * process it. If it does not contain a database, test each file within the directory
+    * structure to determine if it contains a file whose format we understand.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
+   private ProjectFile handleDirectory(File directory) throws Exception
+   {
+      ProjectFile result = handleDatabaseInDirectory(directory);
+      if (result == null)
+      {
+         result = handleFileInDirectory(directory);
+      }
+      return result;
+   }
+
+   /**
+    * Given a directory, determine if it contains a multi-file database whose format
+    * we can process.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
+   private ProjectFile handleDatabaseInDirectory(File directory) throws Exception
+   {
+      byte[] buffer = new byte[BUFFER_SIZE];
+      File[] files = directory.listFiles();
+      if (files != null)
+      {
+         for (File file : files)
+         {
+            if (file.isDirectory())
+            {
+               continue;
+            }
+
+            FileInputStream fis = new FileInputStream(file);
+            int bytesRead = fis.read(buffer);
+            fis.close();
+
+            //
+            // If the file is smaller than the buffer we are peeking into,
+            // it's probably not a valid schedule file.
+            //
+            if (bytesRead != BUFFER_SIZE)
+            {
+               continue;
+            }
+
+            if (matchesFingerprint(buffer, BTRIEVE_FINGERPRINT))
+            {
+               return handleP3BtrieveDatabase(directory);
+            }
+         }
+      }
+      return null;
+   }
+
+   /**
+    * Given a directory, determine if it  (or any subdirectory) contains a file
+    * whose format we understand.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
+   private ProjectFile handleFileInDirectory(File directory) throws Exception
+   {
+      List<File> directories = new ArrayList<File>();
+      File[] files = directory.listFiles();
+
+      if (files != null)
+      {
+         // Try files first
+         for (File file : files)
+         {
+            if (file.isDirectory())
+            {
+               directories.add(file);
+            }
+            else
+            {
+               UniversalProjectReader reader = new UniversalProjectReader();
+               ProjectFile result = reader.read(file);
+               if (result != null)
+               {
+                  return result;
+               }
+            }
+         }
+
+         // Haven't found a file we can read? Try the directories.
+         for (File file : directories)
+         {
+            ProjectFile result = handleDirectory(file);
+            if (result != null)
+            {
+               return result;
+            }
+         }
+      }
+      return null;
+   }
+
+   /**
+    * Determine if we have a P3 Btrieve multi-file database.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
+   private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
+   {
+      File[] files = directory.listFiles(new FilenameFilter()
+      {
+         @Override public boolean accept(File dir, String name)
+         {
+            return name.toUpperCase().endsWith("STR.P3");
+         }
+      });
+
+      if (files != null && files.length != 0)
+      {
+         String fileName = files[0].getName();
+         String prefix = fileName.substring(0, fileName.length() - 6);
+         P3Reader reader = new P3Reader();
+         reader.setPrefix(prefix);
+         return reader.read(directory);
+      }
+
       return null;
    }
 
@@ -642,6 +825,14 @@ public class UniversalProjectReader extends AbstractProjectReader
       (byte) 0x05
    };
 
+   private static final byte[] BTRIEVE_FINGERPRINT =
+   {
+      (byte) 0x46,
+      (byte) 0x43,
+      (byte) 0x00,
+      (byte) 0x00
+   };
+
    private static final byte[] UTF8_BOM_FINGERPRINT =
    {
       (byte) 0xEF,
@@ -672,5 +863,4 @@ public class UniversalProjectReader extends AbstractProjectReader
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
 
    private static final Pattern TURBOPROJECT_FINGERPRINT = Pattern.compile(".*dWBSTAB.*", Pattern.DOTALL);
-
 }
