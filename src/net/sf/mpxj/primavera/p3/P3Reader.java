@@ -1,3 +1,25 @@
+/*
+ * file:       P3Reader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.p3;
 
@@ -30,11 +52,11 @@ import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
+/**
+ * Reads a schedule data from a P3 multi-file Btrieve database in a directory.
+ */
 public final class P3Reader implements ProjectReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
@@ -54,14 +76,17 @@ public final class P3Reader implements ProjectReader
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Set the prefix used to identify which database is read from the directory.
+    * There may potentially be more than one database in a directory.
+    *
+    * @param prefix file name prefix
+    */
    public void setPrefix(String prefix)
    {
       m_prefix = prefix;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File directory) throws MPXJException
    {
       if (!directory.isDirectory())
@@ -117,6 +142,9 @@ public final class P3Reader implements ProjectReader
       }
    }
 
+   /**
+    * Read general project properties.
+    */
    private void readProjectHeader()
    {
       Table table = m_tables.get("DIR");
@@ -128,11 +156,17 @@ public final class P3Reader implements ProjectReader
       }
    }
 
+   /**
+    * Read project calendars.
+    */
    private void readCalendars()
    {
       // TODO: understand the calendar data representation.
    }
 
+   /**
+    * Read resources.
+    */
    private void readResources()
    {
       m_resourceMap = new HashMap<String, Resource>();
@@ -144,12 +178,18 @@ public final class P3Reader implements ProjectReader
       }
    }
 
+   /**
+    * Read tasks.
+    */
    private void readTasks()
    {
       readWBS();
       readActivities();
    }
 
+   /**
+    * Read tasks representing the WBS.
+    */
    private void readWBS()
    {
       Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
@@ -219,6 +259,9 @@ public final class P3Reader implements ProjectReader
       }
    }
 
+   /**
+    * Read tasks representin activities.
+    */
    private void readActivities()
    {
       Map<String, ChildTaskContainer> parentMap = new HashMap<String, ChildTaskContainer>();
@@ -271,6 +314,9 @@ public final class P3Reader implements ProjectReader
       }
    }
 
+   /**
+    * Read task relationships.
+    */
    private void readRelationships()
    {
       for (MapRow row : m_tables.get("REL"))
@@ -287,6 +333,9 @@ public final class P3Reader implements ProjectReader
       }
    }
 
+   /**
+    * Read resource assignments.
+    */
    private void readResourceAssignments()
    {
       for (MapRow row : m_tables.get("RES"))

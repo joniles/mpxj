@@ -196,5 +196,12 @@
 		<Class name="~.*\.UniversalProjectReader" />	
 		<Method name="handleZipFile" />
 	</Match>
+
+	<!-- Don't care if the file is not deleted -->	 			 
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+		<Class name="~.*\.InputStreamHelper" />	
+		<Method name="writeZipStreamToTempDir" />
+	</Match>
 		 
 </FindBugsFilter>

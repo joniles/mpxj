@@ -1,3 +1,25 @@
+/*
+ * file:       TableReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.p3;
 
@@ -8,13 +30,27 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handles reading a table from a Btrieve file.
+ */
 public class TableReader
 {
+   /**
+    * Constructor.
+    *
+    * @param definition table structure definition
+    */
    public TableReader(TableDefinition definition)
    {
       m_definition = definition;
    }
 
+   /**
+    * Read the table from the file and populate the supplied Table instance.
+    *
+    * @param file database file
+    * @param table Table instance
+    */
    public void read(File file, Table table) throws IOException
    {
       //System.out.println("Reading " + file.getName());
@@ -42,6 +78,12 @@ public class TableReader
       }
    }
 
+   /**
+    * Read the table from an input stream and populate the supplied Table instance.
+    *
+    * @param is input stream from table file
+    * @param table Table instance
+    */
    private void read(InputStream is, Table table) throws IOException
    {
       byte[] buffer = new byte[m_definition.getPageSize()];
@@ -62,6 +104,12 @@ public class TableReader
       }
    }
 
+   /**
+    * Reads data from a single page of the database file.
+    *
+    * @param buffer page from the database file
+    * @param table Table instance
+    */
    private void readPage(byte[] buffer, Table table)
    {
       int magicNumber = getShort(buffer, 0);
@@ -98,6 +146,13 @@ public class TableReader
       }
    }
 
+   /**
+    * Read a two byte integer from a byte array.
+    *
+    * @param data byte array
+    * @param offset offset into byte array
+    * @return int value
+    */
    private int getShort(byte[] data, int offset)
    {
       int result = 0;
