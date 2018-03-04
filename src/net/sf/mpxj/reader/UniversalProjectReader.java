@@ -186,6 +186,27 @@ public class UniversalProjectReader implements ProjectReader
             return null;
          }
 
+         //
+         // Always check for BOM first. Regex-based fingerprints may ignore these otherwise.
+         //
+         if (matchesFingerprint(buffer, UTF8_BOM_FINGERPRINT))
+         {
+            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length, CharsetHelper.UTF8);
+         }
+
+         if (matchesFingerprint(buffer, UTF16_BOM_FINGERPRINT))
+         {
+            return handleByteOrderMark(bis, UTF16_BOM_FINGERPRINT.length, CharsetHelper.UTF16);
+         }
+
+         if (matchesFingerprint(buffer, UTF16LE_BOM_FINGERPRINT))
+         {
+            return handleByteOrderMark(bis, UTF16LE_BOM_FINGERPRINT.length, CharsetHelper.UTF16LE);
+         }
+
+         //
+         // Now check for file fingerprints
+         //
          if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
             return handleOleCompoundDocument(bis);
@@ -258,21 +279,6 @@ public class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, PROJECTLIBRE_FINGERPRINT))
          {
             return readProjectFile(new ProjectLibreReader(), bis);
-         }
-
-         if (matchesFingerprint(buffer, UTF8_BOM_FINGERPRINT))
-         {
-            return handleByteOrderMark(bis, UTF8_BOM_FINGERPRINT.length, CharsetHelper.UTF8);
-         }
-
-         if (matchesFingerprint(buffer, UTF16_BOM_FINGERPRINT))
-         {
-            return handleByteOrderMark(bis, UTF16_BOM_FINGERPRINT.length, CharsetHelper.UTF16);
-         }
-
-         if (matchesFingerprint(buffer, UTF16LE_BOM_FINGERPRINT))
-         {
-            return handleByteOrderMark(bis, UTF16LE_BOM_FINGERPRINT.length, CharsetHelper.UTF16LE);
          }
 
          if (matchesFingerprint(buffer, GANTTPROJECT_FINGERPRINT))
