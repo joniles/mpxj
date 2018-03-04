@@ -130,6 +130,7 @@ public final class P3Reader implements ProjectReader
 
    private void readCalendars()
    {
+      // TODO: understand the calendar data representation.
    }
 
    private void readResources()
@@ -180,9 +181,8 @@ public final class P3Reader implements ProjectReader
             m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
             String parentWbsValue = m_wbsFormat.getFormattedParentValue();
             String wbsValue = m_wbsFormat.getFormatedValue();
-            Map<String, Object> map = row.getMap();
-            map.put("WBS", wbsValue);
-            map.put("PARENT_WBS", parentWbsValue);
+            row.setObject("WBS", wbsValue);
+            row.setObject("PARENT_WBS", parentWbsValue);
          }
 
          final AlphanumComparator comparator = new AlphanumComparator();

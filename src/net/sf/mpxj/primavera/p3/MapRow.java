@@ -131,9 +131,15 @@ class MapRow
       return m_map.get(name);
    }
 
-   public final Map<String, Object> getMap()
+   /**
+    * Set the value for a specific column.
+    *
+    * @param name column name
+    * @param value column value
+    */
+   public void setObject(String name, Object value)
    {
-      return m_map;
+      m_map.put(name, value);
    }
 
    protected Map<String, Object> m_map;

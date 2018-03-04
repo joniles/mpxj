@@ -58,7 +58,6 @@ public class DatabaseReader
          if (definition != null)
          {
             Table table = new Table();
-            System.out.println("Reading " + file.getName());
             TableReader reader = new TableReader(definition);
             reader.read(file, table);
             tables.put(type, table);

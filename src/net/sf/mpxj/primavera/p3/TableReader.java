@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 public class TableReader
 {
    public TableReader(TableDefinition definition)
@@ -19,6 +17,7 @@ public class TableReader
 
    public void read(File file, Table table) throws IOException
    {
+      //System.out.println("Reading " + file.getName());
       InputStream is = null;
       try
       {
@@ -68,7 +67,7 @@ public class TableReader
       int magicNumber = getShort(buffer, 0);
       if (magicNumber == 0x4400)
       {
-         System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
+         //System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
          int recordSize = m_definition.getRecordSize();
          RowValidator rowValidator = m_definition.getRowValidator();
          String primaryKeyColumnName = m_definition.getPrimaryKeyColumnName();
@@ -76,7 +75,7 @@ public class TableReader
          int index = 6;
          while (index + recordSize <= buffer.length)
          {
-            System.out.println(MPPUtility.hexdump(buffer, index, recordSize, true, 16, ""));
+            //System.out.println(MPPUtility.hexdump(buffer, index, recordSize, true, 16, ""));
             int btrieveValue = getShort(buffer, index);
             if (btrieveValue != 0)
             {
@@ -85,7 +84,7 @@ public class TableReader
                for (ColumnDefinition column : m_definition.getColumns())
                {
                   Object value = column.read(index, buffer);
-                  System.out.println(column.getName() + ": " + value);
+                  //System.out.println(column.getName() + ": " + value);
                   row.put(column.getName(), value);
                }
 
