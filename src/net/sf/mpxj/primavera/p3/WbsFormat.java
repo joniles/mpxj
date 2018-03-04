@@ -35,7 +35,12 @@ public class WbsFormat
          {
             m_elements.add(m_separators.get(elementIndex - 1));
          }
-         String element = value.substring(valueIndex, valueIndex + elementLength);
+         int endIndex = valueIndex + elementLength;
+         if (endIndex > value.length())
+         {
+            endIndex = value.length();
+         }
+         String element = value.substring(valueIndex, endIndex);
          m_elements.add(element);
          valueIndex += elementLength;
          elementIndex++;

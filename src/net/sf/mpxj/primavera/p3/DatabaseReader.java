@@ -549,7 +549,7 @@ public class DatabaseReader
       TABLE_DEFINITIONS.put("REP", new TableDefinition(512, 21, REP_COLUMNS));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(1024, 114, RES_COLUMNS));
       TABLE_DEFINITIONS.put("RIT", new TableDefinition(1024, 214, RIT_COLUMNS));
-      TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, RLB_COLUMNS));
+      TABLE_DEFINITIONS.put("RLB", new TableDefinition(1024, 182, "RES_ID", null, RLB_COLUMNS));
       TABLE_DEFINITIONS.put("SPR", new TableDefinition(1024, 37, SPR_COLUMNS));
       TABLE_DEFINITIONS.put("SRT", new TableDefinition(4096, 16, SRT_COLUMNS));
       TABLE_DEFINITIONS.put("STR", new TableDefinition(512, 122, "CODE_VALUE", null, STR_COLUMNS));

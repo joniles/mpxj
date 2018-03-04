@@ -206,9 +206,13 @@ public final class P3Reader implements ProjectReader
                }
 
                Task task = parent.addTask();
-               task.setName(row.getString("CODE_TITLE"));
+               String name = row.getString("CODE_TITLE");
+               if (name == null || name.isEmpty())
+               {
+                  name = wbs;
+               }
+               task.setName(name);
                task.setWBS(wbs);
-
                m_wbsMap.put(wbs, task);
             }
          }
@@ -222,21 +226,38 @@ public final class P3Reader implements ProjectReader
       {
          String activityID = row.getString("ACTIVITY_ID");
          m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
-         String parentWBS = m_wbsFormat.getFormattedParentValue();
+         String parentWBS = m_wbsFormat.getFormatedValue();
+
          ChildTaskContainer parent = m_wbsMap.get(parentWBS);
-         if (parent == null)
+         if (parent != null)
          {
-            parent = m_projectFile;
+            parentMap.put(activityID, parent);
          }
-         parentMap.put(activityID, parent);
       }
 
       m_activityMap = new HashMap<String, Task>();
-
+      List<MapRow> items = new ArrayList<MapRow>();
       for (MapRow row : m_tables.get("ACT"))
+      {
+         items.add(row);
+      }
+      final AlphanumComparator comparator = new AlphanumComparator();
+      Collections.sort(items, new Comparator<MapRow>()
+      {
+         @Override public int compare(MapRow o1, MapRow o2)
+         {
+            return comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID"));
+         }
+      });
+
+      for (MapRow row : items)
       {
          String activityID = row.getString("ACTIVITY_ID");
          ChildTaskContainer parent = parentMap.get(activityID);
+         if (parent == null)
+         {
+            continue;
+         }
          Task task = parent.addTask();
          setFields(TASK_FIELDS, row, task);
          task.setStart(task.getEarlyStart());
