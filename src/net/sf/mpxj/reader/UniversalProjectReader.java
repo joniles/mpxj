@@ -491,6 +491,14 @@ public class UniversalProjectReader implements ProjectReader
       return null;
    }
 
+   /**
+    * We have a directory. Determine if this contains a multi-file database we understand, if so
+    * process it. If it does not contain a database, test each file within the directory
+    * structure to determine if it contains a file whose format we understand.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
    private ProjectFile handleDirectory(File directory) throws Exception
    {
       ProjectFile result = handleDatabaseInDirectory(directory);
@@ -501,75 +509,100 @@ public class UniversalProjectReader implements ProjectReader
       return result;
    }
 
+   /**
+    * Given a directory, determine if it contains a multi-file database whose format
+    * we can process.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
    private ProjectFile handleDatabaseInDirectory(File directory) throws Exception
    {
       byte[] buffer = new byte[BUFFER_SIZE];
-
-      for (File file : directory.listFiles())
+      File[] files = directory.listFiles();
+      if (files != null)
       {
-         if (file.isDirectory())
+         for (File file : files)
          {
-            continue;
-         }
+            if (file.isDirectory())
+            {
+               continue;
+            }
 
-         FileInputStream fis = new FileInputStream(file);
-         int bytesRead = fis.read(buffer);
-         fis.close();
+            FileInputStream fis = new FileInputStream(file);
+            int bytesRead = fis.read(buffer);
+            fis.close();
 
-         //
-         // If the file is smaller than the buffer we are peeking into,
-         // it's probably not a valid schedule file.
-         //
-         if (bytesRead != BUFFER_SIZE)
-         {
-            continue;
-         }
+            //
+            // If the file is smaller than the buffer we are peeking into,
+            // it's probably not a valid schedule file.
+            //
+            if (bytesRead != BUFFER_SIZE)
+            {
+               continue;
+            }
 
-         if (matchesFingerprint(buffer, BTRIEVE_FINGERPRINT))
-         {
-            return handleBtrieveDatabase(directory);
+            if (matchesFingerprint(buffer, BTRIEVE_FINGERPRINT))
+            {
+               return handleP3BtrieveDatabase(directory);
+            }
          }
       }
-
       return null;
    }
 
-   private ProjectFile handleFileInDirectory(File dir) throws Exception
+   /**
+    * Given a directory, determine if it  (or any subdirectory) contains a file
+    * whose format we understand.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
+   private ProjectFile handleFileInDirectory(File directory) throws Exception
    {
       List<File> directories = new ArrayList<File>();
+      File[] files = directory.listFiles();
 
-      // Try files first
-      for (File file : dir.listFiles())
+      if (files != null)
       {
-         if (file.isDirectory())
+         // Try files first
+         for (File file : files)
          {
-            directories.add(file);
+            if (file.isDirectory())
+            {
+               directories.add(file);
+            }
+            else
+            {
+               UniversalProjectReader reader = new UniversalProjectReader();
+               ProjectFile result = reader.read(file);
+               if (result != null)
+               {
+                  return result;
+               }
+            }
          }
-         else
+
+         // Haven't found a file we can read? Try the directories.
+         for (File file : directories)
          {
-            UniversalProjectReader reader = new UniversalProjectReader();
-            ProjectFile result = reader.read(file);
+            ProjectFile result = handleDirectory(file);
             if (result != null)
             {
                return result;
             }
          }
       }
-
-      // Haven't found a file we can read? Try the directories.
-      for (File file : directories)
-      {
-         ProjectFile result = handleDirectory(file);
-         if (result != null)
-         {
-            return result;
-         }
-      }
-
       return null;
    }
 
-   private ProjectFile handleBtrieveDatabase(File directory) throws Exception
+   /**
+    * Determine if we have a P3 Btrieve multi-file database.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
+   private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
    {
       File[] files = directory.listFiles(new FilenameFilter()
       {
@@ -579,7 +612,7 @@ public class UniversalProjectReader implements ProjectReader
          }
       });
 
-      if (files.length != 0)
+      if (files != null && files.length != 0)
       {
          String fileName = files[0].getName();
          String prefix = fileName.substring(0, fileName.length() - 6);

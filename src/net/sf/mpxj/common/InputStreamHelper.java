@@ -72,6 +72,12 @@ public class InputStreamHelper
       }
    }
 
+   /**
+    * Expands a zip file input stream into a temporary directory.
+    *
+    * @param inputStream zip file input stream
+    * @return File instance representing the temporary directory
+    */
    public static File writeZipStreamToTempDir(InputStream inputStream) throws IOException
    {
       File dir = File.createTempFile("mpxj", "tmp");

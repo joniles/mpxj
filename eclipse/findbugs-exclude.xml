@@ -189,5 +189,12 @@
 		<Class name="~.*\.PrimaveraDatabaseReader" />	
 		<Method name="processAnalytics" />
 	</Match>	
-	 		 	 
+	
+	<!-- Don't care if the file is not deleted -->	 			 
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+		<Class name="~.*\.UniversalProjectReader" />	
+		<Method name="handleZipFile" />
+	</Match>
+		 
 </FindBugsFilter>

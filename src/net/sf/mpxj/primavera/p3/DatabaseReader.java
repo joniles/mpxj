@@ -1,117 +1,105 @@
+/*
+ * file:       DatabaseReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Reads a directory containing a P3 Btrieve database and returns a map
+ * of table names and the data they contain.
+ */
 public class DatabaseReader
 {
    /**
-    * Main method.
+    * Main entry point. Reads a directory containing a P3 Btrieve database files
+    * and returns a map of table names nd table content.
     *
-    * @param args array of command line arguments
+    * @param directory directory containing the database
+    * @param prefix file name prefix used to identify files from the same database
+    * @return Map of table names to table data
     */
-   public static void main(String[] args)
-   {
-      try
-      {
-         if (args.length != 2)
-         {
-            System.out.println("Usage: P3Dump <directory name> <prefix>");
-         }
-         else
-         {
-            System.out.println("Dump started.");
-            long start = System.currentTimeMillis();
-            DatabaseReader dumper = new DatabaseReader();
-            dumper.process(new File(args[0]), args[1]);
-            long elapsed = System.currentTimeMillis() - start;
-            System.out.println("Dump completed in " + elapsed + "ms");
-         }
-      }
-
-      catch (Exception ex)
-      {
-         ex.printStackTrace();
-      }
-   }
-
    public Map<String, Table> process(File directory, String prefix) throws IOException
    {
       Map<String, Table> tables = new HashMap<String, Table>();
-
-      for (File file : directory.listFiles())
+      File[] files = directory.listFiles();
+      if (files != null)
       {
-         String name = file.getName().toUpperCase();
-         if (!name.startsWith(prefix))
+         for (File file : files)
          {
-            continue;
-         }
+            String name = file.getName().toUpperCase();
+            if (!name.startsWith(prefix))
+            {
+               continue;
+            }
 
-         int typeIndex = name.lastIndexOf('.') - 3;
-         String type = name.substring(typeIndex, typeIndex + 3);
-         TableDefinition definition = TABLE_DEFINITIONS.get(type);
-         if (definition != null)
-         {
-            Table table = new Table();
-            TableReader reader = new TableReader(definition);
-            reader.read(file, table);
-            tables.put(type, table);
-            dumpCSV(type, definition, table);
+            int typeIndex = name.lastIndexOf('.') - 3;
+            String type = name.substring(typeIndex, typeIndex + 3);
+            TableDefinition definition = TABLE_DEFINITIONS.get(type);
+            if (definition != null)
+            {
+               Table table = new Table();
+               TableReader reader = new TableReader(definition);
+               reader.read(file, table);
+               tables.put(type, table);
+               //dumpCSV(type, definition, table);
+            }
          }
       }
-
       return tables;
    }
 
-   private void dumpCSV(String type, TableDefinition definition, Table table) throws IOException
-   {
-      PrintWriter pw = new PrintWriter(new File("c:/temp/" + type + ".csv"));
-      pw.print("ROW_NUMBER,ROW_VERSION,");
-
-      for (ColumnDefinition column : definition.getColumns())
-      {
-         pw.print(column.getName());
-         pw.print(',');
-      }
-      pw.println();
-
-      for (MapRow row : table)
-      {
-         pw.print(row.getObject("ROW_NUMBER"));
-         pw.print(',');
-         pw.print(row.getObject("ROW_VERSION"));
-         pw.print(',');
-
-         for (ColumnDefinition column : definition.getColumns())
-         {
-            pw.print(row.getObject(column.getName()));
-            pw.print(',');
-         }
-         pw.println();
-      }
-
-      pw.close();
-   }
-
-   //   private void dumpFile(File dir, String prefix, String name) throws Exception
+   //   private void dumpCSV(String type, TableDefinition definition, Table table) throws IOException
    //   {
-   //      File input = new File(dir, prefix + name + ".P3");
-   //      File output = new File("c:/temp/" + prefix + name + ".TXT");
+   //      PrintWriter pw = new PrintWriter(new File("c:/temp/" + type + ".csv"));
+   //      pw.print("ROW_NUMBER,ROW_VERSION,");
    //
-   //      FileInputStream is = new FileInputStream(input);
-   //      PrintWriter pw = new PrintWriter(new FileWriter(output));
+   //      for (ColumnDefinition column : definition.getColumns())
+   //      {
+   //         pw.print(column.getName());
+   //         pw.print(',');
+   //      }
+   //      pw.println();
    //
-   //      byte[] buffer = new byte[is.available()];
-   //      is.read(buffer);
+   //      for (MapRow row : table)
+   //      {
+   //         pw.print(row.getObject("ROW_NUMBER"));
+   //         pw.print(',');
+   //         pw.print(row.getObject("ROW_VERSION"));
+   //         pw.print(',');
    //
-   //      pw.println(MPPUtility.hexdump(buffer, true, 16, ""));
-   //      is.close();
-   //      pw.flush();
+   //         for (ColumnDefinition column : definition.getColumns())
+   //         {
+   //            pw.print(row.getObject(column.getName()));
+   //            pw.print(',');
+   //         }
+   //         pw.println();
+   //      }
+   //
    //      pw.close();
    //   }
 
@@ -511,9 +499,12 @@ public class DatabaseReader
             // unknown fields
    };
 
+   /**
+    * Used to determine if a row from the DIR Table is valid, based on whether
+    * the project start date falls after the date epoch.
+    */
    private static final RowValidator DIR_ROW_VALIDATOR = new RowValidator()
    {
-
       @Override public boolean validRow(Map<String, Object> row)
       {
          Date date = (Date) row.get("PROJECT_START_DATE");
@@ -522,7 +513,7 @@ public class DatabaseReader
    };
 
    /**
-    * 31/12/1983.
+    * Epoch for date calculations. Represents 31/12/1983.
     */
    static final long EPOCH = 441676800000L;
 
