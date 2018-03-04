@@ -1,11 +1,42 @@
+/*
+ * file:       WbsFormat.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.p3;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reads the WBS format definition from a P3 database, and allows
+ * that format to be applied to WBS values.
+ */
 public class WbsFormat
 {
+   /**
+    * Constructor. Reads the format definition.
+    *
+    * @param row database row containing WBS format
+    */
    public WbsFormat(MapRow row)
    {
       int index = 1;
@@ -22,6 +53,12 @@ public class WbsFormat
       }
    }
 
+   /**
+    * Parses a raw WBS value from the darabase and breaks it into
+    * component parts ready for formatting.
+    *
+    * @param value raw WBS value
+    */
    public void parseRawValue(String value)
    {
       int valueIndex = 0;
@@ -47,11 +84,21 @@ public class WbsFormat
       }
    }
 
+   /**
+    * Retrieves the formatted WBS value.
+    *
+    * @return formatted WBS value
+    */
    public String getFormatedValue()
    {
       return joinElements(m_elements.size());
    }
 
+   /**
+    * Retrieves the formatted parent WBS value.
+    *
+    * @return formatted parent WBS value
+    */
    public String getFormattedParentValue()
    {
       String result = null;
@@ -62,6 +109,12 @@ public class WbsFormat
       return result;
    }
 
+   /**
+    * Joins the individual WBS elements to make the formated value.
+    *
+    * @param length number of elements to join
+    * @return formatted WBS value
+    */
    private String joinElements(int length)
    {
       StringBuilder sb = new StringBuilder();

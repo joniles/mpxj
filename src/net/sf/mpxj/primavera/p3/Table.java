@@ -28,13 +28,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * This class represents a table read from a PEP file.
- * The class is responsible for breaking down the raw
- * data into individual byte arrays representing each
- * row. Subclasses can then process these rows
- * and create MapRow instances to represent the data.
- * Users of this table can either iterate through the
- * rows, or select individual rows by their primary key.
+ * Represents the rows which make up a table. Allows iteration across these rows.
+ * If a primary key column has been defined for the table, allows lookup by primary key.
  */
 class Table implements Iterable<MapRow>
 {
@@ -57,6 +52,14 @@ class Table implements Iterable<MapRow>
       return m_rows.get(uniqueID);
    }
 
+   /**
+    * Add a row to the table. We have a limited understanding of the way
+    * Btrieve handles outdated rows, so we use what we think is a version number
+    * to try to ensure that we only have the latest rows.
+    *
+    * @param primaryKeyColumnName primary key column name
+    * @param map Map containing row data
+    */
    public void addRow(String primaryKeyColumnName, Map<String, Object> map)
    {
       Integer rowNumber = Integer.valueOf(m_rowNumber++);
