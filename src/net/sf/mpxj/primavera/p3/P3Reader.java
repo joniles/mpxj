@@ -29,12 +29,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
@@ -299,7 +301,7 @@ public final class P3Reader implements ProjectReader
          ChildTaskContainer parent = parentMap.get(activityID);
          if (parent == null)
          {
-            continue;
+            parent = m_projectFile;
          }
          Task task = parent.addTask();
          setFields(TASK_FIELDS, row, task);
@@ -310,6 +312,63 @@ public final class P3Reader implements ProjectReader
          {
             task.setWBS(((Task) parent).getWBS());
          }
+
+         int flag = row.getInteger("ACTUAL_START_OR_CONSTRAINT_FLAG").intValue();
+         if (flag != 0)
+         {
+            Date date = row.getDate("AS_OR_ED_CONSTRAINT");
+            switch (flag)
+            {
+               case 1:
+               {
+                  task.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
+                  task.setConstraintDate(date);
+                  break;
+               }
+
+               case 3:
+               {
+                  task.setConstraintType(ConstraintType.FINISH_NO_EARLIER_THAN);
+                  task.setConstraintDate(date);
+                  break;
+               }
+
+               case 99:
+               {
+                  task.setActualStart(date);
+                  break;
+               }
+            }
+         }
+
+         flag = row.getInteger("ACTUAL_FINISH_OR_CONSTRAINT_FLAG").intValue();
+         if (flag != 0)
+         {
+            Date date = row.getDate("AF_OR_LD_CONSTRAINT");
+            switch (flag)
+            {
+               case 2:
+               {
+                  task.setConstraintType(ConstraintType.START_NO_LATER_THAN);
+                  task.setConstraintDate(date);
+                  break;
+               }
+
+               case 4:
+               {
+                  task.setConstraintType(ConstraintType.FINISH_NO_LATER_THAN);
+                  task.setConstraintDate(date);
+                  break;
+               }
+
+               case 99:
+               {
+                  task.setActualFinish(date);
+                  break;
+               }
+            }
+         }
+
          m_activityMap.put(activityID, task);
       }
    }
