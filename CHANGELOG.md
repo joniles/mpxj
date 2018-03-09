@@ -4,6 +4,7 @@
 * Added support for reading Primavera P3 databases from directories or zip files
 * Improve robustness when reading MPP files containing apparently invalid custom field data.
 * Improve UniversalProjectReader byte order mark handling.
+* Fixed [Issue 324](https://sourceforge.net/p/mpxj/bugs/324): Fields with lookup unreadable when a field has custom name.
 
 ## 7.2.1 (26/01/2018)
 * More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.

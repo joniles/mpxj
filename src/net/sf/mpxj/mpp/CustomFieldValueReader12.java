@@ -89,16 +89,13 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
    /**
     * Generate a map of UUID values to field types.
     *
-    * @return uUID field value map
+    * @return UUID field value map
     */
    private Map<UUID, FieldType> populateCustomFieldMap()
    {
       byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
-
-      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
-
-      // 44 byte header
-      int index = 44;
+      int length = MPPUtility.getInt(data, 0);
+      int index = length + 36;
 
       // 4 byte record count
       int recordCount = MPPUtility.getInt(data, index);
@@ -107,12 +104,10 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
       // 8 bytes per record
       index += (8 * recordCount);
 
+      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
+
       // 200 byte blocks
-      // The index > 0 test is a little odd, but I have an example MPP file where
-      // recordCount comes back as an unfeasibly large number (which is a good indicator
-      // that we don't understand this structure well enough), and this large recordCount
-      // overflows the int index value... hence becomes negative.
-      while (index > 0 && index + 200 <= data.length)
+      while (index + 200 <= data.length)
       {
          FieldType field = FieldTypeHelper.getInstance(MPPUtility.getInt(data, index + 4));
          UUID guid = MPPUtility.getGUID(data, index + 160);
