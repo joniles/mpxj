@@ -24,6 +24,7 @@
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -59,6 +60,28 @@ import net.sf.mpxj.reader.ProjectReader;
  */
 public final class P3Reader implements ProjectReader
 {
+   public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException
+   {
+      File[] files = directory.listFiles(new FilenameFilter()
+      {
+         @Override public boolean accept(File dir, String name)
+         {
+            return name.toUpperCase().endsWith("STR.P3");
+         }
+      });
+
+      if (files != null && files.length != 0)
+      {
+         String fileName = files[0].getName();
+         String prefix = fileName.substring(0, fileName.length() - 6);
+         P3Reader reader = new P3Reader();
+         reader.setPrefix(prefix);
+         return reader.read(directory);
+      }
+
+      return null;
+   }
+
    @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)

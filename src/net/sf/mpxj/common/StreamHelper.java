@@ -25,6 +25,7 @@ package net.sf.mpxj.common;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Common helper methods for working with streams.
@@ -44,6 +45,19 @@ public final class StreamHelper
       while (count > 0)
       {
          count -= stream.skip(count);
+      }
+   }
+
+   public static void copy(InputStream is, OutputStream os, int length) throws IOException
+   {
+      int remainingLength = length;
+      byte[] buffer = new byte[1024];
+      while (remainingLength != 0)
+      {
+         int readLength = remainingLength < buffer.length ? remainingLength : buffer.length;
+         is.read(buffer, 0, readLength);
+         os.write(buffer, 0, readLength);
+         remainingLength -= readLength;
       }
    }
 }
