@@ -26,7 +26,6 @@ package net.sf.mpxj.reader;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.Connection;
@@ -51,7 +50,9 @@ import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.listener.ProjectListener;
@@ -66,7 +67,8 @@ import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
-import net.sf.mpxj.primavera.p3.P3Reader;
+import net.sf.mpxj.primavera.p3.P3DatabaseReader;
+import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -139,18 +141,7 @@ public class UniversalProjectReader implements ProjectReader
 
             finally
             {
-               if (fis != null)
-               {
-                  try
-                  {
-                     fis.close();
-                  }
-
-                  catch (Exception ex)
-                  {
-                     // Silently ignore exceptions on close
-                  }
-               }
+               StreamHelper.closeQuietly(fis);
             }
          }
          return result;
@@ -291,6 +282,11 @@ public class UniversalProjectReader implements ProjectReader
             return readProjectFile(new TurboProjectReader(), bis);
          }
 
+         if (matchesFingerprint(buffer, DOS_EXE_FINGERPRINT))
+         {
+            return handleDosExeFile(bis);
+         }
+
          return null;
       }
 
@@ -402,7 +398,7 @@ public class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         file.delete();
+         FileHelper.deleteQuietly(file);
       }
    }
 
@@ -461,7 +457,7 @@ public class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         file.delete();
+         FileHelper.deleteQuietly(file);
       }
    }
 
@@ -488,10 +484,7 @@ public class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         if (dir != null)
-         {
-            dir.delete();
-         }
+         FileHelper.deleteQuietly(dir);
       }
 
       return null;
@@ -610,24 +603,7 @@ public class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
    {
-      File[] files = directory.listFiles(new FilenameFilter()
-      {
-         @Override public boolean accept(File dir, String name)
-         {
-            return name.toUpperCase().endsWith("STR.P3");
-         }
-      });
-
-      if (files != null && files.length != 0)
-      {
-         String fileName = files[0].getName();
-         String prefix = fileName.substring(0, fileName.length() - 6);
-         P3Reader reader = new P3Reader();
-         reader.setPrefix(prefix);
-         return reader.read(directory);
-      }
-
-      return null;
+      return P3DatabaseReader.setPrefixAndRead(directory);
    }
 
    /**
@@ -644,6 +620,55 @@ public class UniversalProjectReader implements ProjectReader
       reader.setSkipBytes(length);
       reader.setCharset(charset);
       return reader.read(stream);
+   }
+
+   /**
+    * This could be a self-extracting archive. If we understand the format, expand
+    * it and check the content for files we can read.
+    *
+    * @param stream schedule data
+    * @return ProjectFile instance
+    * @throws Exception
+    */
+   private ProjectFile handleDosExeFile(InputStream stream) throws Exception
+   {
+      File file = InputStreamHelper.writeStreamToTempFile(stream, ".tmp");
+      InputStream is = null;
+
+      try
+      {
+         is = new FileInputStream(file);
+         if (is.available() > 1350)
+         {
+            StreamHelper.skip(is, 1024);
+
+            // Bytes at offset 1024
+            byte[] data = new byte[2];
+            is.read(data);
+
+            if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
+            {
+               StreamHelper.skip(is, 286);
+
+               // Bytes at offset 1312
+               data = new byte[34];
+               is.read(data);
+               if (matchesFingerprint(data, PRX_FINGERPRINT))
+               {
+                  is.close();
+                  is = null;
+                  return readProjectFile(new P3PRXFileReader(), file);
+               }
+            }
+         }
+         return null;
+      }
+
+      finally
+      {
+         StreamHelper.closeQuietly(is);
+         FileHelper.deleteQuietly(file);
+      }
    }
 
    /**
@@ -833,6 +858,18 @@ public class UniversalProjectReader implements ProjectReader
       (byte) 0x00
    };
 
+   private static final byte[] DOS_EXE_FINGERPRINT =
+   {
+      (byte) 0x4D,
+      (byte) 0x5A
+   };
+
+   private static final byte[] WINDOWS_NE_EXE_FINGERPRINT =
+   {
+      (byte) 0x4E,
+      (byte) 0x45
+   };
+
    private static final byte[] UTF8_BOM_FINGERPRINT =
    {
       (byte) 0xEF,
@@ -863,4 +900,6 @@ public class UniversalProjectReader implements ProjectReader
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
 
    private static final Pattern TURBOPROJECT_FINGERPRINT = Pattern.compile(".*dWBSTAB.*", Pattern.DOTALL);
+
+   private static final Pattern PRX_FINGERPRINT = Pattern.compile("!Self-Extracting Primavera Project", Pattern.DOTALL);
 }

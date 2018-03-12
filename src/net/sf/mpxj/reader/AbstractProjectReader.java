@@ -29,6 +29,7 @@ import java.io.IOException;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.StreamHelper;
 
 /**
  * Abstract implementation of the ProjectReader interface
@@ -59,18 +60,7 @@ public abstract class AbstractProjectReader implements ProjectReader
 
       finally
       {
-         if (fis != null)
-         {
-            try
-            {
-               fis.close();
-            }
-
-            catch (Exception ex)
-            {
-               // Silently ignore exceptions on close
-            }
-         }
+         StreamHelper.closeQuietly(fis);
       }
    }
 
@@ -96,18 +86,7 @@ public abstract class AbstractProjectReader implements ProjectReader
 
       finally
       {
-         if (fis != null)
-         {
-            try
-            {
-               fis.close();
-            }
-
-            catch (Exception ex)
-            {
-               // Silently ignore exceptions on close
-            }
-         }
+         StreamHelper.closeQuietly(fis);
       }
    }
 }

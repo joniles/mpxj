@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.3.0">
-			<action dev="joniles" type="add">Added support for reading Primavera P3 databases from directories or zip files</action>
+			<action dev="joniles" type="add">Added support for reading Primavera P3 databases from directories, zip files, or PRX files.</action>
 			<action dev="joniles" type="update">Improve robustness when reading MPP files containing apparently invalid custom field data.</action>
 			<action dev="joniles" type="update">Improve UniversalProjectReader byte order mark handling.</action>
 			<action dev="joniles" issue="324" type="fix">Fields with lookup unreadable when a field has custom name.</action>			

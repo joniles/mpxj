@@ -1,5 +1,5 @@
 /*
- * file:       P3Reader.java
+ * file:       P3DatabaseReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -24,6 +24,7 @@
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -57,8 +58,37 @@ import net.sf.mpxj.reader.ProjectReader;
 /**
  * Reads a schedule data from a P3 multi-file Btrieve database in a directory.
  */
-public final class P3Reader implements ProjectReader
+public final class P3DatabaseReader implements ProjectReader
 {
+   /**
+    * Convenience method which locates the first P3 database in a directory
+    * and opens it.
+    *
+    * @param directory directory containing a P3 database
+    * @return ProjectFile instance
+    */
+   public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException
+   {
+      File[] files = directory.listFiles(new FilenameFilter()
+      {
+         @Override public boolean accept(File dir, String name)
+         {
+            return name.toUpperCase().endsWith("STR.P3");
+         }
+      });
+
+      if (files != null && files.length != 0)
+      {
+         String fileName = files[0].getName();
+         String prefix = fileName.substring(0, fileName.length() - 6);
+         P3DatabaseReader reader = new P3DatabaseReader();
+         reader.setPrefix(prefix);
+         return reader.read(directory);
+      }
+
+      return null;
+   }
+
    @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)

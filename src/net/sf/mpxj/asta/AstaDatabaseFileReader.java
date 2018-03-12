@@ -43,6 +43,7 @@ import java.util.Properties;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -131,10 +132,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
 
       finally
       {
-         if (tempFile != null)
-         {
-            tempFile.delete();
-         }
+         FileHelper.deleteQuietly(tempFile);
       }
    }
 
