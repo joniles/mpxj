@@ -25,6 +25,7 @@ net.sf.mpxj.phoenix.schema
 net.sf.mpxj.planner
 net.sf.mpxj.planner.schema
 net.sf.mpxj.primavera
+net.sf.mpxj.primavera.p3
 net.sf.mpxj.primavera.schema
 net.sf.mpxj.projectlibre
 net.sf.mpxj.reader
