@@ -30,6 +30,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * Handles reading a table from a Btrieve file.
  */
@@ -63,18 +65,7 @@ public class TableReader
 
       finally
       {
-         if (is != null)
-         {
-            try
-            {
-               is.close();
-            }
-
-            catch (IOException ex)
-            {
-               // Ignore
-            }
-         }
+         StreamHelper.closeQuietly(is);
       }
    }
 

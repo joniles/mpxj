@@ -248,6 +248,8 @@ be found in the legal directory of the distribution.</p>
 <p>This product includes functionality provided by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p> 
 <p>This product includes functionality provided by RTF Parser Kit (<a href="https://github.com/joniles/rtfparserkit" target="_blank">https://github.com/joniles/rtfparserkit</a>)</p>
 <p>This product includes functionality provided by SQLITE-JDBC (<a href="https://github.com/xerial/sqlite-jdbc" target="_blank">https://github.com/xerial/sqlite-jdbc</a>)</p>
+<p>This product includes functionality provided by ZLIB/CONTRIB (<a href="https://github.com/madler/zlib" target="_blank">https://github.com/madler/zlib</a>)</p>
+<p>This product includes functionality provided by JWAT (<a href="http://jwat.org/" target="_blank">http://jwat.org/</a>)</p>
 </section>
 
    </body> 

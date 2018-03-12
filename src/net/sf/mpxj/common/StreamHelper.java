@@ -25,7 +25,6 @@ package net.sf.mpxj.common;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Common helper methods for working with streams.
@@ -48,16 +47,24 @@ public final class StreamHelper
       }
    }
 
-   public static void copy(InputStream is, OutputStream os, int length) throws IOException
+   /**
+    * Close a stream without raising an exception on error.
+    *
+    * @param stream stream to close
+    */
+   public static void closeQuietly(InputStream stream)
    {
-      int remainingLength = length;
-      byte[] buffer = new byte[1024];
-      while (remainingLength != 0)
+      if (stream != null)
       {
-         int readLength = remainingLength < buffer.length ? remainingLength : buffer.length;
-         is.read(buffer, 0, readLength);
-         os.write(buffer, 0, readLength);
-         remainingLength -= readLength;
+         try
+         {
+            stream.close();
+         }
+
+         catch (IOException ex)
+         {
+            // Silently ignored
+         }
       }
    }
 }

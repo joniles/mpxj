@@ -35,12 +35,13 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.mpp.MPPUtility;
-
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.mpp.MPPUtility;
 
 /**
  * Implements the controller component of the HexDump MVC.
@@ -128,17 +129,7 @@ public class HexDumpController
 
       finally
       {
-         if (is != null)
-         {
-            try
-            {
-               is.close();
-            }
-            catch (IOException ex)
-            {
-               // Do nothing
-            }
-         }
+         StreamHelper.closeQuietly(is);
       }
 
    }

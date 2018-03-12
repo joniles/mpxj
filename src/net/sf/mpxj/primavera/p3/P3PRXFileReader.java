@@ -1,3 +1,25 @@
+/*
+ * file:       P3PRXFileReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       11/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.p3;
 
@@ -12,13 +34,14 @@ import java.util.List;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.Blast;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.FixedLengthInputStream;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
- * Reads a schedule data from a P3 multi-file Btrieve database in a directory.
+ * Reads a schedule data from a P3 PRX file.
  */
 public final class P3PRXFileReader extends AbstractProjectReader
 {
@@ -38,14 +61,14 @@ public final class P3PRXFileReader extends AbstractProjectReader
       try
       {
          StreamHelper.skip(stream, 27000);
-         tempDir = createTempDir();
+         tempDir = FileHelper.createTempDir();
 
          while (stream.available() > 0)
          {
             extractFile(stream, tempDir);
          }
 
-         return P3Reader.setPrefixAndRead(tempDir);
+         return P3DatabaseReader.setPrefixAndRead(tempDir);
       }
 
       catch (IOException ex)
@@ -55,13 +78,17 @@ public final class P3PRXFileReader extends AbstractProjectReader
 
       finally
       {
-         if (tempDir != null)
-         {
-            tempDir.delete();
-         }
+         FileHelper.deleteQuietly(tempDir);
       }
    }
 
+   /**
+    * Extracts the data for a single file from the input stream and writes
+    * it to a target directory.
+    *
+    * @param stream input stream
+    * @param dir target directory
+    */
    private void extractFile(InputStream stream, File dir) throws IOException
    {
       byte[] header = new byte[8];
@@ -83,14 +110,13 @@ public final class P3PRXFileReader extends AbstractProjectReader
       os.close();
    }
 
-   private File createTempDir() throws IOException
-   {
-      File dir = File.createTempFile("mpxj", "tmp");
-      dir.delete();
-      dir.mkdirs();
-      return dir;
-   }
-
+   /**
+    * Retrieve a four byte integer.
+    *
+    * @param data byte array
+    * @param offset offset into array
+    * @return int value
+    */
    public int getInt(byte[] data, int offset)
    {
       int result = 0;
@@ -103,6 +129,13 @@ public final class P3PRXFileReader extends AbstractProjectReader
       return result;
    }
 
+   /**
+    * Retrieve a string from the byte array.
+    *
+    * @param data byte array
+    * @param offset offset into byte array
+    * @return String instance
+    */
    public String getString(byte[] data, int offset)
    {
       StringBuilder buffer = new StringBuilder();

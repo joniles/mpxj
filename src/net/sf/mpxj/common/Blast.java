@@ -102,31 +102,16 @@
 
 package net.sf.mpxj.common;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Blast class - see notes in comments above.
+ */
 public class Blast
 {
-   public static final void main(String[] argv)
-   {
-      try
-      {
-         InputStream is = new FileInputStream("c:/temp/compressed.p3/apexdir.p3");
-         OutputStream os = new FileOutputStream("c:/temp/out.p3");
-         Blast blast = new Blast();
-         blast.blast(is, os);
-      }
-
-      catch (Exception ex)
-      {
-         ex.printStackTrace();
-      }
-   }
-
-   /*
+   /**
     * Decode PKWare Compression Library stream.
     *
     * Format notes:
@@ -163,6 +148,10 @@ public class Blast
     *   twelve copies the last four bytes three times.  A simple forward copy
     *   ignoring whether the length is greater than the distance or not implements
     *   this correctly.
+    *
+    *  @param input InputStream instance
+    *  @param output OutputStream instance
+    *  @return status code
     */
    public int blast(InputStream input, OutputStream output) throws IOException
    {
@@ -271,7 +260,7 @@ public class Blast
       return 0;
    }
 
-   /*
+   /**
     * Return need bits from the input stream.  This always leaves less than
     * eight bits in the buffer.  bits() works properly for need == 0.
     *
@@ -281,6 +270,9 @@ public class Blast
     *   significant bit.  Therefore bits are dropped from the bottom of the bit
     *   buffer, using shift right, and new bytes are appended to the top of the
     *   bit buffer, using shift left.
+    *
+    * @param need number of bits required
+    * @return bit values
     */
    private int bits(int need) throws IOException
    {
@@ -312,7 +304,7 @@ public class Blast
       return val & ((1 << need) - 1);
    }
 
-   /*
+   /**
     * Decode a code from the stream s using huffman table h.  Return the symbol or
     * a negative value if there is an error.  If all of the lengths are zero, i.e.
     * an empty code, or if the code is incomplete and an invalid code is received,
@@ -332,6 +324,9 @@ public class Blast
     *   code, the last code of the longest length will be all zeros.  To support
     *   this ordering, the bits pulled during decoding are inverted to apply the
     *   more "natural" ordering starting with all zeros and incrementing.
+    *
+    * @param h Huffman table
+    * @return status code
     */
    private int decode(Huffman h) throws IOException
    {
@@ -356,12 +351,12 @@ public class Blast
             code |= (bitbuf & 1) ^ 1; /* invert code */
             bitbuf >>= 1;
             //count = *next++;
-            count = h.count[nextIndex++];
+            count = h.m_count[nextIndex++];
             if (code < first + count)
             { /* if length len, return symbol */
                m_bitbuf = bitbuf;
                m_bitcnt = (m_bitcnt - len) & 7;
-               return h.symbol[index + (code - first)];
+               return h.m_symbol[index + (code - first)];
             }
             index += count; /* else update for next length */
             first += count;
@@ -393,7 +388,7 @@ public class Blast
       return -9; /* ran out of codes */
    }
 
-   /*
+   /**
     * Given a list of repeated code lengths rep[0..n-1], where each byte is a
     * count (high four bits + 1) and a code length (low four bits), generate the
     * list of code lengths.  This compaction reduces the size of the object code.
@@ -409,6 +404,11 @@ public class Blast
     * enough bits will resolve to a symbol.  If the return value is positive, then
     * it is possible for decode() using that table to return an error for received
     * codes past the end of the incomplete lengths.
+    *
+    * @param h Huffman table
+    * @param rep repeated code lengths
+    * @param n number of repeated codes
+    * @return zero if successful
     */
    private static int construct(Huffman h, int[] rep, int n)
    {
@@ -438,15 +438,15 @@ public class Blast
       /* count number of codes of each length */
       for (len = 0; len <= MAXBITS; len++)
       {
-         h.count[len] = 0;
+         h.m_count[len] = 0;
       }
 
       for (symbol = 0; symbol < n; symbol++)
       {
-         (h.count[length[symbol]])++; /* assumes lengths are within bounds */
+         (h.m_count[length[symbol]])++; /* assumes lengths are within bounds */
       }
 
-      if (h.count[0] == n) /* no codes! */
+      if (h.m_count[0] == n) /* no codes! */
       {
          return 0; /* complete, but decode() will fail */
       }
@@ -456,7 +456,7 @@ public class Blast
       for (len = 1; len <= MAXBITS; len++)
       {
          left <<= 1; /* one more bit, double codes left */
-         left -= h.count[len]; /* deduct count from possible codes */
+         left -= h.m_count[len]; /* deduct count from possible codes */
          if (left < 0)
          {
             return left; /* over-subscribed--return negative */
@@ -467,7 +467,7 @@ public class Blast
       offs[1] = 0;
       for (len = 1; len < MAXBITS; len++)
       {
-         offs[len + 1] = (short) (offs[len] + h.count[len]);
+         offs[len + 1] = (short) (offs[len] + h.m_count[len]);
       }
 
       /*
@@ -478,7 +478,7 @@ public class Blast
       {
          if (length[symbol] != 0)
          {
-            h.symbol[offs[length[symbol]]++] = (short) symbol;
+            h.m_symbol[offs[length[symbol]]++] = (short) symbol;
          }
       }
 
@@ -677,14 +677,23 @@ public class Blast
    }
 }
 
+/**
+ * Class to represent a Huffman table.
+ */
 class Huffman
 {
+   /**
+    * Constructor.
+    *
+    * @param countSize number of counts
+    * @param symbolSize number of symbols
+    */
    public Huffman(int countSize, int symbolSize)
    {
-      count = new short[countSize];
-      symbol = new short[symbolSize];
+      m_count = new short[countSize];
+      m_symbol = new short[symbolSize];
    }
 
-   short[] count;
-   short[] symbol;
+   short[] m_count;
+   short[] m_symbol;
 }

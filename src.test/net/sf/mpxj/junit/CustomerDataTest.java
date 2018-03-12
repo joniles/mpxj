@@ -33,6 +33,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -276,7 +277,7 @@ public class CustomerDataTest
                   outputFile.deleteOnExit();
                   ProjectWriter p = c.newInstance();
                   p.write(mpxj, outputFile);
-                  outputFile.delete();
+                  FileHelper.deleteQuietly(outputFile);
                }
             }
 

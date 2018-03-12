@@ -33,7 +33,7 @@ public final class FixedLengthInputStream extends FilterInputStream
 {
 
    /** Remaining bytes available. */
-   protected long remaining;
+   private long m_remaining;
 
    /**
     * Create a new input stream with a fixed number of bytes available from
@@ -41,33 +41,33 @@ public final class FixedLengthInputStream extends FilterInputStream
     * @param in the input stream to wrap
     * @param length fixed number of bytes available through this stream
     */
-   public FixedLengthInputStream(InputStream in, long length)
+   public FixedLengthInputStream(@SuppressWarnings("hiding") InputStream in, long length)
    {
       super(in);
-      this.remaining = length;
+      this.m_remaining = length;
    }
 
    /**
     * Closing will only skip to the end of this fixed length input stream and
     * not call the parent's close method.
-    * @throws IOException if an i/o error occurs while closing stream
+    * @throws IOException if an I/O error occurs while closing stream
     */
    @Override public void close() throws IOException
    {
       long skippedLast = 0;
-      if (remaining > 0)
+      if (m_remaining > 0)
       {
-         skippedLast = skip(remaining);
-         while (remaining > 0 && skippedLast > 0)
+         skippedLast = skip(m_remaining);
+         while (m_remaining > 0 && skippedLast > 0)
          {
-            skippedLast = skip(remaining);
+            skippedLast = skip(m_remaining);
          }
       }
    }
 
-   @Override public int available() throws IOException
+   @Override public int available()
    {
-      return (remaining > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) (remaining);
+      return (m_remaining > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) (m_remaining);
    }
 
    @Override public boolean markSupported()
@@ -77,9 +77,10 @@ public final class FixedLengthInputStream extends FilterInputStream
 
    @Override public synchronized void mark(int readlimit)
    {
+      // Not supported
    }
 
-   @Override public synchronized void reset() throws IOException
+   @Override public synchronized void reset()
    {
       throw new UnsupportedOperationException();
    }
@@ -87,12 +88,12 @@ public final class FixedLengthInputStream extends FilterInputStream
    @Override public int read() throws IOException
    {
       int b = -1;
-      if (remaining > 0)
+      if (m_remaining > 0)
       {
          b = in.read();
          if (b != -1)
          {
-            --remaining;
+            --m_remaining;
          }
       }
       return b;
@@ -106,12 +107,12 @@ public final class FixedLengthInputStream extends FilterInputStream
    @Override public int read(byte[] b, int off, int len) throws IOException
    {
       int bytesRead = -1;
-      if (remaining > 0)
+      if (m_remaining > 0)
       {
-         bytesRead = in.read(b, off, (int) Math.min(len, remaining));
+         bytesRead = in.read(b, off, (int) Math.min(len, m_remaining));
          if (bytesRead > 0)
          {
-            remaining -= bytesRead;
+            m_remaining -= bytesRead;
          }
       }
       return bytesRead;
@@ -120,12 +121,11 @@ public final class FixedLengthInputStream extends FilterInputStream
    @Override public long skip(long n) throws IOException
    {
       long bytesSkipped = 0;
-      if (remaining > 0)
+      if (m_remaining > 0)
       {
-         bytesSkipped = in.skip(Math.min(n, remaining));
-         remaining -= bytesSkipped;
+         bytesSkipped = in.skip(Math.min(n, m_remaining));
+         m_remaining -= bytesSkipped;
       }
       return bytesSkipped;
    }
-
 }

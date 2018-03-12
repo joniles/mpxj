@@ -80,9 +80,7 @@ public class InputStreamHelper
     */
    public static File writeZipStreamToTempDir(InputStream inputStream) throws IOException
    {
-      File dir = File.createTempFile("mpxj", "tmp");
-      dir.delete();
-      dir.mkdirs();
+      File dir = FileHelper.createTempDir();
 
       ZipInputStream zip = new ZipInputStream(inputStream);
       while (true)
@@ -96,14 +94,14 @@ public class InputStreamHelper
          File file = new File(dir, entry.getName());
          if (entry.isDirectory())
          {
-            file.mkdirs();
+            FileHelper.mkdirsQuietly(file);
             continue;
          }
 
          File parent = file.getParentFile();
          if (parent != null)
          {
-            parent.mkdirs();
+            FileHelper.mkdirsQuietly(parent);
          }
 
          FileOutputStream fos = new FileOutputStream(file);

@@ -30,6 +30,8 @@ import java.io.InputStream;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * Implements the controller component of the PoiTree MVC.
  */
@@ -70,17 +72,7 @@ public class PoiTreeController
 
       finally
       {
-         if (is != null)
-         {
-            try
-            {
-               is.close();
-            }
-            catch (IOException ex)
-            {
-               // Do nothing
-            }
-         }
+         StreamHelper.closeQuietly(is);
       }
    }
 

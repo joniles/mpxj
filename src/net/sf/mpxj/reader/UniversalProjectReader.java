@@ -50,6 +50,7 @@ import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.fasttrack.FastTrackReader;
@@ -66,8 +67,8 @@ import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import net.sf.mpxj.primavera.p3.P3DatabaseReader;
 import net.sf.mpxj.primavera.p3.P3PRXFileReader;
-import net.sf.mpxj.primavera.p3.P3Reader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -140,18 +141,7 @@ public class UniversalProjectReader implements ProjectReader
 
             finally
             {
-               if (fis != null)
-               {
-                  try
-                  {
-                     fis.close();
-                  }
-
-                  catch (Exception ex)
-                  {
-                     // Silently ignore exceptions on close
-                  }
-               }
+               StreamHelper.closeQuietly(fis);
             }
          }
          return result;
@@ -408,7 +398,7 @@ public class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         file.delete();
+         FileHelper.deleteQuietly(file);
       }
    }
 
@@ -467,7 +457,7 @@ public class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         file.delete();
+         FileHelper.deleteQuietly(file);
       }
    }
 
@@ -494,10 +484,7 @@ public class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         if (dir != null)
-         {
-            dir.delete();
-         }
+         FileHelper.deleteQuietly(dir);
       }
 
       return null;
@@ -616,7 +603,7 @@ public class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return P3Reader.setPrefixAndRead(directory);
+      return P3DatabaseReader.setPrefixAndRead(directory);
    }
 
    /**
@@ -635,6 +622,14 @@ public class UniversalProjectReader implements ProjectReader
       return reader.read(stream);
    }
 
+   /**
+    * This could be a self-extracting archive. If we understand the format, expand
+    * it and check the content for files we can read.
+    *
+    * @param stream schedule data
+    * @return ProjectFile instance
+    * @throws Exception
+    */
    private ProjectFile handleDosExeFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".tmp");
@@ -643,37 +638,36 @@ public class UniversalProjectReader implements ProjectReader
       try
       {
          is = new FileInputStream(file);
-         StreamHelper.skip(is, 1024);
-
-         // Bytes at offset 1024
-         byte[] data = new byte[2];
-         is.read(data);
-
-         if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
+         if (is.available() > 1350)
          {
-            StreamHelper.skip(is, 286);
+            StreamHelper.skip(is, 1024);
 
-            // Bytes at offset 1312
-            data = new byte[34];
+            // Bytes at offset 1024
+            byte[] data = new byte[2];
             is.read(data);
-            if (matchesFingerprint(data, PRX_FINGERPRINT))
+
+            if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
             {
-               is.close();
-               is = null;
-               return readProjectFile(new P3PRXFileReader(), file);
+               StreamHelper.skip(is, 286);
+
+               // Bytes at offset 1312
+               data = new byte[34];
+               is.read(data);
+               if (matchesFingerprint(data, PRX_FINGERPRINT))
+               {
+                  is.close();
+                  is = null;
+                  return readProjectFile(new P3PRXFileReader(), file);
+               }
             }
          }
-
          return null;
       }
 
       finally
       {
-         if (is != null)
-         {
-            is.close();
-         }
-         file.delete();
+         StreamHelper.closeQuietly(is);
+         FileHelper.deleteQuietly(file);
       }
    }
 

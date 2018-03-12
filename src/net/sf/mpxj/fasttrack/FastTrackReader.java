@@ -45,6 +45,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -103,10 +104,7 @@ public class FastTrackReader implements ProjectReader
       }
       finally
       {
-         if (file != null)
-         {
-            file.delete();
-         }
+         FileHelper.deleteQuietly(file);
       }
    }
 
