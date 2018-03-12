@@ -1,7 +1,9 @@
 # Changelog
 
-## 7.3.0 (git master)
-* Added support for reading Primavera P3 databases from directories or zip files
+## 7.3.1 (git master)
+
+## 7.3.0 (12/03/2018)
+* Added support for reading Primavera P3 databases from directories, zip files, and PRX files.
 * Improve robustness when reading MPP files containing apparently invalid custom field data.
 * Improve UniversalProjectReader byte order mark handling.
 * Fixed [Issue 324](https://sourceforge.net/p/mpxj/bugs/324): Fields with lookup unreadable when a field has custom name.
