@@ -27,7 +27,7 @@ package net.sf.mpxj.primavera.p3;
  * Classes which implement this interface define how columns
  * of a specific type can be read from the P3 database.
  */
-interface ColumnDefinition
+public interface ColumnDefinition
 {
    /**
     * Retrieve the name of the column.

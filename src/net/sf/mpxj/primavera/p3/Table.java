@@ -31,7 +31,7 @@ import java.util.TreeMap;
  * Represents the rows which make up a table. Allows iteration across these rows.
  * If a primary key column has been defined for the table, allows lookup by primary key.
  */
-class Table implements Iterable<MapRow>
+public class Table implements Iterable<MapRow>
 {
    /**
     * {@inheritDoc}
@@ -64,14 +64,15 @@ class Table implements Iterable<MapRow>
    {
       Integer rowNumber = Integer.valueOf(m_rowNumber++);
       map.put("ROW_NUMBER", rowNumber);
-      Object primaryKey;
-      if (primaryKeyColumnName == null)
-      {
-         primaryKey = rowNumber;
-      }
-      else
+      Object primaryKey = null;
+      if (primaryKeyColumnName != null)
       {
          primaryKey = map.get(primaryKeyColumnName);
+      }
+
+      if (primaryKey == null)
+      {
+         primaryKey = rowNumber;
       }
 
       MapRow newRow = new MapRow(map);
