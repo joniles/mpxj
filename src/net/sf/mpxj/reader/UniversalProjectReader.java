@@ -69,6 +69,7 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.p3.P3DatabaseReader;
 import net.sf.mpxj.primavera.p3.P3PRXFileReader;
+import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -545,6 +546,11 @@ public class UniversalProjectReader implements ProjectReader
             {
                return handleP3BtrieveDatabase(directory);
             }
+
+            if (matchesFingerprint(buffer, STW_FINGERPRINT))
+            {
+               return handleSureTrakDatabase(directory);
+            }
          }
       }
       return null;
@@ -604,6 +610,11 @@ public class UniversalProjectReader implements ProjectReader
    private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
    {
       return P3DatabaseReader.setPrefixAndRead(directory);
+   }
+
+   private ProjectFile handleSureTrakDatabase(File directory) throws Exception
+   {
+      return SureTrakDatabaseReader.setPrefixAndRead(directory);
    }
 
    /**
@@ -856,6 +867,13 @@ public class UniversalProjectReader implements ProjectReader
       (byte) 0x43,
       (byte) 0x00,
       (byte) 0x00
+   };
+
+   private static final byte[] STW_FINGERPRINT =
+   {
+      (byte) 0x53,
+      (byte) 0x54,
+      (byte) 0x57
    };
 
    private static final byte[] DOS_EXE_FINGERPRINT =

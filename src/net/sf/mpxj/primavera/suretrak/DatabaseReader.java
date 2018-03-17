@@ -16,20 +16,6 @@ import net.sf.mpxj.primavera.p3.TableDefinition;
 
 public class DatabaseReader
 {
-   public static final void main(String[] argv)
-   {
-      try
-      {
-         DatabaseReader reader = new DatabaseReader();
-         reader.process(new File("C:\\Users\\Jon\\Desktop\\SureTrak Projects"), "CUSTOMER BILLING SYSTEM");
-      }
-
-      catch (Exception ex)
-      {
-         ex.printStackTrace();
-      }
-   }
-
    public Map<String, Table> process(File directory, String prefix) throws IOException
    {
       Map<String, Table> tables = new HashMap<String, Table>();
@@ -109,15 +95,14 @@ public class DatabaseReader
 
    private static final ColumnDefinition[] FLT_COLUMNS = {};
 
-   private static final ColumnDefinition[] HOL_COLUMNS = {};
-
-   private static final ColumnDefinition[] LAY_COLUMNS = {};
-
-   private static final ColumnDefinition[] LOG_COLUMNS = {};
+   private static final ColumnDefinition[] HOL_COLUMNS =
+   {
+      new ShortColumn("CALENDAR_ID", 1),
+      new DateColumn("DATE", 3),
+      new AnnualColumn("ANNUAL", 3)
+   };
 
    private static final ColumnDefinition[] REL_COLUMNS = {};
-
-   private static final ColumnDefinition[] REP_COLUMNS = {};
 
    private static final ColumnDefinition[] RES_COLUMNS = {};
 
@@ -135,7 +120,7 @@ public class DatabaseReader
       TABLE_DEFINITIONS.put("HOL", new TableDefinition(0, 11, HOL_COLUMNS));
       //TABLE_DEFINITIONS.put("LAY", new TableDefinition(0, 0, LAY_COLUMNS));
       //TABLE_DEFINITIONS.put("LOG", new TableDefinition(0, 0, LOG_COLUMNS));
-      TABLE_DEFINITIONS.put("REL", new TableDefinition(0, 25, REL_COLUMNS));
+      TABLE_DEFINITIONS.put("REL", new TableDefinition(0, 26, REL_COLUMNS));
       //TABLE_DEFINITIONS.put("REP", new TableDefinition(0, 0, REP_COLUMNS));
       TABLE_DEFINITIONS.put("RES", new TableDefinition(0, 118, RES_COLUMNS));
       TABLE_DEFINITIONS.put("RLB", new TableDefinition(0, 111, RLB_COLUMNS));

@@ -29,7 +29,7 @@ import java.util.Date;
 /**
  * Extract column data from a table.
  */
-public class BtrieveDateColumn extends AbstractColumn
+class BtrieveDateColumn extends AbstractColumn
 {
    /**
     * Constructor.

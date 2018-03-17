@@ -36,7 +36,7 @@ import net.sf.mpxj.common.BooleanHelper;
  * from an individual row. Provides type-specific
  * methods to retrieve the column values.
  */
-class MapRow
+public class MapRow
 {
    /**
     * Constructor.
