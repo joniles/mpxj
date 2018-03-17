@@ -106,7 +106,13 @@ public class DatabaseReader
 
    private static final ColumnDefinition[] RES_COLUMNS = {};
 
-   private static final ColumnDefinition[] RLB_COLUMNS = {};
+   private static final ColumnDefinition[] RLB_COLUMNS =
+   {
+      new StringColumn("CODE", 1, 8),
+      new StringColumn("NAME", 9, 40),
+      new ShortColumn("BASE_CALENDAR_ID", 99),
+      new ShortColumn("CALENDAR_ID", 101),
+   };
 
    private static final ColumnDefinition[] TTL_COLUMNS = {};
 

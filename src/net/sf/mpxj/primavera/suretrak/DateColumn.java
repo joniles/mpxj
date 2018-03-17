@@ -9,7 +9,7 @@ import net.sf.mpxj.primavera.p3.AbstractShortColumn;
 /**
  * Extract column data from a table.
  */
-public class DateColumn extends AbstractShortColumn
+class DateColumn extends AbstractShortColumn
 {
    /**
     * Constructor.

@@ -6,7 +6,7 @@ import net.sf.mpxj.primavera.p3.AbstractShortColumn;
 /**
  * Extract column data from a table.
  */
-public class AnnualColumn extends AbstractShortColumn
+class AnnualColumn extends AbstractShortColumn
 {
    /**
     * Constructor.

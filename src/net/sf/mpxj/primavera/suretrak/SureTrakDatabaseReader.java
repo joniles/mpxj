@@ -15,6 +15,7 @@ import java.util.Map;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -24,6 +25,8 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.p3.MapRow;
@@ -122,6 +125,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
 
          m_tables = new DatabaseReader().process(directory, m_prefix);
          m_calendarMap = new HashMap<Integer, ProjectCalendar>();
+         m_resourceMap = new HashMap<String, Resource>();
 
          readProjectHeader();
          readCalendars();
@@ -146,6 +150,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_projectListeners = null;
          m_tables = null;
          m_calendarMap = null;
+         m_resourceMap = null;
       }
    }
 
@@ -254,6 +259,17 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readResources()
    {
+      m_resourceMap = new HashMap<String, Resource>();
+      for (MapRow row : m_tables.get("RLB"))
+      {
+         Resource resource = m_projectFile.addResource();
+         setFields(RESOURCE_FIELDS, row, resource);
+         ProjectCalendar calendar = m_calendarMap.get(row.getInteger("CALENDAR_ID"));
+         ProjectCalendar baseCalendar = m_calendarMap.get(row.getInteger("BASE_CALENDAR_ID"));
+         calendar.setParent(baseCalendar);
+         resource.setResourceCalendar(calendar);
+         m_resourceMap.put(resource.getCode(), resource);
+      }
    }
 
    /**
@@ -284,16 +300,16 @@ public final class SureTrakDatabaseReader implements ProjectReader
     * @param row database row
     * @param container field container
     */
-   //   private void setFields(Map<String, FieldType> map, MapRow row, FieldContainer container)
-   //   {
-   //      if (row != null)
-   //      {
-   //         for (Map.Entry<String, FieldType> entry : map.entrySet())
-   //         {
-   //            container.set(entry.getValue(), row.getObject(entry.getKey()));
-   //         }
-   //      }
-   //   }
+   private void setFields(Map<String, FieldType> map, MapRow row, FieldContainer container)
+   {
+      if (row != null)
+      {
+         for (Map.Entry<String, FieldType> entry : map.entrySet())
+         {
+            container.set(entry.getValue(), row.getObject(entry.getKey()));
+         }
+      }
+   }
 
    /**
     * Configure the mapping between a database column and a field.
@@ -302,10 +318,10 @@ public final class SureTrakDatabaseReader implements ProjectReader
     * @param name column name
     * @param type field type
     */
-   //   private static void defineField(Map<String, FieldType> container, String name, FieldType type)
-   //   {
-   //      defineField(container, name, type, null);
-   //   }
+   private static void defineField(Map<String, FieldType> container, String name, FieldType type)
+   {
+      defineField(container, name, type, null);
+   }
 
    /**
     * Configure the mapping between a database column and a field, including definition of
@@ -316,14 +332,14 @@ public final class SureTrakDatabaseReader implements ProjectReader
     * @param type field type
     * @param alias field alias
     */
-   //   private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
-   //   {
-   //      container.put(name, type);
-   //      //      if (alias != null)
-   //      //      {
-   //      //         ALIASES.put(type, alias);
-   //      //      }
-   //   }
+   private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
+   {
+      container.put(name, type);
+      //      if (alias != null)
+      //      {
+      //         ALIASES.put(type, alias);
+      //      }
+   }
 
    private String m_prefix;
    private ProjectFile m_projectFile;
@@ -331,6 +347,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
    private Map<Integer, ProjectCalendar> m_calendarMap;
+   private Map<String, Resource> m_resourceMap;
 
    private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<String, FieldType>();
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
@@ -344,8 +361,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
       //      defineField(PROJECT_FIELDS, "COMPANY_TITLE", ProjectField.COMPANY);
       //      defineField(PROJECT_FIELDS, "PROJECT_TITLE", ProjectField.NAME);
       //
-      //      defineField(RESOURCE_FIELDS, "RES_TITLE", ResourceField.NAME);
-      //      defineField(RESOURCE_FIELDS, "RES_ID", ResourceField.CODE);
+      defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
+      defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
       //
       //      defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
       //      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
