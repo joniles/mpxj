@@ -79,7 +79,10 @@ public class TableReader
             throw new IOException("Unexpected end of file");
          }
 
-         readRecord(buffer, table);
+         if (buffer[0] == 0)
+         {
+            readRecord(buffer, table);
+         }
       }
    }
 

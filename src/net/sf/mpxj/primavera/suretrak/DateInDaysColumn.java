@@ -9,7 +9,7 @@ import net.sf.mpxj.primavera.p3.AbstractShortColumn;
 /**
  * Extract column data from a table.
  */
-class DateColumn extends AbstractShortColumn
+class DateInDaysColumn extends AbstractShortColumn
 {
    /**
     * Constructor.
@@ -17,7 +17,7 @@ class DateColumn extends AbstractShortColumn
     * @param name column name
     * @param offset offset within data
     */
-   public DateColumn(String name, int offset)
+   public DateInDaysColumn(String name, int offset)
    {
       super(name, offset);
    }

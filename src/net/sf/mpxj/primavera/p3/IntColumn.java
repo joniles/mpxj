@@ -26,7 +26,7 @@ package net.sf.mpxj.primavera.p3;
 /**
  * Extract column data from a table.
  */
-public class IntColumn extends AbstractColumn
+public class IntColumn extends AbstractIntColumn
 {
    /**
     * Constructor.
@@ -41,13 +41,6 @@ public class IntColumn extends AbstractColumn
 
    @Override public Integer read(int offset, byte[] data)
    {
-      int result = 0;
-      int i = offset + m_offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return Integer.valueOf(result);
+      return Integer.valueOf(readInt(offset, data));
    }
 }

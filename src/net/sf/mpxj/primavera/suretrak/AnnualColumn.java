@@ -22,6 +22,6 @@ class AnnualColumn extends AbstractShortColumn
    @Override public Boolean read(int offset, byte[] data)
    {
       int days = readShort(offset, data);
-      return Boolean.valueOf(days > DateColumn.RECURRING_OFFSET);
+      return Boolean.valueOf(days > DateInDaysColumn.RECURRING_OFFSET);
    }
 }

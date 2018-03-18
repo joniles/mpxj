@@ -77,7 +77,26 @@ public class DatabaseReader
    //      pw.close();
    //   }
 
-   private static final ColumnDefinition[] ACT_COLUMNS = {};
+   private static final ColumnDefinition[] ACT_COLUMNS =
+   {
+      new StringColumn("ACTIVITY_ID", 1, 10),
+      new StringColumn("NAME", 11, 48),
+      new StringColumn("DEPARTMENT", 59, 5),
+      new StringColumn("MANAGER", 64, 8),
+      new StringColumn("SECTION", 72, 4),
+      new StringColumn("MAIL", 76, 8),
+      new StringColumn("WBS", 123, 48),
+      new DateInHoursColumn("EARLY_START", 202),
+      new DateInHoursColumn("EARLY_FINISH", 206),
+      new DateInHoursColumn("LATE_START", 210),
+      new DateInHoursColumn("LATE_FINISH", 214),
+      new DateInHoursColumn("DATE2", 218),
+      new DateInHoursColumn("DATE3", 222),
+      new DateInHoursColumn("ACTUAL_START", 234),
+
+      new DateInHoursColumn("TARGET_START", 242),
+      new DateInHoursColumn("TARGET_FINISH,", 246)
+   };
 
    private static final ColumnDefinition[] CAL_COLUMNS =
    {
@@ -99,13 +118,17 @@ public class DatabaseReader
    private static final ColumnDefinition[] HOL_COLUMNS =
    {
       new ShortColumn("CALENDAR_ID", 1),
-      new DateColumn("DATE", 3),
+      new DateInDaysColumn("DATE", 3),
       new AnnualColumn("ANNUAL", 3)
    };
 
    private static final ColumnDefinition[] REL_COLUMNS = {};
 
-   private static final ColumnDefinition[] RES_COLUMNS = {};
+   private static final ColumnDefinition[] RES_COLUMNS =
+   {
+      new StringColumn("ACTIVITY_ID", 1, 10),
+      new StringColumn("RESOURCE_ID", 11, 8),
+   };
 
    private static final ColumnDefinition[] RLB_COLUMNS =
    {

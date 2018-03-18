@@ -7,12 +7,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
@@ -28,7 +32,9 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.p3.MapRow;
 import net.sf.mpxj.primavera.p3.Table;
@@ -117,7 +123,12 @@ public final class SureTrakDatabaseReader implements ProjectReader
          config.setAutoWBS(false);
 
          // Activity ID
-         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
+         CustomFieldContainer customFields = m_projectFile.getCustomFields();
+         customFields.getCustomField(TaskField.TEXT1).setAlias("Code");
+         customFields.getCustomField(TaskField.TEXT2).setAlias("Department");
+         customFields.getCustomField(TaskField.TEXT3).setAlias("Manager");
+         customFields.getCustomField(TaskField.TEXT4).setAlias("Section");
+         customFields.getCustomField(TaskField.TEXT5).setAlias("Mail");
 
          m_projectFile.getProjectProperties().setFileApplication("SureTrak");
          m_projectFile.getProjectProperties().setFileType("STW");
@@ -128,6 +139,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_definitions = new HashMap<Integer, List<MapRow>>();
          m_calendarMap = new HashMap<Integer, ProjectCalendar>();
          m_resourceMap = new HashMap<String, Resource>();
+         m_wbsMap = new HashMap<String, Task>();
+         m_activityMap = new HashMap<String, Task>();
 
          readProjectHeader();
          readDefinitions();
@@ -156,6 +169,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_wbsFormat = null;
          m_calendarMap = null;
          m_resourceMap = null;
+         m_wbsMap = null;
+         m_activityMap = null;
       }
    }
 
@@ -305,18 +320,109 @@ public final class SureTrakDatabaseReader implements ProjectReader
 
    private void readWbs()
    {
+      Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
       for (MapRow row : m_definitions.get(WBS_ENTRIES_ID))
       {
-         String code = row.getString("TEXT1");
-         String description = row.getString("TEXT2");
-         m_wbsFormat.parseRawValue(code);
-         System.out.println("level: " + m_wbsFormat.getLevel() + " wbs: " + m_wbsFormat.getFormattedValue() + " " + description);
+         m_wbsFormat.parseRawValue(row.getString("TEXT1"));
+         Integer level = m_wbsFormat.getLevel();
+         List<MapRow> items = levelMap.get(level);
+         if (items == null)
+         {
+            items = new ArrayList<MapRow>();
+            levelMap.put(level, items);
+         }
+         items.add(row);
+      }
+
+      int level = 1;
+      while (true)
+      {
+         List<MapRow> items = levelMap.get(Integer.valueOf(level++));
+         if (items == null)
+         {
+            break;
+         }
+
+         for (MapRow row : items)
+         {
+            m_wbsFormat.parseRawValue(row.getString("TEXT1"));
+            String parentWbsValue = m_wbsFormat.getFormattedParentValue();
+            String wbsValue = m_wbsFormat.getFormattedValue();
+            row.setObject("WBS", wbsValue);
+            row.setObject("PARENT_WBS", parentWbsValue);
+         }
+
+         final AlphanumComparator comparator = new AlphanumComparator();
+         Collections.sort(items, new Comparator<MapRow>()
+         {
+            @Override public int compare(MapRow o1, MapRow o2)
+            {
+               return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
+            }
+         });
+
+         for (MapRow row : items)
+         {
+            String wbs = row.getString("WBS");
+            ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
+            if (parent == null)
+            {
+               parent = m_projectFile;
+            }
+
+            Task task = parent.addTask();
+            String name = row.getString("TEXT2");
+            if (name == null || name.isEmpty())
+            {
+               name = wbs;
+            }
+            task.setName(name);
+            task.setWBS(wbs);
+            m_wbsMap.put(wbs, task);
+         }
       }
    }
 
    private void readActivities()
    {
+      List<MapRow> items = new ArrayList<MapRow>();
+      for (MapRow row : m_tables.get("ACT"))
+      {
+         items.add(row);
+      }
+      final AlphanumComparator comparator = new AlphanumComparator();
+      Collections.sort(items, new Comparator<MapRow>()
+      {
+         @Override public int compare(MapRow o1, MapRow o2)
+         {
+            return comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID"));
+         }
+      });
 
+      for (MapRow row : items)
+      {
+         String activityID = row.getString("ACTIVITY_ID");
+         m_wbsFormat.parseRawValue(row.getString("WBS"));
+         String wbs = m_wbsFormat.getFormattedValue();
+
+         ChildTaskContainer parent = m_wbsMap.get(wbs);
+         if (parent == null)
+         {
+            parent = m_projectFile;
+         }
+
+         Task task = parent.addTask();
+         setFields(TASK_FIELDS, row, task);
+         task.setStart(task.getEarlyStart());
+         task.setFinish(task.getEarlyFinish());
+         //task.setMilestone(task.getDuration().getDuration() == 0);
+         if (parent instanceof Task)
+         {
+            task.setWBS(wbs);
+         }
+
+         m_activityMap.put(activityID, task);
+      }
    }
 
    /**
@@ -331,6 +437,15 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readResourceAssignments()
    {
+      for (MapRow row : m_tables.get("RES"))
+      {
+         Task task = m_activityMap.get(row.getString("ACTIVITY_ID"));
+         Resource resource = m_resourceMap.get(row.getString("RESOURCE_ID"));
+         if (task != null && resource != null)
+         {
+            task.addResourceAssignment(resource);
+         }
+      }
    }
 
    /**
@@ -390,6 +505,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
    private Map<Integer, List<MapRow>> m_definitions;
    private Map<Integer, ProjectCalendar> m_calendarMap;
    private Map<String, Resource> m_resourceMap;
+   private Map<String, Task> m_wbsMap;
+   private Map<String, Task> m_activityMap;
 
    private static final Integer WBS_FORMAT_ID = new Integer(0x79);
    private static final Integer WBS_ENTRIES_ID = new Integer(0x7A);
@@ -407,9 +524,14 @@ public final class SureTrakDatabaseReader implements ProjectReader
       //
       defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
       defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
-      //
-      //      defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
-      //      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
+
+      defineField(TASK_FIELDS, "NAME", TaskField.NAME);
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
+      defineField(TASK_FIELDS, "DEPARTMENT", TaskField.TEXT2);
+      defineField(TASK_FIELDS, "MANAGER", TaskField.TEXT3);
+      defineField(TASK_FIELDS, "SECTION", TaskField.TEXT4);
+      defineField(TASK_FIELDS, "MAIL", TaskField.TEXT5);
+
       //      defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       //      defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       //      defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);

@@ -292,7 +292,7 @@ public final class P3DatabaseReader implements ProjectReader
    }
 
    /**
-    * Read tasks representin activities.
+    * Read tasks representing activities.
     */
    private void readActivities()
    {
