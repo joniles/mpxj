@@ -120,6 +120,11 @@ public class MapRow
       return (Date) getObject(name);
    }
 
+   public final byte[] getRaw(String name)
+   {
+      return (byte[]) getObject(name);
+   }
+
    /**
     * Retrieve a value without being specific about its type.
     *

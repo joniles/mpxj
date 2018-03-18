@@ -184,7 +184,7 @@ public final class P3DatabaseReader implements ProjectReader
       if (row != null)
       {
          setFields(PROJECT_FIELDS, row, m_projectFile.getProjectProperties());
-         m_wbsFormat = new WbsFormat(row);
+         m_wbsFormat = new P3WbsFormat(row);
       }
    }
 
@@ -252,7 +252,7 @@ public final class P3DatabaseReader implements ProjectReader
          {
             m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
             String parentWbsValue = m_wbsFormat.getFormattedParentValue();
-            String wbsValue = m_wbsFormat.getFormatedValue();
+            String wbsValue = m_wbsFormat.getFormattedValue();
             row.setObject("WBS", wbsValue);
             row.setObject("PARENT_WBS", parentWbsValue);
          }
@@ -301,7 +301,7 @@ public final class P3DatabaseReader implements ProjectReader
       {
          String activityID = row.getString("ACTIVITY_ID");
          m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
-         String parentWBS = m_wbsFormat.getFormatedValue();
+         String parentWBS = m_wbsFormat.getFormattedValue();
 
          ChildTaskContainer parent = m_wbsMap.get(parentWBS);
          if (parent != null)
@@ -491,7 +491,7 @@ public final class P3DatabaseReader implements ProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
-   private WbsFormat m_wbsFormat;
+   private P3WbsFormat m_wbsFormat;
    private Map<String, Resource> m_resourceMap;
    private Map<String, Task> m_wbsMap;
    private Map<String, Task> m_activityMap;

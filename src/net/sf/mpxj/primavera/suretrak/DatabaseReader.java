@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.primavera.p3.ByteColumn;
 import net.sf.mpxj.primavera.p3.ColumnDefinition;
 import net.sf.mpxj.primavera.p3.IntColumn;
 import net.sf.mpxj.primavera.p3.ShortColumn;
@@ -114,7 +115,14 @@ public class DatabaseReader
       new ShortColumn("CALENDAR_ID", 101),
    };
 
-   private static final ColumnDefinition[] TTL_COLUMNS = {};
+   private static final ColumnDefinition[] TTL_COLUMNS =
+   {
+      new RawColumn("DATA", 0, 100),
+      new StringColumn("TEXT1", 1, 48),
+      new StringColumn("TEXT2", 49, 48),
+      new ByteColumn("DEFINITION_ID", 97),
+      new ShortColumn("ORDER", 98),
+   };
 
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
    static

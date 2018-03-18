@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -124,10 +125,12 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_eventManager.addProjectListeners(m_projectListeners);
 
          m_tables = new DatabaseReader().process(directory, m_prefix);
+         m_definitions = new HashMap<Integer, List<MapRow>>();
          m_calendarMap = new HashMap<Integer, ProjectCalendar>();
          m_resourceMap = new HashMap<String, Resource>();
 
          readProjectHeader();
+         readDefinitions();
          readCalendars();
          readHolidays();
          readResources();
@@ -149,6 +152,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_eventManager = null;
          m_projectListeners = null;
          m_tables = null;
+         m_definitions = null;
+         m_wbsFormat = null;
          m_calendarMap = null;
          m_resourceMap = null;
       }
@@ -159,6 +164,23 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readProjectHeader()
    {
+   }
+
+   private void readDefinitions()
+   {
+      for (MapRow row : m_tables.get("TTL"))
+      {
+         Integer id = row.getInteger("DEFINITION_ID");
+         List<MapRow> list = m_definitions.get(id);
+         if (list == null)
+         {
+            list = new ArrayList<MapRow>();
+            m_definitions.put(id, list);
+         }
+         list.add(row);
+      }
+
+      m_wbsFormat = new SureTrakWbsFormat(m_definitions.get(WBS_FORMAT_ID).get(0));
    }
 
    /**
@@ -277,6 +299,24 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readTasks()
    {
+      readWbs();
+      readActivities();
+   }
+
+   private void readWbs()
+   {
+      for (MapRow row : m_definitions.get(WBS_ENTRIES_ID))
+      {
+         String code = row.getString("TEXT1");
+         String description = row.getString("TEXT2");
+         m_wbsFormat.parseRawValue(code);
+         System.out.println("level: " + m_wbsFormat.getLevel() + " wbs: " + m_wbsFormat.getFormattedValue() + " " + description);
+      }
+   }
+
+   private void readActivities()
+   {
+
    }
 
    /**
@@ -346,10 +386,14 @@ public final class SureTrakDatabaseReader implements ProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
+   private SureTrakWbsFormat m_wbsFormat;
+   private Map<Integer, List<MapRow>> m_definitions;
    private Map<Integer, ProjectCalendar> m_calendarMap;
    private Map<String, Resource> m_resourceMap;
 
-   private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<String, FieldType>();
+   private static final Integer WBS_FORMAT_ID = new Integer(0x79);
+   private static final Integer WBS_ENTRIES_ID = new Integer(0x7A);
+
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<String, FieldType>();
 

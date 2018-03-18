@@ -1,5 +1,5 @@
 /*
- * file:       WbsFormat.java
+ * file:       AbstractWbsFormat.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -26,33 +26,8 @@ package net.sf.mpxj.primavera.p3;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Reads the WBS format definition from a P3 database, and allows
- * that format to be applied to WBS values.
- */
-public class WbsFormat
+public class AbstractWbsFormat
 {
-   /**
-    * Constructor. Reads the format definition.
-    *
-    * @param row database row containing WBS format
-    */
-   public WbsFormat(MapRow row)
-   {
-      int index = 1;
-      while (true)
-      {
-         String suffix = String.format("%02d", Integer.valueOf(index++));
-         Integer length = row.getInteger("WBSW_" + suffix);
-         if (length == null || length.intValue() == 0)
-         {
-            break;
-         }
-         m_lengths.add(length);
-         m_separators.add(row.getString("WBSS_" + suffix));
-      }
-   }
-
    /**
     * Parses a raw WBS value from the darabase and breaks it into
     * component parts ready for formatting.
@@ -89,9 +64,14 @@ public class WbsFormat
     *
     * @return formatted WBS value
     */
-   public String getFormatedValue()
+   public String getFormattedValue()
    {
       return joinElements(m_elements.size());
+   }
+
+   public Integer getLevel()
+   {
+      return Integer.valueOf((m_elements.size() + 1) / 2);
    }
 
    /**
@@ -126,6 +106,6 @@ public class WbsFormat
    }
 
    private final List<String> m_elements = new ArrayList<String>();
-   private final List<Integer> m_lengths = new ArrayList<Integer>();
-   private final List<String> m_separators = new ArrayList<String>();
+   protected final List<Integer> m_lengths = new ArrayList<Integer>();
+   protected final List<String> m_separators = new ArrayList<String>();
 }
