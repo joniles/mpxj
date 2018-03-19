@@ -29,7 +29,7 @@ import net.sf.mpxj.TimeUnit;
 /**
  * Extract column data from a table.
  */
-public class DurationColumn extends AbstractShortColumn
+class DurationColumn extends AbstractShortColumn
 {
    /**
     * Constructor.

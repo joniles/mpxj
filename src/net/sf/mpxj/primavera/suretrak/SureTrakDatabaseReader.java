@@ -19,6 +19,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -34,6 +35,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.p3.MapRow;
@@ -208,15 +210,58 @@ public final class SureTrakDatabaseReader implements ProjectReader
       {
          ProjectCalendar calendar = m_projectFile.addCalendar();
          m_calendarMap.put(row.getInteger("CALENDAR_ID"), calendar);
+         Integer[] days =
+         {
+            row.getInteger("SUNDAY_HOURS"),
+            row.getInteger("MONDAY_HOURS"),
+            row.getInteger("TUESDAY_HOURS"),
+            row.getInteger("WEDNESDAY_HOURS"),
+            row.getInteger("THURSDAY_HOURS"),
+            row.getInteger("FRIDAY_HOURS"),
+            row.getInteger("SATURDAY_HOURS")
+         };
 
          calendar.setName(row.getString("NAME"));
-         readHours(calendar, Day.SUNDAY, row.getInteger("SUNDAY_HOURS"));
-         readHours(calendar, Day.MONDAY, row.getInteger("MONDAY_HOURS"));
-         readHours(calendar, Day.TUESDAY, row.getInteger("TUESDAY_HOURS"));
-         readHours(calendar, Day.WEDNESDAY, row.getInteger("WEDNESDAY_HOURS"));
-         readHours(calendar, Day.THURSDAY, row.getInteger("THURSDAY_HOURS"));
-         readHours(calendar, Day.FRIDAY, row.getInteger("FRIDAY_HOURS"));
-         readHours(calendar, Day.SATURDAY, row.getInteger("SATURDAY_HOURS"));
+         readHours(calendar, Day.SUNDAY, days[0]);
+         readHours(calendar, Day.MONDAY, days[1]);
+         readHours(calendar, Day.TUESDAY, days[2]);
+         readHours(calendar, Day.WEDNESDAY, days[3]);
+         readHours(calendar, Day.THURSDAY, days[4]);
+         readHours(calendar, Day.FRIDAY, days[5]);
+         readHours(calendar, Day.SATURDAY, days[6]);
+
+         int workingDaysPerWeek = 0;
+         for (Day day : Day.values())
+         {
+            if (calendar.isWorkingDay(day))
+            {
+               ++workingDaysPerWeek;
+            }
+         }
+
+         Integer workingHours = null;
+         for (int index = 0; index < 7; index++)
+         {
+            if (days[index].intValue() != 0)
+            {
+               workingHours = days[index];
+               break;
+            }
+         }
+
+         if (workingHours != null)
+         {
+            int workingHoursPerDay = countHours(workingHours);
+            int minutesPerDay = workingHoursPerDay * 60;
+            int minutesPerWeek = minutesPerDay * workingDaysPerWeek;
+            int minutesPerMonth = 4 * minutesPerWeek;
+            int minutesPerYear = 52 * minutesPerWeek;
+
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
+            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+         }
       }
    }
 
@@ -231,6 +276,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
       cal.set(Calendar.MINUTE, 0);
       cal.set(Calendar.SECOND, 0);
       cal.set(Calendar.MILLISECOND, 0);
+
+      calendar.setWorkingDay(day, false);
 
       while (value != 0)
       {
@@ -263,10 +310,32 @@ public final class SureTrakDatabaseReader implements ProjectReader
          if (calendarHours == null)
          {
             calendarHours = calendar.addCalendarHours(day);
+            calendar.setWorkingDay(day, true);
          }
          calendarHours.addRange(new DateRange(startDate, endDate));
          startHour = endHour;
       }
+   }
+
+   private int countHours(Integer hours)
+   {
+      int value = hours.intValue();
+      int hoursPerDay = 0;
+      int hour = 0;
+      while (value != 0)
+      {
+         // Move forward until we find a working hour
+         while (hour < 24)
+         {
+            if ((value & 0x1) != 0)
+            {
+               ++hoursPerDay;
+            }
+            value = value >> 1;
+            ++hour;
+         }
+      }
+      return hoursPerDay;
    }
 
    private void readHolidays()
@@ -415,12 +484,11 @@ public final class SureTrakDatabaseReader implements ProjectReader
          setFields(TASK_FIELDS, row, task);
          task.setStart(task.getEarlyStart());
          task.setFinish(task.getEarlyFinish());
-         //task.setMilestone(task.getDuration().getDuration() == 0);
-         if (parent instanceof Task)
-         {
-            task.setWBS(wbs);
-         }
-
+         task.setMilestone(task.getDuration().getDuration() == 0);
+         task.setWBS(wbs);
+         Duration duration = task.getDuration();
+         Duration remainingDuration = task.getRemainingDuration();
+         task.setActualDuration(Duration.getInstance(duration.getDuration() - remainingDuration.getDuration(), TimeUnit.HOURS));
          m_activityMap.put(activityID, task);
       }
    }
@@ -532,15 +600,16 @@ public final class SureTrakDatabaseReader implements ProjectReader
       defineField(TASK_FIELDS, "SECTION", TaskField.TEXT4);
       defineField(TASK_FIELDS, "MAIL", TaskField.TEXT5);
 
-      //      defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
-      //      defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
-      //      defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      //      defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);
-      //      defineField(TASK_FIELDS, "LATE_START", TaskField.LATE_START);
-      //      defineField(TASK_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
-      //      defineField(TASK_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
-      //      defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
-      //      defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
+      defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
+      defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);
+      defineField(TASK_FIELDS, "LATE_START", TaskField.LATE_START);
+      defineField(TASK_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
+      defineField(TASK_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
+      defineField(TASK_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
+      defineField(TASK_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
+      defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
+      defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
+
    }
 
 }

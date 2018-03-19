@@ -86,14 +86,17 @@ public class DatabaseReader
       new StringColumn("SECTION", 72, 4),
       new StringColumn("MAIL", 76, 8),
       new StringColumn("WBS", 123, 48),
+      new PercentColumn("PERCENT_COMPLETE", 192),
+      new DurationColumn("ORIGINAL_DURATION", 198),
+      new DurationColumn("REMAINING_DURATION", 200),
       new DateInHoursColumn("EARLY_START", 202),
       new DateInHoursColumn("EARLY_FINISH", 206),
       new DateInHoursColumn("LATE_START", 210),
       new DateInHoursColumn("LATE_FINISH", 214),
-      new DateInHoursColumn("DATE2", 218),
-      new DateInHoursColumn("DATE3", 222),
+      //new DateInHoursColumn("UNKNOWN_DATE1", 218),
+      //new DateInHoursColumn("UNKNOWN_DATE2", 222),
       new DateInHoursColumn("ACTUAL_START", 234),
-
+      new DateInHoursColumn("ACTUAL_FINISH", 238),
       new DateInHoursColumn("TARGET_START", 242),
       new DateInHoursColumn("TARGET_FINISH,", 246)
    };
@@ -122,7 +125,13 @@ public class DatabaseReader
       new AnnualColumn("ANNUAL", 3)
    };
 
-   private static final ColumnDefinition[] REL_COLUMNS = {};
+   private static final ColumnDefinition[] REL_COLUMNS =
+   {
+      new StringColumn("PREDECESSOR_ACTIVITY_ID", 1, 10),
+      new StringColumn("SUCCESSOR_ACTIVITY_ID", 11, 10),
+      new ShortColumn("LAG", 22),
+      new ShortColumn("TYPE", 24),
+   };
 
    private static final ColumnDefinition[] RES_COLUMNS =
    {

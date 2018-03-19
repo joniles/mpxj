@@ -21,12 +21,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
+
+import net.sf.mpxj.primavera.p3.AbstractShortColumn;
 
 /**
  * Extract column data from a table.
  */
-class PercentColumn extends AbstractIntColumn
+class PercentColumn extends AbstractShortColumn
 {
    /**
     * Constructor.
@@ -41,6 +43,6 @@ class PercentColumn extends AbstractIntColumn
 
    @Override public Double read(int offset, byte[] data)
    {
-      return Double.valueOf(readInt(offset, data) / 10.0);
+      return Double.valueOf(readShort(offset, data) / 10.0);
    }
 }
