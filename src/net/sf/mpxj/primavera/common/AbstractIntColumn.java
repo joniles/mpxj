@@ -1,5 +1,5 @@
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
  * Extract column data from a table.
@@ -17,6 +17,13 @@ public abstract class AbstractIntColumn extends AbstractColumn
       super(name, offset);
    }
 
+   /**
+    * Read a four byte integer from the data.
+    *
+    * @param offset current offset into data block
+    * @param data data block
+    * @return int value
+    */
    public int readInt(int offset, byte[] data)
    {
       int result = 0;

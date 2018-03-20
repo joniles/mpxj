@@ -1,4 +1,25 @@
-// TODO: can we move classes into a common package?
+/*
+ * file:       DatabaseReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.suretrak;
 
@@ -7,16 +28,28 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.primavera.p3.ByteColumn;
-import net.sf.mpxj.primavera.p3.ColumnDefinition;
-import net.sf.mpxj.primavera.p3.IntColumn;
-import net.sf.mpxj.primavera.p3.ShortColumn;
-import net.sf.mpxj.primavera.p3.StringColumn;
-import net.sf.mpxj.primavera.p3.Table;
-import net.sf.mpxj.primavera.p3.TableDefinition;
+import net.sf.mpxj.primavera.common.ByteColumn;
+import net.sf.mpxj.primavera.common.ColumnDefinition;
+import net.sf.mpxj.primavera.common.IntColumn;
+import net.sf.mpxj.primavera.common.ShortColumn;
+import net.sf.mpxj.primavera.common.StringColumn;
+import net.sf.mpxj.primavera.common.Table;
+import net.sf.mpxj.primavera.common.TableDefinition;
 
+/**
+ * Reads a directory containing a SureTrak database and returns a map
+ * of table names and the data they contain.
+ */
 public class DatabaseReader
 {
+   /**
+    * Main entry point. Reads a directory containing a P3 Btrieve database files
+    * and returns a map of table names and table content.
+    *
+    * @param directory directory containing the database
+    * @param prefix file name prefix used to identify files from the same database
+    * @return Map of table names to table data
+    */
    public Map<String, Table> process(File directory, String prefix) throws IOException
    {
       Map<String, Table> tables = new HashMap<String, Table>();
@@ -129,8 +162,8 @@ public class DatabaseReader
    {
       new StringColumn("PREDECESSOR_ACTIVITY_ID", 1, 10),
       new StringColumn("SUCCESSOR_ACTIVITY_ID", 11, 10),
-      new ShortColumn("LAG", 22),
-      new ShortColumn("TYPE", 24),
+      new RelationTypeColumn("TYPE", 21),
+      new DurationColumn("LAG", 22),
    };
 
    private static final ColumnDefinition[] RES_COLUMNS =

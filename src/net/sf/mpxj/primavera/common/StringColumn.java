@@ -1,5 +1,5 @@
 /*
- * file:       ColumnDefinition.java
+ * file:       StringColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,27 +21,45 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Classes which implement this interface define how columns
- * of a specific type can be read from the P3 database.
+ * Extract column data from a table.
  */
-public interface ColumnDefinition
+public class StringColumn extends AbstractColumn
 {
    /**
-    * Retrieve the name of the column.
+    * Constructor.
     *
-    * @return column name
+    * @param name column name
+    * @param offset offset in data
+    * @param length maximum string length
     */
-   public String getName();
+   public StringColumn(String name, int offset, int length)
+   {
+      super(name, offset);
+      m_length = length;
+   }
 
-   /**
-    * Read the column data.
-    *
-    * @param offset current offset into the table data block
-    * @param data table data block
-    * @return column value
-    */
-   public Object read(int offset, byte[] data);
+   @Override public String read(int offset, byte[] data)
+   {
+      StringBuilder buffer = new StringBuilder();
+      char c;
+
+      for (int loop = 0; loop < m_length; loop++)
+      {
+         c = (char) data[offset + m_offset + loop];
+
+         if (c == 0)
+         {
+            break;
+         }
+
+         buffer.append(c);
+      }
+
+      return buffer.toString().trim();
+   }
+
+   private final int m_length;
 }

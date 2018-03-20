@@ -612,6 +612,12 @@ public class UniversalProjectReader implements ProjectReader
       return P3DatabaseReader.setPrefixAndRead(directory);
    }
 
+   /**
+    * Determine if we have a SureTrak multi-file database.
+    *
+    * @param directory directory to process
+    * @return ProjectFile instance if we can process anything, or null
+    */
    private ProjectFile handleSureTrakDatabase(File directory) throws Exception
    {
       return SureTrakDatabaseReader.setPrefixAndRead(directory);

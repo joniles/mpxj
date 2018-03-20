@@ -25,7 +25,7 @@ package net.sf.mpxj.primavera.suretrak;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.primavera.p3.AbstractShortColumn;
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
  * Extract column data from a table.

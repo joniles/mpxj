@@ -1,7 +1,7 @@
 
 package net.sf.mpxj.primavera.suretrak;
 
-import net.sf.mpxj.primavera.p3.AbstractColumn;
+import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**
  * Extract column data from a table.
@@ -13,6 +13,7 @@ class RawColumn extends AbstractColumn
     *
     * @param name column name
     * @param offset offset within data
+    * @param length maximum byte array length
     */
    public RawColumn(String name, int offset, int length)
    {

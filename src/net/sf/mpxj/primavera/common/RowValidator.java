@@ -1,5 +1,5 @@
 /*
- * file:       StringColumn.java
+ * file:       RowValidator.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,45 +21,22 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
+
+import java.util.Map;
 
 /**
- * Extract column data from a table.
+ * Implementations of this interface allow additional
+ * validation checks to be supplied in order to determine
+ * if a row contains valid data.
  */
-public class StringColumn extends AbstractColumn
+public interface RowValidator
 {
    /**
-    * Constructor.
+    * Returns true if the row is valid.
     *
-    * @param name column name
-    * @param offset offset in data
-    * @param length maximum string length
+    * @param row row data
+    * @return true if row is valid
     */
-   public StringColumn(String name, int offset, int length)
-   {
-      super(name, offset);
-      m_length = length;
-   }
-
-   @Override public String read(int offset, byte[] data)
-   {
-      StringBuilder buffer = new StringBuilder();
-      char c;
-
-      for (int loop = 0; loop < m_length; loop++)
-      {
-         c = (char) data[offset + m_offset + loop];
-
-         if (c == 0)
-         {
-            break;
-         }
-
-         buffer.append(c);
-      }
-
-      return buffer.toString().trim();
-   }
-
-   private final int m_length;
+   boolean validRow(Map<String, Object> row);
 }

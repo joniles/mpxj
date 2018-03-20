@@ -1,3 +1,25 @@
+/*
+ * file:       SureTrakDatabaseReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.primavera.suretrak;
 
@@ -31,17 +53,22 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.primavera.p3.MapRow;
-import net.sf.mpxj.primavera.p3.Table;
+import net.sf.mpxj.primavera.common.MapRow;
+import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.ProjectReader;
 
+/**
+ * Reads schedule data from a SureTrak multi-file database in a directory.
+ */
 public final class SureTrakDatabaseReader implements ProjectReader
 {
    /**
@@ -181,8 +208,12 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readProjectHeader()
    {
+      // No header data read
    }
 
+   /**
+    * Extract definition records from the table and divide into groups.
+    */
    private void readDefinitions()
    {
       for (MapRow row : m_tables.get("TTL"))
@@ -265,6 +296,14 @@ public final class SureTrakDatabaseReader implements ProjectReader
       }
    }
 
+   /**
+    * Reads the integer representation of calendar hours for a given
+    * day and populates the calendar.
+    *
+    * @param calendar parent calendar
+    * @param day target day
+    * @param hours working hours
+    */
    private void readHours(ProjectCalendar calendar, Day day, Integer hours)
    {
       int value = hours.intValue();
@@ -317,6 +356,13 @@ public final class SureTrakDatabaseReader implements ProjectReader
       }
    }
 
+   /**
+    * Count the number of working hours in a day, based in the
+    * integer representation of the working hours.
+    *
+    * @param hours working hours
+    * @return number of hours
+    */
    private int countHours(Integer hours)
    {
       int value = hours.intValue();
@@ -338,6 +384,9 @@ public final class SureTrakDatabaseReader implements ProjectReader
       return hoursPerDay;
    }
 
+   /**
+    * Read holidays from the database and create calendar exceptions.
+    */
    private void readHolidays()
    {
       for (MapRow row : m_tables.get("HOL"))
@@ -385,8 +434,12 @@ public final class SureTrakDatabaseReader implements ProjectReader
    {
       readWbs();
       readActivities();
+      updateDates();
    }
 
+   /**
+    * Read the WBS.
+    */
    private void readWbs()
    {
       Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
@@ -452,6 +505,9 @@ public final class SureTrakDatabaseReader implements ProjectReader
       }
    }
 
+   /**
+    * Read activities.
+    */
    private void readActivities()
    {
       List<MapRow> items = new ArrayList<MapRow>();
@@ -498,6 +554,18 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readRelationships()
    {
+      for (MapRow row : m_tables.get("REL"))
+      {
+         Task predecessor = m_activityMap.get(row.getString("PREDECESSOR_ACTIVITY_ID"));
+         Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
+         if (predecessor != null && successor != null)
+         {
+            Duration lag = row.getDuration("LAG");
+            RelationType type = row.getRelationType("TYPE");
+
+            successor.addPredecessor(predecessor, type, lag);
+         }
+      }
    }
 
    /**
@@ -512,6 +580,74 @@ public final class SureTrakDatabaseReader implements ProjectReader
          if (task != null && resource != null)
          {
             task.addResourceAssignment(resource);
+         }
+      }
+   }
+
+   /**
+    * Ensure summary tasks have dates.
+    */
+   private void updateDates()
+   {
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task.
+    */
+   private void updateDates(Task parentTask)
+   {
+      if (parentTask.getSummary())
+      {
+         int finished = 0;
+         Date startDate = parentTask.getStart();
+         Date finishDate = parentTask.getFinish();
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+
+            startDate = DateHelper.min(startDate, task.getStart());
+            finishDate = DateHelper.max(finishDate, task.getFinish());
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
+         }
+
+         parentTask.setStart(startDate);
+         parentTask.setFinish(finishDate);
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
+         {
+            parentTask.setActualFinish(actualFinishDate);
          }
       }
    }
@@ -576,20 +712,14 @@ public final class SureTrakDatabaseReader implements ProjectReader
    private Map<String, Task> m_wbsMap;
    private Map<String, Task> m_activityMap;
 
-   private static final Integer WBS_FORMAT_ID = new Integer(0x79);
-   private static final Integer WBS_ENTRIES_ID = new Integer(0x7A);
+   private static final Integer WBS_FORMAT_ID = Integer.valueOf(0x79);
+   private static final Integer WBS_ENTRIES_ID = Integer.valueOf(0x7A);
 
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<String, FieldType>();
 
    static
    {
-      //      defineField(PROJECT_FIELDS, "PROJECT_START_DATE", ProjectField.START_DATE);
-      //      defineField(PROJECT_FIELDS, "PROJECT_FINISH_DATE", ProjectField.FINISH_DATE);
-      //      defineField(PROJECT_FIELDS, "CURRENT_DATA_DATE", ProjectField.STATUS_DATE);
-      //      defineField(PROJECT_FIELDS, "COMPANY_TITLE", ProjectField.COMPANY);
-      //      defineField(PROJECT_FIELDS, "PROJECT_TITLE", ProjectField.NAME);
-      //
       defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
       defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
 
@@ -609,7 +739,5 @@ public final class SureTrakDatabaseReader implements ProjectReader
       defineField(TASK_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
       defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
-
    }
-
 }

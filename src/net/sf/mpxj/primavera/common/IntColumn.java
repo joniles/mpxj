@@ -1,5 +1,5 @@
 /*
- * file:       RowValidator.java
+ * file:       IntColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,22 +21,26 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
-
-import java.util.Map;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Implementations of this interface allow additional
- * validation checks to be supplied in order to determine
- * if a row contains valid data.
+ * Extract column data from a table.
  */
-public interface RowValidator
+public class IntColumn extends AbstractIntColumn
 {
    /**
-    * Returns true if the row is valid.
+    * Constructor.
     *
-    * @param row row data
-    * @return true if row is valid
+    * @param name column name
+    * @param offset offset within data
     */
-   boolean validRow(Map<String, Object> row);
+   public IntColumn(String name, int offset)
+   {
+      super(name, offset);
+   }
+
+   @Override public Integer read(int offset, byte[] data)
+   {
+      return Integer.valueOf(readInt(offset, data));
+   }
 }

@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera.p3;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
  * Extract column data from a table.

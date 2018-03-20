@@ -23,11 +23,14 @@
 
 package net.sf.mpxj.primavera.p3;
 
+import net.sf.mpxj.primavera.common.AbstractWbsFormat;
+import net.sf.mpxj.primavera.common.MapRow;
+
 /**
  * Reads the WBS format definition from a P3 database, and allows
  * that format to be applied to WBS values.
  */
-public class P3WbsFormat extends AbstractWbsFormat
+class P3WbsFormat extends AbstractWbsFormat
 {
    /**
     * Constructor. Reads the format definition.

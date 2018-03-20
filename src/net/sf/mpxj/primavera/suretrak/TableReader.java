@@ -9,12 +9,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.common.StreamHelper;
-import net.sf.mpxj.mpp.MPPUtility;
-import net.sf.mpxj.primavera.p3.ColumnDefinition;
-import net.sf.mpxj.primavera.p3.Table;
-import net.sf.mpxj.primavera.p3.TableDefinition;
+import net.sf.mpxj.primavera.common.ColumnDefinition;
+import net.sf.mpxj.primavera.common.Table;
+import net.sf.mpxj.primavera.common.TableDefinition;
 
-public class TableReader
+/*
+ * file:       TableReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       01/03/2018
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+/**
+ * Handles reading a table from a SureTrak file.
+ */
+class TableReader
 {
    /**
     * Constructor.
@@ -86,9 +111,15 @@ public class TableReader
       }
    }
 
+   /**
+    * Reads a single record from the table.
+    * 
+    * @param buffer record data
+    * @param table parent table
+    */
    private void readRecord(byte[] buffer, Table table)
    {
-      System.out.println(MPPUtility.hexdump(buffer, true, 16, ""));
+      //System.out.println(MPPUtility.hexdump(buffer, true, 16, ""));
       int deletedFlag = getShort(buffer, 0);
       if (deletedFlag != 0)
       {
@@ -96,7 +127,7 @@ public class TableReader
          for (ColumnDefinition column : m_definition.getColumns())
          {
             Object value = column.read(0, buffer);
-            System.out.println(column.getName() + ": " + value);
+            //System.out.println(column.getName() + ": " + value);
             row.put(column.getName(), value);
          }
 

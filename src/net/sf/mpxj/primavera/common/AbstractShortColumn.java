@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
  * Common methods for columns based on short integers.

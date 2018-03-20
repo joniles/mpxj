@@ -21,15 +21,18 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Common methods to support reading the WBS format definition from P3 and SureTrak.
+ */
 public class AbstractWbsFormat
 {
    /**
-    * Parses a raw WBS value from the darabase and breaks it into
+    * Parses a raw WBS value from the database and breaks it into
     * component parts ready for formatting.
     *
     * @param value raw WBS value
@@ -69,6 +72,11 @@ public class AbstractWbsFormat
       return joinElements(m_elements.size());
    }
 
+   /**
+    * Retrieves the level of this WBS code.
+    *
+    * @return level value
+    */
    public Integer getLevel()
    {
       return Integer.valueOf((m_elements.size() + 1) / 2);

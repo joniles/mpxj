@@ -1,5 +1,5 @@
 /*
- * file:       ByteColumn.java
+ * file:       AbstractColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,12 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Extract column data from a table.
+ * Common column implementation methods.
  */
-public class ByteColumn extends AbstractColumn
+public abstract class AbstractColumn implements ColumnDefinition
 {
    /**
     * Constructor.
@@ -34,20 +34,17 @@ public class ByteColumn extends AbstractColumn
     * @param name column name
     * @param offset offset within data
     */
-   public ByteColumn(String name, int offset)
+   public AbstractColumn(String name, int offset)
    {
-      super(name, offset);
+      m_name = name;
+      m_offset = offset;
    }
 
-   @Override public Integer read(int offset, byte[] data)
+   @Override public String getName()
    {
-      int result = 0;
-      int i = offset + m_offset;
-      for (int shiftBy = 0; shiftBy < 8; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return Integer.valueOf(result);
+      return m_name;
    }
+
+   private final String m_name;
+   protected final int m_offset;
 }

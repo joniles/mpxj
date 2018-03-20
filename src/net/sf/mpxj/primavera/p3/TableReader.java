@@ -31,11 +31,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.primavera.common.ColumnDefinition;
+import net.sf.mpxj.primavera.common.RowValidator;
+import net.sf.mpxj.primavera.common.Table;
+import net.sf.mpxj.primavera.common.TableDefinition;
 
 /**
  * Handles reading a table from a Btrieve file.
  */
-public class TableReader
+class TableReader
 {
    /**
     * Constructor.

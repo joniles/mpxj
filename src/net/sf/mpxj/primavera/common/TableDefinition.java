@@ -1,5 +1,5 @@
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
  * Represents the structure of a Btrieve table.

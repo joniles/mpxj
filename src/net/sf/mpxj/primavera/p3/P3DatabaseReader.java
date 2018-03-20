@@ -52,11 +52,14 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.AlphanumComparator;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
+import net.sf.mpxj.primavera.common.MapRow;
+import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.ProjectReader;
 
 /**
- * Reads a schedule data from a P3 multi-file Btrieve database in a directory.
+ * Reads schedule data from a P3 multi-file Btrieve database in a directory.
  */
 public final class P3DatabaseReader implements ProjectReader
 {
@@ -217,6 +220,7 @@ public final class P3DatabaseReader implements ProjectReader
    {
       readWBS();
       readActivities();
+      updateDates();
    }
 
    /**
@@ -434,6 +438,74 @@ public final class P3DatabaseReader implements ProjectReader
          if (task != null && resource != null)
          {
             task.addResourceAssignment(resource);
+         }
+      }
+   }
+
+   /**
+    * Ensure summary tasks have dates.
+    */
+   private void updateDates()
+   {
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task.
+    */
+   private void updateDates(Task parentTask)
+   {
+      if (parentTask.getSummary())
+      {
+         int finished = 0;
+         Date startDate = parentTask.getStart();
+         Date finishDate = parentTask.getFinish();
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+
+            startDate = DateHelper.min(startDate, task.getStart());
+            finishDate = DateHelper.max(finishDate, task.getFinish());
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
+         }
+
+         parentTask.setStart(startDate);
+         parentTask.setFinish(finishDate);
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
+         {
+            parentTask.setActualFinish(actualFinishDate);
          }
       }
    }

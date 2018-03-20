@@ -4,7 +4,7 @@ package net.sf.mpxj.primavera.suretrak;
 import java.util.Date;
 
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.primavera.p3.AbstractIntColumn;
+import net.sf.mpxj.primavera.common.AbstractIntColumn;
 
 /**
  * Extract column data from a table.

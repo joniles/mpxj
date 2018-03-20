@@ -1,8 +1,8 @@
 
 package net.sf.mpxj.primavera.suretrak;
 
-import net.sf.mpxj.primavera.p3.AbstractWbsFormat;
-import net.sf.mpxj.primavera.p3.MapRow;
+import net.sf.mpxj.primavera.common.AbstractWbsFormat;
+import net.sf.mpxj.primavera.common.MapRow;
 
 /**
  * Reads the WBS format definition from a P3 database, and allows
