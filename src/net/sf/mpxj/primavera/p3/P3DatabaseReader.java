@@ -152,6 +152,9 @@ public final class P3DatabaseReader implements ProjectReader
          m_eventManager.addProjectListeners(m_projectListeners);
 
          m_tables = new DatabaseReader().process(directory, m_prefix);
+         m_resourceMap = new HashMap<String, Resource>();
+         m_wbsMap = new HashMap<String, Task>();
+         m_activityMap = new HashMap<String, Task>();
 
          readProjectHeader();
          readCalendars();
@@ -174,6 +177,10 @@ public final class P3DatabaseReader implements ProjectReader
          m_eventManager = null;
          m_projectListeners = null;
          m_tables = null;
+         m_resourceMap = null;
+         m_wbsFormat = null;
+         m_wbsMap = null;
+         m_activityMap = null;
       }
    }
 
@@ -204,7 +211,6 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readResources()
    {
-      m_resourceMap = new HashMap<String, Resource>();
       for (MapRow row : m_tables.get("RLB"))
       {
          Resource resource = m_projectFile.addResource();
@@ -242,8 +248,6 @@ public final class P3DatabaseReader implements ProjectReader
       }
 
       int level = 1;
-      m_wbsMap = new HashMap<String, Task>();
-
       while (true)
       {
          List<MapRow> items = levelMap.get(Integer.valueOf(level++));
@@ -314,7 +318,6 @@ public final class P3DatabaseReader implements ProjectReader
          }
       }
 
-      m_activityMap = new HashMap<String, Task>();
       List<MapRow> items = new ArrayList<MapRow>();
       for (MapRow row : m_tables.get("ACT"))
       {
