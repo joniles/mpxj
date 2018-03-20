@@ -368,7 +368,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
       int value = hours.intValue();
       int hoursPerDay = 0;
       int hour = 0;
-      while (value != 0)
+      while (value > 0)
       {
          // Move forward until we find a working hour
          while (hour < 24)
@@ -420,9 +420,12 @@ public final class SureTrakDatabaseReader implements ProjectReader
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
          ProjectCalendar calendar = m_calendarMap.get(row.getInteger("CALENDAR_ID"));
-         ProjectCalendar baseCalendar = m_calendarMap.get(row.getInteger("BASE_CALENDAR_ID"));
-         calendar.setParent(baseCalendar);
-         resource.setResourceCalendar(calendar);
+         if (calendar != null)
+         {
+            ProjectCalendar baseCalendar = m_calendarMap.get(row.getInteger("BASE_CALENDAR_ID"));
+            calendar.setParent(baseCalendar);
+            resource.setResourceCalendar(calendar);
+         }
          m_resourceMap.put(resource.getCode(), resource);
       }
    }
