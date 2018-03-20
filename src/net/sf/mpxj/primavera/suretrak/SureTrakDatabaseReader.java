@@ -72,10 +72,10 @@ import net.sf.mpxj.reader.ProjectReader;
 public final class SureTrakDatabaseReader implements ProjectReader
 {
    /**
-    * Convenience method which locates the first P3 database in a directory
+    * Convenience method which locates the first SureTrak database in a directory
     * and opens it.
     *
-    * @param directory directory containing a P3 database
+    * @param directory directory containing a SureTrak database
     * @return ProjectFile instance
     */
    public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException

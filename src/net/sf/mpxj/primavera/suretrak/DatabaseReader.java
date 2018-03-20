@@ -40,7 +40,7 @@ import net.sf.mpxj.primavera.common.TableDefinition;
  * Reads a directory containing a SureTrak database and returns a map
  * of table names and the data they contain.
  */
-public class DatabaseReader
+class DatabaseReader
 {
    /**
     * Main entry point. Reads a directory containing a P3 Btrieve database files

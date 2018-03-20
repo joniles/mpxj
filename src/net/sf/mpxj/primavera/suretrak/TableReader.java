@@ -1,18 +1,3 @@
-
-package net.sf.mpxj.primavera.suretrak;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.sf.mpxj.common.StreamHelper;
-import net.sf.mpxj.primavera.common.ColumnDefinition;
-import net.sf.mpxj.primavera.common.Table;
-import net.sf.mpxj.primavera.common.TableDefinition;
-
 /*
  * file:       TableReader.java
  * author:     Jon Iles
@@ -35,6 +20,20 @@ import net.sf.mpxj.primavera.common.TableDefinition;
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
+package net.sf.mpxj.primavera.suretrak;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.primavera.common.ColumnDefinition;
+import net.sf.mpxj.primavera.common.Table;
+import net.sf.mpxj.primavera.common.TableDefinition;
 
 /**
  * Handles reading a table from a SureTrak file.
@@ -59,7 +58,7 @@ class TableReader
     */
    public void read(File file, Table table) throws IOException
    {
-      System.out.println("Reading " + file.getName());
+      //System.out.println("Reading " + file.getName());
       InputStream is = null;
       try
       {
@@ -86,9 +85,8 @@ class TableReader
 
       byte[] recordCountBytes = new byte[2];
       is.read(recordCountBytes);
-      int recordCount = getShort(recordCountBytes, 0);
-
-      System.out.println("Header: " + new String(headerBytes) + " Record count:" + recordCount);
+      //int recordCount = getShort(recordCountBytes, 0);
+      //System.out.println("Header: " + new String(headerBytes) + " Record count:" + recordCount);
 
       byte[] buffer = new byte[m_definition.getRecordSize()];
       while (true)
@@ -113,7 +111,7 @@ class TableReader
 
    /**
     * Reads a single record from the table.
-    * 
+    *
     * @param buffer record data
     * @param table parent table
     */
