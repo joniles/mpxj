@@ -70,6 +70,7 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.p3.P3DatabaseReader;
 import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
+import net.sf.mpxj.primavera.suretrak.SureTrakSTXFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -677,6 +678,20 @@ public class UniversalProjectReader implements ProjectReader
                   return readProjectFile(new P3PRXFileReader(), file);
                }
             }
+
+            if (matchesFingerprint(data, STX_FINGERPRINT))
+            {
+               StreamHelper.skip(is, 31742);
+               // Bytes at offset 32768
+               data = new byte[4];
+               is.read(data);
+               if (matchesFingerprint(data, PRX3_FINGERPRINT))
+               {
+                  is.close();
+                  is = null;
+                  return readProjectFile(new SureTrakSTXFileReader(), file);
+               }
+            }
          }
          return null;
       }
@@ -894,6 +909,12 @@ public class UniversalProjectReader implements ProjectReader
       (byte) 0x45
    };
 
+   private static final byte[] STX_FINGERPRINT =
+   {
+      (byte) 0x55,
+      (byte) 0x8B
+   };
+
    private static final byte[] UTF8_BOM_FINGERPRINT =
    {
       (byte) 0xEF,
@@ -926,4 +947,7 @@ public class UniversalProjectReader implements ProjectReader
    private static final Pattern TURBOPROJECT_FINGERPRINT = Pattern.compile(".*dWBSTAB.*", Pattern.DOTALL);
 
    private static final Pattern PRX_FINGERPRINT = Pattern.compile("!Self-Extracting Primavera Project", Pattern.DOTALL);
+
+   private static final Pattern PRX3_FINGERPRINT = Pattern.compile("PRX3", Pattern.DOTALL);
+
 }

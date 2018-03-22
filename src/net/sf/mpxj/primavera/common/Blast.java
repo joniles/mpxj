@@ -100,7 +100,7 @@
  * which decompresses to "AIAIAIAIAIAIA" (without the quotes).
  */
 
-package net.sf.mpxj.common;
+package net.sf.mpxj.primavera.common;
 
 import java.io.IOException;
 import java.io.InputStream;

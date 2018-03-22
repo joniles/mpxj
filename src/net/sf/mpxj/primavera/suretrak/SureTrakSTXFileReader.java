@@ -1,5 +1,5 @@
 /*
- * file:       P3PRXFileReader.java
+ * file:       SureTrakSTXFileReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       11/03/2018
@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,9 +41,9 @@ import net.sf.mpxj.primavera.common.Blast;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
- * Reads a schedule data from a P3 PRX file.
+ * Reads a schedule data from a SureTrak STX file.
  */
-public final class P3PRXFileReader extends AbstractProjectReader
+public final class SureTrakSTXFileReader extends AbstractProjectReader
 {
    @Override public void addProjectListener(ProjectListener listener)
    {
@@ -60,7 +60,7 @@ public final class P3PRXFileReader extends AbstractProjectReader
 
       try
       {
-         StreamHelper.skip(stream, 27000);
+         StreamHelper.skip(stream, (32768 + 4));
          tempDir = FileHelper.createTempDir();
 
          while (stream.available() > 0)
@@ -68,7 +68,7 @@ public final class P3PRXFileReader extends AbstractProjectReader
             extractFile(stream, tempDir);
          }
 
-         return P3DatabaseReader.setPrefixAndRead(tempDir);
+         return SureTrakDatabaseReader.setPrefixAndRead(tempDir);
       }
 
       catch (IOException ex)
@@ -91,13 +91,13 @@ public final class P3PRXFileReader extends AbstractProjectReader
     */
    private void extractFile(InputStream stream, File dir) throws IOException
    {
-      byte[] header = new byte[8];
-      byte[] fileName = new byte[13];
       byte[] dataSize = new byte[4];
+      byte[] header = new byte[4];
+      byte[] fileName = new byte[260];
 
+      stream.read(dataSize);
       stream.read(header);
       stream.read(fileName);
-      stream.read(dataSize);
 
       int dataSizeValue = getInt(dataSize, 0);
       String fileNameValue = getString(fileName, 0);
