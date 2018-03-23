@@ -1,5 +1,5 @@
 /*
- * file:       IntColumn.java
+ * file:       StringColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,33 +21,45 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
  * Extract column data from a table.
  */
-public class IntColumn extends AbstractColumn
+public class StringColumn extends AbstractColumn
 {
    /**
     * Constructor.
     *
     * @param name column name
-    * @param offset offset within data
+    * @param offset offset in data
+    * @param length maximum string length
     */
-   public IntColumn(String name, int offset)
+   public StringColumn(String name, int offset, int length)
    {
       super(name, offset);
+      m_length = length;
    }
 
-   @Override public Integer read(int offset, byte[] data)
+   @Override public String read(int offset, byte[] data)
    {
-      int result = 0;
-      int i = offset + m_offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
+      StringBuilder buffer = new StringBuilder();
+      char c;
+
+      for (int loop = 0; loop < m_length; loop++)
       {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
+         c = (char) data[offset + m_offset + loop];
+
+         if (c == 0)
+         {
+            break;
+         }
+
+         buffer.append(c);
       }
-      return Integer.valueOf(result);
+
+      return buffer.toString().trim();
    }
+
+   private final int m_length;
 }

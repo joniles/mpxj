@@ -1,5 +1,5 @@
 /*
- * file:       ColumnDefinition.java
+ * file:       RawColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,27 +21,34 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
+
+import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**
- * Classes which implement this interface define how columns
- * of a specific type can be read from the P3 database.
+ * Extract column data from a table.
  */
-interface ColumnDefinition
+class RawColumn extends AbstractColumn
 {
    /**
-    * Retrieve the name of the column.
+    * Constructor.
     *
-    * @return column name
+    * @param name column name
+    * @param offset offset within data
+    * @param length maximum byte array length
     */
-   public String getName();
+   public RawColumn(String name, int offset, int length)
+   {
+      super(name, offset);
+      m_length = length;
+   }
 
-   /**
-    * Read the column data.
-    *
-    * @param offset current offset into the table data block
-    * @param data table data block
-    * @return column value
-    */
-   public Object read(int offset, byte[] data);
+   @Override public byte[] read(int offset, byte[] data)
+   {
+      byte[] result = new byte[m_length];
+      System.arraycopy(data, offset, result, 0, m_length);
+      return result;
+   }
+
+   private final int m_length;
 }

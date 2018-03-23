@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       P3WbsFormat.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -23,26 +23,33 @@
 
 package net.sf.mpxj.primavera.p3;
 
-import net.sf.mpxj.primavera.common.AbstractIntColumn;
+import net.sf.mpxj.primavera.common.AbstractWbsFormat;
+import net.sf.mpxj.primavera.common.MapRow;
 
 /**
- * Extract column data from a table.
+ * Reads the WBS format definition from a P3 database, and allows
+ * that format to be applied to WBS values.
  */
-class PercentColumn extends AbstractIntColumn
+class P3WbsFormat extends AbstractWbsFormat
 {
    /**
-    * Constructor.
+    * Constructor. Reads the format definition.
     *
-    * @param name column name
-    * @param offset offset within data
+    * @param row database row containing WBS format
     */
-   public PercentColumn(String name, int offset)
+   public P3WbsFormat(MapRow row)
    {
-      super(name, offset);
-   }
-
-   @Override public Double read(int offset, byte[] data)
-   {
-      return Double.valueOf(readInt(offset, data) / 10.0);
+      int index = 1;
+      while (true)
+      {
+         String suffix = String.format("%02d", Integer.valueOf(index++));
+         Integer length = row.getInteger("WBSW_" + suffix);
+         if (length == null || length.intValue() == 0)
+         {
+            break;
+         }
+         m_lengths.add(length);
+         m_separators.add(row.getString("WBSS_" + suffix));
+      }
    }
 }

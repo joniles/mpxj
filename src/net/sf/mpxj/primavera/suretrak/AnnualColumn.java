@@ -1,5 +1,5 @@
 /*
- * file:       ShortColumn.java
+ * file:       AnnualColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,12 +21,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
+
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
  * Extract column data from a table.
  */
-public class ShortColumn extends AbstractShortColumn
+class AnnualColumn extends AbstractShortColumn
 {
    /**
     * Constructor.
@@ -34,13 +36,14 @@ public class ShortColumn extends AbstractShortColumn
     * @param name column name
     * @param offset offset within data
     */
-   public ShortColumn(String name, int offset)
+   public AnnualColumn(String name, int offset)
    {
       super(name, offset);
    }
 
-   @Override public Integer read(int offset, byte[] data)
+   @Override public Boolean read(int offset, byte[] data)
    {
-      return Integer.valueOf(readShort(offset, data));
+      int days = readShort(offset, data);
+      return Boolean.valueOf(days > DateInDaysColumn.RECURRING_OFFSET);
    }
 }

@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       RelationTypeColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,14 +21,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
 
-import net.sf.mpxj.primavera.common.AbstractIntColumn;
+import net.sf.mpxj.RelationType;
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
  * Extract column data from a table.
  */
-class PercentColumn extends AbstractIntColumn
+class RelationTypeColumn extends AbstractShortColumn
 {
    /**
     * Constructor.
@@ -36,13 +37,32 @@ class PercentColumn extends AbstractIntColumn
     * @param name column name
     * @param offset offset within data
     */
-   public PercentColumn(String name, int offset)
+   public RelationTypeColumn(String name, int offset)
    {
       super(name, offset);
    }
 
-   @Override public Double read(int offset, byte[] data)
+   @Override public RelationType read(int offset, byte[] data)
    {
-      return Double.valueOf(readInt(offset, data) / 10.0);
+      int result = data[m_offset + offset];
+      RelationType type = null;
+      if (result >= 0 || result < TYPES.length)
+      {
+         type = TYPES[result];
+      }
+      if (type == null)
+      {
+         type = RelationType.FINISH_START;
+      }
+
+      return type;
    }
+
+   private static final RelationType[] TYPES = new RelationType[]
+   {
+      RelationType.FINISH_START,
+      RelationType.START_START,
+      RelationType.FINISH_FINISH,
+      RelationType.START_FINISH,
+   };
 }

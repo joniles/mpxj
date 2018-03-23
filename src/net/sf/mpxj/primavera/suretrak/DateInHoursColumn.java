@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       DateInHoursColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,14 +21,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
 
+import java.util.Date;
+
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.primavera.common.AbstractIntColumn;
 
 /**
  * Extract column data from a table.
  */
-class PercentColumn extends AbstractIntColumn
+class DateInHoursColumn extends AbstractIntColumn
 {
    /**
     * Constructor.
@@ -36,13 +39,17 @@ class PercentColumn extends AbstractIntColumn
     * @param name column name
     * @param offset offset within data
     */
-   public PercentColumn(String name, int offset)
+   public DateInHoursColumn(String name, int offset)
    {
       super(name, offset);
    }
 
-   @Override public Double read(int offset, byte[] data)
+   @Override public Date read(int offset, byte[] data)
    {
-      return Double.valueOf(readInt(offset, data) / 10.0);
+      int hours = readInt(offset, data);
+      return hours == 0 ? null : DateHelper.getDateFromLong(EPOCH + (hours * DateHelper.MS_PER_HOUR));
    }
+
+   // 31/12/1979
+   private static final long EPOCH = 315446400000l;
 }

@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 import java.util.Date;
 import java.util.Map;
@@ -36,7 +36,7 @@ import net.sf.mpxj.common.BooleanHelper;
  * from an individual row. Provides type-specific
  * methods to retrieve the column values.
  */
-class MapRow
+public class MapRow
 {
    /**
     * Constructor.
@@ -118,6 +118,17 @@ class MapRow
    public final Date getDate(String name)
    {
       return (Date) getObject(name);
+   }
+
+   /**
+    * Retrieve a byte array value.
+    *
+    * @param name column name
+    * @return byte array value
+    */
+   public final byte[] getRaw(String name)
+   {
+      return (byte[]) getObject(name);
    }
 
    /**

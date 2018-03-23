@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       ShortColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,14 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
-
-import net.sf.mpxj.primavera.common.AbstractIntColumn;
+package net.sf.mpxj.primavera.common;
 
 /**
  * Extract column data from a table.
  */
-class PercentColumn extends AbstractIntColumn
+public class ShortColumn extends AbstractShortColumn
 {
    /**
     * Constructor.
@@ -36,13 +34,13 @@ class PercentColumn extends AbstractIntColumn
     * @param name column name
     * @param offset offset within data
     */
-   public PercentColumn(String name, int offset)
+   public ShortColumn(String name, int offset)
    {
       super(name, offset);
    }
 
-   @Override public Double read(int offset, byte[] data)
+   @Override public Integer read(int offset, byte[] data)
    {
-      return Double.valueOf(readInt(offset, data) / 10.0);
+      return Integer.valueOf(readShort(offset, data));
    }
 }

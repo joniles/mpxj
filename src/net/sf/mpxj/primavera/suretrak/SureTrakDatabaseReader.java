@@ -1,5 +1,5 @@
 /*
- * file:       P3DatabaseReader.java
+ * file:       SureTrakDatabaseReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,13 +21,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -37,20 +38,27 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
-import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -59,15 +67,15 @@ import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.ProjectReader;
 
 /**
- * Reads schedule data from a P3 multi-file Btrieve database in a directory.
+ * Reads schedule data from a SureTrak multi-file database in a directory.
  */
-public final class P3DatabaseReader implements ProjectReader
+public final class SureTrakDatabaseReader implements ProjectReader
 {
    /**
-    * Convenience method which locates the first P3 database in a directory
+    * Convenience method which locates the first SureTrak database in a directory
     * and opens it.
     *
-    * @param directory directory containing a P3 database
+    * @param directory directory containing a SureTrak database
     * @return ProjectFile instance
     */
    public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException
@@ -76,15 +84,15 @@ public final class P3DatabaseReader implements ProjectReader
       {
          @Override public boolean accept(File dir, String name)
          {
-            return name.toUpperCase().endsWith("STR.P3");
+            return name.toUpperCase().endsWith(".DIR");
          }
       });
 
       if (files != null && files.length != 0)
       {
          String fileName = files[0].getName();
-         String prefix = fileName.substring(0, fileName.length() - 6);
-         P3DatabaseReader reader = new P3DatabaseReader();
+         String prefix = fileName.substring(0, fileName.length() - 4).toUpperCase();
+         SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
          reader.setPrefix(prefix);
          return reader.read(directory);
       }
@@ -144,20 +152,29 @@ public final class P3DatabaseReader implements ProjectReader
          config.setAutoWBS(false);
 
          // Activity ID
-         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
+         CustomFieldContainer customFields = m_projectFile.getCustomFields();
+         customFields.getCustomField(TaskField.TEXT1).setAlias("Code");
+         customFields.getCustomField(TaskField.TEXT2).setAlias("Department");
+         customFields.getCustomField(TaskField.TEXT3).setAlias("Manager");
+         customFields.getCustomField(TaskField.TEXT4).setAlias("Section");
+         customFields.getCustomField(TaskField.TEXT5).setAlias("Mail");
 
-         m_projectFile.getProjectProperties().setFileApplication("P3");
-         m_projectFile.getProjectProperties().setFileType("BTRIEVE");
+         m_projectFile.getProjectProperties().setFileApplication("SureTrak");
+         m_projectFile.getProjectProperties().setFileType("STW");
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
          m_tables = new DatabaseReader().process(directory, m_prefix);
+         m_definitions = new HashMap<Integer, List<MapRow>>();
+         m_calendarMap = new HashMap<Integer, ProjectCalendar>();
          m_resourceMap = new HashMap<String, Resource>();
          m_wbsMap = new HashMap<String, Task>();
          m_activityMap = new HashMap<String, Task>();
 
          readProjectHeader();
+         readDefinitions();
          readCalendars();
+         readHolidays();
          readResources();
          readTasks();
          readRelationships();
@@ -177,8 +194,10 @@ public final class P3DatabaseReader implements ProjectReader
          m_eventManager = null;
          m_projectListeners = null;
          m_tables = null;
-         m_resourceMap = null;
+         m_definitions = null;
          m_wbsFormat = null;
+         m_calendarMap = null;
+         m_resourceMap = null;
          m_wbsMap = null;
          m_activityMap = null;
       }
@@ -189,13 +208,27 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readProjectHeader()
    {
-      Table table = m_tables.get("DIR");
-      MapRow row = table.find("");
-      if (row != null)
+      // No header data read
+   }
+
+   /**
+    * Extract definition records from the table and divide into groups.
+    */
+   private void readDefinitions()
+   {
+      for (MapRow row : m_tables.get("TTL"))
       {
-         setFields(PROJECT_FIELDS, row, m_projectFile.getProjectProperties());
-         m_wbsFormat = new P3WbsFormat(row);
+         Integer id = row.getInteger("DEFINITION_ID");
+         List<MapRow> list = m_definitions.get(id);
+         if (list == null)
+         {
+            list = new ArrayList<MapRow>();
+            m_definitions.put(id, list);
+         }
+         list.add(row);
       }
+
+      m_wbsFormat = new SureTrakWbsFormat(m_definitions.get(WBS_FORMAT_ID).get(0));
    }
 
    /**
@@ -203,7 +236,177 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readCalendars()
    {
-      // TODO: understand the calendar data representation.
+      Table cal = m_tables.get("CAL");
+      for (MapRow row : cal)
+      {
+         ProjectCalendar calendar = m_projectFile.addCalendar();
+         m_calendarMap.put(row.getInteger("CALENDAR_ID"), calendar);
+         Integer[] days =
+         {
+            row.getInteger("SUNDAY_HOURS"),
+            row.getInteger("MONDAY_HOURS"),
+            row.getInteger("TUESDAY_HOURS"),
+            row.getInteger("WEDNESDAY_HOURS"),
+            row.getInteger("THURSDAY_HOURS"),
+            row.getInteger("FRIDAY_HOURS"),
+            row.getInteger("SATURDAY_HOURS")
+         };
+
+         calendar.setName(row.getString("NAME"));
+         readHours(calendar, Day.SUNDAY, days[0]);
+         readHours(calendar, Day.MONDAY, days[1]);
+         readHours(calendar, Day.TUESDAY, days[2]);
+         readHours(calendar, Day.WEDNESDAY, days[3]);
+         readHours(calendar, Day.THURSDAY, days[4]);
+         readHours(calendar, Day.FRIDAY, days[5]);
+         readHours(calendar, Day.SATURDAY, days[6]);
+
+         int workingDaysPerWeek = 0;
+         for (Day day : Day.values())
+         {
+            if (calendar.isWorkingDay(day))
+            {
+               ++workingDaysPerWeek;
+            }
+         }
+
+         Integer workingHours = null;
+         for (int index = 0; index < 7; index++)
+         {
+            if (days[index].intValue() != 0)
+            {
+               workingHours = days[index];
+               break;
+            }
+         }
+
+         if (workingHours != null)
+         {
+            int workingHoursPerDay = countHours(workingHours);
+            int minutesPerDay = workingHoursPerDay * 60;
+            int minutesPerWeek = minutesPerDay * workingDaysPerWeek;
+            int minutesPerMonth = 4 * minutesPerWeek;
+            int minutesPerYear = 52 * minutesPerWeek;
+
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
+            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+         }
+      }
+   }
+
+   /**
+    * Reads the integer representation of calendar hours for a given
+    * day and populates the calendar.
+    *
+    * @param calendar parent calendar
+    * @param day target day
+    * @param hours working hours
+    */
+   private void readHours(ProjectCalendar calendar, Day day, Integer hours)
+   {
+      int value = hours.intValue();
+      int startHour = 0;
+      ProjectCalendarHours calendarHours = null;
+
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.HOUR_OF_DAY, 0);
+      cal.set(Calendar.MINUTE, 0);
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);
+
+      calendar.setWorkingDay(day, false);
+
+      while (value != 0)
+      {
+         // Move forward until we find a working hour
+         while (startHour < 24 && (value & 0x1) == 0)
+         {
+            value = value >> 1;
+            ++startHour;
+         }
+
+         // No more working hours, bail out
+         if (startHour >= 24)
+         {
+            break;
+         }
+
+         // Move forward until we find the end of the working hours
+         int endHour = startHour;
+         while (endHour < 24 && (value & 0x1) != 0)
+         {
+            value = value >> 1;
+            ++endHour;
+         }
+
+         cal.set(Calendar.HOUR_OF_DAY, startHour);
+         Date startDate = cal.getTime();
+         cal.set(Calendar.HOUR_OF_DAY, endHour);
+         Date endDate = cal.getTime();
+
+         if (calendarHours == null)
+         {
+            calendarHours = calendar.addCalendarHours(day);
+            calendar.setWorkingDay(day, true);
+         }
+         calendarHours.addRange(new DateRange(startDate, endDate));
+         startHour = endHour;
+      }
+   }
+
+   /**
+    * Count the number of working hours in a day, based in the
+    * integer representation of the working hours.
+    *
+    * @param hours working hours
+    * @return number of hours
+    */
+   private int countHours(Integer hours)
+   {
+      int value = hours.intValue();
+      int hoursPerDay = 0;
+      int hour = 0;
+      while (value > 0)
+      {
+         // Move forward until we find a working hour
+         while (hour < 24)
+         {
+            if ((value & 0x1) != 0)
+            {
+               ++hoursPerDay;
+            }
+            value = value >> 1;
+            ++hour;
+         }
+      }
+      return hoursPerDay;
+   }
+
+   /**
+    * Read holidays from the database and create calendar exceptions.
+    */
+   private void readHolidays()
+   {
+      for (MapRow row : m_tables.get("HOL"))
+      {
+         ProjectCalendar calendar = m_calendarMap.get(row.getInteger("CALENDAR_ID"));
+         if (calendar != null)
+         {
+            Date date = row.getDate("DATE");
+            ProjectCalendarException exception = calendar.addCalendarException(date, date);
+            if (row.getBoolean("ANNUAL"))
+            {
+               RecurringData recurring = new RecurringData();
+               recurring.setRecurrenceType(RecurrenceType.YEARLY);
+               recurring.setYearlyAbsoluteFromDate(date);
+               recurring.setStartDate(date);
+               exception.setRecurring(recurring);
+               // TODO set end date based on project end date
+            }
+         }
+      }
    }
 
    /**
@@ -211,10 +414,18 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readResources()
    {
+      m_resourceMap = new HashMap<String, Resource>();
       for (MapRow row : m_tables.get("RLB"))
       {
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
+         ProjectCalendar calendar = m_calendarMap.get(row.getInteger("CALENDAR_ID"));
+         if (calendar != null)
+         {
+            ProjectCalendar baseCalendar = m_calendarMap.get(row.getInteger("BASE_CALENDAR_ID"));
+            calendar.setParent(baseCalendar);
+            resource.setResourceCalendar(calendar);
+         }
          m_resourceMap.put(resource.getCode(), resource);
       }
    }
@@ -224,20 +435,21 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readTasks()
    {
-      readWBS();
+      readWbs();
       readActivities();
       updateDates();
    }
 
    /**
-    * Read tasks representing the WBS.
+    * Read the WBS.
     */
-   private void readWBS()
+   private void readWbs()
    {
       Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
-      for (MapRow row : m_tables.get("STR"))
+      for (MapRow row : m_definitions.get(WBS_ENTRIES_ID))
       {
-         Integer level = row.getInteger("LEVEL_NUMBER");
+         m_wbsFormat.parseRawValue(row.getString("TEXT1"));
+         Integer level = m_wbsFormat.getLevel();
          List<MapRow> items = levelMap.get(level);
          if (items == null)
          {
@@ -258,7 +470,7 @@ public final class P3DatabaseReader implements ProjectReader
 
          for (MapRow row : items)
          {
-            m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
+            m_wbsFormat.parseRawValue(row.getString("TEXT1"));
             String parentWbsValue = m_wbsFormat.getFormattedParentValue();
             String wbsValue = m_wbsFormat.getFormattedValue();
             row.setObject("WBS", wbsValue);
@@ -277,47 +489,30 @@ public final class P3DatabaseReader implements ProjectReader
          for (MapRow row : items)
          {
             String wbs = row.getString("WBS");
-            if (wbs != null && !wbs.isEmpty())
+            ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
+            if (parent == null)
             {
-               ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
-               if (parent == null)
-               {
-                  parent = m_projectFile;
-               }
-
-               Task task = parent.addTask();
-               String name = row.getString("CODE_TITLE");
-               if (name == null || name.isEmpty())
-               {
-                  name = wbs;
-               }
-               task.setName(name);
-               task.setWBS(wbs);
-               m_wbsMap.put(wbs, task);
+               parent = m_projectFile;
             }
+
+            Task task = parent.addTask();
+            String name = row.getString("TEXT2");
+            if (name == null || name.isEmpty())
+            {
+               name = wbs;
+            }
+            task.setName(name);
+            task.setWBS(wbs);
+            m_wbsMap.put(wbs, task);
          }
       }
    }
 
    /**
-    * Read tasks representing activities.
+    * Read activities.
     */
    private void readActivities()
    {
-      Map<String, ChildTaskContainer> parentMap = new HashMap<String, ChildTaskContainer>();
-      for (MapRow row : m_tables.get("WBS"))
-      {
-         String activityID = row.getString("ACTIVITY_ID");
-         m_wbsFormat.parseRawValue(row.getString("CODE_VALUE"));
-         String parentWBS = m_wbsFormat.getFormattedValue();
-
-         ChildTaskContainer parent = m_wbsMap.get(parentWBS);
-         if (parent != null)
-         {
-            parentMap.put(activityID, parent);
-         }
-      }
-
       List<MapRow> items = new ArrayList<MapRow>();
       for (MapRow row : m_tables.get("ACT"))
       {
@@ -335,77 +530,24 @@ public final class P3DatabaseReader implements ProjectReader
       for (MapRow row : items)
       {
          String activityID = row.getString("ACTIVITY_ID");
-         ChildTaskContainer parent = parentMap.get(activityID);
+         m_wbsFormat.parseRawValue(row.getString("WBS"));
+         String wbs = m_wbsFormat.getFormattedValue();
+
+         ChildTaskContainer parent = m_wbsMap.get(wbs);
          if (parent == null)
          {
             parent = m_projectFile;
          }
+
          Task task = parent.addTask();
          setFields(TASK_FIELDS, row, task);
          task.setStart(task.getEarlyStart());
          task.setFinish(task.getEarlyFinish());
          task.setMilestone(task.getDuration().getDuration() == 0);
-         if (parent instanceof Task)
-         {
-            task.setWBS(((Task) parent).getWBS());
-         }
-
-         int flag = row.getInteger("ACTUAL_START_OR_CONSTRAINT_FLAG").intValue();
-         if (flag != 0)
-         {
-            Date date = row.getDate("AS_OR_ED_CONSTRAINT");
-            switch (flag)
-            {
-               case 1:
-               {
-                  task.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
-                  task.setConstraintDate(date);
-                  break;
-               }
-
-               case 3:
-               {
-                  task.setConstraintType(ConstraintType.FINISH_NO_EARLIER_THAN);
-                  task.setConstraintDate(date);
-                  break;
-               }
-
-               case 99:
-               {
-                  task.setActualStart(date);
-                  break;
-               }
-            }
-         }
-
-         flag = row.getInteger("ACTUAL_FINISH_OR_CONSTRAINT_FLAG").intValue();
-         if (flag != 0)
-         {
-            Date date = row.getDate("AF_OR_LD_CONSTRAINT");
-            switch (flag)
-            {
-               case 2:
-               {
-                  task.setConstraintType(ConstraintType.START_NO_LATER_THAN);
-                  task.setConstraintDate(date);
-                  break;
-               }
-
-               case 4:
-               {
-                  task.setConstraintType(ConstraintType.FINISH_NO_LATER_THAN);
-                  task.setConstraintDate(date);
-                  break;
-               }
-
-               case 99:
-               {
-                  task.setActualFinish(date);
-                  break;
-               }
-            }
-         }
-
+         task.setWBS(wbs);
+         Duration duration = task.getDuration();
+         Duration remainingDuration = task.getRemainingDuration();
+         task.setActualDuration(Duration.getInstance(duration.getDuration() - remainingDuration.getDuration(), TimeUnit.HOURS));
          m_activityMap.put(activityID, task);
       }
    }
@@ -421,8 +563,8 @@ public final class P3DatabaseReader implements ProjectReader
          Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
          if (predecessor != null && successor != null)
          {
-            Duration lag = row.getDuration("LAG_VALUE");
-            RelationType type = row.getRelationType("LAG_TYPE");
+            Duration lag = row.getDuration("LAG");
+            RelationType type = row.getRelationType("TYPE");
 
             successor.addPredecessor(predecessor, type, lag);
          }
@@ -566,37 +708,39 @@ public final class P3DatabaseReader implements ProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
-   private P3WbsFormat m_wbsFormat;
+   private SureTrakWbsFormat m_wbsFormat;
+   private Map<Integer, List<MapRow>> m_definitions;
+   private Map<Integer, ProjectCalendar> m_calendarMap;
    private Map<String, Resource> m_resourceMap;
    private Map<String, Task> m_wbsMap;
    private Map<String, Task> m_activityMap;
 
-   private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<String, FieldType>();
+   private static final Integer WBS_FORMAT_ID = Integer.valueOf(0x79);
+   private static final Integer WBS_ENTRIES_ID = Integer.valueOf(0x7A);
+
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<String, FieldType>();
 
    static
    {
-      defineField(PROJECT_FIELDS, "PROJECT_START_DATE", ProjectField.START_DATE);
-      defineField(PROJECT_FIELDS, "PROJECT_FINISH_DATE", ProjectField.FINISH_DATE);
-      defineField(PROJECT_FIELDS, "CURRENT_DATA_DATE", ProjectField.STATUS_DATE);
-      defineField(PROJECT_FIELDS, "COMPANY_TITLE", ProjectField.COMPANY);
-      defineField(PROJECT_FIELDS, "PROJECT_TITLE", ProjectField.NAME);
+      defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
+      defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
 
-      defineField(RESOURCE_FIELDS, "RES_TITLE", ResourceField.NAME);
-      defineField(RESOURCE_FIELDS, "RES_ID", ResourceField.CODE);
-
-      defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
+      defineField(TASK_FIELDS, "NAME", TaskField.NAME);
       defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
-      defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
-      defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
+      defineField(TASK_FIELDS, "DEPARTMENT", TaskField.TEXT2);
+      defineField(TASK_FIELDS, "MANAGER", TaskField.TEXT3);
+      defineField(TASK_FIELDS, "SECTION", TaskField.TEXT4);
+      defineField(TASK_FIELDS, "MAIL", TaskField.TEXT5);
+
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
       defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);
       defineField(TASK_FIELDS, "LATE_START", TaskField.LATE_START);
       defineField(TASK_FIELDS, "EARLY_FINISH", TaskField.EARLY_FINISH);
       defineField(TASK_FIELDS, "LATE_FINISH", TaskField.LATE_FINISH);
-      defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
-      defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
+      defineField(TASK_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
+      defineField(TASK_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
+      defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
+      defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
    }
-
 }

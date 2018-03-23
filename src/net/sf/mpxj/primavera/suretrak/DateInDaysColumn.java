@@ -1,5 +1,5 @@
 /*
- * file:       RowValidator.java
+ * file:       DateInDaysColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,22 +21,42 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
 
-import java.util.Map;
+import java.util.Date;
+
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
- * Implementations of this interface allow additional
- * validation checks to be supplied in order to determine
- * if a row contains valid data.
+ * Extract column data from a table.
  */
-public interface RowValidator
+class DateInDaysColumn extends AbstractShortColumn
 {
    /**
-    * Returns true if the row is valid.
+    * Constructor.
     *
-    * @param row row data
-    * @return true if row is valid
+    * @param name column name
+    * @param offset offset within data
     */
-   boolean validRow(Map<String, Object> row);
+   public DateInDaysColumn(String name, int offset)
+   {
+      super(name, offset);
+   }
+
+   @Override public Date read(int offset, byte[] data)
+   {
+      int days = readShort(offset, data);
+      if (days > RECURRING_OFFSET)
+      {
+         days -= RECURRING_OFFSET;
+      }
+
+      return DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+   }
+
+   static final int RECURRING_OFFSET = 25463;
+
+   // 31/12/1979
+   private static final long EPOCH = 315446400000l;
 }

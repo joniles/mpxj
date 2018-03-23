@@ -1,5 +1,5 @@
 /*
- * file:       StringColumn.java
+ * file:       PercentColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,45 +21,28 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
+
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
  * Extract column data from a table.
  */
-public class StringColumn extends AbstractColumn
+class PercentColumn extends AbstractShortColumn
 {
    /**
     * Constructor.
     *
     * @param name column name
-    * @param offset offset in data
-    * @param length maximum string length
+    * @param offset offset within data
     */
-   public StringColumn(String name, int offset, int length)
+   public PercentColumn(String name, int offset)
    {
       super(name, offset);
-      m_length = length;
    }
 
-   @Override public String read(int offset, byte[] data)
+   @Override public Double read(int offset, byte[] data)
    {
-      StringBuilder buffer = new StringBuilder();
-      char c;
-
-      for (int loop = 0; loop < m_length; loop++)
-      {
-         c = (char) data[offset + m_offset + loop];
-
-         if (c == 0)
-         {
-            break;
-         }
-
-         buffer.append(c);
-      }
-
-      return buffer.toString().trim();
+      return Double.valueOf(readShort(offset, data) / 10.0);
    }
-
-   private final int m_length;
 }

@@ -112,4 +112,17 @@ public final class FileHelper
       mkdirs(dir);
       return dir;
    }
+
+   /**
+    * Create a new file. Raise an exception if the file exists.
+    *
+    * @param file file to create
+    */
+   public static final void createNewFile(File file) throws IOException
+   {
+      if (!file.createNewFile())
+      {
+         throw new IOException("Failed to create new file");
+      }
+   }
 }

@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       AbstractColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,14 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
-
-import net.sf.mpxj.primavera.common.AbstractIntColumn;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Extract column data from a table.
+ * Common column implementation methods.
  */
-class PercentColumn extends AbstractIntColumn
+public abstract class AbstractColumn implements ColumnDefinition
 {
    /**
     * Constructor.
@@ -36,13 +34,17 @@ class PercentColumn extends AbstractIntColumn
     * @param name column name
     * @param offset offset within data
     */
-   public PercentColumn(String name, int offset)
+   public AbstractColumn(String name, int offset)
    {
-      super(name, offset);
+      m_name = name;
+      m_offset = offset;
    }
 
-   @Override public Double read(int offset, byte[] data)
+   @Override public String getName()
    {
-      return Double.valueOf(readInt(offset, data) / 10.0);
+      return m_name;
    }
+
+   private final String m_name;
+   protected final int m_offset;
 }

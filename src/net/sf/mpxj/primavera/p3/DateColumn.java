@@ -26,10 +26,12 @@ package net.sf.mpxj.primavera.p3;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.mpxj.primavera.common.AbstractColumn;
+
 /**
  * Extract column data from a table.
  */
-public class DateColumn extends AbstractColumn
+class DateColumn extends AbstractColumn
 {
    /**
     * Constructor.

@@ -1,5 +1,5 @@
 /*
- * file:       AbstractShortColumn.java
+ * file:       AbstractIntColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,12 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Common methods for columns based on short integers.
+ * Extract column data from a table.
  */
-public abstract class AbstractShortColumn extends AbstractColumn
+public abstract class AbstractIntColumn extends AbstractColumn
 {
    /**
     * Constructor.
@@ -34,23 +34,23 @@ public abstract class AbstractShortColumn extends AbstractColumn
     * @param name column name
     * @param offset offset within data
     */
-   public AbstractShortColumn(String name, int offset)
+   public AbstractIntColumn(String name, int offset)
    {
       super(name, offset);
    }
 
    /**
-    * Read a two byte integer from the data.
+    * Read a four byte integer from the data.
     *
     * @param offset current offset into data block
     * @param data data block
     * @return int value
     */
-   protected int readShort(int offset, byte[] data)
+   public int readInt(int offset, byte[] data)
    {
       int result = 0;
       int i = offset + m_offset;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
+      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
       {
          result |= ((data[i] & 0xff)) << shiftBy;
          ++i;

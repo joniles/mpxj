@@ -24,11 +24,12 @@
 package net.sf.mpxj.primavera.p3;
 
 import net.sf.mpxj.RelationType;
+import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
  * Extract column data from a table.
  */
-public class RelationTypeColumn extends AbstractShortColumn
+class RelationTypeColumn extends AbstractShortColumn
 {
    /**
     * Constructor.

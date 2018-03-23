@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       RowValidator.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,28 +21,22 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
-import net.sf.mpxj.primavera.common.AbstractIntColumn;
+import java.util.Map;
 
 /**
- * Extract column data from a table.
+ * Implementations of this interface allow additional
+ * validation checks to be supplied in order to determine
+ * if a row contains valid data.
  */
-class PercentColumn extends AbstractIntColumn
+public interface RowValidator
 {
    /**
-    * Constructor.
+    * Returns true if the row is valid.
     *
-    * @param name column name
-    * @param offset offset within data
+    * @param row row data
+    * @return true if row is valid
     */
-   public PercentColumn(String name, int offset)
-   {
-      super(name, offset);
-   }
-
-   @Override public Double read(int offset, byte[] data)
-   {
-      return Double.valueOf(readInt(offset, data) / 10.0);
-   }
+   boolean validRow(Map<String, Object> row);
 }

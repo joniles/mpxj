@@ -1,5 +1,5 @@
 /*
- * file:       ByteColumn.java
+ * file:       SureTrakWbsFormatColumn.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,33 +21,37 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
+
+import net.sf.mpxj.primavera.common.AbstractWbsFormat;
+import net.sf.mpxj.primavera.common.MapRow;
 
 /**
- * Extract column data from a table.
+ * Reads the WBS format definition from a SureTrak database, and allows
+ * that format to be applied to WBS values.
  */
-public class ByteColumn extends AbstractColumn
+public class SureTrakWbsFormat extends AbstractWbsFormat
 {
    /**
-    * Constructor.
+    * Constructor. Reads the format definition.
     *
-    * @param name column name
-    * @param offset offset within data
+    * @param row database row containing WBS format
     */
-   public ByteColumn(String name, int offset)
+   public SureTrakWbsFormat(MapRow row)
    {
-      super(name, offset);
-   }
-
-   @Override public Integer read(int offset, byte[] data)
-   {
-      int result = 0;
-      int i = offset + m_offset;
-      for (int shiftBy = 0; shiftBy < 8; shiftBy += 8)
+      byte[] data = row.getRaw("DATA");
+      int index = 1;
+      while (true)
       {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
+         Integer length = Integer.valueOf(data[index++]);
+         if (length.intValue() == 0)
+         {
+            break;
+         }
+         String separator = new String(data, index++, 1);
+
+         m_lengths.add(length);
+         m_separators.add(separator);
       }
-      return Integer.valueOf(result);
    }
 }

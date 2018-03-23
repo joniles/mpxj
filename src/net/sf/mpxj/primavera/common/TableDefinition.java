@@ -21,10 +21,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Represents the structure of a Btrieve table.
+ * Represents the structure of a P3 or SureTrak table.
  */
 public class TableDefinition
 {
@@ -61,7 +61,7 @@ public class TableDefinition
    /**
     * Retrieve the page size.
     *
-    * @return page sze in bytes
+    * @return page size in bytes
     */
    public int getPageSize()
    {

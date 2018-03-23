@@ -1,5 +1,5 @@
 /*
- * file:       PercentColumn.java
+ * file:       ColumnDefinition.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
  * date:       01/03/2018
@@ -21,28 +21,27 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
-
-import net.sf.mpxj.primavera.common.AbstractIntColumn;
+package net.sf.mpxj.primavera.common;
 
 /**
- * Extract column data from a table.
+ * Classes which implement this interface define how columns
+ * of a specific type can be read from the P3 database.
  */
-class PercentColumn extends AbstractIntColumn
+public interface ColumnDefinition
 {
    /**
-    * Constructor.
+    * Retrieve the name of the column.
     *
-    * @param name column name
-    * @param offset offset within data
+    * @return column name
     */
-   public PercentColumn(String name, int offset)
-   {
-      super(name, offset);
-   }
+   public String getName();
 
-   @Override public Double read(int offset, byte[] data)
-   {
-      return Double.valueOf(readInt(offset, data) / 10.0);
-   }
+   /**
+    * Read the column data.
+    *
+    * @param offset current offset into the table data block
+    * @param data table data block
+    * @return column value
+    */
+   public Object read(int offset, byte[] data);
 }

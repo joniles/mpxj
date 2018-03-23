@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera.p3;
+package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,12 +32,11 @@ import java.util.Map;
 
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.primavera.common.ColumnDefinition;
-import net.sf.mpxj.primavera.common.RowValidator;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.primavera.common.TableDefinition;
 
 /**
- * Handles reading a table from a Btrieve file.
+ * Handles reading a table from a SureTrak file.
  */
 class TableReader
 {
@@ -81,7 +80,15 @@ class TableReader
     */
    private void read(InputStream is, Table table) throws IOException
    {
-      byte[] buffer = new byte[m_definition.getPageSize()];
+      byte[] headerBytes = new byte[6];
+      is.read(headerBytes);
+
+      byte[] recordCountBytes = new byte[2];
+      is.read(recordCountBytes);
+      //int recordCount = getShort(recordCountBytes, 0);
+      //System.out.println("Header: " + new String(headerBytes) + " Record count:" + recordCount);
+
+      byte[] buffer = new byte[m_definition.getRecordSize()];
       while (true)
       {
          int bytesRead = is.read(buffer);
@@ -95,49 +102,34 @@ class TableReader
             throw new IOException("Unexpected end of file");
          }
 
-         readPage(buffer, table);
+         if (buffer[0] == 0)
+         {
+            readRecord(buffer, table);
+         }
       }
    }
 
    /**
-    * Reads data from a single page of the database file.
+    * Reads a single record from the table.
     *
-    * @param buffer page from the database file
-    * @param table Table instance
+    * @param buffer record data
+    * @param table parent table
     */
-   private void readPage(byte[] buffer, Table table)
+   private void readRecord(byte[] buffer, Table table)
    {
-      int magicNumber = getShort(buffer, 0);
-      if (magicNumber == 0x4400)
+      //System.out.println(MPPUtility.hexdump(buffer, true, 16, ""));
+      int deletedFlag = getShort(buffer, 0);
+      if (deletedFlag != 0)
       {
-         //System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
-         int recordSize = m_definition.getRecordSize();
-         RowValidator rowValidator = m_definition.getRowValidator();
-         String primaryKeyColumnName = m_definition.getPrimaryKeyColumnName();
-
-         int index = 6;
-         while (index + recordSize <= buffer.length)
+         Map<String, Object> row = new HashMap<String, Object>();
+         for (ColumnDefinition column : m_definition.getColumns())
          {
-            //System.out.println(MPPUtility.hexdump(buffer, index, recordSize, true, 16, ""));
-            int btrieveValue = getShort(buffer, index);
-            if (btrieveValue != 0)
-            {
-               Map<String, Object> row = new HashMap<String, Object>();
-               row.put("ROW_VERSION", Integer.valueOf(btrieveValue));
-               for (ColumnDefinition column : m_definition.getColumns())
-               {
-                  Object value = column.read(index, buffer);
-                  //System.out.println(column.getName() + ": " + value);
-                  row.put(column.getName(), value);
-               }
-
-               if (rowValidator == null || rowValidator.validRow(row))
-               {
-                  table.addRow(primaryKeyColumnName, row);
-               }
-            }
-            index += recordSize;
+            Object value = column.read(0, buffer);
+            //System.out.println(column.getName() + ": " + value);
+            row.put(column.getName(), value);
          }
+
+         table.addRow(m_definition.getPrimaryKeyColumnName(), row);
       }
    }
 
