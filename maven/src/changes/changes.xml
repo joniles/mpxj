@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.3.1">
+		<release date="git master" version="7.4.0">
+			<action dev="joniles" type="add">Added support for reading Primavera SureTrak databases from directories, zip files, and STX files.</action>
 		</release>
 		<release date="12/03/2018" version="7.3.0">
 			<action dev="joniles" type="add">Added support for reading Primavera P3 databases from directories, zip files, and PRX files.</action>
