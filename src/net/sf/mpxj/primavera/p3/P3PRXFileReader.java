@@ -101,13 +101,20 @@ public final class P3PRXFileReader extends AbstractProjectReader
 
       int dataSizeValue = getInt(dataSize, 0);
       String fileNameValue = getString(fileName, 0);
-
       File file = new File(dir, fileNameValue);
-      OutputStream os = new FileOutputStream(file);
-      FixedLengthInputStream inputStream = new FixedLengthInputStream(stream, dataSizeValue);
-      Blast blast = new Blast();
-      blast.blast(inputStream, os);
-      os.close();
+
+      if (dataSizeValue == 0)
+      {
+         FileHelper.createNewFile(file);
+      }
+      else
+      {
+         OutputStream os = new FileOutputStream(file);
+         FixedLengthInputStream inputStream = new FixedLengthInputStream(stream, dataSizeValue);
+         Blast blast = new Blast();
+         blast.blast(inputStream, os);
+         os.close();
+      }
    }
 
    /**
