@@ -710,4 +710,23 @@
 			<arg line=" ${source.files}"/>			
 		</java>
 	</target>
+	
+	<!-- Run this after xjc to fix incorrectly escaped XML in javadoc comments -->
+	<target name="fix-jaxb-comments" depends="init-props" description="Fix JAXB generated comments">
+		<replaceregexp 
+		               match="( \*[ ]+&amp;lt;.+)&gt;"
+		               replace="\1&amp;gt;"
+		               byline="true">
+			<fileset dir="${basedir}/src" includes="**/schema/*.java" />
+		</replaceregexp>
+		
+		<replaceregexp 
+		               match='(base="&amp;lt;.+)&gt;'
+		               replace="\1&amp;gt;"
+		               byline="true">
+			<fileset dir="${basedir}/src" includes="**/schema/*.java" />
+		</replaceregexp>
+
+	</target>
+
 </project>
