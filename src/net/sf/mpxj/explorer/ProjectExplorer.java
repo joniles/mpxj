@@ -101,7 +101,7 @@ public class ProjectExplorer
       final FileSaverController fileSaverController = new FileSaverController(fileSaverModel);
       @SuppressWarnings("unused")
       FileSaverView fileSaverView = new FileSaverView(m_frame, fileSaverModel);
-      fileSaverModel.setExtensions("sdef", "sdef", "mpx", "mpx", "planner", "xml", "pmxml", "xml", "json", "json", "mspdi", "xml");
+      fileSaverModel.setExtensions("sdef", "sdef", "mpx", "mpx", "planner", "xml", "pmxml", "xml", "json", "json", "mspdi", "xml", "svg", "svg");
 
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
