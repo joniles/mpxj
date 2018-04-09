@@ -1767,6 +1767,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return ((ConstraintType) getCachedValue(TaskField.CONSTRAINT_TYPE));
    }
 
+   public String getSecondaryConstraintDate()
+   {
+      return (String) getCachedValue(TaskField.SECONDARY_CONSTRAINT_DATE);
+   }
+
+   public ConstraintType getSecondaryConstraintType()
+   {
+      return ((ConstraintType) getCachedValue(TaskField.SECONDARY_CONSTRAINT_TYPE));
+   }
+
    /**
     * The Contact field contains the name of an individual
     * responsible for a task.
@@ -2775,7 +2785,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * This method retrieves a flag indicating whether the duration of the
     * task has only been estimated.
-
+   
     * @param estimated Boolean flag
     */
    public void setEstimated(boolean estimated)
