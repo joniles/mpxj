@@ -46,7 +46,7 @@ class RelationTypeColumn extends AbstractShortColumn
    {
       int result = readShort(offset, data);
       RelationType type = null;
-      if (result >= 0 || result < TYPES.length)
+      if (result >= 0 && result < TYPES.length)
       {
          type = TYPES[result];
       }
