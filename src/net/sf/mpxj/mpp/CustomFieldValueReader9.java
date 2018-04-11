@@ -23,9 +23,17 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -33,9 +41,11 @@ import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.Pair;
 
 /**
  * MPP9 custom field value reader.
@@ -45,12 +55,14 @@ public class CustomFieldValueReader9
    /**
     * Constructor.
     *
+    * @param projectDir project directory
     * @param properties MPXJ project properties
     * @param projectProps MPP project properties
-    * @param container cusotm field container
+    * @param container custom field container
     */
-   public CustomFieldValueReader9(ProjectProperties properties, Props projectProps, CustomFieldContainer container)
+   public CustomFieldValueReader9(DirectoryEntry projectDir, ProjectProperties properties, Props projectProps, CustomFieldContainer container)
    {
+      m_projectDir = projectDir;
       m_properties = properties;
       m_projectProps = projectProps;
       m_container = container;
@@ -59,7 +71,16 @@ public class CustomFieldValueReader9
    /**
     * Reads custom field values and populates container.
     */
-   public void process()
+   public void process() throws IOException
+   {
+      processCustomFieldValues();
+      processOutlineCodeValues();
+   }
+
+   /**
+    * Reads non outline code custom field values and populates container.
+    */
+   private void processCustomFieldValues()
    {
       byte[] data = m_projectProps.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
       if (data != null)
@@ -119,6 +140,61 @@ public class CustomFieldValueReader9
    }
 
    /**
+    * Reads outline code custom field values and populates container.
+    */
+   private void processOutlineCodeValues() throws IOException
+   {
+      DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
+      FixedMeta fm = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+      FixedData fd = new FixedData(fm, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
+
+      Map<Integer, FieldType> map = new HashMap<Integer, FieldType>();
+
+      int items = fm.getItemCount();
+      for (int loop = 0; loop < items; loop++)
+      {
+         byte[] data = fd.getByteArrayValue(loop);
+         if (data.length < 18)
+         {
+            continue;
+         }
+
+         int index = MPPUtility.getShort(data, 0);
+         int fieldID = MPPUtility.getInt(data, 12);
+         FieldType fieldType = FieldTypeHelper.getInstance(fieldID);
+         if (fieldType.getFieldTypeClass() != FieldTypeClass.UNKNOWN)
+         {
+            map.put(Integer.valueOf(index), fieldType);
+         }
+      }
+
+      VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
+      Var2Data outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+
+      Map<FieldType, List<Pair<String, String>>> valueMap = new HashMap<FieldType, List<Pair<String, String>>>();
+
+      for (Integer id : outlineCodeVarMeta.getUniqueIdentifierArray())
+      {
+         FieldType fieldType = map.get(id);
+         String value = outlineCodeVarData.getUnicodeString(id, VALUE);
+         String description = outlineCodeVarData.getUnicodeString(id, DESCRIPTION);
+
+         List<Pair<String, String>> list = valueMap.get(fieldType);
+         if (list == null)
+         {
+            list = new ArrayList<Pair<String, String>>();
+            valueMap.put(fieldType, list);
+         }
+         list.add(new Pair<String, String>(value, description));
+      }
+
+      for (Entry<FieldType, List<Pair<String, String>>> entry : valueMap.entrySet())
+      {
+         populateContainer(entry.getKey(), entry.getValue());
+      }
+   }
+
+   /**
     * Populate the container, converting raw data into Java types.
     *
     * @param field custom field to which these values belong
@@ -140,6 +216,26 @@ public class CustomFieldValueReader9
          {
             item.setValue(valueList.get(index));
          }
+         table.add(item);
+      }
+   }
+
+   /**
+    * Populate the container from outline code data.
+    *
+    * @param field field type
+    * @param items pairs of values and descriptions
+    */
+   private void populateContainer(FieldType field, List<Pair<String, String>> items)
+   {
+      CustomField config = m_container.getCustomField(field);
+      CustomFieldLookupTable table = config.getLookupTable();
+
+      for (Pair<String, String> pair : items)
+      {
+         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(0));
+         item.setValue(pair.getFirst());
+         item.setDescription(pair.getSecond());
          table.add(item);
       }
    }
@@ -221,7 +317,12 @@ public class CustomFieldValueReader9
       return result;
    }
 
+   private final DirectoryEntry m_projectDir;
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
    private final CustomFieldContainer m_container;
+
+   private static final Integer VALUE = Integer.valueOf(1);
+   private static final Integer DESCRIPTION = Integer.valueOf(2);
+
 }

@@ -747,9 +747,9 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Retrieve any task field value lists defined in the MPP file.
     */
-   private void processCustomValueLists()
+   private void processCustomValueLists() throws IOException
    {
-      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_file.getProjectProperties(), m_projectProps, m_file.getCustomFields());
+      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_projectDir, m_file.getProjectProperties(), m_projectProps, m_file.getCustomFields());
       reader.process();
    }
 
