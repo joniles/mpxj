@@ -446,64 +446,68 @@ public final class SureTrakDatabaseReader implements ProjectReader
    private void readWbs()
    {
       Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
-      for (MapRow row : m_definitions.get(WBS_ENTRIES_ID))
+      List<MapRow> table = m_definitions.get(WBS_ENTRIES_ID);
+      if (table != null)
       {
-         m_wbsFormat.parseRawValue(row.getString("TEXT1"));
-         Integer level = m_wbsFormat.getLevel();
-         List<MapRow> items = levelMap.get(level);
-         if (items == null)
-         {
-            items = new ArrayList<MapRow>();
-            levelMap.put(level, items);
-         }
-         items.add(row);
-      }
-
-      int level = 1;
-      while (true)
-      {
-         List<MapRow> items = levelMap.get(Integer.valueOf(level++));
-         if (items == null)
-         {
-            break;
-         }
-
-         for (MapRow row : items)
+         for (MapRow row : table)
          {
             m_wbsFormat.parseRawValue(row.getString("TEXT1"));
-            String parentWbsValue = m_wbsFormat.getFormattedParentValue();
-            String wbsValue = m_wbsFormat.getFormattedValue();
-            row.setObject("WBS", wbsValue);
-            row.setObject("PARENT_WBS", parentWbsValue);
+            Integer level = m_wbsFormat.getLevel();
+            List<MapRow> items = levelMap.get(level);
+            if (items == null)
+            {
+               items = new ArrayList<MapRow>();
+               levelMap.put(level, items);
+            }
+            items.add(row);
          }
-
-         final AlphanumComparator comparator = new AlphanumComparator();
-         Collections.sort(items, new Comparator<MapRow>()
+   
+         int level = 1;
+         while (true)
          {
-            @Override public int compare(MapRow o1, MapRow o2)
+            List<MapRow> items = levelMap.get(Integer.valueOf(level++));
+            if (items == null)
             {
-               return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
+               break;
             }
-         });
-
-         for (MapRow row : items)
-         {
-            String wbs = row.getString("WBS");
-            ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
-            if (parent == null)
+   
+            for (MapRow row : items)
             {
-               parent = m_projectFile;
+               m_wbsFormat.parseRawValue(row.getString("TEXT1"));
+               String parentWbsValue = m_wbsFormat.getFormattedParentValue();
+               String wbsValue = m_wbsFormat.getFormattedValue();
+               row.setObject("WBS", wbsValue);
+               row.setObject("PARENT_WBS", parentWbsValue);
             }
-
-            Task task = parent.addTask();
-            String name = row.getString("TEXT2");
-            if (name == null || name.isEmpty())
+   
+            final AlphanumComparator comparator = new AlphanumComparator();
+            Collections.sort(items, new Comparator<MapRow>()
             {
-               name = wbs;
+               @Override public int compare(MapRow o1, MapRow o2)
+               {
+                  return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
+               }
+            });
+   
+            for (MapRow row : items)
+            {
+               String wbs = row.getString("WBS");
+               ChildTaskContainer parent = m_wbsMap.get(row.getString("PARENT_WBS"));
+               if (parent == null)
+               {
+                  parent = m_projectFile;
+               }
+   
+               Task task = parent.addTask();
+               String name = row.getString("TEXT2");
+               if (name == null || name.isEmpty())
+               {
+                  name = wbs;
+               }
+               task.setName(name);
+               task.setWBS(wbs);
+               m_wbsMap.put(wbs, task);
             }
-            task.setName(name);
-            task.setWBS(wbs);
-            m_wbsMap.put(wbs, task);
          }
       }
    }
