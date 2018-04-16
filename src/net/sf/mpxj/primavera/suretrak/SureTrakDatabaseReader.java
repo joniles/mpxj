@@ -77,9 +77,45 @@ public final class SureTrakDatabaseReader implements ProjectReader
     *
     * @param directory directory containing a SureTrak database
     * @return ProjectFile instance
+    *
+    * @deprecated Use setProjectNameAndRead
     */
-   public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException
+   @Deprecated public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException
    {
+      return setProjectNameAndRead(directory);
+   }
+
+   /**
+    * Convenience method which locates the first SureTrak database in a directory
+    * and opens it.
+    *
+    * @param directory directory containing a SureTrak database
+    * @return ProjectFile instance
+    */
+   public static final ProjectFile setProjectNameAndRead(File directory) throws MPXJException
+   {
+      List<String> projects = listProjectNames(directory);
+
+      if (!projects.isEmpty())
+      {
+         SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
+         reader.setProjectName(projects.get(0));
+         return reader.read(directory);
+      }
+
+      return null;
+   }
+
+   /**
+    * Retrieve a list of the available SureTrak project names from a directory.
+    *
+    * @param directory directory containing SureTrak files
+    * @return list of project names
+    */
+   public static final List<String> listProjectNames(File directory)
+   {
+      List<String> result = new ArrayList<String>();
+
       File[] files = directory.listFiles(new FilenameFilter()
       {
          @Override public boolean accept(File dir, String name)
@@ -88,16 +124,19 @@ public final class SureTrakDatabaseReader implements ProjectReader
          }
       });
 
-      if (files != null && files.length != 0)
+      if (files != null)
       {
-         String fileName = files[0].getName();
-         String prefix = fileName.substring(0, fileName.length() - 4).toUpperCase();
-         SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
-         reader.setPrefix(prefix);
-         return reader.read(directory);
+         for (File file : files)
+         {
+            String fileName = file.getName();
+            String prefix = fileName.substring(0, fileName.length() - 4);
+            result.add(prefix);
+         }
       }
 
-      return null;
+      Collections.sort(result);
+
+      return result;
    }
 
    @Override public void addProjectListener(ProjectListener listener)
@@ -124,10 +163,23 @@ public final class SureTrakDatabaseReader implements ProjectReader
     * There may potentially be more than one database in a directory.
     *
     * @param prefix file name prefix
+    *
+    * @deprecated Use setProjectName
     */
-   public void setPrefix(String prefix)
+   @Deprecated public void setPrefix(String prefix)
    {
-      m_prefix = prefix;
+      m_projectName = prefix;
+   }
+
+   /**
+    * Set the project name (file name prefix) used to identify which database is read from the directory.
+    * There may potentially be more than one database in a directory.
+    *
+    * @param projectName project name
+    */
+   public void setProjectName(String projectName)
+   {
+      m_projectName = projectName;
    }
 
    @Override public ProjectFile read(File directory) throws MPXJException
@@ -164,7 +216,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
-         m_tables = new DatabaseReader().process(directory, m_prefix);
+         m_tables = new DatabaseReader().process(directory, m_projectName);
          m_definitions = new HashMap<Integer, List<MapRow>>();
          m_calendarMap = new HashMap<Integer, ProjectCalendar>();
          m_resourceMap = new HashMap<String, Resource>();
@@ -461,7 +513,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
             }
             items.add(row);
          }
-   
+
          int level = 1;
          while (true)
          {
@@ -470,7 +522,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
             {
                break;
             }
-   
+
             for (MapRow row : items)
             {
                m_wbsFormat.parseRawValue(row.getString("TEXT1"));
@@ -479,7 +531,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
                row.setObject("WBS", wbsValue);
                row.setObject("PARENT_WBS", parentWbsValue);
             }
-   
+
             final AlphanumComparator comparator = new AlphanumComparator();
             Collections.sort(items, new Comparator<MapRow>()
             {
@@ -488,7 +540,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
                   return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
                }
             });
-   
+
             for (MapRow row : items)
             {
                String wbs = row.getString("WBS");
@@ -497,7 +549,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
                {
                   parent = m_projectFile;
                }
-   
+
                Task task = parent.addTask();
                String name = row.getString("TEXT2");
                if (name == null || name.isEmpty())
@@ -707,7 +759,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
       //      }
    }
 
-   private String m_prefix;
+   private String m_projectName;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;

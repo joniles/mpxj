@@ -610,7 +610,7 @@ public class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return P3DatabaseReader.setPrefixAndRead(directory);
+      return P3DatabaseReader.setProjectNameAndRead(directory);
    }
 
    /**
@@ -621,7 +621,7 @@ public class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleSureTrakDatabase(File directory) throws Exception
    {
-      return SureTrakDatabaseReader.setPrefixAndRead(directory);
+      return SureTrakDatabaseReader.setProjectNameAndRead(directory);
    }
 
    /**

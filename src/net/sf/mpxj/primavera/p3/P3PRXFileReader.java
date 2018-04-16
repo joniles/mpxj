@@ -68,7 +68,7 @@ public final class P3PRXFileReader extends AbstractProjectReader
             extractFile(stream, tempDir);
          }
 
-         return P3DatabaseReader.setPrefixAndRead(tempDir);
+         return P3DatabaseReader.setProjectNameAndRead(tempDir);
       }
 
       catch (IOException ex)

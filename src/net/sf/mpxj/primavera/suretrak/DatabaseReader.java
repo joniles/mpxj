@@ -43,7 +43,7 @@ import net.sf.mpxj.primavera.common.TableDefinition;
 class DatabaseReader
 {
    /**
-    * Main entry point. Reads a directory containing a P3 Btrieve database files
+    * Main entry point. Reads a directory containing a SureTrak database files
     * and returns a map of table names and table content.
     *
     * @param directory directory containing the database
@@ -52,6 +52,7 @@ class DatabaseReader
     */
    public Map<String, Table> process(File directory, String prefix) throws IOException
    {
+      String filePrefix = prefix.toUpperCase();
       Map<String, Table> tables = new HashMap<String, Table>();
       File[] files = directory.listFiles();
       if (files != null)
@@ -59,7 +60,7 @@ class DatabaseReader
          for (File file : files)
          {
             String name = file.getName().toUpperCase();
-            if (!name.startsWith(prefix))
+            if (!name.startsWith(filePrefix))
             {
                continue;
             }

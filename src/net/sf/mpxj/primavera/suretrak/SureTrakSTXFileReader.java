@@ -68,7 +68,7 @@ public final class SureTrakSTXFileReader extends AbstractProjectReader
             extractFile(stream, tempDir);
          }
 
-         return SureTrakDatabaseReader.setPrefixAndRead(tempDir);
+         return SureTrakDatabaseReader.setProjectNameAndRead(tempDir);
       }
 
       catch (IOException ex)
