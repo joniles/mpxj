@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.4.1">
+		<release date="git master" version="7.4.2">
+		</release>
+		<release date="16/04/2018" version="7.4.1">
 			<action dev="joniles" type="add">Add methods to list projects available in P3 and SureTrak database directories.</action>
 			<action dev="joniles" type="update">Avoid NPE when a work pattern can't be located in an Asta Powerproject PP file.</action>
 			<action dev="joniles" type="update">Avoid array bounds exception when reading certain PRX files.</action>

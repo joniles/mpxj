@@ -1,7 +1,13 @@
 # Changelog
 
-## 7.4.1 (git master)
+## 7.4.2 (git master)
+
+## 7.4.1 (16/04/2018)
+* Add methods to list projects available in P3 and SureTrak database directories.
 * Avoid NPE when a work pattern can't be located in an Asta Powerproject PP file.
+* Avoid array bounds exception when reading certain PRX files.
+* Read outline code value lists from MPP9 files.
+* Handle SureTrak projects without a WBS.
 
 ## 7.4.0 (23/03/2018)
 * Added support for reading Primavera SureTrak databases from directories, zip files, and STX files.
