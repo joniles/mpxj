@@ -109,6 +109,17 @@ public final class SureTrakDatabaseReader implements ProjectReader
    /**
     * Retrieve a list of the available SureTrak project names from a directory.
     *
+    * @param directory name of the directory containing SureTrak files
+    * @return list of project names
+    */
+   public static final List<String> listProjectNames(String directory)
+   {
+      return listProjectNames(new File(directory));
+   }
+
+   /**
+    * Retrieve a list of the available SureTrak project names from a directory.
+    *
     * @param directory directory containing SureTrak files
     * @return list of project names
     */
