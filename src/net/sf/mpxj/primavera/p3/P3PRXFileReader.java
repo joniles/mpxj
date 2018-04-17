@@ -124,7 +124,7 @@ public final class P3PRXFileReader extends AbstractProjectReader
     * @param offset offset into array
     * @return int value
     */
-   public int getInt(byte[] data, int offset)
+   private int getInt(byte[] data, int offset)
    {
       int result = 0;
       int i = offset;
@@ -143,7 +143,7 @@ public final class P3PRXFileReader extends AbstractProjectReader
     * @param offset offset into byte array
     * @return String instance
     */
-   public String getString(byte[] data, int offset)
+   private String getString(byte[] data, int offset)
    {
       StringBuilder buffer = new StringBuilder();
       char c;
