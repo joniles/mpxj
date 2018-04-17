@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -163,20 +163,6 @@ extends <a href="../../../../../net/sf/mpxj/reader/AbstractProjectReader.html" t
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/p3/P3PRXFileReader.html#getInt-byte:A-int-">getInt</a></span>(byte[]&nbsp;data,
-      int&nbsp;offset)</code>
-<div class="block">Retrieve a four byte integer.</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/p3/P3PRXFileReader.html#getString-byte:A-int-">getString</a></span>(byte[]&nbsp;data,
-         int&nbsp;offset)</code>
-<div class="block">Retrieve a string from the byte array.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/p3/P3PRXFileReader.html#read-java.io.InputStream-">read</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;stream)</code>
 <div class="block">Read a file where the contents of the project file
@@ -247,7 +233,7 @@ extends <a href="../../../../../net/sf/mpxj/reader/AbstractProjectReader.html" t
 <a name="read-java.io.InputStream-">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>read</h4>
 <pre>public&nbsp;<a href="../../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&nbsp;read(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;stream)
@@ -262,42 +248,6 @@ extends <a href="../../../../../net/sf/mpxj/reader/AbstractProjectReader.html" t
 <dd>ProjectFile instance</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="getInt-byte:A-int-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getInt</h4>
-<pre>public&nbsp;int&nbsp;getInt(byte[]&nbsp;data,
-                  int&nbsp;offset)</pre>
-<div class="block">Retrieve a four byte integer.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>data</code> - byte array</dd>
-<dd><code>offset</code> - offset into array</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>int value</dd>
-</dl>
-</li>
-</ul>
-<a name="getString-byte:A-int-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>getString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getString(byte[]&nbsp;data,
-                        int&nbsp;offset)</pre>
-<div class="block">Retrieve a string from the byte array.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>data</code> - byte array</dd>
-<dd><code>offset</code> - offset into byte array</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>String instance</dd>
 </dl>
 </li>
 </ul>

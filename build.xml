@@ -28,6 +28,7 @@
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
+		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="classes.dir" value="${basedir}/classes" />
 		<property name="classes.test.dir" value="${basedir}/classes.test" />
 		<property name="bak.dir" value="${basedir}/bak" />
@@ -539,6 +540,9 @@
 	</target>
 
 	<target name="maven-site-build" depends="init-props,maven-populate" description="Execute maven to produce the web site">
+		<delete dir="${docs.dir}" />
+		<mkdir dir="${docs.dir}" />
+		<echo file="${docs.dir}/CNAME" append="false">www.mpxj.org</echo>
 		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="post-site" />
 		</exec>
