@@ -7,10 +7,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jon Iles" />
     <meta name="Date-Revision-yyyymmdd" content="20180418" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>MPXJ &#x2013; How To: Use MPXJ with COM</title>
+    <title>MPXJ &#x2013; How To: Work with SureTrak files</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -54,8 +53,7 @@
     <li><a href="howto-start.html" title="Get started"><span class="none"></span>Get started</a>  </li>
     <li><a href="howto-build.html" title="Build MPXJ"><span class="none"></span>Build MPXJ</a>  </li>
     <li><a href="howto-dotnet.html" title="Use MPXJ with .Net"><span class="none"></span>Use MPXJ with .Net</a>  </li>
-    <li class="active"><a href="#"><span class="none"></span>Use MPXJ with COM</a>
-  </li>
+    <li><a href="howto-com.html" title="Use MPXJ with COM"><span class="none"></span>Use MPXJ with COM</a>  </li>
     <li><a href="howto-maven.html" title="Use MPXJ with Maven"><span class="none"></span>Use MPXJ with Maven</a>  </li>
     <li><a href="howto-convert.html" title="Convert files"><span class="none"></span>Convert files</a>  </li>
     <li><a href="howto-mpx.html" title="Work with MPX files"><span class="none"></span>Work with MPX files</a>  </li>
@@ -65,7 +63,8 @@
     <li><a href="howto-powerproject.html" title="Work with Powerproject files"><span class="none"></span>Work with Powerproject files</a>  </li>
     <li><a href="howto-primavera.html" title="Work with P6 databases"><span class="none"></span>Work with P6 databases</a>  </li>
     <li><a href="howto-p3.html" title="Work with P3 files"><span class="none"></span>Work with P3 files</a>  </li>
-    <li><a href="howto-suretrak.html" title="Work with SureTrak files"><span class="none"></span>Work with SureTrak files</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>Work with SureTrak files</a>
+  </li>
       </ul>
   </li>
     <li><a href="faq.html" title="FAQ"><span class="none"></span>FAQ</a>  </li>
@@ -86,22 +85,58 @@
           </div>
         </div>
         <div id="bodyColumn"  class="span10" >
-
-    
-
 <div class="section">
-<h2><a name="MPXJ_and_COM"></a>MPXJ and COM</h2>
+<h2><a name="How_To:_Work_with_SureTrak_files"></a>How To: Work with SureTrak files</h2>
+<p>A Primavera SureTrak installation stores project data as a database consisting of a number of individual files. In a typical SureTrak installation files for a number of different projects live in a single projects directory. A SureTrak user can back up an individual project to create a STX file, which is a compressed archive containing all of the files from a single project.</p>
+<div class="section">
+<h3><a name="Reading_STX_files"></a>Reading STX files</h3>
+<p>The simplest way to read an STX file is to use the <tt>UniversalProjectReader</tt>:</p>
 
-<p>The .Net assemblies provided in the DLLs described <a href="howto-dotnet.html">here</a> are accessible from COM.
-THis should allow you to, for example, write VBA code which utilises MPXJ functionality. To assist with this, type libraries 
-in the form of TLB files are provided in the lib.net directory for each of the DLLs distributed with MPXJ. 
-You will also need to register the MPXJ assemblies in order to use them from COM, 
-using the <a class="externalLink" href="http://msdn.microsoft.com/en-us/library/tzat5yw6(v=vs.110).aspx" target="_blank">regasm assembly registration tool</a>. 
-For your convenience two batch files have been provided in the lib.net directory: mpxj-register-assemblies.bat and mpxj-unregister-assemblies.bat.
-These batch files will register and unreigster the MPXJ assemblies respectively. These batch files assume that regasm is available on the path.</p> 
-</div>
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
+...
 
+UniversalProjectReader reader = new UniversalProjectReader();
+ProjectFile project = reader.read(&quot;my-sample.stx&quot;);
+</pre></div></div>
+<p>You can work directly with the <tt>SureTrakSTXFileReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>SureTrakSTXFileReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>SureTrakSTXFileReader</tt> class.</p></div>
+<div class="section">
+<h3><a name="Reading_a_SureTrak_directory"></a>Reading a SureTrak directory</h3>
+<p>If you are working with a directory containing SureTrak project data you have two options. If you know that the directory only contains a single project, you can use the <tt>UniversalProjectReader</tt>:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+...
+
+UniversalProjectReader reader = new UniversalProjectReader();
+ProjectFile project = reader.read(&quot;my-suretrak-directory&quot;);
+</pre></div></div>
+<p>If the directory happens to contain multiple projects the <tt>UniversalProjectReader</tt> will simply read the first one it finds, in alphabetic order.</p>
+<p>If you know that the directory you are working with contains multiple projects, you will need to use the <tt>SureTrakDatabaseReader</tt> class.</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import java.util.List;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
+
+...
+
+// Find a list of the project names
+String directory = &quot;my-suretrak-directory&quot;;
+List&lt;String&gt; projectNames = SureTrakDatabaseReader.listProjectNames(directory);
+
+// Tell the reader which project to work with
+P3DatabaseReader reader = new SureTrakDatabaseReader();
+reader.setProjectName(projectNames.get(0));
+
+// Read the project
+ProjectFile project = reader.read(directory);
+</pre></div></div>
+<p>As the example above shows, the <tt>SureTrakDatabaseReader</tt> class provides a method which lists the names of the SureTrak projects it finds in a directory. You can then select which project you want to load, and call the <tt>setProjectName</tt> method of the reader to make this selection. You can then call the <tt>read</tt> method passing in the name of the directory, and the reader will extract data for the selected project.</p></div></div>
         </div>
       </div>
     </div>

@@ -123,26 +123,6 @@
 			</answer>
 		</faq>
 
-		<faq id="corrupt-note-text">
-			<question>
-				My Task/Resource notes field text is corrupt.
-         </question>
-			<answer>
-				<p>
-					Your notes field probably contains characters that are not in
-					Codepage 1252 (Latin 1). The notes text is stored as RTF by
-					MS Project. MPXJ uses Sun's RTF processor to strip the RTF
-					formatting and return the plain text of the notes fields. The
-					RTF processor does not handle characters from other codepages
-					correctly, hence it returns rubbish. See the
-					<a
-						href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1081156&amp;group_id=70649&amp;atid=528541"
-						target="_blank">SourgeForge bug tracker</a>
-					for further details, and a suggested workaround.
-				</p>
-			</answer>
-		</faq>
-
 		<faq id="mpx-record-order">
 			<question>
 				When I create an MPX file, my resources/tasks/calendars aren't visible
@@ -254,24 +234,6 @@
 					or by calling the method setUseLocaleDefaults on the MPXWriter
 					instance before calling the write method (for versions of MPXJ
 					after 3.0.0).
-            </p>
-			</answer>
-		</faq>
-
-		<faq id="rtf-net">
-			<question>
-				I'm using the .net version of MPXJ, and I'm seeing RTF parser
-				errors when I read an MPP file. What's happening?
-         </question>
-			<answer>
-				<p>
-					The RTF parser provided by the libraries which support the .net
-					version of MPXJ do not handle RTF as well as Sun's Java RTF
-					implementation. This will hopefully be resolved by a future
-					release of IKVM, but for the moment the workaround is to call the
-					MPPReader method setPreserveNoteFormatting passing in true. This
-					will prevent MPXJ from trying to extract plain text from the RTF
-					and will leave any RTF content untouched. 
             </p>
 			</answer>
 		</faq>

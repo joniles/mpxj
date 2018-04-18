@@ -27,8 +27,9 @@
 	      <item name="Work with MSPDI files" href="/howto-mspdi.html" /> 
 	      <item name="Work with Planner files" href="/howto-planner.html" />
 	      <item name="Work with Powerproject files" href="/howto-powerproject.html" />
-	      <item name="Work with a P6 database" href="/howto-primavera.html" />
+	      <item name="Work with P6 databases" href="/howto-primavera.html" />
 	      <item name="Work with P3 files" href="/howto-p3.html" />      	            	
+	      <item name="Work with SureTrak files" href="/howto-suretrak.html" />
       </item>
       <item name="FAQ" href="/faq.html" />              
       <item name="Users" href="/users.html" />
