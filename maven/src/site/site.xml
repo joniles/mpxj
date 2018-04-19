@@ -11,17 +11,33 @@
 	    <version>1.6</version>
   	</skin>
 
+	<custom>
+	    <fluidoSkin>
+	    	<!--  set sidebar/body widths: must add up to 12 -->
+	    	<leftColumnClass>span3</leftColumnClass>
+      		<bodyColumnClass>span9</bodyColumnClass>
+      		<skipGenerationDate>true</skipGenerationDate>
+			<gitHub>
+				<projectId>joniles/mpxj</projectId>
+				<ribbonOrientation>right</ribbonOrientation>
+				<ribbonColor>black</ribbonColor>
+			</gitHub>
+	    </fluidoSkin>
+  	</custom>
+
 	<body>
     <menu name="MPXJ">
       <item name="Overview" href="/index.html" />
       <item name="Changes" href="/changes-report.html" />
-      <item name="How to..." href="/howto.html" collapse="true">
+      <item name="Getting started..." href="/getting-started.html" collapse="true">
 	      <item name="Get started" href="/howto-start.html" />
 	      <item name="Build MPXJ" href="/howto-build.html" />      	
 	      <item name="Use MPXJ with .Net" href="/howto-dotnet.html" />      	
 	      <item name="Use MPXJ with COM" href="/howto-com.html" />
 	      <item name="Use MPXJ with Maven" href="/howto-maven.html" />
 	      <item name="Convert files" href="/howto-convert.html" />      	
+      </item>
+      <item name="How to..." href="/howto.html" collapse="true">
 	      <item name="Work with MPX files" href="/howto-mpx.html" />
 	      <item name="Work with MPP files" href="/howto-mpp.html" /> 
 	      <item name="Work with MSPDI files" href="/howto-mspdi.html" /> 

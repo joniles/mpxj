@@ -11,7 +11,7 @@
 
 <section name="How To: Work with MPX files">
 
-<p>Versions of Microsoft Project up to Project could read and write MPX files
+<p>Versions of Microsoft Project up to Project 98 could read and write MPX files
 as a data interchange format. Versions of Project after Project 98 can only 
 read MPX files. Other third party project planning applications continue 
 to use MPX as a data interchange format.</p>
