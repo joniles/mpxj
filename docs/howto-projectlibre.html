@@ -7,10 +7,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jon Iles" />
     <meta name="Date-Revision-yyyymmdd" content="20180419" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>MPXJ &#x2013; How To: Work with a Primavera database</title>
+    <title>MPXJ &#x2013; How To: Work with ProjectLibre files</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -62,12 +61,12 @@
     <li><a href="howto-mspdi.html" title="Work with MSPDI files"><span class="none"></span>Work with MSPDI files</a>  </li>
     <li><a href="howto-planner.html" title="Work with Planner files"><span class="none"></span>Work with Planner files</a>  </li>
     <li><a href="howto-powerproject.html" title="Work with Powerproject files"><span class="none"></span>Work with Powerproject files</a>  </li>
-    <li class="active"><a href="#"><span class="none"></span>Work with P6 databases</a>
-  </li>
+    <li><a href="howto-primavera.html" title="Work with P6 databases"><span class="none"></span>Work with P6 databases</a>  </li>
     <li><a href="howto-p3.html" title="Work with P3 files"><span class="none"></span>Work with P3 files</a>  </li>
     <li><a href="howto-suretrak.html" title="Work with SureTrak files"><span class="none"></span>Work with SureTrak files</a>  </li>
     <li><a href="howto-turboproject.html" title="Work with TurboProject files"><span class="none"></span>Work with TurboProject files</a>  </li>
-    <li><a href="howto-projectlibre.html" title="Work with ProjectLibre files"><span class="none"></span>Work with ProjectLibre files</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>Work with ProjectLibre files</a>
+  </li>
       </ul>
   </li>
     <li><a href="faq.html" title="FAQ"><span class="none"></span>FAQ</a>  </li>
@@ -88,118 +87,23 @@
           </div>
         </div>
         <div id="bodyColumn"  class="span10" >
-
-    
-
 <div class="section">
-<h2><a name="How_To:_Work_with_a_Primavera_database"></a>How To: Work with a Primavera database</h2>
+<h2><a name="How_To:_Work_with_ProjectLibre_files"></a>How To: Work with ProjectLibre files</h2>
+<p>ProjectLibre writes schedule data to POD files.</p>
+<div class="section">
+<h3><a name="Reading_POD_files"></a>Reading POD files</h3>
+<p>The simplest way to read a POD file is to use the <tt>UniversalProjectReader</tt>:</p>
 
-
-<p>Reading from a Primavera database is a slightly different proposition
-to reading file-based project data, as a database connection is required.
-The example below illustrates how to do this for a Primavera database
-hosted in SQL Server, using the open source JTDS JDBC driver. 
-The only difference when reading from an Oracle
-database will be the JDBC driver and connection string used.</p>
-
-
-<div class="source"><pre class="prettyprint">
-import java.sql.Connection;
-import java.sql.DriverManager;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 ...
 
-//
-// Load the JDBC driver
-//
-String driverClass=&quot;net.sourceforge.jtds.jdbc.Driver&quot;;
-Class.forName(driverClass);
-
-//
-// Open a database connection. You will need to change
-// these details to match the name of your server, database, user and password.
-//
-String connectionString=&quot;jdbc:jtds:sqlserver://localhost/PMDB;user=pmdb;password=pmdb&quot;;
-Connection c = DriverManager.getConnection(connectionString);
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setConnection(c);
-
-//
-// Retrieve a list of the projects available in the database
-//
-Map&lt;Integer,String&gt; projects = reader.listProjects();
-
-//
-// At this point you'll select the project
-// you want to work with.
-//
-
-//
-// Now open the selected project using its ID
-//
-int selectedProjectID = 1;
-reader.setProjectID(selectedProjectID);
-ProjectFile projectFile = reader.read();
-
-</pre></div>
-
-
-<p>You can also connect to a standalone SQLite P6 database, although a 
-property has to be set on the database connection in order for
-date and time values to be read correctly.</p>
-
-
-
-<div class="source"><pre class="prettyprint">
-import java.sql.Connection;
-import java.sql.DriverManager;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
-
-...
-
-//
-// Load the JDBC driver
-//
-String driverClass=&quot;&quot;org.sqlite.JDBC&quot;;
-Class.forName(driverClass);
-
-//
-// Open a database connection. You will need to change
-// these details to match the location of your database file.
-//
-String connectionString=&quot;jdbc:sqlite:C:/temp/PPMDBSQLite.db&quot;;
-Properties props = new Properties();
-props.setProperty(&quot;date_string_format&quot;, &quot;yyyy-MM-dd HH:mm:ss&quot;);
-Connection c = DriverManager.getConnection(connectionString, props);
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setConnection(c);
-
-//
-// Retrieve a list of the projects available in the database
-//
-Map&lt;Integer,String&gt; projects = reader.listProjects();
-
-//
-// At this point you'll select the project
-// you want to work with.
-//
-
-//
-// Now open the selected project using its ID
-//
-int selectedProjectID = 1;
-reader.setProjectID(selectedProjectID);
-ProjectFile projectFile = reader.read();
-
-</pre></div>
-
-</div>
-
-
-
+UniversalProjectReader reader = new UniversalProjectReader();
+ProjectFile project = reader.read(&quot;my-sample.pep&quot;);
+</pre></div></div>
+<p>You can work directly with the <tt>ProjectLibreReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>ProjectLibreReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>ProjectLibreReader</tt> class.</p></div></div>
         </div>
       </div>
     </div>
