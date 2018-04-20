@@ -48,6 +48,8 @@
 	      <item name="Work with SureTrak files" href="/howto-suretrak.html" />
 	      <item name="Work with TurboProject files" href="/howto-turboproject.html" />
 	      <item name="Work with ProjectLibre files" href="/howto-projectlibre.html" />
+	      <item name="Work with FastTrack files" href="/howto-fasttrack.html" />
+	      <item name="Work with GanttProject files" href="/howto-ganttproject.html" />
       </item>
       <item name="FAQ" href="/faq.html" />              
       <item name="Users" href="/users.html" />
