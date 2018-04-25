@@ -37,19 +37,19 @@
 	      <item name="Use MPXJ with Maven" href="/howto-maven.html" />
 	      <item name="Convert files" href="/howto-convert.html" />      	
       </item>
-      <item name="How to..." href="/howto.html" collapse="true">
-	      <item name="Work with MPX files" href="/howto-mpx.html" />
-	      <item name="Work with MPP files" href="/howto-mpp.html" /> 
-	      <item name="Work with MSPDI files" href="/howto-mspdi.html" /> 
-	      <item name="Work with Planner files" href="/howto-planner.html" />
-	      <item name="Work with Powerproject files" href="/howto-powerproject.html" />
-	      <item name="Work with P6 databases" href="/howto-primavera.html" />
-	      <item name="Work with P3 files" href="/howto-p3.html" />      	            	
-	      <item name="Work with SureTrak files" href="/howto-suretrak.html" />
-	      <item name="Work with TurboProject files" href="/howto-turboproject.html" />
-	      <item name="Work with ProjectLibre files" href="/howto-projectlibre.html" />
-	      <item name="Work with FastTrack files" href="/howto-fasttrack.html" />
-	      <item name="Work with GanttProject files" href="/howto-ganttproject.html" />
+      <item name="How to read..." href="/howto.html" collapse="true">
+	      <item name="MPX files" href="/howto-mpx.html" />
+	      <item name="MPP files" href="/howto-mpp.html" /> 
+	      <item name="MSPDI files" href="/howto-mspdi.html" /> 
+	      <item name="Planner files" href="/howto-planner.html" />
+	      <item name="Powerproject files" href="/howto-powerproject.html" />
+	      <item name="P6 databases" href="/howto-primavera.html" />
+	      <item name="P3 files" href="/howto-p3.html" />      	            	
+	      <item name="SureTrak files" href="/howto-suretrak.html" />
+	      <item name="TurboProject files" href="/howto-turboproject.html" />
+	      <item name="ProjectLibre files" href="/howto-projectlibre.html" />
+	      <item name="FastTrack files" href="/howto-fasttrack.html" />
+	      <item name="GanttProject files" href="/howto-ganttproject.html" />
       </item>
       <item name="FAQ" href="/faq.html" />              
       <item name="Users" href="/users.html" />
