@@ -781,10 +781,24 @@ public final class DatatypeConverter
    public static final Duration parseDuration(ProjectFile file, TimeUnit defaultUnits, String value)
    {
       Duration result = null;
+      XsdDuration xsd = null;
 
       if (value != null && value.length() != 0)
       {
-         XsdDuration xsd = new XsdDuration(value);
+         try
+         {
+            xsd = new XsdDuration(value);
+         }
+
+         catch (IllegalArgumentException ex)
+         {
+            // The duration is malformed.
+            // MS Project simply ignores values like this.
+         }
+      }
+
+      if (xsd != null)
+      {
          TimeUnit units = TimeUnit.DAYS;
 
          if (xsd.getSeconds() != 0 || xsd.getMinutes() != 0)

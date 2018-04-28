@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.4.2">
+			<action dev="joniles" type="update">Gracefully handle malformed duration values in MSPDI files.</action>
 		</release>
 		<release date="16/04/2018" version="7.4.1">
 			<action dev="joniles" type="add">Add methods to list projects available in P3 and SureTrak database directories.</action>
