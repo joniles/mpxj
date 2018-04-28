@@ -47,7 +47,11 @@ final class VarMeta12 extends AbstractVarMeta
    VarMeta12(InputStream is)
       throws IOException
    {
-      if (readInt(is) != MAGIC)
+      // I have one example where an otherwise valid VarMeta block
+      // has zero for a magic number. MS Project reads the file OK,
+      // so we'll treat zero as a valid value.
+      int magic = readInt(is);
+      if (magic != 0 && magic != MAGIC)
       {
          throw new IOException("Bad magic number");
       }
