@@ -6,6 +6,10 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.4.2">
+			<action dev="joniles" type="update">Gracefully handle malformed duration values in MSPDI files.</action>
+			<action dev="joniles" type="update">Gracefully handle unexpected calendar exception data structure in certain MPP files.</action>
+			<action dev="joniles" type="update">Improve handling of certain unusual MPP12 files.</action>
+			<action dev="joniles" type="update">More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.</action>
 		</release>
 		<release date="16/04/2018" version="7.4.1">
 			<action dev="joniles" type="add">Add methods to list projects available in P3 and SureTrak database directories.</action>

@@ -93,6 +93,11 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             //
             for (int index = 0; index < exceptionCount; index++)
             {
+               if (offset + 92 > data.length)
+               {
+                  // Bail out if we don't have at least 92 bytes available
+                  break;
+               }
 
                Date fromDate = MPPUtility.getDate(data, offset);
                Date toDate = MPPUtility.getDate(data, offset + 2);

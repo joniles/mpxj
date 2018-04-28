@@ -37,6 +37,7 @@ import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectCalendar;
@@ -379,7 +380,8 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return c.getFieldType().toString();
+               FieldType type = c.getFieldType();
+               return type == null ? "(unknown)" : type.toString();
             }
          };
          parentNode.add(childNode);
