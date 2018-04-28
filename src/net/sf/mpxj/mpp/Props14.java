@@ -75,7 +75,21 @@ final class Props14 extends Props
          }
 
          data = new byte[attrib1];
-         is.read(data);
+
+         try
+         {
+            is.read(data);
+         }
+
+         catch (IndexOutOfBoundsException ex)
+         {
+            // POI fails to read certain MPP files with this exception:
+            // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
+            // There is no fix presently, we just have to bail out at
+            // this point - we're unable to read any more data.
+            break;
+         }
+
          availableBytes -= attrib1;
 
          m_map.put(Integer.valueOf(attrib2), data);
