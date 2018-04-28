@@ -200,6 +200,11 @@ public class UniversalProjectReader implements ProjectReader
          //
          // Now check for file fingerprints
          //
+         if (matchesFingerprint(buffer, BINARY_PLIST))
+         {
+            return handleBinaryPropertyList(bis);
+         }
+
          if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
             return handleOleCompoundDocument(bis);
@@ -364,6 +369,24 @@ public class UniversalProjectReader implements ProjectReader
          addListeners(reader);
          return reader.read(fs);
       }
+      return null;
+   }
+
+   /**
+    * We have a binary property list.
+    *
+    * @param stream file input stream
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleBinaryPropertyList(InputStream stream) throws Exception
+   {
+      // This is an unusual case. I have seen an instance where an MSPDI file was downloaded
+      // as a web archive, which is a binary property list containing the file data.
+      // This confused the UniversalProjectReader as it found a valid MSPDI fingerprint
+      // but the binary plist header caused the XML parser to fail.
+      // I'm not inclined to add support for extracting files from binary plists at the moment,
+      // so adding this fingerprint allows us to cleanly reject the file as unsupported
+      // rather than getting a confusing error from one of the other file type readers.
       return null;
    }
 
@@ -862,6 +885,16 @@ public class UniversalProjectReader implements ProjectReader
       (byte) '!'
    };
 
+   private static final byte[] BINARY_PLIST =
+   {
+      (byte) 'b',
+      (byte) 'p',
+      (byte) 'l',
+      (byte) 'i',
+      (byte) 's',
+      (byte) 't'
+   };
+
    private static final byte[] FASTTRACK_FINGERPRINT =
    {
       (byte) 0x1C,
@@ -949,5 +982,4 @@ public class UniversalProjectReader implements ProjectReader
    private static final Pattern PRX_FINGERPRINT = Pattern.compile("!Self-Extracting Primavera Project", Pattern.DOTALL);
 
    private static final Pattern PRX3_FINGERPRINT = Pattern.compile("PRX3", Pattern.DOTALL);
-
 }
