@@ -1495,9 +1495,9 @@ public final class MPXReader extends AbstractProjectReader
     *
     * @return array of supported locales
     */
-   public Locale[] getSupportedLocales()
+   public static Locale[] getSupportedLocales()
    {
-      return (LocaleUtility.getSupportedLocales());
+      return LocaleUtility.getSupportedLocales();
    }
 
    /**
