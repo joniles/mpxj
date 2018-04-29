@@ -28,11 +28,11 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import java.io.File;
 import java.util.Locale;
 
+import org.junit.Test;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
-
-import org.junit.Test;
 
 /**
  * Tests to exercise MPX locales.
@@ -47,7 +47,7 @@ public class LocaleTest
    @Test public void testLocales() throws Exception
    {
       assumeJvm();
-      Locale[] locales = new MPXReader().getSupportedLocales();
+      Locale[] locales = MPXReader.getSupportedLocales();
       for (Locale locale : locales)
       {
          testLocale(locale);

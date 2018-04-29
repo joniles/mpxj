@@ -97,7 +97,7 @@ public final class MPPReader extends AbstractProjectReader
     * @return file format name
     * @throws IOException
     */
-   public String getFileFormat(POIFSFileSystem fs) throws IOException
+   public static String getFileFormat(POIFSFileSystem fs) throws IOException
    {
       String fileFormat = "";
       DirectoryEntry root = fs.getRoot();
@@ -368,29 +368,6 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
-    * Set the write password for this Project file. Currently not used.
-    *
-    * Note: Set this each time before calling the read method.
-    *
-    * @param password password text
-    */
-   public void setWritePassword(String password)
-   {
-      m_writePassword = password;
-   }
-
-   /**
-    * Internal only. Get the write password for this Project file.
-    * Currently not used.
-    *
-    * @return password
-    */
-   public String getWritePassword()
-   {
-      return m_writePassword;
-   }
-
-   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
@@ -409,7 +386,6 @@ public final class MPPReader extends AbstractProjectReader
    private boolean m_readPropertiesOnly;
 
    private String m_readPassword;
-   private String m_writePassword;
    private List<ProjectListener> m_projectListeners;
 
    /**

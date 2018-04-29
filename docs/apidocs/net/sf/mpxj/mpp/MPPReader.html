@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -151,7 +151,7 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -163,7 +163,7 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#getFileFormat-org.apache.poi.poifs.filesystem.POIFSFileSystem-">getFileFormat</a></span>(org.apache.poi.poifs.filesystem.POIFSFileSystem&nbsp;fs)</code>
 <div class="block">This method allows us to peek into the OLE compound document to extract the file format.</div>
 </td>
@@ -201,62 +201,50 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#getWritePassword--">getWritePassword</a></span>()</code>
-<div class="block">Internal only.</div>
-</td>
-</tr>
-<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#read-java.io.InputStream-">read</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;is)</code>
 <div class="block">Read a file where the contents of the project file
  are supplied via an input stream.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#read-org.apache.poi.poifs.filesystem.POIFSFileSystem-">read</a></span>(org.apache.poi.poifs.filesystem.POIFSFileSystem&nbsp;fs)</code>
 <div class="block">Alternative entry point allowing an MPP file to be read from
  a user-supplied POI file stream.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#setPreserveNoteFormatting-boolean-">setPreserveNoteFormatting</a></span>(boolean&nbsp;preserveNoteFormatting)</code>
 <div class="block">This method sets a flag to indicate whether the RTF formatting associated
  with notes should be preserved or removed.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#setReadPassword-java.lang.String-">setReadPassword</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;password)</code>
 <div class="block">Set the read password for this Project file.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#setReadPresentationData-boolean-">setReadPresentationData</a></span>(boolean&nbsp;readPresentationData)</code>
 <div class="block">Flag to allow time and memory to be saved by not reading
  presentation data from the MPP file.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#setReadPropertiesOnly-boolean-">setReadPropertiesOnly</a></span>(boolean&nbsp;readPropertiesOnly)</code>
 <div class="block">Flag to determine if the reader should only read the project properties.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#setUseRawTimephasedData-boolean-">setUseRawTimephasedData</a></span>(boolean&nbsp;useRawTimephasedData)</code>
 <div class="block">If this flag is true, raw timephased data will be retrieved
  from MS Project: no normalisation will take place.</div>
-</td>
-</tr>
-<tr id="i15" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPReader.html#setWritePassword-java.lang.String-">setWritePassword</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;password)</code>
-<div class="block">Set the write password for this Project file.</div>
 </td>
 </tr>
 </table>
@@ -345,8 +333,8 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileFormat</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getFileFormat(org.apache.poi.poifs.filesystem.POIFSFileSystem&nbsp;fs)
-                     throws <a href="http://docs.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getFileFormat(org.apache.poi.poifs.filesystem.POIFSFileSystem&nbsp;fs)
+                            throws <a href="http://docs.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">This method allows us to peek into the OLE compound document to extract the file format.
  This allows the UniversalProjectReader to determine if this is an MPP file, or if
  it is another type of OLE compound document.</div>
@@ -522,7 +510,7 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <a name="getReadPassword--">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>getReadPassword</h4>
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getReadPassword()</pre>
@@ -531,37 +519,6 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>password password text</dd>
-</dl>
-</li>
-</ul>
-<a name="setWritePassword-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setWritePassword</h4>
-<pre>public&nbsp;void&nbsp;setWritePassword(<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;password)</pre>
-<div class="block">Set the write password for this Project file. Currently not used.
-
- Note: Set this each time before calling the read method.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>password</code> - password text</dd>
-</dl>
-</li>
-</ul>
-<a name="getWritePassword--">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>getWritePassword</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getWritePassword()</pre>
-<div class="block">Internal only. Get the write password for this Project file.
- Currently not used.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>password</dd>
 </dl>
 </li>
 </ul>

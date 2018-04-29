@@ -3,13 +3,13 @@
 
 <document>
    <properties>
-      <title>How To: Work with a Primavera database</title> 
+      <title>How To: Read a Primavera P6 database</title> 
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
    <body> 
 
-<section name="How To: Work with a Primavera database">
+<section name="How To: Read a Primavera P6 database">
 
 <p>Reading from a Primavera database is a slightly different proposition
 to reading file-based project data, as a database connection is required.
