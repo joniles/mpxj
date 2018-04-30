@@ -1,6 +1,12 @@
 # Changelog
 
-## 7.4.2 (git master)
+## 7.4.3 (git master)
+
+## 7.4.2 (30/04/2018)
+* Gracefully handle malformed duration values in MSPDI files.
+* Gracefully handle unexpected calendar exception data structure in certain MPP files.
+* Improve handling of certain unusual MPP12 files.
+* More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.
 
 ## 7.4.1 (16/04/2018)
 * Add methods to list projects available in P3 and SureTrak database directories.

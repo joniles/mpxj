@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.4.2">
+		<release date="git master" version="7.4.3">
+		</release>	
+		<release date="30/04/2018" version="7.4.2">
 			<action dev="joniles" type="update">Gracefully handle malformed duration values in MSPDI files.</action>
 			<action dev="joniles" type="update">Gracefully handle unexpected calendar exception data structure in certain MPP files.</action>
 			<action dev="joniles" type="update">Improve handling of certain unusual MPP12 files.</action>
