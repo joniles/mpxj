@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>MPXJ &#x2013; How To: Read MPP files</title>
+    <title>MPXJ &#x2013; How To: Read XER files</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -56,8 +56,7 @@
     <li><a href="howto-read.html" title="How to read..."><span class="icon-chevron-down"></span>How to read...</a>
       <ul class="nav nav-list">
     <li><a href="howto-read-mpx.html" title="MPX files"><span class="none"></span>MPX files</a>  </li>
-    <li class="active"><a href="#"><span class="none"></span>MPP files</a>
-  </li>
+    <li><a href="howto-read-mpp.html" title="MPP files"><span class="none"></span>MPP files</a>  </li>
     <li><a href="howto-read-mspdi.html" title="MSPDI files"><span class="none"></span>MSPDI files</a>  </li>
     <li><a href="howto-read-planner.html" title="Planner files"><span class="none"></span>Planner files</a>  </li>
     <li><a href="howto-read-asta.html" title="Asta files"><span class="none"></span>Asta files</a>  </li>
@@ -70,7 +69,8 @@
     <li><a href="howto-read-phoenix.html" title="Phoenix files"><span class="none"></span>Phoenix files</a>  </li>
     <li><a href="howto-read-pmxml.html" title="PMXML files"><span class="none"></span>PMXML files</a>  </li>
     <li><a href="howto-primavera.html" title="P6 databases"><span class="none"></span>P6 databases</a>  </li>
-    <li><a href="howto-read-xer.html" title="XER files"><span class="none"></span>XER files</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>XER files</a>
+  </li>
       </ul>
   </li>
     <li><a href="howto-write.html" title="How to write..."><span class="icon-chevron-right"></span>How to write...</a>  </li>
@@ -93,22 +93,11 @@
         </div>
         <div id="bodyColumn"  class="span9" >
 <div class="section">
-<h2><a name="How_To:_Read_MPP_files"></a>How To: Read MPP files</h2>
-<p>The native Microsoft Project file format is typically has the extension MPP (or MPT for a template file). Although a common file extension uis used, there are actually a number if different variants of the file format. The list below shows the different variants, and the versions of Microsoft Project which produce them:</p>
-
-<ul>
-  
-<li>MPP8 - Project 98</li>
-  
-<li>MPP9 - Project 2000 and Project 2002</li>
-  
-<li>MPP12 - Project 2003, Project 2007</li>
-  
-<li>MPP14 - Project 2010 and all later versions</li>
-</ul>
+<h2><a name="How_To:_Read_XER_files"></a>How To: Read XER files</h2>
+<p>The XER file format has long been read and written by Primavera P6. Although an XML file format (PMXML) is now also supported, the XER file format is still widely used.</p>
 <div class="section">
-<h3><a name="Reading_MPP_files"></a>Reading MPP files</h3>
-<p>The simplest way to read an MPP file is to use the <tt>UniversalProjectReader</tt>:</p>
+<h3><a name="Reading_XER_files"></a>Reading XER files</h3>
+<p>The simplest way to read an XER file is to use the <tt>UniversalProjectReader</tt>:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
@@ -117,82 +106,102 @@ import net.sf.mpxj.reader.UniversalProjectReader;
 ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
+ProjectFile project = reader.read(&quot;my-sample.xer&quot;);
 </pre></div></div></div>
 <div class="section">
-<h3><a name="Using_MPPReader"></a>Using MPPReader</h3>
-<p>You can work directly with the <tt>MPPReader</tt> class by replacing <tt>UniversalProjectReader</tt> with <tt>MPPReader</tt>. This provides access to additional options, as described below.</p>
+<h3><a name="Using_PrimaveraXERFileReader"></a>Using PrimaveraXERFileReader</h3>
+<p>You can work directly with the <tt>PrimaveraXERFileReader</tt> class by replacing <tt>UniversalProjectReader</tt> with <tt>PrimaveraXERFileReader</tt>. This provides access to additional options, as described below.</p>
 <div class="section">
-<h4><a name="Password_Protected_Files"></a>Password Protected Files</h4>
-<p>When a read password has been set for an MPP file, the contents of the file are partially encrypted, and requires the read password to be supplied in order to reverse this encryption. If you attempt to read an MPP file which has been password protected an <tt>MPXJException</tt> will be raised, with the message <tt>File is password protected</tt>.</p>
-<p>MPXJ only supports decryption of password protected MPP9 files. The code below illustrates how you would supply the password:</p>
+<h4><a name="Encoding"></a>Encoding</h4>
+<p>By default MPXJ assumes that XER files are encoded using Windows-1252. The <tt>UniversalProjectReader</tt> understands Unicode Byte Order Marks (BOM) and will adjust the encoding appropriately if a BOM is present. If you have an XER file with an unusual encoding, you can manually set the encoding used by the reader.</p>
+<p>Two methods are provided to do this: <tt>setCharset</tt> and <tt>setEncoding</tt>. The <tt>setCharset</tt> method takes an instance of the <tt>Charset</tt> class, while the <tt>setEncoding</tt> method takes the name of an encoding. Examples of these methods are shown below:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 ...
 
-MPPReader reader = new MPPReader();
-reader.setReadPassword(&quot;my secret password&quot;);
-ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+
+// Use a Charset instance
+reader.setCharset(Charset.forName(&quot;GB2312&quot;));
+ProjectFile project = reader.read(&quot;my-sample.xer&quot;);
+
+// Use an encoding name
+reader.setEncoding(&quot;GB2312&quot;);
+project = reader.read(&quot;my-sample.xer&quot;);
 </pre></div></div></div>
 <div class="section">
-<h4><a name="Preserve_Note_Formatting"></a>Preserve Note Formatting</h4>
-<p>Microsoft Project stores task and resource notes as Rich Text (RTF), which allows a wide variety of formatting to be used. By default MPXJ removes this formatting, leaving just plain text. If you need access to the original RTF content, use the <tt>setPreserveNoteFormatting</tt> method, as shown below.</p>
+<h4><a name="Multiple_Projects"></a>Multiple Projects</h4>
+<p>An XER file can contain multiple projects. By default MPXJ reads the first project it finds in the file. You can however use MPXJ to list the projects contained in an XER file, as shown below:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+...
+
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+FileInputStream is = new FileInputStream(&quot;my-sample.xer&quot;);
+Map&lt;Integer, String&gt; projects = reader.listProjects(is);
+System.out.println(&quot;ID\tName&quot;);
+for (Entry&lt;Integer, String&gt; entry : projects.entrySet())
+{
+   System.out.println(entry.getKey()+&quot;\t&quot;+entry.getValue());
+}
+</pre></div></div>
+<p>The call to <tt>listProjects</tt> returns a <tt>Map</tt> whose key is the project ID, and the values are project short names.</p>
+<p>Once you have decided which of these projects you want to work with, you can call <tt>setProjectID</tt> to tell the reader which project to open, as shown below.</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 ...
 
-MPPReader reader = new MPPReader();
-reader.setPreserveNoteFormatting(true);
-ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
-</pre></div></div></div>
-<div class="section">
-<h4><a name="Presentation_Data"></a>Presentation Data</h4>
-<p>Alongside the schedule data itself, MPXJ also extracts much of the presentation data available in an MPP file, for example table layouts, filters, graphical indicators and so on. If you are not interested in this type of data, you can tell MPXJ not to read it. This will speed up reading MPP files, and slightly reduce memory consumption. To do this you will use the <tt>setReadPresentationData</tt> method, as shown below:</p>
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+reader.setProjectID(123);
+ProjectFile file = reader.read(&quot;my-sample.xer&quot;);
+</pre></div></div>
+<p>Alternatively you can ask MPXJ to read all of the projects contained in the file:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 ...
 
-MPPReader reader = new MPPReader();
-reader.setReadPresentationData(false);
-ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
-</pre></div></div></div>
-<div class="section">
-<h4><a name="Properties_Only"></a>Properties Only</h4>
-<p>Should you wish to simply &#x201c;peek&#x201d; at the contents of the MPP file by just reading the summary properties from the file, you can use the <tt>setReadPropertiesOnly</tt> method as shown below:</p>
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+InputStream is = new FileInputStream(&quot;my-sample.xer&quot;);
+List&lt;ProjectFile&gt; files = reader.readAll(is);
+</pre></div></div>
+<p>The call to the <tt>readAll</tt> method returns a list of <tt>ProjectFile</tt> instances corresponding to the projects in the XER file.</p>
+<p>There is a variant of the <tt>readAll</tt> method taking a Boolean argument which determines if cross-project predecessors and successors are linked together. For example, if we have Project A with Task 1, and Project B with Task 2 and Task 1 is a predecessor of Task 2, when the <tt>linkCrossProjectRelations</tt> argument is set to true, Task 1 will appear as a predecessor of Task 2 despite the two tasks appearing in different projects. If <tt>linkCrossProjectRelations</tt> is set to false (or any of the other methods are used to read data from an XER file), Task 1 and Task 2 will no be linked.</p>
+<p>The sample below shows how <tt>readAll</tt> can be called with the <tt>linkCrossProjectRelations</tt> argument set to true:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 ...
 
-MPPReader reader = new MPPReader();
-reader.setReadPropertiesOnly(true);
-ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+InputStream is = new FileInputStream(&quot;my-sample.xer&quot;);
+List&lt;ProjectFile&gt; files = reader.readAll(is, true);
 </pre></div></div></div>
 <div class="section">
-<h4><a name="Raw_timephased_data"></a>Raw timephased data</h4>
-<p>When MPXJ reads timephased data from an MPP file it &#x201c;normalises&#x201d; the data, converting it from the compact format Microsoft Project uses internally into a representation which shows the timephased values day-by-day. This is generally easier to understand, and can be further processed using the methods in the <tt>TimephasedUtility</tt> class to show the data over the required timescale.</p>
-<p>If you do not want MPXJ to normalise the data, and would prefer instead to work with the raw data directly from the MPP file, you can use the <tt>setUseRawTimephasedData</tt> to do this, as shown below:</p>
+<h4><a name="Activity_WBS"></a>Activity WBS</h4>
+<p>In the original implementation of the XER file handling code, MPXJ would assign each task representing a Primavera Activity its own distinct WBS value. This does not match Primavera&#x2019;s behaviour where all of a WBS element&#x2019;s child activities will have the same WBS value as the parent WBS element. MPXJ&#x2019;s default behaviour now matches Primavera, but should you wish to you can revert to the original behaviour by calling the <tt>setMatchPrimaveraWBS</tt> as shown below.</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 ...
 
-MPPReader reader = new MPPReader();
-reader.setUseRawTimephasedData(true);
-ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+reader.setMatchPrimaveraWBS(false);
+ProjectFile file = reader.read(&quot;my-sample.xer&quot;);
 </pre></div></div></div></div></div>
         </div>
       </div>
