@@ -210,7 +210,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       // Process common attributes
       //
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
-      m_reader.processProjectProperties(rows);
+      m_reader.processProjectProperties(rows, m_projectID);
 
       //
       // Process PMDB-specific attributes

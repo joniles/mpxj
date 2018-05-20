@@ -404,7 +404,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       // Process common attributes
       //
       List<Row> rows = getRows("project", "proj_id", m_projectID);
-      m_reader.processProjectProperties(rows);
+      m_reader.processProjectProperties(rows, m_projectID);
 
       //
       // Process XER-specific attributes
