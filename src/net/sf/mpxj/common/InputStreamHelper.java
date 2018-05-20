@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -82,6 +83,37 @@ public class InputStreamHelper
    {
       File dir = FileHelper.createTempDir();
 
+      try
+      {
+         processZipStream(dir, inputStream);
+      }
+
+      catch (ZipException ex)
+      {
+         // Java doesn't support zip files with zero byte entries.
+         // We could use a different library which does handle these zip files, but
+         // I'm reluctant to add new dependencies just for this. Rather than
+         // propagating the error, we'll just stop at this point and see if we
+         // can make sense of anything we have extracted from the zip file so far.
+         // For what it's worth I haven't come across a valid compressed schedule file
+         // which includes zero bytes files.
+         if (!ex.getMessage().equals("only DEFLATED entries can have EXT descriptor"))
+         {
+            throw ex;
+         }
+      }
+
+      return dir;
+   }
+
+   /**
+    * Expands a zip file input stream into a temporary directory.
+    *
+    * @param dir temporary directory
+    * @param inputStream zip file input stream
+    */
+   private static void processZipStream(File dir, InputStream inputStream) throws IOException
+   {
       ZipInputStream zip = new ZipInputStream(inputStream);
       while (true)
       {
@@ -113,7 +145,5 @@ public class InputStreamHelper
          }
          fos.close();
       }
-
-      return dir;
    }
 }
