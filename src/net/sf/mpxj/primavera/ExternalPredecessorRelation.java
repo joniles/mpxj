@@ -103,12 +103,34 @@ public final class ExternalPredecessorRelation
    }
 
    /**
+    * Retrieve the Unique ID of this Relation.
+    *
+    * @return unique ID
+    */
+   public Integer getUniqueID()
+   {
+      return m_uniqueID;
+   }
+
+   /**
+    * Set the Unique ID of this Relation.
+    *
+    * @param uniqueID unique ID
+    */
+   public void setUniqueID(Integer uniqueID)
+   {
+      m_uniqueID = uniqueID;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
       return ("[ExternalPredecessor " + m_sourceUniqueID + " -> " + m_targetTask + "]");
    }
+
+   private Integer m_uniqueID;
 
    /**
     * Parent task file.

@@ -1128,6 +1128,7 @@ abstract class MPD9AbstractReader
          TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
          Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
          Relation relation = successorTask.addPredecessor(predecessorTask, type, duration);
+         relation.setUniqueID(row.getInteger("LINK_UID"));
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

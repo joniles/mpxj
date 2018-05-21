@@ -44,6 +44,7 @@ import java.util.Set;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.MultiDateFormat;
@@ -221,7 +222,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                   predecessorTask = proj.getTaskByUniqueID(externalRelation.getSourceUniqueID());
                   if (predecessorTask != null)
                   {
-                     externalRelation.getTargetTask().addPredecessor(predecessorTask, externalRelation.getType(), externalRelation.getLag());
+                     Relation relation = externalRelation.getTargetTask().addPredecessor(predecessorTask, externalRelation.getType(), externalRelation.getLag());
+                     relation.setUniqueID(externalRelation.getUniqueID());
                      break;
                   }
                }
@@ -1004,6 +1006,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
+
+      FIELD_TYPE_MAP.put("task_pred_id", XerFieldType.INTEGER);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();

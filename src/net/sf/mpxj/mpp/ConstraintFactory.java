@@ -116,6 +116,7 @@ public class ConstraintFactory
                TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset));
                Duration lag = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), durationUnits);
                Relation relation = task2.addPredecessor(task1, type, lag);
+               relation.setUniqueID(Integer.valueOf(constraintID));
                eventManager.fireRelationReadEvent(relation);
             }
          }

@@ -48,6 +48,7 @@ import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -637,7 +638,8 @@ final class AstaReader
                }
             }
 
-            endTask.addPredecessor(startTask, type, lag);
+            Relation relation = endTask.addPredecessor(startTask, type, lag);
+            relation.setUniqueID(row.getInteger("LINKID"));
          }
 
          //PROJID

@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="7.4.3">
 			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>
+			<action dev="joniles" type="add">Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</action>			
 		</release>	
 		<release date="30/04/2018" version="7.4.2">
 			<action dev="joniles" type="update">Gracefully handle malformed duration values in MSPDI files.</action>

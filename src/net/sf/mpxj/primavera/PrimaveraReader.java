@@ -1220,15 +1220,19 @@ final class PrimaveraReader
          Duration lag = row.getDuration("lag_hr_cnt");
          if (currentTask != null)
          {
+            Integer uniqueID = row.getInteger("task_pred_id");
             if (predecessorTask != null)
             {
                Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
+               relation.setUniqueID(uniqueID);
                m_eventManager.fireRelationReadEvent(relation);
             }
             else
             {
                // if we can't find the predecessor, it must lie outside the project
-               m_externalPredecessors.add(new ExternalPredecessorRelation(predecessorID, currentTask, type, lag));
+               ExternalPredecessorRelation relation = new ExternalPredecessorRelation(predecessorID, currentTask, type, lag);
+               m_externalPredecessors.add(relation);
+               relation.setUniqueID(uniqueID);
             }
          }
       }

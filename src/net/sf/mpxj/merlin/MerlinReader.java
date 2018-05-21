@@ -67,6 +67,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -595,7 +596,8 @@ public class MerlinReader implements ProjectReader
          Task prevTask = m_project.getTaskByUniqueID(row.getInteger("ZPREVIOUSACTIVITY_"));
          Duration lag = row.getDuration("ZLAG_");
          RelationType type = row.getRelationType("ZTYPE");
-         nextTask.addPredecessor(prevTask, type, lag);
+         Relation relation = nextTask.addPredecessor(prevTask, type, lag);
+         relation.setUniqueID(row.getInteger("Z_PK"));
       }
    }
 

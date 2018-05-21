@@ -845,6 +845,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             RelationType type = RELATION_TYPE_MAP.get(row.getType());
             Duration lag = getDuration(row.getLag());
             Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
+            relation.setUniqueID(row.getObjectId());
             m_eventManager.fireRelationReadEvent(relation);
          }
       }
