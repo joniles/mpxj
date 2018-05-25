@@ -1,8 +1,12 @@
 # Changelog
 
-## 7.4.3 (git master)
-* Store the Primavera Project ID as Unique ID in the project properties.
+## 7.4.4 (git master)
+
+## 7.4.3 (25/05/2018)
+* Add support for reading the resource "generic" attribute from MPP files.
 * Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.
+* Store the Primavera Project ID as Unique ID in the project properties.
+* Update MerlinReader to ensure support for Merlin Project Pro 5.
 
 ## 7.4.2 (30/04/2018)
 * Gracefully handle malformed duration values in MSPDI files.
