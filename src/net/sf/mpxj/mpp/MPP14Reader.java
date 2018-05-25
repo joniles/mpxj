@@ -2207,13 +2207,15 @@ final class MPP14Reader implements MPPVariantReader
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x04000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x10000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS =

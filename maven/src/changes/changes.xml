@@ -6,8 +6,9 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.4.3">
-			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>
-			<action dev="joniles" type="add">Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</action>			
+			<action dev="joniles" type="add">Add support for reading the resource "generic" attribute from MPP files.</action>
+			<action dev="joniles" type="add">Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</action>
+			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>			
 		    <action dev="joniles" type="update">Update MerlinReader to ensure support for Merlin Project Pro 5.</action>
 		</release>	
 		<release date="30/04/2018" version="7.4.2">

@@ -1544,6 +1544,9 @@ final class MPP12Reader implements MPPVariantReader
          resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x200000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x400000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));
+
+         bits = MPPUtility.getInt(metaData2, 32);
+         resource.set(ResourceField.GENERIC, Boolean.valueOf((bits & 0x04000000) != 0));
       }
    }
 

@@ -1108,7 +1108,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrievesthe budgeted cost of work performed.
+    * Retrieves the budgeted cost of work performed.
     *
     * @return budgeted cost of work performed
     */
@@ -1121,10 +1121,21 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the generic flag.
     *
     * @param isGeneric generic flag
+    * @deprecated use setGeneric
     */
-   public void setIsGeneric(boolean isGeneric)
+   @Deprecated public void setIsGeneric(boolean isGeneric)
    {
-      m_generic = isGeneric;
+      set(ResourceField.GENERIC, isGeneric);
+   }
+
+   /**
+    * Sets the generic flag.
+    *
+    * @param value generic flag
+    */
+   public void setGeneric(boolean value)
+   {
+      set(ResourceField.GENERIC, value);
    }
 
    /**
@@ -1134,7 +1145,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getGeneric()
    {
-      return (m_generic);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.GENERIC));
    }
 
    /**
@@ -2554,7 +2565,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;
-   private boolean m_generic;
    private boolean m_inactive;
    private String m_activeDirectoryGUID;
    private Duration m_actualOvertimeWorkProtected;
