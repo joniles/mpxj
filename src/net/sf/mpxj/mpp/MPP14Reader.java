@@ -1025,8 +1025,8 @@ final class MPP14Reader implements MPPVariantReader
          {
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(Integer.valueOf(MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
-            task.setID(Integer.valueOf(MPPUtility.getShort(data, TASK_ID_FIXED_OFFSET)));
+            task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             continue;
          }
@@ -1318,8 +1318,8 @@ final class MPP14Reader implements MPPVariantReader
       //
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
 
-      // I've found a pathological case of an MPP file with around 16k blank tasks...
-      int nextIDIncrement = 16500;
+      // I've found a pathological case of an MPP file with around 102k blank tasks...
+      int nextIDIncrement = 102000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
@@ -1331,12 +1331,15 @@ final class MPP14Reader implements MPPVariantReader
       // Insert any null tasks into the correct location
       //
       int insertionCount = 0;
+      Map<Integer, Integer> offsetMap = new HashMap<Integer, Integer>();
       for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
          int idValue = entry.getKey().intValue();
          int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
          int targetIDValue = baseTargetIdValue;
-         int offset = 0;
+         Integer previousOffsetKey = Integer.valueOf(baseTargetIdValue);
+         Integer previousOffset = offsetMap.get(previousOffsetKey);
+         int offset = previousOffset == null ? 0 : previousOffset.intValue() + 1;
          ++insertionCount;
 
          while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
@@ -1349,6 +1352,7 @@ final class MPP14Reader implements MPPVariantReader
             targetIDValue = baseTargetIdValue - (nextIDIncrement - offset);
          }
 
+         offsetMap.put(previousOffsetKey, Integer.valueOf(offset));
          taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
       }
 

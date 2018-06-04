@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.4.4 (git master)
+* Improve handling of MPP files with large numbers of null tasks.
 
 ## 7.4.3 (25/05/2018)
 * Add support for reading the resource "generic" attribute from MPP files.
