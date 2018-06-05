@@ -2,6 +2,7 @@
 
 ## 7.4.4 (git master)
 * Improve handling of MPP files with large numbers of null tasks.
+* Improve robustness when reading timephased data.
 
 ## 7.4.3 (25/05/2018)
 * Add support for reading the resource "generic" attribute from MPP files.
