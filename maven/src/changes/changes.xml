@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Improve handling of calendar exceptions in MPX files.</action>
 			<action dev="joniles" type="update">Improve handling of MPP files with large numbers of null tasks.</action>
 			<action dev="joniles" type="update">Improve robustness when reading timephased data.</action>
+			<action dev="joniles" type="update">Correctly sort Primavera schedules containing WBS entries with no child activities.</action>
 		</release>
 		<release date="25/05/2018" version="7.4.3">
 			<action dev="joniles" type="add">Add support for reading the resource "generic" attribute from MPP files.</action>

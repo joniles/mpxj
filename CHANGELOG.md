@@ -4,6 +4,7 @@
 * Improve handling of calendar exceptions in MPX files.
 * Improve handling of MPP files with large numbers of null tasks.
 * Improve robustness when reading timephased data.
+* Correctly sort Primavera schedules containing WBS entries with no child activities.
 
 ## 7.4.3 (25/05/2018)
 * Add support for reading the resource "generic" attribute from MPP files.

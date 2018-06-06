@@ -41,7 +41,6 @@ import java.util.Set;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -578,6 +577,7 @@ final class PrimaveraReader
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
       Set<Integer> uniqueIDs = new HashSet<Integer>();
+      Set<Task> wbsTasks = new HashSet<Task>();
 
       //
       // We set the project name when we read the project properties, but that's just
@@ -602,6 +602,7 @@ final class PrimaveraReader
          task.setProject(projectName); // P6 task always belongs to project
          processFields(m_wbsFields, row, task);
          uniqueIDs.add(task.getUniqueID());
+         wbsTasks.add(task);
          m_eventManager.fireTaskReadEvent(task);
       }
 
@@ -700,7 +701,8 @@ final class PrimaveraReader
          m_eventManager.fireTaskReadEvent(task);
       }
 
-      sortActivities(activityIDField, m_project);
+      new ActivitySorter(TaskField.TEXT1, wbsTasks).sort(m_project);
+
       updateStructure();
       updateDates();
       updateWork();
@@ -938,67 +940,6 @@ final class PrimaveraReader
          value = container.getCachedValue(baseline);
       }
       container.set(target, value);
-   }
-
-   /**
-    * Ensure activities are sorted into Activity ID order to match Primavera.
-    *
-    * @param activityIDField field containing the Activity ID value
-    * @param container object containing the tasks to process
-    */
-   private void sortActivities(final FieldType activityIDField, ChildTaskContainer container)
-   {
-      // Do we have any tasks?
-      List<Task> tasks = container.getChildTasks();
-      if (!tasks.isEmpty())
-      {
-         for (Task task : tasks)
-         {
-            //
-            // Sort child activities
-            //
-            sortActivities(activityIDField, task);
-
-            //
-            // Sort Order:
-            // 1. Activities come first
-            // 2. WBS come last
-            // 3. Activities ordered by activity ID
-            // 4. WBS ordered by ID
-            //
-            Collections.sort(tasks, new Comparator<Task>()
-            {
-               @Override public int compare(Task t1, Task t2)
-               {
-                  boolean t1HasChildren = !t1.getChildTasks().isEmpty();
-                  boolean t2HasChildren = !t2.getChildTasks().isEmpty();
-
-                  // Both are WBS
-                  if (t1HasChildren && t2HasChildren)
-                  {
-                     return t1.getID().compareTo(t2.getID());
-                  }
-
-                  // Both are activities
-                  if (!t1HasChildren && !t2HasChildren)
-                  {
-                     String activityID1 = (String) t1.getCurrentValue(activityIDField);
-                     String activityID2 = (String) t2.getCurrentValue(activityIDField);
-
-                     if (activityID1 == null || activityID2 == null)
-                     {
-                        return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
-                     }
-
-                     return activityID1.compareTo(activityID2);
-                  }
-
-                  // One activity one WBS
-                  return t1HasChildren ? 1 : -1;
-               }
-            });
-         }
-      }
    }
 
    /**

@@ -1,5 +1,5 @@
 /*
- * file:       WbsRowComparator.java
+ * file:       WbsRowComparatorPMXML.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2011
  * date:       24/11/2011
@@ -26,25 +26,26 @@ package net.sf.mpxj.primavera;
 import java.util.Comparator;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.primavera.schema.WBSType;
 
 /**
  * Comparator used to ensure that WBS elements read from an XER file
  * are processed in the correct order.
  */
-class WbsRowComparator implements Comparator<Row>
+class WbsRowComparatorPMXML implements Comparator<WBSType>
 {
    /**
     * {@inheritDoc}
     */
-   @Override public int compare(Row o1, Row o2)
+   @Override public int compare(WBSType o1, WBSType o2)
    {
-      Integer parent1 = o1.getInteger("parent_wbs_id");
-      Integer parent2 = o2.getInteger("parent_wbs_id");
+      Integer parent1 = o1.getParentObjectId();
+      Integer parent2 = o2.getParentObjectId();
       int result = NumberHelper.compare(parent1, parent2);
       if (result == 0)
       {
-         Integer seq1 = o1.getInteger("seq_num");
-         Integer seq2 = o2.getInteger("seq_num");
+         Integer seq1 = o1.getSequenceNumber();
+         Integer seq2 = o2.getSequenceNumber();
          result = NumberHelper.compare(seq1, seq2);
       }
       return result;

@@ -1027,5 +1027,5 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("schedoptions");
    }
 
-   private static final WbsRowComparator WBS_ROW_COMPARATOR = new WbsRowComparator();
+   private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();
 }
