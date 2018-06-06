@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.4.4">
+		<release date="git master" version="7.4.5">
+		</release>
+		<release date="06/06/2018" version="7.4.4">
 			<action dev="joniles" type="update">Improve handling of calendar exceptions in MPX files.</action>
 			<action dev="joniles" type="update">Improve handling of MPP files with large numbers of null tasks.</action>
 			<action dev="joniles" type="update">Improve robustness when reading timephased data.</action>

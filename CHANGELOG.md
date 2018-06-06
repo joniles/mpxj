@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.4.4 (git master)
+## 7.4.5 (git master)
+
+## 7.4.4 (06/06/2018)
 * Improve handling of calendar exceptions in MPX files.
 * Improve handling of MPP files with large numbers of null tasks.
 * Improve robustness when reading timephased data.
