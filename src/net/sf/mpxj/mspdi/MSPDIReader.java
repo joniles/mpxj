@@ -916,9 +916,9 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
       mpx.setID(NumberHelper.getInteger(xml.getID()));
       mpx.setInitials(xml.getInitials());
-      mpx.setIsEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
+      mpx.setEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
       mpx.setGeneric(BooleanHelper.getBoolean(xml.isIsGeneric()));
-      mpx.setIsInactive(BooleanHelper.getBoolean(xml.isIsInactive()));
+      mpx.setActive(!BooleanHelper.getBoolean(xml.isIsInactive()));
       mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
       mpx.setMaterialLabel(xml.getMaterialLabel());

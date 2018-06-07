@@ -1152,20 +1152,42 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the inactive flag.
     *
     * @param isInactive inactive flag
+    * @deprecated use getActive
     */
-   public void setIsInactive(boolean isInactive)
+   @Deprecated public void setIsInactive(boolean isInactive)
    {
-      m_inactive = isInactive;
+      setActive(!isInactive);
    }
 
    /**
     * Retrieves the inactive flag.
     *
     * @return inactive flag
+    * @deprecated use setActive
     */
-   public boolean getInactive()
+   @Deprecated public boolean getInactive()
    {
-      return (m_inactive);
+      return !getActive();
+   }
+
+   /**
+    * Sets the active flag.
+    *
+    * @param value generic flag
+    */
+   public void setActive(boolean value)
+   {
+      set(ResourceField.ACTIVE, value);
+   }
+
+   /**
+    * Retrieves the active flag.
+    *
+    * @return generic flag
+    */
+   public boolean getActive()
+   {
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ACTIVE));
    }
 
    /**
@@ -1272,8 +1294,19 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets a flag indicating that a resource is an enterprise resource.
     *
     * @param enterprise boolean flag
+    * @deprecated use setEnterprise
     */
-   public void setIsEnterprise(boolean enterprise)
+   @Deprecated public void setIsEnterprise(boolean enterprise)
+   {
+      set(ResourceField.ENTERPRISE, enterprise);
+   }
+
+   /**
+    * Sets a flag indicating that a resource is an enterprise resource.
+    *
+    * @param enterprise boolean flag
+    */
+   public void setEnterprise(boolean enterprise)
    {
       set(ResourceField.ENTERPRISE, enterprise);
    }
@@ -2565,7 +2598,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;
-   private boolean m_inactive;
    private String m_activeDirectoryGUID;
    private Duration m_actualOvertimeWorkProtected;
    private Duration m_actualWorkProtected;
