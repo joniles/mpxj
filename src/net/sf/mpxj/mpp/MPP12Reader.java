@@ -1547,6 +1547,9 @@ final class MPP12Reader implements MPPVariantReader
 
          bits = MPPUtility.getInt(metaData2, 32);
          resource.set(ResourceField.GENERIC, Boolean.valueOf((bits & 0x04000000) != 0));
+
+         bits = MPPUtility.getByte(metaData2, 48);
+         resource.set(ResourceField.ENTERPRISE, Boolean.valueOf((bits & 0x10) != 0));
       }
    }
 

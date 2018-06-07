@@ -1235,7 +1235,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setBookingType(BookingType bookingType)
    {
-      m_bookingType = bookingType;
+      set(ResourceField.BOOKING_TYPE, bookingType);
    }
 
    /**
@@ -1245,7 +1245,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public BookingType getBookingType()
    {
-      return (m_bookingType);
+      return (BookingType) getCachedValue(ResourceField.BOOKING_TYPE);
    }
 
    /**
@@ -1275,7 +1275,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setIsEnterprise(boolean enterprise)
    {
-      m_enterprise = enterprise;
+      set(ResourceField.ENTERPRISE, enterprise);
    }
 
    /**
@@ -1285,7 +1285,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterprise()
    {
-      return (m_enterprise);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ENTERPRISE));
    }
 
    /**
@@ -2569,8 +2569,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private String m_activeDirectoryGUID;
    private Duration m_actualOvertimeWorkProtected;
    private Duration m_actualWorkProtected;
-   private BookingType m_bookingType;
-   private boolean m_enterprise;
 
    private CostRateTable[] m_costRateTables = new CostRateTable[5];
    private AvailabilityTable m_availability = new AvailabilityTable();
