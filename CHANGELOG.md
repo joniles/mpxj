@@ -1,7 +1,8 @@
 # Changelog
 
 ## 7.4.5 (git master)
-* Added support for reading the Resource Enterprise attribute from MPP12 and MPP14 files.
+* Added support for PRX files which contain a SureTrak database.
+* Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.
 
 ## 7.4.4 (06/06/2018)
 * Improve handling of calendar exceptions in MPX files.
