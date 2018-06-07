@@ -3,6 +3,7 @@
 ## 7.4.5 (git master)
 * Added support for PRX files which contain a SureTrak database.
 * Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.
+* Improved support for older Primavera PMXML files.
 
 ## 7.4.4 (06/06/2018)
 * Improve handling of calendar exceptions in MPX files.

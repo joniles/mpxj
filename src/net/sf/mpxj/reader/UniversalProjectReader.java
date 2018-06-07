@@ -969,7 +969,7 @@ public class UniversalProjectReader implements ProjectReader
 
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
 
-   private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*<APIBusinessObjects.*", Pattern.DOTALL);
+   private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*(<BusinessObjects|APIBusinessObjects).*", Pattern.DOTALL);
 
    private static final Pattern MSPDI_FINGERPRINT = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project.*", Pattern.DOTALL);
 
