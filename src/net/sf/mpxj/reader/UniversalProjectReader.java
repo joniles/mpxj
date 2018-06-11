@@ -79,7 +79,7 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  * will sample the content and determine the type of file it has been given. It will then
  * instantiate the correct reader for that file type and proceed to read the file.
  */
-public class UniversalProjectReader implements ProjectReader
+public final class UniversalProjectReader implements ProjectReader
 {
    /**
     * {@inheritDoc}

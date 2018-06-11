@@ -53,6 +53,7 @@
 	      <item name="PMXML files" href="/howto-read-pmxml.html" />
 	      <item name="P6 databases" href="/howto-primavera.html" />
 	      <item name="XER files" href="/howto-read-xer.html" /> 
+	      <item name="MS Project MPD files" href="/howto-read-project-mpd.html" /> 
       </item>
       <item name="How to write..." href="/howto-write.html" collapse="true">
 	      <item name="MPX files" href="/howto-write-mpx.html" />
