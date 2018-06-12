@@ -64,7 +64,7 @@ import net.sf.mpxj.reader.ProjectReader;
 /**
  * Reads FastTrack FTS files.
  */
-public class FastTrackReader implements ProjectReader
+public final class FastTrackReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
