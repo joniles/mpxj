@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
@@ -39,15 +40,16 @@ import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.UnmarshallerHandler;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.AssignmentField;
@@ -94,7 +96,6 @@ import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.common.ReplaceOnceStream;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
@@ -169,12 +170,6 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       try
       {
-         //
-         // This is a hack to ensure that the incoming file has a namespace
-         // which JAXB will accept.
-         //
-         InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, getCharset());
-
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -196,13 +191,13 @@ public final class MSPDIReader extends AbstractProjectReader
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(new InputStreamReader(namespaceCorrectedStream, getCharset())));
 
          if (CONTEXT == null)
          {
             throw CONTEXT_EXCEPTION;
          }
 
+         DatatypeConverter.setParentFile(m_projectFile);
          Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
 
          //
@@ -220,8 +215,12 @@ public final class MSPDIReader extends AbstractProjectReader
             });
          }
 
-         DatatypeConverter.setParentFile(m_projectFile);
-         Project project = (Project) unmarshaller.unmarshal(doc);
+         XMLFilter filter = new NamespaceFilter();
+         filter.setParent(xmlReader);
+         UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
+         filter.setContentHandler(unmarshallerHandler);
+         filter.parse(new InputSource(new InputStreamReader(stream, getCharset())));
+         Project project = (Project) unmarshallerHandler.getResult();
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<BigInteger, ProjectCalendar>();
 
@@ -260,6 +259,11 @@ public final class MSPDIReader extends AbstractProjectReader
       }
 
       catch (SAXException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+
+      catch (IOException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -916,9 +920,9 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
       mpx.setID(NumberHelper.getInteger(xml.getID()));
       mpx.setInitials(xml.getInitials());
-      mpx.setIsEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
-      mpx.setIsGeneric(BooleanHelper.getBoolean(xml.isIsGeneric()));
-      mpx.setIsInactive(BooleanHelper.getBoolean(xml.isIsInactive()));
+      mpx.setEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
+      mpx.setGeneric(BooleanHelper.getBoolean(xml.isIsGeneric()));
+      mpx.setActive(!BooleanHelper.getBoolean(xml.isIsInactive()));
       mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
       mpx.setMaterialLabel(xml.getMaterialLabel());
@@ -1889,8 +1893,4 @@ public final class MSPDIReader extends AbstractProjectReader
       0x20, // Friday
       0x40, // Saturday
    };
-
-   private static final int NAMESPACE_SCOPE = 512;
-   private static final String NAMESPACE_REGEX = "xmlns=\\\"http://schemas\\.microsoft\\.com/project.*\\\"";
-   private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://schemas.microsoft.com/project\"";
 }

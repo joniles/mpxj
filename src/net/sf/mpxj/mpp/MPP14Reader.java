@@ -1025,8 +1025,8 @@ final class MPP14Reader implements MPPVariantReader
          {
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(Integer.valueOf(MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
-            task.setID(Integer.valueOf(MPPUtility.getShort(data, TASK_ID_FIXED_OFFSET)));
+            task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             continue;
          }
@@ -1318,8 +1318,8 @@ final class MPP14Reader implements MPPVariantReader
       //
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
 
-      // I've found a pathological case of an MPP file with around 16k blank tasks...
-      int nextIDIncrement = 16500;
+      // I've found a pathological case of an MPP file with around 102k blank tasks...
+      int nextIDIncrement = 102000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
@@ -1331,12 +1331,15 @@ final class MPP14Reader implements MPPVariantReader
       // Insert any null tasks into the correct location
       //
       int insertionCount = 0;
+      Map<Integer, Integer> offsetMap = new HashMap<Integer, Integer>();
       for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
          int idValue = entry.getKey().intValue();
          int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
          int targetIDValue = baseTargetIdValue;
-         int offset = 0;
+         Integer previousOffsetKey = Integer.valueOf(baseTargetIdValue);
+         Integer previousOffset = offsetMap.get(previousOffsetKey);
+         int offset = previousOffset == null ? 0 : previousOffset.intValue() + 1;
          ++insertionCount;
 
          while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
@@ -1349,6 +1352,7 @@ final class MPP14Reader implements MPPVariantReader
             targetIDValue = baseTargetIdValue - (nextIDIncrement - offset);
          }
 
+         offsetMap.put(previousOffsetKey, Integer.valueOf(offset));
          taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
       }
 
@@ -1436,6 +1440,9 @@ final class MPP14Reader implements MPPVariantReader
          resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x200000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x400000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));
+
+         bits = MPPUtility.getShort(metaData2, 48);
+         resource.set(ResourceField.ENTERPRISE, Boolean.valueOf((bits & 0x20) != 0));
       }
    }
 
@@ -2207,13 +2214,15 @@ final class MPP14Reader implements MPPVariantReader
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x04000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x10000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS =

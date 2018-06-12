@@ -1,8 +1,21 @@
 # Changelog
 
-## 7.4.3 (git master)
-* Store the Primavera Project ID as Unique ID in the project properties.
+## 7.4.5 (git master)
+* Added support for PRX files which contain a SureTrak database.
+* Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.
+* Improved support for older Primavera PMXML files.
+
+## 7.4.4 (06/06/2018)
+* Improve handling of calendar exceptions in MPX files.
+* Improve handling of MPP files with large numbers of null tasks.
+* Improve robustness when reading timephased data.
+* Correctly sort Primavera schedules containing WBS entries with no child activities.
+
+## 7.4.3 (25/05/2018)
+* Add support for reading the resource "generic" attribute from MPP files.
 * Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.
+* Store the Primavera Project ID as Unique ID in the project properties.
+* Update MerlinReader to ensure support for Merlin Project Pro 5.
 
 ## 7.4.2 (30/04/2018)
 * Gracefully handle malformed duration values in MSPDI files.
