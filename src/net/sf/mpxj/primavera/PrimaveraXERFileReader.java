@@ -699,7 +699,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * @param type target user defined data type
     * @param fieldNames field names
     */
-   public void setFieldNamesForTaskUdfType(UserFieldDataType type, String[] fieldNames)
+   public void setFieldNamesForTaskUdfType(UserFieldDataType type, String... fieldNames)
    {
       m_taskUdfCounters.setFieldNamesForType(type, fieldNames);
    }
@@ -710,7 +710,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * @param type target user defined data type
     * @param fieldNames field names
     */
-   public void setFieldNamesForResourceUdfType(UserFieldDataType type, String[] fieldNames)
+   public void setFieldNamesForResourceUdfType(UserFieldDataType type, String... fieldNames)
    {
       m_resourceUdfCounters.setFieldNamesForType(type, fieldNames);
    }
@@ -721,7 +721,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * @param type target user defined data type
     * @param fieldNames field names
     */
-   public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String[] fieldNames)
+   public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String... fieldNames)
    {
       m_assignmentUdfCounters.setFieldNamesForType(type, fieldNames);
    }

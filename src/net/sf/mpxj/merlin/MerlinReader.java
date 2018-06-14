@@ -88,7 +88,7 @@ import net.sf.mpxj.reader.ProjectReader;
  * file, or the read methods that accept a file name or a File object can be pointed at
  * the top level directory.
  */
-public class MerlinReader implements ProjectReader
+public final class MerlinReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
