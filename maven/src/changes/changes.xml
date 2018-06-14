@@ -9,6 +9,7 @@
 			<action dev="joniles" type="add">Added support for PRX files which contain a SureTrak database.</action>
 			<action dev="joniles" type="add">Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.</action>
 			<action dev="joniles" type="update">Improved support for older Primavera PMXML files.</action>
+			<action dev="joniles" type="update">Updated to rtfparserkit 1.11.0 for improved RTF parsing.</action>
 		</release>
 		<release date="06/06/2018" version="7.4.4">
 			<action dev="joniles" type="update">Improve handling of calendar exceptions in MPX files.</action>
