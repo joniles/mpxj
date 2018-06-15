@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2018-05-11</li>
+        <li id="publishDate">Last Published: 2018-06-12</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -58,6 +58,7 @@
     <li><a href="howto-read-mpx.html" title="MPX files"><span class="none"></span>MPX files</a>  </li>
     <li><a href="howto-read-mpp.html" title="MPP files"><span class="none"></span>MPP files</a>  </li>
     <li><a href="howto-read-mspdi.html" title="MSPDI files"><span class="none"></span>MSPDI files</a>  </li>
+    <li><a href="howto-read-mpd.html" title="MPD files"><span class="none"></span>MPD files</a>  </li>
     <li><a href="howto-read-planner.html" title="Planner files"><span class="none"></span>Planner files</a>  </li>
     <li><a href="howto-read-asta.html" title="Asta files"><span class="none"></span>Asta files</a>  </li>
     <li><a href="howto-read-p3.html" title="P3 files"><span class="none"></span>P3 files</a>  </li>
@@ -71,6 +72,7 @@
     <li><a href="howto-primavera.html" title="P6 databases"><span class="none"></span>P6 databases</a>  </li>
     <li class="active"><a href="#"><span class="none"></span>XER files</a>
   </li>
+    <li><a href="howto-read-merlin.html" title="Merlin files"><span class="none"></span>Merlin files</a>  </li>
       </ul>
   </li>
     <li><a href="howto-write.html" title="How to write..."><span class="icon-chevron-right"></span>How to write...</a>  </li>
@@ -202,7 +204,44 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setMatchPrimaveraWBS(false);
 ProjectFile file = reader.read(&quot;my-sample.xer&quot;);
-</pre></div></div></div></div></div>
+</pre></div></div></div>
+<div class="section">
+<h4><a name="User_Defined_Fields"></a>User Defined Fields</h4>
+<p>MPXJ attempts to map user defined fields from P6 to the custom fields. When MPXJ reads user defined fields from the XER file, it will assign each new user defined field to a new custom attribute. For example when the first custom text field is read, it will be stored in TEXT1, the next custom text field will be stored in TEXT2, and so on.</p>
+<p>It is possible that there are more user defined values in the XER file than there are custom attributes of a specific type in the MPXJ data model. For example the task entity only has TEXT to TEXT30 attributes, so if the XER file has more than 30 text user defined attributes, the default mapping switches to using ENTERPRISE_TEXT fields.</p>
+<p>The list below shows the default mappings used by MPXJ. Where there is more than one item shown for each user defined type, this indicates how MPXJ &#x201c;overflows&#x201d; from one custom type to another.</p>
+
+<ul>
+  
+<li>FT_TEXT: TEXT, ENTERPRISE_TEXT</li>
+  
+<li>FT_START_DATE: START</li>
+  
+<li>FT_END_DATE: FINISH</li>
+  
+<li>FT_FLOAT_2_DECIMALS: NUMBER, ENTERPRISE_NUMBER</li>
+  
+<li>FT_INT: NUMBER, ENTERPRISE_NUMBER</li>
+  
+<li>FT_STATICTYPE: TEXT, ENTERPRISE_TEXT</li>
+  
+<li>FT_MONEY: COST, ENTERPRISE_COST</li>
+</ul>
+<p>You can modify the default mappings used between P6 user defined fields and MPXJ custom fields using the the methods shown in the code sample below:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+...
+
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+reader.setFieldNamesForTaskUdfType(UserFieldDataType.FT_TEXT, &quot;ENTERPRISE_TEXT&quot;, &quot;TEXT&quot;);
+reader.setFieldNamesForResourceUdfType(UserFieldDataType.FT_START_DATE, &quot;DATE&quot;);
+reader.setFieldNamesForAssignmentUdfType(UserFieldDataType.FT_END_DATE, &quot;DATE&quot;);
+ProjectFile file = reader.read(&quot;my-sample.xer&quot;);
+</pre></div></div>
+<p>As the sample shows, a method is provided for the three main entity types: tasks, resources and resource assignments. The first argument you pass to these methods is the P6 user defined field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in <tt>&quot;DATE&quot;</tt>. To allow values to overflow from one custom field type to another, you can simply pass additional values (see the <tt>setFieldNamesForTaskUdfType</tt> example above).</p></div></div></div>
         </div>
       </div>
     </div>

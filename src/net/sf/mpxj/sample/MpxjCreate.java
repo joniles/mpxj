@@ -25,6 +25,8 @@ package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
 
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -33,6 +35,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.ProjectWriter;
@@ -129,6 +132,13 @@ public class MpxjCreate
       properties.setAuthor("Jon Iles");
 
       //
+      // Let's create an alias for TEXT1
+      //
+      CustomFieldContainer customFields = file.getCustomFields();
+      CustomField field = customFields.getCustomField(TaskField.TEXT1);
+      field.setAlias("My Custom Field");
+
+      //
       // Add resources
       //
       Resource resource1 = file.addResource();
@@ -157,6 +167,7 @@ public class MpxjCreate
       task2.setName("First Sub Task");
       task2.setDuration(Duration.getInstance(10.5, TimeUnit.DAYS));
       task2.setStart(df.parse("01/01/2003"));
+      task2.setText(1, "My Custom Value 1");
 
       //
       // We'll set this task up as being 50% complete. If we have no resource
@@ -176,6 +187,7 @@ public class MpxjCreate
       task3.setName("Second Sub Task");
       task3.setStart(df.parse("11/01/2003"));
       task3.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
+      task3.setText(1, "My Custom Value 2");
 
       //
       // Link these two tasks

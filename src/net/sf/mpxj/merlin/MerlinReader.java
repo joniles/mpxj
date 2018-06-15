@@ -88,7 +88,7 @@ import net.sf.mpxj.reader.ProjectReader;
  * file, or the read methods that accept a file name or a File object can be pointed at
  * the top level directory.
  */
-public class MerlinReader implements ProjectReader
+public final class MerlinReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
@@ -170,7 +170,7 @@ public class MerlinReader implements ProjectReader
          XPathFactory xPathfactory = XPathFactory.newInstance();
          XPath xpath = xPathfactory.newXPath();
          m_dayTimeIntervals = xpath.compile("/array/dayTimeInterval");
-
+         m_entityMap = new HashMap<String, Integer>();
          return read();
       }
 
@@ -196,6 +196,7 @@ public class MerlinReader implements ProjectReader
 
          m_documentBuilder = null;
          m_dayTimeIntervals = null;
+         m_entityMap = null;
       }
    }
 
@@ -219,6 +220,7 @@ public class MerlinReader implements ProjectReader
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
+      populateEntityMap();
       processProject();
       processCalendars();
       processResources();
@@ -227,6 +229,17 @@ public class MerlinReader implements ProjectReader
       processDependencies();
 
       return m_project;
+   }
+
+   /**
+    * Create a mapping from entity names to entity ID values.
+    */
+   private void populateEntityMap() throws SQLException
+   {
+      for (Row row : getRows("select * from z_primarykey"))
+      {
+         m_entityMap.put(row.getString("Z_NAME"), row.getInteger("Z_ENT"));
+      }
    }
 
    /**
@@ -277,7 +290,7 @@ public class MerlinReader implements ProjectReader
          calendar.setWorkingDay(day, false);
       }
 
-      List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=13", calendar.getUniqueID());
+      List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarWeekDayRule"));
       for (Row row : rows)
       {
          Day day = row.getDay("ZWEEKDAY");
@@ -319,7 +332,7 @@ public class MerlinReader implements ProjectReader
     */
    private void processExceptions(ProjectCalendar calendar) throws Exception
    {
-      List<Row> rows = getRows("select * from zcalendarrule where zcalendar=? and z_ent=12", calendar.getUniqueID());
+      List<Row> rows = getRows("select * from zcalendarrule where zcalendar=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarExceptionRule"));
       for (Row row : rows)
       {
          Date startDay = row.getDate("ZSTARTDAY");
@@ -396,7 +409,7 @@ public class MerlinReader implements ProjectReader
       // Yes... we could probably read this in one query in the right order
       // using a CTE... but life's too short.
       //
-      List<Row> rows = getRows("select * from zscheduleitem where zproject=? and zparentactivity_ is null and z_ent=45 order by zorderinparentactivity", m_projectID);
+      List<Row> rows = getRows("select * from zscheduleitem where zproject=? and zparentactivity_ is null and z_ent=? order by zorderinparentactivity", m_projectID, m_entityMap.get("Activity"));
       for (Row row : rows)
       {
          Task task = m_project.addTask();
@@ -412,7 +425,7 @@ public class MerlinReader implements ProjectReader
     */
    private void processChildTasks(Task parentTask) throws SQLException
    {
-      List<Row> rows = getRows("select * from zscheduleitem where zparentactivity_=? and z_ent=45 order by zorderinparentactivity", parentTask.getUniqueID());
+      List<Row> rows = getRows("select * from zscheduleitem where zparentactivity_=? and z_ent=? order by zorderinparentactivity", parentTask.getUniqueID(), m_entityMap.get("Activity"));
       for (Row row : rows)
       {
          Task task = parentTask.addTask();
@@ -525,7 +538,7 @@ public class MerlinReader implements ProjectReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> rows = getRows("select * from zscheduleitem where zproject=? and z_ent=47 order by zorderinactivity", m_projectID);
+      List<Row> rows = getRows("select * from zscheduleitem where zproject=? and z_ent=? order by zorderinactivity", m_projectID, m_entityMap.get("Assignment"));
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("ZACTIVITY_"));
@@ -606,16 +619,20 @@ public class MerlinReader implements ProjectReader
     * which takes a single parameter.
     *
     * @param sql query statement
-    * @param var bind variable value
+    * @param values bind variable values
     * @return result set
     * @throws SQLException
     */
-   private List<Row> getRows(String sql, Integer var) throws SQLException
+   private List<Row> getRows(String sql, Integer... values) throws SQLException
    {
       List<Row> result = new LinkedList<Row>();
 
       m_ps = m_connection.prepareStatement(sql);
-      m_ps.setInt(1, NumberHelper.getInt(var));
+      int bindIndex = 1;
+      for (Integer value : values)
+      {
+         m_ps.setInt(bindIndex++, NumberHelper.getInt(value));
+      }
       m_rs = m_ps.executeQuery();
       populateMetaData();
       while (m_rs.next())
@@ -669,4 +686,5 @@ public class MerlinReader implements ProjectReader
    private DocumentBuilder m_documentBuilder;
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;
+   private Map<String, Integer> m_entityMap;
 }

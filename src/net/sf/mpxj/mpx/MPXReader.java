@@ -675,6 +675,13 @@ public final class MPXReader extends AbstractProjectReader
       Date toDate = record.getDate(1);
       boolean working = record.getNumericBoolean(2);
 
+      // I have found an example MPX file where a single day exception is expressed with just the start date set.
+      // If we find this for we assume that the end date is the same as the start date.
+      if (fromDate != null && toDate == null)
+      {
+         toDate = fromDate;
+      }
+
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)
       {

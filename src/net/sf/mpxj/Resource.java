@@ -1108,7 +1108,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrievesthe budgeted cost of work performed.
+    * Retrieves the budgeted cost of work performed.
     *
     * @return budgeted cost of work performed
     */
@@ -1121,10 +1121,21 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the generic flag.
     *
     * @param isGeneric generic flag
+    * @deprecated use setGeneric
     */
-   public void setIsGeneric(boolean isGeneric)
+   @Deprecated public void setIsGeneric(boolean isGeneric)
    {
-      m_generic = isGeneric;
+      set(ResourceField.GENERIC, isGeneric);
+   }
+
+   /**
+    * Sets the generic flag.
+    *
+    * @param value generic flag
+    */
+   public void setGeneric(boolean value)
+   {
+      set(ResourceField.GENERIC, value);
    }
 
    /**
@@ -1134,27 +1145,49 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getGeneric()
    {
-      return (m_generic);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.GENERIC));
    }
 
    /**
     * Sets the inactive flag.
     *
     * @param isInactive inactive flag
+    * @deprecated use getActive
     */
-   public void setIsInactive(boolean isInactive)
+   @Deprecated public void setIsInactive(boolean isInactive)
    {
-      m_inactive = isInactive;
+      setActive(!isInactive);
    }
 
    /**
     * Retrieves the inactive flag.
     *
     * @return inactive flag
+    * @deprecated use setActive
     */
-   public boolean getInactive()
+   @Deprecated public boolean getInactive()
    {
-      return (m_inactive);
+      return !getActive();
+   }
+
+   /**
+    * Sets the active flag.
+    *
+    * @param value generic flag
+    */
+   public void setActive(boolean value)
+   {
+      set(ResourceField.ACTIVE, value);
+   }
+
+   /**
+    * Retrieves the active flag.
+    *
+    * @return generic flag
+    */
+   public boolean getActive()
+   {
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ACTIVE));
    }
 
    /**
@@ -1224,7 +1257,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setBookingType(BookingType bookingType)
    {
-      m_bookingType = bookingType;
+      set(ResourceField.BOOKING_TYPE, bookingType);
    }
 
    /**
@@ -1234,7 +1267,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public BookingType getBookingType()
    {
-      return (m_bookingType);
+      return (BookingType) getCachedValue(ResourceField.BOOKING_TYPE);
    }
 
    /**
@@ -1261,10 +1294,21 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets a flag indicating that a resource is an enterprise resource.
     *
     * @param enterprise boolean flag
+    * @deprecated use setEnterprise
     */
-   public void setIsEnterprise(boolean enterprise)
+   @Deprecated public void setIsEnterprise(boolean enterprise)
    {
-      m_enterprise = enterprise;
+      set(ResourceField.ENTERPRISE, enterprise);
+   }
+
+   /**
+    * Sets a flag indicating that a resource is an enterprise resource.
+    *
+    * @param enterprise boolean flag
+    */
+   public void setEnterprise(boolean enterprise)
+   {
+      set(ResourceField.ENTERPRISE, enterprise);
    }
 
    /**
@@ -1274,7 +1318,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterprise()
    {
-      return (m_enterprise);
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ENTERPRISE));
    }
 
    /**
@@ -2554,13 +2598,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;
-   private boolean m_generic;
-   private boolean m_inactive;
    private String m_activeDirectoryGUID;
    private Duration m_actualOvertimeWorkProtected;
    private Duration m_actualWorkProtected;
-   private BookingType m_bookingType;
-   private boolean m_enterprise;
 
    private CostRateTable[] m_costRateTables = new CostRateTable[5];
    private AvailabilityTable m_availability = new AvailabilityTable();

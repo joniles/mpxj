@@ -5,9 +5,23 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.4.3">
-			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>
-			<action dev="joniles" type="add">Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</action>			
+		<release date="git master" version="7.4.5">
+			<action dev="joniles" type="add">Added support for PRX files which contain a SureTrak database.</action>
+			<action dev="joniles" type="add">Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.</action>
+			<action dev="joniles" type="update">Improved support for older Primavera PMXML files.</action>
+			<action dev="joniles" type="update">Updated to rtfparserkit 1.11.0 for improved RTF parsing.</action>
+		</release>
+		<release date="06/06/2018" version="7.4.4">
+			<action dev="joniles" type="update">Improve handling of calendar exceptions in MPX files.</action>
+			<action dev="joniles" type="update">Improve handling of MPP files with large numbers of null tasks.</action>
+			<action dev="joniles" type="update">Improve robustness when reading timephased data.</action>
+			<action dev="joniles" type="update">Correctly sort Primavera schedules containing WBS entries with no child activities.</action>
+		</release>
+		<release date="25/05/2018" version="7.4.3">
+			<action dev="joniles" type="add">Add support for reading the resource "generic" attribute from MPP files.</action>
+			<action dev="joniles" type="add">Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</action>
+			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>			
+		    <action dev="joniles" type="update">Update MerlinReader to ensure support for Merlin Project Pro 5.</action>
 		</release>	
 		<release date="30/04/2018" version="7.4.2">
 			<action dev="joniles" type="update">Gracefully handle malformed duration values in MSPDI files.</action>

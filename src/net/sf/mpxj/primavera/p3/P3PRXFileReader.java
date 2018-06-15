@@ -38,6 +38,7 @@ import net.sf.mpxj.common.FixedLengthInputStream;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.Blast;
+import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
@@ -68,7 +69,19 @@ public final class P3PRXFileReader extends AbstractProjectReader
             extractFile(stream, tempDir);
          }
 
-         return P3DatabaseReader.setProjectNameAndRead(tempDir);
+         // Normally we'd expect a PRX file to contains a P3 database...
+         if (!P3DatabaseReader.listProjectNames(tempDir).isEmpty())
+         {
+            return P3DatabaseReader.setProjectNameAndRead(tempDir);
+         }
+
+         // But I have found PRX files which contain a SureTrak database
+         if (!SureTrakDatabaseReader.listProjectNames(tempDir).isEmpty())
+         {
+            return SureTrakDatabaseReader.setProjectNameAndRead(tempDir);
+         }
+
+         return null;
       }
 
       catch (IOException ex)

@@ -61,7 +61,7 @@ final class TimephasedDataFactory
    {
       LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
-      if (calendar != null && data != null && data.length > 0)
+      if (calendar != null && data != null && data.length > 2 && MPPUtility.getShort(data, 0) > 0)
       {
          Date startDate = resourceAssignment.getStart();
          double finishTime = MPPUtility.getInt(data, 24);
