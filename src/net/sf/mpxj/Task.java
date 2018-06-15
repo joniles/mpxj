@@ -349,6 +349,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (m_recurringTask);
    }
 
+   public List<ActivityCodeValue> getActivityCodes()
+   {
+      return m_activityCodes;
+   }
+
+   public void addActivityCode(ActivityCodeValue value)
+   {
+      m_activityCodes.add(value);
+   }
+
    /**
     * This method allows a resource assignment to be added to the
     * current task.
@@ -2775,7 +2785,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * This method retrieves a flag indicating whether the duration of the
     * task has only been estimated.
-
+   
     * @param estimated Boolean flag
     */
    public void setEstimated(boolean estimated)
@@ -4998,6 +5008,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * List of resource assignments for this task.
     */
    private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
+
+   /**
+    * List of activity codes for this task.
+    */
+   private List<ActivityCodeValue> m_activityCodes = new LinkedList<ActivityCodeValue>();
 
    /**
     * Recurring task details associated with this task.
