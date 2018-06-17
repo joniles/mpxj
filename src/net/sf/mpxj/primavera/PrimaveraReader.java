@@ -419,12 +419,7 @@ final class PrimaveraReader
          resource.setOvertimeRateUnits(timeUnit);
 
          // Add User Defined Fields
-         Integer uniqueID = resource.getUniqueID();
-         List<Row> udf = getContainerUDF(uniqueID, udfValues);
-         for (Row r : udf)
-         {
-            addUDFValue(FieldTypeClass.RESOURCE, resource, r);
-         }
+         populateUserDefinedFieldValues(FieldTypeClass.RESOURCE, resource, resource.getUniqueID(), udfValues);
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -665,6 +660,10 @@ final class PrimaveraReader
          }
 
          Integer uniqueID = task.getUniqueID();
+
+         // Add User Defined Fields - before we handle ID clashes
+         populateUserDefinedFieldValues(FieldTypeClass.TASK, task, uniqueID, udfValues);
+
          if (uniqueIDs.contains(uniqueID))
          {
             while (uniqueIDs.contains(Integer.valueOf(nextID)))
@@ -689,13 +688,6 @@ final class PrimaveraReader
 
          Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), projectProperties);
          task.setWork(work);
-
-         // Add User Defined Fields
-         List<Row> udf = getContainerUDF(uniqueID, udfValues);
-         for (Row r : udf)
-         {
-            addUDFValue(FieldTypeClass.TASK, task, r);
-         }
 
          m_eventManager.fireTaskReadEvent(task);
       }
@@ -883,20 +875,26 @@ final class PrimaveraReader
    }
 
    /**
-    * Retrieve the user defined values for a given container.
+    * Populate the UDF values for this entity.
     *
-    * @param id target container ID
-    * @param udfValues user defined field values
-    * @return user defined fields for the target container
+    * @param type entity type
+    * @param container entity
+    * @param uniqueID entity Unique ID
+    * @param udfValues UDF values
     */
-   private List<Row> getContainerUDF(Integer id, Map<Integer, List<Row>> udfValues)
+   private void populateUserDefinedFieldValues(FieldTypeClass type, FieldContainer container, Integer uniqueID, Map<Integer, List<Row>> udfValues)
    {
-      List<Row> udf = udfValues.get(id);
-      if (udf == null)
+      if (udfValues != null)
       {
-         udf = Collections.emptyList();
+         List<Row> udf = udfValues.get(uniqueID);
+         if (udf != null)
+         {
+            for (Row r : udf)
+            {
+               addUDFValue(type, container, r);
+            }
+         }
       }
-      return udf;
    }
 
    /*
@@ -1230,12 +1228,7 @@ final class PrimaveraReader
             assignment.setUnits(NumberHelper.getDouble(units));
 
             // Add User Defined Fields
-            Integer uniqueID = assignment.getUniqueID();
-            List<Row> udf = getContainerUDF(uniqueID, udfValues);
-            for (Row r : udf)
-            {
-               addUDFValue(FieldTypeClass.ASSIGNMENT, assignment, r);
-            }
+            populateUserDefinedFieldValues(FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID(), udfValues);
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
