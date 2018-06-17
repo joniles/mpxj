@@ -33,7 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -403,9 +402,9 @@ final class PrimaveraReader
     * Process resources.
     *
     * @param rows resource data
-    * @param udfVals User Defined Fields values data
+    * @param udfValues User Defined Fields values data
     */
-   public void processResources(List<Row> rows, List<Row> udfVals)
+   public void processResources(List<Row> rows, Map<Integer, List<Row>> udfValues)
    {
       for (Row row : rows)
       {
@@ -421,7 +420,7 @@ final class PrimaveraReader
 
          // Add User Defined Fields
          Integer uniqueID = resource.getUniqueID();
-         List<Row> udf = getContainerUDF(uniqueID, udfVals);
+         List<Row> udf = getContainerUDF(uniqueID, udfValues);
          for (Row r : udf)
          {
             addUDFValue(FieldTypeClass.RESOURCE, resource, r);
@@ -570,9 +569,9 @@ final class PrimaveraReader
     *
     * @param wbs WBS task data
     * @param tasks task data
-    * @param udfVals User Defined Fields values data
+    * @param udfValues User Defined Fields values data
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks, List<Row> udfVals)
+   public void processTasks(List<Row> wbs, List<Row> tasks, Map<Integer, List<Row>> udfValues)
    {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
@@ -692,7 +691,7 @@ final class PrimaveraReader
          task.setWork(work);
 
          // Add User Defined Fields
-         List<Row> udf = getContainerUDF(uniqueID, udfVals);
+         List<Row> udf = getContainerUDF(uniqueID, udfValues);
          for (Row r : udf)
          {
             addUDFValue(FieldTypeClass.TASK, task, r);
@@ -887,24 +886,16 @@ final class PrimaveraReader
     * Retrieve the user defined values for a given container.
     *
     * @param id target container ID
-    * @param udfs user defined fields
+    * @param udfValues user defined field values
     * @return user defined fields for the target container
     */
-   private List<Row> getContainerUDF(Integer id, List<Row> udfs)
+   private List<Row> getContainerUDF(Integer id, Map<Integer, List<Row>> udfValues)
    {
-      List<Row> udf = new LinkedList<Row>();
-
-      if (udfs != null)
+      List<Row> udf = udfValues.get(id);
+      if (udf == null)
       {
-         for (Row row : udfs)
-         {
-            if (id.equals(row.getInteger("fk_id")))
-            {
-               udf.add(row);
-            }
-         }
+         udf = Collections.emptyList();
       }
-
       return udf;
    }
 
@@ -1193,9 +1184,9 @@ final class PrimaveraReader
     * Process assignment data.
     *
     * @param rows assignment data
-    * @param udfVals User Defined Fields values data
+    * @param udfValues User Defined Fields values data
     */
-   public void processAssignments(List<Row> rows, List<Row> udfVals)
+   public void processAssignments(List<Row> rows, Map<Integer, List<Row>> udfValues)
    {
       for (Row row : rows)
       {
@@ -1240,7 +1231,7 @@ final class PrimaveraReader
 
             // Add User Defined Fields
             Integer uniqueID = assignment.getUniqueID();
-            List<Row> udf = getContainerUDF(uniqueID, udfVals);
+            List<Row> udf = getContainerUDF(uniqueID, udfValues);
             for (Row r : udf)
             {
                addUDFValue(FieldTypeClass.ASSIGNMENT, assignment, r);

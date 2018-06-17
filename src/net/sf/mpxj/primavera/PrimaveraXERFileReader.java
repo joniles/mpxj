@@ -111,6 +111,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       {
          m_tables = new HashMap<String, List<Row>>();
          m_numberFormat = new DecimalFormat();
+         m_udfValues = new HashMap<Integer, List<Row>>();
 
          processFile(is);
 
@@ -147,6 +148,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          m_currencyMap.clear();
          m_numberFormat = null;
          m_defaultCurrencyData = null;
+         m_udfValues = null;
       }
    }
 
@@ -442,6 +444,18 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       List<Row> udfs = getRows("udftype", null, null);
       m_reader.processUserDefinedFields(udfs);
+
+      for (Row row : getRows("udfvalue", null, null))
+      {
+         Integer id = row.getInteger("fk_id");
+         List<Row> list = m_udfValues.get(id);
+         if (list == null)
+         {
+            list = new ArrayList<Row>();
+            m_udfValues.put(id, list);
+         }
+         list.add(row);
+      }
    }
 
    /**
@@ -459,8 +473,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processResources()
    {
       List<Row> rows = getRows("rsrc", null, null);
-      List<Row> udfVals = getRows("udfvalue", "proj_id", null); // resources don't belong to a project
-      m_reader.processResources(rows, udfVals);
+      m_reader.processResources(rows, m_udfValues);
    }
 
    /**
@@ -481,9 +494,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
       //List<Row> wbsmemos = getRows("wbsmemo", "proj_id", m_projectID);
       //List<Row> taskmemos = getRows("taskmemo", "proj_id", m_projectID);
-      List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks, udfVals/*, wbsmemos, taskmemos*/);
+      m_reader.processTasks(wbs, tasks, m_udfValues/*, wbsmemos, taskmemos*/);
    }
 
    /**
@@ -501,8 +513,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processAssignments()
    {
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
-      List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
-      m_reader.processAssignments(rows, udfVals);
+      m_reader.processAssignments(rows, m_udfValues);
    }
 
    /**
@@ -863,6 +874,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
    private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
    private boolean m_matchPrimaveraWBS = true;
+   private Map<Integer, List<Row>> m_udfValues;
 
    /**
     * Represents expected record types.
