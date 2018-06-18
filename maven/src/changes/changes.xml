@@ -8,6 +8,8 @@
 		<release date="git master" version="7.4.5">
 			<action dev="joniles" type="add">Added support for PRX files which contain a SureTrak database.</action>
 			<action dev="joniles" type="add">Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.</action>
+			<action dev="joniles" type="add">Added support for reading user defined values from a P6 database.</action>
+			<action dev="joniles" type="update">Improve performance when reading user defined values from XER files.</action>
 			<action dev="joniles" type="update">Improved support for older Primavera PMXML files.</action>
 			<action dev="joniles" type="update">Updated to rtfparserkit 1.11.0 for improved RTF parsing.</action>
 		</release>
