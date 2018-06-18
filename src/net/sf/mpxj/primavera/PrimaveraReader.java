@@ -173,13 +173,26 @@ final class PrimaveraReader
    /**
     * Process User Defined Fields (UDF).
     *
-    * @param userDefinedFields UDFs rows
+    * @param fields field definitions
+    * @param values field values
     */
-   public void processUserDefinedFields(List<Row> userDefinedFields)
+   public void processUserDefinedFields(List<Row> fields, List<Row> values)
    {
-      for (Row row : userDefinedFields)
+      for (Row row : fields)
       {
          parseUDF(row);
+      }
+
+      for (Row row : values)
+      {
+         Integer id = row.getInteger("fk_id");
+         List<Row> list = m_udfValues.get(id);
+         if (list == null)
+         {
+            list = new ArrayList<Row>();
+            m_udfValues.put(id, list);
+         }
+         list.add(row);
       }
    }
 
@@ -395,17 +408,6 @@ final class PrimaveraReader
     */
    public void processResources(List<Row> rows)
    {
-      processResources(rows, null);
-   }
-
-   /**
-    * Process resources.
-    *
-    * @param rows resource data
-    * @param udfValues User Defined Fields values data
-    */
-   public void processResources(List<Row> rows, Map<Integer, List<Row>> udfValues)
-   {
       for (Row row : rows)
       {
          Resource resource = m_project.addResource();
@@ -419,7 +421,7 @@ final class PrimaveraReader
          resource.setOvertimeRateUnits(timeUnit);
 
          // Add User Defined Fields
-         populateUserDefinedFieldValues(FieldTypeClass.RESOURCE, resource, resource.getUniqueID(), udfValues);
+         populateUserDefinedFieldValues(FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -556,18 +558,6 @@ final class PrimaveraReader
     */
    public void processTasks(List<Row> wbs, List<Row> tasks)
    {
-      processTasks(wbs, tasks, null);
-   }
-
-   /**
-    * Process tasks.
-    *
-    * @param wbs WBS task data
-    * @param tasks task data
-    * @param udfValues User Defined Fields values data
-    */
-   public void processTasks(List<Row> wbs, List<Row> tasks, Map<Integer, List<Row>> udfValues)
-   {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
       Set<Integer> uniqueIDs = new HashSet<Integer>();
@@ -662,7 +652,7 @@ final class PrimaveraReader
          Integer uniqueID = task.getUniqueID();
 
          // Add User Defined Fields - before we handle ID clashes
-         populateUserDefinedFieldValues(FieldTypeClass.TASK, task, uniqueID, udfValues);
+         populateUserDefinedFieldValues(FieldTypeClass.TASK, task, uniqueID);
 
          if (uniqueIDs.contains(uniqueID))
          {
@@ -880,19 +870,15 @@ final class PrimaveraReader
     * @param type entity type
     * @param container entity
     * @param uniqueID entity Unique ID
-    * @param udfValues UDF values
     */
-   private void populateUserDefinedFieldValues(FieldTypeClass type, FieldContainer container, Integer uniqueID, Map<Integer, List<Row>> udfValues)
+   private void populateUserDefinedFieldValues(FieldTypeClass type, FieldContainer container, Integer uniqueID)
    {
-      if (udfValues != null)
+      List<Row> udf = m_udfValues.get(uniqueID);
+      if (udf != null)
       {
-         List<Row> udf = udfValues.get(uniqueID);
-         if (udf != null)
+         for (Row r : udf)
          {
-            for (Row r : udf)
-            {
-               addUDFValue(type, container, r);
-            }
+            addUDFValue(type, container, r);
          }
       }
    }
@@ -1175,17 +1161,6 @@ final class PrimaveraReader
     */
    public void processAssignments(List<Row> rows)
    {
-      processAssignments(rows, null);
-   }
-
-   /**
-    * Process assignment data.
-    *
-    * @param rows assignment data
-    * @param udfValues User Defined Fields values data
-    */
-   public void processAssignments(List<Row> rows, Map<Integer, List<Row>> udfValues)
-   {
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
@@ -1228,7 +1203,7 @@ final class PrimaveraReader
             assignment.setUnits(NumberHelper.getDouble(units));
 
             // Add User Defined Fields
-            populateUserDefinedFieldValues(FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID(), udfValues);
+            populateUserDefinedFieldValues(FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
@@ -1669,7 +1644,7 @@ final class PrimaveraReader
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
-   private Map<Integer, String> m_udfMap = new HashMap<Integer, String>();
+
    private final UserFieldCounters m_taskUdfCounters;
    private final UserFieldCounters m_resourceUdfCounters;
    private final UserFieldCounters m_assignmentUdfCounters;
@@ -1679,6 +1654,9 @@ final class PrimaveraReader
    private Map<FieldType, String> m_assignmentFields;
    private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
    private final boolean m_matchPrimaveraWBS;
+
+   private Map<Integer, String> m_udfMap = new HashMap<Integer, String>();
+   private Map<Integer, List<Row>> m_udfValues = new HashMap<Integer, List<Row>>();
 
    private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
    static
