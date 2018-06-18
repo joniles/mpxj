@@ -112,6 +112,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
          processAnalytics();
          processProjectProperties();
+         processUserDefinedFields();
          processCalendars();
          processResources();
          processResourceRates();
@@ -230,6 +231,16 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       }
 
       processSchedulingProjectProperties();
+   }
+
+   /**
+    * Process user defined fields.
+    */
+   private void processUserDefinedFields() throws SQLException
+   {
+      List<Row> fields = getRows("select * from " + m_schema + "udftype");
+      List<Row> values = getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
+      m_reader.processUserDefinedFields(fields, values);
    }
 
    /**

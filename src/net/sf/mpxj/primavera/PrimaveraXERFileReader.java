@@ -440,8 +440,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     */
    private void processUserDefinedFields()
    {
-      List<Row> udfs = getRows("udftype", null, null);
-      m_reader.processUserDefinedFields(udfs);
+      List<Row> fields = getRows("udftype", null, null);
+      List<Row> values = getRows("udfvalue", null, null);
+      m_reader.processUserDefinedFields(fields, values);
    }
 
    /**
@@ -459,8 +460,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processResources()
    {
       List<Row> rows = getRows("rsrc", null, null);
-      List<Row> udfVals = getRows("udfvalue", "proj_id", null); // resources don't belong to a project
-      m_reader.processResources(rows, udfVals);
+      m_reader.processResources(rows);
    }
 
    /**
@@ -481,9 +481,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
       //List<Row> wbsmemos = getRows("wbsmemo", "proj_id", m_projectID);
       //List<Row> taskmemos = getRows("taskmemo", "proj_id", m_projectID);
-      List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks, udfVals/*, wbsmemos, taskmemos*/);
+      m_reader.processTasks(wbs, tasks/*, wbsmemos, taskmemos*/);
    }
 
    /**
@@ -501,8 +500,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private void processAssignments()
    {
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
-      List<Row> udfVals = getRows("udfvalue", "proj_id", m_projectID);
-      m_reader.processAssignments(rows, udfVals);
+      m_reader.processAssignments(rows);
    }
 
    /**
@@ -1002,6 +1000,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("udf_number", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("udf_text", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("udf_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_type_id", XerFieldType.INTEGER);
 
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
