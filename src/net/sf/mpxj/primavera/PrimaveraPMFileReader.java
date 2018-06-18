@@ -285,6 +285,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Process activity code data.
+    *
+    * @param apibo global activity code data
+    * @param project project-specific activity code data
+    */
    private void processActivityCodes(APIBusinessObjects apibo, ProjectType project)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
@@ -953,6 +959,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read details of any activity codes assigned to this task.
+    * @param task parent task
+    * @param codes activity code assignments
+    */
    private void readActivityCodes(Task task, List<CodeAssignmentType> codes)
    {
       for (CodeAssignmentType assignment : codes)
@@ -1018,7 +1029,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
-   Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();
    static
