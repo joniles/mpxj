@@ -598,6 +598,16 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
+    * Retrieves the activity code configuration for this project.
+    *
+    * @return custom field configuration
+    */
+   public ActivityCodeContainer getActivityCodes()
+   {
+      return m_activityCodes;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -667,4 +677,5 @@ public final class ProjectFile implements ChildTaskContainer
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
+   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
 }

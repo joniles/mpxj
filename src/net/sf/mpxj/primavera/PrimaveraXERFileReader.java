@@ -122,6 +122,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          processProjectID();
          processProjectProperties();
+         processActivityCodes();
          processUserDefinedFields();
          processCalendars();
          processResources();
@@ -417,6 +418,17 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       }
 
       processScheduleOptions();
+   }
+
+   /**
+    * Process activity code data.
+    */
+   private void processActivityCodes()
+   {
+      List<Row> types = getRows("actvtype", null, null);
+      List<Row> typeValues = getRows("actvcode", null, null);
+      List<Row> assignments = getRows("taskactv", null, null);
+      m_reader.processActivityCodes(types, typeValues, assignments);
    }
 
    /**
@@ -1007,6 +1019,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
 
       FIELD_TYPE_MAP.put("task_pred_id", XerFieldType.INTEGER);
+
+      FIELD_TYPE_MAP.put("actv_code_type_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("actv_code_id", XerFieldType.INTEGER);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
@@ -1024,6 +1039,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       REQUIRED_TABLES.add("udftype");
       REQUIRED_TABLES.add("udfvalue");
       REQUIRED_TABLES.add("schedoptions");
+      REQUIRED_TABLES.add("actvtype");
+      REQUIRED_TABLES.add("actvcode");
+      REQUIRED_TABLES.add("taskactv");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

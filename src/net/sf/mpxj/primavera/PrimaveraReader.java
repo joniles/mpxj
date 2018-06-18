@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -167,6 +170,48 @@ final class PrimaveraReader
          properties.setUniqueID(projectID == null ? null : projectID.toString());
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
+      }
+   }
+
+   /**
+    * Read activity code types and values.
+    *
+    * @param types activity code type data
+    * @param typeValues activity code value data
+    * @param assignments activity code task assignments
+    */
+   public void processActivityCodes(List<Row> types, List<Row> typeValues, List<Row> assignments)
+   {
+      ActivityCodeContainer container = m_project.getActivityCodes();
+      Map<Integer, ActivityCode> map = new HashMap<Integer, ActivityCode>();
+
+      for (Row row : types)
+      {
+         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), row.getString("actv_code_type"));
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      for (Row row : typeValues)
+      {
+         ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
+         if (code != null)
+         {
+            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getString("short_name"), row.getString("actv_code_name"));
+            m_activityCodeMap.put(value.getUniqueID(), value);
+         }
+      }
+
+      for (Row row : assignments)
+      {
+         Integer taskID = row.getInteger("task_id");
+         List<Integer> list = m_activityCodeAssignments.get(taskID);
+         if (list == null)
+         {
+            list = new ArrayList<Integer>();
+            m_activityCodeAssignments.put(taskID, list);
+         }
+         list.add(row.getInteger("actv_code_id"));
       }
    }
 
@@ -679,6 +724,8 @@ final class PrimaveraReader
          // Add User Defined Fields - before we handle ID clashes
          populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, uniqueID);
 
+         populateActivityCodes(task);
+
          if (uniqueIDs.contains(uniqueID))
          {
             while (uniqueIDs.contains(Integer.valueOf(nextID)))
@@ -712,6 +759,27 @@ final class PrimaveraReader
       updateStructure();
       updateDates();
       updateWork();
+   }
+
+   /**
+    * Read details of any activity codes assigned to this task.
+    *
+    * @param task parent task
+    */
+   private void populateActivityCodes(Task task)
+   {
+      List<Integer> list = m_activityCodeAssignments.get(task.getUniqueID());
+      if (list != null)
+      {
+         for (Integer id : list)
+         {
+            ActivityCodeValue value = m_activityCodeMap.get(id);
+            if (value != null)
+            {
+               task.addActivityCode(value);
+            }
+         }
+      }
    }
 
    /**
@@ -1668,6 +1736,9 @@ final class PrimaveraReader
 
    private Map<Integer, String> m_udfFields = new HashMap<Integer, String>();
    private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<String, Map<Integer, List<Row>>>();
+
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
+   private Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<Integer, List<Integer>>();
 
    private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
    static
