@@ -181,6 +181,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       {
          m_tables = new HashMap<String, List<Row>>();
          m_numberFormat = new DecimalFormat();
+         m_udfValues = new HashMap<Integer, List<Row>>();
 
          processFile(is);
 
@@ -194,6 +195,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
             ProjectFile project = m_reader.getProject();
             project.getEventManager().addProjectListeners(m_projectListeners);
+            m_udfValues.clear();
 
             processProjectProperties();
             processUserDefinedFields();
@@ -247,6 +249,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          m_currencyMap.clear();
          m_numberFormat = null;
          m_defaultCurrencyData = null;
+         m_udfValues = null;
       }
    }
 
