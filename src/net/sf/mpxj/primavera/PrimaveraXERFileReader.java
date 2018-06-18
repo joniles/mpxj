@@ -1000,6 +1000,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("udf_number", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("udf_text", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("udf_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_type_id", XerFieldType.INTEGER);
 
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
