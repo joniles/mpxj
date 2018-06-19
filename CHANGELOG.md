@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.5.0 (git master)
+## 7.5.1 (git master)
+
+## 7.5.0 (19/06/2018)
 * Added support for reading activity codes from P6 databases, XER files, and PMXML files.
 * Added support for reading user defined values from a P6 database.
 * Added support for PRX files which contain a SureTrak database.

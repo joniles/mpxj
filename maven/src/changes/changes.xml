@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.5.0">
+		<release date="git master" version="7.5.1">
+		</release>
+		<release date="19/06/2018" version="7.5.0">
 			<action dev="joniles" type="add">Added support for reading activity codes from P6 databases, XER files, and PMXML files.</action>
 			<action dev="joniles" type="add">Added support for reading user defined values from a P6 database.</action>
 			<action dev="joniles" type="add">Added support for PRX files which contain a SureTrak database.</action>
