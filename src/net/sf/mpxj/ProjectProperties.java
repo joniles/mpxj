@@ -2616,7 +2616,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * Projects that have external relationships may be included in an export, even when not specifically flagged in the export
     * This flag differentiates those projects
     *
-    * @param value boolean flag
+    * @return export boolean flag
     */
    public boolean getExportFlag()
    {
