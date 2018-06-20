@@ -2612,6 +2612,28 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Retrieves the export flag used to specify if the project was chosen to export from P6
+    * Projects that have external relationships may be included in an export, even when not specifically flagged in the export
+    * This flag differentiates those projects
+    *
+    * @param value boolean flag
+    */
+   public boolean getExportFlag()
+   {
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.EXPORT_FLAG));
+   }
+
+   /**
+    * Sets the export flag to populate this ProjectFile instance.
+    *
+    * @param value boolean flag
+    */
+   public void setExportFlag(boolean value)
+   {
+      set(ProjectField.EXPORT_FLAG, value);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void addFieldListener(FieldListener listener)
