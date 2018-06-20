@@ -111,7 +111,6 @@ class MapRow implements Row
             result = BooleanHelper.getBoolean((Boolean) value);
          }
          else
-         {
             if (value instanceof Number)
             {
                // generally all non-zero numbers are treated as truthy
@@ -121,7 +120,6 @@ class MapRow implements Row
             {
                result = Boolean.parseBoolean((String) value);
             }
-         }
 
          // XER files sometimes have "N" and "Y" to indicate boolean
          if (result == false && value instanceof String)
