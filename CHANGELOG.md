@@ -1,9 +1,15 @@
 # Changelog
 
-## 7.4.5 (git master)
+## 7.5.1 (git master)
+
+## 7.5.0 (19/06/2018)
+* Added support for reading activity codes from P6 databases, XER files, and PMXML files.
+* Added support for reading user defined values from a P6 database.
 * Added support for PRX files which contain a SureTrak database.
 * Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.
+* Improve performance when reading user defined values from XER files.
 * Improved support for older Primavera PMXML files.
+* Updated to rtfparserkit 1.11.0 for improved RTF parsing.
 
 ## 7.4.4 (06/06/2018)
 * Improve handling of calendar exceptions in MPX files.

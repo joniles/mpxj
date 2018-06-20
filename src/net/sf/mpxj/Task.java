@@ -350,6 +350,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the activity codes associated with this task.
+    *
+    * @return list of activity codes
+    */
+   public List<ActivityCodeValue> getActivityCodes()
+   {
+      return m_activityCodes;
+   }
+
+   /**
+    * Assign an activity code to this task.
+    *
+    * @param value activity coe value
+    */
+   public void addActivityCode(ActivityCodeValue value)
+   {
+      m_activityCodes.add(value);
+   }
+
+   /**
     * This method allows a resource assignment to be added to the
     * current task.
     *
@@ -4998,6 +5018,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * List of resource assignments for this task.
     */
    private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
+
+   /**
+    * List of activity codes for this task.
+    */
+   private List<ActivityCodeValue> m_activityCodes = new LinkedList<ActivityCodeValue>();
 
    /**
     * Recurring task details associated with this task.

@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,6 +48,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CustomFieldContainer;
@@ -79,12 +83,15 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
+import net.sf.mpxj.primavera.schema.ActivityCodeType;
+import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
+import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
 import net.sf.mpxj.primavera.schema.ProjectType;
@@ -176,6 +183,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
+         processActivityCodes(apibo, project);
          processCalendars(apibo);
          processResources(apibo);
          processTasks(project);
@@ -215,6 +223,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_projectFile = null;
          m_clashMap.clear();
          m_calMap.clear();
+         m_activityCodeMap.clear();
       }
    }
 
@@ -272,6 +281,43 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                properties.setCurrencySymbol(currency.getSymbol());
                break;
             }
+         }
+      }
+   }
+
+   /**
+    * Process activity code data.
+    *
+    * @param apibo global activity code data
+    * @param project project-specific activity code data
+    */
+   private void processActivityCodes(APIBusinessObjects apibo, ProjectType project)
+   {
+      ActivityCodeContainer container = m_projectFile.getActivityCodes();
+      Map<Integer, ActivityCode> map = new HashMap<Integer, ActivityCode>();
+
+      List<ActivityCodeTypeType> types = new ArrayList<ActivityCodeTypeType>();
+      types.addAll(apibo.getActivityCodeType());
+      types.addAll(project.getActivityCodeType());
+
+      for (ActivityCodeTypeType type : types)
+      {
+         ActivityCode code = new ActivityCode(type.getObjectId(), type.getName());
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ActivityCodeType> typeValues = new ArrayList<ActivityCodeType>();
+      typeValues.addAll(apibo.getActivityCode());
+      typeValues.addAll(project.getActivityCode());
+
+      for (ActivityCodeType typeValue : typeValues)
+      {
+         ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getCodeValue(), typeValue.getDescription());
+            m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
    }
@@ -591,6 +637,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          readUDFTypes(task, row.getUDF());
+         readActivityCodes(task, row.getCode());
 
          m_eventManager.fireTaskReadEvent(task);
       }
@@ -913,6 +960,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    /**
+    * Read details of any activity codes assigned to this task.
+    * @param task parent task
+    * @param codes activity code assignments
+    */
+   private void readActivityCodes(Task task, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ActivityCodeValue code = m_activityCodeMap.get(Integer.valueOf(assignment.getValueObjectId()));
+         if (code != null)
+         {
+            task.addActivityCode(code);
+         }
+      }
+   }
+
+   /**
     * Cached context to minimise construction cost.
     */
    private static JAXBContext CONTEXT;
@@ -965,6 +1029,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();
    static

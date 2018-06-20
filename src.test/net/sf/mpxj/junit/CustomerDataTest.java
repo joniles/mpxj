@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -41,6 +42,7 @@ import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 
@@ -229,6 +231,7 @@ public class CustomerDataTest
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       MPXReader mpxReader = new MPXReader();
+      PrimaveraXERFileReader xerReader = new PrimaveraXERFileReader();
 
       int failures = 0;
       for (File file : files)
@@ -261,6 +264,13 @@ public class CustomerDataTest
                if (name.endsWith(".MPP"))
                {
                   validateMpp(file.getCanonicalPath(), mpxj);
+               }
+
+               // If we have an XER file, exercise the "readAll" functionality
+               // For now, ignore files with non-standard encodings.
+               if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
+               {
+                  xerReader.readAll(new FileInputStream(file), true);
                }
             }
 
