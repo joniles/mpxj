@@ -187,8 +187,8 @@
 
 	<licenses>
 		<license>
-			<name>GNU Lesser General Public License v3.0 or later</name>
-			<url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+			<name>GNU Lesser General Public License v2.1 or later</name>
+			<url>https://www.gnu.org/licenses/old-licenses/lgpl-2.1-standalone.html</url>
 		</license>
 	</licenses>
 
