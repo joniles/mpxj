@@ -1747,7 +1747,10 @@ final class PrimaveraReader
       RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.WORK);
+      // Changed RT_Equip from the original (ResourceType.WORK)
+      // I need to be able to detect RT_Equip
+      // This will probably present problems if I use other methods like time phasing, or anything else that hits this enum in MPXJ
+      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
    }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
