@@ -2612,9 +2612,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
-    * Retrieves the export flag used to specify if the project was chosen to export from P6
-    * Projects that have external relationships may be included in an export, even when not specifically flagged in the export
-    * This flag differentiates those projects
+    * Retrieves the export flag used to specify if the project was chosen to export from P6.
+    * Projects that have external relationships may be included in an export, even when not
+    * specifically flagged in the export. This flag differentiates those projects
     *
     * @return export boolean flag
     */
