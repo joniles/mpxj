@@ -158,6 +158,7 @@ public enum ProjectField implements FieldType
    AUTOFILTER(DataType.BOOLEAN),
    FILE_APPLICATION(DataType.STRING),
    FILE_TYPE(DataType.STRING),
+   EXPORT_FLAG(DataType.BOOLEAN),
 
    FINISH_DATE(DataType.DATE); // Must always be last value
 

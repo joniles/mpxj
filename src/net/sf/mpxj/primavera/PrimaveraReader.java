@@ -168,6 +168,7 @@ final class PrimaveraReader
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setUniqueID(projectID == null ? null : projectID.toString());
+         properties.setExportFlag(row.getBoolean("export_flag"));
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
