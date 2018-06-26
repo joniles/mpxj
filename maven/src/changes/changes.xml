@@ -8,6 +8,7 @@
 		<release date="git master" version="7.5.1">
 			<action dev="joniles" type="add">Add support for reading the export_flag attribute from XER files. (Contributed by forenpm)</action>
 			<action dev="joniles" type="update">Use correct licence details in Maven pom.xml (contributed by Mark Atwood).</action>
+			<action dev="joniles" type="update">Improve UniversalProjectReader's handling of XER files containing multiple projects.</action>
 		</release>
 		<release date="19/06/2018" version="7.5.0">
 			<action dev="joniles" type="add">Added support for reading activity codes from P6 databases, XER files, and PMXML files.</action>

@@ -229,9 +229,7 @@ public final class UniversalProjectReader implements ProjectReader
 
          if (matchesFingerprint(buffer, XER_FINGERPRINT))
          {
-            PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-            reader.setCharset(m_charset);
-            return readProjectFile(reader, bis);
+            return handleXerFile(bis);
          }
 
          if (matchesFingerprint(buffer, PLANNER_FINGERPRINT))
@@ -669,7 +667,6 @@ public final class UniversalProjectReader implements ProjectReader
     *
     * @param stream schedule data
     * @return ProjectFile instance
-    * @throws Exception
     */
    private ProjectFile handleDosExeFile(InputStream stream) throws Exception
    {
@@ -724,6 +721,38 @@ public final class UniversalProjectReader implements ProjectReader
          StreamHelper.closeQuietly(is);
          FileHelper.deleteQuietly(file);
       }
+   }
+
+   /**
+    * XER files can contain multiple projects when there are cross-project dependencies.
+    * As the UniversalProjectReader is designed just to read a single project, we need
+    * to select one project from those available in the XER file.
+    * The original project selected for export by the user will have its "export flag"
+    * set to true. We'll return the first project we find where the export flag is
+    * set to true, otherwise we'll just return the first project we find in the file.
+    *
+    * @param stream schedule data
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleXerFile(InputStream stream) throws Exception
+   {
+      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+      reader.setCharset(m_charset);
+      List<ProjectFile> projects = reader.readAll(stream);
+      ProjectFile project = null;
+      for (ProjectFile file : projects)
+      {
+         if (file.getProjectProperties().getExportFlag())
+         {
+            project = file;
+            break;
+         }
+      }
+      if (project == null)
+      {
+         project = projects.get(0);
+      }
+      return project;
    }
 
    /**
