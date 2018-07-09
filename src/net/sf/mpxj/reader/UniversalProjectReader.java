@@ -53,6 +53,7 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.listener.ProjectListener;
@@ -292,6 +293,10 @@ public final class UniversalProjectReader implements ProjectReader
             return handleDosExeFile(bis);
          }
 
+         if (matchesFingerprint(buffer, CONCEPT_DRAW_FINGERPRINT))
+         {
+            return readProjectFile(new ConceptDrawProjectReader(), bis);
+         }
          return null;
       }
 
@@ -1011,4 +1016,6 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern PRX_FINGERPRINT = Pattern.compile("!Self-Extracting Primavera Project", Pattern.DOTALL);
 
    private static final Pattern PRX3_FINGERPRINT = Pattern.compile("PRX3", Pattern.DOTALL);
+
+   private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\\\"CDProject\\\".*", Pattern.DOTALL);
 }

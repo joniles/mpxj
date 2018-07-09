@@ -1801,7 +1801,7 @@ public final class DatatypeConverter
     * Parse method for a string: returns the string unchanged.
     * This is used to enable to string representation of an
     * xsd:datetime to be processed by MPXJ.
-
+   
     * @param value string value
     * @return string value
     */
@@ -1852,6 +1852,7 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
          df.setLenient(false);
+         DATE_FORMAT.set(df);
       }
       return (df);
 
@@ -1869,6 +1870,7 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("HH:mm:ss");
          df.setLenient(false);
+         TIME_FORMAT.set(df);
       }
       return (df);
 
