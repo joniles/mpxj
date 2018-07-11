@@ -8,20 +8,20 @@
 
 package net.sf.mpxj.conceptdraw.schema;
 
-import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import net.sf.mpxj.CurrencySymbolPosition;
 
-public class Adapter2
-    extends XmlAdapter<String, Date>
+public class Adapter13
+    extends XmlAdapter<String, CurrencySymbolPosition>
 {
 
 
-    public Date unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate(value));
+    public CurrencySymbolPosition unmarshal(String value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseCurrencySymbolPosition(value));
     }
 
-    public String marshal(Date value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDate(value));
+    public String marshal(CurrencySymbolPosition value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printCurrencySymbolPosition(value));
     }
 
 }

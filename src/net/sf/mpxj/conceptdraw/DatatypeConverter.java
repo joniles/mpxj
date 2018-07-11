@@ -42,23 +42,31 @@ import net.sf.mpxj.TimeUnit;
  */
 public final class DatatypeConverter
 {
-   /**
-    * Retrieve an integer in the form required by Phoenix.
-    *
-    * @param value integer value
-    * @return formatted integer
-    */
    public static final String printInteger(Integer value)
    {
       return value == null ? null : value.toString();
    }
 
-   /**
-    * Convert the Phoenix representation of an integer into a Java Integer instance.
-    *
-    * @param value Phoenix integer
-    * @return Java Integer instance
-    */
+   public static final Double parseDouble(String value)
+   {
+      return Double.valueOf(value);
+   }
+
+   public static final String printDouble(Double value)
+   {
+      return value == null ? null : value.toString();
+   }
+
+   public static final Double parsePercent(String value)
+   {
+      return Double.valueOf(Double.parseDouble(value) * 100.0);
+   }
+
+   public static final String printPercent(Double value)
+   {
+      return value == null ? null : Double.toString(value.doubleValue() / 100.0);
+   }
+
    public static final Integer parseInteger(String value)
    {
       return Integer.valueOf(value);

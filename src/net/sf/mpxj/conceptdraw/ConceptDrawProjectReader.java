@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -95,7 +96,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
-         config.setAutoTaskUniqueID(false);
+         config.setAutoResourceID(false);
+         config.setAutoTaskID(false);
          config.setAutoOutlineLevel(true);
          config.setAutoOutlineNumber(true);
          config.setAutoWBS(true);
@@ -277,7 +279,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjResource.setUniqueID(resource.getID());
       //resource.getMarkerID()
       mpxjResource.setNotes(resource.getNote());
-      //resource.getOutlineNumber()
+      mpxjResource.setID(Integer.valueOf(resource.getOutlineNumber()));
       //resource.getStyleProject()
       mpxjResource.setType(resource.getSubType() == null ? resource.getType() : resource.getSubType());
    }
@@ -307,7 +309,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjTask.setFinish(project.getFinishDate());
       //project.getGoal()
       //project.getHyperlinks()
-      mpxjTask.setUniqueID(project.getID()); // TODO: handle clashes
+      mpxjTask.setID(Integer.valueOf(project.getOutlineNumber()));
       //project.getMarkerID()
       mpxjTask.setName(project.getName());
       mpxjTask.setNotes(project.getNote());
@@ -320,6 +322,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //      project.getTimeScale()
       //      project.getViewProperties()
 
+      mpxjTask.setGUID(UUID.nameUUIDFromBytes(project.getID().toString().getBytes()));
+
       for (Document.Projects.Project.Task task : project.getTask())
       {
          readTask(mpxjTask.addTask(), task);
@@ -328,8 +332,38 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
 
    private void readTask(Task mpxjTask, Document.Projects.Project.Task task)
    {
-      //      task.getActualCost()
+      mpxjTask.setActualCost(task.getActualCost());
       //      task.getActualDuration()
+      mpxjTask.setActualFinish(task.getActualFinishDate());
+      mpxjTask.setActualStart(task.getActualStartDate());
+      //      task.getBaseDuration()
+      //      task.getBaseDurationTimeUnit()
+      mpxjTask.setBaselineFinish(task.getBaseFinishDate());
+      mpxjTask.setBaselineCost(task.getBaselineCost());
+      //      task.getBaselineFinishDate()
+      //      task.getBaselineFinishTemplateOffset()
+      //      task.getBaselineStartDate()
+      //      task.getBaselineStartTemplateOffset()
+      mpxjTask.setBaselineStart(task.getBaseStartDate());
+      //      task.getCallouts()
+      mpxjTask.setPercentageComplete(task.getComplete());
+      mpxjTask.setCost(task.getCost1());
+      mpxjTask.setDeadline(task.getDeadlineDate());
+      //      task.getDeadlineTemplateOffset()
+      //      task.getHyperlinks()
+      mpxjTask.setID(task.getID());
+      //      task.getMarkerID()
+      mpxjTask.setName(task.getName());
+      mpxjTask.setNotes(task.getNote());
+      //      task.getOutlineNumber()
+      //      task.getPriority()
+      //      task.getRecalcBase1()
+      //      task.getRecalcBase2()
+      //      task.getResourceAssignments()
+      //      task.getSchedulingType()
+      //      task.getStyleProject()
+      //      task.getTemplateOffset()
+      //      task.getValidatedByProject()
    }
 
    /**

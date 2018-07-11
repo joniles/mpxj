@@ -8,20 +8,19 @@
 
 package net.sf.mpxj.conceptdraw.schema;
 
-import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter2
-    extends XmlAdapter<String, Date>
+public class Adapter14
+    extends XmlAdapter<String, Integer>
 {
 
 
-    public Date unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate(value));
+    public Integer unmarshal(String value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseMinutesFromHours(value));
     }
 
-    public String marshal(Date value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDate(value));
+    public String marshal(Integer value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printHoursFromMinutes(value));
     }
 
 }
