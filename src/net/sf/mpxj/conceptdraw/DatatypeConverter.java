@@ -33,7 +33,9 @@ import java.util.Map;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Priority;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 
 /**
@@ -226,6 +228,26 @@ public final class DatatypeConverter
       return MAP_TO_PRIORITY.get(value);
    }
 
+   public static final String printTaskType(TaskType value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   public static final TaskType parseTaskType(String value)
+   {
+      return MAP_TO_TASK_TYPE.get(value);
+   }
+
+   public static final String printRelationType(RelationType value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   public static final RelationType parseRelationType(String value)
+   {
+      return MAP_TO_RELATION_TYPE.get(value);
+   }
+
    /**
     * Retrieve a time formatter.
     *
@@ -321,6 +343,24 @@ public final class DatatypeConverter
       MAP_TO_PRIORITY.put("normal", Priority.getInstance(Priority.MEDIUM));
       MAP_TO_PRIORITY.put("high", Priority.getInstance(Priority.HIGH));
       MAP_TO_PRIORITY.put("veryHigh", Priority.getInstance(Priority.HIGHEST));
+   }
+
+   private static final Map<String, TaskType> MAP_TO_TASK_TYPE = new HashMap<String, TaskType>();
+   static
+   {
+      MAP_TO_TASK_TYPE.put("fixedDuration", TaskType.FIXED_DURATION);
+      MAP_TO_TASK_TYPE.put("fixedUnits", TaskType.FIXED_UNITS);
+      MAP_TO_TASK_TYPE.put("fixedWork", TaskType.FIXED_WORK);
+   }
+
+   private static final Map<String, RelationType> MAP_TO_RELATION_TYPE = new HashMap<String, RelationType>();
+   static
+   {
+      MAP_TO_RELATION_TYPE.put("0", RelationType.START_START);
+      MAP_TO_RELATION_TYPE.put("1", RelationType.START_FINISH);
+      MAP_TO_RELATION_TYPE.put("2", RelationType.FINISH_START);
+      MAP_TO_RELATION_TYPE.put("3", RelationType.FINISH_FINISH);
+
    }
 
    private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();

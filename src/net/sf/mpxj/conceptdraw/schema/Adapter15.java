@@ -9,18 +9,19 @@
 package net.sf.mpxj.conceptdraw.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import net.sf.mpxj.CurrencySymbolPosition;
 
-public class Adapter4
-    extends XmlAdapter<String, Double>
+public class Adapter15
+    extends XmlAdapter<String, CurrencySymbolPosition>
 {
 
 
-    public Double unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble(value));
+    public CurrencySymbolPosition unmarshal(String value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseCurrencySymbolPosition(value));
     }
 
-    public String marshal(Double value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble(value));
+    public String marshal(CurrencySymbolPosition value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printCurrencySymbolPosition(value));
     }
 
 }

@@ -26,6 +26,7 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +47,7 @@ import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -55,12 +57,17 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.conceptdraw.schema.Document;
 import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar;
 import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar.ExceptedDays.ExceptedDay;
 import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar.WeekDays.WeekDay;
+import net.sf.mpxj.conceptdraw.schema.Document.Links.Link;
 import net.sf.mpxj.conceptdraw.schema.Document.Projects.Project;
 import net.sf.mpxj.conceptdraw.schema.Document.WorkspaceProperties;
 import net.sf.mpxj.listener.ProjectListener;
@@ -93,6 +100,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
          m_calendarMap = new HashMap<Integer, ProjectCalendar>();
+         m_taskIdMap = new HashMap<Integer, Task>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
@@ -130,7 +138,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          readResources(cdp);
          readTasks(cdp);
          readRelationships(cdp);
-         readResourceAssignments(cdp);
 
          //
          // Ensure that the unique ID counters are correct
@@ -166,6 +173,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          m_eventManager = null;
          m_projectListeners = null;
          m_calendarMap = null;
+         m_taskIdMap = null;
       }
    }
 
@@ -184,6 +192,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjProps.setDaysPerMonth(props.getDaysPerMonth());
       mpxjProps.setMinutesPerDay(props.getHoursPerDay());
       mpxjProps.setMinutesPerWeek(props.getHoursPerWeek());
+
+      m_workHoursPerDay = mpxjProps.getMinutesPerDay().doubleValue() / 60.0;
    }
 
    /**
@@ -309,11 +319,10 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjTask.setFinish(project.getFinishDate());
       //project.getGoal()
       //project.getHyperlinks()
-      mpxjTask.setID(Integer.valueOf(project.getOutlineNumber()));
       //project.getMarkerID()
       mpxjTask.setName(project.getName());
       mpxjTask.setNotes(project.getNote());
-      //project.getOutlineNumber()
+      mpxjTask.setID(Integer.valueOf(project.getOutlineNumber()));
       mpxjTask.setPriority(project.getPriority());
       //      project.getSite()
       mpxjTask.setStart(project.getStartDate());
@@ -322,22 +331,25 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //      project.getTimeScale()
       //      project.getViewProperties()
 
-      mpxjTask.setGUID(UUID.nameUUIDFromBytes(project.getID().toString().getBytes()));
+      // TODO: validate after moving projects
+      String projectIdentifier = project.getID().toString();
+      mpxjTask.setGUID(UUID.nameUUIDFromBytes(projectIdentifier.getBytes()));
 
       for (Document.Projects.Project.Task task : project.getTask())
       {
-         readTask(mpxjTask.addTask(), task);
+         readTask(projectIdentifier, mpxjTask.addTask(), task);
       }
    }
 
-   private void readTask(Task mpxjTask, Document.Projects.Project.Task task)
+   private void readTask(String projectIdentifier, Task mpxjTask, Document.Projects.Project.Task task)
    {
+      TimeUnit units = task.getBaseDurationTimeUnit();
+
       mpxjTask.setActualCost(task.getActualCost());
-      //      task.getActualDuration()
+      mpxjTask.setDuration(getDuration(units, task.getActualDuration()));
       mpxjTask.setActualFinish(task.getActualFinishDate());
       mpxjTask.setActualStart(task.getActualStartDate());
-      //      task.getBaseDuration()
-      //      task.getBaseDurationTimeUnit()
+      mpxjTask.setBaselineDuration(getDuration(units, task.getBaseDuration()));
       mpxjTask.setBaselineFinish(task.getBaseFinishDate());
       mpxjTask.setBaselineCost(task.getBaselineCost());
       //      task.getBaselineFinishDate()
@@ -355,15 +367,35 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //      task.getMarkerID()
       mpxjTask.setName(task.getName());
       mpxjTask.setNotes(task.getNote());
-      //      task.getOutlineNumber()
-      //      task.getPriority()
+      mpxjTask.setOutlineNumber(task.getOutlineNumber());
+      mpxjTask.setPriority(task.getPriority());
       //      task.getRecalcBase1()
       //      task.getRecalcBase2()
-      //      task.getResourceAssignments()
-      //      task.getSchedulingType()
+      mpxjTask.setType(task.getSchedulingType());
       //      task.getStyleProject()
       //      task.getTemplateOffset()
       //      task.getValidatedByProject()
+
+      String taskIdentifier = projectIdentifier + "." + task.getID();
+      m_taskIdMap.put(task.getID(), mpxjTask);
+      mpxjTask.setGUID(UUID.nameUUIDFromBytes(taskIdentifier.getBytes()));
+
+      for (Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment : task.getResourceAssignments().getResourceAssignment())
+      {
+         readResourceAssignment(mpxjTask, assignment);
+      }
+   }
+
+   private void readResourceAssignment(Task task, Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment)
+   {
+      Resource resource = m_projectFile.getResourceByUniqueID(assignment.getResourceID());
+      if (resource != null)
+      {
+         ResourceAssignment mpxjAssignment = task.addResourceAssignment(resource);
+         mpxjAssignment.setUniqueID(assignment.getID());
+         mpxjAssignment.setWork(Duration.getInstance(assignment.getManHour().doubleValue() * m_workHoursPerDay, TimeUnit.HOURS));
+         mpxjAssignment.setUnits(assignment.getUse());
+      }
    }
 
    /**
@@ -373,21 +405,104 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
     */
    private void readRelationships(Document cdp)
    {
+      for (Link link : cdp.getLinks().getLink())
+      {
+         readRelationship(link);
+      }
    }
 
-   /**
-    * Read all resource assignments from a ConceptDraw PROJECT file.
-    *
-    * @param cdp ConceptDraw PROJECT file
-    */
-   private void readResourceAssignments(Document cdp)
+   private void readRelationship(Link link)
    {
+      Task sourceTask = m_taskIdMap.get(link.getSourceTaskID());
+      Task destinationTask = m_taskIdMap.get(link.getDestinationTaskID());
+      if (sourceTask != null && destinationTask != null)
+      {
+         Duration lag = getDuration(link.getLagUnit(), link.getLag());
+         RelationType type = link.getType();
+         Relation relation = destinationTask.addPredecessor(sourceTask, type, lag);
+         relation.setUniqueID(link.getID());
+      }
+   }
+
+   private void createHierarchy()
+   {
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         createHierarchy(task);
+      }
+   }
+
+   private void createHierarchy(Task projectTask)
+   {
+      List<Task> tasks = new ArrayList<Task>(projectTask.getChildTasks());
+      projectTask.getChildTasks().clear();
+
+      // sort list by outline code, then create hierarchy?
+      // use alphanumeric comparator
+   }
+
+   private Duration getDuration(TimeUnit units, Double duration)
+   {
+      Duration result = null;
+      if (duration != null)
+      {
+         double durationValue = duration.doubleValue() * 100.0;
+
+         switch (units)
+         {
+            case MINUTES:
+            {
+               durationValue *= MINUTES_PER_DAY;
+               break;
+            }
+
+            case HOURS:
+            {
+               durationValue *= HOURS_PER_DAY;
+               break;
+            }
+
+            case DAYS:
+            {
+               durationValue *= 3.0;
+               break;
+            }
+
+            case WEEKS:
+            {
+               durationValue *= 0.6;
+               break;
+            }
+
+            case MONTHS:
+            {
+               durationValue *= 0.15;
+               break;
+            }
+
+            default:
+            {
+               throw new IllegalArgumentException("Unsupported time units " + units);
+            }
+         }
+
+         durationValue = Math.round(durationValue) / 100.0;
+
+         result = Duration.getInstance(durationValue, units);
+      }
+
+      return result;
    }
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, ProjectCalendar> m_calendarMap;
+   private Map<Integer, Task> m_taskIdMap;
+   private double m_workHoursPerDay;
+
+   private static final int HOURS_PER_DAY = 24;
+   private static final int MINUTES_PER_DAY = HOURS_PER_DAY * 60;
 
    /**
     * Cached context to minimise construction cost.

@@ -10,17 +10,17 @@ package net.sf.mpxj.conceptdraw.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter4
-    extends XmlAdapter<String, Double>
+public class Adapter16
+    extends XmlAdapter<String, Integer>
 {
 
 
-    public Double unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble(value));
+    public Integer unmarshal(String value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseMinutesFromHours(value));
     }
 
-    public String marshal(Double value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble(value));
+    public String marshal(Integer value) {
+        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printHoursFromMinutes(value));
     }
 
 }
