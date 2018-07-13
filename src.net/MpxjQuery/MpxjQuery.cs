@@ -89,7 +89,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listResources(ProjectFile file)
         {
-            foreach (Resource resource in file.AllResources.ToIEnumerable())
+            foreach (Resource resource in file.Resources.ToIEnumerable())
             {
                 System.Console.WriteLine("Resource: " + resource.Name + " (Unique ID=" + resource.UniqueID + ") Start=" + resource.Start + " Finish=" + resource.Finish);
             }
@@ -102,7 +102,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listTasks(ProjectFile file)
         {
-            foreach (Task task in file.AllTasks.ToIEnumerable())
+            foreach (Task task in file.Tasks.ToIEnumerable())
             {
                 String startDate;
                 String finishDate;
@@ -199,7 +199,7 @@ namespace MpxjQuery
             String taskName;
             String resourceName;
 
-            foreach (ResourceAssignment assignment in file.AllResourceAssignments.ToIEnumerable())
+            foreach (ResourceAssignment assignment in file.ResourceAssignments.ToIEnumerable())
             {
                 task = assignment.Task;
                 if (task == null)
@@ -235,7 +235,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listAssignmentsByTask(ProjectFile file)
         {
-            foreach (Task task in file.AllTasks.ToIEnumerable())
+            foreach (Task task in file.Tasks.ToIEnumerable())
             {
                 System.Console.WriteLine("Assignments for task " + task.Name + ":");
 
@@ -268,7 +268,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listAssignmentsByResource(ProjectFile file)
         {
-            foreach (Resource resource in file.AllResources.ToIEnumerable())
+            foreach (Resource resource in file.Resources.ToIEnumerable())
             {
                 System.Console.WriteLine("Assignments for resource " + resource.Name + ":");
 
@@ -288,7 +288,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listTaskNotes(ProjectFile file)
         {
-            foreach (Task task in file.AllTasks.ToIEnumerable())
+            foreach (Task task in file.Tasks.ToIEnumerable())
             {
                 String notes = task.Notes;
 
@@ -307,7 +307,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listResourceNotes(ProjectFile file)
         {
-            foreach (Resource resource in file.AllResources.ToIEnumerable())
+            foreach (Resource resource in file.Resources.ToIEnumerable())
             {
                 String notes = resource.Notes;
 
@@ -326,7 +326,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listRelationships(ProjectFile file)
         {
-            foreach (Task task in file.AllTasks.ToIEnumerable())
+            foreach (Task task in file.Tasks.ToIEnumerable())
             {
                 System.Console.Write(task.ID);
                 System.Console.Write('\t');
@@ -390,7 +390,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void listSlack(ProjectFile file)
         {
-            foreach (Task task in file.AllTasks.ToIEnumerable())
+            foreach (Task task in file.Tasks.ToIEnumerable())
             {
                 System.Console.WriteLine(task.Name + " Total Slack=" + task.TotalSlack + " Start Slack=" + task.StartSlack + " Finish Slack=" + task.FinishSlack);
             }

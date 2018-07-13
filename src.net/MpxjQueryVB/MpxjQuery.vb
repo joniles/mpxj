@@ -80,7 +80,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listResources(file As ProjectFile)
-        For Each resource As Resource In file.AllResources.ToIEnumerable()
+        For Each resource As Resource In file.Resources.ToIEnumerable()
             System.Console.WriteLine("Resource: " & resource.Name & " (Unique ID=" & ToString(resource.UniqueID) & ") Start=" & ToString(resource.Start) & " Finish=" & ToString(resource.Finish))
         Next
         System.Console.WriteLine()
@@ -91,7 +91,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listTasks(file As ProjectFile)
-        For Each task As Task In file.AllTasks.ToIEnumerable()
+        For Each task As Task In file.Tasks.ToIEnumerable()
             Dim startDate As String
             Dim finishDate As String
             Dim duration As String
@@ -169,7 +169,7 @@ Module MpxjQuery
         Dim taskName As String
         Dim resourceName As String
 
-        For Each assignment As ResourceAssignment In file.AllResourceAssignments.ToIEnumerable()
+        For Each assignment As ResourceAssignment In file.ResourceAssignments.ToIEnumerable()
             task = assignment.Task
             If task Is Nothing Then
                 taskName = "(null task)"
@@ -197,7 +197,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listAssignmentsByTask(file As ProjectFile)
-        For Each task As Task In file.AllTasks.ToIEnumerable()
+        For Each task As Task In file.Tasks.ToIEnumerable()
             System.Console.WriteLine("Assignments for task " & task.Name & ":")
 
             For Each assignment As ResourceAssignment In task.ResourceAssignments.ToIEnumerable()
@@ -224,7 +224,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listAssignmentsByResource(file As ProjectFile)
-        For Each resource As Resource In file.AllResources.ToIEnumerable()
+        For Each resource As Resource In file.Resources.ToIEnumerable()
             System.Console.WriteLine("Assignments for resource " & resource.Name & ":")
 
             For Each assignment As ResourceAssignment In resource.TaskAssignments.ToIEnumerable()
@@ -241,7 +241,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listTaskNotes(file As ProjectFile)
-        For Each task As Task In file.AllTasks.ToIEnumerable()
+        For Each task As Task In file.Tasks.ToIEnumerable()
             Dim notes As String = task.Notes
 
             If notes IsNot Nothing AndAlso notes.Length <> 0 Then
@@ -257,7 +257,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listResourceNotes(file As ProjectFile)
-        For Each resource As Resource In file.AllResources.ToIEnumerable()
+        For Each resource As Resource In file.Resources.ToIEnumerable()
             Dim notes As String = resource.Notes
 
             If notes IsNot Nothing AndAlso notes.Length <> 0 Then
@@ -273,7 +273,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listRelationships(file As ProjectFile)
-        For Each task As Task In file.AllTasks.ToIEnumerable()
+        For Each task As Task In file.Tasks.ToIEnumerable()
             System.Console.Write(task.ID)
             System.Console.Write(ControlChars.Tab)
             System.Console.Write(task.Name)
@@ -326,7 +326,7 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub listSlack(file As ProjectFile)
-        For Each task As Task In file.AllTasks.ToIEnumerable()
+        For Each task As Task In file.Tasks.ToIEnumerable()
             System.Console.WriteLine(task.Name & " Total Slack=" & ToString(task.TotalSlack) & " Start Slack=" & ToString(task.StartSlack) & " Finish Slack=" & ToString(task.FinishSlack))
         Next
     End Sub
