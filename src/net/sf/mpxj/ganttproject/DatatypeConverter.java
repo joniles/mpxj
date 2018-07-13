@@ -84,6 +84,7 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("yyyy-MM-dd");
          df.setLenient(false);
+         DATE_FORMAT.set(df);
       }
       return (df);
    }

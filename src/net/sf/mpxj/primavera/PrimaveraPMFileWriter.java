@@ -180,8 +180,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          writeTasks();
          writeAssignments();
 
-         DatatypeConverter.setParentFile(m_projectFile);
-
          marshaller.marshal(m_apibo, handler);
       }
 

@@ -523,5 +523,4 @@ public final class DatatypeConverter
    private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
    private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = new ThreadLocal<DateFormat>();
-   // TODO: check thread locals everywhere!
 }

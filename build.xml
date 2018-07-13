@@ -111,7 +111,7 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
-<!--		
+
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
@@ -127,7 +127,6 @@
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
--->
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/conceptdraw.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
 		</exec>

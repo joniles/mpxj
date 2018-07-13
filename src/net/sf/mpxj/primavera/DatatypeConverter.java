@@ -29,8 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import net.sf.mpxj.ProjectFile;
-
 /**
  * This class contains methods used to perform the datatype conversions
  * required to read and write PM files.
@@ -160,18 +158,6 @@ public final class DatatypeConverter
    }
 
    /**
-    * This method is called to set the parent file for the current
-    * write operation. This allows task and resource write events
-    * to be captured and passed to any file listeners.
-    *
-    * @param file parent file instance
-    */
-   public static final void setParentFile(ProjectFile file)
-   {
-      PARENT_FILE.set(file);
-   }
-
-   /**
     * Retrieve a date formatter.
     *
     * @return DateFormat instance
@@ -183,6 +169,7 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
          df.setLenient(false);
+         DATE_FORMAT.set(df);
       }
       return (df);
    }
@@ -199,11 +186,10 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("HH:mm:ss");
          df.setLenient(false);
+         TIME_FORMAT.set(df);
       }
       return (df);
    }
-
-   private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<ProjectFile>();
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
    private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
 }

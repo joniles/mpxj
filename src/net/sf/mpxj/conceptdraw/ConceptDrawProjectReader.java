@@ -177,7 +177,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts project properties from a ConceptDraw PROJECT file.
+    * Extracts project properties from a ConceptDraw PROJECT file.
     *
     * @param cdp ConceptDraw PROJECT file
     */
@@ -196,7 +196,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
    }
 
    /**
-   * This method extracts calendar data from a ConceptDraw PROJECT file.
+   * Extracts calendar data from a ConceptDraw PROJECT file.
    *
    * @param cdp ConceptDraw PROJECT file
    */
@@ -222,6 +222,11 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a calendar.
+    *
+    * @param calendar ConceptDraw PROJECT calendar
+    */
    private void readCalendar(Calendar calendar)
    {
       ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
@@ -239,6 +244,12 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Reads a single day for a calendar.
+    *
+    * @param mpxjCalendar ProjectCalendar instance
+    * @param day ConceptDraw PROJECT week day
+    */
    private void readWeekDay(ProjectCalendar mpxjCalendar, WeekDay day)
    {
       if (day.isIsDayWorking())
@@ -251,6 +262,12 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read an exception day for a calendar.
+    *
+    * @param mpxjCalendar ProjectCalendar instance
+    * @param day ConceptDraw PROJECT exception day
+    */
    private void readExceptionDay(ProjectCalendar mpxjCalendar, ExceptedDay day)
    {
       ProjectCalendarException mpxjException = mpxjCalendar.addCalendarException(day.getDate(), day.getDate());
@@ -264,7 +281,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts resource data from a ConceptDraw PROJECT file.
+    * Reads resource data from a ConceptDraw PROJECT file.
     *
     * @param cdp ConceptDraw PROJECT file
     */
@@ -276,6 +293,11 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Reads a single resource from a ConceptDraw PROJECT file.
+    *
+    * @param resource ConceptDraw PROJECT resource
+    */
    private void readResource(Document.Resources.Resource resource)
    {
       Resource mpxjResource = m_projectFile.addResource();
@@ -294,12 +316,15 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
    }
 
    /**
-    * Read the top level tasks from a ConceptDraw PROJECT file.
+    * Read the projects from a ConceptDraw PROJECT file as top level tasks.
     *
     * @param cdp ConceptDraw PROJECT file
     */
    private void readTasks(Document cdp)
    {
+      //
+      // Sort the projects into the correct order
+      //
       List<Project> projects = new ArrayList<Project>(cdp.getProjects().getProject());
       final AlphanumComparator comparator = new AlphanumComparator();
 
@@ -317,6 +342,11 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a project from a ConceptDraw PROJECT file.
+    *
+    * @param project ConceptDraw PROJECT project
+    */
    private void readProject(Project project)
    {
       Task mpxjTask = m_projectFile.addTask();
@@ -340,7 +370,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //      project.getTimeScale()
       //      project.getViewProperties()
 
-      // TODO: validate after moving projects
       String projectIdentifier = project.getID().toString();
       mpxjTask.setGUID(UUID.nameUUIDFromBytes(projectIdentifier.getBytes()));
 
@@ -367,6 +396,13 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a task from a ConceptDraw PROJECT file.
+    *
+    * @param projectIdentifier parent project identifier
+    * @param map outline number to task map
+    * @param task ConceptDraw PROJECT task
+    */
    private void readTask(String projectIdentifier, Map<String, Task> map, Document.Projects.Project.Task task)
    {
       Task parentTask = map.get(getParentOutlineNumber(task.getOutlineNumber()));
@@ -403,6 +439,13 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //      task.getTemplateOffset()
       //      task.getValidatedByProject()
 
+      if (task.isIsMilestone())
+      {
+         mpxjTask.setMilestone(true);
+         mpxjTask.setDuration(Duration.getInstance(0, TimeUnit.HOURS));
+         mpxjTask.setBaselineDuration(Duration.getInstance(0, TimeUnit.HOURS));
+      }
+
       String taskIdentifier = projectIdentifier + "." + task.getID();
       m_taskIdMap.put(task.getID(), mpxjTask);
       mpxjTask.setGUID(UUID.nameUUIDFromBytes(taskIdentifier.getBytes()));
@@ -415,6 +458,12 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read resource assignments.
+    *
+    * @param task Parent task
+    * @param assignment ConceptDraw PROJECT resource assignment
+    */
    private void readResourceAssignment(Task task, Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment)
    {
       Resource resource = m_projectFile.getResourceByUniqueID(assignment.getResourceID());
@@ -440,6 +489,11 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a task relationship.
+    *
+    * @param link ConceptDraw PROJECT task link
+    */
    private void readRelationship(Link link)
    {
       Task sourceTask = m_taskIdMap.get(link.getSourceTaskID());
@@ -453,6 +507,13 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a duration.
+    *
+    * @param units duration units
+    * @param duration duration value
+    * @return Duration instance
+    */
    private Duration getDuration(TimeUnit units, Double duration)
    {
       Duration result = null;
@@ -506,17 +567,24 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       return result;
    }
 
-   private String getParentOutlineNumber(String code)
+   /**
+    * Return the parent outline number, or an empty string if
+    * we have a root task.
+    *
+    * @param outlineNumber child outline number
+    * @return parent outline number
+    */
+   private String getParentOutlineNumber(String outlineNumber)
    {
       String result;
-      int index = code.lastIndexOf('.');
+      int index = outlineNumber.lastIndexOf('.');
       if (index == -1)
       {
          result = "";
       }
       else
       {
-         result = code.substring(0, index);
+         result = outlineNumber.substring(0, index);
       }
       return result;
    }

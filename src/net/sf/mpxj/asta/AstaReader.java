@@ -568,7 +568,7 @@ final class AstaReader
       //ALT_ID
       //LAST_EDITED_DATE
       //LAST_EDITED_BY
-      task.setDuration(ZERO_HOURS);
+      task.setDuration(Duration.getInstance(0, TimeUnit.HOURS));
 
    }
 
@@ -1302,7 +1302,6 @@ final class AstaReader
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
-   private static final Duration ZERO_HOURS = Duration.getInstance(0, TimeUnit.HOURS);
    private static final String LINE_BREAK = "|@|||";
    private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAO_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
