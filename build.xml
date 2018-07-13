@@ -21,7 +21,8 @@
 		<!-- These properties are only required if rebuilding JAXB generated source -->
 		<property name="mspdi.xsd" value="mspdi_pj14-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
-
+		<property name="conceptdraw.xsd" value="document.xsd" />
+		
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
 		<property name="maven.dir" value="c:/java/apache-maven-3.3.9"/>
 
@@ -110,6 +111,7 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
+
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
@@ -124,6 +126,9 @@
 		</exec>
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
+		</exec>
+		<exec executable="xjc" dir="${basedir}">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/conceptdraw.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
 		</exec>
 
 		<delete>

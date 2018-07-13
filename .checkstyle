@@ -8,6 +8,7 @@
     <file-match-pattern match-pattern=".java$" include-pattern="true"/>
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
+    <filter-data value="src/net/sf/mpxj/conceptdraw/schema"/>
     <filter-data value="src/net/sf/mpxj/ganttproject/schema"/>
     <filter-data value="src/net/sf/mpxj/mspdi/schema"/>
     <filter-data value="src/net/sf/mpxj/phoenix/schema"/>

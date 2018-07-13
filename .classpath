@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="classes.test" path="src.test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_45"/>
 	<classpathentry kind="lib" path="jgoodies/jgoodies-binding-2.10.0.jar" sourcepath="D:/java/jgoodies-binding-2.10.0/jgoodies-binding-2.10.0-sources.jar"/>
 	<classpathentry kind="lib" path="jgoodies/jgoodies-common-1.8.0.jar" sourcepath="D:/java/jgoodies-common-1_8_0/jgoodies-common-1.8.0/jgoodies-common-1.8.0-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
