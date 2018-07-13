@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.5.1">
+		<release date="git master" version="7.6.0">
+			<action dev="joniles" type="add">Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.</action>
 			<action dev="joniles" type="add">Add support for reading the export_flag attribute from XER files. (Contributed by forenpm)</action>
 			<action dev="joniles" type="update">Use correct licence details in Maven pom.xml (contributed by Mark Atwood).</action>
 			<action dev="joniles" type="update">Improve UniversalProjectReader's handling of XER files containing multiple projects.</action>

@@ -7,6 +7,8 @@ com.rtfparserkit.utils
 net.sf.mpxj
 net.sf.mpxj.asta
 net.sf.mpxj.common
+net.sf.mpxj.conceptdraw
+net.sf.mpxj.conceptdraw.schema
 net.sf.mpxj.explorer
 net.sf.mpxj.fasttrack
 net.sf.mpxj.ganttproject

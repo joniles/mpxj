@@ -15,9 +15,11 @@
 allow project information to be manipulated in Java and .Net. MPXJ supports
 a range of data formats: Microsoft Project Exchange (MPX), Microsoft
 Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), 
+Project Database (MPD), Planner (XML), Primavera P6 (PM XML, XER, and database), 
+Primavera P3 (PRX and database), SureTrak (STX and database), 
 Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager (PPX),
 FastTrack Schedule (FTS), GanttProject (GAN), TurboProject (PEP),
+ConceptDraw PROJECT (CDPX, CPDZ and CPDTZ),
 and the Standard Data Exchange Format (SDEF).</p>
 
 <p>The library is currently based around a set of structures
@@ -79,6 +81,10 @@ It holds projects in Btrieve database files which MPXJ can read from a directory
 MPXJ can also read P3 data from PRX backup files.
 </li>
 
+<li><b>PRIMAVERA SURETRAK:</b> SureTrak holds projects in Btrieve database files which MPXJ can read from a directory or from a zip archive.
+MPXJ can also read SureTrak data from STX backup files.
+</li>
+
 <li><b>POWERPROJECT:</b> Asta Powerproject is a planning tool used in a number of industries, 
 particularly construction. Powerproject can save data to PP files or to MDB database files, 
 and MPXJ can read both of these formats.</li>
@@ -93,6 +99,9 @@ which MPXJ can read.</li>
 which MPXJ can read.</li> 
 
 <li><b>TURBOPROJECT:</b> TurboProject is general purpose planning tool. TurboProject writes PEP files
+which MPXJ can read.</li> 
+
+<li><b>CONECPTDRAW PROJECT:</b> ConceptDraw PROJECT is general purpose planning tool. ConceptDraw PROJECT writes CDPX, CPDZ and CPDTZ files
 which MPXJ can read.</li> 
 
 <li><b>SDEF:</b> SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
