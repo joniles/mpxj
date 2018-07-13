@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.6.0 (git master)
+## 7.6.1 (git master)
+
+## 7.6.0 (13/07/2018)
 * Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.
 * Add support for reading the export_flag attribute from XER files. (Contributed by forenpm)
 * Use correct licence details in Maven pom.xml (contributed by Mark Atwood).
