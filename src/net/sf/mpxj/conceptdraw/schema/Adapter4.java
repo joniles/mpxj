@@ -5,22 +5,21 @@
 // Generated on: 2018.07.12 at 04:42:45 PM BST 
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter4
-    extends XmlAdapter<String, Double>
+public class Adapter4 extends XmlAdapter<String, Double>
 {
 
+   @Override public Double unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble(value));
+   }
 
-    public Double unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble(value));
-    }
-
-    public String marshal(Double value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble(value));
-    }
+   @Override public String marshal(Double value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble(value));
+   }
 
 }

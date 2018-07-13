@@ -5,23 +5,22 @@
 // Generated on: 2018.07.12 at 04:42:45 PM BST 
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TimeUnit;
 
-public class Adapter8
-    extends XmlAdapter<String, TimeUnit>
+public class Adapter8 extends XmlAdapter<String, TimeUnit>
 {
 
+   @Override public TimeUnit unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTimeUnit(value));
+   }
 
-    public TimeUnit unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTimeUnit(value));
-    }
-
-    public String marshal(TimeUnit value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTimeUnit(value));
-    }
+   @Override public String marshal(TimeUnit value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTimeUnit(value));
+   }
 
 }

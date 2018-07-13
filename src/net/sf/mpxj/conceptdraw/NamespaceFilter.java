@@ -2,7 +2,7 @@
  * file:       NamespaceFilter.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2018
- * date:       07/06/2018
+ * date:       9 July 2018
  */
 
 /*

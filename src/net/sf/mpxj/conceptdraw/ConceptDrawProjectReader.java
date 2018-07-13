@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,6 +65,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.conceptdraw.schema.Document;
 import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar;
 import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar.ExceptedDays.ExceptedDay;
@@ -105,10 +108,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
          config.setAutoResourceID(false);
-         config.setAutoTaskID(false);
-         config.setAutoOutlineLevel(true);
-         config.setAutoOutlineNumber(true);
-         config.setAutoWBS(true);
 
          m_projectFile.getProjectProperties().setFileApplication("ConceptDraw PROJECT");
          m_projectFile.getProjectProperties().setFileType("CDP");
@@ -301,6 +300,17 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
     */
    private void readTasks(Document cdp)
    {
+      List<Project> projects = new ArrayList<Project>(cdp.getProjects().getProject());
+      final AlphanumComparator comparator = new AlphanumComparator();
+
+      Collections.sort(projects, new Comparator<Project>()
+      {
+         @Override public int compare(Project o1, Project o2)
+         {
+            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
+         }
+      });
+
       for (Project project : cdp.getProjects().getProject())
       {
          readProject(project);
@@ -322,7 +332,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //project.getMarkerID()
       mpxjTask.setName(project.getName());
       mpxjTask.setNotes(project.getNote());
-      mpxjTask.setID(Integer.valueOf(project.getOutlineNumber()));
       mpxjTask.setPriority(project.getPriority());
       //      project.getSite()
       mpxjTask.setStart(project.getStartDate());
@@ -335,14 +344,34 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       String projectIdentifier = project.getID().toString();
       mpxjTask.setGUID(UUID.nameUUIDFromBytes(projectIdentifier.getBytes()));
 
-      for (Document.Projects.Project.Task task : project.getTask())
+      //
+      // Sort the tasks into the correct order
+      //
+      List<Document.Projects.Project.Task> tasks = new ArrayList<Document.Projects.Project.Task>(project.getTask());
+      final AlphanumComparator comparator = new AlphanumComparator();
+
+      Collections.sort(tasks, new Comparator<Document.Projects.Project.Task>()
       {
-         readTask(projectIdentifier, mpxjTask.addTask(), task);
+         @Override public int compare(Document.Projects.Project.Task o1, Document.Projects.Project.Task o2)
+         {
+            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
+         }
+      });
+
+      Map<String, Task> map = new HashMap<String, Task>();
+      map.put("", mpxjTask);
+
+      for (Document.Projects.Project.Task task : tasks)
+      {
+         readTask(projectIdentifier, map, task);
       }
    }
 
-   private void readTask(String projectIdentifier, Task mpxjTask, Document.Projects.Project.Task task)
+   private void readTask(String projectIdentifier, Map<String, Task> map, Document.Projects.Project.Task task)
    {
+      Task parentTask = map.get(getParentOutlineNumber(task.getOutlineNumber()));
+      Task mpxjTask = parentTask.addTask();
+
       TimeUnit units = task.getBaseDurationTimeUnit();
 
       mpxjTask.setActualCost(task.getActualCost());
@@ -363,11 +392,9 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjTask.setDeadline(task.getDeadlineDate());
       //      task.getDeadlineTemplateOffset()
       //      task.getHyperlinks()
-      mpxjTask.setID(task.getID());
       //      task.getMarkerID()
       mpxjTask.setName(task.getName());
       mpxjTask.setNotes(task.getNote());
-      mpxjTask.setOutlineNumber(task.getOutlineNumber());
       mpxjTask.setPriority(task.getPriority());
       //      task.getRecalcBase1()
       //      task.getRecalcBase2()
@@ -379,6 +406,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       String taskIdentifier = projectIdentifier + "." + task.getID();
       m_taskIdMap.put(task.getID(), mpxjTask);
       mpxjTask.setGUID(UUID.nameUUIDFromBytes(taskIdentifier.getBytes()));
+
+      map.put(task.getOutlineNumber(), mpxjTask);
 
       for (Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment : task.getResourceAssignments().getResourceAssignment())
       {
@@ -422,23 +451,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          Relation relation = destinationTask.addPredecessor(sourceTask, type, lag);
          relation.setUniqueID(link.getID());
       }
-   }
-
-   private void createHierarchy()
-   {
-      for (Task task : m_projectFile.getChildTasks())
-      {
-         createHierarchy(task);
-      }
-   }
-
-   private void createHierarchy(Task projectTask)
-   {
-      List<Task> tasks = new ArrayList<Task>(projectTask.getChildTasks());
-      projectTask.getChildTasks().clear();
-
-      // sort list by outline code, then create hierarchy?
-      // use alphanumeric comparator
    }
 
    private Duration getDuration(TimeUnit units, Double duration)
@@ -491,6 +503,21 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          result = Duration.getInstance(durationValue, units);
       }
 
+      return result;
+   }
+
+   private String getParentOutlineNumber(String code)
+   {
+      String result;
+      int index = code.lastIndexOf('.');
+      if (index == -1)
+      {
+         result = "";
+      }
+      else
+      {
+         result = code.substring(0, index);
+      }
       return result;
    }
 

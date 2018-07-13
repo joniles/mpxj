@@ -1,8 +1,8 @@
 /*
  * file:       DatatypeConverter.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2015
- * date:       28/11/2015
+ * copyright:  (c) Packwood Software 2018
+ * date:       9 July 2018
  */
 
 /*
@@ -44,36 +44,77 @@ import net.sf.mpxj.TimeUnit;
  */
 public final class DatatypeConverter
 {
-   public static final String printInteger(Integer value)
-   {
-      return value == null ? null : value.toString();
-   }
-
-   public static final Double parseDouble(String value)
-   {
-      return Double.valueOf(value);
-   }
-
-   public static final String printDouble(Double value)
-   {
-      return value == null ? null : value.toString();
-   }
-
-   public static final Double parsePercent(String value)
-   {
-      return Double.valueOf(Double.parseDouble(value) * 100.0);
-   }
-
-   public static final String printPercent(Double value)
-   {
-      return value == null ? null : Double.toString(value.doubleValue() / 100.0);
-   }
-
+   /**
+    * Parse an integer value.
+    *
+    * @param value string representation
+    * @return Integer instance
+    */
    public static final Integer parseInteger(String value)
    {
       return Integer.valueOf(value);
    }
 
+   /**
+    * Print an integer value.
+    *
+    * @param value integer value
+    * @return string representation
+    */
+   public static final String printInteger(Integer value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * Parse a double value.
+    *
+    * @param value String representation.
+    * @return Double instance
+    */
+   public static final Double parseDouble(String value)
+   {
+      return Double.valueOf(value);
+   }
+
+   /**
+    * Print a double value.
+    * @param value Double instance
+    * @return string representation.
+    */
+   public static final String printDouble(Double value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * Parse a percentage value.
+    *
+    * @param value String representation
+    * @return Double instance
+    */
+   public static final Double parsePercent(String value)
+   {
+      return Double.valueOf(Double.parseDouble(value) * 100.0);
+   }
+
+   /**
+    * Print a percentage value.
+    *
+    * @param value Double instance
+    * @return String representation
+    */
+   public static final String printPercent(Double value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * Parse a duration in minutes form a number of hours.
+    *
+    * @param value String representation
+    * @return Integer instance
+    */
    public static final Integer parseMinutesFromHours(String value)
    {
       Integer result = null;
@@ -84,16 +125,23 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Print a duration in hours from a number of minutes.
+    *
+    * @param value String representation
+    * @return String representation
+    */
    public static final String printHoursFromMinutes(Integer value)
    {
-      return value == null ? null : Integer.toString(value.intValue() / 60);
+      throw new UnsupportedOperationException();
    }
 
-   public static final String printCurrencySymbolPosition(CurrencySymbolPosition value)
-   {
-      return MAP_FROM_CURRENCY_SYMBOL_POSITION.get(value);
-   }
-
+   /**
+    * Parse a currency symbol position from a string representation.
+    *
+    * @param value String representation
+    * @return CurrencySymbolPosition instance
+    */
    public static final CurrencySymbolPosition parseCurrencySymbolPosition(String value)
    {
       CurrencySymbolPosition result = MAP_TO_CURRENCY_SYMBOL_POSITION.get(value);
@@ -101,26 +149,45 @@ public final class DatatypeConverter
       return result;
    }
 
-   public static final String printDay(Day value)
+   /**
+    * Print a currency symbol position.
+    *
+    * @param value CurrencySymbolPosition instance
+    * @return String representation
+    */
+   public static final String printCurrencySymbolPosition(CurrencySymbolPosition value)
    {
-      return Integer.toString(value.getValue() - 1);
+      throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a Day.
+    *
+    * @param value String representation
+    * @return Day instance
+    */
    public static final Day parseDay(String value)
    {
       return Day.getInstance(Integer.parseInt(value) + 1);
    }
 
-   public static final String printTime(Date value)
+   /**
+    * Print a Day.
+    *
+    * @param value Day instance
+    * @return String representation
+    */
+   public static final String printDay(Day value)
    {
-      String result = null;
-      if (value != null)
-      {
-         result = getTimeFormat().format(value);
-      }
-      return result;
+      throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a time value.
+    *
+    * @param value String representation
+    * @return Date instance
+    */
    public static final Date parseTime(String value)
    {
       Date result = null;
@@ -140,16 +207,23 @@ public final class DatatypeConverter
       return result;
    }
 
-   public static final String printDate(Date value)
+   /**
+    * Print a time value.
+    *
+    * @param value Date instance
+    * @return String representation
+    */
+   public static final String printTime(Date value)
    {
-      String result = null;
-      if (value != null)
-      {
-         result = getDateFormat().format(value);
-      }
-      return result;
+      throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a date value.
+    *
+    * @param value String representation
+    * @return Date instance
+    */
    public static final Date parseDate(String value)
    {
       Date result = null;
@@ -169,16 +243,23 @@ public final class DatatypeConverter
       return result;
    }
 
-   public static final String printDateTime(Date value)
+   /**
+    * Print a date value.
+    *
+    * @param value Date instance
+    * @return String representation
+    */
+   public static final String printDate(Date value)
    {
-      String result = null;
-      if (value != null)
-      {
-         result = getDateTimeFormat().format(value);
-      }
-      return result;
+      throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a date time value.
+    *
+    * @param value String representation
+    * @return Date instance
+    */
    public static final Date parseDateTime(String value)
    {
       Date result = null;
@@ -198,54 +279,125 @@ public final class DatatypeConverter
       return result;
    }
 
-   public static final String printTimeUnit(TimeUnit value)
+   /**
+    * Print a date time value.
+    *
+    * @param value Date instance
+    * @return String representation
+    */
+   public static final String printDateTime(Date value)
    {
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a time unit value.
+    *
+    * @param value String representation
+    * @return TimeUnit instance
+    */
    public static final TimeUnit parseTimeUnit(String value)
    {
       return MAP_TO_TIME_UNIT.get(value);
    }
 
-   public static final String printResourceType(ResourceType value)
+   /**
+    * Print a time unit value.
+    *
+    * @param value TimeUnit instance
+    * @return String representation
+    */
+   public static final String printTimeUnit(TimeUnit value)
    {
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a resource type value.
+    *
+    * @param value String representation
+    * @return ResourceType instance
+    */
    public static final ResourceType parseResourceType(String value)
    {
       return MAP_TO_RESOURCE_TYPE.get(value);
    }
 
-   public static final String printPriority(Priority value)
+   /**
+    * Print a resource type value.
+    *
+    * @param value ResourceType instance
+    * @return String representation
+    */
+   public static final String printResourceType(ResourceType value)
    {
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a priority value.
+    *
+    * @param value String representation
+    * @return Priority instance
+    */
    public static final Priority parsePriority(String value)
    {
       return MAP_TO_PRIORITY.get(value);
    }
 
-   public static final String printTaskType(TaskType value)
+   /**
+    * Print a priority value.
+    *
+    * @param value Priority instance
+    * @return String representation
+    */
+   public static final String printPriority(Priority value)
    {
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a task type value.
+    *
+    * @param value String representation
+    * @return TaskType instance
+    */
    public static final TaskType parseTaskType(String value)
    {
       return MAP_TO_TASK_TYPE.get(value);
    }
 
-   public static final String printRelationType(RelationType value)
+   /**
+    * Print a task type value.
+    *
+    * @param value TaskType instance
+    * @return String representation
+    */
+   public static final String printTaskType(TaskType value)
    {
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse a relation type value.
+    *
+    * @param value String representation
+    * @return RelationType instance
+    */
    public static final RelationType parseRelationType(String value)
    {
       return MAP_TO_RELATION_TYPE.get(value);
+   }
+
+   /**
+    * Print a relation type value.
+    *
+    * @param value RelationType instance
+    * @return string representation
+    */
+   public static final String printRelationType(RelationType value)
+   {
+      throw new UnsupportedOperationException();
    }
 
    /**
@@ -284,6 +436,11 @@ public final class DatatypeConverter
 
    }
 
+   /**
+    * Retrieve a date time formatter.
+    *
+    * @return DateFormat instance
+    */
    private static final DateFormat getDateTimeFormat()
    {
       DateFormat df = DATE_TIME_FORMAT.get();

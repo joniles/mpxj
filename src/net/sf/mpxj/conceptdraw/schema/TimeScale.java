@@ -5,7 +5,6 @@
 // Generated on: 2018.07.12 at 04:42:45 PM BST 
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -40,156 +38,150 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "primaryUnits",
-    "primaryAlign",
-    "secondaryUnits",
-    "secondaryAlign",
-    "secondaryCount"
-})
-@XmlRootElement(name = "TimeScale")
-public class TimeScale {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "primaryUnits",
+   "primaryAlign",
+   "secondaryUnits",
+   "secondaryAlign",
+   "secondaryCount"
+}) @XmlRootElement(name = "TimeScale") public class TimeScale
+{
 
-    @XmlElement(name = "PrimaryUnits", required = true, type = String.class)
-    @XmlJavaTypeAdapter(Adapter5 .class)
-    @XmlSchemaType(name = "int")
-    protected Integer primaryUnits;
-    @XmlElement(name = "PrimaryAlign", required = true, type = String.class)
-    @XmlJavaTypeAdapter(Adapter5 .class)
-    @XmlSchemaType(name = "int")
-    protected Integer primaryAlign;
-    @XmlElement(name = "SecondaryUnits", required = true, type = String.class)
-    @XmlJavaTypeAdapter(Adapter5 .class)
-    @XmlSchemaType(name = "int")
-    protected Integer secondaryUnits;
-    @XmlElement(name = "SecondaryAlign", required = true, type = String.class)
-    @XmlJavaTypeAdapter(Adapter5 .class)
-    @XmlSchemaType(name = "int")
-    protected Integer secondaryAlign;
-    @XmlElement(name = "SecondaryCount", required = true, type = String.class)
-    @XmlJavaTypeAdapter(Adapter5 .class)
-    @XmlSchemaType(name = "int")
-    protected Integer secondaryCount;
+   @XmlElement(name = "PrimaryUnits", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer primaryUnits;
+   @XmlElement(name = "PrimaryAlign", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer primaryAlign;
+   @XmlElement(name = "SecondaryUnits", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer secondaryUnits;
+   @XmlElement(name = "SecondaryAlign", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer secondaryAlign;
+   @XmlElement(name = "SecondaryCount", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer secondaryCount;
 
-    /**
-     * Gets the value of the primaryUnits property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Integer getPrimaryUnits() {
-        return primaryUnits;
-    }
+   /**
+    * Gets the value of the primaryUnits property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public Integer getPrimaryUnits()
+   {
+      return primaryUnits;
+   }
 
-    /**
-     * Sets the value of the primaryUnits property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPrimaryUnits(Integer value) {
-        this.primaryUnits = value;
-    }
+   /**
+    * Sets the value of the primaryUnits property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setPrimaryUnits(Integer value)
+   {
+      this.primaryUnits = value;
+   }
 
-    /**
-     * Gets the value of the primaryAlign property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Integer getPrimaryAlign() {
-        return primaryAlign;
-    }
+   /**
+    * Gets the value of the primaryAlign property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public Integer getPrimaryAlign()
+   {
+      return primaryAlign;
+   }
 
-    /**
-     * Sets the value of the primaryAlign property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPrimaryAlign(Integer value) {
-        this.primaryAlign = value;
-    }
+   /**
+    * Sets the value of the primaryAlign property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setPrimaryAlign(Integer value)
+   {
+      this.primaryAlign = value;
+   }
 
-    /**
-     * Gets the value of the secondaryUnits property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Integer getSecondaryUnits() {
-        return secondaryUnits;
-    }
+   /**
+    * Gets the value of the secondaryUnits property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public Integer getSecondaryUnits()
+   {
+      return secondaryUnits;
+   }
 
-    /**
-     * Sets the value of the secondaryUnits property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSecondaryUnits(Integer value) {
-        this.secondaryUnits = value;
-    }
+   /**
+    * Sets the value of the secondaryUnits property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setSecondaryUnits(Integer value)
+   {
+      this.secondaryUnits = value;
+   }
 
-    /**
-     * Gets the value of the secondaryAlign property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Integer getSecondaryAlign() {
-        return secondaryAlign;
-    }
+   /**
+    * Gets the value of the secondaryAlign property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public Integer getSecondaryAlign()
+   {
+      return secondaryAlign;
+   }
 
-    /**
-     * Sets the value of the secondaryAlign property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSecondaryAlign(Integer value) {
-        this.secondaryAlign = value;
-    }
+   /**
+    * Sets the value of the secondaryAlign property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setSecondaryAlign(Integer value)
+   {
+      this.secondaryAlign = value;
+   }
 
-    /**
-     * Gets the value of the secondaryCount property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Integer getSecondaryCount() {
-        return secondaryCount;
-    }
+   /**
+    * Gets the value of the secondaryCount property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public Integer getSecondaryCount()
+   {
+      return secondaryCount;
+   }
 
-    /**
-     * Sets the value of the secondaryCount property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSecondaryCount(Integer value) {
-        this.secondaryCount = value;
-    }
+   /**
+    * Sets the value of the secondaryCount property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setSecondaryCount(Integer value)
+   {
+      this.secondaryCount = value;
+   }
 
 }
