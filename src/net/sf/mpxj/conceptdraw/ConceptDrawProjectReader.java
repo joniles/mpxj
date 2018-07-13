@@ -410,10 +410,10 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
 
       TimeUnit units = task.getBaseDurationTimeUnit();
 
-      mpxjTask.setActualCost(task.getActualCost());
+      mpxjTask.setCost(task.getActualCost());
       mpxjTask.setDuration(getDuration(units, task.getActualDuration()));
-      mpxjTask.setActualFinish(task.getActualFinishDate());
-      mpxjTask.setActualStart(task.getActualStartDate());
+      mpxjTask.setFinish(task.getActualFinishDate());
+      mpxjTask.setStart(task.getActualStartDate());
       mpxjTask.setBaselineDuration(getDuration(units, task.getBaseDuration()));
       mpxjTask.setBaselineFinish(task.getBaseFinishDate());
       mpxjTask.setBaselineCost(task.getBaselineCost());
@@ -424,7 +424,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjTask.setBaselineStart(task.getBaseStartDate());
       //      task.getCallouts()
       mpxjTask.setPercentageComplete(task.getComplete());
-      mpxjTask.setCost(task.getCost1());
       mpxjTask.setDeadline(task.getDeadlineDate());
       //      task.getDeadlineTemplateOffset()
       //      task.getHyperlinks()
