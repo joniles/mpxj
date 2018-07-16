@@ -1852,6 +1852,13 @@ final class MPP14Reader implements MPPVariantReader
          varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       }
 
+      catch (IndexOutOfBoundsException ex)
+      {
+         // From a sample file where the stream reports an available number of bytes
+         // but attempting to read that number of bytes raises an exception.
+         return;
+      }
+
       catch (IOException ex)
       {
          // I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
