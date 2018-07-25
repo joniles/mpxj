@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.6.1 (git master)
+* Improve handling of MPP files where MPXJ is unable to read the filter definitions.
 
 ## 7.6.0 (13/07/2018)
 * Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.
