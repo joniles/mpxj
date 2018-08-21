@@ -5,6 +5,7 @@
 * Improve handling of SureTrak projects without a WBS.
 * Handle unsupported ProjectLibre POD files more gracefully.
 * Improve detection of non MS Project compound OLE documents.
+* Gracefully handle XER files which contain no projects.
 
 ## 7.6.0 (13/07/2018)
 * Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.

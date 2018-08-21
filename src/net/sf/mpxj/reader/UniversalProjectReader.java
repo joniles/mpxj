@@ -753,7 +753,7 @@ public final class UniversalProjectReader implements ProjectReader
             break;
          }
       }
-      if (project == null)
+      if (project == null && !projects.isEmpty())
       {
          project = projects.get(0);
       }
