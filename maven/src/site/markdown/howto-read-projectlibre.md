@@ -1,5 +1,5 @@
 ## How To: Read ProjectLibre files
-ProjectLibre writes schedule data to POD files.
+ProjectLibre writes schedule data to POD files. MPXJ can read POD files written by ProjectLibre version 1.5.5 and later versions.
 
 ### Reading POD files
 The simplest way to read a POD file is to use the `UniversalProjectReader`:
