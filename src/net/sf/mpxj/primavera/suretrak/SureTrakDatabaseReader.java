@@ -291,7 +291,11 @@ public final class SureTrakDatabaseReader implements ProjectReader
          list.add(row);
       }
 
-      m_wbsFormat = new SureTrakWbsFormat(m_definitions.get(WBS_FORMAT_ID).get(0));
+      List<MapRow> rows = m_definitions.get(WBS_FORMAT_ID);
+      if (rows != null)
+      {
+         m_wbsFormat = new SureTrakWbsFormat(rows.get(0));
+      }
    }
 
    /**
@@ -597,8 +601,17 @@ public final class SureTrakDatabaseReader implements ProjectReader
       for (MapRow row : items)
       {
          String activityID = row.getString("ACTIVITY_ID");
-         m_wbsFormat.parseRawValue(row.getString("WBS"));
-         String wbs = m_wbsFormat.getFormattedValue();
+
+         String wbs;
+         if (m_wbsFormat == null)
+         {
+            wbs = null;
+         }
+         else
+         {
+            m_wbsFormat.parseRawValue(row.getString("WBS"));
+            wbs = m_wbsFormat.getFormattedValue();
+         }
 
          ChildTaskContainer parent = m_wbsMap.get(wbs);
          if (parent == null)
