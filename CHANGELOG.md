@@ -4,6 +4,7 @@
 * Improve handling of MPP files where MPXJ is unable to read the filter definitions.
 * Improve handling of SureTrak projects without a WBS.
 * Handle unsupported ProjectLibre POD files more gracefully.
+* Improve detection of non MS Project compound OLE documents.
 
 ## 7.6.0 (13/07/2018)
 * Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.

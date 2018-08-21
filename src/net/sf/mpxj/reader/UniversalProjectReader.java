@@ -366,7 +366,7 @@ public final class UniversalProjectReader implements ProjectReader
    {
       POIFSFileSystem fs = new POIFSFileSystem(POIFSFileSystem.createNonClosingInputStream(stream));
       String fileFormat = MPPReader.getFileFormat(fs);
-      if (fileFormat.startsWith("MSProject"))
+      if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {
          MPPReader reader = new MPPReader();
          addListeners(reader);
