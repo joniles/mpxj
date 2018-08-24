@@ -122,7 +122,9 @@ var activeTableTab = "activeTableTab";
 extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></pre>
 <div class="block">Reads a ProjectLibre POD file.
  The POD file contains serialized Java data, followed by an MSPDI file.
- This class simply locates the MSPDI file and reads it using the normal MSPDI reader class.</div>
+ This class simply locates the MSPDI file and reads it using the normal MSPDI reader class.
+ Note that if the POD file was written by a version of ProjectLibre prior to 1.5.5
+ it won't contain the MSPDI file. In this case the read method will return null.</div>
 </li>
 </ul>
 </div>
