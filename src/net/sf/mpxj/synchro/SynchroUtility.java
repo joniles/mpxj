@@ -3,6 +3,7 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 final class SynchroUtility
 {
@@ -59,13 +60,50 @@ final class SynchroUtility
          length = getShort(is);
       }
 
-      byte[] stringData = new byte[length];
-      is.read(stringData);
-      return new String(stringData);
+      String result;
+      if (length == 0)
+      {
+         result = null;
+      }
+      else
+      {
+         byte[] stringData = new byte[length];
+         is.read(stringData);
+         result = new String(stringData);
+      }
+      return result;
    }
 
    public static boolean getBoolean(InputStream is) throws IOException
    {
       return is.read() != 0;
+   }
+
+   public static final UUID getUUID(InputStream is) throws IOException
+   {
+      byte[] data = new byte[16];
+      is.read(data);
+
+      long long1 = 0;
+      long1 |= ((long) (data[3] & 0xFF)) << 56;
+      long1 |= ((long) (data[2] & 0xFF)) << 48;
+      long1 |= ((long) (data[1] & 0xFF)) << 40;
+      long1 |= ((long) (data[0] & 0xFF)) << 32;
+      long1 |= ((long) (data[5] & 0xFF)) << 24;
+      long1 |= ((long) (data[4] & 0xFF)) << 16;
+      long1 |= ((long) (data[7] & 0xFF)) << 8;
+      long1 |= ((long) (data[6] & 0xFF)) << 0;
+
+      long long2 = 0;
+      long2 |= ((long) (data[8] & 0xFF)) << 56;
+      long2 |= ((long) (data[9] & 0xFF)) << 48;
+      long2 |= ((long) (data[10] & 0xFF)) << 40;
+      long2 |= ((long) (data[11] & 0xFF)) << 32;
+      long2 |= ((long) (data[12] & 0xFF)) << 24;
+      long2 |= ((long) (data[13] & 0xFF)) << 16;
+      long2 |= ((long) (data[14] & 0xFF)) << 8;
+      long2 |= ((long) (data[15] & 0xFF)) << 0;
+
+      return new UUID(long1, long2);
    }
 }

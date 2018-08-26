@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
@@ -25,10 +26,23 @@ public class TaskReader extends TableReader
          throw new IllegalArgumentException("Unexpected file format");
       }
 
-      byte[] block1 = new byte[33];
+      //      byte[] block1 = new byte[33];
+      //      m_stream.read(block1);
+      //      System.out.println("BLOCK1");
+      //      System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+
+      byte[] block1 = new byte[16];
       m_stream.read(block1);
       System.out.println("BLOCK1");
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+
+      UUID uuid = SynchroUtility.getUUID(m_stream);
+      System.out.println("UUID: " + uuid);
+
+      byte[] blockx = new byte[1];
+      m_stream.read(blockx);
+      System.out.println("BLOCKX");
+      System.out.println(MPPUtility.hexdump(blockx, true, 16, ""));
 
       UnknownTableReader unknownReader = new UnknownTableReader(m_stream);
       unknownReader.read();
@@ -72,10 +86,23 @@ public class TaskReader extends TableReader
          commentaryReader.read();
       }
 
-      byte[] block3 = new byte[140];
+      //      byte[] block3 = new byte[140];
+      //      m_stream.read(block3);
+      //      System.out.println("BLOCK3");
+      //      System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
+
+      byte[] block3 = new byte[114];
       m_stream.read(block3);
       System.out.println("BLOCK3");
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
+
+      String url = SynchroUtility.getString(m_stream);
+      System.out.println("URL: " + url);
+
+      byte[] block3a = new byte[24];
+      m_stream.read(block3a);
+      System.out.println("BLOCK3A");
+      System.out.println(MPPUtility.hexdump(block3a, true, 16, ""));
 
       String activityID = SynchroUtility.getString(m_stream);
       System.out.println("Activity ID: " + activityID);
