@@ -1,6 +1,7 @@
 
 package net.sf.mpxj.synchro;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +10,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -33,9 +35,9 @@ public final class SynchroReader extends AbstractProjectReader
    {
       try
       {
-         SynchroData data = new SynchroData();
-         data.process(inputStream);
-         return null;
+         m_data = new SynchroData();
+         m_data.process(inputStream);
+         return read();
       }
 
       catch (Exception ex)
@@ -65,11 +67,23 @@ public final class SynchroReader extends AbstractProjectReader
       // processProject();
       // processCalendars();
       // processResources();
-      // processTasks();
+      processTasks();
       // processDependencies();
       // processAssignments();
 
       return m_project;
+   }
+
+   private void processTasks() throws IOException
+   {
+      TaskReader reader = new TaskReader(m_data.getTableData("Tasks"));
+      reader.read();
+      for (MapRow row : reader.getRows())
+      {
+         Task task = m_project.addTask();
+         task.setName(row.getString("NAME"));
+         task.setText(1, row.getString("ID"));
+      }
    }
 
    private SynchroData m_data;

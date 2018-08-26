@@ -1,13 +1,19 @@
 
 package net.sf.mpxj.synchro;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -23,18 +29,22 @@ class SynchroData
       m_offset += 20;
       System.out.println("HEADER: " + MPPUtility.hexdump(header, true));
 
-      String version = getStringWithLength(is);
-      m_offset += (2 + version.length());
+      String version = SynchroUtility.getString(is);
+      m_offset += (2 + version.length()); // Assumes version is always < 255 bytes!
       System.out.println("VERSION: " + version);
 
-      readTableHeaders(is);
-      readTableData(is);
+      readTableData(readTableHeaders(is), is);
    }
 
-   private void readTableHeaders(InputStream is) throws IOException
+   public InputStream getTableData(String name)
+   {
+      return new ByteArrayInputStream(m_tableData.get(name));
+   }
+
+   private List<SynchroTable> readTableHeaders(InputStream is) throws IOException
    {
       // Read the headers
-      m_tables = new ArrayList<SynchroTable>();
+      List<SynchroTable> tables = new ArrayList<SynchroTable>();
       byte[] header = new byte[48];
       while (true)
       {
@@ -45,11 +55,11 @@ class SynchroData
          {
             break;
          }
-         m_tables.add(table);
+         tables.add(table);
       }
 
       // Ensure sorted by offset
-      Collections.sort(m_tables, new Comparator<SynchroTable>()
+      Collections.sort(tables, new Comparator<SynchroTable>()
       {
          @Override public int compare(SynchroTable o1, SynchroTable o2)
          {
@@ -59,7 +69,7 @@ class SynchroData
 
       // Calculate lengths
       SynchroTable previousTable = null;
-      for (SynchroTable table : m_tables)
+      for (SynchroTable table : tables)
       {
          if (previousTable != null)
          {
@@ -69,10 +79,12 @@ class SynchroData
          previousTable = table;
       }
 
-      for (SynchroTable table : m_tables)
+      for (SynchroTable table : tables)
       {
          System.out.println("OFFSET: " + table.getOffset() + "\tLENGTH: " + table.getLength() + "\tTABLE: " + table.getName());
       }
+
+      return tables;
    }
 
    private SynchroTable readTableHeader(byte[] header)
@@ -81,17 +93,20 @@ class SynchroData
       String tableName = getString(header, 0);
       if (!tableName.isEmpty())
       {
-         int offset = getInt(header, 40);
+         int offset = SynchroUtility.getInt(header, 40);
          result = new SynchroTable(tableName, offset);
       }
       return result;
    }
 
-   private void readTableData(InputStream is) throws IOException
+   private void readTableData(List<SynchroTable> tables, InputStream is) throws IOException
    {
-      for (SynchroTable table : m_tables)
+      for (SynchroTable table : tables)
       {
-         readTable(is, table);
+         if (REQUIRED_TABLES.contains(table.getName()))
+         {
+            readTable(is, table);
+         }
       }
    }
 
@@ -104,7 +119,7 @@ class SynchroData
          m_offset += skip;
       }
 
-      String tableName = getStringWithLength(is);
+      String tableName = SynchroUtility.getString(is);
       int tableNameLength = 2 + tableName.length();
       m_offset += tableNameLength;
 
@@ -146,20 +161,8 @@ class SynchroData
       byte[] uncompressedTableData = outputStream.toByteArray();
 
       System.out.println(MPPUtility.hexdump(uncompressedTableData, true, 16, ""));
-   }
 
-   private String getStringWithLength(InputStream is) throws IOException
-   {
-      int type = is.read();
-      if (type != 1)
-      {
-         throw new RuntimeException("Unexpected string format");
-      }
-
-      int length = is.read();
-      byte[] stringData = new byte[length];
-      is.read(stringData);
-      return new String(stringData);
+      m_tableData.put(table.getName(), uncompressedTableData);
    }
 
    private String getString(byte[] data, int offset)
@@ -182,18 +185,7 @@ class SynchroData
       return (buffer.toString());
    }
 
-   private int getInt(byte[] data, int offset)
-   {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
-   }
-
    private int m_offset;
-   private List<SynchroTable> m_tables;
+   private Map<String, byte[]> m_tableData = new HashMap<String, byte[]>();
+   private static final Set<String> REQUIRED_TABLES = new HashSet<String>(Arrays.asList("Tasks"));
 }
