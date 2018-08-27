@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
 import net.sf.mpxj.CurrencySymbolPosition;
@@ -26920,7 +26922,7 @@ import net.sf.mpxj.WorkGroup;
 
             @XmlElement(name = "FieldID") protected String fieldID;
             @XmlElement(name = "Value") protected String value;
-            @XmlElement(name = "ValueGUID") protected BigInteger valueGUID;
+            @XmlElement(name = "ValueGUID") protected String valueGUID;
             @XmlElement(name = "DurationFormat") protected BigInteger durationFormat;
 
             /**
@@ -26980,10 +26982,10 @@ import net.sf.mpxj.WorkGroup;
              *
              * @return
              *     possible object is
-             *     {@link BigInteger }
+             *     {@link String }
              *
              */
-            public BigInteger getValueGUID()
+            public String getValueGUID()
             {
                return valueGUID;
             }
@@ -26993,10 +26995,10 @@ import net.sf.mpxj.WorkGroup;
              *
              * @param value
              *     allowed object is
-             *     {@link BigInteger }
+             *     {@link String }
              *
              */
-            public void setValueGUID(BigInteger value)
+            public void setValueGUID(String value)
             {
                this.valueGUID = value;
             }
@@ -27041,7 +27043,7 @@ import net.sf.mpxj.WorkGroup;
           *       &lt;sequence>
           *         &lt;element name="FieldID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
           *         &lt;element name="ValueID" type="{http://www.w3.org/2001/XMLSchema}integer" minOccurs="0"/>
-          *         &lt;element name="ValueGUID" type="{http://www.w3.org/2001/XMLSchema}integer" minOccurs="0"/>
+          *         &lt;element name="ValueGUID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
           *       &lt;/sequence>
           *     &lt;/restriction>
           *   &lt;/complexContent>
@@ -27060,7 +27062,7 @@ import net.sf.mpxj.WorkGroup;
 
             @XmlElement(name = "FieldID") protected String fieldID;
             @XmlElement(name = "ValueID") protected BigInteger valueID;
-            @XmlElement(name = "ValueGUID") protected BigInteger valueGUID;
+            @XmlElement(name = "ValueGUID") protected String valueGUID;
 
             /**
              * Gets the value of the fieldID property.
@@ -27119,10 +27121,10 @@ import net.sf.mpxj.WorkGroup;
              *
              * @return
              *     possible object is
-             *     {@link BigInteger }
+             *     {@link String }
              *
              */
-            public BigInteger getValueGUID()
+            public String getValueGUID()
             {
                return valueGUID;
             }
@@ -27132,10 +27134,10 @@ import net.sf.mpxj.WorkGroup;
              *
              * @param value
              *     allowed object is
-             *     {@link BigInteger }
+             *     {@link String }
              *
              */
-            public void setValueGUID(BigInteger value)
+            public void setValueGUID(String value)
             {
                this.valueGUID = value;
             }

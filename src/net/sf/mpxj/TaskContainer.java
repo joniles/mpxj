@@ -62,6 +62,10 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    @Override public void removed(Task task)
    {
+      //If the removal of attached data is suppressed do nothing
+      if (!getRemoveAttachedData())
+         return;
+
       //
       // Remove the task from the file and its parent task
       //
@@ -111,6 +115,27 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       }
    }
 
+   private boolean m_removeAttachedData = true;
+
+   /**
+    * If true this suppresses the removal of attached data (parent Task, ResourceAssignments and ChildTasks)
+    * when removing a Task from the list.
+    * @param remove
+    */
+   public void setRemoveAttachedData(boolean remove)
+   {
+      m_removeAttachedData = remove;
+   }
+
+   /**
+    * If true this suppresses the removal of attached data (parent Task, ResourceAssignments and ChildTasks)
+    * when removing a Task from the list.
+    */
+   public boolean getRemoveAttachedData()
+   {
+      return m_removeAttachedData;
+   }
+
    /**
     * Microsoft Project bases the order of tasks displayed on their ID
     * value. This method takes the hierarchical structure of tasks
@@ -121,7 +146,10 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public void synchronizeTaskIDToHierarchy()
    {
+      boolean prevSuppression = getRemoveAttachedData();
+      setRemoveAttachedData(false);
       clear();
+      setRemoveAttachedData(prevSuppression);
 
       int currentID = (getByID(Integer.valueOf(0)) == null ? 1 : 0);
       for (Task task : m_projectFile.getChildTasks())
