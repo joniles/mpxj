@@ -52,10 +52,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -1528,18 +1524,20 @@ public final class MSPDIReader extends AbstractProjectReader
                type = RelationType.FINISH_START;
             }
 
-            int lag;
+            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
 
+            int lag;
             if (link.getLinkLag() != null)
             {
-               lag = link.getLinkLag().intValue() / 10;
+               lag = link.getLinkLag().intValue();
+               if (lagUnits != TimeUnit.PERCENT && lagUnits != TimeUnit.ELAPSED_PERCENT)
+                  lag = lag / 10;
             }
             else
             {
                lag = 0;
             }
 
-            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
             Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
 
             Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
