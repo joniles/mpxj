@@ -26982,13 +26982,8 @@ import net.sf.mpxj.WorkGroup;
              *
              * @return
              *     possible object is
-<<<<<<< HEAD
              *     {@link String }
-             *     
-=======
-             *     {@link BigInteger }
              *
->>>>>>> upstream/master
              */
             public String getValueGUID()
             {
@@ -27000,13 +26995,8 @@ import net.sf.mpxj.WorkGroup;
              *
              * @param value
              *     allowed object is
-<<<<<<< HEAD
              *     {@link String }
-             *     
-=======
-             *     {@link BigInteger }
              *
->>>>>>> upstream/master
              */
             public void setValueGUID(String value)
             {
@@ -27131,13 +27121,8 @@ import net.sf.mpxj.WorkGroup;
              *
              * @return
              *     possible object is
-<<<<<<< HEAD
              *     {@link String }
-             *     
-=======
-             *     {@link BigInteger }
              *
->>>>>>> upstream/master
              */
             public String getValueGUID()
             {
@@ -27149,13 +27134,8 @@ import net.sf.mpxj.WorkGroup;
              *
              * @param value
              *     allowed object is
-<<<<<<< HEAD
              *     {@link String }
-             *     
-=======
-             *     {@link BigInteger }
              *
->>>>>>> upstream/master
              */
             public void setValueGUID(String value)
             {
