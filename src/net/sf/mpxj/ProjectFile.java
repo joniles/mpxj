@@ -133,8 +133,20 @@ public final class ProjectFile implements ChildTaskContainer
     * that are defined in this project file.
     *
     * @return list of all tasks
+    * @deprecated Use getTasks()
     */
-   public TaskContainer getAllTasks()
+   @Deprecated public TaskContainer getAllTasks()
+   {
+      return m_tasks;
+   }
+
+   /**
+    * This method is used to retrieve a list of all of the tasks
+    * that are defined in this project file.
+    *
+    * @return list of all tasks
+    */
+   public TaskContainer getTasks()
    {
       return m_tasks;
    }
@@ -227,8 +239,19 @@ public final class ProjectFile implements ChildTaskContainer
     * Retrieves a list of all resources in this project.
     *
     * @return list of all resources
+    * @deprecated Use getResources()
     */
-   public ResourceContainer getAllResources()
+   @Deprecated public ResourceContainer getAllResources()
+   {
+      return m_resources;
+   }
+
+   /**
+    * Retrieves a list of all resources in this project.
+    *
+    * @return list of all resources
+    */
+   public ResourceContainer getResources()
    {
       return m_resources;
    }
@@ -237,8 +260,19 @@ public final class ProjectFile implements ChildTaskContainer
     * Retrieves a list of all resource assignments in this project.
     *
     * @return list of all resources
+    * @deprecated Use getResourceAssignments
     */
-   public ResourceAssignmentContainer getAllResourceAssignments()
+   @Deprecated public ResourceAssignmentContainer getAllResourceAssignments()
+   {
+      return m_assignments;
+   }
+
+   /**
+    * Retrieves a list of all resource assignments in this project.
+    *
+    * @return list of all resources
+    */
+   public ResourceAssignmentContainer getResourceAssignments()
    {
       return m_assignments;
    }
@@ -249,8 +283,9 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @param task parent task
     * @return new resource assignment instance
+    * @deprecated Use Task.addResourceAssignment(resource) instead
     */
-   public ResourceAssignment newResourceAssignment(Task task)
+   @Deprecated public ResourceAssignment newResourceAssignment(Task task)
    {
       return (new ResourceAssignment(this, task));
    }
@@ -290,8 +325,9 @@ public final class ProjectFile implements ChildTaskContainer
     * @param endDate end of the period
     * @return new Duration object
     * @throws MPXJException normally when no Standard calendar is available
+    * @deprecated use calendar.getDuration(startDate, endDate)
     */
-   public Duration getDuration(Date startDate, Date endDate) throws MPXJException
+   @Deprecated public Duration getDuration(Date startDate, Date endDate) throws MPXJException
    {
       return (getDuration("Standard", startDate, endDate));
    }
@@ -306,8 +342,9 @@ public final class ProjectFile implements ChildTaskContainer
     * @param endDate end of the period
     * @return new Duration object
     * @throws MPXJException normally when no Standard calendar is available
+    * @deprecated use calendar.getDuration(startDate, endDate)
     */
-   public Duration getDuration(String calendarName, Date startDate, Date endDate) throws MPXJException
+   @Deprecated public Duration getDuration(String calendarName, Date startDate, Date endDate) throws MPXJException
    {
       ProjectCalendar calendar = getCalendarByName(calendarName);
 
@@ -561,6 +598,16 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
+    * Retrieves the activity code configuration for this project.
+    *
+    * @return custom field configuration
+    */
+   public ActivityCodeContainer getActivityCodes()
+   {
+      return m_activityCodes;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -630,4 +677,5 @@ public final class ProjectFile implements ChildTaskContainer
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
+   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
 }

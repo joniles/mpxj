@@ -127,7 +127,7 @@ public class MpxjFilter
     */
    private static void processTaskFilter(ProjectFile project, Filter filter)
    {
-      for (Task task : project.getAllTasks())
+      for (Task task : project.getTasks())
       {
          if (filter.evaluate(task, null))
          {
@@ -144,7 +144,7 @@ public class MpxjFilter
     */
    private static void processResourceFilter(ProjectFile project, Filter filter)
    {
-      for (Resource resource : project.getAllResources())
+      for (Resource resource : project.getResources())
       {
          if (filter.evaluate(resource, null))
          {

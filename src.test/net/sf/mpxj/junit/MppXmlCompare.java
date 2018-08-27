@@ -52,7 +52,7 @@ public final class MppXmlCompare
     */
    private void compareTasks() throws Exception
    {
-      List<Task> xmlTasks = m_xml.getAllTasks();
+      List<Task> xmlTasks = m_xml.getTasks();
 
       // won't always match - tasks with blank names not preserved?
       //List mppTasks = m_mpp.getAllTasks();
@@ -288,7 +288,7 @@ public final class MppXmlCompare
     */
    private void compareResources() throws Exception
    {
-      List<Resource> xmlResources = m_xml.getAllResources();
+      List<Resource> xmlResources = m_xml.getResources();
       //List mppResources = m_mpp.getAllResources();
       //assertEquals(xmlResources.size(), mppResources.size());
 

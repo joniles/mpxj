@@ -98,7 +98,10 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             int type = MPPUtility.getShort(b2, typeOffset);
             item.setValue(getTypedValue(type, value));
             FieldType field = map.get(parentField);
-            m_container.getCustomField(field).getLookupTable().add(item);
+            if (field != null)
+            {
+               m_container.getCustomField(field).getLookupTable().add(item);
+            }
          }
       }
    }
@@ -110,17 +113,22 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
     */
    private Map<UUID, FieldType> populateCustomFieldMap()
    {
-      byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
-
       Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
-      int index = 44;
-      while (index + 88 <= data.length)
+      byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
+      if (data != null)
       {
-         FieldType field = FieldTypeHelper.getInstance(MPPUtility.getInt(data, index + 0));
-         UUID guid = MPPUtility.getGUID(data, index + 36);
-         map.put(guid, field);
+         int length = MPPUtility.getInt(data, 0);
+         int index = length + 36;
 
-         index += 88;
+         while (index + 52 <= data.length)
+         {
+            int fieldID = MPPUtility.getInt(data, index + 0);
+            FieldType field = FieldTypeHelper.getInstance(fieldID);
+            UUID guid = MPPUtility.getGUID(data, index + 36);
+            map.put(guid, field);
+
+            index += 88;
+         }
       }
       return map;
    }

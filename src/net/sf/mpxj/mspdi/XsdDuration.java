@@ -46,6 +46,14 @@ final class XsdDuration
          int length = duration.length();
          if (length > 0)
          {
+            // We have come across schedules exported from Synchro which represent
+            // zero duration as a plain `0` rather than a well-formed XSD Duration.
+            // MS Project reads this, so we'll treat it as a special case.
+            if (length == 1 && duration.charAt(0) == '0')
+            {
+               return;
+            }
+
             if (duration.charAt(0) != 'P')
             {
                if (length < 2 || (duration.charAt(0) != '-' && duration.charAt(1) != 'P'))

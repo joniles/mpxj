@@ -320,7 +320,7 @@ public final class MPPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + (days * MS_PER_DAY));
+         result = DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
       }
 
       return (result);
@@ -356,7 +356,7 @@ public final class MPPUtility
     */
    public static final long getDuration(byte[] data, int offset)
    {
-      return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
+      return ((getShort(data, offset) * DateHelper.MS_PER_MINUTE) / 10);
    }
 
    /**
@@ -371,6 +371,13 @@ public final class MPPUtility
       Date result;
 
       long days = getShort(data, offset + 2);
+      if (days < 100)
+      {
+         // We are seeing some files which have very small values for the number of days.
+         // When the relevant field is shown in MS Project it appears as NA.
+         // We try to mimic this behaviour here.
+         days = 0;
+      }
 
       if (days == 0 || days == 65535)
       {
@@ -383,7 +390,7 @@ public final class MPPUtility
          {
             time = 0;
          }
-         result = DateHelper.getTimestampFromLong((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)));
+         result = DateHelper.getTimestampFromLong((EPOCH + (days * DateHelper.MS_PER_DAY) + ((time * DateHelper.MS_PER_MINUTE) / 10)));
       }
 
       return (result);
@@ -1430,16 +1437,6 @@ public final class MPPUtility
     * Epoch Date as a Date instance.
     */
    private static Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
-
-   /**
-    * Number of milliseconds per day.
-    */
-   private static final long MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-   /**
-    * Number of milliseconds per minute.
-    */
-   private static final long MS_PER_MINUTE = 60 * 1000;
 
    /**
     * Constants used to convert bytes to hex digits.

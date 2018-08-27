@@ -217,7 +217,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       m_children.add(task);
 
-      parent.getAllTasks().add(task);
+      parent.getTasks().add(task);
 
       setSummary(true);
 
@@ -350,6 +350,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the activity codes associated with this task.
+    *
+    * @return list of activity codes
+    */
+   public List<ActivityCodeValue> getActivityCodes()
+   {
+      return m_activityCodes;
+   }
+
+   /**
+    * Assign an activity code to this task.
+    *
+    * @param value activity coe value
+    */
+   public void addActivityCode(ActivityCodeValue value)
+   {
+      m_activityCodes.add(value);
+   }
+
+   /**
     * This method allows a resource assignment to be added to the
     * current task.
     *
@@ -364,7 +384,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       {
          assignment = new ResourceAssignment(getParentFile(), this);
          m_assignments.add(assignment);
-         getParentFile().getAllResourceAssignments().add(assignment);
+         getParentFile().getResourceAssignments().add(assignment);
 
          assignment.setTaskUniqueID(getUniqueID());
          assignment.setWork(getDuration());
@@ -390,7 +410,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (getExistingResourceAssignment(assignment.getResource()) == null)
       {
          m_assignments.add(assignment);
-         getParentFile().getAllResourceAssignments().add(assignment);
+         getParentFile().getResourceAssignments().add(assignment);
 
          Resource resource = assignment.getResource();
          if (resource != null)
@@ -1037,10 +1057,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       if (previous != null)
       {
-         parent.getAllTasks().unmapID(previous);
+         parent.getTasks().unmapID(previous);
       }
 
-      parent.getAllTasks().mapID(val, this);
+      parent.getTasks().mapID(val, this);
 
       set(TaskField.ID, val);
    }
@@ -3139,7 +3159,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public EarnedValueMethod getEarnedValueMethod()
    {
-      return (m_earnedValueMethod);
+      return (EarnedValueMethod) getCachedValue(TaskField.EARNED_VALUE_METHOD);
    }
 
    /**
@@ -3149,7 +3169,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEarnedValueMethod(EarnedValueMethod earnedValueMethod)
    {
-      m_earnedValueMethod = earnedValueMethod;
+      set(TaskField.EARNED_VALUE_METHOD, earnedValueMethod);
    }
 
    /**
@@ -3546,6 +3566,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the calendar unique ID.
+    *
+    * @param id calendar unique ID
+    */
+   public void setCalendarUniqueID(Integer id)
+   {
+      set(TaskField.CALENDAR_UNIQUE_ID, id);
+   }
+
+   /**
+    * Retrieve the calendar unique ID.
+    *
+    * @return calendar unique ID
+    */
+   public Integer getCalendarUniqueID()
+   {
+      return (Integer) getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
+   }
+
+   /**
     * Sets the name of the base calendar associated with this task.
     * Note that this attribute appears in MPP9 and MSPDI files.
     *
@@ -3554,6 +3594,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setCalendar(ProjectCalendar calendar)
    {
       set(TaskField.CALENDAR, calendar);
+      setCalendarUniqueID(calendar == null ? null : calendar.getUniqueID());
    }
 
    /**
@@ -4158,11 +4199,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
                {
                   double durationValue = (duration.getDuration() * percentComplete) / 100d;
                   duration = Duration.getInstance(durationValue, duration.getUnits());
-                  ProjectCalendar calendar = getCalendar();
-                  if (calendar == null)
-                  {
-                     calendar = getParentFile().getDefaultCalendar();
-                  }
+                  ProjectCalendar calendar = getEffectiveCalendar();
                   value = calendar.getDate(actualStart, duration, true);
                }
                break;
@@ -4483,6 +4520,23 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the effective calendar for this task. If the task does not have
+    * a specific calendar associated with it, fall back to using the default calendar
+    * for the project.
+    *
+    * @return ProjectCalendar instance
+    */
+   public ProjectCalendar getEffectiveCalendar()
+   {
+      ProjectCalendar result = getCalendar();
+      if (result == null)
+      {
+         result = getParentFile().getDefaultCalendar();
+      }
+      return result;
+   }
+
+   /**
     * This method allows a predecessor relationship to be removed from this
     * task instance.  It will only delete relationships that exactly match the
     * given targetTask, type and lag time.
@@ -4727,9 +4781,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             ProjectFile parent = getParentFile();
             if (oldValue != null)
             {
-               parent.getAllTasks().unmapUniqueID((Integer) oldValue);
+               parent.getTasks().unmapUniqueID((Integer) oldValue);
             }
-            parent.getAllTasks().mapUniqueID((Integer) newValue, this);
+            parent.getTasks().mapUniqueID((Integer) newValue, this);
             break;
          }
 
@@ -4966,6 +5020,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
 
    /**
+    * List of activity codes for this task.
+    */
+   private List<ActivityCodeValue> m_activityCodes = new LinkedList<ActivityCodeValue>();
+
+   /**
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
@@ -4976,7 +5035,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private boolean m_resumeValid;
    private String m_externalTaskProject;
    private TimeUnit m_levelingDelayFormat;
-   private EarnedValueMethod m_earnedValueMethod;
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;

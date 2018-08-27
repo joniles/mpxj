@@ -166,15 +166,11 @@ public class ResourceAssignmentFactory
          }
 
          String notes = assignment.getNotes();
-         if (notes != null)
+         if (!preserveNoteFormatting)
          {
-            if (!preserveNoteFormatting)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-
-            assignment.setNotes(notes);
+            notes = RtfHelper.strip(notes);
          }
+         assignment.setNotes(notes);
 
          Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
          if (task != null)
@@ -182,7 +178,6 @@ public class ResourceAssignmentFactory
             task.addResourceAssignment(assignment);
 
             Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
-
             ProjectCalendar calendar = null;
             if (resource != null)
             {
@@ -191,12 +186,7 @@ public class ResourceAssignmentFactory
 
             if (calendar == null || task.getIgnoreResourceCalendar())
             {
-               calendar = task.getCalendar();
-            }
-
-            if (calendar == null)
-            {
-               calendar = file.getDefaultCalendar();
+               calendar = task.getEffectiveCalendar();
             }
 
             assignment.setTimephasedBaselineWork(0, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE_WORK)), !useRawTimephasedData));
@@ -227,9 +217,9 @@ public class ResourceAssignmentFactory
             byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
             byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
 
-            List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), timephasedActualWorkData);
+            List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualWorkData);
             List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), timephasedWorkData, timephasedActualWork);
-            List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment.getStart(), timephasedActualOvertimeWorkData);
+            List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
 
             assignment.setActualStart(timephasedActualWork.isEmpty() ? null : assignment.getStart());
             assignment.setActualFinish((assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);

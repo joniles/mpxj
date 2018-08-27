@@ -221,7 +221,7 @@ public final class LocaleData_pt extends ListResourceBundle
       "Sucessores", //   "Successors",
       "Nome dos Recursos", //   "Resource Names",
       "Iniciais dos Recursos", //   "Resource Initials",
-      "ID Unico dos Predecessores",//   "Unique ID Predecessors",
+      "ID Unico dos Predecessores", //   "Unique ID Predecessors",
       "ID Unico dos Sucessores", //   "Unique ID Successors",
       null, //
       null, //

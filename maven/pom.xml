@@ -8,16 +8,16 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>5.6.5</version>
+	<!-- MPXJ --><version>7.6.0</version>
 
 	<name>MPXJ</name>
-	<url>http://mpxj.sourceforge.net/</url>
+	<url>http://mpxj.org</url>
 
-	<description>Library that provides facilities to allow project information to be manipulated in Java and .Net. Supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), Asta Powerproject (PP, MDB), Asta Easyplan (PP), Phoenix Project Manager (PPX), and the Standard Data Exchange Format (SDEF).</description>
+	<description>Library that provides facilities to allow project information to be manipulated in Java and .Net. Supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), Asta Powerproject (PP, MDB), Asta Easyplan (PP), Phoenix Project Manager (PPX), FastTrack Schedule (FTS), and the Standard Data Exchange Format (SDEF).</description>
 
 	<organization>
 		<name>Packwood Software</name>
-		<url>http://mpxj.sf.net/</url>
+		<url>http://mpxj.org</url>
 	</organization>
 	<inceptionYear>2000</inceptionYear>
 	
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.15</version>
+			<version>3.17</version>
 		</dependency>
 
 		<dependency>
@@ -85,6 +85,9 @@
 			<name>Pasha Ashpak</name>
 		</contributor>
 		<contributor>
+			<name>Mark Atwood</name>
+		</contributor>
+		<contributor>
 			<name>Benoit Baranne</name>
 		</contributor>
 		<contributor>
@@ -112,6 +115,9 @@
 			<name>Claudio Engelsdorff Avila</name>
 		</contributor>
 		<contributor>
+			<name>Forenpm</name>
+		</contributor>
+		<contributor>
 			<name>Mario Fuentes</name>
 		</contributor>
 		<contributor>
@@ -122,7 +128,10 @@
 		</contributor>
 		<contributor>
 			<name>Lord Helmchen</name>
-		</contributor>		
+		</contributor>			
+		<contributor>
+			<name>Brandon Herzog</name>
+		</contributor>
 		<contributor>
 			<name>Harald Hett</name>
 		</contributor>
@@ -184,8 +193,8 @@
 
 	<licenses>
 		<license>
-			<name>GNU Lesser General Public License v3.0 or later</name>
-			<url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+			<name>GNU Lesser General Public License v2.1 or later</name>
+			<url>https://www.gnu.org/licenses/old-licenses/lgpl-2.1-standalone.html</url>
 		</license>
 	</licenses>
 
@@ -233,16 +242,15 @@
 				</configuration>
 			</plugin>
 
-			<!-- Use our own site template to inject Google adsense -->
+			<!-- Use our own site template -->
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.6</version>
 				<configuration>
-					<templateDirectory>${basedir}</templateDirectory>
-					<template>maven-site.vm</template>
+					<outputDirectory>../docs</outputDirectory>				
 				</configuration>
 			</plugin>
-
+			
 			<!-- Generate a Google sitemap -->
 			<plugin>
 				<groupId>com.github.s4u.plugins</groupId>
@@ -255,6 +263,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<siteOutputDirectory>../docs</siteOutputDirectory>
+				</configuration>
 			</plugin>
 			
 			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir> to allow unit tests to run -->
@@ -304,6 +315,10 @@
 		      <groupId>org.apache.maven.plugins</groupId>
 		      <artifactId>maven-javadoc-plugin</artifactId>
 		      <version>2.9.1</version>
+		      <configuration>
+			  	<additionalparam>-Xdoclint:none</additionalparam>
+				<notimestamp>true</notimestamp>
+			  </configuration>		      
 		      <executions>
 		        <execution>
 		          <id>attach-javadocs</id>
@@ -365,6 +380,10 @@
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
+				<configuration>
+					<additionalparam>-Xdoclint:none</additionalparam>
+					<notimestamp>true</notimestamp>
+				</configuration>
 			</plugin>
 			
 		</plugins>

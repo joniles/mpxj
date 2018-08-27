@@ -26,6 +26,7 @@ package net.sf.mpxj.phoenix;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -255,9 +256,46 @@ public final class DatatypeConverter
     * @param value Phoenix day
     * @return Day instance
     */
-   public static final Day parseDaye(String value)
+   public static final Day parseDay(String value)
    {
       return NAME_TO_DAY.get(value);
+   }
+
+   /**
+    * Retrieve a finish date time in the form required by Phoenix.
+    *
+    * @param value Date instance
+    * @return formatted date time
+    */
+   public static final String printFinishDateTime(Date value)
+   {
+      if (value != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(value);
+         cal.add(Calendar.DAY_OF_YEAR, 1);
+         value = cal.getTime();
+      }
+      return (value == null ? null : getDateFormat().format(value));
+   }
+
+   /**
+    * Convert the Phoenix representation of a finish date time into a Date instance.
+    *
+    * @param value Phoenix date time
+    * @return Date instance
+    */
+   public static final Date parseFinishDateTime(String value)
+   {
+      Date result = parseDateTime(value);
+      if (result != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(result);
+         cal.add(Calendar.DAY_OF_YEAR, -1);
+         result = cal.getTime();
+      }
+      return result;
    }
 
    /**

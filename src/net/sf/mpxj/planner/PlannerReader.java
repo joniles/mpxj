@@ -45,6 +45,10 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -85,10 +89,6 @@ import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
 /**
  * This class creates a new ProjectFile instance by reading a Planner file.
  */
@@ -122,6 +122,9 @@ public final class PlannerReader extends AbstractProjectReader
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
+
+         m_projectFile.getProjectProperties().setFileApplication("Planner");
+         m_projectFile.getProjectProperties().setFileType("XML");
 
          m_eventManager.addProjectListeners(m_projectListeners);
 

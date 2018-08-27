@@ -474,8 +474,8 @@ public class MppTaskTest
       assertNotNull(properties);
 
       // test various global properties
-      List<Task> listAllTasks = mpp.getAllTasks();
-      List<Resource> listAllResources = mpp.getAllResources();
+      List<Task> listAllTasks = mpp.getTasks();
+      List<Resource> listAllResources = mpp.getResources();
       assertNotNull(listAllTasks);
       assertNotNull(listAllResources);
       assertEquals(2, listAllTasks.size());
@@ -830,8 +830,8 @@ public class MppTaskTest
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-      List<Task> listAllTasks = mpp.getAllTasks();
-      List<Resource> listAllResources = mpp.getAllResources();
+      List<Task> listAllTasks = mpp.getTasks();
+      List<Resource> listAllResources = mpp.getResources();
       assertNotNull(listAllTasks);
       assertNotNull(listAllResources);
       assertTrue(listAllTasks.size() > 0);
@@ -982,7 +982,7 @@ public class MppTaskTest
     */
    private void testRelations(ProjectFile mpp)
    {
-      List<Task> listAllTasks = mpp.getAllTasks();
+      List<Task> listAllTasks = mpp.getTasks();
       assertNotNull(listAllTasks);
 
       Task task1 = mpp.getTaskByID(Integer.valueOf(1));

@@ -89,16 +89,13 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
    /**
     * Generate a map of UUID values to field types.
     *
-    * @return uUID field value map
+    * @return UUID field value map
     */
    private Map<UUID, FieldType> populateCustomFieldMap()
    {
       byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
-
-      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
-
-      // 44 byte header
-      int index = 44;
+      int length = MPPUtility.getInt(data, 0);
+      int index = length + 36;
 
       // 4 byte record count
       int recordCount = MPPUtility.getInt(data, index);
@@ -106,6 +103,8 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
 
       // 8 bytes per record
       index += (8 * recordCount);
+
+      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
 
       // 200 byte blocks
       while (index + 200 <= data.length)

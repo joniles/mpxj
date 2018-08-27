@@ -33,4 +33,10 @@ public class CharsetHelper
    public static final Charset UTF8 = Charset.forName("UTF-8");
    public static final Charset UTF16 = Charset.forName("UTF-16");
    public static final Charset UTF16LE = Charset.forName("UTF-16LE");
+   public static final Charset CP1252 = Charset.forName("Cp1252");
+   public static final Charset MAC_ROMAN = Charset.forName("MacRoman");
+   public static final Charset CP850 = Charset.forName("Cp850");
+   public static final Charset CP437 = Charset.forName("Cp437");
+   public static final Charset GB2312 = Charset.forName("GB2312");
+   public static final Charset CP1251 = Charset.forName("Cp1251");
 }

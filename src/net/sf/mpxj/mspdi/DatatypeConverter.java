@@ -781,10 +781,24 @@ public final class DatatypeConverter
    public static final Duration parseDuration(ProjectFile file, TimeUnit defaultUnits, String value)
    {
       Duration result = null;
+      XsdDuration xsd = null;
 
       if (value != null && value.length() != 0)
       {
-         XsdDuration xsd = new XsdDuration(value);
+         try
+         {
+            xsd = new XsdDuration(value);
+         }
+
+         catch (IllegalArgumentException ex)
+         {
+            // The duration is malformed.
+            // MS Project simply ignores values like this.
+         }
+      }
+
+      if (xsd != null)
+      {
          TimeUnit units = TimeUnit.DAYS;
 
          if (xsd.getSeconds() != 0 || xsd.getMinutes() != 0)
@@ -1787,7 +1801,7 @@ public final class DatatypeConverter
     * Parse method for a string: returns the string unchanged.
     * This is used to enable to string representation of an
     * xsd:datetime to be processed by MPXJ.
-
+   
     * @param value string value
     * @return string value
     */
@@ -1838,6 +1852,7 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
          df.setLenient(false);
+         DATE_FORMAT.set(df);
       }
       return (df);
 
@@ -1855,6 +1870,7 @@ public final class DatatypeConverter
       {
          df = new SimpleDateFormat("HH:mm:ss");
          df.setLenient(false);
+         TIME_FORMAT.set(df);
       }
       return (df);
 

@@ -52,11 +52,11 @@ public class TaskContainerTest
       assertEquals(null, task3.getID());
       assertEquals(null, task4.getID());
 
-      assertEquals(4, file.getAllTasks().size());
+      assertEquals(4, file.getTasks().size());
 
       file.synchronizeTaskIDToHierarchy();
 
-      assertEquals(4, file.getAllTasks().size());
+      assertEquals(4, file.getTasks().size());
 
       assertEquals(Integer.valueOf(1), task1.getID());
       assertEquals(Integer.valueOf(2), task2.getID());

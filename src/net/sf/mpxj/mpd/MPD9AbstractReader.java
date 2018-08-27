@@ -1128,6 +1128,7 @@ abstract class MPD9AbstractReader
          TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
          Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
          Relation relation = successorTask.addPredecessor(predecessorTask, type, duration);
+         relation.setUniqueID(row.getInteger("LINK_UID"));
          m_eventManager.fireRelationReadEvent(relation);
       }
    }
@@ -1248,7 +1249,7 @@ abstract class MPD9AbstractReader
       //
       // Perform post-processing to set the summary flag
       //
-      for (Task task : m_project.getAllTasks())
+      for (Task task : m_project.getTasks())
       {
          task.setSummary(task.getChildTasks().size() != 0);
       }
@@ -1353,4 +1354,3 @@ TASK_IS_READONLY_SUBPROJ = false ( java.lang.Boolean)
 TASK_BASE_DUR_FMT = 39 ( java.lang.Short)
 TASK_WBS_RIGHTMOST_LEVEL = null ( )
 */
-

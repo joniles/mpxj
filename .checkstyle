@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fileset-config file-format-version="1.2.0" simple-config="false">
+<fileset-config file-format-version="1.2.0" simple-config="false" sync-formatter="false">
   <local-check-config name="MPXJ" location="eclipse/checkstyle-config.xml" type="project" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
@@ -8,6 +8,8 @@
     <file-match-pattern match-pattern=".java$" include-pattern="true"/>
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
+    <filter-data value="src/net/sf/mpxj/conceptdraw/schema"/>
+    <filter-data value="src/net/sf/mpxj/ganttproject/schema"/>
     <filter-data value="src/net/sf/mpxj/mspdi/schema"/>
     <filter-data value="src/net/sf/mpxj/phoenix/schema"/>
     <filter-data value="src/net/sf/mpxj/planner/schema"/>

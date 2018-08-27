@@ -23,9 +23,10 @@
 
 package net.sf.mpxj.primavera;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,13 +38,20 @@ import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.UnmarshallerHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
 
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
+import org.xml.sax.XMLReader;
+
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
@@ -70,18 +78,20 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
+import net.sf.mpxj.primavera.schema.ActivityCodeType;
+import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
+import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
 import net.sf.mpxj.primavera.schema.ProjectType;
@@ -93,10 +103,6 @@ import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera PM file.
@@ -122,12 +128,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       try
       {
-         //
-         // This is a hack to ensure that the incoming file has a namespace
-         // which JAXB will accept.
-         //
-         InputStream namespaceCorrectedStream = new ReplaceOnceStream(stream, NAMESPACE_REGEX, NAMESPACE_REPLACEMENT, NAMESPACE_SCOPE, CharsetHelper.UTF8);
-
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -136,6 +136,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.setAutoResourceUniqueID(false);
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
+
+         m_projectFile.getProjectProperties().setFileApplication("Primavera");
+         m_projectFile.getProjectProperties().setFileType("PMXML");
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
          fields.getCustomField(TaskField.TEXT1).setAlias("WBS Code");
@@ -148,7 +151,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(namespaceCorrectedStream));
 
          if (CONTEXT == null)
          {
@@ -156,8 +158,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
-
-         APIBusinessObjects apibo = (APIBusinessObjects) unmarshaller.unmarshal(doc);
+         XMLFilter filter = new NamespaceFilter();
+         filter.setParent(xmlReader);
+         UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
+         filter.setContentHandler(unmarshallerHandler);
+         filter.parse(new InputSource(stream));
+         APIBusinessObjects apibo = (APIBusinessObjects) unmarshallerHandler.getResult();
 
          List<ProjectType> projects = apibo.getProject();
          ProjectType project = null;
@@ -177,6 +183,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
+         processActivityCodes(apibo, project);
          processCalendars(apibo);
          processResources(apibo);
          processTasks(project);
@@ -206,11 +213,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          throw new MPXJException("Failed to parse file", ex);
       }
 
+      catch (IOException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+
       finally
       {
          m_projectFile = null;
          m_clashMap.clear();
          m_calMap.clear();
+         m_activityCodeMap.clear();
       }
    }
 
@@ -247,6 +260,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       properties.setStartDate(project.getPlannedStartDate());
       properties.setStatusDate(project.getDataDate());
       properties.setProjectTitle(project.getId());
+      properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
 
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
@@ -267,6 +281,43 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                properties.setCurrencySymbol(currency.getSymbol());
                break;
             }
+         }
+      }
+   }
+
+   /**
+    * Process activity code data.
+    *
+    * @param apibo global activity code data
+    * @param project project-specific activity code data
+    */
+   private void processActivityCodes(APIBusinessObjects apibo, ProjectType project)
+   {
+      ActivityCodeContainer container = m_projectFile.getActivityCodes();
+      Map<Integer, ActivityCode> map = new HashMap<Integer, ActivityCode>();
+
+      List<ActivityCodeTypeType> types = new ArrayList<ActivityCodeTypeType>();
+      types.addAll(apibo.getActivityCodeType());
+      types.addAll(project.getActivityCodeType());
+
+      for (ActivityCodeTypeType type : types)
+      {
+         ActivityCode code = new ActivityCode(type.getObjectId(), type.getName());
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ActivityCodeType> typeValues = new ArrayList<ActivityCodeType>();
+      typeValues.addAll(apibo.getActivityCode());
+      typeValues.addAll(project.getActivityCode());
+
+      for (ActivityCodeType typeValue : typeValues)
+      {
+         ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getCodeValue(), typeValue.getDescription());
+            m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
    }
@@ -416,17 +467,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       List<WBSType> wbs = project.getWBS();
       List<ActivityType> tasks = project.getActivity();
-
       Set<Integer> uniqueIDs = new HashSet<Integer>();
+      Set<Task> wbsTasks = new HashSet<Task>();
 
       //
       // Read WBS entries and create tasks
       //
+      Collections.sort(wbs, WBS_ROW_COMPARATOR);
+
       for (WBSType row : wbs)
       {
          Task task = m_projectFile.addTask();
          Integer uniqueID = row.getObjectId();
          uniqueIDs.add(uniqueID);
+         wbsTasks.add(task);
 
          task.setUniqueID(uniqueID);
          task.setName(row.getName());
@@ -495,7 +549,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
          task.setName(row.getName());
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
-         task.setActualWork(getDuration(row.getActualDuration()));
+         task.setActualWork(getDuration(zeroIsNull(row.getActualDuration())));
          task.setRemainingWork(getDuration(row.getRemainingTotalUnits()));
          task.setBaselineDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
@@ -531,71 +585,67 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setStart(row.getStartDate());
          task.setFinish(row.getFinishDate());
 
-         populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.BASELINE_START);
+         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH);
+         populateField(task, TaskField.WORK, TaskField.ACTUAL_WORK, TaskField.BASELINE_WORK);
+
+         //
+         // We've tried the finish and actual finish fields... but we still have null.
+         // P6 itself doesn't export PMXML like this.
+         // The sample I have that requires this code appears to have been been generated by Synchro.
+         //
+         if (task.getFinish() == null)
+         {
+            //
+            // Find the remaining duration, set it to null if it is zero
+            //
+            Duration duration = task.getRemainingDuration();
+            if (duration != null && duration.getDuration() == 0)
+            {
+               duration = null;
+            }
+
+            //
+            // If the task hasn't started, or we don't have a usable duration
+            // let's just use the baseline finish.
+            //
+            if (task.getActualStart() == null || duration == null)
+            {
+               task.setFinish(task.getBaselineFinish());
+            }
+            else
+            {
+               //
+               // The task has started, let's calculate the finish date using the remaining duration
+               // and the "restart" date, which we've put in the baseline start date.
+               //
+               ProjectCalendar calendar = task.getEffectiveCalendar();
+               Date finish = calendar.getDate(task.getBaselineStart(), duration, false);
+
+               //
+               // Deal with an oddity where the finish date shows up as the
+               // start of work date for the next working day. If we can identify this,
+               // wind the date back to the end of the previous working day.
+               //
+               Date nextWorkStart = calendar.getNextWorkStart(finish);
+               if (DateHelper.compare(finish, nextWorkStart) == 0)
+               {
+                  finish = calendar.getPreviousWorkFinish(finish);
+               }
+               task.setFinish(finish);
+            }
+         }
 
          readUDFTypes(task, row.getUDF());
+         readActivityCodes(task, row.getCode());
 
          m_eventManager.fireTaskReadEvent(task);
       }
 
-      sortActivities(TaskField.TEXT1, m_projectFile);
+      new ActivitySorter(TaskField.TEXT1, wbsTasks).sort(m_projectFile);
+
       updateStructure();
       updateDates();
-   }
-
-   /**
-    * Ensure activities are sorted into Activity ID order to match Primavera.
-    *
-    * @param activityIDField field containing the Activity ID value
-    * @param container object containing the tasks to process
-    */
-   private void sortActivities(final FieldType activityIDField, ChildTaskContainer container)
-   {
-      // Do we have any tasks?
-      List<Task> tasks = container.getChildTasks();
-      if (!tasks.isEmpty())
-      {
-         for (Task task : tasks)
-         {
-            //
-            // Sort child activities
-            //
-            sortActivities(activityIDField, task);
-
-            //
-            // Sort Order:
-            // 1. Activities come first
-            // 2. WBS come last
-            // 3. Activities ordered by activity ID
-            // 4. WBS ordered by ID
-            //
-            Collections.sort(tasks, new Comparator<Task>()
-            {
-               @Override public int compare(Task t1, Task t2)
-               {
-                  boolean t1HasChildren = !t1.getChildTasks().isEmpty();
-                  boolean t2HasChildren = !t2.getChildTasks().isEmpty();
-
-                  // Both are WBS
-                  if (t1HasChildren && t2HasChildren)
-                  {
-                     return t1.getID().compareTo(t2.getID());
-                  }
-
-                  // Both are activities
-                  if (!t1HasChildren && !t2HasChildren)
-                  {
-                     String activityID1 = (String) t1.getCurrentValue(activityIDField);
-                     String activityID2 = (String) t2.getCurrentValue(activityIDField);
-                     return activityID1.compareTo(activityID2);
-                  }
-
-                  // One activity one WBS
-                  return t1HasChildren ? 1 : -1;
-               }
-            });
-         }
-      }
    }
 
    /**
@@ -636,45 +686,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             updateDates(task);
 
-            if (actualStartDate == null || DateHelper.compare(actualStartDate, task.getActualStart()) > 0)
-            {
-               actualStartDate = task.getActualStart();
-            }
+            // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
+            // still must protect against some children having null dates
 
-            if (actualFinishDate == null || DateHelper.compare(actualFinishDate, task.getActualFinish()) < 0)
-            {
-               actualFinishDate = task.getActualFinish();
-            }
-
-            if (earlyStartDate == null || DateHelper.compare(earlyStartDate, task.getEarlyStart()) > 0)
-            {
-               earlyStartDate = task.getEarlyStart();
-            }
-
-            if (earlyFinishDate == null || DateHelper.compare(earlyFinishDate, task.getEarlyFinish()) < 0)
-            {
-               earlyFinishDate = task.getEarlyFinish();
-            }
-
-            if (lateStartDate == null || DateHelper.compare(lateStartDate, task.getLateStart()) > 0)
-            {
-               lateStartDate = task.getLateStart();
-            }
-
-            if (lateFinishDate == null || DateHelper.compare(lateFinishDate, task.getLateFinish()) < 0)
-            {
-               lateFinishDate = task.getLateFinish();
-            }
-
-            if (baselineStartDate == null || DateHelper.compare(baselineStartDate, task.getBaselineStart()) > 0)
-            {
-               baselineStartDate = task.getBaselineStart();
-            }
-
-            if (baselineFinishDate == null || DateHelper.compare(baselineFinishDate, task.getBaselineFinish()) < 0)
-            {
-               baselineFinishDate = task.getBaselineFinish();
-            }
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
+            baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
 
             if (task.getActualFinish() != null)
             {
@@ -732,7 +754,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
          parentTask.setRemainingDuration(remainingDuration);
 
-         if (baselineDuration != null && remainingDuration != null)
+         if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
          {
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
@@ -745,17 +767,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     *
     * @param container field container
     * @param target target field
-    * @param baseline baseline field
-    * @param actual actual field
+    * @param types fields to test for not-null values
     */
-   private void populateField(FieldContainer container, FieldType target, FieldType baseline, FieldType actual)
+   private void populateField(FieldContainer container, FieldType target, FieldType... types)
    {
-      Object value = container.getCachedValue(actual);
-      if (value == null)
+      for (FieldType type : types)
       {
-         value = container.getCachedValue(baseline);
+         Object value = container.getCachedValue(type);
+         if (value != null)
+         {
+            container.set(target, value);
+            break;
+         }
       }
-      container.set(target, value);
    }
 
    /**
@@ -811,6 +835,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             RelationType type = RELATION_TYPE_MAP.get(row.getType());
             Duration lag = getDuration(row.getLag());
             Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
+            relation.setUniqueID(row.getObjectId());
             m_eventManager.fireRelationReadEvent(relation);
          }
       }
@@ -849,16 +874,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             task.setRemainingCost(Double.valueOf(NumberHelper.getDouble(task.getRemainingCost()) + NumberHelper.getDouble(assignment.getRemainingCost())));
             task.setBaselineCost(Double.valueOf(NumberHelper.getDouble(task.getBaselineCost()) + NumberHelper.getDouble(assignment.getBaselineCost())));
 
-            populateField(assignment, AssignmentField.WORK, AssignmentField.BASELINE_WORK, AssignmentField.ACTUAL_WORK);
-            populateField(assignment, AssignmentField.COST, AssignmentField.BASELINE_COST, AssignmentField.ACTUAL_COST);
-            populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
+            populateField(assignment, AssignmentField.WORK, AssignmentField.ACTUAL_WORK, AssignmentField.BASELINE_WORK);
+            populateField(assignment, AssignmentField.COST, AssignmentField.ACTUAL_COST, AssignmentField.BASELINE_COST);
+            populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.BASELINE_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.BASELINE_FINISH);
 
             readUDFTypes(assignment, row.getUDF());
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
+   }
+
+   /**
+    * Render a zero Double as null.
+    *
+    * @param value double value
+    * @return null if the double value is zero
+    */
+   private Double zeroIsNull(Double value)
+   {
+      if (value != null && value.doubleValue() == 0)
+      {
+         value = null;
+      }
+      return value;
    }
 
    /**
@@ -920,6 +960,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    /**
+    * Read details of any activity codes assigned to this task.
+    * @param task parent task
+    * @param codes activity code assignments
+    */
+   private void readActivityCodes(Task task, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ActivityCodeValue code = m_activityCodeMap.get(Integer.valueOf(assignment.getValueObjectId()));
+         if (code != null)
+         {
+            task.addActivityCode(code);
+         }
+      }
+   }
+
+   /**
     * Cached context to minimise construction cost.
     */
    private static JAXBContext CONTEXT;
@@ -972,10 +1029,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
    private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
-
-   private static final int NAMESPACE_SCOPE = 512;
-   private static final String NAMESPACE_REGEX = "xmlns=\\\".*BusinessObjects\\\"";
-   private static final String NAMESPACE_REPLACEMENT = "xmlns=\"http://xmlns.oracle.com/Primavera/P6/V8.3/API/BusinessObjects\"";
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();
    static
@@ -1022,6 +1076,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private static final Map<String, Day> DAY_MAP = new HashMap<String, Day>();
    static
    {
+      // Current PMXML schema
       DAY_MAP.put("Monday", Day.MONDAY);
       DAY_MAP.put("Tuesday", Day.TUESDAY);
       DAY_MAP.put("Wednesday", Day.WEDNESDAY);
@@ -1029,6 +1084,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       DAY_MAP.put("Friday", Day.FRIDAY);
       DAY_MAP.put("Saturday", Day.SATURDAY);
       DAY_MAP.put("Sunday", Day.SUNDAY);
+
+      // Older (6.2?) schema
+      DAY_MAP.put("1", Day.SUNDAY);
+      DAY_MAP.put("2", Day.MONDAY);
+      DAY_MAP.put("3", Day.TUESDAY);
+      DAY_MAP.put("4", Day.WEDNESDAY);
+      DAY_MAP.put("5", Day.THURSDAY);
+      DAY_MAP.put("6", Day.FRIDAY);
+      DAY_MAP.put("7", Day.SATURDAY);
    }
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<String, Boolean>();
@@ -1041,4 +1105,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       MILESTONE_MAP.put("Finish Milestone", Boolean.TRUE);
       MILESTONE_MAP.put("WBS Summary", Boolean.FALSE);
    }
+
+   private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
 }

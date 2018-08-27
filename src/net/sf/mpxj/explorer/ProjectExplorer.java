@@ -95,7 +95,13 @@ public class ProjectExplorer
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
-      fileChooserModel.setExtensions("mpp", "mpx", "xml", "planner", "xer", "pmxml", "pp", "zip", "ppx");
+      fileChooserModel.setExtensions("cdpx", "cdpz", "fts", "gan", "mdb", "mpp", "mpx", "pep", "planner", "pmxml", "pod", "pp", "ppx", "prx", "stx", "xer", "xml", "zip", "zip");
+
+      final FileSaverModel fileSaverModel = new FileSaverModel();
+      final FileSaverController fileSaverController = new FileSaverController(fileSaverModel);
+      @SuppressWarnings("unused")
+      FileSaverView fileSaverView = new FileSaverView(m_frame, fileSaverModel);
+      fileSaverModel.setExtensions("sdef", "sdef", "mpx", "mpx", "planner", "xml", "pmxml", "xml", "json", "json", "mspdi", "xml");
 
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
@@ -103,8 +109,12 @@ public class ProjectExplorer
       JMenu mnFile = new JMenu("File");
       menuBar.add(mnFile);
 
-      JMenuItem mntmOpen = new JMenuItem("Open");
+      JMenuItem mntmOpen = new JMenuItem("Open File...");
       mnFile.add(mntmOpen);
+
+      final JMenuItem mntmSave = new JMenuItem("Save As...");
+      mntmSave.setEnabled(false);
+      mnFile.add(mntmSave);
 
       //
       // Open file
@@ -117,17 +127,40 @@ public class ProjectExplorer
          }
       });
 
+      //
+      // Save file
+      //
+      mntmSave.addActionListener(new ActionListener()
+      {
+         @Override public void actionPerformed(ActionEvent e)
+         {
+            fileSaverController.openFileSaver();
+         }
+      });
+
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
-      PropertyAdapter<FileChooserModel> adapter = new PropertyAdapter<FileChooserModel>(fileChooserModel, "file", true);
-      adapter.addValueChangeListener(new PropertyChangeListener()
+      PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<FileChooserModel>(fileChooserModel, "file", true);
+      openAdapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
             File file = fileChooserModel.getFile();
             tabbedPane.add(file.getName(), new ProjectFilePanel(file));
+            mntmSave.setEnabled(true);
          }
       });
+
+      PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<FileSaverModel>(fileSaverModel, "file", true);
+      saveAdapter.addValueChangeListener(new PropertyChangeListener()
+      {
+         @Override public void propertyChange(PropertyChangeEvent evt)
+         {
+            ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
+            panel.saveFile(fileSaverModel.getFile(), fileSaverModel.getType());
+         }
+      });
+
    }
 }

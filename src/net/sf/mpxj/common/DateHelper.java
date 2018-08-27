@@ -179,6 +179,60 @@ public final class DateHelper
    }
 
    /**
+    * Returns the earlier of two dates, handling null values. A non-null Date
+    * is always considered to be earlier than a null Date.
+    *
+    * @param d1 Date instance
+    * @param d2 Date instance
+    * @return Date earliest date
+    */
+   public static Date min(Date d1, Date d2)
+   {
+      Date result;
+      if (d1 == null)
+      {
+         result = d2;
+      }
+      else
+         if (d2 == null)
+         {
+            result = d1;
+         }
+         else
+         {
+            result = (d1.compareTo(d2) < 0) ? d1 : d2;
+         }
+      return result;
+   }
+
+   /**
+    * Returns the later of two dates, handling null values. A non-null Date
+    * is always considered to be later than a null Date.
+    *
+    * @param d1 Date instance
+    * @param d2 Date instance
+    * @return Date latest date
+    */
+   public static Date max(Date d1, Date d2)
+   {
+      Date result;
+      if (d1 == null)
+      {
+         result = d2;
+      }
+      else
+         if (d2 == null)
+         {
+            result = d1;
+         }
+         else
+         {
+            result = (d1.compareTo(d2) > 0) ? d1 : d2;
+         }
+      return result;
+   }
+
+   /**
     * This utility method calculates the difference in working
     * time between two dates, given the context of a task.
     *
@@ -194,12 +248,7 @@ public final class DateHelper
 
       if (date1 != null && date2 != null)
       {
-         ProjectCalendar calendar = task.getCalendar();
-         if (calendar == null)
-         {
-            calendar = task.getParentFile().getDefaultCalendar();
-         }
-
+         ProjectCalendar calendar = task.getEffectiveCalendar();
          if (calendar != null)
          {
             variance = calendar.getWork(date1, date2, format);
@@ -311,9 +360,39 @@ public final class DateHelper
       }
       else
       {
-         result = DateHelper.getDayStartDate(date);
-         long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
-         result = new Date(result.getTime() + offset);
+         //
+         // The original naive implementation of this method generated
+         // the "start of day" date (midnight) for the required day
+         // then added the milliseconds from the canonical time
+         // to move the time forward to the required point. Unfortunately
+         // if the date we'e trying to do this for is the entry or
+         // exit from DST, the result is wrong, hence I've switched to
+         // the approach below.
+         //
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(canonicalTime);
+         int dayOffset = cal.get(Calendar.DAY_OF_YEAR) - 1;
+         int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+         int minute = cal.get(Calendar.MINUTE);
+         int second = cal.get(Calendar.SECOND);
+         int millisecond = cal.get(Calendar.MILLISECOND);
+
+         cal.setTime(date);
+
+         if (dayOffset != 0)
+         {
+            // The canonical time can be +1 day.
+            // It's to do with the way we've historically
+            // managed time ranges and midnight.
+            cal.add(Calendar.DAY_OF_YEAR, dayOffset);
+         }
+
+         cal.set(Calendar.MILLISECOND, millisecond);
+         cal.set(Calendar.SECOND, second);
+         cal.set(Calendar.MINUTE, minute);
+         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+
+         result = cal.getTime();
       }
       return result;
    }
@@ -359,12 +438,25 @@ public final class DateHelper
    public static final Date LAST_DATE = DateHelper.getTimestampFromLong(2524607946000L);
 
    /**
+    * Number of milliseconds per minute.
+    */
+   public static final long MS_PER_MINUTE = 60 * 1000;
+
+   /**
+    * Number of milliseconds per minute.
+    */
+   public static final long MS_PER_HOUR = 60 * MS_PER_MINUTE;
+
+   /**
+    * Number of milliseconds per day.
+    */
+   public static final long MS_PER_DAY = 24 * MS_PER_HOUR;
+
+   /**
     * Default value to use for DST savings if we are using a version
     * of Java < 1.4.
     */
    private static final int DEFAULT_DST_SAVINGS = 3600000;
-
-   private static Date CANONICAL_EPOCH = getCanonicalTime(getDayStartDate(new Date()));
 
    /**
     * Flag used to indicate the existence of the getDSTSavings

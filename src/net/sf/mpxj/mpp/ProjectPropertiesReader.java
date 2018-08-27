@@ -26,15 +26,6 @@ package net.sf.mpxj.mpp;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.Day;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.Rate;
-import net.sf.mpxj.ScheduleFrom;
-import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.NumberHelper;
-
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -43,6 +34,16 @@ import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
+import net.sf.mpxj.Day;
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
+import net.sf.mpxj.ScheduleFrom;
+import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class reads project properties data from MPP8, MPP9, and MPP12 files.
@@ -86,6 +87,7 @@ public final class ProjectPropertiesReader
          ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
          ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE));
          //ph.setDecimalSeparator();
+         ph.setDefaultTaskType(TaskType.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
          ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
          //ph.setThousandsSeparator();
          ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
@@ -111,8 +113,22 @@ public final class ProjectPropertiesReader
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
          ph.setLastPrinted(summaryInformation.getLastPrinted());
 
-         ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
-         DocumentSummaryInformation documentSummaryInformation = new DocumentSummaryInformation(ps);
+         try
+         {
+            ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
+         }
+
+         catch (RuntimeException ex)
+         {
+            // I have one example MPP file which has a corrupt document summary property set.
+            // Microsoft Project opens the file successfully, apparently by just ignoring
+            // the corrupt data. We'll do the same here. I have raised a bug with POI
+            // to see if they want to make the library more robust in the face of bad data.
+            // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
+            ps = null;
+         }
+
+         DocumentSummaryInformation documentSummaryInformation = ps == null ? new DocumentSummaryInformation() : new DocumentSummaryInformation(ps);
          ph.setCategory(documentSummaryInformation.getCategory());
          ph.setPresentationFormat(documentSummaryInformation.getPresentationFormat());
          ph.setManager(documentSummaryInformation.getManager());
@@ -126,7 +142,7 @@ public final class ProjectPropertiesReader
          CustomProperties customProperties = documentSummaryInformation.getCustomProperties();
          if (customProperties != null)
          {
-            for (CustomProperty property : customProperties.values())
+            for (CustomProperty property : customProperties.properties())
             {
                customPropertiesMap.put(property.getName(), property.getValue());
             }

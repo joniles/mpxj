@@ -27,6 +27,8 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * This class represents the Props files found in Microsoft Project MPP14 files.
  */
@@ -53,6 +55,15 @@ final class Props14 extends Props
 
       while (foundCount < headerCount)
       {
+         // I found a weird issue with an MPP file which would read OK
+         // on Windows with a 1.7.0 JRE, but failed on the 64 bit version below:
+         // OpenJDK Runtime Environment (IcedTea 2.6.11) (7u151-2.6.11-0ubuntu1.14.04.1)
+         // This was the fix: if we don't have at least 12 bytes left to read, then bail out.
+         if (availableBytes < 12)
+         {
+            break;
+         }
+
          int attrib1 = readInt(is);
          int attrib2 = readInt(is);
          /*int attrib3 = */readInt(is);
@@ -64,7 +75,21 @@ final class Props14 extends Props
          }
 
          data = new byte[attrib1];
-         is.read(data);
+
+         try
+         {
+            is.read(data);
+         }
+
+         catch (IndexOutOfBoundsException ex)
+         {
+            // POI fails to read certain MPP files with this exception:
+            // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
+            // There is no fix presently, we just have to bail out at
+            // this point - we're unable to read any more data.
+            break;
+         }
+
          availableBytes -= attrib1;
 
          m_map.put(Integer.valueOf(attrib2), data);
@@ -76,7 +101,7 @@ final class Props14 extends Props
          //
          if (data.length % 2 != 0)
          {
-            is.skip(1);
+            StreamHelper.skip(is, 1);
          }
       }
 

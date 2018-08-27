@@ -33,7 +33,8 @@ public enum SaveVersion
    Project2003(9),
    Project2007(12),
    Project2010(14),
-   Project2013(15);
+   Project2013(14),
+   Project2016(14);
 
    /**
     * Private constructor.

@@ -47,6 +47,7 @@ public class PhoenixInputStream extends InputStream
       throws IOException
    {
       m_stream = prepareInputStream(stream);
+      //Files.copy(m_stream, new File("c:/temp/project1.ppx").toPath(), StandardCopyOption.REPLACE_EXISTING);
    }
 
    /**

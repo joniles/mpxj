@@ -128,46 +128,38 @@
 		<Method name="mapTextFields" />
 	</Match>
 
-	<!-- Don't care if the file is not deleted -->	 			 
-	<Match>
-		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.AstaDatabaseFileReader" />	
-		<Method name="read" />
-	</Match>
-
-	<!-- Don't care if the file is not deleted -->	 			 
-	<Match>
-		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.UniversalProjectReader" />	
-		<Method name="handleMDBFile" />
-	</Match>
-
-	<!-- Don't care if the file is not deleted -->	 			 
-	<Match>
-		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.UniversalProjectReader" />	
-		<Method name="handleSQLiteFile" />
-	</Match>
-
 	<!-- Oh yes it is! -->	 			 
 	<Match>
 		<Bug pattern="ODR_OPEN_DATABASE_RESOURCE_EXCEPTION_PATH" />
 		<Class name="~.*\.UniversalProjectReader" />	
 		<Method name="populateTableNames" />
 	</Match>
-	 			 
-	<!-- Don't care if the file is not deleted -->	 			 
+	 			 	 		
+	<!--  This field is written by subclasses -->
 	<Match>
-		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.CustomerDataTest" />	
-		<Method name="testFiles" />
+		<Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
+		<Class name="~.*\.AbstractColumn" />	
 	</Match>
 
+    <!-- Findbugs is psychic -->	 		
+	<Match>
+		<Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+		<Class name="~.*\.PrimaveraDatabaseReader" />	
+		<Method name="processAnalytics" />
+	</Match>	
+	
 	<!-- Don't care if the file is not deleted -->	 			 
 	<Match>
 		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.MerlinReader" />	
-		<Method name="read" />
+		<Class name="~.*\.FileHelper" />	
+		<Method name="deleteQuietly" />
 	</Match>
-	 			 
+	
+	<!-- Don't care if the directories aren't created -->	 			 
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+		<Class name="~.*\.FileHelper" />	
+		<Method name="mkdirsQuietly" />
+	</Match>	 
+		 
 </FindBugsFilter>

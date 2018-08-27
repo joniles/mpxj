@@ -26,16 +26,15 @@ package net.sf.mpxj.junit.assignment;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.List;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure delete resource assignments are correctly handled.
@@ -50,7 +49,7 @@ public class DeletedAssignmentTest
    {
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("assignment/assignment-deletion/sf248.mpp"));
 
-      List<ResourceAssignment> assignments = file.getAllResourceAssignments();
+      List<ResourceAssignment> assignments = file.getResourceAssignments();
       assertEquals(2, assignments.size());
       testAssignment(assignments, 0, "Task2", "Vijay");
       testAssignment(assignments, 1, "Task1", "Anil");
@@ -70,15 +69,7 @@ public class DeletedAssignmentTest
     */
    @Test public void testDeletedResourceAssignments() throws Exception
    {
-      File testDataDir = new File(MpxjTestData.filePath("assignment/assignment-deletion"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("deleted-resource-assignments");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("assignment/assignment-deletion", "deleted-resource-assignments"))
       {
          testDeletedResourceAssignments(file);
       }
@@ -93,7 +84,7 @@ public class DeletedAssignmentTest
    {
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(file);
-      List<ResourceAssignment> assignments = mpp.getAllResourceAssignments();
+      List<ResourceAssignment> assignments = mpp.getResourceAssignments();
       assertEquals(file.getName() + " does not contain 5 resource assignments", 5, assignments.size());
 
       testAssignment(assignments, 0, "Task 1", "Resource 1");

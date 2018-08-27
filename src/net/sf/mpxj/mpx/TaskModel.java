@@ -145,7 +145,7 @@ final class TaskModel
          Arrays.fill(m_flags, false);
       }
 
-      for (Task task : m_parentFile.getAllTasks())
+      for (Task task : m_parentFile.getTasks())
       {
          for (int loop = 0; loop < MPXTaskField.MAX_FIELDS; loop++)
          {

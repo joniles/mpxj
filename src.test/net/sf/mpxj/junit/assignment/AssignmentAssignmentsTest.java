@@ -27,9 +27,10 @@ import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -39,8 +40,6 @@ import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure basic assignment details are read correctly.
@@ -52,14 +51,7 @@ public class AssignmentAssignmentsTest
     */
    @Test public void testAssignments() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/assignment-assignments"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("assignment-assignments");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/assignment-assignments", "assignment-assignments"))
       {
          testAssignments(file);
       }

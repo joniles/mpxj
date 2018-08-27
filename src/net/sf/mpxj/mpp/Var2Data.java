@@ -28,7 +28,10 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.Map;
 import java.util.TreeMap;
+
+import net.sf.mpxj.common.StreamHelper;
 
 /**
  * This class represents a block of variable data. Each block of
@@ -53,25 +56,51 @@ final class Var2Data extends MPPComponent
       byte[] data;
 
       int currentOffset = 0;
+      int available = is.available();
 
       for (int itemOffset : meta.getOffsets())
       {
+         if (itemOffset >= available)
+         {
+            continue;
+         }
+
          if (currentOffset > itemOffset)
          {
             is.reset();
-            is.skip(itemOffset);
+            StreamHelper.skip(is, itemOffset);
          }
          else
          {
             if (currentOffset < itemOffset)
             {
-               is.skip(itemOffset - currentOffset);
+               StreamHelper.skip(is, itemOffset - currentOffset);
             }
          }
 
          int size = readInt(is);
 
-         data = readByteArray(is, size);
+         //
+         // Try our best to handle corrupt files gracefully
+         //
+         if (size < 0 || size > is.available())
+         {
+            continue;
+         }
+
+         try
+         {
+            data = readByteArray(is, size);
+         }
+
+         catch (IndexOutOfBoundsException ex)
+         {
+            // POI fails to read certain MPP files with this exception:
+            // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
+            // There is no fix presently, we just have to bail out at
+            // this point - we're unable to read any more data.
+            break;
+         }
 
          m_map.put(Integer.valueOf(itemOffset), data);
          currentOffset = itemOffset + 4 + size;
@@ -390,11 +419,10 @@ final class Var2Data extends MPPComponent
       PrintWriter pw = new PrintWriter(sw);
 
       pw.println("BEGIN Var2Data");
-      for (Integer offset : m_map.keySet())
+      for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
-         byte[] data = m_map.get(offset);
-         pw.println("   Data at offset: " + offset + " size: " + data.length);
-         pw.println(MPPUtility.hexdump(data, true, 16, "   "));
+         pw.println("   Data at offset: " + entry.getKey() + " size: " + entry.getValue().length);
+         pw.println(MPPUtility.hexdump(entry.getValue(), true, 16, "   "));
       }
 
       pw.println("END Var2Data");

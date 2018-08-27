@@ -26,11 +26,15 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Test;
+
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -38,10 +42,9 @@ import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
-
-import org.junit.Test;
 
 /**
  * The tests contained in this class exercise MPXJ
@@ -198,8 +201,10 @@ public class CustomerDataTest
    {
       String runtime = System.getProperty("java.runtime.name");
       boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
+      File[] fileList = parent.listFiles();
+      assertNotNull(fileList);
 
-      for (File file : parent.listFiles())
+      for (File file : fileList)
       {
          if (file.isDirectory())
          {
@@ -226,6 +231,7 @@ public class CustomerDataTest
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       MPXReader mpxReader = new MPXReader();
+      PrimaveraXERFileReader xerReader = new PrimaveraXERFileReader();
 
       int failures = 0;
       for (File file : files)
@@ -259,6 +265,13 @@ public class CustomerDataTest
                {
                   validateMpp(file.getCanonicalPath(), mpxj);
                }
+
+               // If we have an XER file, exercise the "readAll" functionality
+               // For now, ignore files with non-standard encodings.
+               if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
+               {
+                  xerReader.readAll(new FileInputStream(file), true);
+               }
             }
 
             if (mpxj == null)
@@ -274,7 +287,7 @@ public class CustomerDataTest
                   outputFile.deleteOnExit();
                   ProjectWriter p = c.newInstance();
                   p.write(mpxj, outputFile);
-                  outputFile.delete();
+                  FileHelper.deleteQuietly(outputFile);
                }
             }
 

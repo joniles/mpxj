@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.common.StreamHelper;
+
 /**
  * This class handles reading the data found in the CompObj block
  * of an MPP file. The bits we can decypher allow us to determine
@@ -46,7 +48,7 @@ final class CompObj extends MPPComponent
    {
       int length;
 
-      is.skip(28);
+      StreamHelper.skip(is, 28);
 
       length = readInt(is);
       m_applicationName = new String(readByteArray(is, length), 0, length - 1);
@@ -64,11 +66,14 @@ final class CompObj extends MPPComponent
       else
       {
          length = readInt(is);
-         m_fileFormat = new String(readByteArray(is, length), 0, length - 1);
-         length = readInt(is);
          if (length > 0)
          {
-            m_applicationID = new String(readByteArray(is, length), 0, length - 1);
+            m_fileFormat = new String(readByteArray(is, length), 0, length - 1);
+            length = readInt(is);
+            if (length > 0)
+            {
+               m_applicationID = new String(readByteArray(is, length), 0, length - 1);
+            }
          }
       }
    }

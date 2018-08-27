@@ -24,6 +24,10 @@
 package net.sf.mpxj.phoenix;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +41,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Day;
@@ -54,8 +62,14 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.AlphanumComparator;
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.phoenix.schema.Project;
+import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout;
+import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout.CodeOptions.CodeOption;
 import net.sf.mpxj.phoenix.schema.Project.Settings;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity;
@@ -69,10 +83,6 @@ import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.R
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
 import net.sf.mpxj.reader.AbstractProjectReader;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.
@@ -99,9 +109,11 @@ public final class PhoenixReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
-         m_phaseNameMap = new HashMap<String, Task>();
-         m_phaseUuidMap = new HashMap<UUID, Task>();
          m_activityMap = new HashMap<String, Task>();
+         m_activityCodeValues = new HashMap<UUID, String>();
+         m_activityCodeSequence = new HashMap<UUID, Integer>();
+         m_activityCodeCache = new HashMap<Activity, Map<UUID, UUID>>();
+         m_codeSequence = new ArrayList<UUID>();
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -109,6 +121,9 @@ public final class PhoenixReader extends AbstractProjectReader
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
+
+         m_projectFile.getProjectProperties().setFileApplication("Phoenix");
+         m_projectFile.getProjectProperties().setFileType("PPX");
 
          // Equivalent to Primavera's Activity ID
          m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
@@ -128,11 +143,10 @@ public final class PhoenixReader extends AbstractProjectReader
          Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
 
          Project phoenixProject = (Project) unmarshaller.unmarshal(doc);
-         Storepoint storepoint = phoenixProject.getStorepoints().getStorepoint();
-
+         Storepoint storepoint = getCurrentStorepoint(phoenixProject);
          readProjectProperties(phoenixProject.getSettings());
          readCalendars(storepoint);
-         readTasks(storepoint);
+         readTasks(phoenixProject, storepoint);
          readResources(storepoint);
          readRelationships(storepoint);
 
@@ -162,9 +176,11 @@ public final class PhoenixReader extends AbstractProjectReader
       finally
       {
          m_projectFile = null;
-         m_phaseNameMap = null;
-         m_phaseUuidMap = null;
          m_activityMap = null;
+         m_activityCodeValues = null;
+         m_activityCodeSequence = null;
+         m_activityCodeCache = null;
+         m_codeSequence = null;
       }
    }
 
@@ -222,15 +238,12 @@ public final class PhoenixReader extends AbstractProjectReader
 
       // Mark non-working days
       List<NonWork> nonWorkingDays = calendar.getNonWork();
-      if (nonWorkingDays != null)
+      for (NonWork nonWorkingDay : nonWorkingDays)
       {
-         for (NonWork nonWorkingDay : nonWorkingDays)
+         // TODO: handle recurring exceptions
+         if (nonWorkingDay.getType().equals("internal_weekly"))
          {
-            // TODO: handle recurring exceptions
-            if (nonWorkingDay.getType().equals("internal_weekly"))
-            {
-               mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
-            }
+            mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
          }
       }
 
@@ -274,10 +287,16 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       Resource mpxjResource = m_projectFile.addResource();
 
+      TimeUnit rateUnits = phoenixResource.getMonetarybase();
+      if (rateUnits == null)
+      {
+         rateUnits = TimeUnit.HOURS;
+      }
+
       // phoenixResource.getMaximum()
       mpxjResource.setCostPerUse(phoenixResource.getMonetarycostperuse());
-      mpxjResource.setStandardRate(new Rate(phoenixResource.getMonetaryrate(), phoenixResource.getMonetarybase()));
-      mpxjResource.setStandardRateUnits(phoenixResource.getMonetarybase());
+      mpxjResource.setStandardRate(new Rate(phoenixResource.getMonetaryrate(), rateUnits));
+      mpxjResource.setStandardRateUnits(rateUnits);
       mpxjResource.setName(phoenixResource.getName());
       mpxjResource.setType(phoenixResource.getType());
       mpxjResource.setMaterialLabel(phoenixResource.getUnitslabel());
@@ -292,54 +311,91 @@ public final class PhoenixReader extends AbstractProjectReader
    /**
     * Read phases and activities from the Phoenix file to create the task hierarchy.
     *
-    * @param phoenixProject project data
+    * @param phoenixProject all project data
+    * @param storepoint storepoint containing current project data
     */
-   private void readTasks(Storepoint phoenixProject)
+   private void readTasks(Project phoenixProject, Storepoint storepoint)
    {
-      processPhases(phoenixProject);
-      processActivities(phoenixProject);
+      processLayouts(phoenixProject);
+      processActivityCodes(storepoint);
+      processActivities(storepoint);
+      updateDates();
    }
 
    /**
-    * Read phases from the Phoenix file.
+    * Map from an activity code value UUID to the actual value itself, and its
+    * sequence number.
     *
-    * @param phoenixProject project data
+    * @param storepoint storepoint containing current project data
     */
-   private void processPhases(Storepoint phoenixProject)
+   private void processActivityCodes(Storepoint storepoint)
    {
-      Code phase = null;
-
-      for (Code code : phoenixProject.getActivityCodes().getCode())
+      for (Code code : storepoint.getActivityCodes().getCode())
       {
-         if (code.getName().equals("Phase"))
+         int sequence = 0;
+         for (Value value : code.getValue())
          {
-            phase = code;
-            break;
+            UUID uuid = getUUID(value.getUuid(), value.getName());
+            m_activityCodeValues.put(uuid, value.getName());
+            m_activityCodeSequence.put(uuid, Integer.valueOf(++sequence));
          }
       }
+   }
 
-      if (phase != null)
+   /**
+    * Find the current layout and extract the activity code order and visibility.
+    *
+    * @param phoenixProject phoenix project data
+    */
+   private void processLayouts(Project phoenixProject)
+   {
+      //
+      // Find the active layout
+      //
+      Layout activeLayout = getActiveLayout(phoenixProject);
+
+      //
+      // Create a list of the visible codes in the correct order
+      //
+      for (CodeOption option : activeLayout.getCodeOptions().getCodeOption())
       {
-         for (Value value : phase.getValue())
+         if (option.isShown().booleanValue())
          {
-            String name = value.getName();
-            UUID uuid = value.getUuid();
+            m_codeSequence.add(getUUID(option.getCodeUuid(), option.getCode()));
+         }
+      }
+   }
 
-            // Phases in compressed ppx files don't appear to have uuids
-            // The name is used as the unique identifier.
-            // Construct a UUID from the name
-            if (uuid == null)
+   /**
+    * Find the current active layout.
+    *
+    * @param phoenixProject phoenix project data
+    * @return current active layout
+    */
+   private Layout getActiveLayout(Project phoenixProject)
+   {
+      //
+      // Start with the first layout we find
+      //
+      Layout activeLayout = phoenixProject.getLayouts().getLayout().get(0);
+
+      //
+      // If this isn't active, find one which is... and if none are,
+      // we'll just use the first.
+      //
+      if (!activeLayout.isActive().booleanValue())
+      {
+         for (Layout layout : phoenixProject.getLayouts().getLayout())
+         {
+            if (layout.isActive().booleanValue())
             {
-               uuid = UUID.nameUUIDFromBytes(name.getBytes());
+               activeLayout = layout;
+               break;
             }
-
-            Task task = m_projectFile.addTask();
-            task.setName(name);
-            task.setGUID(uuid);
-            m_phaseNameMap.put(name, task);
-            m_phaseUuidMap.put(uuid, task);
          }
       }
+
+      return activeLayout;
    }
 
    /**
@@ -349,7 +405,51 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void processActivities(Storepoint phoenixProject)
    {
-      for (Activity activity : phoenixProject.getActivities().getActivity())
+      final AlphanumComparator comparator = new AlphanumComparator();
+      List<Activity> activities = phoenixProject.getActivities().getActivity();
+      Collections.sort(activities, new Comparator<Activity>()
+      {
+         @Override public int compare(Activity o1, Activity o2)
+         {
+            Map<UUID, UUID> codes1 = getActivityCodes(o1);
+            Map<UUID, UUID> codes2 = getActivityCodes(o2);
+            for (UUID code : m_codeSequence)
+            {
+               UUID codeValue1 = codes1.get(code);
+               UUID codeValue2 = codes2.get(code);
+
+               if (codeValue1 == null || codeValue2 == null)
+               {
+                  if (codeValue1 == null && codeValue2 == null)
+                  {
+                     continue;
+                  }
+
+                  if (codeValue1 == null)
+                  {
+                     return -1;
+                  }
+
+                  if (codeValue2 == null)
+                  {
+                     return 1;
+                  }
+               }
+
+               if (!codeValue1.equals(codeValue2))
+               {
+                  Integer sequence1 = m_activityCodeSequence.get(codeValue1);
+                  Integer sequence2 = m_activityCodeSequence.get(codeValue2);
+
+                  return NumberHelper.compare(sequence1, sequence2);
+               }
+            }
+
+            return comparator.compare(o1.getId(), o2.getId());
+         }
+      });
+
+      for (Activity activity : activities)
       {
          processActivity(activity);
       }
@@ -366,6 +466,8 @@ public final class PhoenixReader extends AbstractProjectReader
       task.setText(1, activity.getId());
 
       task.setActualDuration(activity.getActualDuration());
+      task.setActualFinish(activity.getActualFinish());
+      task.setActualStart(activity.getActualStart());
       //activity.getBaseunit()
       //activity.getBilled()
       //activity.getCalendar()
@@ -391,6 +493,40 @@ public final class PhoenixReader extends AbstractProjectReader
       //activity.getUserDefined()
       task.setGUID(activity.getUuid());
 
+      if (task.getMilestone())
+      {
+         if (activityIsStartMilestone(activity))
+         {
+            task.setFinish(task.getStart());
+         }
+         else
+         {
+            task.setStart(task.getFinish());
+         }
+      }
+
+      if (task.getActualStart() == null)
+      {
+         task.setPercentageComplete(Integer.valueOf(0));
+      }
+      else
+      {
+         if (task.getActualFinish() != null)
+         {
+            task.setPercentageComplete(Integer.valueOf(100));
+         }
+         else
+         {
+            Duration remaining = activity.getRemainingDuration();
+            Duration total = activity.getDurationAtCompletion();
+            if (remaining != null && total != null && total.getDuration() != 0)
+            {
+               double percentComplete = ((total.getDuration() - remaining.getDuration()) * 100.0) / total.getDuration();
+               task.setPercentageComplete(Double.valueOf(percentComplete));
+            }
+         }
+      }
+
       m_activityMap.put(activity.getId(), task);
    }
 
@@ -407,6 +543,18 @@ public final class PhoenixReader extends AbstractProjectReader
    }
 
    /**
+    * Returns true if the activity is a start milestone.
+    *
+    * @param activity Phoenix activity
+    * @return true if the activity is a milestone
+    */
+   private boolean activityIsStartMilestone(Activity activity)
+   {
+      String type = activity.getType();
+      return type != null && type.indexOf("StartMilestone") != -1;
+   }
+
+   /**
     * Retrieves the parent task for a Phoenix activity.
     *
     * @param activity Phoenix activity
@@ -414,33 +562,61 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private ChildTaskContainer getParentTask(Activity activity)
    {
-      ChildTaskContainer result = null;
-      for (CodeAssignment ca : activity.getCodeAssignment())
-      {
-         UUID uuid = ca.getValueUuid();
-         if (uuid != null)
-         {
-            result = m_phaseUuidMap.get(uuid);
-         }
-         else
-         {
-            String code = ca.getCode();
-            if (code != null && code.equals("Phase"))
-            {
-               result = m_phaseNameMap.get(ca.getValue());
-            }
-         }
+      //
+      // Make a map of activity codes and their values for this activity
+      //
+      Map<UUID, UUID> map = getActivityCodes(activity);
 
-         if (result != null)
+      //
+      // Work through the activity codes in sequence
+      //
+      ChildTaskContainer parent = m_projectFile;
+      StringBuilder uniqueIdentifier = new StringBuilder();
+      for (UUID activityCode : m_codeSequence)
+      {
+         UUID activityCodeValue = map.get(activityCode);
+         String activityCodeText = m_activityCodeValues.get(activityCodeValue);
+         if (activityCodeText != null)
          {
+            if (uniqueIdentifier.length() != 0)
+            {
+               uniqueIdentifier.append('>');
+            }
+            uniqueIdentifier.append(activityCodeValue.toString());
+            UUID uuid = UUID.nameUUIDFromBytes(uniqueIdentifier.toString().getBytes());
+            Task newParent = findChildTaskByUUID(parent, uuid);
+            if (newParent == null)
+            {
+               newParent = parent.addTask();
+               newParent.setGUID(uuid);
+               newParent.setName(activityCodeText);
+            }
+            parent = newParent;
+         }
+      }
+      return parent;
+   }
+
+   /**
+    * Locates a task within a child task container which matches the supplied UUID.
+    *
+    * @param parent child task container
+    * @param uuid required UUID
+    * @return Task instance or null if the task is not found
+    */
+   private Task findChildTaskByUUID(ChildTaskContainer parent, UUID uuid)
+   {
+      Task result = null;
+
+      for (Task task : parent.getChildTasks())
+      {
+         if (uuid.equals(task.getGUID()))
+         {
+            result = task;
             break;
          }
       }
 
-      if (result == null)
-      {
-         result = m_projectFile;
-      }
       return result;
    }
 
@@ -503,12 +679,145 @@ public final class PhoenixReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * For a given activity, retrieve a map of the activity code values which have been assigned to it.
+    *
+    * @param activity target activity
+    * @return map of activity code value UUIDs
+    */
+   Map<UUID, UUID> getActivityCodes(Activity activity)
+   {
+      Map<UUID, UUID> map = m_activityCodeCache.get(activity);
+      if (map == null)
+      {
+         map = new HashMap<UUID, UUID>();
+         m_activityCodeCache.put(activity, map);
+         for (CodeAssignment ca : activity.getCodeAssignment())
+         {
+            UUID code = getUUID(ca.getCodeUuid(), ca.getCode());
+            UUID value = getUUID(ca.getValueUuid(), ca.getValue());
+            map.put(code, value);
+         }
+      }
+      return map;
+   }
+
+   /**
+    * Retrieve the most recent storepoint.
+    *
+    * @param phoenixProject project data
+    * @return Storepoint instance
+    */
+   private Storepoint getCurrentStorepoint(Project phoenixProject)
+   {
+      List<Storepoint> storepoints = phoenixProject.getStorepoints().getStorepoint();
+      Collections.sort(storepoints, new Comparator<Storepoint>()
+      {
+         @Override public int compare(Storepoint o1, Storepoint o2)
+         {
+            return DateHelper.compare(o2.getCreationTime(), o1.getCreationTime());
+         }
+      });
+      return storepoints.get(0);
+   }
+
+   /**
+    * Utility method. In some cases older compressed PPX files only have a name (or other string attribute)
+    * but no UUID. This method ensures that we either use the UUID supplied, or if it is missing, we
+    * generate a UUID from the name.
+    *
+    * @param uuid uuid from object
+    * @param name name from object
+    * @return UUID instance
+    */
+   private UUID getUUID(UUID uuid, String name)
+   {
+      return uuid == null ? UUID.nameUUIDFromBytes(name.getBytes()) : uuid;
+   }
+
+   /**
+    * Ensure summary tasks have dates.
+    */
+   private void updateDates()
+   {
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task.
+    */
+   private void updateDates(Task parentTask)
+   {
+      if (parentTask.getSummary())
+      {
+         int finished = 0;
+         Date plannedStartDate = parentTask.getStart();
+         Date plannedFinishDate = parentTask.getFinish();
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
+         }
+
+         parentTask.setStart(plannedStartDate);
+         parentTask.setFinish(plannedFinishDate);
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
+         {
+            parentTask.setActualFinish(actualFinishDate);
+         }
+
+         Duration duration = null;
+         if (plannedStartDate != null && plannedFinishDate != null)
+         {
+            duration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.DAYS);
+            parentTask.setDuration(duration);
+         }
+      }
+   }
+
    private ProjectFile m_projectFile;
-   private Map<String, Task> m_phaseNameMap;
-   private Map<UUID, Task> m_phaseUuidMap;
    private Map<String, Task> m_activityMap;
+   private Map<UUID, String> m_activityCodeValues;
+   Map<UUID, Integer> m_activityCodeSequence;
+   private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+   List<UUID> m_codeSequence;
 
    /**
     * Cached context to minimise construction cost.

@@ -26,7 +26,6 @@ package net.sf.mpxj.mpp;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,18 +34,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarException;
-import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
@@ -62,12 +60,7 @@ import net.sf.mpxj.View;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
  * This class is used to represent a Microsoft Project MPP14 file. This
@@ -294,10 +287,10 @@ final class MPP14Reader implements MPPVariantReader
             //            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
-            //
-            // Subproject that is no longer inserted. This is a placeholder in order to be
-            // able to always guarantee unique unique ids.
-            //
+               //
+               // Subproject that is no longer inserted. This is a placeholder in order to be
+               // able to always guarantee unique unique ids.
+               //
                case 0x00:
                   //
                   // deleted entry?
@@ -811,12 +804,14 @@ final class MPP14Reader implements MPPVariantReader
     * @param fieldMap field map
     * @param taskFixedMeta Fixed meta data for this task
     * @param taskFixedData Fixed data for this task
+    * @param taskVarData Variable task data
     * @return Mapping between task identifiers and block position
     */
-   private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData)
+   private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData, Var2Data taskVarData)
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
+      Integer taskNameKey = fieldMap.getVarDataKey(TaskField.NAME);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
       int uniqueID;
       Integer key;
@@ -877,7 +872,9 @@ final class MPP14Reader implements MPPVariantReader
                   {
                      uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
-                     if (taskMap.containsKey(key) == false)
+
+                     // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but the name is not null
+                     if (!taskMap.containsKey(key) || taskVarData.getUnicodeString(key, taskNameKey) != null)
                      {
                         taskMap.put(key, Integer.valueOf(loop));
                      }
@@ -932,325 +929,8 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
-
-      //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-
-      VarMeta calVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
-      Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
-
-      //System.out.println(calVarMeta);
-      //System.out.println(calVarData);
-
-      FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, m_inputStreamFactory.getInstance(calDir, "FixedData"), 12);
-
-      //System.out.println (calFixedMeta);
-      //System.out.println (calFixedData);
-
-      //FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
-      //FixedData calFixed2Data = new FixedData(calFixed2Meta, getEncryptableInputStream(calDir, "Fixed2Data"), 48);
-      //System.out.println (calFixed2Meta);
-      //System.out.println (calFixed2Data);
-
-      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
-      int items = calFixedData.getItemCount();
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
-      byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
-      ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
-      processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
-
-      int calendarIDOffset;
-      int baseIDOffset;
-      int resourceIDOffset;
-
-      // ID offsets appear to be different for 2013 files
-      if (NumberHelper.getInt(m_file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
-      {
-         calendarIDOffset = 8;
-         baseIDOffset = 0;
-         resourceIDOffset = 4;
-      }
-      else
-      {
-         calendarIDOffset = 0;
-         baseIDOffset = 4;
-         resourceIDOffset = 8;
-      }
-
-      for (int loop = 0; loop < items; loop++)
-      {
-         byte[] fixedData = calFixedData.getByteArrayValue(loop);
-         if (fixedData != null && fixedData.length >= 8)
-         {
-            int offset = 0;
-
-            //
-            // Bug 890909, here we ensure that we have a complete 12 byte
-            // block before attempting to process the data.
-            //
-            while (offset + 12 <= fixedData.length)
-            {
-               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + calendarIDOffset));
-               int baseCalendarID = MPPUtility.getInt(fixedData, offset + baseIDOffset);
-
-               if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
-               {
-                  byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
-                  ProjectCalendar cal;
-
-                  if (baseCalendarID == 0 || baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
-                  {
-                     if (varData != null || defaultCalendarData != null)
-                     {
-                        cal = m_file.addCalendar();
-                        if (varData == null)
-                        {
-                           varData = defaultCalendarData;
-                        }
-                     }
-                     else
-                     {
-                        cal = m_file.addDefaultBaseCalendar();
-                     }
-
-                     cal.setName(calVarData.getUnicodeString(calendarID, CALENDAR_NAME));
-                  }
-                  else
-                  {
-                     if (varData != null)
-                     {
-                        cal = m_file.addCalendar();
-                     }
-                     else
-                     {
-                        cal = m_file.addDefaultDerivedCalendar();
-                     }
-
-                     baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + resourceIDOffset));
-                     m_resourceMap.put(resourceID, cal);
-                  }
-
-                  cal.setUniqueID(calendarID);
-
-                  if (varData != null)
-                  {
-                     processCalendarHours(varData, defaultCalendar, cal, baseCalendarID == -1);
-                     processCalendarExceptions(varData, cal);
-                  }
-
-                  calendarMap.put(calendarID, cal);
-                  m_eventManager.fireCalendarReadEvent(cal);
-               }
-
-               offset += 12;
-            }
-         }
-      }
-
-      updateBaseCalendarNames(baseCalendars, calendarMap);
-   }
-
-   /**
-    * For a given set of calendar data, this method sets the working
-    * day status for each day, and if present, sets the hours for that
-    * day.
-    *
-    * NOTE: MPP14 defines the concept of working weeks. MPXJ does not
-    * currently support this, and thus we only read the working hours
-    * for the default working week.
-    *
-    * @param data calendar data block
-    * @param defaultCalendar calendar to use for default values
-    * @param cal calendar instance
-    * @param isBaseCalendar true if this is a base calendar
-    */
-   private void processCalendarHours(byte[] data, ProjectCalendar defaultCalendar, ProjectCalendar cal, boolean isBaseCalendar)
-   {
-      // Dump out the calendar related data and fields.
-      //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
-
-      int offset;
-      ProjectCalendarHours hours;
-      int periodIndex;
-      int index;
-      int defaultFlag;
-      int periodCount;
-      Date start;
-      long duration;
-      Day day;
-      List<DateRange> dateRanges = new ArrayList<DateRange>(5);
-
-      for (index = 0; index < 7; index++)
-      {
-         offset = (60 * index);
-         defaultFlag = data == null ? 1 : MPPUtility.getShort(data, offset);
-         day = Day.getInstance(index + 1);
-
-         if (defaultFlag == 1)
-         {
-            if (isBaseCalendar)
-            {
-               if (defaultCalendar == null)
-               {
-                  cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
-                  if (cal.isWorkingDay(day))
-                  {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
-                  }
-               }
-               else
-               {
-                  boolean workingDay = defaultCalendar.isWorkingDay(day);
-                  cal.setWorkingDay(day, workingDay);
-                  if (workingDay)
-                  {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     for (DateRange range : defaultCalendar.getHours(day))
-                     {
-                        hours.addRange(range);
-                     }
-                  }
-               }
-            }
-            else
-            {
-               cal.setWorkingDay(day, DayType.DEFAULT);
-            }
-         }
-         else
-         {
-            dateRanges.clear();
-
-            periodIndex = 0;
-            periodCount = MPPUtility.getShort(data, offset + 2);
-            while (periodIndex < periodCount)
-            {
-               int startOffset = offset + 8 + (periodIndex * 2);
-               start = MPPUtility.getTime(data, startOffset);
-               int durationOffset = offset + 20 + (periodIndex * 4);
-               duration = MPPUtility.getDuration(data, durationOffset);
-               Date end = new Date(start.getTime() + duration);
-               dateRanges.add(new DateRange(start, end));
-               ++periodIndex;
-            }
-
-            if (dateRanges.isEmpty())
-            {
-               cal.setWorkingDay(day, false);
-            }
-            else
-            {
-               cal.setWorkingDay(day, true);
-               hours = cal.addCalendarHours(Day.getInstance(index + 1));
-
-               for (DateRange range : dateRanges)
-               {
-                  hours.addRange(range);
-               }
-            }
-         }
-      }
-   }
-
-   /**
-    * This method extracts any exceptions associated with a calendar.
-    *
-    * @param data calendar data block
-    * @param cal calendar instance
-    */
-   private void processCalendarExceptions(byte[] data, ProjectCalendar cal)
-   {
-      //
-      // Handle any exceptions
-      //
-      if (data.length > 420)
-      {
-         int offset = 420; // The first 420 is for the working hours data
-
-         int exceptionCount = MPPUtility.getShort(data, offset);
-
-         if (exceptionCount != 0)
-         {
-            int index;
-            ProjectCalendarException exception;
-            long duration;
-            int periodCount;
-            Date start;
-
-            //
-            // Move to the start of the first exception
-            //
-            offset += 4;
-
-            //
-            // Each exception is a 92 byte block, followed by a
-            // variable length text block
-            //
-            for (index = 0; index < exceptionCount; index++)
-            {
-               Date fromDate = MPPUtility.getDate(data, offset);
-               Date toDate = MPPUtility.getDate(data, offset + 2);
-               exception = cal.addCalendarException(fromDate, toDate);
-
-               periodCount = MPPUtility.getShort(data, offset + 14);
-               if (periodCount != 0)
-               {
-                  for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
-                  {
-                     start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
-                     duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
-                  }
-               }
-
-               //
-               // Extract the name length - ensure that it is aligned to a 4 byte boundary
-               //
-               int exceptionNameLength = MPPUtility.getInt(data, offset + 88);
-               if (exceptionNameLength % 4 != 0)
-               {
-                  exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
-               }
-
-               //String exceptionName = MPPUtility.getUnicodeString(data, offset+92);
-               offset += (92 + exceptionNameLength);
-            }
-         }
-      }
-   }
-
-   /**
-    * The way calendars are stored in an MPP14 file means that there
-    * can be forward references between the base calendar unique ID for a
-    * derived calendar, and the base calendar itself. To get around this,
-    * we initially populate the base calendar name attribute with the
-    * base calendar unique ID, and now in this method we can convert those
-    * ID values into the correct names.
-    *
-    * @param baseCalendars list of calendars and base calendar IDs
-    * @param map map of calendar ID values and calendar objects
-    */
-   private void updateBaseCalendarNames(List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
-   {
-      for (Pair<ProjectCalendar, Integer> pair : baseCalendars)
-      {
-         ProjectCalendar cal = pair.getFirst();
-         Integer baseCalendarID = pair.getSecond();
-         ProjectCalendar baseCal = map.get(baseCalendarID);
-         if (baseCal != null && baseCal.getName() != null)
-         {
-            cal.setParent(baseCal);
-         }
-         else
-         {
-            // Remove invalid calendar to avoid serious problems later.
-            m_file.removeCalendar(cal);
-         }
-      }
+      CalendarFactory factory = new MPP14CalendarFactory(m_file);
+      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap);
    }
 
    /**
@@ -1278,7 +958,7 @@ final class MPP14Reader implements MPPVariantReader
       Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), fieldMap.getMaxFixedDataSize(0));
-      FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), taskFixedData, 92, 93);
+      FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), taskFixedData, 92, 93, 94);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
       Props14 props = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
@@ -1295,7 +975,7 @@ final class MPP14Reader implements MPPVariantReader
       // Process aliases
       new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
 
-      TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData);
+      TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
@@ -1345,8 +1025,8 @@ final class MPP14Reader implements MPPVariantReader
          {
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(Integer.valueOf(MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
-            task.setID(Integer.valueOf(MPPUtility.getShort(data, TASK_ID_FIXED_OFFSET)));
+            task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             continue;
          }
@@ -1458,10 +1138,10 @@ final class MPP14Reader implements MPPVariantReader
 
          switch (task.getConstraintType())
          {
-         //
-         // Adjust the start and finish dates if the task
-         // is constrained to start as late as possible.
-         //
+            //
+            // Adjust the start and finish dates if the task
+            // is constrained to start as late as possible.
+            //
             case AS_LATE_AS_POSSIBLE:
             {
                if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
@@ -1638,8 +1318,8 @@ final class MPP14Reader implements MPPVariantReader
       //
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
 
-      // I've found a pathological case of an MPP file with around 16k blank tasks...
-      int nextIDIncrement = 16500;
+      // I've found a pathological case of an MPP file with around 102k blank tasks...
+      int nextIDIncrement = 102000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
@@ -1651,12 +1331,15 @@ final class MPP14Reader implements MPPVariantReader
       // Insert any null tasks into the correct location
       //
       int insertionCount = 0;
+      Map<Integer, Integer> offsetMap = new HashMap<Integer, Integer>();
       for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
          int idValue = entry.getKey().intValue();
          int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
          int targetIDValue = baseTargetIdValue;
-         int offset = 0;
+         Integer previousOffsetKey = Integer.valueOf(baseTargetIdValue);
+         Integer previousOffset = offsetMap.get(previousOffsetKey);
+         int offset = previousOffset == null ? 0 : previousOffset.intValue() + 1;
          ++insertionCount;
 
          while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
@@ -1669,6 +1352,7 @@ final class MPP14Reader implements MPPVariantReader
             targetIDValue = baseTargetIdValue - (nextIDIncrement - offset);
          }
 
+         offsetMap.put(previousOffsetKey, Integer.valueOf(offset));
          taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
       }
 
@@ -1756,6 +1440,9 @@ final class MPP14Reader implements MPPVariantReader
          resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x200000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x400000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));
+
+         bits = MPPUtility.getShort(metaData2, 48);
+         resource.set(ResourceField.ENTERPRISE, Boolean.valueOf((bits & 0x20) != 0));
       }
    }
 
@@ -2151,10 +1838,33 @@ final class MPP14Reader implements MPPVariantReader
    private void processFilterData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+      FixedMeta fixedMeta;
+      FixedData fixedData;
+      VarMeta varMeta;
+      Var2Data varData;
+
+      try
+      {
+         fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+         fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      }
+
+      catch (IndexOutOfBoundsException ex)
+      {
+         // From a sample file where the stream reports an available number of bytes
+         // but attempting to read that number of bytes raises an exception.
+         return;
+      }
+
+      catch (IOException ex)
+      {
+         // I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
+         // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
+         return;
+      }
 
       //System.out.println(fixedMeta);
       //System.out.println(fixedData);
@@ -2402,12 +2112,6 @@ final class MPP14Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID8 = 0x00540000;
 
    /**
-    * Calendar data types.
-    */
-   private static final Integer CALENDAR_NAME = Integer.valueOf(1);
-   private static final Integer CALENDAR_DATA = Integer.valueOf(8);
-
-   /**
     * Resource data types.
     */
    private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(6);
@@ -2434,20 +2138,6 @@ final class MPP14Reader implements MPPVariantReader
    private static final int TASK_UNIQUE_ID_FIXED_OFFSET = 0;
    private static final int TASK_ID_FIXED_OFFSET = 4;
    private static final int NULL_TASK_BLOCK_SIZE = 16;
-
-   /**
-    * Default working week.
-    */
-   private static final boolean[] DEFAULT_WORKING_WEEK =
-   {
-      false,
-      true,
-      true,
-      true,
-      true,
-      true,
-      false
-   };
 
    private static final MppBitFlag[] PROJECT2010_TASK_META_DATA_BIT_FLAGS =
    {
@@ -2531,13 +2221,15 @@ final class MPP14Reader implements MPPVariantReader
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x04000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS =
    {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST)
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x10000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS =

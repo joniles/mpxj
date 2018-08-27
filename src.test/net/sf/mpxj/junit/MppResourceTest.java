@@ -200,7 +200,7 @@ public class MppResourceTest
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-      List<Resource> listAllResources = mpp.getAllResources();
+      List<Resource> listAllResources = mpp.getResources();
       assertTrue(listAllResources != null);
       // Fails for MPP12 as there is a summary resource
       //assertEquals(4, listAllResources.size());
@@ -407,7 +407,7 @@ public class MppResourceTest
       Integer intOne = Integer.valueOf(1);
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-      List<ResourceAssignment> listResourceAssignments = mpp.getAllResourceAssignments();
+      List<ResourceAssignment> listResourceAssignments = mpp.getResourceAssignments();
 
       ResourceAssignment ra = listResourceAssignments.get(0);
       // id
@@ -472,7 +472,7 @@ public class MppResourceTest
     */
    private void testNotes(ProjectFile file)
    {
-      for (Resource resource : file.getAllResources())
+      for (Resource resource : file.getResources())
       {
          int id = resource.getID().intValue();
          if (id != 0)
@@ -505,7 +505,7 @@ public class MppResourceTest
     */
    private void validateIdValues(ProjectFile file)
    {
-      assertEquals(4, file.getAllResources().size());
+      assertEquals(4, file.getResources().size());
 
       Resource resource = file.getResourceByUniqueID(Integer.valueOf(11));
       assertEquals(1, resource.getID().intValue());

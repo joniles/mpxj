@@ -376,7 +376,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       Resources resources = m_factory.createResources();
       m_plannerProject.setResources(resources);
       List<net.sf.mpxj.planner.schema.Resource> resourceList = resources.getResource();
-      for (Resource mpxjResource : m_projectFile.getAllResources())
+      for (Resource mpxjResource : m_projectFile.getResources())
       {
          net.sf.mpxj.planner.schema.Resource plannerResource = m_factory.createResource();
          resourceList.add(plannerResource);
@@ -537,7 +537,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setAllocations(allocations);
 
       List<Allocation> allocationList = allocations.getAllocation();
-      for (ResourceAssignment mpxjAssignment : m_projectFile.getAllResourceAssignments())
+      for (ResourceAssignment mpxjAssignment : m_projectFile.getResourceAssignments())
       {
          Allocation plannerAllocation = m_factory.createAllocation();
          allocationList.add(plannerAllocation);

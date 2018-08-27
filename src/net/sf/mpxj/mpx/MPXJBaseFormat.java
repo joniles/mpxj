@@ -23,18 +23,18 @@
 
 package net.sf.mpxj.mpx;
 
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
-import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import net.sf.mpxj.common.MultiDateFormat;
 
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the time conventions used in MPX files.
  */
-abstract class MPXJBaseFormat extends DateFormat
+abstract class MPXJBaseFormat extends MultiDateFormat
 {
    /**
     * This method allows the null text value to be set. In an English
@@ -62,43 +62,6 @@ abstract class MPXJBaseFormat extends DateFormat
    }
 
    /**
-    * {@inheritDoc}
-    */
-   @Override public Date parse(String str, ParsePosition pos)
-   {
-      Date result;
-
-      if (str == null || str.trim().length() == 0)
-      {
-         result = null;
-         pos.setIndex(-1);
-      }
-      else
-      {
-         if (str.equals(m_null) == true)
-         {
-            result = null;
-            pos.setIndex(-1);
-         }
-         else
-         {
-            result = null;
-            for (int index = 0; index < m_formats.length; index++)
-            {
-               result = m_formats[index].parse(str, pos);
-               if (pos.getIndex() != 0)
-               {
-                  break;
-               }
-               result = null;
-            }
-         }
-      }
-
-      return result;
-   }
-
-   /**
     * Allows the AM/PM text to be set.
     *
     * @param am AM text
@@ -121,11 +84,20 @@ abstract class MPXJBaseFormat extends DateFormat
    /**
     * {@inheritDoc}
     */
-   @Override public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
+   @Override protected Date parseNonNullDate(String str, ParsePosition pos)
    {
-      return (m_formats[0].format(date, toAppendTo, fieldPosition));
+      Date result;
+      if (str.equals(m_null) == true)
+      {
+         result = null;
+         pos.setIndex(-1);
+      }
+      else
+      {
+         result = super.parseNonNullDate(str, pos);
+      }
+      return result;
    }
 
    protected String m_null = "NA";
-   protected SimpleDateFormat[] m_formats;
 }

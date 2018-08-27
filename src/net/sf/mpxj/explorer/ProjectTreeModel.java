@@ -1,7 +1,6 @@
 
 package net.sf.mpxj.explorer;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -14,6 +13,6 @@ public class ProjectTreeModel extends DefaultTreeModel
     */
    public ProjectTreeModel()
    {
-      super(new DefaultMutableTreeNode());
+      super(new MpxjTreeNode());
    }
 }

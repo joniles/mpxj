@@ -26,6 +26,10 @@
 		<xs:restriction base="xs:string" />
 	</xs:simpleType>
 
+	<xs:simpleType name="phoenixFinish">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
 	<!-- XML Schema Generated from XML Document on Tue Nov 24 2015 23:58:28 
 		GMT+0000 (GMT) -->
 	<!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
@@ -69,7 +73,7 @@
 				<xs:element name="storepoints">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="storepoint">
+							<xs:element name="storepoint"  maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="calendars">
@@ -105,6 +109,8 @@
 																</xs:element>
 															</xs:sequence>
 															<xs:attribute name="name" type="xs:string"></xs:attribute>
+															<xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
+															<xs:attribute name="none_uuid" type="phoenixUuid"></xs:attribute>
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
@@ -134,21 +140,20 @@
 															<xs:attribute name="creation_time" type="xs:dateTime"></xs:attribute>
 															<xs:attribute name="total_cost" type="xs:int"></xs:attribute>
 															<xs:attribute name="billed" type="xs:int"></xs:attribute>
-															<xs:attribute name="explicit" type="xs:boolean"></xs:attribute>
+															<xs:attribute name="explicit" type="xs:boolean"></xs:attribute>															
 															<xs:attribute name="current_start" type="xs:dateTime"></xs:attribute>
-															<xs:attribute name="current_finish" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="current_finish" type="phoenixFinish"></xs:attribute>
+															<xs:attribute name="actual_start" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="actual_finish" type="phoenixFinish"></xs:attribute>
 															<xs:attribute name="early_start" type="xs:dateTime"></xs:attribute>
-															<xs:attribute name="early_finish" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="early_finish" type="phoenixFinish"></xs:attribute>
 															<xs:attribute name="late_start" type="xs:dateTime"></xs:attribute>
-															<xs:attribute name="late_finish" type="xs:dateTime"></xs:attribute>
+															<xs:attribute name="late_finish" type="phoenixFinish"></xs:attribute>
 															<xs:attribute name="original_duration" type="phoenixDuration"></xs:attribute>
 															<xs:attribute name="actual_duration" type="phoenixDuration"></xs:attribute>
-															<xs:attribute name="duration_at_completion"
-																type="phoenixDuration"></xs:attribute>
-															<xs:attribute name="remaining_duration"
-																type="phoenixDuration"></xs:attribute>
-															<xs:attribute name="physical_percent_complete"
-																type="xs:int"></xs:attribute>
+															<xs:attribute name="duration_at_completion" type="phoenixDuration"></xs:attribute>
+															<xs:attribute name="remaining_duration" type="phoenixDuration"></xs:attribute>
+															<xs:attribute name="physical_percent_complete" type="xs:int"></xs:attribute>
 															<xs:attribute name="calendar" type="xs:string"></xs:attribute>
 															<xs:attribute name="cost_account" type="phoenixUuid"></xs:attribute>
 															<xs:attribute name="notes" type="xs:string"></xs:attribute>
@@ -221,10 +226,10 @@
 									<xs:attribute name="name" type="xs:string"></xs:attribute>
 									<xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
 									<xs:attribute name="parent_uuid" type="phoenixUuid"></xs:attribute>
-									<xs:attribute name="creation_time" type="xs:string"></xs:attribute>
-									<xs:attribute name="start" type="xs:string"></xs:attribute>
-									<xs:attribute name="data_date" type="xs:string"></xs:attribute>
-									<xs:attribute name="proposed_data_date" type="xs:string"></xs:attribute>
+									<xs:attribute name="creation_time" type="xs:dateTime"></xs:attribute>
+									<xs:attribute name="start" type="xs:dateTime"></xs:attribute>
+									<xs:attribute name="data_date" type="xs:dateTime"></xs:attribute>
+									<xs:attribute name="proposed_data_date" type="xs:dateTime"></xs:attribute>
 									<xs:attribute name="default_calendar" type="xs:string"></xs:attribute>
 									<xs:attribute name="id_increment" type="xs:int"></xs:attribute>
 								</xs:complexType>
@@ -235,7 +240,7 @@
 				<xs:element name="layouts">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="layout">
+							<xs:element name="layout"  maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="resource_graph_layout">
@@ -364,7 +369,7 @@
 														<xs:complexType>
 															<xs:attribute name="uuid" type="phoenixUuid"></xs:attribute>
 															<xs:attribute name="color" type="xs:string"></xs:attribute>
-															<xs:attribute name="active" type="xs:string"></xs:attribute>
+															<xs:attribute name="active" type="xs:boolean"></xs:attribute>
 															<xs:attribute name="list_name" type="xs:string"></xs:attribute>
 														</xs:complexType>
 													</xs:element>
@@ -438,9 +443,10 @@
 												<xs:sequence>
 													<xs:element name="code_option" maxOccurs="unbounded">
 														<xs:complexType>
-															<xs:attribute name="shown" type="xs:string"></xs:attribute>
+															<xs:attribute name="shown" type="xs:boolean"></xs:attribute>
 															<xs:attribute name="color" type="xs:string"></xs:attribute>
 															<xs:attribute name="code" type="xs:string"></xs:attribute>
+															<xs:attribute name="code_uuid" type="phoenixUuid"></xs:attribute>
 															<xs:attribute name="font_color" type="xs:string"></xs:attribute>
 															<xs:attribute name="font" type="xs:string"></xs:attribute>
 														</xs:complexType>
@@ -511,45 +517,40 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute name="name" type="xs:string"></xs:attribute>
-									<xs:attribute name="active" type="xs:string"></xs:attribute>
-									<xs:attribute name="status_on_master" type="xs:string"></xs:attribute>
-									<xs:attribute name="ignore_actuals" type="xs:string"></xs:attribute>
-									<xs:attribute name="ignore_data_date" type="xs:string"></xs:attribute>
-									<xs:attribute name="status_on_current" type="xs:string"></xs:attribute>
-									<xs:attribute name="retained_logic" type="xs:string"></xs:attribute>
-									<xs:attribute name="progress_override" type="xs:string"></xs:attribute>
-									<xs:attribute name="contiguous" type="xs:string"></xs:attribute>
-									<xs:attribute name="interruptible" type="xs:string"></xs:attribute>
-									<xs:attribute name="work_remaining" type="xs:string"></xs:attribute>
-									<xs:attribute name="auto_row_sizing" type="xs:string"></xs:attribute>
+									<xs:attribute name="active" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="status_on_master" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="ignore_actuals" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="ignore_data_date" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="status_on_current" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="retained_logic" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="progress_override" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="contiguous" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="interruptible" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="work_remaining" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="auto_row_sizing" type="xs:boolean"></xs:attribute>
 									<xs:attribute name="custom_row_size" type="xs:int"></xs:attribute>
 									<xs:attribute name="row_font" type="xs:string"></xs:attribute>
 									<xs:attribute name="row_foreground" type="xs:string"></xs:attribute>
 									<xs:attribute name="row_background" type="xs:string"></xs:attribute>
 									<xs:attribute name="row_grid_lines_color" type="xs:string"></xs:attribute>
-									<xs:attribute name="show_relationships" type="xs:string"></xs:attribute>
-									<xs:attribute name="show_nondriving_relationships"
-										type="xs:string"></xs:attribute>
-									<xs:attribute name="show_retained_logic_relationships"
-										type="xs:string"></xs:attribute>
+									<xs:attribute name="show_relationships" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="show_nondriving_relationships" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="show_retained_logic_relationships" type="xs:boolean"></xs:attribute>
 									<xs:attribute name="layout_style" type="xs:string"></xs:attribute>
 									<xs:attribute name="resource_graph_shown" type="xs:string"></xs:attribute>
-									<xs:attribute name="track_newest" type="xs:string"></xs:attribute>
+									<xs:attribute name="track_newest" type="xs:boolean"></xs:attribute>
 									<xs:attribute name="criticality_method" type="xs:string"></xs:attribute>
 									<xs:attribute name="critical_color" type="xs:string"></xs:attribute>
-									<xs:attribute name="critical_tasks" type="xs:string"></xs:attribute>
-									<xs:attribute name="critical_endpoints" type="xs:string"></xs:attribute>
-									<xs:attribute name="critical_milestones" type="xs:string"></xs:attribute>
-									<xs:attribute name="critical_relationships" type="xs:string"></xs:attribute>
+									<xs:attribute name="critical_tasks" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="critical_endpoints" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="critical_milestones" type="xs:boolean"></xs:attribute>
+									<xs:attribute name="critical_relationships" type="xs:boolean"></xs:attribute>
 									<xs:attribute name="critical_threshold" type="xs:int"></xs:attribute>
-									<xs:attribute name="network_description_font"
-										type="xs:string"></xs:attribute>
-									<xs:attribute name="network_nodes_visible" type="xs:string"></xs:attribute>
+									<xs:attribute name="network_description_font" type="xs:string"></xs:attribute>
+									<xs:attribute name="network_nodes_visible" type="xs:boolean"></xs:attribute>
 									<xs:attribute name="network_node_font" type="xs:string"></xs:attribute>
-									<xs:attribute name="network_completed_duration_color"
-										type="xs:string"></xs:attribute>
-									<xs:attribute name="network_noncritical_duration_color"
-										type="xs:string"></xs:attribute>
+									<xs:attribute name="network_completed_duration_color" type="xs:string"></xs:attribute>
+									<xs:attribute name="network_noncritical_duration_color" type="xs:string"></xs:attribute>
 									<xs:attribute name="network_line_height" type="xs:int"></xs:attribute>
 								</xs:complexType>
 							</xs:element>

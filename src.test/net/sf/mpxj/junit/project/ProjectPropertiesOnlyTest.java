@@ -26,14 +26,13 @@ package net.sf.mpxj.junit.project;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.mpp.MPPReader;
-
-import org.junit.Test;
 
 /**
  * Validate the behaviour of the "properties only" MPPReader flag.
@@ -46,16 +45,12 @@ public class ProjectPropertiesOnlyTest
     */
    @Test public void testPropertiesOnly() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-text"));
-      for (File file : testDataDir.listFiles(new FileFilter()
+      for (File file : MpxjTestData.listFiles("generated/task-text", "task-text"))
       {
-         @Override public boolean accept(File pathname)
+         if (file.getName().endsWith(".mpp"))
          {
-            return pathname.getName().startsWith("task-text") && pathname.getName().endsWith(".mpp");
+            testPropertiesOnly(file);
          }
-      }))
-      {
-         testPropertiesOnly(file);
       }
    }
 
@@ -69,12 +64,12 @@ public class ProjectPropertiesOnlyTest
    {
       MPPReader reader = new MPPReader();
       ProjectFile project = reader.read(file);
-      assertTrue(project.getAllTasks().size() > 0);
+      assertTrue(project.getTasks().size() > 0);
       assertEquals("Project User", project.getProjectProperties().getAuthor());
 
       reader.setReadPropertiesOnly(true);
       project = reader.read(file);
-      assertTrue(project.getAllTasks().size() == 0);
+      assertTrue(project.getTasks().size() == 0);
       assertEquals("Project User", project.getProjectProperties().getAuthor());
    }
 }

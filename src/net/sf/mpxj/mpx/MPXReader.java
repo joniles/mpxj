@@ -46,6 +46,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -127,6 +128,8 @@ public final class MPXReader extends AbstractProjectReader
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
          m_delimiter = (char) data[3];
          m_projectFile.getProjectProperties().setMpxDelimiter(m_delimiter);
+         m_projectFile.getProjectProperties().setFileApplication("Microsoft");
+         m_projectFile.getProjectProperties().setFileType("MPX");
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_taskModel.setLocale(m_locale);
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
@@ -634,7 +637,7 @@ public final class MPXReader extends AbstractProjectReader
    }
 
    /**
-    * Get a date range that correctly handles the cae where the end time
+    * Get a date range that correctly handles the case where the end time
     * is midnight. In this instance the end time should be the start of the
     * next day.
     *
@@ -672,12 +675,34 @@ public final class MPXReader extends AbstractProjectReader
       Date toDate = record.getDate(1);
       boolean working = record.getNumericBoolean(2);
 
+      // I have found an example MPX file where a single day exception is expressed with just the start date set.
+      // If we find this for we assume that the end date is the same as the start date.
+      if (fromDate != null && toDate == null)
+      {
+         toDate = fromDate;
+      }
+
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)
       {
-         exception.addRange(new DateRange(record.getTime(3), record.getTime(4)));
-         exception.addRange(new DateRange(record.getTime(5), record.getTime(6)));
-         exception.addRange(new DateRange(record.getTime(7), record.getTime(8)));
+         addExceptionRange(exception, record.getTime(3), record.getTime(4));
+         addExceptionRange(exception, record.getTime(5), record.getTime(6));
+         addExceptionRange(exception, record.getTime(7), record.getTime(8));
+      }
+   }
+
+   /**
+    * Add a range to an exception, ensure that we don't try to add null ranges.
+    *
+    * @param exception target exception
+    * @param start exception start
+    * @param finish exception finish
+    */
+   private void addExceptionRange(ProjectCalendarException exception, Date start, Date finish)
+   {
+      if (start != null && finish != null)
+      {
+         exception.addRange(new DateRange(start, finish));
       }
    }
 
@@ -994,8 +1019,13 @@ public final class MPXReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
       }
 
-      Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
-      m_eventManager.fireRelationReadEvent(relation);
+      // We have seen at least one example MPX file where an invalid task ID
+      // is present. We'll ignore this as the schedule is otherwise valid.
+      if (targetTask != null)
+      {
+         Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
+         m_eventManager.fireRelationReadEvent(relation);
+      }
    }
 
    /**
@@ -1304,21 +1334,61 @@ public final class MPXReader extends AbstractProjectReader
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
       task.setUseEndDate(NumberHelper.getInt(record.getInteger(8)) == 1);
-      task.setDailyWorkday(NumberHelper.getInt(record.getInteger(9)) == 1);
-      task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
-      task.setMonthlyRelative(NumberHelper.getInt(record.getInteger(11)) == 1);
-      task.setYearlyAbsolute(NumberHelper.getInt(record.getInteger(12)) == 1);
-      task.setDailyFrequency(record.getInteger(13));
-      task.setWeeklyFrequency(record.getInteger(14));
-      task.setMonthlyRelativeOrdinal(record.getInteger(15));
-      task.setMonthlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(16)));
-      task.setMonthlyRelativeFrequency(record.getInteger(17));
-      task.setMonthlyAbsoluteDay(record.getInteger(18));
-      task.setMonthlyAbsoluteFrequency(record.getInteger(19));
-      task.setYearlyRelativeOrdinal(record.getInteger(20));
-      task.setYearlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(21)));
-      task.setYearlyRelativeMonth(record.getInteger(22));
-      task.setYearlyAbsoluteDate(record.getDateTime(23));
+      task.setWorkingDaysOnly(NumberHelper.getInt(record.getInteger(9)) == 1);
+      task.setWeeklyDaysFromBitmap(RecurrenceUtility.getDays(record.getString(10)), RecurrenceUtility.RECURRING_TASK_DAY_MASKS);
+
+      RecurrenceType type = task.getRecurrenceType();
+      if (type != null)
+      {
+         switch (task.getRecurrenceType())
+         {
+            case DAILY:
+            {
+               task.setFrequency(record.getInteger(13));
+               break;
+            }
+
+            case WEEKLY:
+            {
+               task.setFrequency(record.getInteger(14));
+               break;
+            }
+
+            case MONTHLY:
+            {
+               task.setRelative(NumberHelper.getInt(record.getInteger(11)) == 1);
+               if (task.getRelative())
+               {
+                  task.setFrequency(record.getInteger(17));
+                  task.setDayNumber(record.getInteger(15));
+                  task.setDayOfWeek(RecurrenceUtility.getDay(record.getInteger(16)));
+               }
+               else
+               {
+                  task.setFrequency(record.getInteger(19));
+                  task.setDayNumber(record.getInteger(18));
+               }
+               break;
+            }
+
+            case YEARLY:
+            {
+               task.setRelative(NumberHelper.getInt(record.getInteger(12)) != 1);
+               if (task.getRelative())
+               {
+                  task.setDayNumber(record.getInteger(20));
+                  task.setDayOfWeek(RecurrenceUtility.getDay(record.getInteger(21)));
+                  task.setMonthNumber(record.getInteger(22));
+               }
+               else
+               {
+                  task.setYearlyAbsoluteFromDate(record.getDateTime(23));
+               }
+               break;
+            }
+         }
+      }
+
       //System.out.println(task);
    }
 
@@ -1432,9 +1502,9 @@ public final class MPXReader extends AbstractProjectReader
     *
     * @return array of supported locales
     */
-   public Locale[] getSupportedLocales()
+   public static Locale[] getSupportedLocales()
    {
-      return (LocaleUtility.getSupportedLocales());
+      return LocaleUtility.getSupportedLocales();
    }
 
    /**

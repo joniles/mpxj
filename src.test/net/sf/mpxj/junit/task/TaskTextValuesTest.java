@@ -26,7 +26,8 @@ package net.sf.mpxj.junit.task;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -34,8 +35,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
-
-import org.junit.Test;
 
 /**
  * Tests to ensure the text versions of Start, Finish and Duration are read correctly.
@@ -47,14 +46,7 @@ public class TaskTextValuesTest
     */
    @Test public void testTaskTextValues() throws MPXJException
    {
-      File testDataDir = new File(MpxjTestData.filePath("generated/task-textvalues"));
-      for (File file : testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith("task-textvalues");
-         }
-      }))
+      for (File file : MpxjTestData.listFiles("generated/task-textvalues", "task-textvalues"))
       {
          testTaskTextValues(file);
       }
@@ -69,7 +61,7 @@ public class TaskTextValuesTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getAllTasks().size());
+      assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getTasks().size());
       for (int loop = 0; loop < EXPECTED_VALUES.length; loop++)
       {
          Task task = project.getTaskByID(Integer.valueOf(loop + 1));

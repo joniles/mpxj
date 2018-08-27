@@ -23,8 +23,11 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -37,12 +40,17 @@ import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.UnmarshallerHandler;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
+import org.xml.sax.XMLReader;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -68,6 +76,8 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -82,6 +92,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
@@ -108,6 +119,42 @@ import net.sf.mpxj.reader.AbstractProjectReader;
  */
 public final class MSPDIReader extends AbstractProjectReader
 {
+   /**
+    * Sets the character encoding used when reading an MSPDI file.
+    *
+    * @param encoding encoding name
+    */
+   public void setEncoding(String encoding)
+   {
+      m_encoding = encoding;
+   }
+
+   /**
+    * Alternative way to set the file encoding. If both an encoding name and a Charset instance
+    * are supplied, the Charset instance is used.
+    *
+    * @param charset Charset used when reading the file
+    */
+   public void setCharset(Charset charset)
+   {
+      m_charset = charset;
+   }
+
+   /**
+    * Retrieve the Charset used to read the file.
+    *
+    * @return Charset instance
+    */
+   private Charset getCharset()
+   {
+      Charset result = m_charset;
+      if (result == null)
+      {
+         result = m_encoding == null ? CharsetHelper.UTF8 : Charset.forName(m_encoding);
+      }
+      return result;
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -148,13 +195,13 @@ public final class MSPDIReader extends AbstractProjectReader
          factory.setNamespaceAware(true);
          SAXParser saxParser = factory.newSAXParser();
          XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
 
          if (CONTEXT == null)
          {
             throw CONTEXT_EXCEPTION;
          }
 
+         DatatypeConverter.setParentFile(m_projectFile);
          Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
 
          //
@@ -172,8 +219,12 @@ public final class MSPDIReader extends AbstractProjectReader
             });
          }
 
-         DatatypeConverter.setParentFile(m_projectFile);
-         Project project = (Project) unmarshaller.unmarshal(doc);
+         XMLFilter filter = new NamespaceFilter();
+         filter.setParent(xmlReader);
+         UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
+         filter.setContentHandler(unmarshallerHandler);
+         filter.parse(new InputSource(new InputStreamReader(stream, getCharset())));
+         Project project = (Project) unmarshallerHandler.getResult();
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<BigInteger, ProjectCalendar>();
 
@@ -212,6 +263,11 @@ public final class MSPDIReader extends AbstractProjectReader
       }
 
       catch (SAXException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+
+      catch (IOException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -294,6 +350,33 @@ public final class MSPDIReader extends AbstractProjectReader
       properties.setUniqueID(project.getUID());
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       properties.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
+      updateScheduleSource(properties);
+   }
+
+   /**
+    * Populate the properties indicating the source of this schedule.
+    *
+    * @param properties project properties
+    */
+   private void updateScheduleSource(ProjectProperties properties)
+   {
+      // Rudimentary identification of schedule source
+      if (properties.getCompany() != null && properties.getCompany().equals("Synchro Software Ltd"))
+      {
+         properties.setFileApplication("Synchro");
+      }
+      else
+      {
+         if (properties.getAuthor() != null && properties.getAuthor().equals("SG Project"))
+         {
+            properties.setFileApplication("Simple Genius");
+         }
+         else
+         {
+            properties.setFileApplication("Microsoft");
+         }
+      }
+      properties.setFileType("MSPDI");
    }
 
    /**
@@ -373,12 +456,15 @@ public final class MSPDIReader extends AbstractProjectReader
          baseCalendars.add(new Pair<ProjectCalendar, BigInteger>(bc, baseCalendarID));
       }
 
+      readExceptions(calendar, bc);
+      boolean readExceptionsFromDays = bc.getCalendarExceptions().isEmpty();
+
       Project.Calendars.Calendar.WeekDays days = calendar.getWeekDays();
       if (days != null)
       {
          for (Project.Calendars.Calendar.WeekDays.WeekDay weekDay : days.getWeekDay())
          {
-            readDay(bc, weekDay);
+            readDay(bc, weekDay, readExceptionsFromDays);
          }
       }
       else
@@ -392,8 +478,6 @@ public final class MSPDIReader extends AbstractProjectReader
          bc.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
 
-      readExceptions(calendar, bc);
-
       readWorkWeeks(calendar, bc);
 
       map.put(calendar.getUID(), bc);
@@ -406,15 +490,19 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param calendar Calendar data
     * @param day Day data
+    * @param readExceptionsFromDays read exceptions form day definitions
     */
-   private void readDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day)
+   private void readDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day, boolean readExceptionsFromDays)
    {
       BigInteger dayType = day.getDayType();
       if (dayType != null)
       {
          if (dayType.intValue() == 0)
          {
-            readExceptionDay(calendar, day);
+            if (readExceptionsFromDays)
+            {
+               readExceptionDay(calendar, day);
+            }
          }
          else
          {
@@ -512,42 +600,179 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          for (Project.Calendars.Calendar.Exceptions.Exception exception : exceptions.getException())
          {
-            Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
-            Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+            readException(bc, exception);
+         }
+      }
+   }
 
-            // Vico Schedule Planner seems to write start and end dates to FromeTime and ToTime
-            // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
-            // so we will ignore it too!
-            if (fromDate != null && toDate != null)
+   /**
+    * Read a single calendar exception.
+    *
+    * @param bc parent calendar
+    * @param exception exception data
+    */
+   private void readException(ProjectCalendar bc, Project.Calendars.Calendar.Exceptions.Exception exception)
+   {
+      Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
+      Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+
+      // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
+      // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
+      // so we will ignore it too!
+      if (fromDate != null && toDate != null)
+      {
+         ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+         bce.setName(exception.getName());
+         readRecurringData(bce, exception);
+         Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
+         if (times != null)
+         {
+            List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
+            for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
             {
-               ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
+               Date startTime = DatatypeConverter.parseTime(period.getFromTime());
+               Date endTime = DatatypeConverter.parseTime(period.getToTime());
 
-               Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
-               if (times != null)
+               if (startTime != null && endTime != null)
                {
-                  List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
-                  for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
+                  if (startTime.getTime() >= endTime.getTime())
                   {
-                     Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-                     Date endTime = DatatypeConverter.parseTime(period.getToTime());
-
-                     if (startTime != null && endTime != null)
-                     {
-                        if (startTime.getTime() >= endTime.getTime())
-                        {
-                           Calendar cal = Calendar.getInstance();
-                           cal.setTime(endTime);
-                           cal.add(Calendar.DAY_OF_YEAR, 1);
-                           endTime = cal.getTime();
-                        }
-
-                        bce.addRange(new DateRange(startTime, endTime));
-                     }
+                     Calendar cal = Calendar.getInstance();
+                     cal.setTime(endTime);
+                     cal.add(Calendar.DAY_OF_YEAR, 1);
+                     endTime = cal.getTime();
                   }
+
+                  bce.addRange(new DateRange(startTime, endTime));
                }
             }
          }
       }
+   }
+
+   /**
+    * Read recurring data for a calendar exception.
+    *
+    * @param bce MPXJ calendar exception
+    * @param exception XML calendar exception
+    */
+   private void readRecurringData(ProjectCalendarException bce, Project.Calendars.Calendar.Exceptions.Exception exception)
+   {
+      RecurringData rd = new RecurringData();
+      rd.setStartDate(bce.getFromDate());
+      rd.setFinishDate(bce.getToDate());
+      rd.setRecurrenceType(getRecurrenceType(NumberHelper.getInt(exception.getType())));
+      rd.setRelative(getRelative(NumberHelper.getInt(exception.getType())));
+      rd.setOccurrences(NumberHelper.getInteger(exception.getOccurrences()));
+
+      switch (rd.getRecurrenceType())
+      {
+         case DAILY:
+         {
+            rd.setFrequency(getFrequency(exception));
+            break;
+         }
+
+         case WEEKLY:
+         {
+            rd.setWeeklyDaysFromBitmap(NumberHelper.getInteger(exception.getDaysOfWeek()), DAY_MASKS);
+            rd.setFrequency(getFrequency(exception));
+            break;
+         }
+
+         case MONTHLY:
+         {
+            if (rd.getRelative())
+            {
+               rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+               rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+            }
+            else
+            {
+               rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
+            }
+            rd.setFrequency(getFrequency(exception));
+            break;
+         }
+
+         case YEARLY:
+         {
+            if (rd.getRelative())
+            {
+               rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+               rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+            }
+            else
+            {
+               rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
+            }
+            rd.setMonthNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
+            break;
+         }
+      }
+
+      if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getDates().length > 1)
+      {
+         bce.setRecurring(rd);
+      }
+   }
+
+   /**
+    * Retrieve the recurrence type.
+    *
+    * @param value integer value
+    * @return RecurrenceType instance
+    */
+   private RecurrenceType getRecurrenceType(int value)
+   {
+      RecurrenceType result;
+      if (value < 0 || value >= RECURRENCE_TYPES.length)
+      {
+         result = null;
+      }
+      else
+      {
+         result = RECURRENCE_TYPES[value];
+      }
+
+      return result;
+   }
+
+   /**
+    * Determine if the exception is relative based on the recurrence type integer value.
+    *
+    * @param value integer value
+    * @return true if the recurrence is relative
+    */
+   private boolean getRelative(int value)
+   {
+      boolean result;
+      if (value < 0 || value >= RELATIVE_MAP.length)
+      {
+         result = false;
+      }
+      else
+      {
+         result = RELATIVE_MAP[value];
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieve the frequency of an exception.
+    *
+    * @param exception XML calendar exception
+    * @return frequency
+    */
+   private Integer getFrequency(Project.Calendars.Calendar.Exceptions.Exception exception)
+   {
+      Integer period = NumberHelper.getInteger(exception.getPeriod());
+      if (period == null)
+      {
+         period = Integer.valueOf(1);
+      }
+      return period;
    }
 
    /**
@@ -699,9 +924,9 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
       mpx.setID(NumberHelper.getInteger(xml.getID()));
       mpx.setInitials(xml.getInitials());
-      mpx.setIsEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
-      mpx.setIsGeneric(BooleanHelper.getBoolean(xml.isIsGeneric()));
-      mpx.setIsInactive(BooleanHelper.getBoolean(xml.isIsInactive()));
+      mpx.setEnterprise(BooleanHelper.getBoolean(xml.isIsEnterprise()));
+      mpx.setGeneric(BooleanHelper.getBoolean(xml.isIsGeneric()));
+      mpx.setActive(!BooleanHelper.getBoolean(xml.isIsInactive()));
       mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
       mpx.setMaterialLabel(xml.getMaterialLabel());
@@ -1014,7 +1239,6 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFlag9();
          //mpx.setFlag10();
          // This is not correct?
-         mpx.setFreeSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFreeSlack()));
          mpx.setHideBar(BooleanHelper.getBoolean(xml.isHideBar()));
          mpx.setHyperlink(xml.getHyperlink());
          mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
@@ -1108,8 +1332,13 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
          mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
 
+         validateFinishDate(mpx);
+
          // read last to ensure correct caching
-         mpx.setTotalSlack(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getTotalSlack()));
+         mpx.setStartSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getStartSlack()));
+         mpx.setFinishSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getFinishSlack()));
+         mpx.setFreeSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getFreeSlack()));
+         mpx.setTotalSlack(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getTotalSlack()));
          mpx.setCritical(BooleanHelper.getBoolean(xml.isCritical()));
 
          readTaskExtendedAttributes(xml, mpx);
@@ -1120,11 +1349,62 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             mpx.setManualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getManualDuration()));
          }
+
+         //
+         // When reading an MSPDI file, the project summary task contains
+         // some of the values used to populate the project properties.
+         //
+         if (NumberHelper.getInt(mpx.getUniqueID()) == 0)
+         {
+            updateProjectProperties(mpx);
+         }
       }
 
       m_eventManager.fireTaskReadEvent(mpx);
 
       return mpx;
+   }
+
+   /**
+    * Update the project properties from the project summary task.
+    *
+    * @param task project summary task
+    */
+   private void updateProjectProperties(Task task)
+   {
+      ProjectProperties props = m_projectFile.getProjectProperties();
+      props.setComments(task.getNotes());
+   }
+
+   /**
+    * When projectmanager.com exports schedules as MSPDI (via Aspose tasks)
+    * they do not have finish dates, just a start date and a duration.
+    * This method populates finish dates.
+    *
+    * @param task task to validate
+    */
+   private void validateFinishDate(Task task)
+   {
+      if (task.getFinish() == null)
+      {
+         Date startDate = task.getStart();
+         if (startDate != null)
+         {
+            if (task.getMilestone())
+            {
+               task.setFinish(startDate);
+            }
+            else
+            {
+               Duration duration = task.getDuration();
+               if (duration != null)
+               {
+                  ProjectCalendar calendar = task.getEffectiveCalendar();
+                  task.setFinish(calendar.getDate(startDate, duration, false));
+               }
+            }
+         }
+      }
    }
 
    /**
@@ -1301,43 +1581,36 @@ public final class MSPDIReader extends AbstractProjectReader
       if (taskUID != null && resourceUID != null)
       {
          Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
-         Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
-
-         //System.out.println(task);
-         ProjectCalendar calendar = null;
-         if (resource != null)
-         {
-            calendar = resource.getResourceCalendar();
-         }
-
-         if (calendar == null)
-         {
-            calendar = task.getCalendar();
-         }
-
-         if (calendar == null)
-         {
-            calendar = m_projectFile.getDefaultCalendar();
-         }
-
-         LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
-         LinkedList<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
-         boolean raw = true;
-
-         if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
-         {
-            task.setSplits(new LinkedList<DateRange>());
-            normaliser.normalise(calendar, timephasedComplete);
-            normaliser.normalise(calendar, timephasedPlanned);
-            splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
-            raw = false;
-         }
-
-         DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedComplete, raw);
-         DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedPlanned, raw);
-
          if (task != null)
          {
+            Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
+            ProjectCalendar calendar = null;
+            if (resource != null)
+            {
+               calendar = resource.getResourceCalendar();
+            }
+
+            if (calendar == null || task.getIgnoreResourceCalendar())
+            {
+               calendar = task.getEffectiveCalendar();
+            }
+
+            LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
+            LinkedList<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+            boolean raw = true;
+
+            if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
+            {
+               task.setSplits(new LinkedList<DateRange>());
+               normaliser.normalise(calendar, timephasedComplete);
+               normaliser.normalise(calendar, timephasedPlanned);
+               splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
+               raw = false;
+            }
+
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedComplete, raw);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedPlanned, raw);
+
             ResourceAssignment mpx = task.addResourceAssignment(resource);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
@@ -1512,7 +1785,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
          else
          {
-            work = Duration.getInstance(NumberHelper.truncate(work.getDuration(), 2), TimeUnit.MINUTES);
+            work = Duration.getInstance(NumberHelper.round(work.getDuration(), 2), TimeUnit.MINUTES);
          }
 
          TimephasedWork tra = new TimephasedWork();
@@ -1585,8 +1858,43 @@ public final class MSPDIReader extends AbstractProjectReader
    }
 
    private boolean m_compatibleInput = true;
-
+   private String m_encoding;
+   private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+
+   private static final RecurrenceType[] RECURRENCE_TYPES =
+   {
+      null,
+      RecurrenceType.DAILY,
+      RecurrenceType.YEARLY, // Absolute
+      RecurrenceType.YEARLY, // Relative
+      RecurrenceType.MONTHLY, // Absolute
+      RecurrenceType.MONTHLY, // Relative
+      RecurrenceType.WEEKLY,
+      RecurrenceType.DAILY
+   };
+
+   private static final boolean[] RELATIVE_MAP =
+   {
+      false,
+      false,
+      false,
+      true,
+      false,
+      true
+   };
+
+   private static final int[] DAY_MASKS =
+   {
+      0x00,
+      0x01, // Sunday
+      0x02, // Monday
+      0x04, // Tuesday
+      0x08, // Wednesday
+      0x10, // Thursday
+      0x20, // Friday
+      0x40, // Saturday
+   };
 }

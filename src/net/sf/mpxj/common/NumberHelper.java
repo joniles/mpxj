@@ -56,6 +56,18 @@ public final class NumberHelper
    }
 
    /**
+    * This method retrieves a double value from a String instance.
+    * It returns zero by default if a null value or an empty string is supplied.
+    *
+    * @param value string representation of a double
+    * @return double value
+    */
+   public static final double getDouble(String value)
+   {
+      return (value == null || value.length() == 0 ? 0 : Double.parseDouble(value));
+   }
+
+   /**
     * Utility method used to convert an arbitrary Number into an Integer.
     *
     * @param value Number instance
@@ -159,25 +171,16 @@ public final class NumberHelper
    }
 
    /**
-    * Utility method used to truncate a double to the given precision.
+    * Utility method used to round a double to the given precision.
     *
     * @param value value to truncate
-    * @param precision Number of decimals to truncate to.
+    * @param precision Number of decimals to round to.
     * @return double value
     */
-   public static final double truncate(double value, double precision)
+   public static final double round(double value, double precision)
    {
-      double result;
       precision = Math.pow(10, precision);
-      if (value > 0)
-      {
-         result = Math.floor(value * precision) / precision;
-      }
-      else
-      {
-         result = Math.ceil(value * precision) / precision;
-      }
-      return result;
+      return Math.round(value * precision) / precision;
    }
 
    /**

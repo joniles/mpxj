@@ -25,12 +25,16 @@ package net.sf.mpxj.explorer;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import net.sf.mpxj.Duration;
 
 /**
  * Implements the controller component of the ObjectProperties MVC.
@@ -53,40 +57,47 @@ public class ObjectPropertiesController
     * Populate the model with the object's properties.
     *
     * @param object object whose properties we're displaying
+    * @param excludedMethods method names to exclude
     */
-   public void loadObject(Object object)
+   public void loadObject(Object object, Set<String> excludedMethods)
    {
-      m_model.setTableModel(createTableModel(object));
+      m_model.setTableModel(createTableModel(object, excludedMethods));
    }
 
    /**
     * Create a table model from an object's properties.
     *
     * @param object target object
+    * @param excludedMethods method names to exclude
     * @return table model
     */
-   private TableModel createTableModel(Object object)
+   private TableModel createTableModel(Object object, Set<String> excludedMethods)
    {
       List<Method> methods = new ArrayList<Method>();
       for (Method method : object.getClass().getMethods())
       {
-         if (method.getParameterTypes().length == 0)
+         if ((method.getParameterTypes().length == 0) || (method.getParameterTypes().length == 1 && method.getParameterTypes()[0] == int.class))
          {
             String name = method.getName();
-            if (name.startsWith("get") || name.startsWith("is"))
+            if (!excludedMethods.contains(name) && (name.startsWith("get") || name.startsWith("is")))
             {
                methods.add(method);
             }
          }
       }
 
-      Collections.sort(methods, new Comparator<Method>()
+      Map<String, String> map = new TreeMap<String, String>();
+      for (Method method : methods)
       {
-         @Override public int compare(Method o1, Method o2)
+         if (method.getParameterTypes().length == 0)
          {
-            return o1.getName().compareTo(o2.getName());
+            getSingleValue(method, object, map);
          }
-      });
+         else
+         {
+            getMultipleValues(method, object, map);
+         }
+      }
 
       String[] headings = new String[]
       {
@@ -94,20 +105,13 @@ public class ObjectPropertiesController
          "Value"
       };
 
-      String[][] data = new String[methods.size()][2];
+      String[][] data = new String[map.size()][2];
       int rowIndex = 0;
-      for (Method method : methods)
+      for (Entry<String, String> entry : map.entrySet())
       {
-         data[rowIndex][0] = getPropertyName(method);
-         try
-         {
-            data[rowIndex][1] = String.valueOf(method.invoke(object));
-         }
-         catch (Exception ex)
-         {
-            data[rowIndex][1] = ex.toString();
-         }
-         rowIndex++;
+         data[rowIndex][0] = entry.getKey();
+         data[rowIndex][1] = entry.getValue();
+         ++rowIndex;
       }
 
       TableModel tableModel = new DefaultTableModel(data, headings)
@@ -119,6 +123,91 @@ public class ObjectPropertiesController
       };
 
       return tableModel;
+   }
+
+   /**
+    * Replace default values will null, allowing them to be ignored.
+    *
+    * @param value value to test
+    * @return filtered value
+    */
+   private Object filterValue(Object value)
+   {
+      if (value instanceof Boolean && !((Boolean) value).booleanValue())
+      {
+         value = null;
+      }
+      if (value instanceof String && ((String) value).isEmpty())
+      {
+         value = null;
+      }
+      if (value instanceof Double && ((Double) value).doubleValue() == 0.0)
+      {
+         value = null;
+      }
+      if (value instanceof Integer && ((Integer) value).intValue() == 0)
+      {
+         value = null;
+      }
+      if (value instanceof Duration && ((Duration) value).getDuration() == 0.0)
+      {
+         value = null;
+      }
+
+      return value;
+   }
+
+   /**
+    * Retrieve a single value property.
+    *
+    * @param method method definition
+    * @param object target object
+    * @param map parameter values
+    */
+   private void getSingleValue(Method method, Object object, Map<String, String> map)
+   {
+      Object value;
+      try
+      {
+         value = filterValue(method.invoke(object));
+      }
+      catch (Exception ex)
+      {
+         value = ex.toString();
+      }
+
+      if (value != null)
+      {
+         map.put(getPropertyName(method), String.valueOf(value));
+      }
+   }
+
+   /**
+    * Retrieve multiple properties.
+    *
+    * @param method method definition
+    * @param object target object
+    * @param map parameter values
+    */
+   private void getMultipleValues(Method method, Object object, Map<String, String> map)
+   {
+      try
+      {
+         int index = 1;
+         while (true)
+         {
+            Object value = filterValue(method.invoke(object, Integer.valueOf(index)));
+            if (value != null)
+            {
+               map.put(getPropertyName(method, index), String.valueOf(value));
+            }
+            ++index;
+         }
+      }
+      catch (Exception ex)
+      {
+         // Reached the end of the valid indexes
+      }
    }
 
    /**
@@ -135,6 +224,18 @@ public class ObjectPropertiesController
          result = result.substring(3);
       }
       return result;
+   }
+
+   /**
+    * Convert a method name into a property name.
+    *
+    * @param method target method
+    * @param index property index
+    * @return property name
+    */
+   private String getPropertyName(Method method, int index)
+   {
+      return method.getName().substring(3) + index;
    }
 
 }

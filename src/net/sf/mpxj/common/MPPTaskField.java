@@ -148,7 +148,7 @@ public class MPPTaskField
       FIELD_ARRAY[580] = TaskField.BASELINE9_WORK;
       FIELD_ARRAY[11] = TaskField.BCWP;
       FIELD_ARRAY[12] = TaskField.BCWS;
-      FIELD_ARRAY[402] = TaskField.CALENDAR;
+      FIELD_ARRAY[402] = TaskField.TASK_CALENDAR;
       FIELD_ARRAY[119] = TaskField.COMPLETE_THROUGH;
       FIELD_ARRAY[110] = TaskField.CONFIRMED;
       FIELD_ARRAY[18] = TaskField.CONSTRAINT_DATE;

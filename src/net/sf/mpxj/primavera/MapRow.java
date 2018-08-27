@@ -112,7 +112,18 @@ class MapRow implements Row
          }
          else
          {
-            result = (((Number) value).intValue() == 1);
+            if (value instanceof Number)
+            {
+               // generally all non-zero numbers are treated as truthy
+               result = ((Number) value).doubleValue() != 0.0;
+            }
+            else
+            {
+               if (value instanceof String)
+               {
+                  result = parseBoolean((String) value);
+               }
+            }
          }
       }
       return result;
@@ -160,6 +171,18 @@ class MapRow implements Row
    {
       Object result = m_map.get(name);
       return (result);
+   }
+
+   /**
+    * Parse a string representation of a Boolean value.
+    * XER files sometimes have "N" and "Y" to indicate boolean
+    *
+    * @param value string representation
+    * @return Boolean value
+    */
+   private final boolean parseBoolean(String value)
+   {
+      return value != null && (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("y") || value.equalsIgnoreCase("yes"));
    }
 
    protected Map<String, Object> m_map;

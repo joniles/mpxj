@@ -9,7 +9,7 @@
 	<target name="init-props" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="5.6.5" />
+		<property name="current.version" value="7.6.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
@@ -21,13 +21,15 @@
 		<!-- These properties are only required if rebuilding JAXB generated source -->
 		<property name="mspdi.xsd" value="mspdi_pj14-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
-
+		<property name="conceptdraw.xsd" value="document.xsd" />
+		
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
-		<property name="maven.dir" value="c:/java/apache-maven-3.2.3"/>
+		<property name="maven.dir" value="c:/java/apache-maven-3.3.9"/>
 
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
+		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="classes.dir" value="${basedir}/classes" />
 		<property name="classes.test.dir" value="${basedir}/classes.test" />
 		<property name="bak.dir" value="${basedir}/bak" />
@@ -40,12 +42,17 @@
 		-->
 		<property name="target-jvm-version" value="1.6" />
 
-		<property name="poi.jar" value="poi-3.15" />
+		<property name="poi.jar" value="poi-3.17" />
 		<path id="poi.path">
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.10.0" />
+		<property name="commons-collections.jar" value="commons-collections4-4.1" />
+		<path id="commons-collections.path">
+			<pathelement location="${lib.dir}/${commons-collections.jar}.jar" />
+		</path>
+
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.11.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>
@@ -54,19 +61,21 @@
 		<path id="sqlite-jdbc.path">
 			<pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" />
 		</path>
-		
+
 		<path id="junit.path">
 			<pathelement location="${junit.jar}" />
 		</path>
 
 		<property name="poi.classpath" refid="poi.path" />
+		<property name="commons-collections.classpath" refid="commons-collections.path" />
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
-		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
+		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />	
 		<property name="junit.classpath" refid="junit.path" />
 
 		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
+		<property name="commons-collections.dll" value="${lib.net.dir}\${commons-collections.jar}.dll" />
 		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
-		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />
+		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />	
 		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
 		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
 		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
@@ -102,6 +111,7 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
+
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
@@ -114,6 +124,12 @@
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/phoenix-binding.xjb -p net.sf.mpxj.phoenix.schema ${basedir}/jaxb/phoenix-4.5.xsd" />
 		</exec>
+		<exec executable="xjc" dir="${basedir}">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
+		</exec>
+		<exec executable="xjc" dir="${basedir}">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/conceptdraw.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
+		</exec>
 
 		<delete>
 			<fileset dir="${basedir}" includes="*.xjb" defaultexcludes="no" />
@@ -121,11 +137,11 @@
 	</target>
 
 	<target name="compile" depends="init,update-version-numbers" description="Compile Everything">
-		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
 		</javac>
-		<javac srcdir="${basedir}/src.test" destdir="${classes.test.dir}" classpath="${classpath}:${classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${basedir}/src.test" destdir="${classes.test.dir}" classpath="${classpath}:${classes.dir}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 			<!-- <compilerarg value="-Xlint"/> -->
 		</javac>
@@ -155,7 +171,7 @@
 	<target name="document" depends="init-props" description="Generate documentation">
 		<delete dir="${doc.dir}" />
 		<mkdir dir="${doc.dir}" />
-		<javadoc sourcepath="${basedir}/src" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}" packagenames="net.sf.mpxj.*" destdir="${doc.dir}" verbose="no" access="public">
+		<javadoc sourcepath="${basedir}/src" classpath="${classpath}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}" packagenames="net.sf.mpxj.*" destdir="${doc.dir}" verbose="no" access="public">
 		</javadoc>
 	</target>
 
@@ -214,11 +230,11 @@
 			<include name="**/*.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -236,6 +252,7 @@
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
+				<pathelement location="${commons-collections.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 			</classpath>
@@ -250,15 +267,20 @@
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
+				<pathelement location="${commons-collections.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 			</classpath>
 		</java>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${poi.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-collections.jar}.jar" />
 		</exec>
 
+		<exec executable="${ikvmc.exe}" dir="${basedir}">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} ${basedir}\lib\${poi.jar}.jar" />
+		</exec>
+		
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
 		</exec>
@@ -383,7 +405,16 @@
 		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/> 
 	</target>
 
-	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog" description="Create library files"/>
+	<target name="releasenotes" depends="init-props" description="Create release notes">
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/../github-release.md" style="${basedir}/doc/github-releasenote.xsl">
+			<param name="version" expression="${current.version}"/>
+		</xslt>
+		<xslt in="${basedir}/maven/src/changes/changes.xml" out="${basedir}/../readme.md" style="${basedir}/doc/sourceforge-releasenote.xsl">
+			<param name="version" expression="${current.version}"/>
+		</xslt>
+	</target>
+
+	<target name="archive" depends="jar,ikvm-dll,vs-dll,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-java,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -442,6 +473,7 @@
 		<delete file="${mpxj-test.dll}" />
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
+		<delete file="${commons-collections.dll}" />
 		<delete file="${rtfparserkit.dll}" />
 		<delete file="${sqlite-jdbc.dll}" />
 		<delete file="${mpxj-utilities.dll}" />
@@ -460,6 +492,7 @@
 
 		<path id="emmarun.path">
 			<path refid="poi.path" />
+			<path refid="comons-collections.path" />
 			<path refid="rtfparserkit.path" />
 			<path refid="sqlite-jdbc.path" />
 			<path refid="junit.path" />
@@ -512,27 +545,38 @@
 	</target>
 
 	<target name="maven-site-build" depends="init-props,maven-populate" description="Execute maven to produce the web site">
-		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+		<delete dir="${docs.dir}" />
+		<mkdir dir="${docs.dir}" />
+		<echo file="${docs.dir}/CNAME" append="false">www.mpxj.org</echo>
+		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="post-site" />
 		</exec>
 	</target>
 
-	<target name="maven-site-publish" depends="maven-site-build" description="Publishes the web site to SourceForge">
-		<exec executable="${basedir}/maven/rsync-site.bat" dir="${basedir}/maven/target"/>
-	</target>
-
 	<target name="maven-test" depends="init-props,maven-populate" description="Execute maven and run tests">
-		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
 		</exec>
 	</target>
 
 	<target name="maven-deploy" depends="init-props,maven-populate" description="Execute maven and deploy to OSSRH">
-		<exec executable="${maven.dir}/bin/mvn.bat" dir="${basedir}/maven">
+		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}/maven">
 			<arg line="-DskipTests=true clean deploy" />
 		</exec>
 	</target>
 
+	<target name="github-deploy" depends="init-props" description="Deploy to GitHub">
+		<exec executable="hub">
+			<arg line="tag v${current.version}" />
+		</exec>
+		<exec executable="hub">
+			<arg line="push origin v${current.version}" />
+		</exec>
+		<exec executable="hub">
+			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
+		</exec>
+	</target>
+	
 	<!-- Adapted from http://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
 	<target name="git.revision" description="Store git revision in ${repository.version}">
 	    <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
@@ -653,7 +697,13 @@
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
-	
+
+	<target name="gem-copy" depends="gem-setup" description="Copy gem to a local directory">
+		<copy todir="//VBOXSVR/Downloads/mpxj.gem">
+			<fileset dir="${basedir}/src.ruby/mpxj" includes="**" />
+		</copy>
+	</target>
+
 	<!-- Experimental - work in progress -->
 	<target name="j2objc">
 		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
@@ -669,4 +719,23 @@
 			<arg line=" ${source.files}"/>			
 		</java>
 	</target>
+	
+	<!-- Run this after xjc to fix incorrectly escaped XML in javadoc comments -->
+	<target name="fix-jaxb-comments" depends="init-props" description="Fix JAXB generated comments">
+		<replaceregexp 
+		               match="( \*[ ]+&amp;lt;.+)&gt;"
+		               replace="\1&amp;gt;"
+		               byline="true">
+			<fileset dir="${basedir}/src" includes="**/schema/*.java" />
+		</replaceregexp>
+		
+		<replaceregexp 
+		               match='(base="&amp;lt;.+)&gt;'
+		               replace="\1&amp;gt;"
+		               byline="true">
+			<fileset dir="${basedir}/src" includes="**/schema/*.java" />
+		</replaceregexp>
+
+	</target>
+
 </project>

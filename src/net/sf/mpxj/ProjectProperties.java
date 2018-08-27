@@ -2572,6 +2572,68 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Retrieves the vendor of the file used to populate this ProjectFile instance.
+    *
+    * @return file type
+    */
+   public String getFileApplication()
+   {
+      return (String) getCachedValue(ProjectField.FILE_APPLICATION);
+   }
+
+   /**
+    * Sets the vendor of file used to populate this ProjectFile instance.
+    *
+    * @param type file type
+    */
+   public void setFileApplication(String type)
+   {
+      set(ProjectField.FILE_APPLICATION, type);
+   }
+
+   /**
+    * Retrieves the type of file used to populate this ProjectFile instance.
+    *
+    * @return file type
+    */
+   public String getFileType()
+   {
+      return (String) getCachedValue(ProjectField.FILE_TYPE);
+   }
+
+   /**
+    * Sets the type of file used to populate this ProjectFile instance.
+    *
+    * @param type file type
+    */
+   public void setFileType(String type)
+   {
+      set(ProjectField.FILE_TYPE, type);
+   }
+
+   /**
+    * Retrieves the export flag used to specify if the project was chosen to export from P6.
+    * Projects that have external relationships may be included in an export, even when not
+    * specifically flagged in the export. This flag differentiates those projects
+    *
+    * @return export boolean flag
+    */
+   public boolean getExportFlag()
+   {
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.EXPORT_FLAG));
+   }
+
+   /**
+    * Sets the export flag to populate this ProjectFile instance.
+    *
+    * @param value boolean flag
+    */
+   public void setExportFlag(boolean value)
+   {
+      set(ProjectField.EXPORT_FLAG, value);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void addFieldListener(FieldListener listener)

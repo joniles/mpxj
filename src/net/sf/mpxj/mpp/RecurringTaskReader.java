@@ -59,29 +59,94 @@ final class RecurringTaskReader
       rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
       rt.setUseEndDate(MPPUtility.getShort(data, 24) == 1);
-      rt.setDailyWorkday(MPPUtility.getShort(data, 26) == 1);
-      int days = 0;
-      days += (MPPUtility.getShort(data, 28) == 1 ? 0x40 : 0x00);
-      days += (MPPUtility.getShort(data, 30) == 1 ? 0x20 : 0x00);
-      days += (MPPUtility.getShort(data, 32) == 1 ? 0x10 : 0x00);
-      days += (MPPUtility.getShort(data, 34) == 1 ? 0x08 : 0x00);
-      days += (MPPUtility.getShort(data, 36) == 1 ? 0x04 : 0x00);
-      days += (MPPUtility.getShort(data, 38) == 1 ? 0x02 : 0x00);
-      days += (MPPUtility.getShort(data, 40) == 1 ? 0x01 : 0x00);
-      rt.setWeeklyDays(Integer.valueOf(days));
-      rt.setMonthlyRelative(MPPUtility.getShort(data, 42) == 1);
-      rt.setYearlyAbsolute(MPPUtility.getShort(data, 44) == 1);
-      rt.setDailyFrequency(Integer.valueOf(MPPUtility.getShort(data, 46)));
-      rt.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, 48)));
-      rt.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 50)));
-      rt.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 52) + 1));
-      rt.setMonthlyAbsoluteFrequency(Integer.valueOf(MPPUtility.getShort(data, 54)));
-      rt.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getShort(data, 56)));
-      rt.setMonthlyRelativeFrequency(Integer.valueOf(MPPUtility.getShort(data, 58)));
-      rt.setYearlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 60)));
-      rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62) + 1));
-      rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
-      rt.setYearlyAbsoluteDate(MPPUtility.getDate(data, 70));
+      rt.setWorkingDaysOnly(MPPUtility.getShort(data, 26) == 1);
+      rt.setWeeklyDay(Day.SUNDAY, MPPUtility.getShort(data, 28) == 1);
+      rt.setWeeklyDay(Day.MONDAY, MPPUtility.getShort(data, 30) == 1);
+      rt.setWeeklyDay(Day.TUESDAY, MPPUtility.getShort(data, 32) == 1);
+      rt.setWeeklyDay(Day.WEDNESDAY, MPPUtility.getShort(data, 34) == 1);
+      rt.setWeeklyDay(Day.THURSDAY, MPPUtility.getShort(data, 36) == 1);
+      rt.setWeeklyDay(Day.FRIDAY, MPPUtility.getShort(data, 38) == 1);
+      rt.setWeeklyDay(Day.SATURDAY, MPPUtility.getShort(data, 40) == 1);
+
+      int frequencyOffset = 0;
+      int dayOfWeekOffset = 0;
+      int dayNumberOffset = 0;
+      int monthNumberOffset = 0;
+      int dateOffset = 0;
+
+      switch (rt.getRecurrenceType())
+      {
+         case DAILY:
+         {
+            frequencyOffset = 46;
+            break;
+         }
+
+         case WEEKLY:
+         {
+            frequencyOffset = 48;
+            break;
+         }
+
+         case MONTHLY:
+         {
+            rt.setRelative(MPPUtility.getShort(data, 42) == 1);
+            if (rt.getRelative())
+            {
+               frequencyOffset = 58;
+               dayNumberOffset = 50;
+               dayOfWeekOffset = 52;
+            }
+            else
+            {
+               frequencyOffset = 54;
+               dayNumberOffset = 56;
+            }
+
+            break;
+         }
+
+         case YEARLY:
+         {
+            rt.setRelative(MPPUtility.getShort(data, 44) != 1);
+            if (rt.getRelative())
+            {
+               dayNumberOffset = 60;
+               dayOfWeekOffset = 62;
+               monthNumberOffset = 64;
+            }
+            else
+            {
+               dateOffset = 70;
+            }
+            break;
+         }
+      }
+
+      if (frequencyOffset != 0)
+      {
+         rt.setFrequency(Integer.valueOf(MPPUtility.getShort(data, frequencyOffset)));
+      }
+
+      if (dayOfWeekOffset != 0)
+      {
+         rt.setDayOfWeek(Day.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
+      }
+
+      if (dayNumberOffset != 0)
+      {
+         rt.setDayNumber(Integer.valueOf(MPPUtility.getShort(data, dayNumberOffset)));
+      }
+
+      if (monthNumberOffset != 0)
+      {
+         rt.setMonthNumber(Integer.valueOf(MPPUtility.getShort(data, monthNumberOffset)));
+      }
+
+      if (dateOffset != 0)
+      {
+         rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, dateOffset));
+      }
    }
 
    private ProjectProperties m_properties;
