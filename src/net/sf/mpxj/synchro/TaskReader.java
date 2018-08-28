@@ -44,8 +44,8 @@ public class TaskReader extends TableReader
       System.out.println("BLOCKX");
       System.out.println(MPPUtility.hexdump(blockx, true, 16, ""));
 
-      UnknownTableReader unknownReader = new UnknownTableReader(m_stream);
-      unknownReader.read();
+      ResourceAssignmentReader resourceAssignmentReader = new ResourceAssignmentReader(m_stream);
+      resourceAssignmentReader.read();
 
       byte[] block1a = new byte[4];
       m_stream.read(block1a);
@@ -64,10 +64,16 @@ public class TaskReader extends TableReader
       System.out.println("Task name: " + taskName);
       map.put("NAME", taskName);
 
-      byte[] block2 = new byte[17];
+      byte[] block2 = new byte[16];
       m_stream.read(block2);
       System.out.println("BLOCK2");
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
+
+      if (SynchroUtility.getBoolean(m_stream))
+      {
+         TaskReader taskReader = new TaskReader(m_stream);
+         taskReader.read();
+      }
 
       if (SynchroUtility.getBoolean(m_stream))
       {
@@ -108,7 +114,14 @@ public class TaskReader extends TableReader
       System.out.println("Activity ID: " + activityID);
       map.put("ID", activityID);
 
-      byte[] block4 = new byte[121];
+      if (SynchroUtility.getBoolean(m_stream))
+      {
+         // TODO: User fields
+         UnknownTableReader reader = new UnknownTableReader(m_stream);
+         reader.read();
+      }
+
+      byte[] block4 = new byte[120];
       m_stream.read(block4);
       System.out.println("BLOCK4");
       System.out.println(MPPUtility.hexdump(block4, true, 16, ""));
