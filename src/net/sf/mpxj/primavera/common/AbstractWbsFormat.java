@@ -42,8 +42,7 @@ public class AbstractWbsFormat
       int valueIndex = 0;
       int elementIndex = 0;
       m_elements.clear();
-
-      while (valueIndex < value.length())
+      while (valueIndex < value.length() && elementIndex < m_elements.size())
       {
          int elementLength = m_lengths.get(elementIndex).intValue();
          if (elementIndex > 0)
