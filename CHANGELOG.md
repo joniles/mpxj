@@ -1,8 +1,11 @@
 # Changelog
 
-## 7.6.1 (git master)
+## 7.6.2 (git master)
+
+## 7.6.1 (29/08/2018)
 * Improve handling of MPP files where MPXJ is unable to read the filter definitions.
 * Improve handling of SureTrak projects without a WBS.
+* Improve handling of SureTrak and P3 WBS extraction.
 * Handle unsupported ProjectLibre POD files more gracefully.
 * Improve detection of non MS Project compound OLE documents.
 * Gracefully handle XER files which contain no projects.

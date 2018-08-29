@@ -5,9 +5,12 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.6.1">
+		<release date="git master" version="7.6.2">
+		</release>
+		<release date="29/08/2018" version="7.6.1">
 			<action dev="joniles" type="update">Improve handling of MPP files where MPXJ is unable to read the filter definitions.</action>
 			<action dev="joniles" type="update">Improve handling of SureTrak projects without a WBS.</action>
+			<action dev="joniles" type="update">Improve handling of SureTrak and P3 WBS extraction.</action>
 			<action dev="joniles" type="update">Handle unsupported ProjectLibre POD files more gracefully.</action>
 			<action dev="joniles" type="update">Improve detection of non MS Project compound OLE documents.</action>
 			<action dev="joniles" type="update">Gracefully handle XER files which contain no projects.</action>
