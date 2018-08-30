@@ -1064,8 +1064,8 @@ final class PrimaveraReader
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
          Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date remainingEarlyStartDate = parentTask.getEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getEarlyFinish();
+         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
          Date lateStartDate = parentTask.getLateStart();
          Date lateFinishDate = parentTask.getLateFinish();
          Date baselineStartDate = parentTask.getBaselineStart();
