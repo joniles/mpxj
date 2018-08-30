@@ -443,6 +443,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          Row row = rows.get(0);
          Map<String, Object> customProperties = new HashMap<String, Object>();
          customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
+         customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
+         customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
          m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
       }
    }
