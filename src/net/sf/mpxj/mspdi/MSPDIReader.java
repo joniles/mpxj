@@ -1524,19 +1524,25 @@ public final class MSPDIReader extends AbstractProjectReader
                type = RelationType.FINISH_START;
             }
 
-            int lag;
+            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
 
-            if (link.getLinkLag() != null)
+            Duration lagDuration;
+            int lag = NumberHelper.getInt(link.getLinkLag());
+            if (lag == 0)
             {
-               lag = link.getLinkLag().intValue() / 10;
+               lagDuration = Duration.getInstance(0, lagUnits);
             }
             else
             {
-               lag = 0;
+               if (lagUnits == TimeUnit.PERCENT || lagUnits == TimeUnit.ELAPSED_PERCENT)
+               {
+                  lagDuration = Duration.getInstance(lag, lagUnits);
+               }
+               else
+               {
+                  lagDuration = Duration.convertUnits(lag / 10.0, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
+               }
             }
-
-            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
-            Duration lagDuration = Duration.convertUnits(lag, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
 
             Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
             m_eventManager.fireRelationReadEvent(relation);
