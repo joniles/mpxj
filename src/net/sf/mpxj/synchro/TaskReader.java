@@ -116,8 +116,7 @@ public class TaskReader extends TableReader
 
       if (SynchroUtility.getBoolean(m_stream))
       {
-         // TODO: User fields
-         UnknownTableReader reader = new UnknownTableReader(m_stream);
+         UserFieldReader reader = new UserFieldReader(m_stream);
          reader.read();
       }
 
