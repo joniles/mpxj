@@ -71,6 +71,8 @@ final class ResultSetRow extends MapRow
             case Types.VARCHAR:
             case Types.LONGVARCHAR:
             case Types.CLOB:
+            case Types.NVARCHAR:
+            case Types.LONGNVARCHAR:
             {
                value = rs.getString(name);
                break;

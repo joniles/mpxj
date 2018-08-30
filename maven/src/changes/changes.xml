@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.6.2">
+			<action dev="joniles" type="add">Add support for nvarchar columns when reading from a P6 database.</action>
 		</release>
 		<release date="29/08/2018" version="7.6.1">
 			<action dev="joniles" type="update">Improve handling of MPP files where MPXJ is unable to read the filter definitions.</action>
