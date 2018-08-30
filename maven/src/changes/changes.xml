@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.6.2">
+		<release date="git master" version="7.6.3">
+		</release>
+		<release date="30/08/2018" version="7.6.2">
 			<action dev="joniles" type="add">Add support for nvarchar columns when reading from a P6 database.</action>
 			<action dev="joniles" type="update">Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).</action>
 			<action dev="joniles" type="update">Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).</action>

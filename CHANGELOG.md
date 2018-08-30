@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.6.2 (git master)
+## 7.6.3 (git master)
+
+## 7.6.2 (30/08/2018)
 * Add support for nvarchar columns when reading from a P6 database.
 * Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).
 * Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).
