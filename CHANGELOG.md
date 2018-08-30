@@ -3,6 +3,7 @@
 ## 7.6.2 (git master)
 * Add support for nvarchar columns when reading from a P6 database.
 * Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).
+* Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).
 
 ## 7.6.1 (29/08/2018)
 * Improve handling of MPP files where MPXJ is unable to read the filter definitions.
