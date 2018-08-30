@@ -1757,7 +1757,7 @@ final class PrimaveraReader
       RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.WORK);
+      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
    }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
