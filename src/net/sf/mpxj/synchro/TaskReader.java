@@ -97,7 +97,27 @@ public class TaskReader extends TableReader
       //      System.out.println("BLOCK3");
       //      System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
 
-      byte[] block3 = new byte[114];
+      byte[] block2b = new byte[4];
+      m_stream.read(block2b);
+      System.out.println("BLOCK2B");
+      System.out.println(MPPUtility.hexdump(block2b, true, 16, ""));
+
+      int fileCount = SynchroUtility.getInt(m_stream);
+      System.out.println("File count: " + fileCount);
+
+      if (fileCount != 0)
+      {
+         // 20 byte block per file?
+         byte[] fileData = new byte[20];
+         for (int index = 0; index < fileCount; index++)
+         {
+            m_stream.read(fileData);
+            System.out.println("FILE DATA");
+            System.out.println(MPPUtility.hexdump(fileData, true, 16, ""));
+         }
+      }
+
+      byte[] block3 = new byte[106];
       m_stream.read(block3);
       System.out.println("BLOCK3");
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
