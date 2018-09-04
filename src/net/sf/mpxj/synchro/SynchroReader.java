@@ -11,6 +11,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -90,6 +91,25 @@ public final class SynchroReader extends AbstractProjectReader
    {
       CompanyReader reader = new CompanyReader(m_data.getTableData("Companies"));
       reader.read();
+      for (MapRow companyRow : reader.getRows())
+      {
+         for (MapRow resourceRow : companyRow.getRows("RESOURCES"))
+         {
+            processResource(resourceRow);
+         }
+      }
+   }
+
+   private void processResource(MapRow row) throws IOException
+   {
+      Resource resource = m_project.addResource();
+      resource.setName(row.getString("NAME"));
+      resource.setEmailAddress(row.getString("EMAIL"));
+      resource.setHyperlink(row.getString("URL"));
+      resource.setNotes(getNotes(row.getRows("COMMENTARY")));
+      resource.setText(1, row.getString("DESCRIPTION"));
+      resource.setText(2, row.getString("SUPPLY_REFERENCE"));
+      resource.setActive(true);
    }
 
    private void processTasks() throws IOException
@@ -102,6 +122,24 @@ public final class SynchroReader extends AbstractProjectReader
          task.setName(row.getString("NAME"));
          task.setText(1, row.getString("ID"));
       }
+   }
+
+   private String getNotes(List<MapRow> rows)
+   {
+      String result = null;
+      if (rows != null && !rows.isEmpty())
+      {
+         StringBuilder sb = new StringBuilder();
+         for (MapRow row : rows)
+         {
+            sb.append(row.getString("TITLE"));
+            sb.append('\n');
+            sb.append(row.getString("TEXT"));
+            sb.append("\n\n");
+         }
+         result = sb.toString();
+      }
+      return result;
    }
 
    private SynchroData m_data;

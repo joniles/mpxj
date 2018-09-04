@@ -19,8 +19,7 @@ class CompanyReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int recordHeader = SynchroUtility.getInt(m_stream);
-      if (recordHeader != 0x0598BFDA)
+      if (SynchroUtility.getInt(m_stream) != 0x0598BFDA)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -34,29 +33,30 @@ class CompanyReader extends TableReader
 
       ResourceReader resourceReader = new ResourceReader(m_stream);
       resourceReader.read();
+      map.put("RESOURCES", resourceReader.getRows());
 
-      String companyName = SynchroUtility.getString(m_stream);
-      System.out.println("Company name: " + companyName);
+      map.put("NAME", SynchroUtility.getString(m_stream));
+      System.out.println("Company name: " + map.get("NAME"));
 
-      String companyAddress = SynchroUtility.getString(m_stream);
-      System.out.println("Company address: " + companyAddress);
+      map.put("ADDRESS", SynchroUtility.getString(m_stream));
+      System.out.println("Company address: " + map.get("ADDRESS"));
 
-      String companyPhone = SynchroUtility.getString(m_stream);
-      System.out.println("Company phone: " + companyPhone);
+      map.put("PHONE", SynchroUtility.getString(m_stream));
+      System.out.println("Company phone: " + map.get("PHONE"));
 
-      String companyFax = SynchroUtility.getString(m_stream);
-      System.out.println("Company fax: " + companyFax);
+      map.put("FAX", SynchroUtility.getString(m_stream));
+      System.out.println("Company fax: " + map.get("FAX"));
 
-      String companyEmail = SynchroUtility.getString(m_stream);
-      System.out.println("Company email: " + companyEmail);
+      map.put("EMAIL", SynchroUtility.getString(m_stream));
+      System.out.println("Company email: " + map.get("EMAIL"));
 
       byte[] block2 = new byte[12];
       m_stream.read(block2);
       System.out.println("BLOCK2");
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
 
-      String companyUrl = SynchroUtility.getString(m_stream);
-      System.out.println("Company url: " + companyUrl);
+      map.put("URL", SynchroUtility.getString(m_stream));
+      System.out.println("Company url: " + map.get("URL"));
 
       byte[] block3 = new byte[8];
       m_stream.read(block3);

@@ -2,6 +2,7 @@
 package net.sf.mpxj.synchro;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.Duration;
@@ -96,6 +97,11 @@ class MapRow
    public final Date getDate(String name)
    {
       return (Date) getObject(name);
+   }
+
+   public final List<MapRow> getRows(String name)
+   {
+      return (List<MapRow>) getObject(name);
    }
 
    /**

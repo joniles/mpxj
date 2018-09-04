@@ -19,8 +19,7 @@ class ResourceReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int recordHeader = SynchroUtility.getInt(m_stream);
-      if (recordHeader != 0x57A85C31)
+      if (SynchroUtility.getInt(m_stream) != 0x57A85C31)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -32,17 +31,16 @@ class ResourceReader extends TableReader
       System.out.println("BLOCK1");
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
 
-      String resourceName = SynchroUtility.getString(m_stream);
-      System.out.println("Resource name: " + resourceName);
+      map.put("NAME", SynchroUtility.getString(m_stream));
+      System.out.println("Resource name: " + map.get("NAME"));
 
-      String resourceDescription = SynchroUtility.getString(m_stream);
-      System.out.println("Resource description: " + resourceDescription);
+      map.put("DESCRIPTION", SynchroUtility.getString(m_stream));
+      System.out.println("Resource description: " + map.get("DESCRIPTION"));
 
-      int supplyReferenceFlag = SynchroUtility.getInt(m_stream);
-      if (supplyReferenceFlag != 0)
+      if (SynchroUtility.getInt(m_stream) != 0)
       {
-         String supplyReference = SynchroUtility.getString(m_stream);
-         System.out.println("Supply reference: " + supplyReference);
+         map.put("SUPPLY_REFERENCE", SynchroUtility.getString(m_stream));
+         System.out.println("Supply reference: " + map.get("SUPPLY_REFERENCE"));
       }
 
       byte[] block3 = new byte[48];
@@ -58,20 +56,21 @@ class ResourceReader extends TableReader
       System.out.println("BLOCK4");
       System.out.println(MPPUtility.hexdump(block4, true, 16, ""));
 
-      String url = SynchroUtility.getString(m_stream);
-      System.out.println("Url: " + url);
+      map.put("URL", SynchroUtility.getString(m_stream));
+      System.out.println("Url: " + map.get("URL"));
 
       if (SynchroUtility.getBoolean(m_stream))
       {
          UserFieldReader userFieldReader = new UserFieldReader(m_stream);
          userFieldReader.read();
+         map.put("USER_FIELDS", userFieldReader.getRows());
       }
 
       String unknownString = SynchroUtility.getString(m_stream);
       System.out.println("Unknown string:" + unknownString);
 
-      String emailAddress = SynchroUtility.getString(m_stream);
-      System.out.println("Email address:" + emailAddress);
+      map.put("EMAIL", SynchroUtility.getString(m_stream));
+      System.out.println("Email address:" + map.get("EMAIL"));
 
       // NOTE: this contains nested tables
       UnknownTableReader unknownTable2 = new UnknownTableReader(m_stream, 68);
@@ -86,6 +85,7 @@ class ResourceReader extends TableReader
       {
          CommentaryReader commentaryReader = new CommentaryReader(m_stream);
          commentaryReader.read();
+         map.put("COMMENTARY", commentaryReader.getRows());
       }
 
       byte[] block6 = new byte[48];
@@ -93,8 +93,7 @@ class ResourceReader extends TableReader
       System.out.println("BLOCK6");
       System.out.println(MPPUtility.hexdump(block6, true, 16, ""));
 
-      int block7Flag = SynchroUtility.getInt(m_stream);
-      if (block7Flag != 0)
+      if (SynchroUtility.getInt(m_stream) != 0)
       {
          byte[] block7 = new byte[76];
          m_stream.read(block7);
@@ -107,7 +106,6 @@ class ResourceReader extends TableReader
       System.out.println("BLOCK8");
       System.out.println(MPPUtility.hexdump(block8, true, 16, ""));
 
-      map.put("NAME", resourceName);
       m_rows.add(new MapRow(map));
    }
 }

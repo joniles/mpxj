@@ -19,8 +19,7 @@ class UserFieldReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != 0x440A7BA3)
+      if (SynchroUtility.getInt(m_stream) != 0x440A7BA3)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }

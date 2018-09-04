@@ -19,8 +19,7 @@ class CommentaryReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != 0x05972BB6)
+      if (SynchroUtility.getInt(m_stream) != 0x05972BB6)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -31,15 +30,15 @@ class CommentaryReader extends TableReader
       m_stream.read(block1);
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
 
-      String text = SynchroUtility.getString(m_stream);
-      System.out.println("Text: " + text);
+      map.put("TEXT", SynchroUtility.getString(m_stream));
+      System.out.println("Text: " + map.get("TEXT"));
 
       byte[] block2 = new byte[48];
       m_stream.read(block2);
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
 
-      String title = SynchroUtility.getString(m_stream);
-      System.out.println("Title: " + title);
+      map.put("TITLE", SynchroUtility.getString(m_stream));
+      System.out.println("Title: " + map.get("TITLE"));
 
       byte[] block3 = new byte[8];
       m_stream.read(block3);
