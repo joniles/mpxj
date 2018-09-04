@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
-public class TaskReader extends TableReader
+class TaskReader extends TableReader
 {
    public TaskReader(InputStream stream)
    {

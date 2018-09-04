@@ -187,5 +187,5 @@ class SynchroData
 
    private int m_offset;
    private Map<String, byte[]> m_tableData = new HashMap<String, byte[]>();
-   private static final Set<String> REQUIRED_TABLES = new HashSet<String>(Arrays.asList("Tasks"));
+   private static final Set<String> REQUIRED_TABLES = new HashSet<String>(Arrays.asList("Tasks", "Calendars", "Companies"));
 }

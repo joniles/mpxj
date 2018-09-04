@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -65,13 +66,30 @@ public final class SynchroReader extends AbstractProjectReader
       m_eventManager.addProjectListeners(m_projectListeners);
 
       // processProject();
-      // processCalendars();
-      // processResources();
+      processCalendars();
+      processResources();
       processTasks();
       // processDependencies();
       // processAssignments();
 
       return m_project;
+   }
+
+   private void processCalendars() throws IOException
+   {
+      CalendarReader reader = new CalendarReader(m_data.getTableData("Calendars"));
+      reader.read();
+      for (MapRow row : reader.getRows())
+      {
+         ProjectCalendar calendar = m_project.addCalendar();
+         calendar.setName(row.getString("NAME"));
+      }
+   }
+
+   private void processResources() throws IOException
+   {
+      CompanyReader reader = new CompanyReader(m_data.getTableData("Companies"));
+      reader.read();
    }
 
    private void processTasks() throws IOException

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
-public class ResourceAssignmentReader extends TableReader
+class ResourceAssignmentReader extends TableReader
 {
    public ResourceAssignmentReader(InputStream stream)
    {

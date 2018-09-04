@@ -8,7 +8,7 @@ import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
-public class UserFieldReader extends TableReader
+class UserFieldReader extends TableReader
 {
    public UserFieldReader(InputStream stream)
    {

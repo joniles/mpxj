@@ -8,7 +8,7 @@ import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
-public class CostReader extends TableReader
+class CostReader extends TableReader
 {
    public CostReader(InputStream stream)
    {

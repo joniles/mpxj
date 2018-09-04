@@ -8,7 +8,7 @@ import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
 
-public class RelationReader extends TableReader
+class RelationReader extends TableReader
 {
    public RelationReader(InputStream stream)
    {
