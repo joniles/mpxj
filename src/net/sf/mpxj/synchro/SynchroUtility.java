@@ -39,6 +39,11 @@ final class SynchroUtility
       return getInt(data, 0);
    }
 
+   public static final Integer getInteger(InputStream is) throws IOException
+   {
+      return Integer.valueOf(getInt(is));
+   }
+
    public static final int getShort(InputStream is) throws IOException
    {
       byte[] data = new byte[2];

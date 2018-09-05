@@ -4,6 +4,7 @@ package net.sf.mpxj.synchro;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
@@ -97,6 +98,11 @@ class MapRow
    public final Date getDate(String name)
    {
       return (Date) getObject(name);
+   }
+
+   public final UUID getUUID(String name)
+   {
+      return (UUID) getObject(name);
    }
 
    public final List<MapRow> getRows(String name)

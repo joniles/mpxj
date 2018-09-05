@@ -3,9 +3,12 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -54,12 +57,9 @@ public final class SynchroReader extends AbstractProjectReader
       m_eventManager = m_project.getEventManager();
 
       ProjectConfig config = m_project.getProjectConfig();
-      config.setAutoCalendarUniqueID(false);
-      config.setAutoTaskID(false);
-      config.setAutoTaskUniqueID(false);
+      //      config.setAutoCalendarUniqueID(false);
+      //      config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
-      config.setAutoWBS(false);
-      config.setAutoOutlineNumber(false);
 
       m_project.getProjectProperties().setFileApplication("Synchro");
       m_project.getProjectProperties().setFileType("SP");
@@ -93,7 +93,8 @@ public final class SynchroReader extends AbstractProjectReader
       reader.read();
       for (MapRow companyRow : reader.getRows())
       {
-         for (MapRow resourceRow : companyRow.getRows("RESOURCES"))
+         // TODO: need to sort by type as well as by name!
+         for (MapRow resourceRow : sort(companyRow.getRows("RESOURCES"), "NAME"))
          {
             processResource(resourceRow);
          }
@@ -103,13 +104,24 @@ public final class SynchroReader extends AbstractProjectReader
    private void processResource(MapRow row) throws IOException
    {
       Resource resource = m_project.addResource();
+      resource.setUniqueID(row.getInteger("UNIQUE_ID"));
       resource.setName(row.getString("NAME"));
+      resource.setGUID(row.getUUID("UUID"));
       resource.setEmailAddress(row.getString("EMAIL"));
       resource.setHyperlink(row.getString("URL"));
       resource.setNotes(getNotes(row.getRows("COMMENTARY")));
       resource.setText(1, row.getString("DESCRIPTION"));
       resource.setText(2, row.getString("SUPPLY_REFERENCE"));
       resource.setActive(true);
+
+      List<MapRow> resources = row.getRows("RESOURCES");
+      if (resources != null)
+      {
+         for (MapRow childResource : sort(resources, "NAME"))
+         {
+            processResource(childResource);
+         }
+      }
    }
 
    private void processTasks() throws IOException
@@ -118,9 +130,24 @@ public final class SynchroReader extends AbstractProjectReader
       reader.read();
       for (MapRow row : reader.getRows())
       {
-         Task task = m_project.addTask();
-         task.setName(row.getString("NAME"));
-         task.setText(1, row.getString("ID"));
+         processTask(m_project, row);
+      }
+   }
+
+   private void processTask(ChildTaskContainer parent, MapRow row) throws IOException
+   {
+      Task task = parent.addTask();
+      task.setName(row.getString("NAME"));
+      task.setGUID(row.getUUID("UUID"));
+      task.setText(1, row.getString("ID"));
+      List<MapRow> tasks = row.getRows("TASKS");
+
+      if (tasks != null)
+      {
+         for (MapRow childTask : tasks)
+         {
+            processTask(task, childTask);
+         }
       }
    }
 
@@ -140,6 +167,20 @@ public final class SynchroReader extends AbstractProjectReader
          result = sb.toString();
       }
       return result;
+   }
+
+   private List<MapRow> sort(List<MapRow> rows, final String attribute)
+   {
+      Collections.sort(rows, new Comparator<MapRow>()
+      {
+         @Override public int compare(MapRow o1, MapRow o2)
+         {
+            String value1 = o1.getString(attribute);
+            String value2 = o2.getString(attribute);
+            return value1.compareTo(value2);
+         }
+      });
+      return rows;
    }
 
    private SynchroData m_data;

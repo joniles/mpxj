@@ -26,10 +26,13 @@ class ResourceReader extends TableReader
 
       System.out.println("RESOURCE");
 
-      byte[] block1 = new byte[32];
+      byte[] block1 = new byte[16];
       m_stream.read(block1);
       System.out.println("BLOCK1");
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+
+      map.put("UUID", SynchroUtility.getUUID(m_stream));
+      System.out.println("UUID: " + map.get("UUID"));
 
       map.put("NAME", SynchroUtility.getString(m_stream));
       System.out.println("Resource name: " + map.get("NAME"));
@@ -48,8 +51,9 @@ class ResourceReader extends TableReader
       System.out.println("BLOCK3");
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
 
-      UnknownTableReader unknownTable1 = new UnknownTableReader(m_stream);
-      unknownTable1.read();
+      ResourceReader resourceReader = new ResourceReader(m_stream);
+      resourceReader.read();
+      map.put("RESOURCES", resourceReader.getRows());
 
       byte[] block4 = new byte[20];
       m_stream.read(block4);
@@ -66,8 +70,8 @@ class ResourceReader extends TableReader
          map.put("USER_FIELDS", userFieldReader.getRows());
       }
 
-      String unknownString = SynchroUtility.getString(m_stream);
-      System.out.println("Unknown string:" + unknownString);
+      map.put("ID", SynchroUtility.getString(m_stream));
+      System.out.println("ID:" + map.get("ID"));
 
       map.put("EMAIL", SynchroUtility.getString(m_stream));
       System.out.println("Email address:" + map.get("EMAIL"));
@@ -101,10 +105,13 @@ class ResourceReader extends TableReader
          System.out.println(MPPUtility.hexdump(block7, true, 16, ""));
       }
 
-      byte[] block8 = new byte[16];
+      byte[] block8 = new byte[12];
       m_stream.read(block8);
       System.out.println("BLOCK8");
       System.out.println(MPPUtility.hexdump(block8, true, 16, ""));
+
+      map.put("UNIQUE_ID", SynchroUtility.getInteger(m_stream));
+      System.out.println("Unique ID: " + map.get("UNIQUE_ID"));
 
       m_rows.add(new MapRow(map));
    }
