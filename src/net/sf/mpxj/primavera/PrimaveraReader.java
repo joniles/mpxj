@@ -1064,6 +1064,8 @@ final class PrimaveraReader
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
          Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
          Date lateStartDate = parentTask.getLateStart();
          Date lateFinishDate = parentTask.getLateFinish();
          Date baselineStartDate = parentTask.getBaselineStart();
@@ -1082,6 +1084,8 @@ final class PrimaveraReader
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
             earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            remainingEarlyStartDate = DateHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+            remainingEarlyFinishDate = DateHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
             lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
             lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
             baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
@@ -1098,6 +1102,8 @@ final class PrimaveraReader
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setRemainingEarlyStart(remainingEarlyStartDate);
+         parentTask.setRemainingEarlyFinish(remainingEarlyFinishDate);
          parentTask.setLateStart(lateStartDate);
          parentTask.setLateFinish(lateFinishDate);
          parentTask.setBaselineStart(baselineStartDate);
@@ -1657,6 +1663,8 @@ final class PrimaveraReader
       map.put(TaskField.LATE_FINISH, "late_end_date");
       map.put(TaskField.EARLY_START, "early_start_date");
       map.put(TaskField.EARLY_FINISH, "early_end_date");
+      map.put(TaskField.REMAINING_EARLY_START, "restart_date");
+      map.put(TaskField.REMAINING_EARLY_FINISH, "reend_date");
       map.put(TaskField.BASELINE_START, "target_start_date");
       map.put(TaskField.BASELINE_FINISH, "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
