@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.6.3">
+			<action dev="joniles" type="add">Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)</action>
+			<action dev="joniles" type="add">Add support for reading Retained LOgic and Progressive Override project attributes from P6. (Contributed by forenpm)</action>
 		</release>
 		<release date="30/08/2018" version="7.6.2">
 			<action dev="joniles" type="add">Add support for nvarchar columns when reading from a P6 database.</action>
