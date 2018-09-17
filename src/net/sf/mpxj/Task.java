@@ -2835,7 +2835,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * This method retrieves a flag indicating whether the duration of the
     * task has only been estimated.
-   
+
     * @param estimated Boolean flag
     */
    public void setEstimated(boolean estimated)
@@ -3696,7 +3696,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          Duration duration = getDuration();
          if (duration != null)
          {
-            startSlack = DateHelper.getVariance(this, getLateStart(), getEarlyStart(), duration.getUnits());
+            startSlack = DateHelper.getVariance(this, getEarlyStart(), getLateStart(), duration.getUnits());
             set(TaskField.START_SLACK, startSlack);
          }
       }
@@ -3716,7 +3716,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          Duration duration = getDuration();
          if (duration != null)
          {
-            finishSlack = DateHelper.getVariance(this, getLateFinish(), getEarlyFinish(), duration.getUnits());
+            finishSlack = DateHelper.getVariance(this, getEarlyFinish(), getLateFinish(), duration.getUnits());
             set(TaskField.FINISH_SLACK, finishSlack);
          }
       }
