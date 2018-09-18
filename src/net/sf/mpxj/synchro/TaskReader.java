@@ -58,10 +58,21 @@ class TaskReader extends TableReader
       map.put("NAME", SynchroUtility.getString(m_stream));
       System.out.println("Task name: " + map.get("NAME"));
 
-      byte[] block2 = new byte[16];
+      map.put("START", SynchroUtility.getDate(m_stream));
+      System.out.println("Task start: " + map.get("START"));
+
+      byte[] block2 = new byte[4];
       m_stream.read(block2);
       System.out.println("BLOCK2");
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
+
+      map.put("DURATION", SynchroUtility.getDuration(m_stream));
+      System.out.println("Task duration: " + map.get("DURATION"));
+
+      byte[] block21 = new byte[4];
+      m_stream.read(block21);
+      System.out.println("BLOCK2.1");
+      System.out.println(MPPUtility.hexdump(block21, true, 16, ""));
 
       if (SynchroUtility.getBoolean(m_stream))
       {
@@ -77,10 +88,38 @@ class TaskReader extends TableReader
          map.put("COSTS", costReader.getRows());
       }
 
-      byte[] block2a = new byte[35];
-      m_stream.read(block2a);
-      System.out.println("BLOCK2A");
-      System.out.println(MPPUtility.hexdump(block2a, true, 16, ""));
+      //      byte[] block2a = new byte[35];
+      //      m_stream.read(block2a);
+      //      System.out.println("BLOCK2A");
+      //      System.out.println(MPPUtility.hexdump(block2a, true, 16, ""));
+
+      map.put("UNKNOWN_DATE1", SynchroUtility.getDate(m_stream));
+      System.out.println("Task Unknown Date 1: " + map.get("UNKNOWN_DATE1"));
+      byte[] block2a1 = new byte[4];
+      m_stream.read(block2a1);
+      System.out.println(MPPUtility.hexdump(block2a1, true, 16, ""));
+
+      map.put("UNKNOWN_DATE2", SynchroUtility.getDate(m_stream));
+      System.out.println("Task Unknown Date 2: " + map.get("UNKNOWN_DATE2"));
+      byte[] block2a2 = new byte[4];
+      m_stream.read(block2a2);
+      System.out.println(MPPUtility.hexdump(block2a2, true, 16, ""));
+
+      map.put("UNKNOWN_DATE3", SynchroUtility.getDate(m_stream));
+      System.out.println("Task Unknown Date 3: " + map.get("UNKNOWN_DATE3"));
+      byte[] block2a3 = new byte[4];
+      m_stream.read(block2a3);
+      System.out.println(MPPUtility.hexdump(block2a3, true, 16, ""));
+
+      map.put("UNKNOWN_DATE4", SynchroUtility.getDate(m_stream));
+      System.out.println("Task Unknown Date 4: " + map.get("UNKNOWN_DATE4"));
+      byte[] block2a4 = new byte[4];
+      m_stream.read(block2a4);
+      System.out.println(MPPUtility.hexdump(block2a4, true, 16, ""));
+
+      byte[] block2a5 = new byte[3];
+      m_stream.read(block2a5);
+      System.out.println(MPPUtility.hexdump(block2a5, true, 16, ""));
 
       if (SynchroUtility.getBoolean(m_stream))
       {
@@ -122,10 +161,63 @@ class TaskReader extends TableReader
       map.put("URL", SynchroUtility.getString(m_stream));
       System.out.println("URL: " + map.get("URL"));
 
-      byte[] block3a = new byte[24];
+      // was 24
+      byte[] block3a = new byte[4];
       m_stream.read(block3a);
       System.out.println("BLOCK3A");
       System.out.println(MPPUtility.hexdump(block3a, true, 16, ""));
+
+      // Not sure if  this is 2 bytes or 1
+      String progressType;
+      switch (block3a[0])
+      {
+         case 1:
+         {
+            progressType = "Automatic";
+            break;
+         }
+
+         case 2:
+         {
+            progressType = "Manual";
+            break;
+         }
+
+         case 3:
+         {
+            progressType = "Duration";
+            break;
+         }
+
+         case 4:
+         {
+            progressType = "Physical";
+            break;
+         }
+
+         case 5:
+         {
+            progressType = "Unit";
+            break;
+         }
+
+         default:
+         {
+            progressType = null;
+            break;
+         }
+      }
+
+      map.put("PROGRESS_TYPE", progressType);
+      System.out.println("Progress Type: " + map.get("PROGRESS_TYPE"));
+
+      map.put("PERCENT_COMPLETE", SynchroUtility.getDouble(m_stream));
+      System.out.println("Task Percent Complete: " + map.get("PERCENT_COMPLETE"));
+
+      byte[] block3b = new byte[12];
+      m_stream.read(block3b);
+      System.out.println("BLOCK3B");
+      System.out.println(MPPUtility.hexdump(block3b, true, 16, ""));
 
       map.put("ID", SynchroUtility.getString(m_stream));
       System.out.println("Activity ID: " + map.get("ID"));
@@ -136,6 +228,9 @@ class TaskReader extends TableReader
          reader.read();
          map.put("USER_FIELDS", reader.getRows());
       }
+
+      //      map.put("REMAINING_DURATION", SynchroUtility.getDuration(m_stream));
+      //      System.out.println("Task Remaining Duration: " + map.get("REMAINING_DURATION"));
 
       byte[] block4 = new byte[120];
       m_stream.read(block4);

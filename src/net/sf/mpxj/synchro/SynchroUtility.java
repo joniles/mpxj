@@ -3,7 +3,12 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.UUID;
+
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 
 final class SynchroUtility
 {
@@ -32,6 +37,18 @@ final class SynchroUtility
       return result;
    }
 
+   public static final long getLong(byte[] data, int offset)
+   {
+      long result = 0;
+      int i = offset;
+      for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
+      {
+         result |= ((long) (data[i] & 0xff)) << shiftBy;
+         ++i;
+      }
+      return result;
+   }
+
    public static final int getInt(InputStream is) throws IOException
    {
       byte[] data = new byte[4];
@@ -49,6 +66,13 @@ final class SynchroUtility
       byte[] data = new byte[2];
       is.read(data);
       return getShort(data, 0);
+   }
+
+   public static final long getLong(InputStream is) throws IOException
+   {
+      byte[] data = new byte[8];
+      is.read(data);
+      return getLong(data, 0);
    }
 
    public static final String getString(InputStream is) throws IOException
@@ -81,7 +105,9 @@ final class SynchroUtility
 
    public static boolean getBoolean(InputStream is) throws IOException
    {
-      return is.read() != 0;
+      int value = is.read();
+      //System.out.println("Boolean: " + value);
+      return value != 0;
    }
 
    public static final UUID getUUID(InputStream is) throws IOException
@@ -111,4 +137,47 @@ final class SynchroUtility
 
       return new UUID(long1, long2);
    }
+
+   // for testing only
+   public static final Date getDate(byte[] data, int offset) throws IOException
+   {
+      long timeInSeconds = getInt(data, offset);
+      if (timeInSeconds == 0x93406FFF)
+      {
+         return null;
+      }
+      timeInSeconds -= 3600;
+      timeInSeconds *= 1000;
+      return DateHelper.getDateFromLong(timeInSeconds);
+   }
+
+   public static final Date getDate(InputStream is) throws IOException
+   {
+      long timeInSeconds = getInt(is);
+      if (timeInSeconds == 0x93406FFF)
+      {
+         return null;
+      }
+      timeInSeconds -= 3600;
+      timeInSeconds *= 1000;
+      return DateHelper.getDateFromLong(timeInSeconds);
+   }
+
+   public static final Duration getDuration(InputStream is) throws IOException
+   {
+      double durationInSeconds = getInt(is);
+      durationInSeconds /= (60 * 60);
+      return Duration.getInstance(durationInSeconds, TimeUnit.HOURS);
+   }
+
+   public static final Double getDouble(InputStream is) throws IOException
+   {
+      double result = Double.longBitsToDouble(getLong(is));
+      if (Double.isNaN(result))
+      {
+         result = 0;
+      }
+      return Double.valueOf(result);
+   }
+
 }
