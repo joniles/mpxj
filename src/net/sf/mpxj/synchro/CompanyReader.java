@@ -19,11 +19,6 @@ class CompanyReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       System.out.println("COMPANY");
 
       byte[] block1 = new byte[52];

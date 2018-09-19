@@ -19,11 +19,6 @@ class CommentaryReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       System.out.println("COMMENTARY");
 
       byte[] block1 = new byte[32];

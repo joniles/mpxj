@@ -19,12 +19,6 @@ class DayTypeReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int recordHeader = SynchroUtility.getInt(m_stream);
-      if (recordHeader != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       System.out.println("DAY TYPE");
 
       byte[] block1 = new byte[16];

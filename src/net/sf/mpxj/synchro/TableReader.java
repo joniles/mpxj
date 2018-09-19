@@ -31,6 +31,12 @@ abstract class TableReader
 
       for (int loop = 0; loop < recordCount; loop++)
       {
+         int rowMagicNumber = SynchroUtility.getInt(m_stream);
+         if (rowMagicNumber != rowMagicNumber())
+         {
+            throw new IllegalArgumentException("Unexpected file format");
+         }
+
          readRow();
       }
 

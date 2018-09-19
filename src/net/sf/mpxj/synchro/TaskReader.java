@@ -19,11 +19,6 @@ class TaskReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       byte[] block1 = new byte[16];
       m_stream.read(block1);
       System.out.println("BLOCK1");

@@ -21,12 +21,6 @@ class CostReader extends TableReader
 
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       byte[] block1 = new byte[32];
       m_stream.read(block1);
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));

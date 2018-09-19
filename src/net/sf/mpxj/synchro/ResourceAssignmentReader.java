@@ -21,12 +21,6 @@ class ResourceAssignmentReader extends TableReader
 
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       byte[] data = new byte[211];
       m_stream.read(data);
       System.out.println(MPPUtility.hexdump(data, true, 16, ""));

@@ -19,12 +19,6 @@ class CalendarReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int recordHeader = SynchroUtility.getInt(m_stream);
-      if (recordHeader != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       System.out.println("CALENDAR");
 
       byte[] block1 = new byte[16];
@@ -48,7 +42,7 @@ class CalendarReader extends TableReader
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
 
       System.out.println("UNKNOWN TABLE 2");
-      UnknownTableReader unknown2 = new UnknownTableReader(m_stream, 32);
+      UnknownTableReader unknown2 = new UnknownTableReader(m_stream, 28, 0xD1A3D6C);
       unknown2.read();
 
       DayTypeReader dayTypeReader = new DayTypeReader(m_stream);

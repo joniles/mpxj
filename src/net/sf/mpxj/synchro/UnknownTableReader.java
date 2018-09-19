@@ -10,13 +10,14 @@ class UnknownTableReader extends TableReader
 {
    public UnknownTableReader(InputStream stream)
    {
-      this(stream, 0);
+      this(stream, 0, 0);
    }
 
-   public UnknownTableReader(InputStream stream, int rowSize)
+   public UnknownTableReader(InputStream stream, int rowSize, int rowMagicNumber)
    {
       super(stream);
       m_rowSize = rowSize;
+      m_rowMagicNumber = rowMagicNumber;
    }
 
    @Override protected void readRow() throws IOException
@@ -39,7 +40,8 @@ class UnknownTableReader extends TableReader
 
    @Override protected int rowMagicNumber()
    {
-      return 0;
+      return m_rowMagicNumber;
    }
    private final int m_rowSize;
+   private final int m_rowMagicNumber;
 }

@@ -19,11 +19,6 @@ class ResourceReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       System.out.println("RESOURCE");
 
       byte[] block1 = new byte[16];
@@ -77,7 +72,7 @@ class ResourceReader extends TableReader
       System.out.println("Email address:" + map.get("EMAIL"));
 
       // NOTE: this contains nested tables
-      UnknownTableReader unknownTable2 = new UnknownTableReader(m_stream, 68);
+      UnknownTableReader unknownTable2 = new UnknownTableReader(m_stream, 64, 0x701BAFBD);
       unknownTable2.read();
 
       byte[] block5 = new byte[30];

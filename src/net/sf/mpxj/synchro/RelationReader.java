@@ -19,12 +19,6 @@ class RelationReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != rowMagicNumber())
-      {
-         throw new IllegalArgumentException("Unexpected file format");
-      }
-
       byte[] block1 = new byte[92];
       m_stream.read(block1);
       System.out.println("RELATION");
