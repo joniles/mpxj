@@ -135,7 +135,7 @@ class TaskReader extends TableReader
       System.out.println("Constraint Type: " + map.get("CONSTRAINT_TYPE"));
 
       readDatePair(map, "CONSTRAINT_EARLY_DATE");
-      readDatePair(map, "UNKNOWN_DATE6");
+      readDatePair(map, "CONSTRAINT_LATE_DATE");
 
       byte[] block32 = new byte[78];
       m_stream.read(block32);
@@ -231,24 +231,35 @@ class TaskReader extends TableReader
       readDatePair(map, "UNKNOWN_DATE9");
       readDatePair(map, "UNKNOWN_DATE10");
 
-      //      byte[] block42 = new byte[60];
-      //      m_stream.read(block42);
-      //      System.out.println("BLOCK42");
-      //      System.out.println(MPPUtility.hexdump(block42, true, 16, ""));
-
-      byte[] block42 = new byte[32];
+      byte[] block42 = new byte[4];
       m_stream.read(block42);
       System.out.println("BLOCK42");
       System.out.println(MPPUtility.hexdump(block42, true, 16, ""));
 
-      readDatePair(map, "EXPECTED_FINISH");
-
-      new UnknownTableReader(m_stream).read();
+      map.put("PHYSICAL_QUANTITY", SynchroUtility.getDouble(m_stream));
+      System.out.println("Task Physical Quantity: " + map.get("PHYSICAL_QUANTITY"));
 
       byte[] block43 = new byte[8];
       m_stream.read(block43);
       System.out.println("BLOCK43");
       System.out.println(MPPUtility.hexdump(block43, true, 16, ""));
+
+      map.put("PHYSICAL_QUANTITY_UNIT", SynchroUtility.getInteger(m_stream));
+      System.out.println("Task Physical Quantity Unit: " + map.get("PHYSICAL_QUANTITY_UNIT"));
+
+      byte[] block44 = new byte[8];
+      m_stream.read(block44);
+      System.out.println("BLOCK44");
+      System.out.println(MPPUtility.hexdump(block44, true, 16, ""));
+
+      readDatePair(map, "EXPECTED_FINISH");
+
+      new UnknownTableReader(m_stream).read();
+
+      byte[] block45 = new byte[8];
+      m_stream.read(block45);
+      System.out.println("BLOCK45");
+      System.out.println(MPPUtility.hexdump(block45, true, 16, ""));
    }
 
    private void readDatePair(Map<String, Object> map, String name) throws IOException
