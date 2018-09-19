@@ -50,10 +50,13 @@ class TaskReader extends TableReader
       relationReader.read();
       map.put("RELATIONS", relationReader.getRows());
 
-      byte[] block1b = new byte[16];
-      m_stream.read(block1b);
-      System.out.println("BLOCK1B");
-      System.out.println(MPPUtility.hexdump(block1b, true, 16, ""));
+      //      byte[] block1b = new byte[16];
+      //      m_stream.read(block1b);
+      //      System.out.println("BLOCK1B");
+      //      System.out.println(MPPUtility.hexdump(block1b, true, 16, ""));
+
+      map.put("CALENDAR_UUID", SynchroUtility.getUUID(m_stream));
+      System.out.println("Calendar UUID: " + map.get("CALENDAR_UUID"));
 
       map.put("NAME", SynchroUtility.getString(m_stream));
       System.out.println("Task name: " + map.get("NAME"));
@@ -226,10 +229,39 @@ class TaskReader extends TableReader
       //      map.put("REMAINING_DURATION", SynchroUtility.getDuration(m_stream));
       //      System.out.println("Task Remaining Duration: " + map.get("REMAINING_DURATION"));
 
-      byte[] block4 = new byte[120];
-      m_stream.read(block4);
-      System.out.println("BLOCK4");
-      System.out.println(MPPUtility.hexdump(block4, true, 16, ""));
+      //      byte[] block4 = new byte[120];
+      //      m_stream.read(block4);
+      //      System.out.println("BLOCK4");
+      //      System.out.println(MPPUtility.hexdump(block4, true, 16, ""));
+
+      byte[] block41 = new byte[28];
+      m_stream.read(block41);
+      System.out.println("BLOCK41");
+      System.out.println(MPPUtility.hexdump(block41, true, 16, ""));
+
+      readDatePair(map, "UNKNOWN_DATE7");
+      readDatePair(map, "UNKNOWN_DATE8");
+      readDatePair(map, "UNKNOWN_DATE9");
+      readDatePair(map, "UNKNOWN_DATE10");
+
+      //      byte[] block42 = new byte[60];
+      //      m_stream.read(block42);
+      //      System.out.println("BLOCK42");
+      //      System.out.println(MPPUtility.hexdump(block42, true, 16, ""));
+
+      byte[] block42 = new byte[32];
+      m_stream.read(block42);
+      System.out.println("BLOCK42");
+      System.out.println(MPPUtility.hexdump(block42, true, 16, ""));
+
+      readDatePair(map, "UNKNOWN_DATE11");
+
+      new UnknownTableReader(m_stream).read();
+
+      byte[] block43 = new byte[8];
+      m_stream.read(block43);
+      System.out.println("BLOCK43");
+      System.out.println(MPPUtility.hexdump(block43, true, 16, ""));
 
       m_rows.add(new MapRow(map));
    }

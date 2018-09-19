@@ -27,10 +27,13 @@ class CalendarReader extends TableReader
 
       System.out.println("CALENDAR");
 
-      byte[] block1 = new byte[32];
+      byte[] block1 = new byte[16];
       m_stream.read(block1);
       System.out.println("BLOCK1");
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+
+      map.put("UUID", SynchroUtility.getUUID(m_stream));
+      System.out.println("UUID: " + map.get("GUID"));
 
       String calendarName = SynchroUtility.getString(m_stream);
       System.out.println("Calendar name: " + calendarName);
