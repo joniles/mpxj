@@ -4,7 +4,9 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 abstract class TableReader
 {
@@ -37,7 +39,9 @@ abstract class TableReader
             throw new IllegalArgumentException("Unexpected file format");
          }
 
-         readRow();
+         Map<String, Object> map = new HashMap<String, Object>();
+         readRow(map);
+         m_rows.add(new MapRow(map));
       }
 
       int tableTrailer = SynchroUtility.getInt(m_stream);
@@ -49,8 +53,8 @@ abstract class TableReader
 
    protected abstract int rowMagicNumber();
 
-   protected abstract void readRow() throws IOException;
+   protected abstract void readRow(Map<String, Object> map) throws IOException;
 
    protected final InputStream m_stream;
-   protected final List<MapRow> m_rows = new ArrayList<MapRow>();
+   private final List<MapRow> m_rows = new ArrayList<MapRow>();
 }

@@ -3,7 +3,6 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
@@ -15,10 +14,8 @@ class TaskReader extends TableReader
       super(stream);
    }
 
-   @Override protected void readRow() throws IOException
+   @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
-
       byte[] block1 = new byte[16];
       m_stream.read(block1);
       System.out.println("BLOCK1");
@@ -257,8 +254,6 @@ class TaskReader extends TableReader
       m_stream.read(block43);
       System.out.println("BLOCK43");
       System.out.println(MPPUtility.hexdump(block43, true, 16, ""));
-
-      m_rows.add(new MapRow(map));
    }
 
    private void readDatePair(Map<String, Object> map, String name) throws IOException

@@ -3,7 +3,6 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
@@ -15,10 +14,8 @@ class UserFieldReader extends TableReader
       super(stream);
    }
 
-   @Override protected void readRow() throws IOException
+   @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
-
       byte[] block1 = new byte[16];
       m_stream.read(block1);
       String value = SynchroUtility.getString(m_stream);
@@ -29,7 +26,6 @@ class UserFieldReader extends TableReader
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
       System.out.println("Value: " + value);
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
-      m_rows.add(new MapRow(map));
    }
 
    @Override protected int rowMagicNumber()

@@ -3,7 +3,6 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
@@ -15,10 +14,8 @@ class ResourceReader extends TableReader
       super(stream);
    }
 
-   @Override protected void readRow() throws IOException
+   @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
-
       System.out.println("RESOURCE");
 
       byte[] block1 = new byte[16];
@@ -107,8 +104,6 @@ class ResourceReader extends TableReader
 
       map.put("UNIQUE_ID", SynchroUtility.getInteger(m_stream));
       System.out.println("Unique ID: " + map.get("UNIQUE_ID"));
-
-      m_rows.add(new MapRow(map));
    }
 
    @Override protected int rowMagicNumber()

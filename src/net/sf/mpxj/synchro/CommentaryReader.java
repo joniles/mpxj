@@ -3,7 +3,6 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.mpp.MPPUtility;
@@ -15,10 +14,8 @@ class CommentaryReader extends TableReader
       super(stream);
    }
 
-   @Override protected void readRow() throws IOException
+   @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
-
       System.out.println("COMMENTARY");
 
       byte[] block1 = new byte[32];
@@ -38,8 +35,6 @@ class CommentaryReader extends TableReader
       byte[] block3 = new byte[8];
       m_stream.read(block3);
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
-
-      m_rows.add(new MapRow(map));
    }
 
    @Override protected int rowMagicNumber()
