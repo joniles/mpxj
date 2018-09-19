@@ -19,7 +19,7 @@ class CommentaryReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != 0x05972BB6)
+      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -45,5 +45,10 @@ class CommentaryReader extends TableReader
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
 
       m_rows.add(new MapRow(map));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x05972BB6;
    }
 }

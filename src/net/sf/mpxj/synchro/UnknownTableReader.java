@@ -37,5 +37,9 @@ class UnknownTableReader extends TableReader
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
    }
 
+   @Override protected int rowMagicNumber()
+   {
+      return 0;
+   }
    private final int m_rowSize;
 }

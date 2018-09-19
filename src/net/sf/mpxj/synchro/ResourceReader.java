@@ -19,7 +19,7 @@ class ResourceReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != 0x57A85C31)
+      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -114,5 +114,10 @@ class ResourceReader extends TableReader
       System.out.println("Unique ID: " + map.get("UNIQUE_ID"));
 
       m_rows.add(new MapRow(map));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x57A85C31;
    }
 }

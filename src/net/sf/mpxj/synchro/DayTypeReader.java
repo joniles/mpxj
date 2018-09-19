@@ -20,7 +20,7 @@ class DayTypeReader extends TableReader
       Map<String, Object> map = new HashMap<String, Object>();
 
       int recordHeader = SynchroUtility.getInt(m_stream);
-      if (recordHeader != 0xC4F4C21D)
+      if (recordHeader != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -56,5 +56,10 @@ class DayTypeReader extends TableReader
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
 
       m_rows.add(new MapRow(map));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0xC4F4C21D;
    }
 }

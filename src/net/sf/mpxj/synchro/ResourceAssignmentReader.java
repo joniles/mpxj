@@ -22,7 +22,7 @@ class ResourceAssignmentReader extends TableReader
       Map<String, Object> map = new HashMap<String, Object>();
 
       int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != 0x4623D899)
+      if (taskRecordHeader != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -32,5 +32,10 @@ class ResourceAssignmentReader extends TableReader
       System.out.println(MPPUtility.hexdump(data, true, 16, ""));
 
       m_rows.add(new MapRow(map));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x4623D899;
    }
 }

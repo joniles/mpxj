@@ -41,6 +41,8 @@ abstract class TableReader
       }
    }
 
+   protected abstract int rowMagicNumber();
+
    protected abstract void readRow() throws IOException;
 
    protected final InputStream m_stream;

@@ -22,7 +22,7 @@ class CostReader extends TableReader
       Map<String, Object> map = new HashMap<String, Object>();
 
       int taskRecordHeader = SynchroUtility.getInt(m_stream);
-      if (taskRecordHeader != 0x04E30E9C)
+      if (taskRecordHeader != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -39,5 +39,10 @@ class CostReader extends TableReader
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
 
       m_rows.add(new MapRow(map));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x04E30E9C;
    }
 }

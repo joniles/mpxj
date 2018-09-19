@@ -20,7 +20,7 @@ class CalendarReader extends TableReader
       Map<String, Object> map = new HashMap<String, Object>();
 
       int recordHeader = SynchroUtility.getInt(m_stream);
-      if (recordHeader != 0x7FEC261D)
+      if (recordHeader != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -62,5 +62,10 @@ class CalendarReader extends TableReader
       map.put("NAME", calendarName);
 
       m_rows.add(new MapRow(map));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x7FEC261D;
    }
 }

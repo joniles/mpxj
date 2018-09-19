@@ -19,7 +19,7 @@ class UserFieldReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != 0x440A7BA3)
+      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -36,4 +36,10 @@ class UserFieldReader extends TableReader
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
       m_rows.add(new MapRow(map));
    }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x440A7BA3;
+   }
+
 }

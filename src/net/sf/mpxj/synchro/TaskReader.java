@@ -19,7 +19,7 @@ class TaskReader extends TableReader
    {
       Map<String, Object> map = new HashMap<String, Object>();
 
-      if (SynchroUtility.getInt(m_stream) != 0x04EC2576)
+      if (SynchroUtility.getInt(m_stream) != rowMagicNumber())
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -273,5 +273,10 @@ class TaskReader extends TableReader
       byte[] extra = new byte[4];
       m_stream.read(extra);
       System.out.println(name + " extra: " + MPPUtility.hexdump(extra, true, 16, ""));
+   }
+
+   @Override protected int rowMagicNumber()
+   {
+      return 0x04EC2576;
    }
 }
