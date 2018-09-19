@@ -18,10 +18,6 @@ class CostReader extends TableReader
    {
       System.out.println("COST");
 
-      byte[] block1 = new byte[32];
-      m_stream.read(block1);
-      System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
-
       String costName = SynchroUtility.getString(m_stream);
       System.out.println("Cost name: " + costName);
 

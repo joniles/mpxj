@@ -18,7 +18,7 @@ class ResourceAssignmentReader extends TableReader
    {
       System.out.println("RESOURCE ASSIGNMENT");
 
-      byte[] data = new byte[211];
+      byte[] data = new byte[179];
       m_stream.read(data);
       System.out.println(MPPUtility.hexdump(data, true, 16, ""));
    }

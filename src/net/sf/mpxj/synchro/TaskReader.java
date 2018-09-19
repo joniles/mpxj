@@ -16,14 +16,6 @@ class TaskReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      byte[] block1 = new byte[16];
-      m_stream.read(block1);
-      System.out.println("BLOCK1");
-      System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
-
-      map.put("UUID", SynchroUtility.getUUID(m_stream));
-      System.out.println("UUID: " + map.get("UUID"));
-
       byte[] blockx = new byte[1];
       m_stream.read(blockx);
       System.out.println("BLOCKX");
@@ -134,12 +126,15 @@ class TaskReader extends TableReader
       //      System.out.println("BLOCK3");
       //      System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
 
-      byte[] block31 = new byte[12];
+      byte[] block31 = new byte[8];
       m_stream.read(block31);
       System.out.println("BLOCK31");
       System.out.println(MPPUtility.hexdump(block31, true, 16, ""));
 
-      readDatePair(map, "UNKNOWN_DATE5");
+      map.put("CONSTRAINT_TYPE", SynchroUtility.getInteger(m_stream));
+      System.out.println("Constraint Type: " + map.get("CONSTRAINT_TYPE"));
+
+      readDatePair(map, "CONSTRAINT_EARLY_DATE");
       readDatePair(map, "UNKNOWN_DATE6");
 
       byte[] block32 = new byte[78];
@@ -246,7 +241,7 @@ class TaskReader extends TableReader
       System.out.println("BLOCK42");
       System.out.println(MPPUtility.hexdump(block42, true, 16, ""));
 
-      readDatePair(map, "UNKNOWN_DATE11");
+      readDatePair(map, "EXPECTED_FINISH");
 
       new UnknownTableReader(m_stream).read();
 

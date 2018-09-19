@@ -28,9 +28,13 @@ class UserFieldReader extends TableReader
       System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
    }
 
+   @Override protected boolean hasUUID()
+   {
+      return false;
+   }
+
    @Override protected int rowMagicNumber()
    {
       return 0x440A7BA3;
    }
-
 }

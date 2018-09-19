@@ -18,6 +18,7 @@ class DayTypeReader extends TableReader
    {
       System.out.println("DAY TYPE");
 
+      // This doesn't follow the 16 bytes + UUID pattern
       byte[] block1 = new byte[16];
       m_stream.read(block1);
       System.out.println("BLOCK1");
@@ -45,6 +46,11 @@ class DayTypeReader extends TableReader
       m_stream.read(block3);
       System.out.println("BLOCK3");
       System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
+   }
+
+   protected boolean hasUUID()
+   {
+      return false;
    }
 
    @Override protected int rowMagicNumber()

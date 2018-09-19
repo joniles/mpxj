@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.mpp.MPPUtility;
+
 abstract class TableReader
 {
    public TableReader(InputStream stream)
@@ -40,6 +42,18 @@ abstract class TableReader
          }
 
          Map<String, Object> map = new HashMap<String, Object>();
+
+         if (hasUUID())
+         {
+            byte[] block1 = new byte[16];
+            m_stream.read(block1);
+            System.out.println("BLOCK1");
+            System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+
+            map.put("UUID", SynchroUtility.getUUID(m_stream));
+            System.out.println("UUID: " + map.get("GUID"));
+         }
+
          readRow(map);
          m_rows.add(new MapRow(map));
       }
@@ -49,6 +63,11 @@ abstract class TableReader
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
+   }
+
+   protected boolean hasUUID()
+   {
+      return true;
    }
 
    protected abstract int rowMagicNumber();

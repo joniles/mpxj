@@ -18,7 +18,7 @@ class CompanyReader extends TableReader
    {
       System.out.println("COMPANY");
 
-      byte[] block1 = new byte[52];
+      byte[] block1 = new byte[20];
       m_stream.read(block1);
       System.out.println("BLOCK1");
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));

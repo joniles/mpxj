@@ -16,7 +16,7 @@ class RelationReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      byte[] block1 = new byte[92];
+      byte[] block1 = new byte[60];
       m_stream.read(block1);
       System.out.println("RELATION");
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));

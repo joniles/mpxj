@@ -39,10 +39,16 @@ class UnknownTableReader extends TableReader
       System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
    }
 
+   protected boolean hasUUID()
+   {
+      return false;
+   }
+
    @Override protected int rowMagicNumber()
    {
       return m_rowMagicNumber;
    }
+
    private final int m_rowSize;
    private final int m_rowMagicNumber;
 }
