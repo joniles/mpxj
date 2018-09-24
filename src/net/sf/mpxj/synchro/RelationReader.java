@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 class RelationReader extends TableReader
 {
    public RelationReader(InputStream stream)
@@ -16,10 +14,8 @@ class RelationReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      byte[] block1 = new byte[60];
-      m_stream.read(block1);
-      System.out.println("RELATION");
-      System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+      StreamReader stream = new StreamReader(m_stream);
+      map.put("RELATION", stream.readBytes(60));
    }
 
    @Override protected int rowMagicNumber()

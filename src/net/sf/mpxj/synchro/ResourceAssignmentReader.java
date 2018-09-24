@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 class ResourceAssignmentReader extends TableReader
 {
    public ResourceAssignmentReader(InputStream stream)
@@ -16,11 +14,8 @@ class ResourceAssignmentReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      System.out.println("RESOURCE ASSIGNMENT");
-
-      byte[] data = new byte[179];
-      m_stream.read(data);
-      System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+      StreamReader stream = new StreamReader(m_stream);
+      map.put("UNKNOWN1", stream.readBytes(179));
    }
 
    @Override protected int rowMagicNumber()

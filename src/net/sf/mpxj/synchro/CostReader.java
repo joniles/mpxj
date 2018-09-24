@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 class CostReader extends TableReader
 {
    public CostReader(InputStream stream)
@@ -16,14 +14,10 @@ class CostReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      System.out.println("COST");
+      StreamReader stream = new StreamReader(m_stream);
 
-      String costName = SynchroUtility.getString(m_stream);
-      System.out.println("Cost name: " + costName);
-
-      byte[] block2 = new byte[20];
-      m_stream.read(block2);
-      System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
+      map.put("NAME", stream.readString());
+      map.put("UNKNOWN1", stream.readBytes(20));
    }
 
    @Override protected int rowMagicNumber()

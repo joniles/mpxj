@@ -4,10 +4,11 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.common.ByteArray;
 import net.sf.mpxj.mpp.MPPUtility;
 
 abstract class TableReader
@@ -22,7 +23,7 @@ abstract class TableReader
       return m_rows;
    }
 
-   public void read() throws IOException
+   public TableReader read() throws IOException
    {
       int tableHeader = SynchroUtility.getInt(m_stream);
       if (tableHeader != 0x39AF547A)
@@ -31,8 +32,6 @@ abstract class TableReader
       }
 
       int recordCount = SynchroUtility.getInt(m_stream);
-      System.out.println("recordCount: " + recordCount);
-
       for (int loop = 0; loop < recordCount; loop++)
       {
          int rowMagicNumber = SynchroUtility.getInt(m_stream);
@@ -41,20 +40,31 @@ abstract class TableReader
             throw new IllegalArgumentException("Unexpected file format");
          }
 
-         Map<String, Object> map = new HashMap<String, Object>();
+         // We use a LinkedHashMap to preserve insertion order in iteration
+         // Useful when debugging the file format.
+         Map<String, Object> map = new LinkedHashMap<String, Object>();
 
          if (hasUUID())
          {
+            // TODO: replace with StreamReader
             byte[] block1 = new byte[16];
             m_stream.read(block1);
             System.out.println("BLOCK1");
             System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
 
+            map.put("UNKNOWN0", new ByteArray(block1));
             map.put("UUID", SynchroUtility.getUUID(m_stream));
-            System.out.println("UUID: " + map.get("GUID"));
          }
 
          readRow(map);
+
+         System.out.println(getClass().getSimpleName());
+         for (Map.Entry<String, Object> entry : map.entrySet())
+         {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+         }
+         System.out.println();
+
          m_rows.add(new MapRow(map));
       }
 
@@ -63,6 +73,8 @@ abstract class TableReader
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
+
+      return this;
    }
 
    protected boolean hasUUID()

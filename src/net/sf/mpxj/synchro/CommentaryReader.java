@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 class CommentaryReader extends TableReader
 {
    public CommentaryReader(InputStream stream)
@@ -16,21 +14,12 @@ class CommentaryReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      System.out.println("COMMENTARY");
+      StreamReader stream = new StreamReader(m_stream);
 
-      map.put("TEXT", SynchroUtility.getString(m_stream));
-      System.out.println("Text: " + map.get("TEXT"));
-
-      byte[] block2 = new byte[48];
-      m_stream.read(block2);
-      System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
-
-      map.put("TITLE", SynchroUtility.getString(m_stream));
-      System.out.println("Title: " + map.get("TITLE"));
-
-      byte[] block3 = new byte[8];
-      m_stream.read(block3);
-      System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
+      map.put("TEXT", stream.readString());
+      map.put("UNKNOWN1", stream.readBytes(48));
+      map.put("TITLE", stream.readString());
+      map.put("UNKNOWN2", stream.readBytes(8));
    }
 
    @Override protected int rowMagicNumber()

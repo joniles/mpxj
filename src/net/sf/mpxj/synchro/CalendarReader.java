@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 class CalendarReader extends TableReader
 {
    public CalendarReader(InputStream stream)
@@ -16,33 +14,14 @@ class CalendarReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      System.out.println("CALENDAR");
+      StreamReader stream = new StreamReader(m_stream);
 
-      String calendarName = SynchroUtility.getString(m_stream);
-      System.out.println("Calendar name: " + calendarName);
-
-      System.out.println("UNKNOWN TABLE 1");
-      UnknownTableReader unknown1 = new UnknownTableReader(m_stream);
-      unknown1.read();
-
-      byte[] block2 = new byte[120];
-      m_stream.read(block2);
-      System.out.println("BLOCK2");
-      System.out.println(MPPUtility.hexdump(block2, true, 16, ""));
-
-      System.out.println("UNKNOWN TABLE 2");
-      UnknownTableReader unknown2 = new UnknownTableReader(m_stream, 28, 0xD1A3D6C);
-      unknown2.read();
-
-      DayTypeReader dayTypeReader = new DayTypeReader(m_stream);
-      dayTypeReader.read();
-
-      byte[] block3 = new byte[8];
-      m_stream.read(block3);
-      System.out.println("BLOCK3");
-      System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
-
-      map.put("NAME", calendarName);
+      map.put("NAME", stream.readString());
+      map.put("UNKNOWN1", stream.readTable(UnknownTableReader.class));
+      map.put("UNKNOWN2", stream.readBytes(120));
+      map.put("UNKNOWN3", stream.readTable(new UnknownTableReader(m_stream, 28, 0xD1A3D6C)));
+      map.put("DAY_TYPES", stream.readTable(DayTypeReader.class));
+      map.put("UNKNOWN4", stream.readBytes(8));
    }
 
    @Override protected int rowMagicNumber()

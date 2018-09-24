@@ -110,6 +110,26 @@ class MapRow
       return (List<MapRow>) getObject(name);
    }
 
+   @Override public String toString()
+   {
+      StringBuilder sb = new StringBuilder();
+
+      for (Map.Entry<String, Object> entry : m_map.entrySet())
+      {
+
+         if (sb.length() != 0)
+         {
+            sb.append(", ");
+         }
+         sb.append(entry.getKey());
+         sb.append('=');
+         sb.append(entry.getValue());
+
+      }
+
+      return "[MapRow " + sb.toString() + "]";
+   }
+
    /**
     * Retrieve a value without being specific about its type.
     *
