@@ -23,6 +23,8 @@ class UnknownTableReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
+      StreamReader stream = new StreamReader(m_stream);
+
       if (m_rowSize == 0)
       {
          System.out.println("REMAINDER");
@@ -33,13 +35,10 @@ class UnknownTableReader extends TableReader
          throw new IllegalArgumentException("Unexpected records!");
       }
 
-      byte[] block1 = new byte[m_rowSize];
-      m_stream.read(block1);
-      System.out.println("BLOCK1");
-      System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
+      map.put("UNKNOWN1", stream.readBytes(m_rowSize));
    }
 
-   protected boolean hasUUID()
+   @Override protected boolean hasUUID()
    {
       return false;
    }

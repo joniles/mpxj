@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 class ResourceReader extends TableReader
 {
    public ResourceReader(InputStream stream)
@@ -16,86 +14,35 @@ class ResourceReader extends TableReader
 
    @Override protected void readRow(Map<String, Object> map) throws IOException
    {
-      System.out.println("RESOURCE");
-
-      map.put("NAME", SynchroUtility.getString(m_stream));
-      System.out.println("Resource name: " + map.get("NAME"));
-
-      map.put("DESCRIPTION", SynchroUtility.getString(m_stream));
-      System.out.println("Resource description: " + map.get("DESCRIPTION"));
-
-      if (SynchroUtility.getInt(m_stream) != 0)
+      StreamReader stream = new StreamReader(m_stream);
+      map.put("NAME", stream.readString());
+      map.put("DESCRIPTION", stream.readString());
+      Integer supplyReferenceFlag = stream.readInteger();
+      map.put("SUPPLY_REFERENCE_FLAG", supplyReferenceFlag);
+      if (supplyReferenceFlag.intValue() != 0)
       {
-         map.put("SUPPLY_REFERENCE", SynchroUtility.getString(m_stream));
-         System.out.println("Supply reference: " + map.get("SUPPLY_REFERENCE"));
+         map.put("SUPPLY_REFERENCE", stream.readString());
       }
-
-      byte[] block3 = new byte[48];
-      m_stream.read(block3);
-      System.out.println("BLOCK3");
-      System.out.println(MPPUtility.hexdump(block3, true, 16, ""));
-
-      ResourceReader resourceReader = new ResourceReader(m_stream);
-      resourceReader.read();
-      map.put("RESOURCES", resourceReader.getRows());
-
-      byte[] block4 = new byte[20];
-      m_stream.read(block4);
-      System.out.println("BLOCK4");
-      System.out.println(MPPUtility.hexdump(block4, true, 16, ""));
-
-      map.put("URL", SynchroUtility.getString(m_stream));
-      System.out.println("Url: " + map.get("URL"));
-
-      if (SynchroUtility.getBoolean(m_stream))
-      {
-         UserFieldReader userFieldReader = new UserFieldReader(m_stream);
-         userFieldReader.read();
-         map.put("USER_FIELDS", userFieldReader.getRows());
-      }
-
-      map.put("ID", SynchroUtility.getString(m_stream));
-      System.out.println("ID:" + map.get("ID"));
-
-      map.put("EMAIL", SynchroUtility.getString(m_stream));
-      System.out.println("Email address:" + map.get("EMAIL"));
-
+      map.put("UNKNOWN1", stream.readBytes(48));
+      map.put("RESOURCES", stream.readTable(ResourceReader.class));
+      map.put("UNKNOWN2", stream.readBytes(20));
+      map.put("URL", stream.readString());
+      map.put("USER_FIELDS", stream.readTableConditional(UserFieldReader.class));
+      map.put("ID", stream.readString());
+      map.put("EMAIL", stream.readString());
       // NOTE: this contains nested tables
-      UnknownTableReader unknownTable2 = new UnknownTableReader(m_stream, 64, 0x701BAFBD);
-      unknownTable2.read();
-
-      byte[] block5 = new byte[30];
-      m_stream.read(block5);
-      System.out.println("BLOCK5");
-      System.out.println(MPPUtility.hexdump(block5, true, 16, ""));
-
-      if (SynchroUtility.getBoolean(m_stream))
+      map.put("UNKNOWN3", stream.readUnknownTable(64, 0x701BAFBD));
+      map.put("UNKNOWN4", stream.readBytes(30));
+      map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
+      map.put("UNKNOWN5", stream.readBytes(48));
+      Integer unknown6Flag = stream.readInteger();
+      map.put("UNKNOWN6_FLAG", unknown6Flag);
+      if (unknown6Flag.intValue() != 0)
       {
-         CommentaryReader commentaryReader = new CommentaryReader(m_stream);
-         commentaryReader.read();
-         map.put("COMMENTARY", commentaryReader.getRows());
+         map.put("UNKNOWN6", stream.readBytes(76));
       }
-
-      byte[] block6 = new byte[48];
-      m_stream.read(block6);
-      System.out.println("BLOCK6");
-      System.out.println(MPPUtility.hexdump(block6, true, 16, ""));
-
-      if (SynchroUtility.getInt(m_stream) != 0)
-      {
-         byte[] block7 = new byte[76];
-         m_stream.read(block7);
-         System.out.println("BLOCK7");
-         System.out.println(MPPUtility.hexdump(block7, true, 16, ""));
-      }
-
-      byte[] block8 = new byte[12];
-      m_stream.read(block8);
-      System.out.println("BLOCK8");
-      System.out.println(MPPUtility.hexdump(block8, true, 16, ""));
-
-      map.put("UNIQUE_ID", SynchroUtility.getInteger(m_stream));
-      System.out.println("Unique ID: " + map.get("UNIQUE_ID"));
+      map.put("UNKNOWN7", stream.readBytes(12));
+      map.put("UNIQUE_ID", stream.readInteger());
    }
 
    @Override protected int rowMagicNumber()

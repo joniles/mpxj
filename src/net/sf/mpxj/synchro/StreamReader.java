@@ -30,6 +30,13 @@ class StreamReader
       return reader.getRows();
    }
 
+   public List<MapRow> readUnknownTable(int rowSize, int rowMagicNumber) throws IOException
+   {
+      TableReader reader = new UnknownTableReader(m_stream, rowSize, rowMagicNumber);
+      reader.read();
+      return reader.getRows();
+   }
+
    public List<MapRow> readTable(Class<? extends TableReader> readerClass) throws IOException
    {
       TableReader reader;

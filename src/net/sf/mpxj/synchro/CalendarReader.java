@@ -19,7 +19,7 @@ class CalendarReader extends TableReader
       map.put("NAME", stream.readString());
       map.put("UNKNOWN1", stream.readTable(UnknownTableReader.class));
       map.put("UNKNOWN2", stream.readBytes(120));
-      map.put("UNKNOWN3", stream.readTable(new UnknownTableReader(m_stream, 28, 0xD1A3D6C)));
+      map.put("UNKNOWN3", stream.readUnknownTable(28, 0xD1A3D6C));
       map.put("DAY_TYPES", stream.readTable(DayTypeReader.class));
       map.put("UNKNOWN4", stream.readBytes(8));
    }
