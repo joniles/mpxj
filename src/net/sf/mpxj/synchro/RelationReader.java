@@ -14,7 +14,14 @@ class RelationReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      map.put("RELATION", stream.readBytes(60));
+      map.put("PREDECESSOR_UUID", stream.readUUID());
+      map.put("RELATION_TYPE", stream.readInteger()); // FS=1 SF=2 SS=3 FF=4
+      map.put("UNKNOWN1", stream.readBytes(4));
+      map.put("LAG", stream.readDuration());
+      map.put("UNKNOWN2", stream.readBytes(4));
+      map.put("LAG_IS_NEGATIVE", Boolean.valueOf(stream.readInt() == 2));
+      map.put("CALENDAR_UUID", stream.readUUID());
+      map.put("UNKNOWN3", stream.readBytes(8));
    }
 
    @Override protected int rowMagicNumber()
