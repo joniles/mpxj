@@ -94,6 +94,11 @@ class StreamReader
       return SynchroUtility.getDuration(m_stream);
    }
 
+   public int readInt() throws IOException
+   {
+      return SynchroUtility.getInt(m_stream);
+   }
+
    public Integer readInteger() throws IOException
    {
       return SynchroUtility.getInteger(m_stream);

@@ -8,14 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.ByteArray;
-import net.sf.mpxj.mpp.MPPUtility;
-
 abstract class TableReader
 {
    public TableReader(InputStream stream)
    {
-      m_stream = stream;
+      m_stream = new StreamReader(stream);
    }
 
    public List<MapRow> getRows()
@@ -25,16 +22,16 @@ abstract class TableReader
 
    public TableReader read() throws IOException
    {
-      int tableHeader = SynchroUtility.getInt(m_stream);
+      int tableHeader = m_stream.readInt();
       if (tableHeader != 0x39AF547A)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
 
-      int recordCount = SynchroUtility.getInt(m_stream);
+      int recordCount = m_stream.readInt();
       for (int loop = 0; loop < recordCount; loop++)
       {
-         int rowMagicNumber = SynchroUtility.getInt(m_stream);
+         int rowMagicNumber = m_stream.readInt();
          if (rowMagicNumber != rowMagicNumber())
          {
             throw new IllegalArgumentException("Unexpected file format");
@@ -46,17 +43,11 @@ abstract class TableReader
 
          if (hasUUID())
          {
-            // TODO: replace with StreamReader
-            byte[] block1 = new byte[16];
-            m_stream.read(block1);
-            System.out.println("BLOCK1");
-            System.out.println(MPPUtility.hexdump(block1, true, 16, ""));
-
-            map.put("UNKNOWN0", new ByteArray(block1));
-            map.put("UUID", SynchroUtility.getUUID(m_stream));
+            map.put("UNKNOWN0", m_stream.readBytes(16));
+            map.put("UUID", m_stream.readUUID());
          }
 
-         readRow(map);
+         readRow(m_stream, map);
 
          System.out.println(getClass().getSimpleName());
          for (Map.Entry<String, Object> entry : map.entrySet())
@@ -68,7 +59,7 @@ abstract class TableReader
          m_rows.add(new MapRow(map));
       }
 
-      int tableTrailer = SynchroUtility.getInt(m_stream);
+      int tableTrailer = m_stream.readInt();
       if (tableTrailer != 0x6F99E416)
       {
          throw new IllegalArgumentException("Unexpected file format");
@@ -84,8 +75,8 @@ abstract class TableReader
 
    protected abstract int rowMagicNumber();
 
-   protected abstract void readRow(Map<String, Object> map) throws IOException;
+   protected abstract void readRow(StreamReader stream, Map<String, Object> map) throws IOException;
 
-   protected final InputStream m_stream;
+   protected final StreamReader m_stream;
    private final List<MapRow> m_rows = new ArrayList<MapRow>();
 }

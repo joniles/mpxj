@@ -12,10 +12,8 @@ class CostReader extends TableReader
       super(stream);
    }
 
-   @Override protected void readRow(Map<String, Object> map) throws IOException
+   @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      StreamReader stream = new StreamReader(m_stream);
-
       map.put("NAME", stream.readString());
       map.put("UNKNOWN1", stream.readBytes(20));
    }

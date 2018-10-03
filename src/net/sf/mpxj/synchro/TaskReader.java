@@ -12,10 +12,8 @@ class TaskReader extends TableReader
       super(stream);
    }
 
-   @Override protected void readRow(Map<String, Object> map) throws IOException
+   @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      StreamReader stream = new StreamReader(m_stream);
-
       map.put("UNKNOWN1", stream.readByte());
       map.put("RESOURCE_ASSIGNMENTS", stream.readTable(ResourceAssignmentReader.class));
       map.put("UNKNOWN2", stream.readBytes(4));
