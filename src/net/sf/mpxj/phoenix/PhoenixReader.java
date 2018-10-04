@@ -669,8 +669,8 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void readRelation(Relationship relation)
    {
-      Task predecessor = m_projectFile.getTaskByUniqueID(relation.getPredecessor());
-      Task successor = m_projectFile.getTaskByUniqueID(relation.getSuccessor());
+      Task predecessor = m_activityMap.get(relation.getPredecessor());
+      Task successor = m_activityMap.get(relation.getSuccessor());
       if (predecessor != null && successor != null)
       {
          Duration lag = relation.getLag();
