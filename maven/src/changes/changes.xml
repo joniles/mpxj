@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.6.3">
+		<release date="git master" version="7.6.4">
+		</release>
+		<release date="04/10/2018" version="7.6.3">
 			<action dev="joniles" type="add">Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)</action>
 			<action dev="joniles" type="add">Add support for reading Retained Logic and Progressive Override project attributes from P6. (Contributed by forenpm)</action>
 			<action dev="joniles" type="update">Fix incorrect sign when calculating start and finish slack (Contributed by Brian Leach).</action>
