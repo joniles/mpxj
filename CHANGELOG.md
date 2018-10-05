@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.6.4 (git master)
+* Add support for reading the activity code (ID) from Asta files.
 
 ## 7.6.3 (04/10/2018)
 * Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)

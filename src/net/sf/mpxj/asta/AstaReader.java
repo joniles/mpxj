@@ -37,6 +37,7 @@ import java.util.Map.Entry;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -54,6 +55,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -81,6 +83,9 @@ final class AstaReader
 
       m_project.getProjectProperties().setFileApplication("Asta");
       m_project.getProjectProperties().setFileType("PP");
+
+      CustomFieldContainer fields = m_project.getCustomFields();
+      fields.getCustomField(TaskField.TEXT1).setAlias("Code");
    }
 
    /**
@@ -425,7 +430,7 @@ final class AstaReader
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       task.setNotes(getNotes(row));
-      //UNIQUE_TASK_ID
+      task.setText(1, row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
@@ -542,7 +547,7 @@ final class AstaReader
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       //NOTET
-      //UNIQUE_TASK_ID
+      task.setText(1, row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
@@ -569,7 +574,6 @@ final class AstaReader
       //LAST_EDITED_DATE
       //LAST_EDITED_BY
       task.setDuration(Duration.getInstance(0, TimeUnit.HOURS));
-
    }
 
    /**
