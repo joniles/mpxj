@@ -24,6 +24,11 @@ class StreamReader
       return Integer.valueOf(m_stream.read());
    }
 
+   public Boolean readBoolean() throws IOException
+   {
+      return Boolean.valueOf(SynchroUtility.getBoolean(m_stream));
+   }
+
    public List<MapRow> readTable(TableReader reader) throws IOException
    {
       reader.read();

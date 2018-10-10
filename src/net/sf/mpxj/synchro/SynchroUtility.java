@@ -106,7 +106,6 @@ final class SynchroUtility
    public static boolean getBoolean(InputStream is) throws IOException
    {
       int value = is.read();
-      //System.out.println("Boolean: " + value);
       return value != 0;
    }
 
