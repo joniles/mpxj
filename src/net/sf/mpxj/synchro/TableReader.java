@@ -60,12 +60,19 @@ abstract class TableReader
          throw new IllegalArgumentException("Unexpected file format");
       }
 
+      postTrailer(m_stream);
+
       return this;
    }
 
    protected boolean hasUUID()
    {
       return true;
+   }
+
+   protected void postTrailer(StreamReader stream) throws IOException
+   {
+      // Default implementation
    }
 
    protected abstract int rowMagicNumber();

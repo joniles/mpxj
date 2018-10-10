@@ -51,6 +51,17 @@ class MapRow
    }
 
    /**
+    * Retrieve a double value.
+    *
+    * @param name column name
+    * @return double value
+    */
+   public final Double getDouble(String name)
+   {
+      return (Double) getObject(name);
+   }
+
+   /**
     * Retrieve a relation type value.
     *
     * @param name column name
@@ -105,7 +116,7 @@ class MapRow
       return (UUID) getObject(name);
    }
 
-   public final List<MapRow> getRows(String name)
+   @SuppressWarnings("unchecked") public final List<MapRow> getRows(String name)
    {
       return (List<MapRow>) getObject(name);
    }

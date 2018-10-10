@@ -4,6 +4,7 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.UUID;
 
 class CalendarReader extends TableReader
 {
@@ -30,8 +31,20 @@ class CalendarReader extends TableReader
       map.put("UNKNOWN4", stream.readBytes(8));
    }
 
+   @Override protected void postTrailer(StreamReader stream) throws IOException
+   {
+      m_defaultCalendarUUID = stream.readUUID();
+   }
+
    @Override protected int rowMagicNumber()
    {
       return 0x7FEC261D;
    }
+
+   public UUID getDefaultCalendarUUID()
+   {
+      return m_defaultCalendarUUID;
+   }
+
+   private UUID m_defaultCalendarUUID;
 }

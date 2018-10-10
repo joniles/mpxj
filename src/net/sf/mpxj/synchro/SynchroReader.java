@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
-import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
@@ -50,6 +50,7 @@ public final class SynchroReader extends AbstractProjectReader
       {
          SynchroLogger.setLogFile("c:/temp/project1.txt");
          SynchroLogger.openLogFile();
+         m_calendarMap = new HashMap<UUID, ProjectCalendar>();
          m_data = new SynchroData();
          m_data.process(inputStream);
          return read();
@@ -60,6 +61,12 @@ public final class SynchroReader extends AbstractProjectReader
          SynchroLogger.closeLogFile();
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
+
+      finally
+      {
+         m_data = null;
+         m_calendarMap = null;
+      }
    }
 
    private ProjectFile read() throws Exception
@@ -67,7 +74,6 @@ public final class SynchroReader extends AbstractProjectReader
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
 
-      ProjectConfig config = m_project.getProjectConfig();
       m_project.getProjectProperties().setFileApplication("Synchro");
       m_project.getProjectProperties().setFileType("SP");
 
@@ -92,6 +98,8 @@ public final class SynchroReader extends AbstractProjectReader
       {
          processCalendar(row);
       }
+
+      m_project.setDefaultCalendar(m_calendarMap.get(reader.getDefaultCalendarUUID()));
    }
 
    private void processCalendar(MapRow row)
@@ -115,6 +123,8 @@ public final class SynchroReader extends AbstractProjectReader
          Date date = assignment.getDate("DATE");
          processRanges(dayTypeMap.get(assignment.getUUID("DAY_TYPE_UUID")), calendar.addCalendarException(date, date));
       }
+
+      m_calendarMap.put(row.getUUID("UUID"), calendar);
    }
 
    private void processRanges(List<DateRange> ranges, ProjectCalendarDateRanges container)
@@ -161,7 +171,6 @@ public final class SynchroReader extends AbstractProjectReader
    private void processResource(MapRow row) throws IOException
    {
       Resource resource = m_project.addResource();
-      //resource.setUniqueID(row.getInteger("UNIQUE_ID"));
       resource.setName(row.getString("NAME"));
       resource.setGUID(row.getUUID("UUID"));
       resource.setEmailAddress(row.getString("EMAIL"));
@@ -197,8 +206,25 @@ public final class SynchroReader extends AbstractProjectReader
       task.setName(row.getString("NAME"));
       task.setGUID(row.getUUID("UUID"));
       task.setText(1, row.getString("ID"));
-      List<MapRow> tasks = row.getRows("TASKS");
+      task.setStart(row.getDate("START"));
+      task.setDuration(row.getDuration("DURATION"));
+      task.setHyperlink(row.getString("URL"));
+      task.setPercentageComplete(row.getDouble("PERCENT_COMPLETE"));
+      task.setNotes(getNotes(row.getRows("COMMENTARY")));
 
+      ProjectCalendar calendar = m_calendarMap.get(row.getUUID("CALENDAR_UUID"));
+      if (calendar != m_project.getDefaultCalendar())
+      {
+         task.setCalendar(calendar);
+      }
+
+      task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+      setConstraints(task, row);
+
+      //RESOURCE_ASSIGNMENTS: []
+      //RELATIONS: []
+
+      List<MapRow> tasks = row.getRows("TASKS");
       if (tasks != null)
       {
          for (MapRow childTask : tasks)
@@ -206,6 +232,96 @@ public final class SynchroReader extends AbstractProjectReader
             processTask(task, childTask);
          }
       }
+   }
+
+   private void setConstraints(Task task, MapRow row)
+   {
+      ConstraintType constraintType = null;
+      Date constraintDate = null;
+      Date lateDate = row.getDate("CONSTRAINT_LATE_DATE");
+      Date earlyDate = row.getDate("CONSTRAINT_EARLY_DATE");
+
+      switch (row.getInteger("CONSTRAINT_TYPE").intValue())
+      {
+         case 2: // Cannot Reschedule
+         {
+            constraintType = ConstraintType.MUST_START_ON;
+            constraintDate = task.getStart();
+            break;
+         }
+
+         case 12: //Finish Between
+         {
+            constraintType = ConstraintType.MUST_FINISH_ON;
+            constraintDate = lateDate;
+            break;
+         }
+
+         case 10: // Finish On or After
+         {
+            constraintType = ConstraintType.FINISH_NO_EARLIER_THAN;
+            constraintDate = earlyDate;
+            break;
+         }
+
+         case 11: // Finish On or Before
+         {
+            constraintType = ConstraintType.FINISH_NO_LATER_THAN;
+            constraintDate = lateDate;
+            break;
+         }
+
+         case 13: // Mandatory Start
+         case 5: // Start On
+         case 9: // Finish On
+         {
+            constraintType = ConstraintType.MUST_START_ON;
+            constraintDate = earlyDate;
+            break;
+         }
+
+         case 14: // Mandatory Finish
+         {
+            constraintType = ConstraintType.MUST_FINISH_ON;
+            constraintDate = earlyDate;
+            break;
+         }
+
+         case 4: // Start As Late As Possible
+         {
+            constraintType = ConstraintType.AS_LATE_AS_POSSIBLE;
+            break;
+         }
+
+         case 3: // Start As Soon As Possible
+         {
+            constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
+            break;
+         }
+
+         case 8: // Start Between
+         {
+            constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
+            constraintDate = earlyDate;
+            break;
+         }
+
+         case 6: // Start On or Before
+         {
+            constraintType = ConstraintType.START_NO_LATER_THAN;
+            constraintDate = earlyDate;
+            break;
+         }
+
+         case 15: // Work Between
+         {
+            constraintType = ConstraintType.START_NO_EARLIER_THAN;
+            constraintDate = earlyDate;
+            break;
+         }
+      }
+      task.setConstraintType(constraintType);
+      task.setConstraintDate(constraintDate);
    }
 
    private String getNotes(List<MapRow> rows)
@@ -244,4 +360,5 @@ public final class SynchroReader extends AbstractProjectReader
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+   private Map<UUID, ProjectCalendar> m_calendarMap;
 }
