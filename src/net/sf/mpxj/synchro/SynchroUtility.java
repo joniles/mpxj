@@ -169,6 +169,14 @@ final class SynchroUtility
       return DateHelper.getDateFromLong(timeInSeconds);
    }
 
+   public static final Date getTime(InputStream is) throws IOException
+   {
+      int timeValue = getInt(is);
+      timeValue -= 86400;
+      timeValue /= 60;
+      return DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(timeValue));
+   }
+
    public static final Duration getDuration(InputStream is) throws IOException
    {
       double durationInSeconds = getInt(is);

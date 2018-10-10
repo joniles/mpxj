@@ -3,7 +3,6 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -94,6 +93,11 @@ class StreamReader
       return SynchroUtility.getDate(m_stream);
    }
 
+   public Date readTime() throws IOException
+   {
+      return SynchroUtility.getTime(m_stream);
+   }
+
    public Duration readDuration() throws IOException
    {
       return SynchroUtility.getDuration(m_stream);
@@ -114,18 +118,25 @@ class StreamReader
       return SynchroUtility.getDouble(m_stream);
    }
 
-   public List<ByteArray> readBlocks(int size) throws IOException
+   public List<MapRow> readUnknownBlocks(int size) throws IOException
    {
-      List<ByteArray> result = new ArrayList<ByteArray>();
-      int fileCount = SynchroUtility.getInt(m_stream);
-      if (fileCount != 0)
+      return new UnknownBlockReader(m_stream, size).read();
+   }
+
+   public List<MapRow> readBlocks(Class<? extends BlockReader> readerClass) throws IOException
+   {
+      BlockReader reader;
+
+      try
       {
-         for (int index = 0; index < fileCount; index++)
-         {
-            result.add(readBytes(size));
-         }
+         reader = readerClass.getConstructor(InputStream.class).newInstance(m_stream);
       }
-      return result;
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      }
+
+      return reader.read();
    }
 
    private final InputStream m_stream;

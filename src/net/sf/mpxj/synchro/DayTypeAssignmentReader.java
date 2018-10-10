@@ -5,21 +5,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-class DayTypeReader extends TableReader
+class DayTypeAssignmentReader extends TableReader
 {
-   public DayTypeReader(InputStream stream)
+   public DayTypeAssignmentReader(InputStream stream)
    {
       super(stream);
    }
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      map.put("UUID", stream.readUUID());
-      map.put("NAME", stream.readString());
-      map.put("COLOR", stream.readBytes(12));
+      map.put("DATE", stream.readDate());
+      map.put("UNKNOWN1", stream.readBytes(4));
+      map.put("DAY_TYPE_UUID", stream.readUUID());
       map.put("UNKNOWN2", stream.readBytes(4));
-      map.put("TIME_RANGES", stream.readBlocks(TimeRangeBlockReader.class));
-      map.put("UNKNOWN3", stream.readBytes(8));
    }
 
    @Override protected boolean hasUUID()
@@ -29,6 +27,6 @@ class DayTypeReader extends TableReader
 
    @Override protected int rowMagicNumber()
    {
-      return 0xC4F4C21D;
+      return 0xD1A3D6C;
    }
 }
