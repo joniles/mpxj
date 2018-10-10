@@ -144,7 +144,7 @@ public final class PhoenixReader extends AbstractProjectReader
 
          Project phoenixProject = (Project) unmarshaller.unmarshal(doc);
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
-         readProjectProperties(phoenixProject.getSettings());
+         readProjectProperties(phoenixProject.getSettings(), storepoint);
          readCalendars(storepoint);
          readTasks(phoenixProject, storepoint);
          readResources(storepoint);
@@ -189,11 +189,12 @@ public final class PhoenixReader extends AbstractProjectReader
     *
     * @param phoenixSettings Phoenix settings
     */
-   private void readProjectProperties(Settings phoenixSettings)
+   private void readProjectProperties(Settings phoenixSettings, Storepoint storepoint)
    {
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
+      mpxjProperties.setStatusDate(storepoint.getDataDate());
    }
 
    /**

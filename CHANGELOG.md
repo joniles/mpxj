@@ -2,6 +2,7 @@
 
 ## 7.6.4 (git master)
 * Add support for reading the activity code (ID) from Asta files.
+* When reading a Phoenix file, set the project's status date to the data date from the storepoint.
 * Handle MSPDI files with timephased assignments that don't specify a start and end date.
 
 ## 7.6.3 (04/10/2018)

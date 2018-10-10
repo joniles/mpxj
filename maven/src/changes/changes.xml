@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="7.6.4">
 			<action dev="joniles" type="add">Add support for reading the activity code (ID) from Asta files.</action>
+			<action dev="joniles" type="add">When reading a Phoenix file, set the project's status date to the data date from the storepoint.</action>
 			<action dev="joniles" type="update">Handle MSPDI files with timephased assignments that don't specify a start and end date.</action>
 		</release>
 		<release date="04/10/2018" version="7.6.3">
