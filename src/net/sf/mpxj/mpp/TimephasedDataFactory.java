@@ -325,7 +325,7 @@ final class TimephasedDataFactory
       {
          LinkedList<TimephasedWork> list = null;
 
-         //System.out.println(MPPUtility.hexdump(data, false));
+         //System.out.println(ByteArrayHelper.hexdump(data, false));
          int index = 8; // 8 byte header
          int blockSize = 40;
          double previousCumulativeWorkPerformedInMinutes = 0;
@@ -400,7 +400,7 @@ final class TimephasedDataFactory
       {
          LinkedList<TimephasedCost> list = null;
 
-         //System.out.println(MPPUtility.hexdump(data, false));
+         //System.out.println(ByteArrayHelper.hexdump(data, false));
          int index = 16; // 16 byte header
          int blockSize = 20;
          double previousTotalCost = 0;

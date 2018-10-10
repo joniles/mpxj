@@ -236,7 +236,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
 
-      //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
+      //System.out.println (ByteArrayHelper.hexdump(subProjData, true, 16, ""));
       //MPPUtility.fileHexDump("c:\\temp\\dump.txt", subProjData);
 
       if (subProjData != null)
@@ -268,8 +268,8 @@ final class MPP12Reader implements MPPVariantReader
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
             //System.out.println();
-            //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
-            //System.out.println(MPPUtility.hexdump(subProjData, offset, 16, false));
+            //System.out.println (ByteArrayHelper.hexdump(itemHeader, false, 16, ""));
+            //System.out.println(ByteArrayHelper.hexdump(subProjData, offset, 16, false));
             //System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
             //System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
             //System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
@@ -1016,19 +1016,19 @@ final class MPP12Reader implements MPPVariantReader
             }
          }
 
-         //System.out.println (id+": "+MPPUtility.hexdump(data, false, 16, ""));
+         //System.out.println (id+": "+ByteArrayHelper.hexdump(data, false, 16, ""));
 
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
-         //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
-         //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));
+         //System.out.println (ByteArrayHelper.hexdump(data, false, 16, ""));
+         //System.out.println (ByteArrayHelper.hexdump(metaData, false, 16, ""));
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
 
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
-         //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
-         //System.out.println (MPPUtility.hexdump(data2, false, 16, ""));
+         //System.out.println (ByteArrayHelper.hexdump(metaData2, false, 16, ""));
+         //System.out.println (ByteArrayHelper.hexdump(data2, false, 16, ""));
 
          byte[] recurringData = taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.RECURRING_DATA));
 
@@ -1975,7 +1975,7 @@ final class MPP12Reader implements MPPVariantReader
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
       is.close();
-      //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
       ViewStateReader reader = new ViewStateReader12();
       reader.process(m_file, varData, fixedData);

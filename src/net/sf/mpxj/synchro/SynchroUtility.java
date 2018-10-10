@@ -13,6 +13,26 @@ import net.sf.mpxj.common.DateHelper;
 final class SynchroUtility
 {
 
+   public static String getSimpleString(byte[] data, int offset)
+   {
+      StringBuilder buffer = new StringBuilder();
+      char c;
+
+      for (int loop = 0; offset + loop < data.length; loop++)
+      {
+         c = (char) data[offset + loop];
+
+         if (c == 0)
+         {
+            break;
+         }
+
+         buffer.append(c);
+      }
+
+      return (buffer.toString());
+   }
+
    public static final int getInt(byte[] data, int offset)
    {
       int result = 0;
@@ -135,19 +155,6 @@ final class SynchroUtility
       long2 |= ((long) (data[15] & 0xFF)) << 0;
 
       return new UUID(long1, long2);
-   }
-
-   // for testing only
-   public static final Date getDate(byte[] data, int offset) throws IOException
-   {
-      long timeInSeconds = getInt(data, offset);
-      if (timeInSeconds == 0x93406FFF)
-      {
-         return null;
-      }
-      timeInSeconds -= 3600;
-      timeInSeconds *= 1000;
-      return DateHelper.getDateFromLong(timeInSeconds);
    }
 
    public static final Date getDate(InputStream is) throws IOException

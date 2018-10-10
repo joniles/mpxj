@@ -29,6 +29,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.TreeSet;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class represents the a block of variable length data items that appears
  * in the Microsoft Project 98 file format.
@@ -251,7 +253,7 @@ final class FixDeferFix extends MPPComponent
          }
 
          pw.println("   Data: offset: " + startOffset + " size: " + buffer.length);
-         pw.println("  " + MPPUtility.hexdump(buffer, true));
+         pw.println("  " + ByteArrayHelper.hexdump(buffer, true));
       }
 
       pw.println("END FixDeferFix");

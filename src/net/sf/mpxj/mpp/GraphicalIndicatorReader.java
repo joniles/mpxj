@@ -90,7 +90,7 @@ public final class GraphicalIndicatorReader
    private void processKnownType(FieldType type)
    {
       //System.out.println("Header: " + type);
-      //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
 
       GraphicalIndicator indicator = m_container.getCustomField(type).getGraphicalIndicator();
       indicator.setFieldType(type);
@@ -114,7 +114,7 @@ public final class GraphicalIndicatorReader
       m_dataOffset += 4;
 
       //System.out.println("Data");
-      //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, dataSize, false, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(m_data, m_dataOffset, dataSize, false, 16, ""));
 
       int maxNonSummaryRowOffset = m_dataOffset + summaryRowOffset;
       int maxSummaryRowOffset = m_dataOffset + projectSummaryOffset;

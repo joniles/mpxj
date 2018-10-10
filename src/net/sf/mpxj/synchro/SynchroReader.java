@@ -40,6 +40,8 @@ public final class SynchroReader extends AbstractProjectReader
    {
       try
       {
+         SynchroLogger.setLogFile("c:/temp/project1.txt");
+         SynchroLogger.openLogFile();
          m_data = new SynchroData();
          m_data.process(inputStream);
          return read();
@@ -47,6 +49,7 @@ public final class SynchroReader extends AbstractProjectReader
 
       catch (Exception ex)
       {
+         SynchroLogger.closeLogFile();
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
    }

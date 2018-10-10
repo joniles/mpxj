@@ -1339,7 +1339,7 @@ final class MPP8Reader implements MPPVariantReader
    //      System.out.println (name);
    //      for (int loop=0; loop < spec.length; loop++)
    //      {
-   //         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));
+   //         System.out.println (spec[loop][0] + ": "+ ByteArrayHelper.hexdump(data, spec[loop][0], spec[loop][1], false));
    //      }
    //      System.out.println ();
    //   }

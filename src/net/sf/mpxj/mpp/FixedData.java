@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class is used to represent the "FixedData" file entries that are
  * found in a Microsoft Project MPP file. The name "Fixed Data" appears to
@@ -370,7 +372,7 @@ final class FixedData extends MPPComponent
       for (int loop = 0; loop < m_array.length; loop++)
       {
          pw.println("   Data at index: " + loop + " offset: " + m_offset[loop]);
-         pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
+         pw.println("  " + ByteArrayHelper.hexdump((byte[]) m_array[loop], true));
       }
       pw.println("END FixedData");
 

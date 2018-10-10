@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class represents the extended data structure which is used to
  * hold additional non-core data items associated with tasks and resources.
@@ -238,7 +240,7 @@ final class ExtendedData
 
       for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
-         pw.println("Type: " + entry.getKey() + " Data:" + MPPUtility.hexdump(entry.getValue(), false));
+         pw.println("Type: " + entry.getKey() + " Data:" + ByteArrayHelper.hexdump(entry.getValue(), false));
       }
 
       pw.println("END ExtendedData");

@@ -18,7 +18,6 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 import net.sf.mpxj.common.StreamHelper;
-import net.sf.mpxj.mpp.MPPUtility;
 
 class SynchroData
 {
@@ -27,11 +26,11 @@ class SynchroData
       byte[] header = new byte[20];
       is.read(header);
       m_offset += 20;
-      System.out.println("HEADER: " + MPPUtility.hexdump(header, true));
+      SynchroLogger.log("HEADER", header);
 
       String version = SynchroUtility.getString(is);
       m_offset += (2 + version.length()); // Assumes version is always < 255 bytes!
-      System.out.println("VERSION: " + version);
+      SynchroLogger.log("VERSION", version);
 
       readTableData(readTableHeaders(is), is);
    }
@@ -81,7 +80,7 @@ class SynchroData
 
       for (SynchroTable table : tables)
       {
-         System.out.println("OFFSET: " + table.getOffset() + "\tLENGTH: " + table.getLength() + "\tTABLE: " + table.getName());
+         SynchroLogger.log("TABLE", table);
       }
 
       return tables;
@@ -90,7 +89,7 @@ class SynchroData
    private SynchroTable readTableHeader(byte[] header)
    {
       SynchroTable result = null;
-      String tableName = getString(header, 0);
+      String tableName = SynchroUtility.getSimpleString(header, 0);
       if (!tableName.isEmpty())
       {
          int offset = SynchroUtility.getInt(header, 40);
@@ -133,7 +132,7 @@ class SynchroData
          dataLength = table.getLength() - tableNameLength;
       }
 
-      System.out.println("READ: " + tableName);
+      SynchroLogger.log("READ", tableName);
 
       byte[] compressedTableData = new byte[dataLength];
       is.read(compressedTableData);
@@ -160,29 +159,9 @@ class SynchroData
       outputStream.close();
       byte[] uncompressedTableData = outputStream.toByteArray();
 
-      System.out.println(MPPUtility.hexdump(uncompressedTableData, true, 16, ""));
+      SynchroLogger.log(uncompressedTableData);
 
       m_tableData.put(table.getName(), uncompressedTableData);
-   }
-
-   private String getString(byte[] data, int offset)
-   {
-      StringBuilder buffer = new StringBuilder();
-      char c;
-
-      for (int loop = 0; offset + loop < data.length; loop++)
-      {
-         c = (char) data[offset + loop];
-
-         if (c == 0)
-         {
-            break;
-         }
-
-         buffer.append(c);
-      }
-
-      return (buffer.toString());
    }
 
    private int m_offset;

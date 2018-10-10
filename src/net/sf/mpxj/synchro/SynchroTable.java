@@ -29,6 +29,11 @@ class SynchroTable
       m_length = length;
    }
 
+   @Override public String toString()
+   {
+      return "[SynchroTable\t name=" + m_name + "\toffset=" + m_offset + "\tlength=" + m_length + "]";
+   }
+
    private String m_name;
    private int m_offset;
    private int m_length = -1;

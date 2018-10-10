@@ -101,7 +101,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             barStyle[loop] = style;
 
             //System.out.println("GanttBarStyleException");
-            //System.out.println(MPPUtility.hexdump(data, offset, 38, false));
+            //System.out.println(ByteArrayHelper.hexdump(data, offset, 38, false));
 
             style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
             style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);

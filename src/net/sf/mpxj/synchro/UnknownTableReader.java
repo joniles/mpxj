@@ -26,7 +26,7 @@ class UnknownTableReader extends TableReader
          //         System.out.println("REMAINDER");
          //         byte[] remainder = new byte[m_stream.available()];
          //         m_stream.read(remainder);
-         //         System.out.println(MPPUtility.hexdump(remainder, true, 16, ""));
+         //         System.out.println(ByteArrayHelper.hexdump(remainder, true, 16, ""));
          throw new IllegalArgumentException("Unexpected records!");
       }
 

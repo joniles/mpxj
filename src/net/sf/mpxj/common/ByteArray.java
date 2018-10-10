@@ -1,8 +1,6 @@
 
 package net.sf.mpxj.common;
 
-import net.sf.mpxj.mpp.MPPUtility;
-
 public class ByteArray
 {
    public ByteArray(byte[] data)
@@ -17,7 +15,7 @@ public class ByteArray
 
    @Override public String toString()
    {
-      return MPPUtility.hexdump(m_data, false);
+      return ByteArrayHelper.hexdump(m_data, false);
    }
 
    private final byte[] m_data;

@@ -27,7 +27,6 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -36,6 +35,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -947,156 +947,6 @@ public final class MPPUtility
    }
 
    /**
-    * This method generates a formatted version of the data contained
-    * in a byte array. The data is written both in hex, and as ASCII
-    * characters.
-    *
-    * @param buffer data to be displayed
-    * @param offset offset of start of data to be displayed
-    * @param length length of data to be displayed
-    * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
-    * @return formatted string
-    */
-   public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
-   {
-      StringBuilder sb = new StringBuilder();
-
-      if (buffer != null)
-      {
-         char c;
-         int loop;
-         int count = offset + length;
-
-         for (loop = offset; loop < count; loop++)
-         {
-            sb.append(" ");
-            sb.append(HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
-            sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
-         }
-
-         if (ascii == true)
-         {
-            sb.append("   ");
-
-            for (loop = offset; loop < count; loop++)
-            {
-               c = (char) buffer[loop];
-
-               if ((c > 200) || (c < 27))
-               {
-                  c = ' ';
-               }
-
-               sb.append(c);
-            }
-         }
-      }
-
-      return (sb.toString());
-   }
-
-   /**
-    * This method generates a formatted version of the data contained
-    * in a byte array. The data is written both in hex, and as ASCII
-    * characters.
-    *
-    * @param buffer data to be displayed
-    * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
-    * @return formatted string
-    */
-   public static final String hexdump(byte[] buffer, boolean ascii)
-   {
-      int length = 0;
-
-      if (buffer != null)
-      {
-         length = buffer.length;
-      }
-
-      return (hexdump(buffer, 0, length, ascii));
-   }
-
-   /**
-    * This method generates a formatted version of the data contained
-    * in a byte array. The data is written both in hex, and as ASCII
-    * characters. The data is organised into fixed width columns.
-    *
-    * @param buffer data to be displayed
-    * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
-    * @param columns number of columns
-    * @param prefix prefix to be added before the start of the data
-    * @return formatted string
-    */
-   public static final String hexdump(byte[] buffer, boolean ascii, int columns, String prefix)
-   {
-      StringBuilder sb = new StringBuilder();
-      if (buffer != null)
-      {
-         int index = 0;
-         DecimalFormat df = new DecimalFormat("00000");
-
-         while (index < buffer.length)
-         {
-            if (index + columns > buffer.length)
-            {
-               columns = buffer.length - index;
-            }
-
-            sb.append(prefix);
-            sb.append(df.format(index));
-            sb.append(":");
-            sb.append(hexdump(buffer, index, columns, ascii));
-            sb.append('\n');
-
-            index += columns;
-         }
-      }
-
-      return (sb.toString());
-   }
-
-   /**
-    * This method generates a formatted version of the data contained
-    * in a byte array. The data is written both in hex, and as ASCII
-    * characters. The data is organised into fixed width columns.
-    *
-    * @param buffer data to be displayed
-    * @param offset offset into buffer
-    * @param length number of bytes to display
-    * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
-    * @param columns number of columns
-    * @param prefix prefix to be added before the start of the data
-    * @return formatted string
-    */
-   public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
-   {
-      StringBuilder sb = new StringBuilder();
-      if (buffer != null)
-      {
-         int index = offset;
-         DecimalFormat df = new DecimalFormat("00000");
-
-         while (index < (offset + length))
-         {
-            if (index + columns > (offset + length))
-            {
-               columns = (offset + length) - index;
-            }
-
-            sb.append(prefix);
-            sb.append(df.format(index - offset));
-            sb.append(":");
-            sb.append(hexdump(buffer, index, columns, ascii));
-            sb.append('\n');
-
-            index += columns;
-         }
-      }
-
-      return (sb.toString());
-   }
-
-   /**
     * Writes a hex dump to a file for a large byte array.
     *
     * @param fileName output file name
@@ -1108,7 +958,7 @@ public final class MPPUtility
       try
       {
          FileOutputStream os = new FileOutputStream(fileName);
-         os.write(hexdump(data, true, 16, "").getBytes());
+         os.write(ByteArrayHelper.hexdump(data, true, 16, "").getBytes());
          os.close();
       }
 
@@ -1183,7 +1033,7 @@ public final class MPPUtility
 
       if (data != null)
       {
-         System.out.println(MPPUtility.hexdump(data, false, 16, ""));
+         System.out.println(ByteArrayHelper.hexdump(data, false, 16, ""));
 
          for (int i = 0; i < data.length; i++)
          {
@@ -1407,11 +1257,11 @@ public final class MPPUtility
    {
       if (data != null)
       {
-         System.out.println(MPPUtility.hexdump(data, 0, headerSize, false));
+         System.out.println(ByteArrayHelper.hexdump(data, 0, headerSize, false));
          int index = headerSize;
          while (index < data.length)
          {
-            System.out.println(MPPUtility.hexdump(data, index, blockSize, false));
+            System.out.println(ByteArrayHelper.hexdump(data, index, blockSize, false));
             index += blockSize;
          }
       }
@@ -1437,29 +1287,6 @@ public final class MPPUtility
     * Epoch Date as a Date instance.
     */
    private static Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
-
-   /**
-    * Constants used to convert bytes to hex digits.
-    */
-   private static final char[] HEX_DIGITS =
-   {
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F'
-   };
 
    /**
     * Mask used to remove flags from the duration units field.

@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class represents the a block of fixed length data items that appears
  * in the Microsoft Project 98 file format.
@@ -130,7 +132,7 @@ final class FixFix extends MPPComponent
       for (int loop = 0; loop < m_array.length; loop++)
       {
          pw.println("   Data at index: " + loop);
-         pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
+         pw.println("  " + ByteArrayHelper.hexdump((byte[]) m_array[loop], true));
       }
       pw.println("END FixFix");
 

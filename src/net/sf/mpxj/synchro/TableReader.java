@@ -49,12 +49,7 @@ abstract class TableReader
 
          readRow(m_stream, map);
 
-         System.out.println(getClass().getSimpleName());
-         for (Map.Entry<String, Object> entry : map.entrySet())
-         {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-         }
-         System.out.println();
+         SynchroLogger.log("READER", getClass(), map);
 
          m_rows.add(new MapRow(map));
       }
