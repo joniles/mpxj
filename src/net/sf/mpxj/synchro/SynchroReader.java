@@ -3,15 +3,23 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDateRanges;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
@@ -60,10 +68,6 @@ public final class SynchroReader extends AbstractProjectReader
       m_eventManager = m_project.getEventManager();
 
       ProjectConfig config = m_project.getProjectConfig();
-      //      config.setAutoCalendarUniqueID(false);
-      //      config.setAutoTaskUniqueID(false);
-      config.setAutoResourceUniqueID(false);
-
       m_project.getProjectProperties().setFileApplication("Synchro");
       m_project.getProjectProperties().setFileType("SP");
 
@@ -83,11 +87,61 @@ public final class SynchroReader extends AbstractProjectReader
    {
       CalendarReader reader = new CalendarReader(m_data.getTableData("Calendars"));
       reader.read();
+
       for (MapRow row : reader.getRows())
       {
-         ProjectCalendar calendar = m_project.addCalendar();
-         calendar.setName(row.getString("NAME"));
+         processCalendar(row);
       }
+   }
+
+   private void processCalendar(MapRow row)
+   {
+      ProjectCalendar calendar = m_project.addCalendar();
+
+      Map<UUID, List<DateRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
+
+      calendar.setName(row.getString("NAME"));
+
+      processRanges(dayTypeMap.get(row.getUUID("SUNDAY_DAY_TYPE")), calendar.addCalendarHours(Day.SUNDAY));
+      processRanges(dayTypeMap.get(row.getUUID("MONDAY_DAY_TYPE")), calendar.addCalendarHours(Day.MONDAY));
+      processRanges(dayTypeMap.get(row.getUUID("TUESDAY_DAY_TYPE")), calendar.addCalendarHours(Day.TUESDAY));
+      processRanges(dayTypeMap.get(row.getUUID("WEDNESDAY_DAY_TYPE")), calendar.addCalendarHours(Day.WEDNESDAY));
+      processRanges(dayTypeMap.get(row.getUUID("THURSDAY_DAY_TYPE")), calendar.addCalendarHours(Day.THURSDAY));
+      processRanges(dayTypeMap.get(row.getUUID("FRIDAY_DAY_TYPE")), calendar.addCalendarHours(Day.FRIDAY));
+      processRanges(dayTypeMap.get(row.getUUID("SATURDAY_DAY_TYPE")), calendar.addCalendarHours(Day.SATURDAY));
+
+      for (MapRow assignment : row.getRows("DAY_TYPE_ASSIGNMENTS"))
+      {
+         Date date = assignment.getDate("DATE");
+         processRanges(dayTypeMap.get(assignment.getUUID("DAY_TYPE_UUID")), calendar.addCalendarException(date, date));
+      }
+   }
+
+   private void processRanges(List<DateRange> ranges, ProjectCalendarDateRanges container)
+   {
+      if (ranges != null)
+      {
+         for (DateRange range : ranges)
+         {
+            container.addRange(range);
+         }
+      }
+   }
+
+   private Map<UUID, List<DateRange>> processDayTypes(List<MapRow> types)
+   {
+      Map<UUID, List<DateRange>> map = new HashMap<UUID, List<DateRange>>();
+      for (MapRow row : types)
+      {
+         List<DateRange> ranges = new ArrayList<DateRange>();
+         for (MapRow range : row.getRows("TIME_RANGES"))
+         {
+            ranges.add(new DateRange(range.getDate("START"), range.getDate("END")));
+         }
+         map.put(row.getUUID("UUID"), ranges);
+      }
+
+      return map;
    }
 
    private void processResources() throws IOException
@@ -107,7 +161,7 @@ public final class SynchroReader extends AbstractProjectReader
    private void processResource(MapRow row) throws IOException
    {
       Resource resource = m_project.addResource();
-      resource.setUniqueID(row.getInteger("UNIQUE_ID"));
+      //resource.setUniqueID(row.getInteger("UNIQUE_ID"));
       resource.setName(row.getString("NAME"));
       resource.setGUID(row.getUUID("UUID"));
       resource.setEmailAddress(row.getString("EMAIL"));
