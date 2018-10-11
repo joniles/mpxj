@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.6.4">
+		<release date="git master" version="7.7.0">
+			<action dev="joniles" type="add">Add support for reading the Synchro Scheduler SP files.</action>
 			<action dev="joniles" type="add">Add support for reading the activity code (ID) from Asta files.</action>
 			<action dev="joniles" type="add">When reading a Phoenix file, set the project's status date to the data date from the storepoint.</action>
 			<action dev="joniles" type="update">Handle MSPDI files with timephased assignments that don't specify a start and end date.</action>
