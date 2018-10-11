@@ -1,3 +1,25 @@
+/*
+ * file:       UnknownTableReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       2018-10-11
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.synchro;
 
@@ -5,13 +27,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+/**
+ * Read raw data from a table with unknown structure.
+ */
 class UnknownTableReader extends TableReader
 {
+   /**
+    * Constructor.
+    *
+    * @param stream input stream
+    */
    public UnknownTableReader(InputStream stream)
    {
       this(stream, 0, 0);
    }
 
+   /**
+    * Constructor used where we know the row size and magic number.
+    *
+    * @param stream input stream
+    * @param rowSize row size
+    * @param rowMagicNumber row magic number
+    */
    public UnknownTableReader(InputStream stream, int rowSize, int rowMagicNumber)
    {
       super(stream);

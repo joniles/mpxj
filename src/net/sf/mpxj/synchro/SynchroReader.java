@@ -48,7 +48,7 @@ public final class SynchroReader extends AbstractProjectReader
    {
       try
       {
-         SynchroLogger.setLogFile("c:/temp/project1.txt");
+         //SynchroLogger.setLogFile("c:/temp/project1.txt");
          SynchroLogger.openLogFile();
 
          m_calendarMap = new HashMap<UUID, ProjectCalendar>();
