@@ -188,6 +188,7 @@ public final class PhoenixReader extends AbstractProjectReader
     * This method extracts project properties from a Phoenix file.
     *
     * @param phoenixSettings Phoenix settings
+    * @param storepoint Current storepoint
     */
    private void readProjectProperties(Settings phoenixSettings, Storepoint storepoint)
    {
