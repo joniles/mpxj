@@ -17,7 +17,7 @@ class TaskReader extends TableReader
       map.put("UNKNOWN1", stream.readByte());
       map.put("RESOURCE_ASSIGNMENTS", stream.readTable(ResourceAssignmentReader.class));
       map.put("UNKNOWN2", stream.readBytes(4));
-      map.put("RELATIONS", stream.readTable(RelationReader.class));
+      map.put("PREDECESSORS", stream.readTable(PredecessorReader.class));
       map.put("CALENDAR_UUID", stream.readUUID());
       map.put("NAME", stream.readString());
       map.put("START", stream.readDate());

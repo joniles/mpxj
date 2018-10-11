@@ -50,7 +50,12 @@ public final class SynchroReader extends AbstractProjectReader
       {
          SynchroLogger.setLogFile("c:/temp/project1.txt");
          SynchroLogger.openLogFile();
+
          m_calendarMap = new HashMap<UUID, ProjectCalendar>();
+         m_taskMap = new HashMap<UUID, Task>();
+         m_predecessorMap = new HashMap<Task, List<MapRow>>();
+         m_resourceMap = new HashMap<UUID, Resource>();
+
          m_data = new SynchroData();
          m_data.process(inputStream);
          return read();
@@ -66,6 +71,9 @@ public final class SynchroReader extends AbstractProjectReader
       {
          m_data = null;
          m_calendarMap = null;
+         m_taskMap = null;
+         m_predecessorMap = null;
+         m_resourceMap = null;
       }
    }
 
@@ -79,12 +87,10 @@ public final class SynchroReader extends AbstractProjectReader
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
-      // processProject();
       processCalendars();
       processResources();
       processTasks();
-      // processDependencies();
-      // processAssignments();
+      processPredecessors();
 
       return m_project;
    }
@@ -188,6 +194,8 @@ public final class SynchroReader extends AbstractProjectReader
             processResource(childResource);
          }
       }
+
+      m_resourceMap.put(resource.getGUID(), resource);
    }
 
    private void processTasks() throws IOException
@@ -221,9 +229,25 @@ public final class SynchroReader extends AbstractProjectReader
       task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
       setConstraints(task, row);
 
-      //RESOURCE_ASSIGNMENTS: []
-      //RELATIONS: []
+      processChildTasks(task, row);
 
+      m_taskMap.put(task.getGUID(), task);
+
+      List<MapRow> predecessors = row.getRows("PREDECESSORS");
+      if (predecessors != null && !predecessors.isEmpty())
+      {
+         m_predecessorMap.put(task, predecessors);
+      }
+
+      List<MapRow> resourceAssignmnets = row.getRows("RESOURCE_ASSIGNMENTS");
+      if (resourceAssignmnets != null && !resourceAssignmnets.isEmpty())
+      {
+         processResourceAssignments(task, resourceAssignmnets);
+      }
+   }
+
+   private void processChildTasks(Task task, MapRow row) throws IOException
+   {
       List<MapRow> tasks = row.getRows("TASKS");
       if (tasks != null)
       {
@@ -232,6 +256,42 @@ public final class SynchroReader extends AbstractProjectReader
             processTask(task, childTask);
          }
       }
+   }
+
+   private void processPredecessors()
+   {
+      for (Map.Entry<Task, List<MapRow>> entry : m_predecessorMap.entrySet())
+      {
+         Task task = entry.getKey();
+         List<MapRow> predecessors = entry.getValue();
+         for (MapRow predecessor : predecessors)
+         {
+            processPredecessor(task, predecessor);
+         }
+      }
+   }
+
+   private void processPredecessor(Task task, MapRow row)
+   {
+      Task predecessor = m_taskMap.get(row.getUUID("PREDECESSOR_UUID"));
+      if (predecessor != null)
+      {
+         task.addPredecessor(predecessor, row.getRelationType("RELATION_TYPE"), row.getDuration("LAG"));
+      }
+   }
+
+   private void processResourceAssignments(Task task, List<MapRow> assignments)
+   {
+      for (MapRow row : assignments)
+      {
+         processResourceAssignment(task, row);
+      }
+   }
+
+   private void processResourceAssignment(Task task, MapRow row)
+   {
+      Resource resource = m_resourceMap.get(row.getUUID("RESOURCE_UUID"));
+      task.addResourceAssignment(resource);
    }
 
    private void setConstraints(Task task, MapRow row)
@@ -361,4 +421,7 @@ public final class SynchroReader extends AbstractProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<UUID, ProjectCalendar> m_calendarMap;
+   private Map<UUID, Task> m_taskMap;
+   private Map<Task, List<MapRow>> m_predecessorMap;
+   private Map<UUID, Resource> m_resourceMap;
 }
