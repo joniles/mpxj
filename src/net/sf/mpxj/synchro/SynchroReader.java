@@ -1,3 +1,25 @@
+/*
+ * file:       SynchroReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2018
+ * date:       2018-10-11
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.synchro;
 
@@ -27,6 +49,9 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
+/**
+ * Reads Synchro SP files.
+ */
 public final class SynchroReader extends AbstractProjectReader
 {
    /**
@@ -77,6 +102,11 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Reads data from the SP file.
+    *
+    * @return Project File instance
+    */
    private ProjectFile read() throws Exception
    {
       m_project = new ProjectFile();
@@ -95,6 +125,9 @@ public final class SynchroReader extends AbstractProjectReader
       return m_project;
    }
 
+   /**
+    * Extract calendar data.
+    */
    private void processCalendars() throws IOException
    {
       CalendarReader reader = new CalendarReader(m_data.getTableData("Calendars"));
@@ -108,6 +141,11 @@ public final class SynchroReader extends AbstractProjectReader
       m_project.setDefaultCalendar(m_calendarMap.get(reader.getDefaultCalendarUUID()));
    }
 
+   /**
+    * Extract data for a single calendar.
+    *
+    * @param row calendar data
+    */
    private void processCalendar(MapRow row)
    {
       ProjectCalendar calendar = m_project.addCalendar();
@@ -133,6 +171,12 @@ public final class SynchroReader extends AbstractProjectReader
       m_calendarMap.put(row.getUUID("UUID"), calendar);
    }
 
+   /**
+    * Populate time ranges.
+    *
+    * @param ranges time ranges from a Synchro table
+    * @param container time range container
+    */
    private void processRanges(List<DateRange> ranges, ProjectCalendarDateRanges container)
    {
       if (ranges != null)
@@ -144,6 +188,12 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract day type definitions.
+    *
+    * @param types Synchro day type rows
+    * @return Map of day types by UUID
+    */
    private Map<UUID, List<DateRange>> processDayTypes(List<MapRow> types)
    {
       Map<UUID, List<DateRange>> map = new HashMap<UUID, List<DateRange>>();
@@ -160,6 +210,9 @@ public final class SynchroReader extends AbstractProjectReader
       return map;
    }
 
+   /**
+    * Extract resource data.
+    */
    private void processResources() throws IOException
    {
       CompanyReader reader = new CompanyReader(m_data.getTableData("Companies"));
@@ -174,6 +227,11 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract data for a single resource.
+    *
+    * @param row Synchro resource data
+    */
    private void processResource(MapRow row) throws IOException
    {
       Resource resource = m_project.addResource();
@@ -198,6 +256,9 @@ public final class SynchroReader extends AbstractProjectReader
       m_resourceMap.put(resource.getGUID(), resource);
    }
 
+   /**
+    * Extract task data.
+    */
    private void processTasks() throws IOException
    {
       TaskReader reader = new TaskReader(m_data.getTableData("Tasks"));
@@ -208,6 +269,12 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract data for a single task.
+    *
+    * @param parent task parent
+    * @param row Synchro task data
+    */
    private void processTask(ChildTaskContainer parent, MapRow row) throws IOException
    {
       Task task = parent.addTask();
@@ -246,6 +313,12 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract child task data.
+    *
+    * @param task MPXJ task
+    * @param row Synchro task data
+    */
    private void processChildTasks(Task task, MapRow row) throws IOException
    {
       List<MapRow> tasks = row.getRows("TASKS");
@@ -258,6 +331,9 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract predecessor data.
+    */
    private void processPredecessors()
    {
       for (Map.Entry<Task, List<MapRow>> entry : m_predecessorMap.entrySet())
@@ -271,6 +347,12 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract data for a single predecessor.
+    *
+    * @param task parent task
+    * @param row Synchro predecessor data
+    */
    private void processPredecessor(Task task, MapRow row)
    {
       Task predecessor = m_taskMap.get(row.getUUID("PREDECESSOR_UUID"));
@@ -280,6 +362,12 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract resource assignments for a task.
+    *
+    * @param task parent task
+    * @param assignments list of Synchro resource assignment data
+    */
    private void processResourceAssignments(Task task, List<MapRow> assignments)
    {
       for (MapRow row : assignments)
@@ -288,12 +376,24 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Extract data for a single resource assignment.
+    *
+    * @param task parent task
+    * @param row Synchro resource assignment
+    */
    private void processResourceAssignment(Task task, MapRow row)
    {
       Resource resource = m_resourceMap.get(row.getUUID("RESOURCE_UUID"));
       task.addResourceAssignment(resource);
    }
 
+   /**
+    * Map Synchro constraints to MPXJ constraints.
+    *
+    * @param task task
+    * @param row Synchro constraint data
+    */
    private void setConstraints(Task task, MapRow row)
    {
       ConstraintType constraintType = null;
@@ -384,6 +484,12 @@ public final class SynchroReader extends AbstractProjectReader
       task.setConstraintDate(constraintDate);
    }
 
+   /**
+    * Common mechanism to convert Synchro commentary recorss into notes.
+    *
+    * @param rows commentary table rows
+    * @return note text
+    */
    private String getNotes(List<MapRow> rows)
    {
       String result = null;
@@ -402,6 +508,13 @@ public final class SynchroReader extends AbstractProjectReader
       return result;
    }
 
+   /**
+    * Sort MapRows based on a named attribute.
+    *
+    * @param rows map rows to sort
+    * @param attribute attribute to sort on
+    * @return list argument (allows method chaining)
+    */
    private List<MapRow> sort(List<MapRow> rows, final String attribute)
    {
       Collections.sort(rows, new Comparator<MapRow>()

@@ -59,7 +59,7 @@ class SynchroData
       m_offset += 20;
       SynchroLogger.log("HEADER", header);
 
-      String version = SynchroUtility.getString(is);
+      String version = DatatypeConverter.getString(is);
       m_offset += (2 + version.length()); // Assumes version is always < 255 bytes!
       SynchroLogger.log("VERSION", version);
 
@@ -139,10 +139,10 @@ class SynchroData
    private SynchroTable readTableHeader(byte[] header)
    {
       SynchroTable result = null;
-      String tableName = SynchroUtility.getSimpleString(header, 0);
+      String tableName = DatatypeConverter.getSimpleString(header, 0);
       if (!tableName.isEmpty())
       {
-         int offset = SynchroUtility.getInt(header, 40);
+         int offset = DatatypeConverter.getInt(header, 40);
          result = new SynchroTable(tableName, offset);
       }
       return result;
@@ -180,7 +180,7 @@ class SynchroData
          m_offset += skip;
       }
 
-      String tableName = SynchroUtility.getString(is);
+      String tableName = DatatypeConverter.getString(is);
       int tableNameLength = 2 + tableName.length();
       m_offset += tableNameLength;
 

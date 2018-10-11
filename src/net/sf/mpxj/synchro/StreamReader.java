@@ -65,7 +65,7 @@ class StreamReader
     */
    public Boolean readBoolean() throws IOException
    {
-      return Boolean.valueOf(SynchroUtility.getBoolean(m_stream));
+      return Boolean.valueOf(DatatypeConverter.getBoolean(m_stream));
    }
 
    /**
@@ -126,7 +126,7 @@ class StreamReader
    public List<MapRow> readTableConditional(Class<? extends TableReader> readerClass) throws IOException
    {
       List<MapRow> result;
-      if (SynchroUtility.getBoolean(m_stream))
+      if (DatatypeConverter.getBoolean(m_stream))
       {
          result = readTable(readerClass);
       }
@@ -157,7 +157,7 @@ class StreamReader
     */
    public UUID readUUID() throws IOException
    {
-      return SynchroUtility.getUUID(m_stream);
+      return DatatypeConverter.getUUID(m_stream);
    }
 
    /**
@@ -167,7 +167,7 @@ class StreamReader
     */
    public String readString() throws IOException
    {
-      return SynchroUtility.getString(m_stream);
+      return DatatypeConverter.getString(m_stream);
    }
 
    /**
@@ -177,7 +177,7 @@ class StreamReader
     */
    public Date readDate() throws IOException
    {
-      return SynchroUtility.getDate(m_stream);
+      return DatatypeConverter.getDate(m_stream);
    }
 
    /**
@@ -187,7 +187,7 @@ class StreamReader
     */
    public Date readTime() throws IOException
    {
-      return SynchroUtility.getTime(m_stream);
+      return DatatypeConverter.getTime(m_stream);
    }
 
    /**
@@ -197,7 +197,7 @@ class StreamReader
     */
    public Duration readDuration() throws IOException
    {
-      return SynchroUtility.getDuration(m_stream);
+      return DatatypeConverter.getDuration(m_stream);
    }
 
    /**
@@ -207,7 +207,7 @@ class StreamReader
     */
    public int readInt() throws IOException
    {
-      return SynchroUtility.getInt(m_stream);
+      return DatatypeConverter.getInt(m_stream);
    }
 
    /**
@@ -217,7 +217,7 @@ class StreamReader
     */
    public Integer readInteger() throws IOException
    {
-      return SynchroUtility.getInteger(m_stream);
+      return DatatypeConverter.getInteger(m_stream);
    }
 
    /**
@@ -227,7 +227,7 @@ class StreamReader
     */
    public Double readDouble() throws IOException
    {
-      return SynchroUtility.getDouble(m_stream);
+      return DatatypeConverter.getDouble(m_stream);
    }
 
    /**
