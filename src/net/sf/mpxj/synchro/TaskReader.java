@@ -52,7 +52,7 @@ class TaskReader extends TableReader
       map.put("NAME", stream.readString());
       map.put("START", stream.readDate());
       map.put("UNKNOWN3", stream.readBytes(4));
-      map.put("DURATION", stream.readDuration());
+      map.put("PLANNED_DURATION", stream.readDuration());
       map.put("UNKNOWN4", stream.readBytes(4));
       map.put("TASKS", stream.readTableConditional(TaskReader.class));
       map.put("COSTS", stream.readTableConditional(CostReader.class));
@@ -81,7 +81,9 @@ class TaskReader extends TableReader
       map.put("UNKNOWN9", stream.readBytes(12));
       map.put("ID", stream.readString());
       map.put("USER_FIELDS", stream.readTableConditional(UserFieldReader.class));
-      map.put("UNKNOWN10", stream.readBytes(28));
+      map.put("REMAINING_DURATION", stream.readDuration());
+      map.put("UNKNOWN10", stream.readBytes(20));
+      map.put("STATUS", stream.readInteger());
       map.put("UNKNOWN_DATE7", stream.readDate());
       map.put("UNKNOWN_DATE7_EXTRA", stream.readBytes(4));
       map.put("UNKNOWN_DATE8", stream.readDate());

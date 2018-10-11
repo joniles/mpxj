@@ -37,6 +37,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
@@ -46,6 +47,8 @@ import net.sf.mpxj.ProjectCalendarDateRanges;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -88,12 +91,13 @@ public final class SynchroReader extends AbstractProjectReader
 
       catch (Exception ex)
       {
-         SynchroLogger.closeLogFile();
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
 
       finally
       {
+         SynchroLogger.closeLogFile();
+
          m_data = null;
          m_calendarMap = null;
          m_taskMap = null;
@@ -114,6 +118,9 @@ public final class SynchroReader extends AbstractProjectReader
 
       m_project.getProjectProperties().setFileApplication("Synchro");
       m_project.getProjectProperties().setFileType("SP");
+
+      CustomFieldContainer fields = m_project.getCustomFields();
+      fields.getCustomField(TaskField.TEXT1).setAlias("Code");
 
       m_eventManager.addProjectListeners(m_projectListeners);
 
@@ -267,6 +274,7 @@ public final class SynchroReader extends AbstractProjectReader
       {
          processTask(m_project, row);
       }
+      updateDates();
    }
 
    /**
@@ -282,10 +290,17 @@ public final class SynchroReader extends AbstractProjectReader
       task.setGUID(row.getUUID("UUID"));
       task.setText(1, row.getString("ID"));
       task.setStart(row.getDate("START"));
-      task.setDuration(row.getDuration("DURATION"));
+      task.setDuration(row.getDuration("PLANNED_DURATION"));
+      task.setRemainingDuration(row.getDuration("REMAINING_DURATION"));
       task.setHyperlink(row.getString("URL"));
       task.setPercentageComplete(row.getDouble("PERCENT_COMPLETE"));
       task.setNotes(getNotes(row.getRows("COMMENTARY")));
+      task.setMilestone(task.getDuration().getDuration() == 0);
+
+      if (row.getInteger("STATUS").intValue() == 3)
+      {
+         task.setPercentageComplete(Double.valueOf(100.0));
+      }
 
       ProjectCalendar calendar = m_calendarMap.get(row.getUUID("CALENDAR_UUID"));
       if (calendar != m_project.getDefaultCalendar())
@@ -527,6 +542,41 @@ public final class SynchroReader extends AbstractProjectReader
          }
       });
       return rows;
+   }
+
+   /**
+    * Recursively update parent task dates.
+    */
+   private void updateDates()
+   {
+      for (Task task : m_project.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   /**
+    * Recursively update parent task dates.
+    *
+    * @param parentTask parent task
+    */
+   private void updateDates(Task parentTask)
+   {
+      if (parentTask.getSummary())
+      {
+         Date plannedStartDate = null;
+         Date plannedFinishDate = null;
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+         }
+
+         parentTask.setStart(plannedStartDate);
+         parentTask.setFinish(plannedFinishDate);
+      }
    }
 
    private SynchroData m_data;
