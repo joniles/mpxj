@@ -31,6 +31,7 @@
       <item name="Changes" href="/changes-report.html" />
       <item name="Getting started..." href="/getting-started.html" collapse="true">
 	      <item name="Get started" href="/howto-start.html" />
+	      <item name="Java versions" href="/java-versions.html" />
 	      <item name="Build MPXJ" href="/howto-build.html" />      	
 	      <item name="Use MPXJ with .Net" href="/howto-dotnet.html" />      	
 	      <item name="Use MPXJ with COM" href="/howto-com.html" />

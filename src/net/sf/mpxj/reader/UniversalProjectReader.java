@@ -373,7 +373,7 @@ public final class UniversalProjectReader implements ProjectReader
    {
       POIFSFileSystem fs = new POIFSFileSystem(POIFSFileSystem.createNonClosingInputStream(stream));
       String fileFormat = MPPReader.getFileFormat(fs);
-      if (fileFormat.startsWith("MSProject"))
+      if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {
          MPPReader reader = new MPPReader();
          addListeners(reader);
@@ -760,7 +760,7 @@ public final class UniversalProjectReader implements ProjectReader
             break;
          }
       }
-      if (project == null)
+      if (project == null && !projects.isEmpty())
       {
          project = projects.get(0);
       }

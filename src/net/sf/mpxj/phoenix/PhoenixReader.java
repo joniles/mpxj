@@ -144,7 +144,7 @@ public final class PhoenixReader extends AbstractProjectReader
 
          Project phoenixProject = (Project) unmarshaller.unmarshal(doc);
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
-         readProjectProperties(phoenixProject.getSettings());
+         readProjectProperties(phoenixProject.getSettings(), storepoint);
          readCalendars(storepoint);
          readTasks(phoenixProject, storepoint);
          readResources(storepoint);
@@ -188,12 +188,14 @@ public final class PhoenixReader extends AbstractProjectReader
     * This method extracts project properties from a Phoenix file.
     *
     * @param phoenixSettings Phoenix settings
+    * @param storepoint Current storepoint
     */
-   private void readProjectProperties(Settings phoenixSettings)
+   private void readProjectProperties(Settings phoenixSettings, Storepoint storepoint)
    {
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
+      mpxjProperties.setStatusDate(storepoint.getDataDate());
    }
 
    /**
@@ -669,8 +671,8 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void readRelation(Relationship relation)
    {
-      Task predecessor = m_projectFile.getTaskByUniqueID(relation.getPredecessor());
-      Task successor = m_projectFile.getTaskByUniqueID(relation.getSuccessor());
+      Task predecessor = m_activityMap.get(relation.getPredecessor());
+      Task successor = m_activityMap.get(relation.getSuccessor());
       if (predecessor != null && successor != null)
       {
          Duration lag = relation.getLag();

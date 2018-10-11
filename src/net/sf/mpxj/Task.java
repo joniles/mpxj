@@ -962,6 +962,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+   * The date the resource is scheduled to finish the remaining work for the activity.
+   *
+   * @param date Date value
+   */
+   public void setRemainingEarlyFinish(Date date)
+   {
+      set(TaskField.REMAINING_EARLY_FINISH, date);
+   }
+
+   /**
     * The Early Start field contains the earliest date that a task could
     * possibly begin, based on the early start dates of predecessor and
     * successor tasks, and other constraints.
@@ -971,6 +981,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setEarlyStart(Date date)
    {
       set(TaskField.EARLY_START, date);
+   }
+
+   /**
+   * The date the resource is scheduled to begin the remaining work for the activity.
+   *
+   * @param date Date value
+   */
+   public void setRemainingEarlyStart(Date date)
+   {
+      set(TaskField.REMAINING_EARLY_START, date);
    }
 
    /**
@@ -1984,6 +2004,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+   * The date the resource is scheduled to finish the remaining work for the activity.
+   *
+   * @return Date
+   */
+   public Date getRemainingEarlyFinish()
+   {
+      return ((Date) getCachedValue(TaskField.REMAINING_EARLY_FINISH));
+   }
+
+   /**
     * The Early Start field contains the earliest date that a task could
     * possibly begin, based on the early start dates of predecessor and
     * successor tasks, and other constraints.
@@ -1993,6 +2023,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getEarlyStart()
    {
       return ((Date) getCachedValue(TaskField.EARLY_START));
+   }
+
+   /**
+   * The date the resource is scheduled to start the remaining work for the activity.
+   *
+   * @return Date
+   */
+   public Date getRemainingEarlyStart()
+   {
+      return ((Date) getCachedValue(TaskField.REMAINING_EARLY_START));
    }
 
    /**
@@ -3656,7 +3696,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          Duration duration = getDuration();
          if (duration != null)
          {
-            startSlack = DateHelper.getVariance(this, getLateStart(), getEarlyStart(), duration.getUnits());
+            startSlack = DateHelper.getVariance(this, getEarlyStart(), getLateStart(), duration.getUnits());
             set(TaskField.START_SLACK, startSlack);
          }
       }
@@ -3676,7 +3716,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          Duration duration = getDuration();
          if (duration != null)
          {
-            finishSlack = DateHelper.getVariance(this, getLateFinish(), getEarlyFinish(), duration.getUnits());
+            finishSlack = DateHelper.getVariance(this, getEarlyFinish(), getLateFinish(), duration.getUnits());
             set(TaskField.FINISH_SLACK, finishSlack);
          }
       }

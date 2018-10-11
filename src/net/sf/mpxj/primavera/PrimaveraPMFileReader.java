@@ -681,6 +681,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          Date lateFinishDate = parentTask.getLateFinish();
          Date baselineStartDate = parentTask.getBaselineStart();
          Date baselineFinishDate = parentTask.getBaselineFinish();
+         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
@@ -693,6 +695,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
             earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            remainingEarlyStartDate = DateHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+            remainingEarlyFinishDate = DateHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
             lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
             lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
             baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
@@ -707,6 +711,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setRemainingEarlyStart(remainingEarlyStartDate);
+         parentTask.setRemainingEarlyFinish(remainingEarlyFinishDate);
          parentTask.setLateStart(lateStartDate);
          parentTask.setLateFinish(lateFinishDate);
          parentTask.setBaselineStart(baselineStartDate);

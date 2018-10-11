@@ -59,6 +59,7 @@ public class SearchableInputStream extends InputStream
             c = m_stream.read();
             if (c == -1)
             {
+               m_searchFailed = true;
                throw new IOException("Pattern not found");
             }
 
@@ -85,7 +86,18 @@ public class SearchableInputStream extends InputStream
       return c;
    }
 
+   /**
+    * Returns true if the search failed.
+    *
+    * @return Boolean flag
+    */
+   public boolean getSearchFailed()
+   {
+      return m_searchFailed;
+   }
+
    private final InputStream m_stream;
    private final byte[] m_pattern;
    private boolean m_searching = true;
+   private boolean m_searchFailed;
 }

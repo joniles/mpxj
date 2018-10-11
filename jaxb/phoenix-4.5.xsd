@@ -201,8 +201,8 @@
 												<xs:sequence>
 													<xs:element name="relationship" maxOccurs="unbounded">
 														<xs:complexType>
-															<xs:attribute name="predecessor" type="xs:int"></xs:attribute>
-															<xs:attribute name="successor" type="xs:int"></xs:attribute>
+															<xs:attribute name="predecessor" type="xs:string"></xs:attribute>
+															<xs:attribute name="successor" type="xs:string"></xs:attribute>
 															<xs:attribute name="lag" type="phoenixDuration"></xs:attribute>
 															<xs:attribute name="type" type="phoenixRelationType"></xs:attribute>
 														</xs:complexType>

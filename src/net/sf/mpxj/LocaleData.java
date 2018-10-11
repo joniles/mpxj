@@ -104,6 +104,8 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.FINISH.getValue()] = "Finish";
       TASK_COLUMNS_ARRAY[TaskField.EARLY_START.getValue()] = "Early Start";
       TASK_COLUMNS_ARRAY[TaskField.EARLY_FINISH.getValue()] = "Early Finish";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_EARLY_START.getValue()] = "Remaining Early Start";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_EARLY_FINISH.getValue()] = "Remaining Early Finish";
       TASK_COLUMNS_ARRAY[TaskField.LATE_START.getValue()] = "Late Start";
       TASK_COLUMNS_ARRAY[TaskField.LATE_FINISH.getValue()] = "Late Finish";
       TASK_COLUMNS_ARRAY[TaskField.ACTUAL_START.getValue()] = "Actual Start";

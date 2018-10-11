@@ -35,6 +35,8 @@ import net.sf.mpxj.reader.AbstractProjectReader;
  * Reads a ProjectLibre POD file.
  * The POD file contains serialized Java data, followed by an MSPDI file.
  * This class simply locates the MSPDI file and reads it using the normal MSPDI reader class.
+ * Note that if the POD file was written by a version of ProjectLibre prior to 1.5.5
+ * it won't contain the MSPDI file. In this case the read method will return null.
  */
 public class ProjectLibreReader extends AbstractProjectReader
 {
@@ -45,10 +47,25 @@ public class ProjectLibreReader extends AbstractProjectReader
 
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
-      ProjectFile file = m_reader.read(new SearchableInputStream(inputStream, "@@@@@@@@@@ProjectLibreSeparator_MSXML@@@@@@@@@@"));
-      file.getProjectProperties().setFileApplication("ProjectLibre");
-      file.getProjectProperties().setFileType("POD");
-      return file;
+      SearchableInputStream is = new SearchableInputStream(inputStream, "@@@@@@@@@@ProjectLibreSeparator_MSXML@@@@@@@@@@");
+
+      try
+      {
+         ProjectFile file = m_reader.read(is);
+         file.getProjectProperties().setFileApplication("ProjectLibre");
+         file.getProjectProperties().setFileType("POD");
+         return file;
+      }
+
+      catch (MPXJException ex)
+      {
+         if (is.getSearchFailed())
+         {
+            return null;
+         }
+
+         throw ex;
+      }
    }
 
    private final MSPDIReader m_reader = new MSPDIReader();

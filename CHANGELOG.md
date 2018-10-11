@@ -1,7 +1,28 @@
 # Changelog
 
-## 7.6.1 (git master)
+## 7.6.4 (git master)
+* Add support for reading the activity code (ID) from Asta files.
+* When reading a Phoenix file, set the project's status date to the data date from the storepoint.
+* Handle MSPDI files with timephased assignments that don't specify a start and end date.
+
+## 7.6.3 (04/10/2018)
+* Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)
+* Add support for reading Retained Logic and Progressive Override project attributes from P6. (Contributed by forenpm)
+* Fix incorrect sign when calculating start and finish slack (Contributed by Brian Leach).
+* Correctly read predecessors and successors from Phoenix files.
+
+## 7.6.2 (30/08/2018)
+* Add support for nvarchar columns when reading from a P6 database.
+* Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).
+* Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).
+
+## 7.6.1 (29/08/2018)
 * Improve handling of MPP files where MPXJ is unable to read the filter definitions.
+* Improve handling of SureTrak projects without a WBS.
+* Improve handling of SureTrak and P3 WBS extraction.
+* Handle unsupported ProjectLibre POD files more gracefully.
+* Improve detection of non MS Project compound OLE documents.
+* Gracefully handle XER files which contain no projects.
 
 ## 7.6.0 (13/07/2018)
 * Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.
