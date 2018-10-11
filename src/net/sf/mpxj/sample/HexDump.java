@@ -27,7 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import net.sf.mpxj.mpp.MPPUtility;
+import net.sf.mpxj.common.ByteArrayHelper;
 
 /**
  * This is a trivial class used to dump the contents of a file
@@ -79,7 +79,7 @@ public class HexDump
 
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
-      pw.println(MPPUtility.hexdump(buffer, 0, buffer.length, true, 16, ""));
+      pw.println(ByteArrayHelper.hexdump(buffer, 0, buffer.length, true, 16, ""));
 
       is.close();
       pw.flush();

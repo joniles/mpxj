@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class represents the common structure of Props files found in
  * Microsoft Project MPP files. The MPP8 and MPP9 file formats both
@@ -247,7 +249,7 @@ class Props extends MPPComponent
       for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
          pw.println("   Key: " + entry.getKey() + " Value: ");
-         pw.println(MPPUtility.hexdump(entry.getValue(), true, 16, "      "));
+         pw.println(ByteArrayHelper.hexdump(entry.getValue(), true, 16, "      "));
       }
 
       pw.println("END Props");

@@ -95,7 +95,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
       if (barData != null)
       {
-         //System.out.println(MPPUtility.hexdump(barData, false, 71, ""));
+         //System.out.println(ByteArrayHelper.hexdump(barData, false, 71, ""));
 
          barStyle = new GanttBarStyleException[barData.length / 71];
          int offset = 0;

@@ -73,7 +73,7 @@ public final class GanttChartView12 extends GanttChartView
     */
    @Override protected void processAutoFilters(byte[] data)
    {
-      //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
 
       //
       // 16 byte block header containing the filter count
@@ -100,7 +100,7 @@ public final class GanttChartView12 extends GanttChartView
             break;
          }
 
-         //System.out.println(MPPUtility.hexdump(data, offset, blockSize, true, 16, ""));
+         //System.out.println(ByteArrayHelper.hexdump(data, offset, blockSize, true, 16, ""));
 
          int entryOffset = MPPUtility.getShort(data, offset + 12);
          fields.clear();
@@ -130,7 +130,7 @@ public final class GanttChartView12 extends GanttChartView
       byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
       if (viewPropertyData != null)
       {
-         //System.out.println(MPPUtility.hexdump(viewPropertyData, false, 16, ""));
+         //System.out.println(ByteArrayHelper.hexdump(viewPropertyData, false, 16, ""));
 
          m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26, fontBases);
          m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 30, fontBases);
@@ -255,7 +255,7 @@ public final class GanttChartView12 extends GanttChartView
     */
    @Override protected void processProgressLines(Map<Integer, FontBase> fontBases, byte[] progressLineData)
    {
-      //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(progressLineData, false, 16, "").getBytes());
+      //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(progressLineData, false, 16, "").getBytes());
       m_progressLinesEnabled = (progressLineData[0] != 0);
       m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
       m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);

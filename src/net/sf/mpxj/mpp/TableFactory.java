@@ -99,7 +99,7 @@ final class TableFactory
    private void processColumnData(ProjectFile file, Table table, byte[] data)
    {
       //System.out.println("Table=" + table.getName());
-      //System.out.println(MPPUtility.hexdump(data, 8, data.length-8, false, 12, ""));
+      //System.out.println(ByteArrayHelper.hexdump(data, 8, data.length-8, false, 12, ""));
       if (data != null)
       {
          int columnCount = MPPUtility.getShort(data, 4) + 1;

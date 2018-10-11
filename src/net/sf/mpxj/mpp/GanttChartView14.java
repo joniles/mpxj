@@ -73,7 +73,7 @@ public final class GanttChartView14 extends GanttChartView
     */
    @Override protected void processAutoFilters(byte[] data)
    {
-      //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
 
       //
       // 16 byte block header containing the filter count
@@ -99,7 +99,7 @@ public final class GanttChartView14 extends GanttChartView
             break;
          }
 
-         //System.out.println(MPPUtility.hexdump(data, offset, 32, false));
+         //System.out.println(ByteArrayHelper.hexdump(data, offset, 32, false));
 
          // may need to sort this out
          GenericCriteria c = criteria.process(m_properties, data, offset + 12, -1, null, null, null);
@@ -138,7 +138,7 @@ public final class GanttChartView14 extends GanttChartView
       byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
       if (viewPropertyData != null && viewPropertyData.length > 41360)
       {
-         //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(viewPropertyData, false, 16, "").getBytes());
+         //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(viewPropertyData, false, 16, "").getBytes());
 
          m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26, fontBases, false);
          m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 58, fontBases, false);
@@ -230,7 +230,7 @@ public final class GanttChartView14 extends GanttChartView
     */
    private GridLines getGridLines(byte[] data, int offset)
    {
-      //System.out.println(offset+ ": " + MPPUtility.hexdump(data, offset, 30, false));
+      //System.out.println(offset+ ": " + ByteArrayHelper.hexdump(data, offset, 30, false));
       Color normalLineColor = MPPUtility.getColor(data, offset);
       LineStyle normalLineStyle = LineStyle.getInstance(data[offset + 13]);
       int intervalNumber = data[offset + 14];
@@ -250,7 +250,7 @@ public final class GanttChartView14 extends GanttChartView
     */
    protected FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases, boolean ignoreBackground)
    {
-      //System.out.println(MPPUtility.hexdump(data, offset, 32, false));
+      //System.out.println(ByteArrayHelper.hexdump(data, offset, 32, false));
 
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset));
       FontBase fontBase = fontBases.get(index);
@@ -285,7 +285,7 @@ public final class GanttChartView14 extends GanttChartView
     */
    @Override protected void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] columnData)
    {
-      //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(columnData, false, 44, "").getBytes());
+      //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(columnData, false, 44, "").getBytes());
 
       m_tableFontStyles = new TableFontStyle[columnData.length / 44];
       int offset = 0;
@@ -333,7 +333,7 @@ public final class GanttChartView14 extends GanttChartView
     */
    @Override protected void processProgressLines(Map<Integer, FontBase> fontBases, byte[] progressLineData)
    {
-      //MPPUtility.fileDump("c:\\temp\\props.txt", MPPUtility.hexdump(progressLineData, false, 16, "").getBytes());
+      //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(progressLineData, false, 16, "").getBytes());
       m_progressLinesEnabled = (progressLineData[0] != 0);
       m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
       m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);

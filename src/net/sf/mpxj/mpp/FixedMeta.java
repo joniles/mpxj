@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class is used to represent the "FixedMeta" file entries that are
  * found in a Microsoft Project MPP file. These file entries describe the
@@ -214,7 +216,7 @@ final class FixedMeta extends MPPComponent
       for (int loop = 0; loop < m_adjustedItemCount; loop++)
       {
          pw.println("   Data at index: " + loop);
-         pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
+         pw.println("  " + ByteArrayHelper.hexdump((byte[]) m_array[loop], true));
       }
 
       pw.println("END: FixedMeta");

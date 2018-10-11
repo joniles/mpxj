@@ -73,6 +73,7 @@ import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakSTXFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
+import net.sf.mpxj.synchro.SynchroReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
 /**
@@ -297,6 +298,12 @@ public final class UniversalProjectReader implements ProjectReader
          {
             return readProjectFile(new ConceptDrawProjectReader(), bis);
          }
+
+         if (matchesFingerprint(buffer, SYNCHRO_FINGERPRINT))
+         {
+            return readProjectFile(new SynchroReader(), bis);
+         }
+
          return null;
       }
 
@@ -980,6 +987,12 @@ public final class UniversalProjectReader implements ProjectReader
    {
       (byte) 0x55,
       (byte) 0x8B
+   };
+
+   private static final byte[] SYNCHRO_FINGERPRINT =
+   {
+      (byte) 0xB6,
+      (byte) 0x17
    };
 
    private static final byte[] UTF8_BOM_FINGERPRINT =

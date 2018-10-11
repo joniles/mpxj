@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.StreamHelper;
 
 /**
@@ -422,7 +423,7 @@ final class Var2Data extends MPPComponent
       for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
          pw.println("   Data at offset: " + entry.getKey() + " size: " + entry.getValue().length);
-         pw.println(MPPUtility.hexdump(entry.getValue(), true, 16, "   "));
+         pw.println(ByteArrayHelper.hexdump(entry.getValue(), true, 16, "   "));
       }
 
       pw.println("END Var2Data");
@@ -449,7 +450,7 @@ final class Var2Data extends MPPComponent
          Integer offset = m_meta.getOffset(id, type);
          byte[] data = m_map.get(offset);
          pw.println("   Data at offset: " + offset + " size: " + data.length);
-         pw.println(MPPUtility.hexdump(data, true, 16, "   "));
+         pw.println(ByteArrayHelper.hexdump(data, true, 16, "   "));
       }
       pw.println("END Var2Data for " + id);
       pw.println();

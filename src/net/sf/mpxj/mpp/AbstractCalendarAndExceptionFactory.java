@@ -128,7 +128,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   exception.setName(MPPUtility.getUnicodeString(data, offset + 92));
                }
 
-               //System.out.println(MPPUtility.hexdump(data, offset, 92, false));
+               //System.out.println(ByteArrayHelper.hexdump(data, offset, 92, false));
 
                RecurringData rd = new RecurringData();
                int recurrenceTypeValue = MPPUtility.getShort(data, offset + 72);
@@ -222,7 +222,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
    {
       //      System.out.println("Calendar=" + cal.getName());
       //      System.out.println("Work week block start offset=" + offset);
-      //      System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+      //      System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
 
       // skip 4 byte header
       offset += 4;
@@ -245,7 +245,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          offset += 2;
 
          // skip unknown 8 bytes
-         //System.out.println(MPPUtility.hexdump(data, offset, 8, false));
+         //System.out.println(ByteArrayHelper.hexdump(data, offset, 8, false));
          offset += 8;
 
          //
@@ -280,7 +280,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
     */
    private void processWorkWeekDay(byte[] data, int offset, ProjectCalendarWeek week, Day day)
    {
-      //System.out.println(MPPUtility.hexdump(data, offset, 60, false));
+      //System.out.println(ByteArrayHelper.hexdump(data, offset, 60, false));
 
       int dayType = MPPUtility.getShort(data, offset + 0);
       if (dayType == 1)

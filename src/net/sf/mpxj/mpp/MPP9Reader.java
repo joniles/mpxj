@@ -229,7 +229,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
 
-      //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
+      //System.out.println (ByteArrayHelper.hexdump(subProjData, true, 16, ""));
       //MPPUtility.fileHexDump("c:\\temp\\dump.txt", subProjData);
 
       if (subProjData != null)
@@ -265,8 +265,8 @@ final class MPP9Reader implements MPPVariantReader
             //            System.out.println ();
             //            System.out.println ("offset=" + offset);
             //            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
-            //            System.out.println ("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
-            //            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
+            //            System.out.println ("type=" + ByteArrayHelper.hexdump(itemHeader, 16, 1, false));
+            //            System.out.println (ByteArrayHelper.hexdump(itemHeader, false, 16, ""));
 
             byte subProjectType = itemHeader[16];
             switch (subProjectType)
@@ -1090,8 +1090,8 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
-         //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
-         //System.out.println (MPPUtility.hexdump(metaData, 8, 4, false));
+         //System.out.println (ByteArrayHelper.hexdump(data, false, 16, ""));
+         //System.out.println (ByteArrayHelper.hexdump(metaData, 8, 4, false));
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
@@ -2026,7 +2026,7 @@ final class MPP9Reader implements MPPVariantReader
       InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
-      //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
       ViewStateReader reader = new ViewStateReader9();
       reader.process(m_file, varData, fixedData);
@@ -2070,7 +2070,7 @@ final class MPP9Reader implements MPPVariantReader
    //      System.out.println (name);
    //      for (int loop=0; loop < spec.length; loop++)
    //      {
-   //         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));
+   //         System.out.println (spec[loop][0] + ": "+ ByteArrayHelper.hexdump(data, spec[loop][0], spec[loop][1], false));
    //      }
    //      System.out.println ();
    //   }

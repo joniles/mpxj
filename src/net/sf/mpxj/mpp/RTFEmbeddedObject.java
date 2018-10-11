@@ -28,6 +28,8 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.common.ByteArrayHelper;
+
 /**
  * This class represents embedded object data contained within an RTF
  * document. According to the RTF specification, this data has been written using
@@ -391,7 +393,7 @@ public final class RTFEmbeddedObject
       pw.println("   Flag1=" + m_typeFlag1);
       pw.println("   Flag2=" + m_typeFlag2);
       pw.println("   Data=");
-      pw.println(MPPUtility.hexdump(m_data, true, 16, "  "));
+      pw.println(ByteArrayHelper.hexdump(m_data, true, 16, "  "));
       pw.println("]");
       pw.flush();
 

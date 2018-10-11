@@ -153,7 +153,7 @@ public abstract class CriteriaReader
       int criteriaBlockSize = getCriteriaBlockSize();
 
       //System.out.println();
-      //System.out.println(MPPUtility.hexdump(data, dataOffset, criteriaStartOffset, false));
+      //System.out.println(ByteArrayHelper.hexdump(data, dataOffset, criteriaStartOffset, false));
 
       if (m_criteriaData.length <= m_criteriaTextStart)
       {
@@ -165,7 +165,7 @@ public abstract class CriteriaReader
          byte[] block = new byte[criteriaBlockSize];
          System.arraycopy(m_criteriaData, m_dataOffset + criteriaStartOffset, block, 0, criteriaBlockSize);
          m_criteriaBlockMap.put(Integer.valueOf(criteriaStartOffset), block);
-         //System.out.println(Integer.toHexString(criteriaStartOffset) + ": " + MPPUtility.hexdump(block, false));
+         //System.out.println(Integer.toHexString(criteriaStartOffset) + ": " + ByteArrayHelper.hexdump(block, false));
          criteriaStartOffset += criteriaBlockSize;
       }
 

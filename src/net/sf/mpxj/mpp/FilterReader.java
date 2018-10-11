@@ -81,7 +81,7 @@ public abstract class FilterReader
             continue;
          }
 
-         //System.out.println(MPPUtility.hexdump(filterVarData, true, 16, ""));
+         //System.out.println(ByteArrayHelper.hexdump(filterVarData, true, 16, ""));
          List<GenericCriteriaPrompt> prompts = new LinkedList<GenericCriteriaPrompt>();
 
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);

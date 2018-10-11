@@ -117,7 +117,7 @@ class TableReader
     */
    private void readRecord(byte[] buffer, Table table)
    {
-      //System.out.println(MPPUtility.hexdump(buffer, true, 16, ""));
+      //System.out.println(ByteArrayHelper.hexdump(buffer, true, 16, ""));
       int deletedFlag = getShort(buffer, 0);
       if (deletedFlag != 0)
       {

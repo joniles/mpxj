@@ -110,7 +110,7 @@ class TableReader
       int magicNumber = getShort(buffer, 0);
       if (magicNumber == 0x4400)
       {
-         //System.out.println(MPPUtility.hexdump(buffer, 0, 6, true, 16, ""));
+         //System.out.println(ByteArrayHelper.hexdump(buffer, 0, 6, true, 16, ""));
          int recordSize = m_definition.getRecordSize();
          RowValidator rowValidator = m_definition.getRowValidator();
          String primaryKeyColumnName = m_definition.getPrimaryKeyColumnName();
@@ -118,7 +118,7 @@ class TableReader
          int index = 6;
          while (index + recordSize <= buffer.length)
          {
-            //System.out.println(MPPUtility.hexdump(buffer, index, recordSize, true, 16, ""));
+            //System.out.println(ByteArrayHelper.hexdump(buffer, index, recordSize, true, 16, ""));
             int btrieveValue = getShort(buffer, index);
             if (btrieveValue != 0)
             {

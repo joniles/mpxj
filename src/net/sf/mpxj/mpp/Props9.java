@@ -70,7 +70,7 @@ final class Props9 extends Props
          availableBytes -= itemSize;
 
          m_map.put(Integer.valueOf(itemKey), data);
-         //pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
+         //pw.println(foundCount + " "+ attrib2 + ": " + ByteArrayHelper.hexdump(data, true));
          ++foundCount;
 
          //

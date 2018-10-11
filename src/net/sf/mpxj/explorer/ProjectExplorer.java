@@ -95,7 +95,7 @@ public class ProjectExplorer
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
-      fileChooserModel.setExtensions("cdpx", "cdpz", "fts", "gan", "mdb", "mpp", "mpx", "pep", "planner", "pmxml", "pod", "pp", "ppx", "prx", "stx", "xer", "xml", "zip");
+      fileChooserModel.setExtensions("cdpx", "cdpz", "fts", "gan", "mdb", "mpp", "mpx", "pep", "planner", "pmxml", "pod", "pp", "ppx", "prx", "sp", "stx", "xer", "xml", "zip");
 
       final FileSaverModel fileSaverModel = new FileSaverModel();
       final FileSaverController fileSaverController = new FileSaverController(fileSaverModel);

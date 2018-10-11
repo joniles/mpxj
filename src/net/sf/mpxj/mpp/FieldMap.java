@@ -180,7 +180,7 @@ abstract class FieldMap
          FieldItem item = new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey, mask, metaBlock);
          //         if (location == FieldLocation.META_DATA)
          //         {
-         //            System.out.println(MPPUtility.hexdump(data, index, 28, false) + " " + item + " mpxjDataType=" + item.getType().getDataType() + " index=" + index);
+         //            System.out.println(ByteArrayHelper.hexdump(data, index, 28, false) + " " + item + " mpxjDataType=" + item.getType().getDataType() + " index=" + index);
          //         }
          m_map.put(type, item);
 
@@ -320,7 +320,7 @@ abstract class FieldMap
          while (index < fieldMapData.length)
          {
             //Looks like the custom fields have varying types, it may be that the last byte of the four represents the type?
-            //System.out.println(MPPUtility.hexdump(fieldMapData, index, 4, false));
+            //System.out.println(ByteArrayHelper.hexdump(fieldMapData, index, 4, false));
             int typeValue = MPPUtility.getInt(fieldMapData, index);
             FieldType type = getFieldType(typeValue);
             if (type != null && type.getClass() == c && type.toString().startsWith("Enterprise Custom Field"))
