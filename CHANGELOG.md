@@ -2,7 +2,7 @@
 
 ## 7.7.1 (git master)
 
-## 7.7.0 (11/10/2018)
+## 7.7.0 (12/10/2018)
 * Add support for reading the Synchro Scheduler SP files.
 * Add support for reading the activity code (ID) from Asta files.
 * When reading a Phoenix file, set the project's status date to the data date from the storepoint.
