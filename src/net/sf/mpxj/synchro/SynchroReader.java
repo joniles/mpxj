@@ -289,7 +289,6 @@ public final class SynchroReader extends AbstractProjectReader
       task.setName(row.getString("NAME"));
       task.setGUID(row.getUUID("UUID"));
       task.setText(1, row.getString("ID"));
-      task.setStart(row.getDate("START"));
       task.setDuration(row.getDuration("PLANNED_DURATION"));
       task.setRemainingDuration(row.getDuration("REMAINING_DURATION"));
       task.setHyperlink(row.getString("URL"));
@@ -297,18 +296,44 @@ public final class SynchroReader extends AbstractProjectReader
       task.setNotes(getNotes(row.getRows("COMMENTARY")));
       task.setMilestone(task.getDuration().getDuration() == 0);
 
-      if (row.getInteger("STATUS").intValue() == 3)
-      {
-         task.setPercentageComplete(Double.valueOf(100.0));
-      }
-
       ProjectCalendar calendar = m_calendarMap.get(row.getUUID("CALENDAR_UUID"));
       if (calendar != m_project.getDefaultCalendar())
       {
          task.setCalendar(calendar);
       }
 
-      task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+      switch (row.getInteger("STATUS").intValue())
+      {
+         case 1: // Planned
+         {
+            task.setStart(row.getDate("PLANNED_START"));
+            task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+            break;
+         }
+
+         case 2: // Started
+         {
+            task.setActualStart(row.getDate("ACTUAL_START"));
+            task.setStart(task.getActualStart());
+            task.setFinish(row.getDate("ESTIMATED_FINISH"));
+            if (task.getFinish() == null)
+            {
+               task.setFinish(row.getDate("PLANNED_FINISH"));
+            }
+            break;
+         }
+
+         case 3: // Finished
+         {
+            task.setActualStart(row.getDate("ACTUAL_START"));
+            task.setActualFinish(row.getDate("ACTUAL_FINISH"));
+            task.setPercentageComplete(Double.valueOf(100.0));
+            task.setStart(task.getActualStart());
+            task.setFinish(task.getActualFinish());
+            break;
+         }
+      }
+
       setConstraints(task, row);
 
       processChildTasks(task, row);
