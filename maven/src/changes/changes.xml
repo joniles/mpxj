@@ -7,7 +7,7 @@
 	<body>
 		<release date="git master" version="7.7.1">
 		</release>
-		<release date="11/10/2018" version="7.7.0">
+		<release date="12/10/2018" version="7.7.0">
 			<action dev="joniles" type="add">Add support for reading the Synchro Scheduler SP files.</action>
 			<action dev="joniles" type="add">Add support for reading the activity code (ID) from Asta files.</action>
 			<action dev="joniles" type="add">When reading a Phoenix file, set the project's status date to the data date from the storepoint.</action>
