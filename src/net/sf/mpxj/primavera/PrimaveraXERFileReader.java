@@ -445,6 +445,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
          customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
          customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
+         customProperties.put("IgnoreOtherProjectRelationships", row.getString("sched_outer_depend_type"));
+         customProperties.put("StartToStartLagCalculationType", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
          m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
       }
    }
