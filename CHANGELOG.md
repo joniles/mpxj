@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.7.1 (git master)
+* Read additional schedule options from XER files. (Contributed by forenpm)
 
 ## 7.7.0 (12/10/2018)
 * Add support for reading the Synchro Scheduler SP files.
