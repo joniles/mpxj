@@ -93,7 +93,7 @@ public class ResourceAssignmentFactory
       for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
-         if (meta[0] != 0)
+         if (meta == null || meta[0] != 0)
          {
             continue;
          }
