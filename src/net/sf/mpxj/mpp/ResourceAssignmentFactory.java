@@ -179,7 +179,9 @@ public class ResourceAssignmentFactory
 
             Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
             ProjectCalendar calendar = null;
-            if (resource != null)
+            calendar = task.getEffectiveCalendar();
+
+            if (resource != null && resource.getType() == ResourceType.WORK) //VGerya - task.getEffectiveCalendar() for material resources should to be used
             {
                calendar = resource.getResourceCalendar();
             }
@@ -218,7 +220,7 @@ public class ResourceAssignmentFactory
             byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
 
             List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualWorkData);
-            List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), timephasedWorkData, timephasedActualWork);
+            List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment.getStart(), assignment.getUnits().doubleValue(), timephasedWorkData, timephasedActualWork, resource.getType());
             List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
 
             assignment.setActualStart(timephasedActualWork.isEmpty() ? null : assignment.getStart());
@@ -383,26 +385,38 @@ public class ResourceAssignmentFactory
 
    private static final MppBitFlag[] MPP14_ASSIGNMENT_META_DATA_BIT_FLAGS =
    {
-      new MppBitFlag(AssignmentField.FLAG10, 28, 0x000002, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG1, 28, 0x000004, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG2, 28, 0x000008, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG3, 28, 0x000010, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG4, 28, 0x000020, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG5, 28, 0x000040, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG6, 28, 0x000080, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG7, 28, 0x000100, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG8, 28, 0x000200, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG9, 28, 0x000400, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG11, 28, 0x000800, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG12, 28, 0x001000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG13, 28, 0x002000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG14, 28, 0x004000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG15, 28, 0x008000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG16, 28, 0x010000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG17, 28, 0x020000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG18, 28, 0x040000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG19, 28, 0x080000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG20, 28, 0x100000, Boolean.FALSE, Boolean.TRUE)
+      //      new MppBitFlag(AssignmentField.FLAG10, 20, 0x000002, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG1, 20, 0x000004, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG2, 20, 0x000008, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG3, 20, 0x000010, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG4, 20, 0x000020, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG5, 20, 0x000040, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG6, 20, 0x000080, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG7, 20, 0x000100, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG8, 20, 0x000200, Boolean.FALSE, Boolean.TRUE),
+      //      new MppBitFlag(AssignmentField.FLAG9, 20, 0x000400, Boolean.FALSE, Boolean.TRUE),
+      //  < VGerya, new mapping for assignment flags
+      new MppBitFlag(AssignmentField.FLAG1, 20, 0x000002, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG2, 20, 0x000004, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG3, 20, 0x000008, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG4, 20, 0x000010, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG5, 20, 0x000020, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG6, 20, 0x000040, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG7, 20, 0x000080, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG8, 20, 0x000100, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG9, 20, 0x000200, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG10, 20, 0x000001, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG11, 25, 0x000008, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG12, 25, 0x000010, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG13, 25, 0x000020, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG14, 25, 0x000040, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG15, 25, 0x000080, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG16, 25, 0x000100, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG17, 25, 0x000200, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG18, 25, 0x000400, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG19, 25, 0x000800, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.FLAG20, 25, 0x001000, Boolean.FALSE, Boolean.TRUE)
+            //  </ VGerya, new mapping for assignment flags
    };
 
    private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
