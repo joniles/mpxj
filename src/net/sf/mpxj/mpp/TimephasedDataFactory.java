@@ -30,6 +30,7 @@ import java.util.List;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
@@ -157,9 +158,10 @@ final class TimephasedDataFactory
     * @param units assignment units
     * @param data planned work data block
     * @param timephasedComplete list of complete work
+    * @param resourceType resource type
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete)
+   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
       LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
@@ -176,7 +178,15 @@ final class TimephasedDataFactory
                double time = MPPUtility.getDouble(data, 16);
                time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
-               Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
+               Duration adjustedTotalWork;
+               if (resourceType == ResourceType.WORK)
+               {
+                  adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
+               }
+               else
+               {
+                  adjustedTotalWork = Duration.getInstance(time, TimeUnit.MINUTES);
+               }
                Date finish = calendar.getDate(startWork, adjustedTotalWork, false);
 
                time = MPPUtility.getDouble(data, 8);

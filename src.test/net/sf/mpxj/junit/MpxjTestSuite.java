@@ -27,6 +27,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import net.sf.mpxj.junit.assignment.AssignmentAssignmentsTest;
+import net.sf.mpxj.junit.assignment.AssignmentFlagsTest;
+import net.sf.mpxj.junit.assignment.AssignmentTextTest;
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
@@ -133,6 +135,8 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    TaskContainerTest.class,
    AvailabilityTableTest.class,
    AssignmentAssignmentsTest.class,
+   AssignmentFlagsTest.class,
+   AssignmentTextTest.class,
    ResourceMiscTest.class,
    ResourceFlagsTest.class,
    ResourceNumbersTest.class,
