@@ -15,7 +15,8 @@ Sub GenerateAll()
     GenerateBaselines
     GenerateProjectValueLists
     GenerateCalendars
-    GenerateResourceAsignments
+    GenerateResourceAssignments
+    GenerateResourceAssignmentFlags
     GenerateResources
     GenerateResourceCustomFlags
     GenerateResourceCustomNumbers
@@ -342,27 +343,27 @@ Sub GenerateTaskCustomOutlineCodes()
     Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=1, Code:="OC10A"
     Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=2, Code:="OC10B"
     
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode1, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode2, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode3, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode4, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode5, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode6, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode7, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode8, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode9, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode10, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode4, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode5, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode6, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode7, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode8, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode9, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode10, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
 
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode1, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode2, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode3, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode4, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode5, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode6, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode7, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode8, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode9, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
-    CustomOutlineCodeEdit fieldID:=pjCustomTaskOutlineCode10, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode4, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode5, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode6, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode7, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode8, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode9, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
+    CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode10, Level:=2, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
 
     Vals = Array("OC1A", "OC2A", "OC3A", "OC4A", "OC5A", "OC6A", "OC7A", "OC8A", "OC9A", "OC10A")
     AddTasksWithCustomFieldValues "Outline Code", Vals
@@ -569,36 +570,36 @@ Sub GenerateProjectValueLists()
     FileNew SummaryInfo:=False
 
         ' Cost
-    CustomFieldProperties fieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList fieldID:=pjCustomTaskCost1, RestrictToList:=True
+    CustomFieldProperties FieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList FieldID:=pjCustomTaskCost1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskCost1, value:="1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskCost1, value:="2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskCost1, value:="3", Description:="Description 3"
 
         ' Date
-    CustomFieldProperties fieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList fieldID:=pjCustomTaskDate1, RestrictToList:=True
+    CustomFieldProperties FieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList FieldID:=pjCustomTaskDate1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskDate1, value:="01/01/2015 08:00", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskDate1, value:="02/01/2015 08:00", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskDate1, value:="03/01/2015 08:00", Description:="Description 3"
 
         ' Duration
-    CustomFieldProperties fieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList fieldID:=pjCustomTaskDuration1, RestrictToList:=True
+    CustomFieldProperties FieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList FieldID:=pjCustomTaskDuration1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskDuration1, value:="1d", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskDuration1, value:="2d", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskDuration1, value:="3d", Description:="Description 3"
 
         ' Number
-    CustomFieldProperties fieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList fieldID:=pjCustomTaskNumber1, RestrictToList:=True
+    CustomFieldProperties FieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList FieldID:=pjCustomTaskNumber1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskNumber1, value:="1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskNumber1, value:="2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskNumber1, value:="3", Description:="Description 3"
 
         ' Text
-    CustomFieldProperties fieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
-    CustomFieldValueList fieldID:=pjCustomTaskText1, RestrictToList:=True
+    CustomFieldProperties FieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
+    CustomFieldValueList FieldID:=pjCustomTaskText1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskText1, value:="Value 1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskText1, value:="Value 2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskText1, value:="Value 3", Description:="Description 3"
@@ -624,7 +625,7 @@ Sub GenerateCalendars()
     FileClose pjDoNotSave
 End Sub
 
-Sub GenerateResourceAsignments()
+Sub GenerateResourceAssignments()
     FileNew SummaryInfo:=False
         
     Dim task1 As task
@@ -659,6 +660,49 @@ Sub GenerateResourceAsignments()
     task3.PercentComplete = 50
     
     SaveFiles "assignment-assignments"
+    
+    FileClose pjDoNotSave
+End Sub
+
+Sub GenerateResourceAssignmentFlags()
+    FileNew SummaryInfo:=False
+
+    ViewApply name:="Resource &Usage"
+
+    Dim taskName As String
+    Dim resourceName As String
+    Dim flagName As String
+    
+    Dim task As task
+    Dim resource As resource
+    Dim assignment As assignment
+    
+    For index = 1 To 20
+        taskName = "Task " & index
+        Set task = ActiveProject.Tasks.Add(taskName)
+               
+        resourceName = "Resource " & index
+        Set resource = ActiveProject.Resources.Add(resourceName)
+        
+        task.Start = "04/01/2016 08:00"
+        task.Duration = "10d"
+        task.Assignments.Add ResourceID:=resource.ID
+        
+        flagName = "Flag" & index
+        TableEditEx name:="&Usage", TaskTable:=False, NewName:="", NewFieldName:=flagName, Width:=20, ShowInMenu:=True, LockFirstColumn:=True, DateFormat:=255, RowHeight:=1, ColumnPosition:=2 + index
+        TableApply name:="&Usage"
+    Next
+    
+    SelectResourceField Row:=1, Column:="Flag1"
+    SetTaskField Field:="Flag1", value:="Yes"
+    
+    For index = 2 To 20
+        flagName = "Flag" & index
+        SelectResourceField Row:=2, Column:=flagName
+        SetTaskField Field:=flagName, value:="Yes"
+    Next
+    
+    SaveFiles "assignment-flags"
     
     FileClose pjDoNotSave
 End Sub
@@ -746,8 +790,8 @@ End Sub
 ' If you have a file which contains manually created test data
 ' you can still save different versions of it by updating and
 ' using this sub.
-Sub SaveCurrentFile
-	SaveFiles "<your base filename here>"
+Sub SaveCurrentFile()
+    SaveFiles "<your base filename here>"
 End Sub
 
 Sub SaveFiles(FilenameBase As String)
@@ -873,4 +917,6 @@ Sub SaveFiles(FilenameBase As String)
             
     End Select
 End Sub
+
+
 
