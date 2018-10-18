@@ -1,4 +1,3 @@
-
 Sub GenerateAll()
     GenerateTaskCustomFlags
     GenerateTaskCustomNumbers
@@ -17,6 +16,7 @@ Sub GenerateAll()
     GenerateCalendars
     GenerateResourceAssignments
     GenerateResourceAssignmentFlags
+    GenerateResourceAssignmentText
     GenerateResources
     GenerateResourceCustomFlags
     GenerateResourceCustomNumbers
@@ -37,21 +37,21 @@ Sub AddTasksWithFieldValues(fieldName As String, Vals As Variant)
 
     Dim index As Integer
     Dim offset As Integer
-    
+
     If LBound(Vals) = 0 Then
         offset = 1
     Else
         offset = 0
     End If
-    
+
     For index = LBound(Vals) To UBound(Vals)
-        
+
         Dim taskName As String
         taskName = fieldName & " - " & "Task " & index
-        
+
         Dim task As task
         Set task = ActiveProject.Tasks.Add(taskName)
-        
+
         SetTaskField Field:=fieldName, value:=Vals(index), TaskID:=task.ID
     Next
 
@@ -62,21 +62,21 @@ Sub AddTasksWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant)
 
     Dim index As Integer
     Dim offset As Integer
-    
+
     If LBound(Vals) = 0 Then
         offset = 1
     Else
         offset = 0
     End If
-    
+
     For index = LBound(Vals) To UBound(Vals)
         Dim fieldName As String
         fieldName = FieldNamePrefix & (index + offset)
-        
+
         Dim task As task
         Set task = ActiveProject.Tasks.Add(fieldName)
         SetTaskField Field:=fieldName, value:=Vals(index), TaskID:=task.ID
-                                      
+
         AddTaskColumn fieldName
     Next
 
@@ -88,42 +88,42 @@ Sub AddResourcesWithCustomFieldValues(FieldNamePrefix As String, Vals As Variant
 
     Dim index As Integer
     Dim offset As Integer
-    
+
     If LBound(Vals) = 0 Then
         offset = 1
     Else
         offset = 0
     End If
-    
+
     For index = LBound(Vals) To UBound(Vals)
         Dim fieldName As String
         fieldName = FieldNamePrefix & (index + offset)
         'Dim fieldID As Long
         'fieldID = FieldNameToFieldConstant(fieldName, pjResource)
-        
+
         Dim resource As resource
         Set resource = ActiveProject.Resources.Add(fieldName)
-        
+
         SetResourceField Field:=fieldName, value:=Vals(index), ResourceID:=resource.ID
         'SetResourceField fieldName, Vals(index), False, False, resource.ID
         'resource.SetField fieldID, Vals(index)
-        
+
         AddResourceColumn fieldName
     Next
 
 End Sub
-    
+
 Sub AddTasksWithBaselineFieldValues(fieldName As String, Vals As Variant)
 
     Dim index As Integer
     Dim offset As Integer
-    
+
     If LBound(Vals) = 0 Then
         offset = 1
     Else
         offset = 0
     End If
-    
+
     For index = LBound(Vals) To UBound(Vals)
 
         Dim actualFieldName As String
@@ -132,19 +132,19 @@ Sub AddTasksWithBaselineFieldValues(fieldName As String, Vals As Variant)
         Else
                 actualFieldName = "Baseline" & (index + offset - 1) & " " & fieldName
         End If
-        
+
         Dim taskName As String
         taskName = actualFieldName & " - " & "Task"
-        
+
         Dim task As task
         Set task = ActiveProject.Tasks.Add(taskName)
-        
-        
+
+
         SetTaskField Field:=actualFieldName, value:=Vals(index), TaskID:=task.ID
     Next
 
 End Sub
-    
+
 Sub AddTaskColumn(fieldName As String)
     Dim tableName As String
     tableName = ActiveProject.TaskTableList.Item(1)
@@ -165,39 +165,39 @@ End Sub
 Sub GenerateTaskCustomFlags()
 
     Dim Vals As Variant
-    
+
     Vals = Array("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Flag", Vals
-    
+
     SaveFiles "task-flags"
-    
+
     FileClose pjDoNotSave
-            
+
 End Sub
 
 Sub GenerateTaskCustomNumbers()
 
     Dim Vals As Variant
-    
+
     Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Number", Vals
-    
+
     SaveFiles "task-numbers"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 Sub GenerateTaskCustomDurations()
-                
+
     FileNew SummaryInfo:=False
-    
+
     Dim Vals As Variant
 
     '
@@ -205,7 +205,7 @@ Sub GenerateTaskCustomDurations()
     '
     Vals = Array("1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d")
     AddTasksWithCustomFieldValues "Duration", Vals
-    
+
     '
     ' Verify that we're reading the duration units correctly for each field
     '
@@ -214,17 +214,17 @@ Sub GenerateTaskCustomDurations()
     Else
         Vals = Array("1m", "1h", "1d", "1w", "1mo", "1em", "1eh", "1ed", "1ew", "1emo")
     End If
-    
+
     Dim index As Integer
     For index = 1 To 10
         AddTasksWithFieldValues "Duration" & index, Vals
     Next
 
-    
+
     SaveFiles "task-durations"
-    
+
     FileClose pjDoNotSave
-                
+
 End Sub
 
 '
@@ -233,90 +233,90 @@ End Sub
 Sub GenerateTaskCustomDates()
 
     Dim Vals As Variant
-    
+
     Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Date", Vals
-    
+
     SaveFiles "task-dates"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 
 Sub GenerateTaskCustomStarts()
 
     Dim Vals As Variant
-    
+
     Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Start", Vals
-    
+
     SaveFiles "task-starts"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 Sub GenerateTaskCustomFinishes()
 
     Dim Vals As Variant
-    
+
     Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Finish", Vals
-    
+
     SaveFiles "task-finishes"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 Sub GenerateTaskCustomCosts()
 
     Dim Vals As Variant
-    
+
     Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Cost", Vals
-    
+
     SaveFiles "task-costs"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 
 Sub GenerateTaskCustomText()
 
     Dim Vals As Variant
-    
+
     Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddTasksWithCustomFieldValues "Text", Vals
-    
+
     SaveFiles "task-text"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 
 Sub GenerateTaskCustomOutlineCodes()
-        
+
     Dim Vals As Variant
-            
+
     FileNew SummaryInfo:=False
 
     '
@@ -342,7 +342,7 @@ Sub GenerateTaskCustomOutlineCodes()
     Application.LookUpTableAdd pjCustomTaskOutlineCode9, Level:=2, Code:="OC9B"
     Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=1, Code:="OC10A"
     Application.LookUpTableAdd pjCustomTaskOutlineCode10, Level:=2, Code:="OC10B"
-    
+
     CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode1, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
     CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode2, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
     CustomOutlineCodeEdit FieldID:=pjCustomTaskOutlineCode3, Level:=1, Sequence:=pjCustomOutlineCodeCharacters, Length:="Any", Separator:="."
@@ -370,11 +370,11 @@ Sub GenerateTaskCustomOutlineCodes()
 
     Vals = Array("OC1A.OC1B", "OC2A.OC2B", "OC3A.OC3B", "OC4A.OC4B", "OC5A.OC5B", "OC6A.OC6B", "OC7A.OC7B", "OC8A.OC8B", "OC9A.OC9B", "OC10A.OC10B")
     AddTasksWithCustomFieldValues "Outline Code", Vals
-    
+
     SaveFiles "task-outlinecodes"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 
@@ -384,11 +384,11 @@ Sub GenerateTaskLinks()
 
     Dim task1 As task
     Dim task2 As task
-    
+
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     LinkTasksEdit From:=task1.ID, To:=task2.ID, Type:=1, Lag:="0d"
-    
+
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     LinkTasksEdit From:=task1.ID, To:=task2.ID, Type:=1, Lag:="1d"
@@ -404,11 +404,11 @@ Sub GenerateTaskLinks()
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     LinkTasksEdit From:=task1.ID, To:=task2.ID, Type:=1, Lag:="2w"
-    
+
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     LinkTasksEdit From:=task1.ID, To:=task2.ID, Type:=2, Lag:="2d"
-    
+
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     LinkTasksEdit From:=task1.ID, To:=task2.ID, Type:=3, Lag:="2d"
@@ -416,9 +416,9 @@ Sub GenerateTaskLinks()
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     LinkTasksEdit From:=task1.ID, To:=task2.ID, Type:=0, Lag:="2d"
-    
+
     SaveFiles "task-links"
-    
+
     FileClose pjDoNotSave
 
 
@@ -431,21 +431,21 @@ Sub GenerateTaskTextValues()
     ActiveProject.BuiltinDocumentProperties("Author").value = "Project User"
 
     Dim task As task
-    
+
     Set task = ActiveProject.Tasks.Add("Start is text")
     SetTaskField Field:="Task Mode", value:="Yes", TaskID:=task.ID
     SetTaskField Field:="Start", value:="AAA", TaskID:=task.ID
-    
+
     Set task = ActiveProject.Tasks.Add("Finish is text")
     SetTaskField Field:="Task Mode", value:="Yes", TaskID:=task.ID
     SetTaskField Field:="Finish", value:="BBB", TaskID:=task.ID
-    
+
     Set task = ActiveProject.Tasks.Add("Duration is text")
     SetTaskField Field:="Task Mode", value:="Yes", TaskID:=task.ID
     SetTaskField Field:="Duration", value:="CCC", TaskID:=task.ID
-    
+
     SaveFiles "task-textvalues"
-    
+
     FileClose pjDoNotSave
 
 End Sub
@@ -496,7 +496,7 @@ Sub GenerateProjectProperties()
             value:="01/01/2014"
 
     SaveFiles "project-properties"
-    
+
     FileClose pjDoNotSave
 
 
@@ -506,61 +506,60 @@ End Sub
 Sub GenerateBaselines()
 
     FileNew SummaryInfo:=False
-    
+
     Dim Vals As Variant
-    
+
     If CDbl(Application.Version) < 10# Then
-            Vals = Array("1")
-            AddTasksWithBaselineFieldValues "Cost", Vals
+        Vals = Array("1")
+        AddTasksWithBaselineFieldValues "Cost", Vals
 
-            Vals = Array("11d")
-            AddTasksWithBaselineFieldValues "Duration", Vals
-        
-                Vals = Array("01/03/2014 09:00")
-                AddTasksWithBaselineFieldValues "Finish", Vals
-        
-                Vals = Array("01/04/2014 09:00")
-                AddTasksWithBaselineFieldValues "Start", Vals
+        Vals = Array("11d")
+        AddTasksWithBaselineFieldValues "Duration", Vals
 
-            Vals = Array("51h")
-            AddTasksWithBaselineFieldValues "Work", Vals
-        Else
-            Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
-            AddTasksWithBaselineFieldValues "Cost", Vals
+        Vals = Array("01/03/2014 09:00")
+        AddTasksWithBaselineFieldValues "Finish", Vals
 
-            Vals = Array("11d", "12d", "13d", "14d", "15d", "16d", "17d", "18d", "19d", "20d", "21d")
-            AddTasksWithBaselineFieldValues "Duration", Vals
-        
-                Vals = Array("01/03/2014 09:00", "02/03/2014 10:00", "03/03/2014 11:00", "04/03/2014 12:00", "05/03/2014 13:00", "06/03/2014 14:00", "07/03/2014 15:00", "08/03/2014 16:00", "09/03/2014 17:00", "10/03/2014 18:00", "10/03/2014 19:00")
-                AddTasksWithBaselineFieldValues "Finish", Vals
-        
-                Vals = Array("01/04/2014 09:00", "02/04/2014 10:00", "03/04/2014 11:00", "04/04/2014 12:00", "05/04/2014 13:00", "06/04/2014 14:00", "07/04/2014 15:00", "08/04/2014 16:00", "09/04/2014 17:00", "10/04/2014 18:00", "10/04/2014 19:00")
-                AddTasksWithBaselineFieldValues "Start", Vals
+        Vals = Array("01/04/2014 09:00")
+        AddTasksWithBaselineFieldValues "Start", Vals
 
-            Vals = Array("51h", "52h", "53h", "54h", "55h", "56h", "57h", "58h", "59h", "60h", "61h")
-            AddTasksWithBaselineFieldValues "Work", Vals
-        
-        End If
-        
-        If CDbl(Application.Version) >= 14# Then
+        Vals = Array("51h")
+        AddTasksWithBaselineFieldValues "Work", Vals
+    Else
+        Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
+        AddTasksWithBaselineFieldValues "Cost", Vals
+
+        Vals = Array("11d", "12d", "13d", "14d", "15d", "16d", "17d", "18d", "19d", "20d", "21d")
+        AddTasksWithBaselineFieldValues "Duration", Vals
+
+        Vals = Array("01/03/2014 09:00", "02/03/2014 10:00", "03/03/2014 11:00", "04/03/2014 12:00", "05/03/2014 13:00", "06/03/2014 14:00", "07/03/2014 15:00", "08/03/2014 16:00", "09/03/2014 17:00", "10/03/2014 18:00", "10/03/2014 19:00")
+        AddTasksWithBaselineFieldValues "Finish", Vals
+
+        Vals = Array("01/04/2014 09:00", "02/04/2014 10:00", "03/04/2014 11:00", "04/04/2014 12:00", "05/04/2014 13:00", "06/04/2014 14:00", "07/04/2014 15:00", "08/04/2014 16:00", "09/04/2014 17:00", "10/04/2014 18:00", "10/04/2014 19:00")
+        AddTasksWithBaselineFieldValues "Start", Vals
+
+        Vals = Array("51h", "52h", "53h", "54h", "55h", "56h", "57h", "58h", "59h", "60h", "61h")
+        AddTasksWithBaselineFieldValues "Work", Vals
+    End If
+
+    If CDbl(Application.Version) >= 14# Then
         Vals = Array("31d", "32d", "33d", "34d", "35d", "36d", "37d", "38d", "39d", "40d", "41d")
         AddTasksWithBaselineFieldValues "Estimated Duration", Vals
 
-                Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00", "10/01/2014 19:00")
-                AddTasksWithBaselineFieldValues "Estimated Finish", Vals
-        
-                Vals = Array("01/02/2014 09:00", "02/02/2014 10:00", "03/02/2014 11:00", "04/02/2014 12:00", "05/02/2014 13:00", "06/02/2014 14:00", "07/02/2014 15:00", "08/02/2014 16:00", "09/02/2014 17:00", "10/02/2014 18:00", "10/02/2014 19:00")
-                AddTasksWithBaselineFieldValues "Estimated Start", Vals
+        Vals = Array("01/01/2014 09:00", "02/01/2014 10:00", "03/01/2014 11:00", "04/01/2014 12:00", "05/01/2014 13:00", "06/01/2014 14:00", "07/01/2014 15:00", "08/01/2014 16:00", "09/01/2014 17:00", "10/01/2014 18:00", "10/01/2014 19:00")
+        AddTasksWithBaselineFieldValues "Estimated Finish", Vals
+
+        Vals = Array("01/02/2014 09:00", "02/02/2014 10:00", "03/02/2014 11:00", "04/02/2014 12:00", "05/02/2014 13:00", "06/02/2014 14:00", "07/02/2014 15:00", "08/02/2014 16:00", "09/02/2014 17:00", "10/02/2014 18:00", "10/02/2014 19:00")
+        AddTasksWithBaselineFieldValues "Estimated Start", Vals
 
         Vals = Array("11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21")
         AddTasksWithBaselineFieldValues "Fixed Cost", Vals
 
         Vals = Array("Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated", "End", "Start", "Prorated")
         AddTasksWithBaselineFieldValues "Fixed Cost Accrual", Vals
-        End If
-             
+    End If
+
     SaveFiles "task-baselines"
-    
+
     FileClose pjDoNotSave
 
 End Sub
@@ -569,35 +568,35 @@ Sub GenerateProjectValueLists()
 
     FileNew SummaryInfo:=False
 
-        ' Cost
+    ' Cost
     CustomFieldProperties FieldID:=pjCustomTaskCost1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskCost1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskCost1, value:="1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskCost1, value:="2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskCost1, value:="3", Description:="Description 3"
 
-        ' Date
+    ' Date
     CustomFieldProperties FieldID:=pjCustomTaskDate1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskDate1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskDate1, value:="01/01/2015 08:00", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskDate1, value:="02/01/2015 08:00", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskDate1, value:="03/01/2015 08:00", Description:="Description 3"
 
-        ' Duration
+    ' Duration
     CustomFieldProperties FieldID:=pjCustomTaskDuration1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskDuration1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskDuration1, value:="1d", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskDuration1, value:="2d", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskDuration1, value:="3d", Description:="Description 3"
 
-        ' Number
+    ' Number
     CustomFieldProperties FieldID:=pjCustomTaskNumber1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskNumber1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskNumber1, value:="1", Description:="Description 1"
     CustomFieldValueListAdd pjCustomTaskNumber1, value:="2", Description:="Description 2"
     CustomFieldValueListAdd pjCustomTaskNumber1, value:="3", Description:="Description 3"
 
-        ' Text
+    ' Text
     CustomFieldProperties FieldID:=pjCustomTaskText1, Attribute:=pjFieldAttributeValueList
     CustomFieldValueList FieldID:=pjCustomTaskText1, RestrictToList:=True
     CustomFieldValueListAdd pjCustomTaskText1, value:="Value 1", Description:="Description 1"
@@ -605,62 +604,62 @@ Sub GenerateProjectValueLists()
     CustomFieldValueListAdd pjCustomTaskText1, value:="Value 3", Description:="Description 3"
 
     SaveFiles "project-valuelists"
-        
+
     FileClose pjDoNotSave
 End Sub
 
 Sub GenerateCalendars()
     FileNew SummaryInfo:=False
-    
+
     ' Add project calendars
     BaseCalendarCreate name:="Calendar1"
     BaseCalendarCreate name:="Calendar2"
-    
+
     ' Add resource calendars
     ActiveProject.Resources.Add ("Resource One")
     ActiveProject.Resources.Add ("Resource Two")
-    
+
     SaveFiles "calendar-calendars"
-        
+
     FileClose pjDoNotSave
 End Sub
 
 Sub GenerateResourceAssignments()
     FileNew SummaryInfo:=False
-        
+
     Dim task1 As task
     Dim task2 As task
     Dim task3 As task
-    
+
     Set task1 = ActiveProject.Tasks.Add("Task 1")
     Set task2 = ActiveProject.Tasks.Add("Task 2")
     Set task3 = ActiveProject.Tasks.Add("Task 3")
-    
+
     Dim resource1 As resource
     Dim resource2 As resource
     Dim resource3 As resource
-    
+
     Set resource1 = ActiveProject.Resources.Add("Resource 1")
     Set resource2 = ActiveProject.Resources.Add("Resource 2")
     Set resource3 = ActiveProject.Resources.Add("Resource 3")
-    
+
     task1.Start = "04/01/2016 08:00"
     task2.Start = "04/01/2016 08:00"
     task3.Start = "04/01/2016 08:00"
-    
+
     task1.Duration = "10d"
     task2.Duration = "10d"
     task3.Duration = "10d"
-    
+
     task1.Assignments.Add ResourceID:=resource1.ID
     task2.Assignments.Add ResourceID:=resource2.ID
     task3.Assignments.Add ResourceID:=resource3.ID
-    
+
     task2.PercentComplete = 25
     task3.PercentComplete = 50
-    
+
     SaveFiles "assignment-assignments"
-    
+
     FileClose pjDoNotSave
 End Sub
 
@@ -672,119 +671,162 @@ Sub GenerateResourceAssignmentFlags()
     Dim taskName As String
     Dim resourceName As String
     Dim flagName As String
-    
+
     Dim task As task
     Dim resource As resource
     Dim assignment As assignment
-    
+
     For index = 1 To 20
         taskName = "Task " & index
         Set task = ActiveProject.Tasks.Add(taskName)
-               
+
         resourceName = "Resource " & index
         Set resource = ActiveProject.Resources.Add(resourceName)
-        
+
         task.Start = "04/01/2016 08:00"
         task.Duration = "10d"
         task.Assignments.Add ResourceID:=resource.ID
-        
+
         flagName = "Flag" & index
         TableEdit name:="&Usage", TaskTable:=False, NewFieldName:=flagName
         TableApply name:="&Usage"
     Next
-    
+
     SelectResourceField Row:=1, Column:="Flag1"
     SetTaskField Field:="Flag1", value:="Yes"
-    
+
     For index = 2 To 20
         flagName = "Flag" & index
         SelectResourceField Row:=2, Column:=flagName
         SetTaskField Field:=flagName, value:="Yes"
     Next
-    
+
     SaveFiles "assignment-flags"
-    
+
+    FileClose pjDoNotSave
+End Sub
+
+Sub GenerateResourceAssignmentText()
+    FileNew SummaryInfo:=False
+
+    ViewApply name:="Resource &Usage"
+
+    Dim taskName As String
+    Dim resourceName As String
+    Dim fieldName As String
+
+    Dim task As task
+    Dim resource As resource
+    Dim assignment As assignment
+
+    For index = 1 To 30
+        taskName = "Task " & index
+        Set task = ActiveProject.Tasks.Add(taskName)
+
+        resourceName = "Resource " & index
+        Set resource = ActiveProject.Resources.Add(resourceName)
+
+        task.Start = "04/01/2016 08:00"
+        task.Duration = "10d"
+        task.Assignments.Add ResourceID:=resource.ID
+
+        fieldName = "Text" & index
+        TableEdit name:="&Usage", TaskTable:=False, NewFieldName:=fieldName
+        TableApply name:="&Usage"
+    Next
+
+    SelectResourceField Row:=1, Column:="Text1"
+    SetTaskField Field:="Text1", value:="Text1"
+
+    For index = 2 To 30
+        fieldName = "Text" & index
+        SelectResourceField Row:=2, Column:=fieldName
+        SetTaskField Field:=fieldName, value:=fieldName
+    Next
+
+    SaveFiles "assignment-text"
+
     FileClose pjDoNotSave
 End Sub
 
 Sub GenerateResources()
     FileNew SummaryInfo:=False
-            
+
     Dim resource1 As resource
     Dim resource2 As resource
-    
+
     Set resource1 = ActiveProject.Resources.Add("Resource 1")
     Set resource2 = ActiveProject.Resources.Add("Resource 2")
-    
+
     resource1.Code = "Code1"
     resource2.Code = "Code2"
-    
+
     resource1.CostPerUse = 1.23
     resource2.CostPerUse = 4.56
-    
+
     resource1.EMailAddress = "resource1@example.com"
     resource2.EMailAddress = "resource2@example.com"
-    
+
     resource1.Group = "Group1"
     resource2.Group = "Group2"
-    
+
     resource1.Initials = "R1"
     resource2.Initials = "R2"
-    
+
     resource1.Notes = "Notes1"
     resource2.Notes = "Notes2"
-    
+
     SaveFiles "resource-misc"
-    
+
     FileClose pjDoNotSave
 End Sub
 
 Sub GenerateResourceCustomFlags()
 
     Dim Vals As Variant
-    
+
     Vals = Array("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddResourcesWithCustomFieldValues "Flag", Vals
-    
+
     SaveFiles "resource-flags"
-    
+
     FileClose pjDoNotSave
-            
+
 End Sub
 
 Sub GenerateResourceCustomNumbers()
 
     Dim Vals As Variant
-    
+
     Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddResourcesWithCustomFieldValues "Number", Vals
-    
+
     SaveFiles "resource-numbers"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 Sub GenerateResourceCustomText()
 
     Dim Vals As Variant
-    
+
     Vals = Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30")
-    
+
     FileNew SummaryInfo:=False
-    
+
     AddResourcesWithCustomFieldValues "Text", Vals
-    
+
     SaveFiles "resource-text"
-            
+
     FileClose pjDoNotSave
-    
+
 End Sub
 
 ' If you have a file which contains manually created test data
@@ -797,9 +839,9 @@ End Sub
 Sub SaveFiles(FilenameBase As String)
 
     Dim parentDirectory As String
-    
+
     parentDirectory = "generated"
-    
+
     If Dir(parentDirectory, vbDirectory) = "" Then
         MkDir parentDirectory
     End If
@@ -810,33 +852,33 @@ Sub SaveFiles(FilenameBase As String)
 
     Dim Filename As String
     Filename = parentDirectory & "\" & FilenameBase & "\" & FilenameBase
-    
+
     Select Case Application.Version
         ' Project 2016
         Case "16.0"
             CalculateAll
             FileSaveAs name:=Filename & "-project2016-mpp14.mpp"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2016-mspdi.xml", FormatID:="MSProject.XML"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2016-mpp12.mpp", FormatID:="MSProject.MPP.12"
-            
+
         ' Project 2013
         Case "15.0"
             CalculateAll
             FileSaveAs name:=Filename & "-project2013-mpp14.mpp"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2013-mspdi.xml", FormatID:="MSProject.XML"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2013-mpp12.mpp", FormatID:="MSProject.MPP.12"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2013-mpp9.mpp", FormatID:="MSProject.MPP.9"
-                                    
+
         ' Project 2010
         Case "14.0"
             CalculateAll
@@ -844,13 +886,13 @@ Sub SaveFiles(FilenameBase As String)
 
             CalculateAll
             FileSaveAs name:=Filename & "-project2010-mspdi.xml", FormatID:="MSProject.XML"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2010-mpp12.mpp", FormatID:="MSProject.MPP.12"
-        
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2010-mpp9.mpp", FormatID:="MSProject.MPP.9"
-                        
+
         ' Project 2007
         Case "12.0"
             CalculateAll
@@ -858,18 +900,18 @@ Sub SaveFiles(FilenameBase As String)
 
             CalculateAll
             FileSaveAs name:=Filename & "-project2007-mspdi.xml", FormatID:="MSProject.XML"
-    
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2007-mpp9.mpp", FormatID:="MSProject.MPP.9"
-        
+
         ' Project 2003
         Case "11.0"
             CalculateAll
             FileSaveAs name:=Filename & "-project2003-mpp9.mpp"
-            
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2003-mspdi.xml", FormatID:="MSProject.XML"
-                        
+
             CalculateAll
             FileSaveAs name:="<" & Filename & "-project2003-mpd9.mpd>\" & FilenameBase & "-project2003-mpd9", FormatID:="MSProject.MPD.9"
 
@@ -880,10 +922,10 @@ Sub SaveFiles(FilenameBase As String)
         Case "10.0"
             CalculateAll
             FileSaveAs name:=Filename & "-project2002-mpp9.mpp"
-            
+
             CalculateAll
             FileSaveAs name:=Filename & "-project2002-mspdi.xml", FormatID:="MSProject.XML"
-                        
+
             CalculateAll
             FileSaveAs name:="<" & Filename & "-project2002-mpd9.mpd>\" & FilenameBase & "-project2002-mpd9", FormatID:="MSProject.MPD.9"
 
@@ -894,13 +936,13 @@ Sub SaveFiles(FilenameBase As String)
         Case "9.0"
             CalculateAll
             FileSaveAs name:=Filename & "-project2000-mpp9.mpp"
-    
+
             CalculateAll
             FileSaveAs name:="<" & Filename & "-project2000-mpd9.mpd>\" & FilenameBase & "-project2000-mpd9", FormatID:="MSProject.MPD.9"
-    
+
             'CalculateAll
             'FileSaveAs name:=Filename & "-project2000-mpp8.mpp", FormatID:="MSProject.MPP.8"
-                                                        
+
         ' Project 98
         Case "8.0"
             'CalculateAll
@@ -908,17 +950,12 @@ Sub SaveFiles(FilenameBase As String)
 
             'CalculateAll
             'FileSaveAs name:="<" & Filename & "-project98-mpd8.mpd>\" & FilenameBase & "-project98-mpd8", FormatID:="MSProject.MPD.8"
-                
+
             CalculateAll
             FileSaveAs name:=Filename & "-project98.mpx", FormatID:="MSProject.MPX.8"
-                
+
         Case Else
             Debug.Print "Unknown Version"
-            
+
     End Select
 End Sub
-
-
-
-
-
