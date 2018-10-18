@@ -689,7 +689,7 @@ Sub GenerateResourceAssignmentFlags()
         task.Assignments.Add ResourceID:=resource.ID
         
         flagName = "Flag" & index
-        TableEditEx name:="&Usage", TaskTable:=False, NewName:="", NewFieldName:=flagName, Width:=20, ShowInMenu:=True, LockFirstColumn:=True, DateFormat:=255, RowHeight:=1, ColumnPosition:=2 + index
+        TableEdit name:="&Usage", TaskTable:=False, NewFieldName:=flagName
         TableApply name:="&Usage"
     Next
     
@@ -917,6 +917,8 @@ Sub SaveFiles(FilenameBase As String)
             
     End Select
 End Sub
+
+
 
 
 
