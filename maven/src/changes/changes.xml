@@ -8,6 +8,8 @@
 		<release date="git master" version="7.7.1">
 			<action dev="joniles" type="add">Read additional schedule options from XER files. (Contributed by forenpm)</action>
 			<action dev="joniles" type="update">Improve handling of some types of MPP file with missing resource assignment data.</action>
+			<action dev="joniles" type="update">Ensure that resource assignment flag fields are read correctly for all MPP file types (Based on a contribution by Vadim Gerya).</action>
+			<action dev="joniles" type="update">Ensure that timephased actual work is handled correctly for material resources (Contributed by Vadim Gerya).</action>
 		</release>
 		<release date="12/10/2018" version="7.7.0">
 			<action dev="joniles" type="add">Add support for reading the Synchro Scheduler SP files.</action>

@@ -158,13 +158,11 @@ final class TimephasedDataFactory
     * @param units assignment units
     * @param data planned work data block
     * @param timephasedComplete list of complete work
-    * @param resType resource type
+    * @param resourceType resource type
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resType)
+   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
-      // VGerya, resType is added to calculate adjustedTotalWork differently for material resources
-
       LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
 
       if (calendar != null && data != null && data.length > 0)
@@ -181,7 +179,7 @@ final class TimephasedDataFactory
                time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
                Duration adjustedTotalWork;
-               if (resType == ResourceType.WORK)
+               if (resourceType == ResourceType.WORK)
                {
                   adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
                }
