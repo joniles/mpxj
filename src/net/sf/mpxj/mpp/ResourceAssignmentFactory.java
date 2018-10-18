@@ -37,7 +37,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RtfHelper;
@@ -150,7 +149,6 @@ public class ResourceAssignmentFactory
 
          assignment.enableEvents();
 
-         System.out.println(assignment.getTask().getName() + ": " + ByteArrayHelper.hexdump(meta, false));
          for (MppBitFlag flag : metaDataBitFlags)
          {
             flag.setValue(assignment, meta);
