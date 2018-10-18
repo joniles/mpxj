@@ -187,14 +187,13 @@ public class ResourceAssignmentFactory
             Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
             ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
             ProjectCalendar calendar = null;
-            calendar = task.getEffectiveCalendar();
 
-            if (resource != null && resourceType == ResourceType.WORK)
+            if (resource != null && resourceType == ResourceType.WORK && !task.getIgnoreResourceCalendar())
             {
                calendar = resource.getResourceCalendar();
             }
 
-            if (calendar == null || task.getIgnoreResourceCalendar())
+            if (calendar == null)
             {
                calendar = task.getEffectiveCalendar();
             }
