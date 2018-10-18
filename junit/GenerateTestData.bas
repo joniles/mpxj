@@ -776,6 +776,18 @@ Sub GenerateResources()
     resource1.Notes = "Notes1"
     resource2.Notes = "Notes2"
 
+    Dim costResource As resource
+    Dim materialResource As resource
+    Dim workResource As resource
+
+    Set costResource = ActiveProject.Resources.Add("Cost Resource")
+    Set materialResource = ActiveProject.Resources.Add("Material Resource")
+    Set workResource = ActiveProject.Resources.Add("Work Resource")
+
+    costResource.Type = pjResourceTypeCost
+    materialResource.Type = pjResourceTypeMaterial
+    workResource.Type = pjResourceTypeWork
+        
     SaveFiles "resource-misc"
 
     FileClose pjDoNotSave
@@ -856,14 +868,22 @@ Sub SaveFiles(FilenameBase As String)
     Select Case Application.Version
         ' Project 2016
         Case "16.0"
+            Dim productName As String
+            
+            If Split(Application.Build, ".")(2) >= 10730 Then
+                productName = "project2019"
+            Else
+                productName = "project2016"
+            End If
+            
             CalculateAll
-            FileSaveAs name:=Filename & "-project2016-mpp14.mpp"
+            FileSaveAs name:=Filename & "-" & productName & "-mpp14.mpp"
 
             CalculateAll
-            FileSaveAs name:=Filename & "-project2016-mspdi.xml", FormatID:="MSProject.XML"
+            FileSaveAs name:=Filename & "-" & productName & "-mspdi.xml", FormatID:="MSProject.XML"
 
             CalculateAll
-            FileSaveAs name:=Filename & "-project2016-mpp12.mpp", FormatID:="MSProject.MPP.12"
+            FileSaveAs name:=Filename & "-" & productName & "-mpp12.mpp", FormatID:="MSProject.MPP.12"
 
         ' Project 2013
         Case "15.0"
@@ -959,3 +979,7 @@ Sub SaveFiles(FilenameBase As String)
 
     End Select
 End Sub
+
+
+
+

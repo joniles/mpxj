@@ -49,6 +49,7 @@ import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -67,6 +68,16 @@ abstract class FieldMap
    {
       m_properties = properties;
       m_customFields = customFields;
+   }
+
+   /**
+    * When set to true, the selected field map will print details of the field structure.
+    *
+    * @param value pass try to enable output
+    */
+   public void setDebug(boolean value)
+   {
+      m_debug = value;
    }
 
    /**
@@ -178,10 +189,10 @@ abstract class FieldMap
          }
 
          FieldItem item = new FieldItem(type, location, dataBlockIndex, dataBlockOffset, varDataKey, mask, metaBlock);
-         //         if (location == FieldLocation.META_DATA)
-         //         {
-         //            System.out.println(ByteArrayHelper.hexdump(data, index, 28, false) + " " + item + " mpxjDataType=" + item.getType().getDataType() + " index=" + index);
-         //         }
+         if (m_debug)
+         {
+            System.out.println(ByteArrayHelper.hexdump(data, index, 28, false) + " " + item + " mpxjDataType=" + item.getType().getDataType() + " index=" + index);
+         }
          m_map.put(type, item);
 
          index += 28;
@@ -1432,6 +1443,7 @@ abstract class FieldMap
    protected CustomFieldContainer m_customFields;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
+   private boolean m_debug;
 
    private static final Integer[] TASK_KEYS =
    {
