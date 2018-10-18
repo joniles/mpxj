@@ -185,7 +185,7 @@ final class TimephasedDataFactory
                }
                else
                {
-                  adjustedTotalWork = Duration.getInstance(time, TimeUnit.MINUTES); // VGerya - for material resources
+                  adjustedTotalWork = Duration.getInstance(time, TimeUnit.MINUTES);
                }
                Date finish = calendar.getDate(startWork, adjustedTotalWork, false);
 
