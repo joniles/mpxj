@@ -775,20 +775,41 @@ Sub GenerateResources()
 
     resource1.Notes = "Notes1"
     resource2.Notes = "Notes2"
-
-    Dim costResource As resource
-    Dim materialResource As resource
-    Dim workResource As resource
-
-    Set costResource = ActiveProject.Resources.Add("Cost Resource")
-    Set materialResource = ActiveProject.Resources.Add("Material Resource")
-    Set workResource = ActiveProject.Resources.Add("Work Resource")
-
-    costResource.Type = pjResourceTypeCost
-    materialResource.Type = pjResourceTypeMaterial
-    workResource.Type = pjResourceTypeWork
         
     SaveFiles "resource-misc"
+
+    FileClose pjDoNotSave
+End Sub
+
+Sub GenerateResourceTypes()
+    FileNew SummaryInfo:=False
+
+	Dim resourceName as string
+	Dim resource as resource
+	
+    For index = 1 To 5
+        resourceName = "Cost Resource " & index
+        Set resource = ActiveProject.Resources.Add(resourceName)
+        If CDbl(Application.Version) > 11 Then
+        	resource.Type = pjResourceTypeCost
+        Else
+        	resource.Type = pjResourceTypeMaterial
+        End If
+    Next
+
+    For index = 1 To 5
+        resourceName = "Material Resource " & index
+        Set resource = ActiveProject.Resources.Add(resourceName)
+        resource.Type = pjResourceTypeMaterial
+    Next
+
+    For index = 1 To 5
+        resourceName = "Work Resource " & index
+        Set resource = ActiveProject.Resources.Add(resourceName)
+        resource.Type = pjResourceTypeWork
+    Next
+
+    SaveFiles "resource-type"
 
     FileClose pjDoNotSave
 End Sub

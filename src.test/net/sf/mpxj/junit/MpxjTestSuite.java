@@ -45,6 +45,7 @@ import net.sf.mpxj.junit.resource.ResourceFlagsTest;
 import net.sf.mpxj.junit.resource.ResourceMiscTest;
 import net.sf.mpxj.junit.resource.ResourceNumbersTest;
 import net.sf.mpxj.junit.resource.ResourceTextTest;
+import net.sf.mpxj.junit.resource.ResourceTypeTest;
 import net.sf.mpxj.junit.task.TaskBaselinesTest;
 import net.sf.mpxj.junit.task.TaskCostsTest;
 import net.sf.mpxj.junit.task.TaskDatesTest;
@@ -140,6 +141,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    ResourceMiscTest.class,
    ResourceFlagsTest.class,
    ResourceNumbersTest.class,
+   ResourceTypeTest.class,
    ResourceTextTest.class,
    RecurringExceptionsTest.class,
    RecurringDataTest.class,
