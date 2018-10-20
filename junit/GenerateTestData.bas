@@ -21,6 +21,7 @@ Sub GenerateAll()
     GenerateResourceCustomFlags
     GenerateResourceCustomNumbers
     GenerateResourceCustomText
+    GenerateResourceTypes
 End Sub
 
 Sub NameThatField(value As Long)
