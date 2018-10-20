@@ -892,11 +892,15 @@ Sub SaveFiles(FilenameBase As String)
         Case "16.0"
             Dim productName As String
             
-            If Split(Application.Build, ".")(2) >= 10730 Then
-                productName = "project2019"
-            Else
-                productName = "project2016"
-            End If
+            
+            productName = "project2016"
+            
+            ' Doesn't work correctly - need a different way to identify Project 2019
+            'If Split(Application.Build, ".")(2) >= 10730 Then
+            '    productName = "project2019"
+            'Else
+            '    productName = "project2016"
+            'End If
             
             CalculateAll
             FileSaveAs name:=Filename & "-" & productName & "-mpp14.mpp"
