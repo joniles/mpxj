@@ -362,11 +362,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       calendar.setIsBaseCalendar(Boolean.valueOf(!bc.isDerived()));
 
       ProjectCalendar base = bc.getParent();
-      if (base != null)
-      {
-         calendar.setBaseCalendarUID(NumberHelper.getBigInteger(base.getUniqueID()));
-      }
-
+      // SF-329: null default required to keep Powerproject happy when importing MSPDI files
+      calendar.setBaseCalendarUID(base == null ? NULL_CALENDAR_ID : NumberHelper.getBigInteger(base.getUniqueID()));
       calendar.setName(bc.getName());
 
       //
@@ -1349,7 +1346,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
       else
       {
-         result = BigInteger.valueOf(-1);
+         result = NULL_CALENDAR_ID;
       }
       return (result);
    }
@@ -1405,6 +1402,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          }
          link.setLinkLag(BigInteger.valueOf((long) linkLag));
          link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits(), false));
+      }
+      else
+      {
+         // SF-329: default required to keep Powerproject happy when importing MSPDI files
+         link.setLinkLag(BIGINTEGER_ZERO);
+         link.setLagFormat(DatatypeConverter.printDurationTimeUnits(m_projectFile.getProjectProperties().getDefaultDurationUnits(), false));
       }
 
       return (link);
@@ -2029,4 +2032,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 
    private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);
+
+   private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
 }

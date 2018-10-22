@@ -55,6 +55,7 @@
             <UID>1</UID>
             <Name>Standard</Name>
             <IsBaseCalendar>1</IsBaseCalendar>
+            <BaseCalendarUID>-1</BaseCalendarUID>
             <WeekDays>
                 <WeekDay>
                     <DayType>1</DayType>
@@ -140,6 +141,7 @@
             <UID>2</UID>
             <Name>Night Shift</Name>
             <IsBaseCalendar>1</IsBaseCalendar>
+            <BaseCalendarUID>-1</BaseCalendarUID>
             <WeekDays>
                 <WeekDay>
                     <DayType>1</DayType>
@@ -421,6 +423,8 @@
             <Priority>600</Priority>
             <Start>2003-01-07T08:00:00</Start>
             <Finish>2003-01-07T08:00:00</Finish>
+            <Duration>PT0H0M0S</Duration>
+            <DurationFormat>5</DurationFormat>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>0</EffortDriven>
             <Recurring>0</Recurring>
@@ -717,6 +721,8 @@
                 <PredecessorUID>9</PredecessorUID>
                 <Type>1</Type>
                 <CrossProject>0</CrossProject>
+                <LinkLag>0</LinkLag>
+                <LagFormat>5</LagFormat>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -994,6 +1000,8 @@
                 <PredecessorUID>15</PredecessorUID>
                 <Type>3</Type>
                 <CrossProject>0</CrossProject>
+                <LinkLag>0</LinkLag>
+                <LagFormat>5</LagFormat>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -1085,6 +1093,8 @@
                 <PredecessorUID>17</PredecessorUID>
                 <Type>0</Type>
                 <CrossProject>0</CrossProject>
+                <LinkLag>0</LinkLag>
+                <LagFormat>5</LagFormat>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -1178,6 +1188,8 @@
                 <PredecessorUID>20</PredecessorUID>
                 <Type>2</Type>
                 <CrossProject>0</CrossProject>
+                <LinkLag>0</LinkLag>
+                <LagFormat>5</LagFormat>
             </PredecessorLink>
             <Active>1</Active>
             <Manual>0</Manual>
@@ -1429,6 +1441,7 @@ formatting.
             <Finish>2003-03-17T17:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>0</FixedMaterial>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <RateScale>3</RateScale>
             <Start>2003-01-07T08:00:00</Start>
             <Units>0.5</Units>
@@ -1443,6 +1456,7 @@ formatting.
             <Finish>2003-03-18T08:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>0</FixedMaterial>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <RateScale>3</RateScale>
             <Start>2003-01-07T23:00:00</Start>
             <Units>0.75</Units>
@@ -1457,6 +1471,7 @@ formatting.
             <Finish>2003-01-13T17:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>0</FixedMaterial>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <RateScale>3</RateScale>
             <Start>2003-01-07T08:00:00</Start>
             <Units>1</Units>
@@ -1471,6 +1486,7 @@ formatting.
             <Finish>2003-01-14T08:00:00</Finish>
             <HasFixedRateUnits>0</HasFixedRateUnits>
             <FixedMaterial>0</FixedMaterial>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <RateScale>3</RateScale>
             <Start>2003-01-07T23:00:00</Start>
             <Units>1</Units>
