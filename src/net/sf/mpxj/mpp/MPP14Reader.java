@@ -57,7 +57,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.View;
-import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RtfHelper;
@@ -1624,13 +1623,20 @@ final class MPP14Reader implements MPPVariantReader
       //
       MppBitFlag[] metaDataBitFlags;
       MppBitFlag[] metaData2BitFlags;
+      int resourceTypeOffset;
+      int resourceTypeMask;
+
       if (NumberHelper.getInt(m_file.getProjectProperties().getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
+         resourceTypeOffset = 12;
+         resourceTypeMask = 0x10;
          metaDataBitFlags = PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS;
       }
       else
       {
+         resourceTypeOffset = 9;
+         resourceTypeMask = 0x02;
          metaDataBitFlags = PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS;
          metaData2BitFlags = PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS;
       }
@@ -1685,11 +1691,6 @@ final class MPP14Reader implements MPPVariantReader
          readBitFields(metaDataBitFlags, resource, metaData);
          readBitFields(metaData2BitFlags, resource, metaData2);
 
-         if (resource.getWorkGroup() == WorkGroup.DEFAULT)
-         {
-            resource.setType(ResourceType.WORK);
-         }
-
          resource.setUniqueID(id);
 
          notes = resource.getNotes();
@@ -1725,6 +1726,25 @@ final class MPP14Reader implements MPPVariantReader
          //
          AvailabilityFactory af = new AvailabilityFactory();
          af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
+
+         //
+         // Process resource type
+         //
+         if ((metaData[resourceTypeOffset] & resourceTypeMask) != 0)
+         {
+            resource.setType(ResourceType.WORK);
+         }
+         else
+         {
+            if ((metaData2[8] & 0x10) != 0)
+            {
+               resource.setType(ResourceType.COST);
+            }
+            else
+            {
+               resource.setType(ResourceType.MATERIAL);
+            }
+         }
 
          m_eventManager.fireResourceReadEvent(resource);
       }
