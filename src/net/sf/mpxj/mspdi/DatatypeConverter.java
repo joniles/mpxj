@@ -1068,7 +1068,7 @@ public final class DatatypeConverter
    {
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
       TimeUnit units = duration == null ? PARENT_FILE.get().getProjectProperties().getDefaultDurationUnits() : duration.getUnits();
-      return printDurationTimeUnits(duration == null ? units : duration.getUnits(), estimated);
+      return printDurationTimeUnits(units, estimated);
    }
 
    /**
