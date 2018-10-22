@@ -1796,7 +1796,6 @@ final class MPP9Reader implements MPPVariantReader
          resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE9_INDEX), OUTLINECODE_DATA));
          resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE10_INDEX), OUTLINECODE_DATA));
 
-         resource.setType((MPPUtility.getShort(data, fieldMap.getFixedDataOffset(ResourceField.WORKGROUP)) == 0 ? ResourceType.WORK : ResourceType.MATERIAL));
          resource.setUniqueID(id);
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
@@ -1854,6 +1853,18 @@ final class MPP9Reader implements MPPVariantReader
          //
          AvailabilityFactory af = new AvailabilityFactory();
          af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
+
+         //
+         // Process resource type
+         //
+         if ((metaData[9] & 0x02) != 0)
+         {
+            resource.setType(ResourceType.WORK);
+         }
+         else
+         {
+            resource.setType(ResourceType.MATERIAL);
+         }
 
          m_eventManager.fireResourceReadEvent(resource);
       }

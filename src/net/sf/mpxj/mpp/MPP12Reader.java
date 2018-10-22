@@ -52,7 +52,6 @@ import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
-import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RtfHelper;
@@ -1775,7 +1774,6 @@ final class MPP12Reader implements MPPVariantReader
          resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE9_INDEX))), OUTLINECODE_DATA));
          resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE10_INDEX))), OUTLINECODE_DATA));
 
-         resource.setType((resource.getWorkGroup() == WorkGroup.DEFAULT ? ResourceType.WORK : ((metaData2[8] & 0x10) == 0) ? ResourceType.MATERIAL : ResourceType.COST));
          resource.setUniqueID(id);
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
@@ -1832,6 +1830,25 @@ final class MPP12Reader implements MPPVariantReader
          //
          AvailabilityFactory af = new AvailabilityFactory();
          af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
+
+         //
+         // Process resource type
+         //
+         if ((metaData[9] & 0x02) != 0)
+         {
+            resource.setType(ResourceType.WORK);
+         }
+         else
+         {
+            if ((metaData2[8] & 0x10) != 0)
+            {
+               resource.setType(ResourceType.COST);
+            }
+            else
+            {
+               resource.setType(ResourceType.MATERIAL);
+            }
+         }
 
          m_eventManager.fireResourceReadEvent(resource);
       }
