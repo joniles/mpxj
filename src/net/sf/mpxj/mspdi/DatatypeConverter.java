@@ -1032,9 +1032,14 @@ public final class DatatypeConverter
     */
    public static final String printDurationMandatory(MSPDIWriter writer, Duration duration)
    {
-      String result = null;
+      String result;
 
-      if (duration != null)
+      if (duration == null)
+      {
+         // SF-329: null default required to keep Powerproject happy when importing MSPDI files
+         result = "PT0H0M0S";
+      }
+      else
       {
          TimeUnit durationType = duration.getUnits();
 
@@ -1061,14 +1066,9 @@ public final class DatatypeConverter
     */
    public static final BigInteger printDurationTimeUnits(Duration duration, boolean estimated)
    {
-      BigInteger result = null;
-
-      if (duration != null)
-      {
-         result = printDurationTimeUnits(duration.getUnits(), estimated);
-      }
-
-      return (result);
+      // SF-329: null default required to keep Powerproject happy when importing MSPDI files
+      TimeUnit units = duration == null ? PARENT_FILE.get().getProjectProperties().getDefaultDurationUnits() : duration.getUnits();
+      return printDurationTimeUnits(units, estimated);
    }
 
    /**
@@ -1801,7 +1801,7 @@ public final class DatatypeConverter
     * Parse method for a string: returns the string unchanged.
     * This is used to enable to string representation of an
     * xsd:datetime to be processed by MPXJ.
-   
+    *
     * @param value string value
     * @return string value
     */
