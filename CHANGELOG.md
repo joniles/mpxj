@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.7.1 (git master)
+## 7.7.2 (git master)
+
+## 7.7.1 (23/10/2018)
 * Read additional schedule options from XER files. (Contributed by forenpm)
 * Improve handling of some types of MPP file with missing resource assignment data.
 * Ensure that resource assignment flag fields are read correctly for all MPP file types (Based on a contribution by Vadim Gerya).
