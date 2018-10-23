@@ -1035,6 +1035,46 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Modifier method to set the calendar ID of this calendar.
+    *
+    * @param calendar ID Integer
+    */
+   public void setCalendarID(Integer calendarID)
+   {
+      m_calendarID = calendarID;
+   }
+
+   /**
+    * Accessor method to retrieve the calendar ID of this calendar.
+    *
+    * @return calendar ID Integer
+    */
+   public Integer getCalendarID()
+   {
+      return (m_calendarID);
+   }
+
+   /**
+    * Modifier method to set the base calendar ID of this calendar.
+    *
+    * @param base calendar ID Integer
+    */
+   public void setBaseCalendarID(Integer baseCalendarID)
+   {
+      m_baseCalendarID = baseCalendarID;
+   }
+
+   /**
+    * Accessor method to retrieve the base calendar ID of this calendar.
+    *
+    * @return base calendar ID Integer
+    */
+   public Integer getBaseCalendarID()
+   {
+      return (m_baseCalendarID);
+   }
+
+   /**
     * Retrieve the resource to which this calendar is linked.
     *
     * @return resource instance
@@ -1988,6 +2028,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Unique identifier of this calendar.
     */
    private Integer m_uniqueID = Integer.valueOf(0);
+   private Integer m_calendarID;
+   private Integer m_baseCalendarID;
 
    /**
     * List of exceptions to the base calendar.

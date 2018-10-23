@@ -300,8 +300,10 @@ final class PrimaveraReader
       ProjectCalendar calendar = m_project.addCalendar();
 
       Integer id = row.getInteger("clndr_id");
+      calendar.setCalendarID(id);
       m_calMap.put(id, calendar);
       calendar.setName(row.getString("clndr_name"));
+      calendar.setBaseCalendarID(row.getInteger("base_clndr_id"));
 
       try
       {
