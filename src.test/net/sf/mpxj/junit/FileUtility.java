@@ -42,39 +42,43 @@ public final class FileUtility
    {
       boolean result;
 
-      if (file1.length() != file2.length())
-      {
-         result = false;
-      }
-      else
-      {
-         result = true;
+      result = true;
 
-         FileInputStream input1 = new FileInputStream(file1);
-         FileInputStream input2 = new FileInputStream(file2);
-         int c1;
-         int c2;
+      FileInputStream input1 = new FileInputStream(file1);
+      FileInputStream input2 = new FileInputStream(file2);
+      int c1;
+      int c2;
 
-         while (true)
+      while (true)
+      {
+         // Ignore line endings: dropping all \r character should ensure that
+         // both files just have \n line endings.
+         do
          {
             c1 = input1.read();
+         }
+         while (c1 == '\r');
+
+         do
+         {
             c2 = input2.read();
+         }
+         while (c2 == '\r');
 
-            if (c1 != c2)
-            {
-               result = false;
-               break;
-            }
-
-            if (c1 == -1)
-            {
-               break;
-            }
+         if (c1 != c2)
+         {
+            result = false;
+            break;
          }
 
-         input1.close();
-         input2.close();
+         if (c1 == -1)
+         {
+            break;
+         }
       }
+
+      input1.close();
+      input2.close();
 
       return (result);
    }
