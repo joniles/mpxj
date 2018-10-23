@@ -178,6 +178,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_projectFile = projectFile;
          m_projectFile.validateUniqueIDsForMicrosoftProject();
          m_eventManager = m_projectFile.getEventManager();
+         DatatypeConverter.setParentFile(m_projectFile);
 
          Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -194,7 +195,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          writeAssignments(project);
          writeProjectExtendedAttributes(project);
 
-         DatatypeConverter.setParentFile(m_projectFile);
          marshaller.marshal(project, stream);
       }
 
