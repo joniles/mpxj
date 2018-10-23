@@ -5,6 +5,8 @@
 * Improve handling of some types of MPP file with missing resource assignment data.
 * Ensure that resource assignment flag fields are read correctly for all MPP file types (Based on a contribution by Vadim Gerya).
 * Ensure that timephased actual work is handled correctly for material resources (Contributed by Vadim Gerya).
+* Improve accuracy when reading resource type from MPP files.
+* Improve compatibility of generated MSPDI files with Asta Powerproject (Contributed by Dave McKay).
 
 ## 7.7.0 (12/10/2018)
 * Add support for reading the Synchro Scheduler SP files.
