@@ -2025,10 +2025,18 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private ProjectFile m_projectFile;
 
    /**
-    * Unique identifier of this calendar.
+    * Unique identifier of this calendar scoped to MPXJ
     */
    private Integer m_uniqueID = Integer.valueOf(0);
+
+   /**
+    * Unique identifier of this calendar scoped to P6
+    */
    private Integer m_calendarID;
+
+   /**
+    * Identifier of the base calendar ID scoped to P6, if specified
+    */
    private Integer m_baseCalendarID;
 
    /**
