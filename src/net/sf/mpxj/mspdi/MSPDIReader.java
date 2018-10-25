@@ -1141,7 +1141,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          if (tasksWithoutIDCount == tasks.getTask().size())
          {
-            m_projectFile.renumberTaskIDs();
+            m_projectFile.getTasks().renumberIDs();
          }
       }
 

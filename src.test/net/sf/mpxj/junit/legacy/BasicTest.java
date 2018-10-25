@@ -1750,8 +1750,8 @@ public class BasicTest
       // to generate ID sequences without gaps. This will allow MS Project
       // to display the tasks and resources without blank rows.
       //
-      mpp.renumberTaskIDs();
-      mpp.renumberResourceIDs();
+      mpp.getTasks().renumberIDs();
+      mpp.getResources().renumberIDs();
 
       //
       // Write the file and re-read it to ensure we get consistent results.

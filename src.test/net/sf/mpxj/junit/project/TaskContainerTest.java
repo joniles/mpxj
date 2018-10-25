@@ -24,10 +24,11 @@
 package net.sf.mpxj.junit.project;
 
 import static org.junit.Assert.*;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
 
 import org.junit.Test;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
 
 /**
  * Test to exercise TaskContainer functionality.
@@ -54,7 +55,7 @@ public class TaskContainerTest
 
       assertEquals(4, file.getTasks().size());
 
-      file.synchronizeTaskIDToHierarchy();
+      file.getTasks().synchronizeTaskIDToHierarchy();
 
       assertEquals(4, file.getTasks().size());
 

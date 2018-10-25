@@ -45,7 +45,7 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method allows a task to be added to the file programatically.
+    * This method allows a task to be added to the file programmatically.
     *
     * @return new task object
     */
@@ -71,8 +71,10 @@ public final class ProjectFile implements ChildTaskContainer
     * the list of tasks, then the project is loaded into Microsoft
     * project, if the ID values have gaps in the sequence, there will
     * be blank task rows shown.
+    *
+    * @deprecated Use getTasks().renumberIDs()
     */
-   public void renumberTaskIDs()
+   @Deprecated public void renumberTaskIDs()
    {
       m_tasks.renumberIDs();
    }
@@ -84,8 +86,10 @@ public final class ProjectFile implements ChildTaskContainer
     * the list of resources, then the project is loaded into Microsoft
     * project, if the ID values have gaps in the sequence, there will
     * be blank resource rows shown.
+    *
+    * @deprecated Use getResources().renumberIDs()
     */
-   public void renumberResourceIDs()
+   @Deprecated public void renumberResourceIDs()
    {
       m_resources.renumberIDs();
    }
@@ -111,8 +115,10 @@ public final class ProjectFile implements ChildTaskContainer
     * this structure is displayed as expected in Microsoft Project. This
     * is typically used to deal with the case where a hierarchical task
     * structure has been created programmatically in MPXJ.
+    *
+    * @deprecated Use getTasks().synchronizeTaskIDToHierarchy()
     */
-   public void synchronizeTaskIDToHierarchy()
+   @Deprecated public void synchronizeTaskIDToHierarchy()
    {
       m_tasks.synchronizeTaskIDToHierarchy();
    }
