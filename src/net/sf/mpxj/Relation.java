@@ -121,7 +121,7 @@ public final class Relation
     */
    @Override public String toString()
    {
-      return ("[Relation " + m_sourceTask + " -> " + m_targetTask + "]");
+      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_sourceTask + " -> " + m_targetTask + "]");
    }
 
    private Integer m_uniqueID;
