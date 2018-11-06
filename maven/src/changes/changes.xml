@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.7.2">
+			<action dev="joniles" issue="332" type="fix">Asta lag sign incorrect (Based on a contribution by Dave McKay)</action>
+			<action dev="joniles" issue="333" type="fix">Asta constraints lost (Contributed by Dave McKay)</action>
 		</release>
 		<release date="23/10/2018" version="7.7.1">
 			<action dev="joniles" type="add">Read additional schedule options from XER files. (Contributed by forenpm)</action>
