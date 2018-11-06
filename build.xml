@@ -528,19 +528,6 @@
 		        <fileset dir="${basedir}/src.test" includes="**"/>
 		</copy>
 
-		<copy todir="${basedir}/maven/src/main/resources" >
-		        <fileset dir="${lib.dir}" includes="${rtfparserkit.jar}.jar"/>
-		</copy>
-
-		<!-- This is horrible... but I don't want the hassle of having to put rtfparserkit into Maven too -->
-		<unzip src="../${rtfparserkit.jar}/${rtfparserkit.jar}.zip" dest="${basedir}/maven/src/main/java">
-			 <patternset>
-			    <include name="/${rtfparserkit.jar}/RTF Parser Kit/src/**/*.java"/>
-			 	<exclude name="**/RtfDump*.*"/>
-			  </patternset>
-			<regexpmapper from=".*/src/(.*)" to="\1"/>
-		</unzip>
-
 		<mkdir dir="${basedir}/maven/target" />
 	</target>
 

@@ -1,9 +1,3 @@
-com.rtfparserkit.converter.text
-com.rtfparserkit.parser
-com.rtfparserkit.parser.raw
-com.rtfparserkit.parser.standard
-com.rtfparserkit.rtf
-com.rtfparserkit.utils
 net.sf.mpxj
 net.sf.mpxj.asta
 net.sf.mpxj.common
