@@ -627,22 +627,11 @@ final class AstaReader
          {
             RelationType type = getRelationType(row.getInt("TYPI"));
 
-            Duration startLag = row.getDuration("START_LAG_TIMEHOURS");
-            Duration endLag = row.getDuration("END_LAG_TIMEHOURS");
-            Duration lag = null;
-            if (startLag.getDuration() != 0)
-            {
-               lag = startLag;
-            }
-            else
-            {
-               if (endLag.getDuration() != 0)
-               {
-                  lag = endLag;
-               }
-            }
+            double startLag = row.getDuration("START_LAG_TIMEHOURS").getDuration();
+            double endLag = row.getDuration("END_LAG_TIMEHOURS").getDuration();
+            double totalLag = startLag - endLag;
 
-            Relation relation = endTask.addPredecessor(startTask, type, lag);
+            Relation relation = endTask.addPredecessor(startTask, type, Duration.getInstance(totalLag, TimeUnit.HOURS));
             relation.setUniqueID(row.getInteger("LINKID"));
          }
 
