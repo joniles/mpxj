@@ -256,7 +256,7 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.6</version>
 				<configuration>
-					<outputDirectory>../docs</outputDirectory>				
+					<outputDirectory>./docs</outputDirectory>				
 				</configuration>
 			</plugin>
 			
@@ -273,7 +273,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<siteOutputDirectory>../docs</siteOutputDirectory>
+					<siteOutputDirectory>./docs</siteOutputDirectory>
 				</configuration>
 			</plugin>
 			
@@ -354,6 +354,27 @@
 		      </executions>
 		    </plugin>
     		
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>./lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+	    
 		</plugins>
 	</build>
 
