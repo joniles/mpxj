@@ -483,6 +483,11 @@
 			</fileset>
 		</delete>
 
+		<delete>
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="coverage" depends="archive" description="Code coverage using Emma">
