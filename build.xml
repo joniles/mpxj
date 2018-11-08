@@ -121,6 +121,7 @@
 			<arg line="-DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true package" />
 		</exec>
 		<copy file="${basedir}/target/mpxj-${current.version}.jar" tofile="${basedir}/mpxj.jar"/>
+		<copy file="${basedir}/target/mpxj-${current.version}-tests.jar" tofile="${basedir}/mpxj-test.jar"/>
 	</target>
 
 	<target name="changelog" description="Update changelog">
