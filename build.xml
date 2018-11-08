@@ -46,7 +46,7 @@
 			<pathelement location="${lib.dir}/${commons-collections.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.12.0" />
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.13.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>
