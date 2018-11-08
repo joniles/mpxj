@@ -421,7 +421,7 @@
 
 	<target name="distribute" depends="archive,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
-			<zipfileset dir="${basedir}" prefix="mpxj" excludes="target" />
+			<zipfileset dir="${basedir}" prefix="mpxj" excludes="target/**" />
 		</zip>
 	</target>
 
