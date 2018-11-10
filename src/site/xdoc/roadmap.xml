@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+
+<document>
+   <properties>
+      <title>Roadmap</title> 
+      <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
+   </properties> 
+
+   <body> 
+
+<section name="Roadmap">
+    
+<p><b>Unscheduled</b></p>      
+<ul>
+   <li>Implement support for structured outline codes read from MPP files</li>
+   <li>Implement read and write support for structured outline codes in MSPDI files</li>
+   <li>Read full recurring task information from MSPDI and MPD files</li>
+   <li>Write full recurring task information to MSPDI files</li>
+   <li>Implement support for reading Cost Rate Tables from MPP, MSPDI and MPD files</li>   
+   <li>Investigate implementing task getSuccessors functionality</li>
+   <li>Extract more fields from the MPP file project header</li>
+   <li>Investigate extracting more fields from MPP files for resource assignments.</li>
+   <li>Complete implementation of Props structure for MPP8 files.</li>
+   <li>Extract custom task field headings from Props table for MPP8 files.</li>
+   <li>Extract custom resource field headings from Props table for MPP8 files.</li>
+   <li>Implement missing resource fields for MPP8 files.</li>
+   <li>Implement missing task fields for MPP9 files.</li>
+   <li>Implement missing resource fields for MPP9 files.</li>
+   <li>Implement missing task fields for MSPDI files.</li>
+   <li>Implement missing resource fields for MSPDI files.</li>
+   <li>Implement missing project attributes for MPP/MSPDI files (e.g. project file start/end dates).</li>
+   <li>Investigate extracting recurring task information (MPP8 taskExtData items 167 and 168?).</li>
+   <li>Investigate implementing support for password protected files. (Encryption believed to be simple XOR.)</li>
+   <li>Investigate subproject task attributes.</li>
+   <li>Retrieve valid value specifications/lists for user defined fields.</li>
+   <li>Investigate implementing read/write access to the MPD file format using Jackcess.</li>
+   <li>Implement support for reading multiple baselines from MPD files</li>
+   <li>Investigate relationship between resource assignment planned work and planned cost fields and any baseline values held at resource assignment level</li>
+</ul>
+</section>
+</body>
+</document>
+
+
+
+

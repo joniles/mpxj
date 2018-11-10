@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" output="classes.test" path="src.test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_45"/>
-	<classpathentry kind="lib" path="jgoodies/jgoodies-binding-2.10.0.jar" sourcepath="D:/java/jgoodies-binding-2.10.0/jgoodies-binding-2.10.0-sources.jar"/>
-	<classpathentry kind="lib" path="jgoodies/jgoodies-common-1.8.0.jar" sourcepath="D:/java/jgoodies-common-1_8_0/jgoodies-common-1.8.0/jgoodies-common-1.8.0-sources.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.10.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.17.jar" sourcepath="C:/java/poi-3.17/src"/>
-	<classpathentry kind="lib" path="lib/rtfparserkit-1.11.0.jar"/>
-	<classpathentry kind="output" path="classes"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

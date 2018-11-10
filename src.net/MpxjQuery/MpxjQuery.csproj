@@ -156,9 +156,9 @@
     <Reference Include="commons-collections4-4.1">
       <HintPath>..\..\lib.net\commons-collections4-4.1.dll</HintPath>
     </Reference>
-    <Reference Include="rtfparserkit-1.11.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
+    <Reference Include="rtfparserkit-1.13.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\rtfparserkit-1.11.0.dll</HintPath>
+      <HintPath>..\..\lib.net\rtfparserkit-1.13.0.dll</HintPath>
     </Reference>
     <Reference Include="sqlite-jdbc-3.8.10.1">
       <HintPath>..\..\lib.net\sqlite-jdbc-3.8.10.1.dll</HintPath>
