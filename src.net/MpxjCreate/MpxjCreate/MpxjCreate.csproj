@@ -129,9 +129,9 @@
     <Reference Include="poi-3.17">
       <HintPath>..\..\..\lib.net\poi-3.17.dll</HintPath>
     </Reference>
-    <Reference Include="rtfparserkit-1.11.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
+    <Reference Include="rtfparserkit-1.13.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib.net\rtfparserkit-1.11.0.dll</HintPath>
+      <HintPath>..\..\..\lib.net\rtfparserkit-1.13.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
