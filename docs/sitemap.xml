@@ -25,9 +25,6 @@
 <loc>http://mpxj.org/howto-maven.html</loc>
 </url>
 <url>
-<loc>http://mpxj.org/howto-primavera.html</loc>
-</url>
-<url>
 <loc>http://mpxj.org/howto-read-asta.html</loc>
 </url>
 <url>
@@ -65,6 +62,9 @@
 </url>
 <url>
 <loc>http://mpxj.org/howto-read-pmxml.html</loc>
+</url>
+<url>
+<loc>http://mpxj.org/howto-read-primavera.html</loc>
 </url>
 <url>
 <loc>http://mpxj.org/howto-read-projectlibre.html</loc>

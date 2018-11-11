@@ -7,7 +7,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jon Iles" />
     <meta http-equiv="Content-Language" content="en" />
     <title>MPXJ &#x2013; How To: Read a Primavera P6 database</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
@@ -43,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2018-11-04</li>
+        <li id="publishDate">Last Published: 2018-11-11</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -97,23 +96,15 @@
           </div>
         </div>
         <div id="bodyColumn"  class="span9" >
-
-    
-
 <div class="section">
 <h2><a name="How_To:_Read_a_Primavera_P6_database"></a>How To: Read a Primavera P6 database</h2>
+<p>Reading from a Primavera database is a slightly different proposition to reading file-based project data, as a database connection is required.</p>
+<div class="section">
+<h3><a name="Java"></a>Java</h3>
+<p>The example below illustrates how to do this for a Primavera database hosted in SQL Server, using the open source JTDS JDBC driver. The only difference when reading from an Oracle database will be the JDBC driver and connection string used.</p>
 
-
-<p>Reading from a Primavera database is a slightly different proposition
-to reading file-based project data, as a database connection is required.
-The example below illustrates how to do this for a Primavera database
-hosted in SQL Server, using the open source JTDS JDBC driver. 
-The only difference when reading from an Oracle
-database will be the JDBC driver and connection string used.</p>
-
-
-<div class="source"><pre class="prettyprint">
-import java.sql.Connection;
+<div class="source">
+<div class="source"><pre class="prettyprint">import java.sql.Connection;
 import java.sql.DriverManager;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
@@ -151,18 +142,11 @@ Map&lt;Integer,String&gt; projects = reader.listProjects();
 int selectedProjectID = 1;
 reader.setProjectID(selectedProjectID);
 ProjectFile projectFile = reader.read();
+</pre></div></div>
+<p>You can also connect to a standalone SQLite P6 database, although a property has to be set on the database connection in order for date and time values to be read correctly.</p>
 
-</pre></div>
-
-
-<p>You can also connect to a standalone SQLite P6 database, although a 
-property has to be set on the database connection in order for
-date and time values to be read correctly.</p>
-
-
-
-<div class="source"><pre class="prettyprint">
-import java.sql.Connection;
+<div class="source">
+<div class="source"><pre class="prettyprint">import java.sql.Connection;
 import java.sql.DriverManager;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
@@ -172,7 +156,7 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 //
 // Load the JDBC driver
 //
-String driverClass=&quot;&quot;org.sqlite.JDBC&quot;;
+String driverClass=&quot;org.sqlite.JDBC&quot;;
 Class.forName(driverClass);
 
 //
@@ -202,13 +186,33 @@ Map&lt;Integer,String&gt; projects = reader.listProjects();
 int selectedProjectID = 1;
 reader.setProjectID(selectedProjectID);
 ProjectFile projectFile = reader.read();
+</pre></div></div></div>
+<div class="section">
+<h3><a name="a.Net"></a>.Net</h3>
+<p>The situation is a little more complicated when using the .Net version of MPXJ. In this case you are still actually running Java code, so you need to use a JDBC driver to establish a database connection.</p>
+<p>Your first step will be to convert your JDBC driver to a .Net assembly using IKVM. For example the command line below converts a version of Microsoft&#x2019;s SQL Server JDBC driver to a .Net assembly:</p>
 
-</pre></div>
+<div class="source">
+<div class="source"><pre class="prettyprint">c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
+</pre></div></div>
+<p>You can then add a reference to this assembly to your project. Here&#x2019;s an example of how this might look:</p>
 
-</div>
+<div class="source">
+<div class="source"><pre class="prettyprint">//
+// Configure the connection
+//
+var driver = new SQLServerDriver();
+var connectionProperties = new Properties();
+var connection = driver.connect(connectionString, connectionProperties);
 
+//
+// Configure the reader
+//
+var reader = new PrimaveraDatabaseReader();
+reader.Connection = connection;
 
-
+</pre></div></div>
+<p>You can find the complete code for this <a class="externalLink" href="https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs">here</a>.</p></div></div>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@
 		<property name="conceptdraw.xsd" value="document.xsd" />
 		
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
-		<property name="maven.dir" value="c:/java/apache-maven-3.3.9"/>
+		<property name="maven.dir" value="c:/java/apache-maven-3.6.0"/>
 
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />

@@ -1,24 +1,14 @@
-<?xml version="1.0" encoding="windows-1252"?>
-
-
-<document>
-   <properties>
-      <title>How To: Read a Primavera P6 database</title> 
-      <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
-   </properties> 
-
-   <body> 
-
-<section name="How To: Read a Primavera P6 database">
-
-<p>Reading from a Primavera database is a slightly different proposition
+## How To: Read a Primavera P6 database
+Reading from a Primavera database is a slightly different proposition
 to reading file-based project data, as a database connection is required.
+
+### Java 
 The example below illustrates how to do this for a Primavera database
 hosted in SQL Server, using the open source JTDS JDBC driver. 
 The only difference when reading from an Oracle
-database will be the JDBC driver and connection string used.</p>
+database will be the JDBC driver and connection string used.
 
-<source>
+```
 import java.sql.Connection;
 import java.sql.DriverManager;
 import net.sf.mpxj.ProjectFile;
@@ -44,7 +34,7 @@ reader.setConnection(c);
 //
 // Retrieve a list of the projects available in the database
 //
-Map&lt;Integer,String&gt; projects = reader.listProjects();
+Map<Integer,String> projects = reader.listProjects();
 
 //
 // At this point you'll select the project
@@ -57,15 +47,13 @@ Map&lt;Integer,String&gt; projects = reader.listProjects();
 int selectedProjectID = 1;
 reader.setProjectID(selectedProjectID);
 ProjectFile projectFile = reader.read();
+```
 
-</source>
-
-<p>You can also connect to a standalone SQLite P6 database, although a 
+You can also connect to a standalone SQLite P6 database, although a 
 property has to be set on the database connection in order for
-date and time values to be read correctly.</p>
+date and time values to be read correctly.
 
-
-<source>
+```
 import java.sql.Connection;
 import java.sql.DriverManager;
 import net.sf.mpxj.ProjectFile;
@@ -76,7 +64,7 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 //
 // Load the JDBC driver
 //
-String driverClass=""org.sqlite.JDBC";
+String driverClass="org.sqlite.JDBC";
 Class.forName(driverClass);
 
 //
@@ -93,7 +81,7 @@ reader.setConnection(c);
 //
 // Retrieve a list of the projects available in the database
 //
-Map&lt;Integer,String&gt; projects = reader.listProjects();
+Map<Integer,String> projects = reader.listProjects();
 
 //
 // At this point you'll select the project
@@ -106,14 +94,39 @@ Map&lt;Integer,String&gt; projects = reader.listProjects();
 int selectedProjectID = 1;
 reader.setProjectID(selectedProjectID);
 ProjectFile projectFile = reader.read();
+```
 
-</source>
+### .Net
+The situation is a little more complicated when using the .Net version of MPXJ.
+In this case you are still actually running Java code, so you need to use a JDBC
+driver to establish a database connection.
 
-</section>
+Your first step will be to convert your JDBC driver to a .Net assembly using IKVM. For example
+the command line below converts a version of Microsoft's SQL Server JDBC driver to a .Net
+assembly:
 
-</body>
-</document>
+```
+c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
+```
 
+You can then add a reference to this assembly to your project. Configuring the JDBC driver
+needs to be done in a slightly different way than you would using Java. Here we need to
+create an instance of the JDBC driver class directly, rather than referencing it by name as we would in Java.
 
+```
+//
+// Configure the connection
+//
+var driver = new SQLServerDriver();
+var connectionProperties = new Properties();
+var connection = driver.connect(connectionString, connectionProperties);
 
+//
+// Configure the reader
+//
+var reader = new PrimaveraDatabaseReader();
+reader.Connection = connection;
 
+```
+
+You can find the complete code for this [here](https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs).
