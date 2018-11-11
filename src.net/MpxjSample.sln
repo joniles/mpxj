@@ -14,6 +14,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MpxjQueryVB", "MpxjQueryVB\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjCreate", "MpxjCreate\MpxjCreate\MpxjCreate.csproj", "{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjPrimaveraConvert", "MpxjPrimaveraConvert\MpxjPrimaveraConvert.csproj", "{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,16 @@ Global
 		{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

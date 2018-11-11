@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.7.2 (git master)
+* Updated Java build to use Maven
 * Fixed [Issue 332](https://sourceforge.net/p/mpxj/bugs/332): Asta lag sign incorrect (Based on a contribution by Dave McKay)
 * Fixed [Issue 333](https://sourceforge.net/p/mpxj/bugs/333): Asta constraints lost (Contributed by Dave McKay)
 

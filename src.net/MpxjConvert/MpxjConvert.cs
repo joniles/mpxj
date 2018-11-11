@@ -35,8 +35,7 @@ namespace MpxjSample
         {
             Console.Out.WriteLine("Reading input file started.");
             DateTime start = DateTime.Now;
-            ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
-            ProjectFile projectFile = reader.read(inputFile);
+            ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
             TimeSpan elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Reading input file completed in " + elapsed.TotalMilliseconds + "ms.");
 
