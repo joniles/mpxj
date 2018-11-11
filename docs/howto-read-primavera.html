@@ -195,7 +195,7 @@ ProjectFile projectFile = reader.read();
 <div class="source">
 <div class="source"><pre class="prettyprint">c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
 </pre></div></div>
-<p>You can then add a reference to this assembly to your project. Here&#x2019;s an example of how this might look:</p>
+<p>You can then add a reference to this assembly to your project. Configuring the JDBC driver needs to be done in a slightly different way than you would using Java. Here we need to create an instance of the JDBC driver class directly, rather than referencing it by name as we would in Java.</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">//
