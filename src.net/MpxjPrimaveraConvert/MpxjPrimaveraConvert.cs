@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using net.sf.mpxj;
-using net.sf.mpxj.reader;
-using net.sf.mpxj.writer;
-using net.sf.mpxj.primavera;
-using com.microsoft.sqlserver.jdbc;
+﻿using com.microsoft.sqlserver.jdbc;
 using java.util;
-using java.sql;
+using net.sf.mpxj.primavera;
+using net.sf.mpxj.writer;
+using System;
 
 namespace MpxjSample
 {
@@ -21,7 +15,20 @@ namespace MpxjSample
     /// 
     /// c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
     /// 
-    /// You can then add a reference to this assembly to your project, and the code below should work 
+    /// You can then add a reference to this assembly to your project, and the code below should work.
+    /// 
+    /// The utility is expecting to receive three command line arguments, a JDBC connection string, a project ID, and finally an outut file name.
+    /// The structure of the connection string for the Microsoft JDBC driver is defined here:
+    /// https://docs.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-2017
+    /// 
+    /// The available projectIDs can be found by calling `reader.ListProjects()`. The value is the primary key from the `project` table in
+    /// the P6 database corresponding to the project you want to export.
+    /// 
+    /// The output file name is the file into which the utility will write an MSPDI file representing the data extracted from P6.
+    /// 
+    /// Here's an example of the arguments you might pass to this utility:
+    /// 
+    /// jdbc:sqlserver://myhostname;user=myusername;password=mypassword;databaseName=mydatabase 1234 project1.xml
     /// </summary>
     class MpxjPrimaveraConvert
     {
@@ -61,7 +68,7 @@ namespace MpxjSample
             var reader = new PrimaveraDatabaseReader();
             reader.Connection = connection;
             reader.ProjectID = Int32.Parse(projectID);
-
+            
             Console.Out.WriteLine("Reading from database started.");
             var start = DateTime.Now;
             var projectFile = reader.Read();
@@ -70,7 +77,7 @@ namespace MpxjSample
 
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
-            ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
+            var writer = ProjectWriterUtility.getProjectWriter(outputFile);
             writer.write(projectFile, outputFile);
             elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Writing output completed in " + elapsed.TotalMilliseconds + "ms.");
