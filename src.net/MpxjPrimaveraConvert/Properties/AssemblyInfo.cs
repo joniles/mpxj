@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MpxjConvert")]
+[assembly: AssemblyTitle("MpxjPrimaveraConvert")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Packwood Software")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7d30f22b-c28d-4776-80aa-aeb922ec15c7")]
+[assembly: Guid("788e3c16-e967-442c-8727-bf5f7c10d93b")]
 
 // Version information for an assembly consists of the following four values:
 //

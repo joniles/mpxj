@@ -73,7 +73,7 @@ namespace MpxjSample
             var start = DateTime.Now;
             var projectFile = reader.Read();
             var elapsed = DateTime.Now - start;
-            Console.Out.WriteLine("Reading input file completed in " + elapsed.TotalMilliseconds + "ms.");
+            Console.Out.WriteLine("Reading from database completed in " + elapsed.TotalMilliseconds + "ms.");
 
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
