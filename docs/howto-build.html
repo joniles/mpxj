@@ -7,7 +7,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jon Iles" />
     <meta http-equiv="Content-Language" content="en" />
     <title>MPXJ &#x2013; How To: Build MPXJ</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
@@ -43,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2018-11-27</li>
+        <li id="publishDate">Last Published: 2018-11-28</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -85,155 +84,50 @@
           </div>
         </div>
         <div id="bodyColumn"  class="span9" >
-
-    
-
 <div class="section">
 <h2><a name="How_To:_Build_MPXJ"></a>How To: Build MPXJ</h2>
-
-<p>Although MPXJ can be downloaded as a complete package from SourceForge,
-the development of the library continues between releases and is driven by
-user requests for new functionality, and bug fixes being applied to existing
-features. Many MPXJ users will work with and ship software based on 
-intermediate versions of MPXJ built from the code in Git in order to take
-advantage of these enhancements before they become available in an official 
-release. This approach is supported by the fact that code is only checked into 
-Git if the suite of JUnit regression tests have been completed successfully: 
-therefore the quality of the code taken from Git at any point can be guaranteed 
-to be as good as that in an official release.</p>
-
-
-<p>In order to take advantage of MPXJ functionality from Git, you will need to 
-understand how to build the library, whether you are using it in the form
-of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
-</div>
-
-
+<p>Although MPXJ can be downloaded as a complete package from Maven, GitHub and SourceForge, the development of the library continues between releases and is driven by user requests for new functionality and bug fixes being applied to existing features. Many MPXJ users will work with and ship software based on intermediate versions of MPXJ built from the code on GitHub in order to take advantage of these enhancements before they become available in an official release. This approach is supported by the fact that code is only pushed to the master branch on GitHub if the suite of regression tests have been completed successfully: therefore the quality of the code taken from GitHub at any point can normally be guaranteed to be as good as that in an official release.</p>
+<p>In order to take advantage of MPXJ functionality from GitHub, you will need to understand how to build the library, whether you are using it in the form of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
 <div class="section">
-<h2><a name="Obtaining_the_source"></a>Obtaining the source</h2>
-
-<p>The first step in the process of building your own version of MPXJ is to obtain 
-the latest source from Git. The MPXJ Git repository is on GitHub <a class="externalLink" href="https://github.com/joniles/mpxj" target="_blank">here</a>.
-Instructions for cloning the repository can be found on this page.</p>
-</div>
-
-
+<h3><a name="Obtaining_the_source"></a>Obtaining the source</h3>
+<p>The first step in the process of building your own version of MPXJ is to obtain the latest source from GitHub. The MPXJrepository is on GitHub <a class="externalLink" href="https://github.com/joniles/mpxj" target="_blank">here</a>. Instructions for cloning the repository can be found on this page.</p></div>
 <div class="section">
-<h2><a name="Building_the_Java_JAR"></a>Building the Java JAR</h2>
+<h3><a name="Building_the_Java_JAR"></a>Building the Java JAR</h3>
+<p>MPXJ is now built using Maven. Once you have a cloned copy of the MPXJ repository, you may wish to update the <tt>groupId</tt>, <tt>artifactId</tt> or <tt>version</tt> attributes in <tt>pom.xml</tt>. This will ensure that there is no confusion between the version of MPXJ you build and the official distributions.</p>
+<p>If you have a copy of Maven installed, you can issue the following command to build MPXJ:</p>
 
-<p>The MPXJ build process is based on the use of an Ant script. If you aren't 
-familiar with Ant, it is a script execution tool similar in concept to 
-make or nmake. The prerequisites for building MPXJ are:
-</p>
+<div class="source">
+<div class="source"><pre class="prettyprint">mvn -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true package
+</pre></div></div>
+<p>This will generate the <tt>mpxj.jar</tt> for you in the Maven target directory, and copies MPXJs dependencies to the <tt>lib</tt> directory. Note that for convenience this skips running the unit tests, javadoc generation and source packaging. </p>
+<p>If you are using Maven to manage dependencies for your own project, you can install your newly built version of MPXJ in a local Maven repository:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">mvn -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install
+</pre></div></div></div>
+<div class="section">
+<h3><a name="Building_the_.NET_DLLs"></a>Building the .NET DLLs</h3>
+<p>Building the .NET DLL version of MPXJ uses an Ant script to first run Maven to create the Java version, then run IKVM to create a .Net version.</p>
+
 <ul>
-	
-<li>A Java Development Kit (JDK) - at the minimum Java 1.6 is required.  
-	A suitable JDK can be downloaded from <a class="externalLink" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">Oracle</a></li>
-	
-<li>Apache Ant. I wrote these instructions using version 1.9.2, but the ant build script will probably 
-	work happily with older or newer versions. Ant can be downloaded from <a class="externalLink" href="http://ant.apache.org/">http://ant.apache.org</a></li>
-	
-<li>The latest version of MPXJ from Git. The MPXJ Git repository is on GitHub <a class="externalLink" href="https://github.com/joniles/mpxj" target="_blank">here</a>.</li>
-</ul>
-
-
-
-<p>
-Here are the steps required to build MPXJ, they assume that both Java and Ant
-are available on the path.
-</p>
-<ol style="list-style-type: decimal">
-	
-<li>Change directory to the the MPXJ folder.</li>
-	
-<li>At your command prompt, execute the command &quot;ant clean&quot;. This will
-	remove any temporary files or previous output from the build process.</li>
-	
-<li>At your command prompt, execute the command &quot;ant archive&quot;. This will
-	build the JAR file.</li>
-	
-<li>That's it! The file mpxj.jar should now be sat in the root of your
-	MPXJ folder.</li>	
-</ol> 
-
-</div>
-
-
-<div class="section">
-<h2><a name="Building_the_.NET_DLLs"></a>Building the .NET DLLs</h2>
-
-<p>Building the .NET DLL version of MPXJ uses the same steps described for
-building the Java JAR file, but with the additional prerequisite that IKVM 
-is available on your system. The steps required are as follows.
-</p>
-<ol style="list-style-type: decimal">
-
-<li>Download IKVM from 
-<a class="externalLink" href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a> and
-unzip the files into a convenient directory.</li>
-
+  
+<li>Download <a class="externalLink" href="http://www.ikvm.net/">IKVM</a> and unzip the files into a convenient directory</li>
+  
 <li>Change directory to the MPXJ folder.</li>
-
-<li>Edit the build.xml file and ensure that the property named ikvm.dir is 
-set to point to the location where you have unzipped IKVM.</li>
-
-<li>Now you can follow the steps described above to build the Java JAR file. 
-The Ant script will recognise that IKVM is present and build the .NET DLL 
-in the lib.net folder.</li>
-</ol>
-
-</div> 
-
-
-<div class="section">
-<h2><a name="Building_the_Javadoc"></a>Building the Javadoc</h2>
-
-<p>The most recent Javadocs for MPXJ are always available at 
-<a class="externalLink" href="http://mpxj.org/" target="_blank">http://mpxj.org</a>, however
-if you wish to build a local copy for yourself, follow the instructions above
-to build the MPXJ JAR, then at the command prompt enter the command 
-&quot;ant document&quot;, which will then generate the Javadoc in the doc/api folder.</p>
-</div>
-
-
-<div class="section">
-<h2><a name="Generating_the_JAXB_code"></a>Generating the JAXB code</h2>
-
-<p>In order to read and write various XML file formats, MPXJ relies on code generated by the JAXB tool xjc from
-the XML schemas. Normally you will not need to regenerate this source, but if you are changing 
-the JAXB implementation, or modifying the use of JAXB in some way, then you
-may need to regenerate this code. The following notes detail where the XML schemas used
-by MPXJ can be obtained:</p>
-
-
-<ul>
-
-<li><b>Microsoft Project MSPDI</b>: The XML schema file from which the JAXB code has been generated is
-supplied by Microsoft as part of the Microsoft Project SDK, which can be
-downloaded from MSDN.</li>
-
-<li><b>Planner</b>: The XML schema file for Planner is distributed with MPXJ in the JAXB subdirectory</li>
-
-<li><b>Primavera PM XML</b>: The XML schema file for PM XML is distributed as part of the Primavera media. 
-The relevant archive can be downloaded from the Oracle E-Delivery web site,</li>
+  
+<li>Edit the <tt>build.xml</tt> file and ensure that the property named <tt>ikvm.dir</tt> is set to point to the location where you have unzipped IKVM.</li>
 </ul>
+<p>You can now issue the following command:</p>
 
-
-<p>If you obtain a copy of the XML schema file you want to work with,
-you can update  
-the JAXB source using the xjc target found in the ant build.xml file. 
-Note that the xjc target is platform specific, you will need to 
-change the name of xjc tool to be xjc.bat, xjc.exe, or xjc.sh 
-depending on your operating system. You will also need to set 
-the properties indicated in build.xml to tell it where to 
-find xjc and the XML schema file. If you are only regenerating source for
-one of the XML schemas, you can comment out the others in the Ant script
-to avoid unnecessary work.
-</p>
-</div>
-
-
-
+<div class="source">
+<div class="source"><pre class="prettyprint">ant archive
+</pre></div></div>
+<p>The Ant script will recognise that IKVM is present and build the .NET DLL in the lib.net folder.</p></div>
+<div class="section">
+<h3><a name="Generating_the_JAXB_code"></a>Generating the JAXB code</h3>
+<p>In order to read and write various XML file formats, MPXJ relies on code generated by the JAXB tool <tt>xjc</tt> from the XML schema for each file format. Normally you will not need to regenerate this source, but if you are changing the JAXB implementation, or modifying the use of JAXB in some way, then you may need to regenerate this code. </p>
+<p>Where I have created an XML schema to support a particular file format, I have included it in the MPXJ distribution in the <tt>jaxb</tt> directory. For XML schemas published by product vendors, I have included a note on the home page indicating where these can be located. </p>
+<p>If you obtain a copy of the XML schema file you want to work with, you can update<br />the JAXB source using the <tt>xjc</tt> target found in the ant <tt>build.xml</tt> file. Note that the <tt>xjc</tt> target is platform specific, you will need to change the name of <tt>xjc</tt> tool to be <tt>xjc.bat</tt>, <tt>xjc.exe</tt>, or <tt>xjc.sh</tt> depending on your operating system. You will also need to set the properties indicated in <tt>build.xml</tt> to tell it where to find <tt>xjc</tt> and the XML schema file. If you are only regenerating source for one of the XML schemas, you can comment out the others in the Ant script to avoid unnecessary work.</p></div></div>
         </div>
       </div>
     </div>
