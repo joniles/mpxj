@@ -27,6 +27,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.joda.time.LocalDate;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Task;
@@ -56,13 +58,7 @@ public final class DateHelper
    {
       if (date != null)
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(date);
-         cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         date = cal.getTime();
+         date = new LocalDate(date).toDate();
       }
       return (date);
    }
