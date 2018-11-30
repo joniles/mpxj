@@ -451,13 +451,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeExceptions(Project.Calendars.Calendar calendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
    {
-      if (m_saveVersion.getValue() < SaveVersion.Project2007.getValue())
+      // Always write legacy exception data:
+      // Powerproject appears not to recognise new format data at all,
+      // and legacy data is ignored in preference to new data post MSP 2003
+      writeExceptions9(dayList, exceptions);
+
+      if (m_saveVersion.getValue() > SaveVersion.Project2003.getValue())
       {
-         writeExcepions9(dayList, exceptions);
-      }
-      else
-      {
-         writeExcepions12(calendar, exceptions);
+         writeExceptions12(calendar, exceptions);
       }
    }
 
@@ -467,7 +468,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param dayList list of calendar days
     * @param exceptions list of exceptions
     */
-   private void writeExcepions9(List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   private void writeExceptions9(List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
    {
       for (ProjectCalendarException exception : exceptions)
       {
@@ -508,7 +509,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param calendar parent calendar
     * @param exceptions list of exceptions
     */
-   private void writeExcepions12(Project.Calendars.Calendar calendar, List<ProjectCalendarException> exceptions)
+   private void writeExceptions12(Project.Calendars.Calendar calendar, List<ProjectCalendarException> exceptions)
    {
       Exceptions ce = m_factory.createProjectCalendarsCalendarExceptions();
       calendar.setExceptions(ce);

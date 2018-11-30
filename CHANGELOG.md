@@ -4,6 +4,7 @@
 * Updated Java build to use Maven
 * Fixed [Issue 332](https://sourceforge.net/p/mpxj/bugs/332): Asta lag sign incorrect (Based on a contribution by Dave McKay)
 * Fixed [Issue 333](https://sourceforge.net/p/mpxj/bugs/333): Asta constraints lost (Contributed by Dave McKay)
+* Fixed [Issue 335](https://sourceforge.net/p/mpxj/bugs/335): MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)
 
 ## 7.7.1 (23/10/2018)
 * Read additional schedule options from XER files. (Contributed by forenpm)
