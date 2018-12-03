@@ -49,7 +49,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = getDateFormat().parse(value);
+            result = DATE_FORMAT.get().parse(value);
          }
 
          catch (ParseException ex)
@@ -69,25 +69,16 @@ public final class DatatypeConverter
     */
    public static final String printDate(Date value)
    {
-      return (value == null ? null : getDateFormat().format(value));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
-   /**
-    * Retrieve a date formatter.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getDateFormat()
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
    {
-      DateFormat df = DATE_FORMAT.get();
-      if (df == null)
+      @Override protected DateFormat initialValue()
       {
-         df = new SimpleDateFormat("yyyy-MM-dd");
+         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
          df.setLenient(false);
-         DATE_FORMAT.set(df);
+         return df;
       }
-      return (df);
-   }
-
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
+   };            
 }

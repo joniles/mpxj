@@ -163,7 +163,7 @@ public final class DatatypeConverter
     */
    public static final String printDateTime(Date value)
    {
-      return (value == null ? null : getDateFormat().format(value));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
    /**
@@ -180,7 +180,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = getDateFormat().parse(value);
+            result = DATE_FORMAT.get().parse(value);
          }
 
          catch (ParseException ex)
@@ -190,24 +190,6 @@ public final class DatatypeConverter
       }
 
       return result;
-   }
-
-   /**
-    * Retrieve the date format used to parse Phoenix formatted dates.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getDateFormat()
-   {
-      DateFormat df = DATE_FORMAT.get();
-      if (df == null)
-      {
-         df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-         df.setLenient(false);
-         DATE_FORMAT.set(df);
-      }
-      return (df);
-
    }
 
    /**
@@ -276,7 +258,7 @@ public final class DatatypeConverter
          cal.add(Calendar.DAY_OF_YEAR, 1);
          value = cal.getTime();
       }
-      return (value == null ? null : getDateFormat().format(value));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
    /**
@@ -380,6 +362,13 @@ public final class DatatypeConverter
       DAY_TO_NAME.put(Day.SUNDAY, "Sun");
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
-
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         DateFormat df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+         df.setLenient(false);
+         return df;
+      }
+   };
 }

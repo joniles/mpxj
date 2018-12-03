@@ -93,7 +93,7 @@ public final class DatatypeConverter
     */
    public static final String printDateTime(Date value)
    {
-      return (value == null ? null : getDateFormat().format(value));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
    /**
@@ -110,7 +110,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = getDateFormat().parse(value);
+            result = DATE_FORMAT.get().parse(value);
          }
 
          catch (ParseException ex)
@@ -130,7 +130,7 @@ public final class DatatypeConverter
     */
    public static final String printTime(Date value)
    {
-      return (value == null ? null : getTimeFormat().format(value));
+      return (value == null ? null : TIME_FORMAT.get().format(value));
    }
 
    /**
@@ -146,7 +146,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = getTimeFormat().parse(value);
+            result = TIME_FORMAT.get().parse(value);
          }
 
          catch (ParseException ex)
@@ -157,39 +157,23 @@ public final class DatatypeConverter
       return result;
    }
 
-   /**
-    * Retrieve a date formatter.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getDateFormat()
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
    {
-      DateFormat df = DATE_FORMAT.get();
-      if (df == null)
+      @Override protected DateFormat initialValue()
       {
-         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
          df.setLenient(false);
-         DATE_FORMAT.set(df);
+         return df;
       }
-      return (df);
-   }
-
-   /**
-    * Retrieve a time formatter.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getTimeFormat()
+   };
+   
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
    {
-      DateFormat df = TIME_FORMAT.get();
-      if (df == null)
+      @Override protected DateFormat initialValue()
       {
-         df = new SimpleDateFormat("HH:mm:ss");
+         DateFormat df = new SimpleDateFormat("HH:mm:ss");
          df.setLenient(false);
-         TIME_FORMAT.set(df);
+         return df;
       }
-      return (df);
-   }
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
+   };
 }

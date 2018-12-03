@@ -196,7 +196,7 @@ public final class DatatypeConverter
       {
          if (value != null && !value.isEmpty())
          {
-            result = getTimeFormat().parse(value);
+            result = TIME_FORMAT.get().parse(value);
          }
       }
       catch (ParseException ex)
@@ -232,7 +232,7 @@ public final class DatatypeConverter
       {
          if (value != null && !value.isEmpty())
          {
-            result = getDateFormat().parse(value);
+            result = DATE_FORMAT.get().parse(value);
          }
       }
       catch (ParseException ex)
@@ -268,7 +268,7 @@ public final class DatatypeConverter
       {
          if (value != null && !value.isEmpty())
          {
-            result = getDateTimeFormat().parse(value);
+            result = DATE_TIME_FORMAT.get().parse(value);
          }
       }
       catch (ParseException ex)
@@ -400,60 +400,6 @@ public final class DatatypeConverter
       throw new UnsupportedOperationException();
    }
 
-   /**
-    * Retrieve a time formatter.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getTimeFormat()
-   {
-      DateFormat df = TIME_FORMAT.get();
-      if (df == null)
-      {
-         df = new SimpleDateFormat("HH:mm:ss");
-         df.setLenient(false);
-         TIME_FORMAT.set(df);
-      }
-      return (df);
-
-   }
-
-   /**
-    * Retrieve a date formatter.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getDateFormat()
-   {
-      DateFormat df = DATE_FORMAT.get();
-      if (df == null)
-      {
-         df = new SimpleDateFormat("yyyy-MM-dd");
-         df.setLenient(false);
-         DATE_FORMAT.set(df);
-      }
-      return (df);
-
-   }
-
-   /**
-    * Retrieve a date time formatter.
-    *
-    * @return DateFormat instance
-    */
-   private static final DateFormat getDateTimeFormat()
-   {
-      DateFormat df = DATE_TIME_FORMAT.get();
-      if (df == null)
-      {
-         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         DATE_TIME_FORMAT.set(df);
-      }
-      return (df);
-
-   }
-
    private static final Map<String, CurrencySymbolPosition> MAP_TO_CURRENCY_SYMBOL_POSITION = new HashMap<String, CurrencySymbolPosition>();
    static
    {
@@ -520,7 +466,33 @@ public final class DatatypeConverter
 
    }
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>();
-   private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = new ThreadLocal<DateFormat>();
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         DateFormat df = new SimpleDateFormat("HH:mm:ss");
+         df.setLenient(false);
+         return df;
+      }
+   };            
+
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+         df.setLenient(false);
+         return df;
+      }
+   };            
+   
+   private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+         df.setLenient(false);
+         return df;
+      }
+   };            
 }

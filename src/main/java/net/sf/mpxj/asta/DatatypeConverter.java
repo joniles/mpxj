@@ -1,5 +1,5 @@
 /*
- * file:       AstaDataType.java
+ * file:       DatatypeConverter.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2016
  * date:       09/06/2016
@@ -33,7 +33,7 @@ import java.util.Date;
 /**
  * Methods for handling Asta data types.
  */
-final class AstaDataType
+final class DatatypeConverter
 {
    /**
     * Parse a string.
@@ -84,14 +84,7 @@ final class AstaDataType
 
          if (value.indexOf('E') != -1)
          {
-            DecimalFormat df = DOUBLE_FORMAT.get();
-            if (df == null)
-            {
-               df = new DecimalFormat("#.#E0");
-               DOUBLE_FORMAT.set(df);
-            }
-
-            result = df.parse(value);
+            result = DOUBLE_FORMAT.get().parse(value);
          }
          else
          {
@@ -138,7 +131,7 @@ final class AstaDataType
          }
          else
          {
-            Number n = AstaDataType.parseDouble(value);
+            Number n = DatatypeConverter.parseDouble(value);
             result = Integer.valueOf(n.intValue());
          }
       }
@@ -217,32 +210,16 @@ final class AstaDataType
             if (value.endsWith(" 0"))
             {
                df = DATE_FORMAT1.get();
-               if (df == null)
-               {
-                  df = new SimpleDateFormat("yyyyMMdd 0");
-                  DATE_FORMAT1.set(df);
-               }
             }
             else
             {
                if (value.indexOf(' ') == -1)
                {
                   df = DATE_FORMAT2.get();
-                  if (df == null)
-                  {
-                     df = new SimpleDateFormat("yyyyMMdd");
-                     DATE_FORMAT2.set(df);
-                  }
                }
                else
                {
                   df = TIMESTAMP_FORMAT.get();
-                  if (df == null)
-                  {
-                     df = new SimpleDateFormat("yyyyMMdd HHmmss");
-                     TIMESTAMP_FORMAT.set(df);
-                  }
-
                   int timeIndex = value.indexOf(' ') + 1;
                   if (timeIndex + 6 > value.length())
                   {
@@ -274,27 +251,55 @@ final class AstaDataType
       {
          if (!value.equals("0"))
          {
-            DateFormat df;
-            df = TIME_FORMAT.get();
-            if (df == null)
-            {
-               df = new SimpleDateFormat("HHmmss");
-               TIME_FORMAT.set(df);
-            }
             value = "000000" + value;
             value = value.substring(value.length() - 6);
-            result = df.parse(value);
+            result = TIME_FORMAT.get().parse(value);
          }
       }
 
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = new ThreadLocal<DateFormat>();
-   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = new ThreadLocal<DateFormat>();
-   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = new ThreadLocal<DateFormat>();
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>();
+   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         return new SimpleDateFormat("yyyyMMdd HHmmss");
+      }
+   };            
+            
+   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         return new SimpleDateFormat("yyyyMMdd 0");
+      }
+   };            
+                                  
+   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         return new SimpleDateFormat("yyyyMMdd");
+      }
+   };            
+   
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
+   {
+      @Override protected DateFormat initialValue()
+      {
+         return new SimpleDateFormat("HHmmss");
+      }
+   };            
+   
+   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = new ThreadLocal<DecimalFormat>()
+   {
+      @Override protected DecimalFormat initialValue()
+      {
+         return new DecimalFormat("#.#E0");
+      }
+   };            
+     
    private static final long JAVA_EPOCH = -2208988800000L;
-   private static final long ASTA_EPOCH = 2415021L;
-   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = new ThreadLocal<DecimalFormat>();
+   private static final long ASTA_EPOCH = 2415021L;   
 }
