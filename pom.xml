@@ -49,10 +49,10 @@
 		</dependency>
 		
 		<dependency>
-            		<groupId>joda-time</groupId>
-            		<artifactId>joda-time</artifactId>
-            		<version>2.10.1</version>
-        	</dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.1</version>
+		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
@@ -204,6 +204,9 @@
 		</contributor>
 		<contributor>
 			<name>Elio Zoggia</name>
+		</contributor>
+		<contributor>
+			<name>Tiago de Mello</name>
 		</contributor>
 	</contributors>
 
