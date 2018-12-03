@@ -406,8 +406,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
       while (index < patterns.length)
       {
          Integer workPattern = Integer.valueOf(patterns[index + 1]);
-         Date startDate = AstaDataType.parseBasicTimestamp(patterns[index + 3]);
-         Date endDate = AstaDataType.parseBasicTimestamp(patterns[index + 4]);
+         Date startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
+         Date endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
 
          Map<String, Object> map = new HashMap<String, Object>();
          map.put("WORK_PATTERN", workPattern);
@@ -453,8 +453,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
       int index = 1;
       while (index < exceptions.length)
       {
-         Date startDate = AstaDataType.parseEpochTimestamp(exceptions[index + 0]);
-         Date endDate = AstaDataType.parseEpochTimestamp(exceptions[index + 1]);
+         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 0]);
+         Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<String, Object>();
@@ -507,8 +507,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
          for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
          {
             Integer exceptionTypeID = Integer.valueOf(shifts[index + 0]);
-            Date startTime = AstaDataType.parseBasicTime(shifts[index + 1]);
-            Date endTime = AstaDataType.parseBasicTime(shifts[index + 2]);
+            Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
+            Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("START_TIME", startTime);

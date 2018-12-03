@@ -82,20 +82,20 @@ class TextFileRow extends MapRow
          {
             case Types.BIT:
             {
-               value = AstaDataType.parseBoolean(data);
+               value = DatatypeConverter.parseBoolean(data);
                break;
             }
 
             case Types.VARCHAR:
             case Types.LONGVARCHAR:
             {
-               value = AstaDataType.parseString(data);
+               value = DatatypeConverter.parseString(data);
                break;
             }
 
             case Types.TIME:
             {
-               value = AstaDataType.parseBasicTime(data);
+               value = DatatypeConverter.parseBasicTime(data);
                break;
             }
 
@@ -103,24 +103,24 @@ class TextFileRow extends MapRow
             {
                if (epochDateFormat)
                {
-                  value = AstaDataType.parseEpochTimestamp(data);
+                  value = DatatypeConverter.parseEpochTimestamp(data);
                }
                else
                {
-                  value = AstaDataType.parseBasicTimestamp(data);
+                  value = DatatypeConverter.parseBasicTimestamp(data);
                }
                break;
             }
 
             case Types.DOUBLE:
             {
-               value = AstaDataType.parseDouble(data);
+               value = DatatypeConverter.parseDouble(data);
                break;
             }
 
             case Types.INTEGER:
             {
-               value = AstaDataType.parseInteger(data);
+               value = DatatypeConverter.parseInteger(data);
                break;
             }
 
