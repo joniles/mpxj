@@ -31,7 +31,6 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -566,94 +565,21 @@ public final class DatatypeConverter
    }
 
    /**
-    * Print date.
-    *
-    * @param value Date value
-    * @return Calendar value
-    */
-   public static final Calendar printDate(Date value)
-   {
-      Calendar cal = null;
-
-      if (value != null)
-      {
-         cal = Calendar.getInstance();
-         cal.setTime(value);
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-      }
-
-      return (cal);
-   }
-
-   /**
-    * Parse date.
-    *
-    * @param value Calendar value
-    * @return Date value
-    */
-   public static final Date parseDate(Calendar value)
-   {
-      Date result = null;
-
-      if (value != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.YEAR, value.get(Calendar.YEAR));
-         cal.set(Calendar.MONTH, value.get(Calendar.MONTH));
-         cal.set(Calendar.DAY_OF_MONTH, value.get(Calendar.DAY_OF_MONTH));
-         cal.set(Calendar.HOUR_OF_DAY, value.get(Calendar.HOUR_OF_DAY));
-         cal.set(Calendar.MINUTE, value.get(Calendar.MINUTE));
-         cal.set(Calendar.SECOND, value.get(Calendar.SECOND));
-         cal.set(Calendar.MILLISECOND, value.get(Calendar.MILLISECOND));
-         result = cal.getTime();
-      }
-
-      return (result);
-   }
-
-   /**
     * Print time.
     *
     * @param value time value
     * @return calendar value
     */
-   public static final Calendar printTime(Date value)
+   public static final String printTime(Date value)
    {
-      Calendar cal = null;
+      String result = null;
 
       if (value != null)
       {
-         cal = Calendar.getInstance();
-         cal.setTime(value);
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
+         result = TIME_FORMAT.get().format(value);
       }
 
-      return (cal);
-   }
-
-   /**
-    * Parse time.
-    *
-    * @param value Calendar value
-    * @return time value
-    */
-   public static final Date parseTime(Calendar value)
-   {
-      Date result = null;
-
-      if (value != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.HOUR_OF_DAY, value.get(Calendar.HOUR_OF_DAY));
-         cal.set(Calendar.MINUTE, value.get(Calendar.MINUTE));
-         cal.set(Calendar.SECOND, value.get(Calendar.SECOND));
-         cal.set(Calendar.MILLISECOND, value.get(Calendar.MILLISECOND));
-         result = cal.getTime();
-      }
-
-      return (result);
+      return result;
    }
 
    /**
@@ -1711,39 +1637,27 @@ public final class DatatypeConverter
    }
 
    /**
-    * Print a time value.
-    *
-    * @param value time value
-    * @return time value
-    */
-   public static final String printTime(Calendar value)
-   {
-      return (value == null ? null : TIME_FORMAT.get().format(value.getTime()));
-   }
-
-   /**
     * Parse a time value.
     *
     * @param value time value
     * @return time value
     */
-   public static final Calendar parseTime(String value)
+   public static final Date parseTime(String value)
    {
-      Calendar cal = null;
+      Date result = null;
       if (value != null && value.length() != 0)
       {
-         cal = Calendar.getInstance();
          try
          {
-            cal.setTime(TIME_FORMAT.get().parse(value));
+            result = TIME_FORMAT.get().parse(value);
          }
 
          catch (ParseException ex)
          {
-            cal = null;
+            // Ignore parse errors
          }
       }
-      return (cal);
+      return result;
    }
 
    /**
@@ -1752,9 +1666,9 @@ public final class DatatypeConverter
     * @param value date time value
     * @return string representation
     */
-   public static final String printDateTime(Calendar value)
+   public static final String printDateTime(Date value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value.getTime()));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
    /**
@@ -1763,25 +1677,24 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date time value
     */
-   public static final Calendar parseDateTime(String value)
+   public static final Date parseDateTime(String value)
    {
-      Calendar result = null;
+      Date result = null;
 
       if (value != null && value.length() != 0)
       {
          try
          {
-            result = Calendar.getInstance();
-            result.setTime(DATE_FORMAT.get().parse(value));
+            result = DATE_FORMAT.get().parse(value);
          }
 
          catch (ParseException ex)
          {
-            result = null;
+            // Ignore parse errors
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
