@@ -25,7 +25,6 @@ package net.sf.mpxj.asta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1239,11 +1238,7 @@ final class AstaReader
 
                if (startTime.getTime() > endTime.getTime())
                {
-                  Calendar cal = DateHelper.popCalendar();
-                  cal.setTime(endTime);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  endTime = cal.getTime();
-                  DateHelper.pushCalendar(cal);
+                  endTime = DateHelper.addDays(endTime, 1);
                }
 
                if (startTime.getTime() < lastEndTime)

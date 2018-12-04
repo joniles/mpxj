@@ -53,6 +53,7 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -222,9 +223,10 @@ public final class SDEFWriter extends AbstractProjectWriter
    private void writeCalendarException(ProjectCalendar parentCalendar, ProjectCalendarException record) throws IOException
    {
       m_buffer.setLength(0);
-      Calendar stepDay = Calendar.getInstance();
+      Calendar stepDay = DateHelper.popCalendar();
       stepDay.setTime(record.getFromDate()); // Start at From Date, then step through days...
-      Calendar lastDay = Calendar.getInstance();
+      
+      Calendar lastDay = DateHelper.popCalendar();
       lastDay.setTime(record.getToDate()); // last day in this exception
 
       m_buffer.append("HOLI ");
@@ -236,6 +238,9 @@ public final class SDEFWriter extends AbstractProjectWriter
          stepDay.add(Calendar.DAY_OF_MONTH, 1);
       }
       m_writer.println(m_buffer.toString());
+      
+      DateHelper.pushCalendar(stepDay);
+      DateHelper.pushCalendar(lastDay);
    }
 
    /**

@@ -1819,7 +1819,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          else
          {
             Date currentStart = startDate;
-            Calendar cal = Calendar.getInstance();
             boolean isWorking = calendar.isWorkingDate(currentStart);
             while (currentStart.getTime() < finishDate.getTime())
             {
@@ -1840,6 +1839,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   result.add(split);
                }
 
+               Calendar cal = DateHelper.popCalendar();
                cal.setTime(currentStart);
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentStart = cal.getTime();
@@ -1850,6 +1850,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   DateHelper.setTime(cal, startTime);
                   currentStart = cal.getTime();
                }
+               DateHelper.pushCalendar(cal);
             }
          }
       }

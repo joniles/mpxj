@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -89,6 +88,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
@@ -531,11 +531,8 @@ public final class MSPDIReader extends AbstractProjectReader
             if (startTime != null && endTime != null)
             {
                if (startTime.getTime() >= endTime.getTime())
-               {
-                  Calendar cal = Calendar.getInstance();
-                  cal.setTime(endTime);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  endTime = cal.getTime();
+               {                  
+                  endTime = DateHelper.addDays(endTime, 1);
                }
 
                hours.addRange(new DateRange(startTime, endTime));
@@ -570,10 +567,7 @@ public final class MSPDIReader extends AbstractProjectReader
             {
                if (startTime.getTime() >= endTime.getTime())
                {
-                  Calendar cal = Calendar.getInstance();
-                  cal.setTime(endTime);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  endTime = cal.getTime();
+                  endTime = DateHelper.addDays(endTime, 1);
                }
 
                exception.addRange(new DateRange(startTime, endTime));
@@ -632,11 +626,8 @@ public final class MSPDIReader extends AbstractProjectReader
                if (startTime != null && endTime != null)
                {
                   if (startTime.getTime() >= endTime.getTime())
-                  {
-                     Calendar cal = Calendar.getInstance();
-                     cal.setTime(endTime);
-                     cal.add(Calendar.DAY_OF_YEAR, 1);
-                     endTime = cal.getTime();
+                  {                    
+                     endTime = DateHelper.addDays(endTime, 1);
                   }
 
                   bce.addRange(new DateRange(startTime, endTime));
@@ -812,10 +803,7 @@ public final class MSPDIReader extends AbstractProjectReader
                         {
                            if (startTime.getTime() >= endTime.getTime())
                            {
-                              Calendar cal = Calendar.getInstance();
-                              cal.setTime(endTime);
-                              cal.add(Calendar.DAY_OF_YEAR, 1);
-                              endTime = cal.getTime();
+                              endTime = DateHelper.addDays(endTime, 1);
                            }
 
                            hours.addRange(new DateRange(startTime, endTime));

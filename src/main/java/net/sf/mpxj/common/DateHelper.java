@@ -436,6 +436,16 @@ public final class DateHelper
       return result;
    }
    
+   public static Date addDays(Date date, int days)
+   {
+      Calendar cal = popCalendar();
+      cal.setTime(date);
+      cal.add(Calendar.DAY_OF_YEAR, days);
+      Date result = cal.getTime();
+      pushCalendar(cal);
+      return result;   
+   }
+
    public static Calendar popCalendar()
    {
       Calendar result;
@@ -450,7 +460,7 @@ public final class DateHelper
       }
       return result;
    }
-   
+      
    public static void pushCalendar(Calendar cal)
    {
       CALENDARS.get().push(cal);
