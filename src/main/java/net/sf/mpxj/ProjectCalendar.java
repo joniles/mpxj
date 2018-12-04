@@ -942,10 +942,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public boolean isWorkingDate(Date date)
    {
-      Calendar cal = Calendar.getInstance();
+      Calendar cal = DateHelper.popCalendar();
       cal.setTime(date);
       Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-      return (isWorkingDate(date, day));
+      DateHelper.pushCalendar(cal);
+      return isWorkingDate(date, day);
    }
 
    /**
