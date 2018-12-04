@@ -979,7 +979,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private int getDaysInRange(Date startDate, Date endDate)
    {
       int result;
-      Calendar cal = Calendar.getInstance();
+      Calendar cal = DateHelper.popCalendar();
       cal.setTime(endDate);
       int endDateYear = cal.get(Calendar.YEAR);
       int endDateDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
@@ -1002,8 +1002,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          while (cal.get(Calendar.YEAR) < endDateYear);
          result += endDateDayOfYear;
       }
-
-      return (result);
+      DateHelper.pushCalendar(cal);
+      
+      return result;
    }
 
    /**
