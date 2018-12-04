@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -326,7 +327,7 @@ public class RecurringData
          frequency = 1;
       }
 
-      Calendar calendar = Calendar.getInstance();
+      Calendar calendar = DateHelper.popCalendar();
       calendar.setTime(m_startDate);
       List<Date> dates = new ArrayList<Date>();
 
@@ -357,6 +358,8 @@ public class RecurringData
          }
       }
 
+      DateHelper.pushCalendar(calendar);
+      
       return dates.toArray(new Date[dates.size()]);
    }
 
@@ -702,10 +705,11 @@ public class RecurringData
    {
       if (date != null)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.setTime(date);
          m_dayNumber = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
          m_monthNumber = Integer.valueOf(cal.get(Calendar.MONTH) + 1);
+         DateHelper.pushCalendar(cal);
       }
    }
 

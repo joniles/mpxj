@@ -59,6 +59,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
@@ -851,11 +852,12 @@ public final class MPXWriter extends AbstractProjectWriter
       Integer result = null;
       if (date != null)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.setTime(date);
          int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
          time += cal.get(Calendar.MINUTE);
-         result = Integer.valueOf(time);
+         DateHelper.pushCalendar(cal);
+         result = Integer.valueOf(time);         
       }
       return (result);
    }

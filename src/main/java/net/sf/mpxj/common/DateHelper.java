@@ -23,8 +23,10 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Deque;
 import java.util.TimeZone;
 
 import net.sf.mpxj.Duration;
@@ -56,13 +58,14 @@ public final class DateHelper
    {
       if (date != null)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = popCalendar();
          cal.setTime(date);
          cal.set(Calendar.HOUR_OF_DAY, 0);
          cal.set(Calendar.MINUTE, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
          date = cal.getTime();
+         pushCalendar(cal);
       }
       return (date);
    }
@@ -78,13 +81,14 @@ public final class DateHelper
    {
       if (date != null)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = popCalendar();
          cal.setTime(date);
          cal.set(Calendar.MILLISECOND, 999);
          cal.set(Calendar.SECOND, 59);
          cal.set(Calendar.MINUTE, 59);
          cal.set(Calendar.HOUR_OF_DAY, 23);
          date = cal.getTime();
+         pushCalendar(cal);
       }
       return (date);
    }
@@ -101,12 +105,13 @@ public final class DateHelper
    {
       if (date != null)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = popCalendar();
          cal.setTime(date);
          cal.set(Calendar.DAY_OF_YEAR, 1);
          cal.set(Calendar.YEAR, 1);
          cal.set(Calendar.MILLISECOND, 0);
          date = cal.getTime();
+         pushCalendar(cal);
       }
       return (date);
    }
@@ -315,11 +320,13 @@ public final class DateHelper
     */
    public static Date getTime(int hour, int minutes)
    {
-      Calendar cal = Calendar.getInstance();
+      Calendar cal = popCalendar();
       cal.set(Calendar.HOUR_OF_DAY, hour);
       cal.set(Calendar.MINUTE, minutes);
       cal.set(Calendar.SECOND, 0);
-      return (cal.getTime());
+      Date result = cal.getTime();
+      pushCalendar(cal);
+      return result;
    }
 
    /**
@@ -334,11 +341,12 @@ public final class DateHelper
    {
       if (time != null)
       {
-         Calendar startCalendar = Calendar.getInstance();
+         Calendar startCalendar = popCalendar();
          startCalendar.setTime(time);
          cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
          cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
          cal.set(Calendar.SECOND, startCalendar.get(Calendar.SECOND));
+         pushCalendar(startCalendar);
       }
    }
 
@@ -369,7 +377,7 @@ public final class DateHelper
          // exit from DST, the result is wrong, hence I've switched to
          // the approach below.
          //
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = popCalendar();
          cal.setTime(canonicalTime);
          int dayOffset = cal.get(Calendar.DAY_OF_YEAR) - 1;
          int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
@@ -393,6 +401,7 @@ public final class DateHelper
          cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
 
          result = cal.getTime();
+         pushCalendar(cal);
       }
       return result;
    }
@@ -415,18 +424,38 @@ public final class DateHelper
          int hours = minutes / 60;
          minutes -= (hours * 60);
 
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = popCalendar();
          cal.set(Calendar.MILLISECOND, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MINUTE, minutes);
          cal.set(Calendar.HOUR_OF_DAY, hours);
-
          result = cal.getTime();
+         pushCalendar(cal);
       }
 
       return result;
    }
-
+   
+   public static Calendar popCalendar()
+   {
+      Calendar result;
+      Deque<Calendar> calendars = CALENDARS.get();
+      if (calendars.isEmpty())
+      {
+         result = Calendar.getInstance();
+      }
+      else
+      {
+         result = calendars.pop();
+      }
+      return result;
+   }
+   
+   public static void pushCalendar(Calendar cal)
+   {
+      CALENDARS.get().push(cal);
+   }
+   
    /**
     * First date supported by Microsoft Project: January 01 00:00:00 1984.
     */
@@ -463,6 +492,14 @@ public final class DateHelper
     * method that was introduced in Java 1.4.
     */
    private static boolean HAS_DST_SAVINGS;
+
+   private static final ThreadLocal<Deque<Calendar>> CALENDARS = new ThreadLocal<Deque<Calendar>>()
+   {
+      @Override protected Deque<Calendar> initialValue()
+      {
+         return new ArrayDeque<Calendar>();
+      }
+   };            
 
    static
    {

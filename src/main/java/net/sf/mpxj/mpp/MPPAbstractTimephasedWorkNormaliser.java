@@ -74,8 +74,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
    {
       LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
       boolean remainderInserted = false;
-      Calendar cal = Calendar.getInstance();
-
+      Calendar cal = DateHelper.popCalendar();
+      
       for (TimephasedWork assignment : list)
       {
          if (remainderInserted)
@@ -145,6 +145,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          }
       }
 
+      DateHelper.pushCalendar(cal);
+     
       list.clear();
       list.addAll(result);
    }

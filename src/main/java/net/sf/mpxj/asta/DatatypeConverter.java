@@ -30,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.mpxj.common.DateHelper;
+
 /**
  * Methods for handling Asta data types.
  */
@@ -153,7 +155,7 @@ final class DatatypeConverter
       {
          if (!value.equals("-1 -1"))
          {
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = DateHelper.popCalendar();
             cal.setTimeInMillis(JAVA_EPOCH);
 
             int index = value.indexOf(' ');
@@ -186,6 +188,7 @@ final class DatatypeConverter
             }
 
             result = cal.getTime();
+            DateHelper.pushCalendar(cal);
          }
       }
 

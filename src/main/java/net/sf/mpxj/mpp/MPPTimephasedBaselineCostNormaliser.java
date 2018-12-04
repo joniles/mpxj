@@ -72,7 +72,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
    {
       LinkedList<TimephasedCost> result = new LinkedList<TimephasedCost>();
       boolean remainderInserted = false;
-      Calendar cal = Calendar.getInstance();
+      Calendar cal = DateHelper.popCalendar();
 
       for (TimephasedCost assignment : list)
       {
@@ -118,6 +118,8 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
          }
       }
 
+      DateHelper.pushCalendar(cal);
+      
       list.clear();
       list.addAll(result);
    }

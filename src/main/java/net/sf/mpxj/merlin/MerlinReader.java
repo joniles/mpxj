@@ -75,6 +75,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -313,10 +314,11 @@ public final class MerlinReader implements ProjectReader
 
                if (startTime.getTime() >= endTime.getTime())
                {
-                  Calendar cal = Calendar.getInstance();
+                  Calendar cal = DateHelper.popCalendar();
                   cal.setTime(endTime);
                   cal.add(Calendar.DAY_OF_YEAR, 1);
                   endTime = cal.getTime();
+                  DateHelper.pushCalendar(cal);
                }
 
                hours.addRange(new DateRange(startTime, endTime));
@@ -351,10 +353,11 @@ public final class MerlinReader implements ProjectReader
 
                if (startTime.getTime() >= endTime.getTime())
                {
-                  Calendar cal = Calendar.getInstance();
+                  Calendar cal = DateHelper.popCalendar();
                   cal.setTime(endTime);
                   cal.add(Calendar.DAY_OF_YEAR, 1);
                   endTime = cal.getTime();
+                  DateHelper.pushCalendar(cal);
                }
 
                exception.addRange(new DateRange(startTime, endTime));

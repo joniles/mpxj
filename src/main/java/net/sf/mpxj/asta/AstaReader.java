@@ -1239,10 +1239,11 @@ final class AstaReader
 
                if (startTime.getTime() > endTime.getTime())
                {
-                  Calendar cal = Calendar.getInstance();
+                  Calendar cal = DateHelper.popCalendar();
                   cal.setTime(endTime);
                   cal.add(Calendar.DAY_OF_YEAR, 1);
                   endTime = cal.getTime();
+                  DateHelper.pushCalendar(cal);
                }
 
                if (startTime.getTime() < lastEndTime)
