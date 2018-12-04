@@ -341,8 +341,7 @@ public final class TimephasedUtility
          long rangeEndDate = range.getEnd().getTime();
          long traEndDate = assignment.getFinish().getTime();
 
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTimeInMillis(startDate);
+         Calendar cal = DateHelper.popCalendar(startDate);
          Date calendarDate = cal.getTime();
 
          //
@@ -452,8 +451,7 @@ public final class TimephasedUtility
          long rangeEndDate = range.getEnd().getTime();
          long traEndDate = assignment.getFinish().getTime();
 
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTimeInMillis(startDate);
+         Calendar cal = DateHelper.popCalendar(startDate);
          Date calendarDate = cal.getTime();
 
          //

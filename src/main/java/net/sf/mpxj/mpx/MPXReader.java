@@ -650,8 +650,7 @@ public final class MPXReader extends AbstractProjectReader
    {
       if (start != null && end != null)
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(end);
+         Calendar cal = DateHelper.popCalendar(end);
          // If the time ends on midnight, the date should be the next day. Otherwise problems occur.
          if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0 && cal.get(Calendar.MILLISECOND) == 0)
          {

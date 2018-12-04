@@ -155,8 +155,7 @@ final class DatatypeConverter
       {
          if (!value.equals("-1 -1"))
          {
-            Calendar cal = DateHelper.popCalendar();
-            cal.setTimeInMillis(JAVA_EPOCH);
+            Calendar cal = DateHelper.popCalendar(JAVA_EPOCH);
 
             int index = value.indexOf(' ');
             if (index == -1)

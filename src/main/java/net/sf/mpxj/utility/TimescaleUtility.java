@@ -55,8 +55,7 @@ public final class TimescaleUtility
    {
       ArrayList<DateRange> result = new ArrayList<DateRange>(segmentCount);
 
-      Calendar cal = DateHelper.popCalendar();
-      cal.setTime(startDate);
+      Calendar cal = DateHelper.popCalendar(startDate);
       cal.set(Calendar.HOUR_OF_DAY, 0);
       cal.set(Calendar.MINUTE, 0);
       cal.set(Calendar.SECOND, 0);

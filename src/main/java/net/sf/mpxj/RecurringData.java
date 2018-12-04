@@ -327,8 +327,7 @@ public class RecurringData
          frequency = 1;
       }
 
-      Calendar calendar = DateHelper.popCalendar();
-      calendar.setTime(m_startDate);
+      Calendar calendar = DateHelper.popCalendar(m_startDate);
       List<Date> dates = new ArrayList<Date>();
 
       switch (m_recurrenceType)
@@ -705,8 +704,7 @@ public class RecurringData
    {
       if (date != null)
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(date);
+         Calendar cal = DateHelper.popCalendar(date);
          m_dayNumber = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
          m_monthNumber = Integer.valueOf(cal.get(Calendar.MONTH) + 1);
          DateHelper.pushCalendar(cal);

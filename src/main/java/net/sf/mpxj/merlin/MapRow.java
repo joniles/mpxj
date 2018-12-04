@@ -181,8 +181,7 @@ class MapRow implements Row
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTimeInMillis(DATE_EPOCH);
+         Calendar cal = DateHelper.popCalendar(DATE_EPOCH);
          cal.add(Calendar.DAY_OF_YEAR, value.intValue());
          result = cal.getTime();
          DateHelper.pushCalendar(cal);

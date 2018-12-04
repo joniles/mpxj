@@ -348,8 +348,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             //
             // Exception covers a range of days
             //
-            Calendar cal = DateHelper.popCalendar();
-            cal.setTime(rangeStartDay);
+            Calendar cal = DateHelper.popCalendar(rangeStartDay);
 
             while (cal.getTime().getTime() < rangeEndDay.getTime())
             {
@@ -566,8 +565,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       if (value != null)
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(value);
+         Calendar cal = DateHelper.popCalendar(value);
          result.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
          result.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
          result.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
@@ -703,8 +701,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getTimeString(Date value)
    {
-      Calendar cal = DateHelper.popCalendar();
-      cal.setTime(value);
+      Calendar cal = DateHelper.popCalendar(value);
       int hours = cal.get(Calendar.HOUR_OF_DAY);
       int minutes = cal.get(Calendar.MINUTE);
       DateHelper.pushCalendar(cal);
@@ -726,8 +723,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getDateString(Date value)
    {
-      Calendar cal = DateHelper.popCalendar();
-      cal.setTime(value);
+      Calendar cal = DateHelper.popCalendar(value);
       int year = cal.get(Calendar.YEAR);
       int month = cal.get(Calendar.MONTH) + 1;
       int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -754,8 +750,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(value);
+         Calendar cal = DateHelper.popCalendar(value);
          StringBuilder sb = new StringBuilder(16);
          sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
          sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));

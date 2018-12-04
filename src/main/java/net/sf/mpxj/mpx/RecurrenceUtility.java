@@ -260,8 +260,7 @@ final class RecurrenceUtility
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(startDate);
+         Calendar cal = DateHelper.popCalendar(startDate);
          cal.set(Calendar.MONTH, yearlyAbsoluteMonth.intValue() - 1);
          cal.set(Calendar.DAY_OF_MONTH, yearlyAbsoluteDay.intValue());
          result = cal.getTime();

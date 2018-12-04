@@ -135,19 +135,16 @@ class MapRow
       Date date = getDate(dateName);
       if (date != null)
       {
-         Calendar dateCal = DateHelper.popCalendar();
-         dateCal.setTime(date);
-
+         Calendar dateCal = DateHelper.popCalendar(date);
          Date time = getDate(timeName);
          if (time != null)
          {
-            Calendar timeCal = DateHelper.popCalendar();
-            timeCal.setTime(time);
+            Calendar timeCal = DateHelper.popCalendar(time);
             dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
             dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
             dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
             dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
-            DateHelper.pushCalendar(dateCal);
+            DateHelper.pushCalendar(timeCal);
          }
 
          result = dateCal.getTime();

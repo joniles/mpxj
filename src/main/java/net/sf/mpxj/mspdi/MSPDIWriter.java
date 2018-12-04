@@ -1839,8 +1839,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   result.add(split);
                }
 
-               Calendar cal = DateHelper.popCalendar();
-               cal.setTime(currentStart);
+               Calendar cal = DateHelper.popCalendar(currentStart);
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentStart = cal.getTime();
                isWorking = calendar.isWorkingDate(currentStart);

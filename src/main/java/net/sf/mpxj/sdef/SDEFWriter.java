@@ -223,11 +223,8 @@ public final class SDEFWriter extends AbstractProjectWriter
    private void writeCalendarException(ProjectCalendar parentCalendar, ProjectCalendarException record) throws IOException
    {
       m_buffer.setLength(0);
-      Calendar stepDay = DateHelper.popCalendar();
-      stepDay.setTime(record.getFromDate()); // Start at From Date, then step through days...
-      
-      Calendar lastDay = DateHelper.popCalendar();
-      lastDay.setTime(record.getToDate()); // last day in this exception
+      Calendar stepDay = DateHelper.popCalendar(record.getFromDate()); // Start at From Date, then step through days...
+      Calendar lastDay = DateHelper.popCalendar(record.getToDate()); // last day in this exception
 
       m_buffer.append("HOLI ");
       m_buffer.append(SDEFmethods.lset(parentCalendar.getUniqueID().toString(), 2));

@@ -326,8 +326,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public Duration getDuration(Date startDate, Date endDate)
    {
-      Calendar cal = DateHelper.popCalendar();
-      cal.setTime(startDate);
+      Calendar cal = DateHelper.popCalendar(startDate);
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
       Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
@@ -943,8 +942,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public boolean isWorkingDate(Date date)
    {
-      Calendar cal = DateHelper.popCalendar();
-      cal.setTime(date);
+      Calendar cal = DateHelper.popCalendar(date);
       Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
       DateHelper.pushCalendar(cal);
       return isWorkingDate(date, day);
@@ -980,8 +978,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private int getDaysInRange(Date startDate, Date endDate)
    {
       int result;
-      Calendar cal = DateHelper.popCalendar();
-      cal.setTime(endDate);
+      Calendar cal = DateHelper.popCalendar(endDate);
       int endDateYear = cal.get(Calendar.YEAR);
       int endDateDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
 

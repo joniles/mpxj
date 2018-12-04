@@ -852,8 +852,7 @@ public final class MPXWriter extends AbstractProjectWriter
       Integer result = null;
       if (date != null)
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(date);
+         Calendar cal = DateHelper.popCalendar(date);
          int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
          time += cal.get(Calendar.MINUTE);
          DateHelper.pushCalendar(cal);
