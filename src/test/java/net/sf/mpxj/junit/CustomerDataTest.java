@@ -276,7 +276,7 @@ public class CustomerDataTest
 
             if (mpxj == null)
             {
-               System.out.println("Failed to read " + name);
+               System.err.println("Failed to read " + name);
                ++failures;
             }
             else
@@ -290,12 +290,11 @@ public class CustomerDataTest
                   FileHelper.deleteQuietly(outputFile);
                }
             }
-
          }
-
+         
          catch (Exception ex)
          {
-            System.out.println("Failed to read " + name);
+            System.err.println("Failed to read " + name);
             ex.printStackTrace();
             ++failures;
          }
