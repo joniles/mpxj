@@ -382,6 +382,15 @@ public class CustomerDataTest
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
          FileHelper.deleteQuietly(out);
+//         if (success)
+//         {
+//            FileHelper.deleteQuietly(out);
+//         }
+//         else
+//         {
+//            System.out.println("Baseline: " + baselineFile.getPath());
+//            System.out.println("Test: " + out.getPath());
+//         }
       }
       else
       {
