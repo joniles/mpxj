@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera.p3;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**
@@ -55,7 +56,7 @@ class BtrieveDateColumn extends AbstractColumn
       int year = (data[i + 2] & 0xff) | ((data[i + 3] & 0xff) << 8);
       if (year != 0)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.set(Calendar.YEAR, year);
          cal.set(Calendar.MONTH, month - 1);
          cal.set(Calendar.DAY_OF_MONTH, day);
@@ -63,8 +64,8 @@ class BtrieveDateColumn extends AbstractColumn
          cal.set(Calendar.MINUTE, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-
          result = cal.getTime();
+         DateHelper.pushCalendar(cal);
       }
 
       return result;

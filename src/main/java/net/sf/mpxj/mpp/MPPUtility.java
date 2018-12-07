@@ -337,12 +337,12 @@ public final class MPPUtility
    public static final Date getTime(byte[] data, int offset)
    {
       int time = getShort(data, offset) / 10;
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(EPOCH_DATE);
+      Calendar cal = DateHelper.popCalendar(EPOCH_DATE);
       cal.set(Calendar.HOUR_OF_DAY, (time / 60));
       cal.set(Calendar.MINUTE, (time % 60));
       cal.set(Calendar.SECOND, 0);
       cal.set(Calendar.MILLISECOND, 0);
+      DateHelper.pushCalendar(cal);
       return (cal.getTime());
    }
 

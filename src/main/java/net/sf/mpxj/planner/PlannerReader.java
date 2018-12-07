@@ -71,6 +71,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.planner.schema.Allocation;
@@ -798,7 +799,7 @@ public final class PlannerReader extends AbstractProjectReader
          Number hours = m_twoDigitFormat.parse(value.substring(9, 11));
          Number minutes = m_twoDigitFormat.parse(value.substring(11, 13));
 
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.set(Calendar.YEAR, year.intValue());
          cal.set(Calendar.MONTH, month.intValue() - 1);
          cal.set(Calendar.DAY_OF_MONTH, day.intValue());
@@ -808,8 +809,10 @@ public final class PlannerReader extends AbstractProjectReader
 
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-
-         return (cal.getTime());
+         Date result = cal.getTime();
+         DateHelper.pushCalendar(cal);
+         
+         return result;
       }
 
       catch (ParseException ex)
@@ -834,7 +837,7 @@ public final class PlannerReader extends AbstractProjectReader
          Number month = m_twoDigitFormat.parse(value.substring(4, 6));
          Number day = m_twoDigitFormat.parse(value.substring(6, 8));
 
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.set(Calendar.YEAR, year.intValue());
          cal.set(Calendar.MONTH, month.intValue() - 1);
          cal.set(Calendar.DAY_OF_MONTH, day.intValue());
@@ -843,8 +846,10 @@ public final class PlannerReader extends AbstractProjectReader
          cal.set(Calendar.MINUTE, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-
-         return (cal.getTime());
+         Date result = cal.getTime();
+         DateHelper.pushCalendar(cal);
+         
+         return result;
       }
 
       catch (ParseException ex)
@@ -868,13 +873,15 @@ public final class PlannerReader extends AbstractProjectReader
          Number hours = m_twoDigitFormat.parse(value.substring(0, 2));
          Number minutes = m_twoDigitFormat.parse(value.substring(2, 4));
 
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
          cal.set(Calendar.MINUTE, minutes.intValue());
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-
-         return (cal.getTime());
+         Date result = cal.getTime();
+         DateHelper.pushCalendar(cal);
+         
+         return result;
       }
 
       catch (ParseException ex)

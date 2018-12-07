@@ -5,11 +5,12 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.7.2">
+		<release date="git master" version="7.8.0">
 			<action dev="joniles" type="update">Updated Java build to use Maven</action>
+			<action dev="joniles" type="update">Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)</action>
 			<action dev="joniles" issue="332" type="fix">Asta lag sign incorrect (Based on a contribution by Dave McKay)</action>
 			<action dev="joniles" issue="333" type="fix">Asta constraints lost (Contributed by Dave McKay)</action>
-			<action dev="joniles" issue="335" type="fix">MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)</action>			
+			<action dev="joniles" issue="335" type="fix">MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)</action>
 		</release>
 		<release date="23/10/2018" version="7.7.1">
 			<action dev="joniles" type="add">Read additional schedule options from XER files. (Contributed by forenpm)</action>
@@ -54,7 +55,7 @@
 			<action dev="joniles" type="add">Added support for reading activity codes from P6 databases, XER files, and PMXML files.</action>
 			<action dev="joniles" type="add">Added support for reading user defined values from a P6 database.</action>
 			<action dev="joniles" type="add">Added support for PRX files which contain a SureTrak database.</action>
-			<action dev="joniles" type="add">Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.</action>			
+			<action dev="joniles" type="add">Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.</action>
 			<action dev="joniles" type="update">Improve performance when reading user defined values from XER files.</action>
 			<action dev="joniles" type="update">Improved support for older Primavera PMXML files.</action>
 			<action dev="joniles" type="update">Updated to rtfparserkit 1.11.0 for improved RTF parsing.</action>
@@ -68,9 +69,9 @@
 		<release date="25/05/2018" version="7.4.3">
 			<action dev="joniles" type="add">Add support for reading the resource "generic" attribute from MPP files.</action>
 			<action dev="joniles" type="add">Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</action>
-			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>			
+			<action dev="joniles" type="update">Store the Primavera Project ID as Unique ID in the project properties.</action>
 		    <action dev="joniles" type="update">Update MerlinReader to ensure support for Merlin Project Pro 5.</action>
-		</release>	
+		</release>
 		<release date="30/04/2018" version="7.4.2">
 			<action dev="joniles" type="update">Gracefully handle malformed duration values in MSPDI files.</action>
 			<action dev="joniles" type="update">Gracefully handle unexpected calendar exception data structure in certain MPP files.</action>
@@ -92,13 +93,13 @@
 			<action dev="joniles" type="add">Added support for reading Primavera P3 databases from directories, zip files, and PRX files.</action>
 			<action dev="joniles" type="update">Improve robustness when reading MPP files containing apparently invalid custom field data.</action>
 			<action dev="joniles" type="update">Improve UniversalProjectReader byte order mark handling.</action>
-			<action dev="joniles" issue="324" type="fix">Fields with lookup unreadable when a field has custom name.</action>			
+			<action dev="joniles" issue="324" type="fix">Fields with lookup unreadable when a field has custom name.</action>
 		</release>
 		<release date="26/01/2018" version="7.2.1">
 			<action dev="joniles" type="update">More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.</action>
 			<action dev="joniles" type="update">Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.</action>
 			<action dev="joniles" type="update">UniversalProjectReader updated to recognise MPX files with non-default separator characters.</action>
-			<action dev="joniles" type="update">Update FastTrack reader to handle invalid percentage values on resource assignments.</action>							
+			<action dev="joniles" type="update">Update FastTrack reader to handle invalid percentage values on resource assignments.</action>
 			<action dev="joniles" type="update">Update FastTrack reader to handle variations in UUID format.</action>
 			<action dev="joniles" type="update">Read the full project name from XER files and the Primavera database and store it in the project title attribute.</action>
 		</release>

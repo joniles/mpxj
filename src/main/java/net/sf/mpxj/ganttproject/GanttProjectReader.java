@@ -71,6 +71,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResourceFieldLists;
@@ -298,11 +299,12 @@ public final class GanttProjectReader extends AbstractProjectReader
       }
       else
       {
-         Calendar calendar = Calendar.getInstance();
+         Calendar calendar = DateHelper.popCalendar();
          calendar.set(Calendar.YEAR, Integer.parseInt(year));
          calendar.set(Calendar.MONTH, NumberHelper.getInt(date.getMonth()));
          calendar.set(Calendar.DAY_OF_MONTH, NumberHelper.getInt(date.getDate()));
          Date exceptionDate = calendar.getTime();
+         DateHelper.pushCalendar(calendar);
          ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
 
          // TODO: not sure how NEUTRAL should be handled

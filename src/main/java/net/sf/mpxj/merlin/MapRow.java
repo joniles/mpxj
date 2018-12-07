@@ -34,6 +34,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -180,10 +181,10 @@ class MapRow implements Row
       }
       else
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTimeInMillis(DATE_EPOCH);
+         Calendar cal = DateHelper.popCalendar(DATE_EPOCH);
          cal.add(Calendar.DAY_OF_YEAR, value.intValue());
          result = cal.getTime();
+         DateHelper.pushCalendar(cal);
       }
       return result;
    }

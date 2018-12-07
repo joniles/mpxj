@@ -34,7 +34,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -75,6 +74,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -313,10 +313,7 @@ public final class MerlinReader implements ProjectReader
 
                if (startTime.getTime() >= endTime.getTime())
                {
-                  Calendar cal = Calendar.getInstance();
-                  cal.setTime(endTime);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  endTime = cal.getTime();
+                  endTime = DateHelper.addDays(endTime, 1);
                }
 
                hours.addRange(new DateRange(startTime, endTime));
@@ -351,10 +348,7 @@ public final class MerlinReader implements ProjectReader
 
                if (startTime.getTime() >= endTime.getTime())
                {
-                  Calendar cal = Calendar.getInstance();
-                  cal.setTime(endTime);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  endTime = cal.getTime();
+                  endTime = DateHelper.addDays(endTime, 1);
                }
 
                exception.addRange(new DateRange(startTime, endTime));

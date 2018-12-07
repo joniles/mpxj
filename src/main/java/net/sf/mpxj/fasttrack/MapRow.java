@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -134,21 +135,20 @@ class MapRow
       Date date = getDate(dateName);
       if (date != null)
       {
-         Calendar dateCal = Calendar.getInstance();
-         dateCal.setTime(date);
-
+         Calendar dateCal = DateHelper.popCalendar(date);
          Date time = getDate(timeName);
          if (time != null)
          {
-            Calendar timeCal = Calendar.getInstance();
-            timeCal.setTime(time);
+            Calendar timeCal = DateHelper.popCalendar(time);
             dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
             dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
             dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
             dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
+            DateHelper.pushCalendar(timeCal);
          }
 
          result = dateCal.getTime();
+         DateHelper.pushCalendar(dateCal);
       }
 
       return result;

@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -74,15 +73,12 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
    {
       LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
       boolean remainderInserted = false;
-      Calendar cal = Calendar.getInstance();
-
+      
       for (TimephasedWork assignment : list)
       {
          if (remainderInserted)
          {
-            cal.setTime(assignment.getStart());
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            assignment.setStart(cal.getTime());
+            assignment.setStart(DateHelper.addDays(assignment.getStart(), 1));
             remainderInserted = false;
          }
 
@@ -94,9 +90,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
             {
-               cal.setTime(finishDay);
-               cal.add(Calendar.DAY_OF_YEAR, -1);
-               finishDay = cal.getTime();
+               finishDay = DateHelper.addDays(finishDay, -1);
             }
 
             if (startDay.getTime() == finishDay.getTime())
@@ -108,13 +102,10 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                   assignment.setTotalAmount(assignmentWork);
                   result.add(assignment);
                   Duration remainingWork = Duration.getInstance(totalWork.getDuration() - assignmentWork.getDuration(), TimeUnit.MINUTES);
-
-                  cal.setTime(finishDay);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  Date remainderStart = cal.getTime();
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  Date remainderFinish = cal.getTime();
-
+                  
+                  Date remainderStart = DateHelper.addDays(finishDay, 1);
+                  Date remainderFinish = DateHelper.addDays(remainderStart, 1);
+                  
                   TimephasedWork remainder = new TimephasedWork();
                   remainder.setStart(remainderStart);
                   remainder.setFinish(remainderFinish);
@@ -144,7 +135,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             assignment = split[1];
          }
       }
-
+     
       list.clear();
       list.addAll(result);
    }

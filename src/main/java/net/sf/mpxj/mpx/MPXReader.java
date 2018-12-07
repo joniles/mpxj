@@ -58,6 +58,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
@@ -569,13 +570,13 @@ public final class MPXReader extends AbstractProjectReader
          int hours = minutes / 60;
          minutes -= (hours * 60);
 
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          cal.set(Calendar.MILLISECOND, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MINUTE, minutes);
          cal.set(Calendar.HOUR_OF_DAY, hours);
-
          result = cal.getTime();
+         DateHelper.pushCalendar(cal);
       }
 
       return (result);
@@ -649,15 +650,15 @@ public final class MPXReader extends AbstractProjectReader
    {
       if (start != null && end != null)
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(end);
+         Calendar cal = DateHelper.popCalendar(end);
          // If the time ends on midnight, the date should be the next day. Otherwise problems occur.
          if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0 && cal.get(Calendar.MILLISECOND) == 0)
          {
             cal.add(Calendar.DAY_OF_YEAR, 1);
          }
          end = cal.getTime();
-
+         DateHelper.pushCalendar(cal);
+         
          hours.addRange(new DateRange(start, end));
       }
    }

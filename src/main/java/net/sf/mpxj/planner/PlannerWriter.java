@@ -348,8 +348,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             //
             // Exception covers a range of days
             //
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(rangeStartDay);
+            Calendar cal = DateHelper.popCalendar(rangeStartDay);
 
             while (cal.getTime().getTime() < rangeEndDay.getTime())
             {
@@ -360,6 +359,8 @@ public final class PlannerWriter extends AbstractProjectWriter
                day.setId(mpxjCalendarException.getWorking() ? "0" : "1");
                cal.add(Calendar.DAY_OF_YEAR, 1);
             }
+            
+            DateHelper.pushCalendar(cal);
          }
 
          /**
@@ -564,9 +565,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       if (value != null)
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(value);
-
+         Calendar cal = DateHelper.popCalendar(value);
          result.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
          result.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
          result.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
@@ -575,6 +574,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          result.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
          result.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
          result.append("Z");
+         DateHelper.pushCalendar(cal);
       }
 
       return (result.toString());
@@ -701,11 +701,11 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getTimeString(Date value)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(value);
+      Calendar cal = DateHelper.popCalendar(value);
       int hours = cal.get(Calendar.HOUR_OF_DAY);
       int minutes = cal.get(Calendar.MINUTE);
-
+      DateHelper.pushCalendar(cal);
+      
       StringBuilder sb = new StringBuilder(4);
       sb.append(m_twoDigitFormat.format(hours));
       sb.append(m_twoDigitFormat.format(minutes));
@@ -723,13 +723,12 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getDateString(Date value)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(value);
-
+      Calendar cal = DateHelper.popCalendar(value);
       int year = cal.get(Calendar.YEAR);
       int month = cal.get(Calendar.MONTH) + 1;
       int day = cal.get(Calendar.DAY_OF_MONTH);
-
+      DateHelper.pushCalendar(cal);
+      
       StringBuilder sb = new StringBuilder(8);
       sb.append(m_fourDigitFormat.format(year));
       sb.append(m_twoDigitFormat.format(month));
@@ -751,8 +750,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(value);
+         Calendar cal = DateHelper.popCalendar(value);
          StringBuilder sb = new StringBuilder(16);
          sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
          sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
@@ -763,6 +761,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          sb.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
          sb.append('Z');
          result = sb.toString();
+         DateHelper.pushCalendar(cal);
       }
       return result;
    }

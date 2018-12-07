@@ -298,7 +298,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          else
          {
             week.setWorkingDay(day, DayType.WORKING);
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = DateHelper.popCalendar();
             for (int index = 0; index < rangeCount; index++)
             {
                Date startTime = DateHelper.getCanonicalTime(MPPUtility.getTime(data, offset + 8 + (index * 2)));
@@ -308,6 +308,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                Date finishTime = DateHelper.getCanonicalTime(cal.getTime());
                hours.addRange(new DateRange(startTime, finishTime));
             }
+            DateHelper.pushCalendar(cal);
          }
       }
    }
