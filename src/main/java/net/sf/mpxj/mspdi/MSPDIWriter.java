@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -46,6 +47,7 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -307,19 +309,34 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       customFields.addAll(m_extendedAttributesInUse);
+      
+      List<FieldType> customFieldsList = new ArrayList<FieldType>();
+      customFieldsList.addAll(customFields);
+      
 
-      for (FieldType fieldType : customFields)
+      // Sort to ensure consistent order in file
+      final CustomFieldContainer customFieldContainer =  m_projectFile.getCustomFields();
+      Collections.sort(customFieldsList, new Comparator<FieldType>()
+      {
+         @Override public int compare(FieldType o1, FieldType o2)
+         {
+            CustomField customField1 = customFieldContainer.getCustomField(o1);
+            CustomField customField2 = customFieldContainer.getCustomField(o2);
+            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
+            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+            return name1.compareTo(name2);
+         }
+      });
+
+      for (FieldType fieldType : customFieldsList)
       {
          Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
          attribute.setFieldName(fieldType.getName());
 
-         CustomField customField = m_projectFile.getCustomFields().getCustomField(fieldType);
-         String alias = customField.getAlias();
-         {
-            attribute.setAlias(alias);
-         }
+         CustomField customField = customFieldContainer.getCustomField(fieldType);
+         attribute.setAlias(customField.getAlias());
       }
    }
 

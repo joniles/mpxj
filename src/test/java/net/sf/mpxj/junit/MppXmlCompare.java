@@ -60,6 +60,8 @@ public final class MppXmlCompare
 
       for (Task xmlTask : xmlTasks)
       {
+         m_currentEntity = xmlTask;
+         
          // too much variability
          if (NumberHelper.getInt(xmlTask.getUniqueID()) == 0)
          {
@@ -294,6 +296,8 @@ public final class MppXmlCompare
 
       for (Resource xmlResource : xmlResources)
       {
+         m_currentEntity = xmlResource;
+         
          // too much variability
          if (NumberHelper.getInt(xmlResource.getUniqueID()) == 0)
          {
@@ -519,7 +523,7 @@ public final class MppXmlCompare
          return;
       }
 
-      throw new Exception("Expected: " + expected + " Found: " + actual);
+      throw new Exception("Expected: " + expected + " Found: " + actual + " (Current Entity=" + m_currentEntity + " MPP File Type=" + m_mpp.getProjectProperties().getMppFileType() + ")");
    }
 
    /**
@@ -556,7 +560,7 @@ public final class MppXmlCompare
    {
       if (expected != actual)
       {
-         throw new Exception("Expected: " + expected + " Found: " + actual);
+         throw new Exception("Expected: " + expected + " Found: " + actual + " (Current Entity=" + m_currentEntity + " MPP File Type=" + m_mpp.getProjectProperties().getMppFileType() + ")");
       }
    }
 
@@ -574,14 +578,14 @@ public final class MppXmlCompare
       {
          if (!(expected == actual))
          {
-            throw new Exception("Expected: " + expected + " Found: " + actual);
+            throw new Exception("Expected: " + expected + " Found: " + actual + " (Current Entity=" + m_currentEntity + " MPP File Type=" + m_mpp.getProjectProperties().getMppFileType() + ")");
          }
       }
       else
       {
          if (!(Math.abs(expected - actual) <= delta))
          {
-            throw new Exception("Expected: " + expected + " Found: " + actual);
+            throw new Exception("Expected: " + expected + " Found: " + actual + " (Current Entity=" + m_currentEntity + " MPP File Type=" + m_mpp.getProjectProperties().getMppFileType() + ")");
          }
       }
    }
@@ -682,4 +686,5 @@ public final class MppXmlCompare
 
    private ProjectFile m_xml;
    private ProjectFile m_mpp;
+   private Object m_currentEntity;
 }
