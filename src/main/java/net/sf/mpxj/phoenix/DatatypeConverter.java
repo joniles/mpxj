@@ -26,7 +26,6 @@ package net.sf.mpxj.phoenix;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -38,6 +37,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -253,10 +253,7 @@ public final class DatatypeConverter
    {
       if (value != null)
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(value);
-         cal.add(Calendar.DAY_OF_YEAR, 1);
-         value = cal.getTime();
+         value = DateHelper.addDays(value, 1);
       }
       return (value == null ? null : DATE_FORMAT.get().format(value));
    }
@@ -272,10 +269,7 @@ public final class DatatypeConverter
       Date result = parseDateTime(value);
       if (result != null)
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(result);
-         cal.add(Calendar.DAY_OF_YEAR, -1);
-         result = cal.getTime();
+         result = DateHelper.addDays(result, -1);
       }
       return result;
    }

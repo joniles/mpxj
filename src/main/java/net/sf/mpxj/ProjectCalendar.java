@@ -326,8 +326,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public Duration getDuration(Date startDate, Date endDate)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(startDate);
+      Calendar cal = DateHelper.popCalendar(startDate);
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
       Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
@@ -343,7 +342,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          day = day.getNextDay();
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
-
+      DateHelper.pushCalendar(cal);
+      
       return (Duration.getInstance(duration, TimeUnit.DAYS));
    }
 
@@ -408,10 +408,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             //
             if (startDay != null && finishDay != null && startDay.getTime() != finishDay.getTime())
             {
-               Calendar calendar = Calendar.getInstance();
-               calendar.setTime(result);
-               calendar.add(Calendar.DAY_OF_YEAR, 1);
-               result = calendar.getTime();
+               result = DateHelper.addDays(result, 1);
             }
          }
       }
@@ -544,10 +541,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
                if (rangeStartDay.getTime() != rangeEndDay.getTime())
                {
-                  Calendar calendar = Calendar.getInstance();
-                  calendar.setTime(canonicalRangeEnd);
-                  calendar.add(Calendar.DAY_OF_YEAR, 1);
-                  canonicalRangeEnd = calendar.getTime();
+                  canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
                }
 
                if (firstRange && canonicalRangeEnd.getTime() < currentDateStartTime.getTime())
@@ -718,11 +712,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
                Date rangeEndDay = DateHelper.getDayStartDate(rangeEnd);
 
                if (rangeStartDay.getTime() != rangeEndDay.getTime())
-               {
-                  Calendar calendar = Calendar.getInstance();
-                  calendar.setTime(canonicalRangeEnd);
-                  calendar.add(Calendar.DAY_OF_YEAR, 1);
-                  canonicalRangeEnd = calendar.getTime();
+               {                  
+                  canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
                }
 
                if (firstRange && canonicalRangeStart.getTime() > currentDateFinishTime.getTime())
@@ -801,10 +792,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
             if (rangeStartDay.getTime() != rangeEndDay.getTime())
             {
-               Calendar calendar = Calendar.getInstance();
-               calendar.setTime(rangeEnd);
-               calendar.add(Calendar.DAY_OF_YEAR, 1);
-               rangeEnd = calendar.getTime();
+               rangeEnd = DateHelper.addDays(rangeEnd, 1);
             }
 
             if (calTime.getTime() < rangeEnd.getTime())
@@ -877,10 +865,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
             if (rangeStartDay.getTime() != rangeEndDay.getTime())
             {
-               Calendar calendar = Calendar.getInstance();
-               calendar.setTime(rangeEnd);
-               calendar.add(Calendar.DAY_OF_YEAR, 1);
-               rangeEnd = calendar.getTime();
+               rangeEnd = DateHelper.addDays(rangeEnd, 1);
             }
 
             if (calTime.getTime() >= rangeEnd.getTime())
@@ -957,10 +942,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public boolean isWorkingDate(Date date)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(date);
+      Calendar cal = DateHelper.popCalendar(date);
       Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-      return (isWorkingDate(date, day));
+      DateHelper.pushCalendar(cal);
+      return isWorkingDate(date, day);
    }
 
    /**
@@ -993,8 +978,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private int getDaysInRange(Date startDate, Date endDate)
    {
       int result;
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(endDate);
+      Calendar cal = DateHelper.popCalendar(endDate);
       int endDateYear = cal.get(Calendar.YEAR);
       int endDateDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
 
@@ -1016,8 +1000,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          while (cal.get(Calendar.YEAR) < endDateYear);
          result += endDateDayOfYear;
       }
-
-      return (result);
+      DateHelper.pushCalendar(cal);
+      
+      return result;
    }
 
    /**
@@ -1498,10 +1483,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
                //
                if (startDay.getTime() != finishDay.getTime())
                {
-                  Calendar calendar = Calendar.getInstance();
-                  calendar.setTime(canonicalRangeEnd);
-                  calendar.add(Calendar.DAY_OF_YEAR, 1);
-                  canonicalRangeEnd = calendar.getTime();
+                  canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
                }
 
                if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
@@ -1546,10 +1528,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          //
          if (startDay.getTime() != finishDay.getTime())
          {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(endTime);
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            endTime = calendar.getTime();
+            endTime = DateHelper.addDays(endTime, 1);
          }
 
          int diff = DateHelper.compare(startTime, endTime, target);
@@ -1600,11 +1579,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          // this will show up as the start and end days not matching
          //
          if (startDay.getTime() != finishDay.getTime())
-         {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(endTime);
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            endTime = calendar.getTime();
+         {            
+            endTime = DateHelper.addDays(endTime, 1);
          }
 
          total = (endTime.getTime() - startTime.getTime());

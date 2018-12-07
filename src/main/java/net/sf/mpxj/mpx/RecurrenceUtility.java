@@ -35,6 +35,7 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class contains method relating to managing Recurrence instances for MPX
@@ -259,11 +260,11 @@ final class RecurrenceUtility
       }
       else
       {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(startDate);
+         Calendar cal = DateHelper.popCalendar(startDate);
          cal.set(Calendar.MONTH, yearlyAbsoluteMonth.intValue() - 1);
          cal.set(Calendar.DAY_OF_MONTH, yearlyAbsoluteDay.intValue());
          result = cal.getTime();
+         DateHelper.pushCalendar(cal);
       }
       return result;
    }

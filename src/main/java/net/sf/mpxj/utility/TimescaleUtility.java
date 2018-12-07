@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.mpxj.DateRange;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**
@@ -54,8 +55,7 @@ public final class TimescaleUtility
    {
       ArrayList<DateRange> result = new ArrayList<DateRange>(segmentCount);
 
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(startDate);
+      Calendar cal = DateHelper.popCalendar(startDate);
       cal.set(Calendar.HOUR_OF_DAY, 0);
       cal.set(Calendar.MINUTE, 0);
       cal.set(Calendar.SECOND, 0);
@@ -169,6 +169,8 @@ public final class TimescaleUtility
          cal.add(Calendar.MILLISECOND, 1);
       }
 
+      DateHelper.pushCalendar(cal);
+      
       return result;
    }
 

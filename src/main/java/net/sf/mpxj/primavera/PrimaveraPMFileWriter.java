@@ -70,6 +70,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
@@ -163,7 +164,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          }
 
          m_projectFile = projectFile;
-         m_calendar = Calendar.getInstance();
 
          Marshaller marshaller = CONTEXT.createMarshaller();
 
@@ -201,7 +201,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_project = null;
          m_wbsSequence = 0;
          m_relationshipObjectID = 0;
-         m_calendar = null;
       }
    }
 
@@ -444,15 +443,16 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       if (!mpxj.getCalendarExceptions().isEmpty())
       {
+         Calendar calendar = DateHelper.popCalendar();
          for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
-         {
-            m_calendar.setTime(mpxjException.getFromDate());
-            while (m_calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
+         {            
+            calendar.setTime(mpxjException.getFromDate());
+            while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
             {
                HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
                xmlExceptions.getHolidayOrException().add(xmlException);
 
-               xmlException.setDate(m_calendar.getTime());
+               xmlException.setDate(calendar.getTime());
 
                for (DateRange range : mpxjException)
                {
@@ -466,9 +466,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
                      xmlHours.setFinish(getEndTime(range.getEnd()));
                   }
                }
-               m_calendar.add(Calendar.DAY_OF_YEAR, 1);
+               calendar.add(Calendar.DAY_OF_YEAR, 1);
             }
          }
+         DateHelper.pushCalendar(calendar);
       }
    }
 
@@ -1102,6 +1103,5 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private ProjectType m_project;
    private int m_wbsSequence;
    private int m_relationshipObjectID;
-   private Calendar m_calendar;
    private TaskField m_activityIDField = TaskField.WBS;
 }

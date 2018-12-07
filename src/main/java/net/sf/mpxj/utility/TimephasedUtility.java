@@ -341,8 +341,7 @@ public final class TimephasedUtility
          long rangeEndDate = range.getEnd().getTime();
          long traEndDate = assignment.getFinish().getTime();
 
-         Calendar cal = Calendar.getInstance();
-         cal.setTimeInMillis(startDate);
+         Calendar cal = DateHelper.popCalendar(startDate);
          Date calendarDate = cal.getTime();
 
          //
@@ -359,6 +358,8 @@ public final class TimephasedUtility
             calendarDate = cal.getTime();
          }
 
+         DateHelper.pushCalendar(cal);
+         
          //
          // If we still haven't reached the end of our range
          // check to see if the next TRA can be used.
@@ -450,8 +451,7 @@ public final class TimephasedUtility
          long rangeEndDate = range.getEnd().getTime();
          long traEndDate = assignment.getFinish().getTime();
 
-         Calendar cal = Calendar.getInstance();
-         cal.setTimeInMillis(startDate);
+         Calendar cal = DateHelper.popCalendar(startDate);
          Date calendarDate = cal.getTime();
 
          //
@@ -467,7 +467,8 @@ public final class TimephasedUtility
             startDate = cal.getTimeInMillis();
             calendarDate = cal.getTime();
          }
-
+         DateHelper.pushCalendar(cal);
+         
          //
          // If we still haven't reached the end of our range
          // check to see if the next TRA can be used.

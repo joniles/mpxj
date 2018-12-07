@@ -29,6 +29,7 @@ import java.util.Date;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -46,7 +47,7 @@ final class AvailabilityFactory
    {
       if (data != null)
       {
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = DateHelper.popCalendar();
          int items = MPPUtility.getShort(data, 0);
          int offset = 12;
 
@@ -66,6 +67,7 @@ final class AvailabilityFactory
             }
             offset += 20;
          }
+         DateHelper.pushCalendar(cal);
          Collections.sort(table);
       }
    }

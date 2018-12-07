@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mspdi;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -82,8 +81,6 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
    private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
       LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
-      Calendar cal = Calendar.getInstance();
-
       for (TimephasedWork assignment : list)
       {
          while (assignment != null)
@@ -94,9 +91,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
             {
-               cal.setTime(finishDay);
-               cal.add(Calendar.DAY_OF_YEAR, -1);
-               finishDay = cal.getTime();
+               finishDay = DateHelper.addDays(finishDay, -1);
             }
 
             if (startDay.getTime() == finishDay.getTime())

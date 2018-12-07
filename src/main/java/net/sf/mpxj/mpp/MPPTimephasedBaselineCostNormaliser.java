@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -72,15 +71,12 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
    {
       LinkedList<TimephasedCost> result = new LinkedList<TimephasedCost>();
       boolean remainderInserted = false;
-      Calendar cal = Calendar.getInstance();
 
       for (TimephasedCost assignment : list)
       {
          if (remainderInserted)
          {
-            cal.setTime(assignment.getStart());
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            assignment.setStart(cal.getTime());
+            assignment.setStart(DateHelper.addDays(assignment.getStart(), 1));
             remainderInserted = false;
          }
 
@@ -92,9 +88,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
             {
-               cal.setTime(finishDay);
-               cal.add(Calendar.DAY_OF_YEAR, -1);
-               finishDay = cal.getTime();
+               finishDay = DateHelper.addDays(finishDay, -1);
             }
 
             if (startDay.getTime() == finishDay.getTime())
@@ -117,7 +111,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
             assignment = split[1];
          }
       }
-
+      
       list.clear();
       list.addAll(result);
    }

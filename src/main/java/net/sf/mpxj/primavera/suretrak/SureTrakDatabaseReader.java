@@ -377,7 +377,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
       int startHour = 0;
       ProjectCalendarHours calendarHours = null;
 
-      Calendar cal = Calendar.getInstance();
+      Calendar cal = DateHelper.popCalendar();
       cal.set(Calendar.HOUR_OF_DAY, 0);
       cal.set(Calendar.MINUTE, 0);
       cal.set(Calendar.SECOND, 0);
@@ -421,6 +421,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
          calendarHours.addRange(new DateRange(startDate, endDate));
          startHour = endHour;
       }
+      
+      DateHelper.pushCalendar(cal);
    }
 
    /**

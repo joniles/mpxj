@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.mpxj.common.DateHelper;
+
 /**
  * Column containing time values.
  */
@@ -50,7 +52,7 @@ class TimeColumn extends AbstractColumn
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 
-      Calendar cal = Calendar.getInstance();
+      Calendar cal = DateHelper.popCalendar();
       byte[][] rawData = data.getData();
       m_data = new Date[rawData.length];
       for (int index = 0; index < rawData.length; index++)
@@ -65,7 +67,8 @@ class TimeColumn extends AbstractColumn
             m_data[index] = cal.getTime();
          }
       }
-
+      DateHelper.pushCalendar(cal);
+      
       return offset;
    }
 
