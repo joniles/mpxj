@@ -23,11 +23,13 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,6 +54,19 @@ import net.sf.mpxj.writer.ProjectWriter;
  */
 public class CustomerDataTest
 {
+   /**
+    * Constructor.
+    */
+   public CustomerDataTest()
+   {
+      m_privateDirectory = configureDirectory("mpxj.junit.privatedir");
+      m_baselineDirectory = configureDirectory("mpxj.junit.baselinedir");
+
+      m_universalReader = new UniversalProjectReader();
+      m_mpxReader = new MPXReader();
+      m_xerReader = new PrimaveraXERFileReader();
+   }
+
    /**
     * Test customer data.
     *
@@ -153,6 +168,28 @@ public class CustomerDataTest
    }
 
    /**
+    * Create a File instance from a path stored as a property.
+    * 
+    * @param propertyName property name
+    * @return File instance
+    */
+   private File configureDirectory(String propertyName)
+   {
+      File dir = null;
+      String dirName = System.getProperty(propertyName);
+      if (dirName != null && !dirName.isEmpty())
+      {
+         dir = new File(dirName);
+         if (!dir.exists() || !dir.isDirectory())
+         {
+            dir = null;
+         }
+      }
+
+      return dir;
+   }
+
+   /**
     * As part of the bug reports that are submitted for MPXJ I am passed a
     * number of confidential project files, which for obvious reasons cannot
     * be redistributed as test cases. These files reside in a directory on
@@ -165,29 +202,24 @@ public class CustomerDataTest
     */
    private void testCustomerData(int index, int max) throws Exception
    {
-      String dirName = System.getProperty("mpxj.junit.privatedir");
-      if (dirName != null && dirName.length() != 0)
+      if (m_privateDirectory != null)
       {
-         File dir = new File(dirName);
-         if (dir.exists() && dir.isDirectory())
+         List<File> files = new ArrayList<File>();
+         listFiles(files, m_privateDirectory);
+
+         int interval = files.size() / max;
+         int startIndex = (index - 1) * interval;
+         int endIndex;
+         if (index == max)
          {
-            List<File> files = new ArrayList<File>();
-            listFiles(files, dir);
-
-            int interval = files.size() / max;
-            int startIndex = (index - 1) * interval;
-            int endIndex;
-            if (index == max)
-            {
-               endIndex = files.size();
-            }
-            else
-            {
-               endIndex = startIndex + interval;
-            }
-
-            testFiles(files.subList(startIndex, endIndex));
+            endIndex = files.size();
          }
+         else
+         {
+            endIndex = startIndex + interval;
+         }
+
+         executeTests(files.subList(startIndex, endIndex));
       }
    }
 
@@ -227,53 +259,23 @@ public class CustomerDataTest
     *
     * @param files file list
     */
-   private void testFiles(List<File> files)
+   private void executeTests(List<File> files)
    {
-      UniversalProjectReader reader = new UniversalProjectReader();
-      MPXReader mpxReader = new MPXReader();
-      PrimaveraXERFileReader xerReader = new PrimaveraXERFileReader();
-
       int failures = 0;
       for (File file : files)
       {
          String name = file.getName().toUpperCase();
+         if (name.endsWith(".MPP.XML"))
+         {
+            continue;
+         }
+         
          ProjectFile mpxj = null;
          //System.out.println(name);
 
          try
          {
-            if (name.endsWith(".MPX") == true)
-            {
-               mpxReader.setLocale(Locale.ENGLISH);
-
-               if (name.indexOf(".DE.") != -1)
-               {
-                  mpxReader.setLocale(Locale.GERMAN);
-               }
-
-               if (name.indexOf(".SV.") != -1)
-               {
-                  mpxReader.setLocale(new Locale("sv"));
-               }
-
-               mpxj = mpxReader.read(file);
-            }
-            else
-            {
-               mpxj = reader.read(file);
-               if (name.endsWith(".MPP"))
-               {
-                  validateMpp(file.getCanonicalPath(), mpxj);
-               }
-
-               // If we have an XER file, exercise the "readAll" functionality
-               // For now, ignore files with non-standard encodings.
-               if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
-               {
-                  xerReader.readAll(new FileInputStream(file), true);
-               }
-            }
-
+            mpxj = testReader(name, file);
             if (mpxj == null)
             {
                System.err.println("Failed to read " + name);
@@ -281,17 +283,18 @@ public class CustomerDataTest
             }
             else
             {
-               for (Class<? extends ProjectWriter> c : WRITER_CLASSES)
+               if (!testBaseline(file, mpxj))
                {
-                  File outputFile = File.createTempFile("writer_test", ".dat");
-                  outputFile.deleteOnExit();
-                  ProjectWriter p = c.newInstance();
-                  p.write(mpxj, outputFile);
-                  FileHelper.deleteQuietly(outputFile);
+                  System.err.println("Failed to validate baseline " + name);
+                  ++failures;                  
+               }
+               else
+               {
+                  testWriters(mpxj);
                }
             }
          }
-         
+
          catch (Exception ex)
          {
             System.err.println("Failed to read " + name);
@@ -301,6 +304,109 @@ public class CustomerDataTest
       }
 
       assertEquals("Failed to read " + failures + " files", 0, failures);
+   }
+
+   /**
+    * Ensure that we can read the file.
+    * 
+    * @param name file name
+    * @param file File instance
+    * @return ProjectFile instance
+    */
+   private ProjectFile testReader(String name, File file) throws Exception
+   {
+      ProjectFile mpxj = null;
+
+      if (name.endsWith(".MPX") == true)
+      {
+         m_mpxReader.setLocale(Locale.ENGLISH);
+
+         if (name.indexOf(".DE.") != -1)
+         {
+            m_mpxReader.setLocale(Locale.GERMAN);
+         }
+
+         if (name.indexOf(".SV.") != -1)
+         {
+            m_mpxReader.setLocale(new Locale("sv"));
+         }
+
+         mpxj = m_mpxReader.read(file);
+      }
+      else
+      {
+         mpxj = m_universalReader.read(file);
+         if (name.endsWith(".MPP"))
+         {
+            validateMpp(file.getCanonicalPath(), mpxj);
+         }
+
+         // If we have an XER file, exercise the "readAll" functionality too.
+         // For now, ignore files with non-standard encodings.
+         if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
+         {
+            m_xerReader.readAll(new FileInputStream(file), true);
+         }
+      }
+
+      return mpxj;
+   }
+
+   /**
+    * Generate an MSPDI file from the file under test and compare it to a baseline
+    * we have previously created. This potentially allows us to capture unintended
+    * changes in functionality. If we do not have a baseline for this particular 
+    * file, we'll generate one.
+    *  
+    * @param file file under test
+    * @param project ProjectFile instance
+    * @return true if the baseline test is successful
+    */
+   private boolean testBaseline(File file, ProjectFile project) throws Exception
+   {
+      if (m_baselineDirectory == null)
+      {
+         return true;
+      }
+            
+      boolean success = true;
+      int sourceDirNameLength = m_privateDirectory.getPath().length();
+      File baselineFile = new File(m_baselineDirectory, file.getPath().substring(sourceDirNameLength) + ".xml");      
+
+      MSPDIWriter writer = new MSPDIWriter();
+      project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
+      
+      if (baselineFile.exists())
+      {
+         File out = File.createTempFile("junit", ".xml");
+         writer.write(project, out);
+         success = FileUtility.equals(baselineFile, out);
+         FileHelper.deleteQuietly(out);
+      }
+      else
+      {
+         FileHelper.mkdirsQuietly(baselineFile.getParentFile());
+         writer.write(project, baselineFile);
+      }
+      
+      return success;
+   }
+
+   /**
+    * Ensure that we can export the file under test through our writers, without error.
+    * 
+    * @param project ProjectFile instance
+    */
+   private void testWriters(ProjectFile project) throws Exception
+   {
+      for (Class<? extends ProjectWriter> c : WRITER_CLASSES)
+      {
+         File outputFile = File.createTempFile("writer_test", ".dat");
+         outputFile.deleteOnExit();
+         ProjectWriter p = c.newInstance();
+         p.write(project, outputFile);
+         FileHelper.deleteQuietly(outputFile);
+      }
    }
 
    /**
@@ -324,15 +430,27 @@ public class CustomerDataTest
       }
    }
 
+   private final File m_privateDirectory;
+   private final File m_baselineDirectory;
+   private UniversalProjectReader m_universalReader;
+   private MPXReader m_mpxReader;
+   private PrimaveraXERFileReader m_xerReader;
+
    private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<Class<? extends ProjectWriter>>();
 
+   private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
+   
    static
    {
-      WRITER_CLASSES.add(JsonWriter.class);
-      WRITER_CLASSES.add(MPXWriter.class);
+      WRITER_CLASSES.add(JsonWriter.class);      
       WRITER_CLASSES.add(MSPDIWriter.class);
       WRITER_CLASSES.add(PlannerWriter.class);
       WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
-      //      WRITER_CLASSES.add(SDEFWriter.class);
+      
+      // Not reliable enough results to include
+      // WRITER_CLASSES.add(SDEFWriter.class);
+      
+      // Write MPX last as applying locale settings will change some project values
+      WRITER_CLASSES.add(MPXWriter.class);
    }
 }
