@@ -24,6 +24,36 @@ Sub GenerateAll()
     GenerateResourceTypes
 End Sub
 
+Sub GenerateXmlVersions()
+    Dim prefix As String
+    prefix = Environ("MPXJ_PRIVATE") & "\data\MPP\"
+    
+    Dim files() As String
+    ReDim files(1000)
+    Dim fileIndex As Long
+    
+    file = Dir(prefix & "*.mpp")
+    Do Until file = ""
+        files(fileIndex) = file
+        fileIndex = fileIndex + 1
+        file = Dir
+    Loop
+    
+    ReDim Preserve files(fileIndex - 1)
+    
+    For fileIndex = 0 To UBound(files)
+        file = files(fileIndex)
+        xmlFile = prefix & file & ".xml"
+        If Len(Dir(xmlFile)) = 0 Then
+            Debug.Print "Processing: " & file
+            FileOpenEx Name:=prefix & file, ReadOnly:=True, NoAuto:=True, openPool:=pjDoNotOpenPool
+            FileSaveAs Name:=xmlFile, FormatID:="MSProject.XML"
+            FileCloseEx pjDoNotSave
+            Debug.Print "Done."
+        End If
+    Next fileIndex
+End Sub
+
 Sub NameThatField(value As Long)
     Dim name As String
     name = FieldConstantToFieldName(value)

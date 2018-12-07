@@ -61,8 +61,8 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       // Configure MPX Date Time Settings and Currency Settings Records
       //
       setCurrencySymbol(DEFAULT_CURRENCY_SYMBOL);
-      setSymbolPosition(CurrencySymbolPosition.BEFORE);
-      setCurrencyDigits(Integer.valueOf(2));
+      setSymbolPosition(DEFAULT_CURRENCY_SYMBOL_POSITION);
+      setCurrencyDigits(DEFAULT_CURRENCY_DIGITS);
       setThousandsSeparator(DEFAULT_THOUSANDS_SEPARATOR);
       setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
 
@@ -1131,6 +1131,10 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public void setSymbolPosition(CurrencySymbolPosition posn)
    {
+      if (posn == null)
+      {
+         posn = DEFAULT_CURRENCY_SYMBOL_POSITION;
+      }
       set(ProjectField.CURRENCY_SYMBOL_POSITION, posn);
    }
 
@@ -1151,6 +1155,10 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public void setCurrencyDigits(Integer currDigs)
    {
+      if (currDigs == null)
+      {
+         currDigs = DEFAULT_CURRENCY_DIGITS;
+      }
       set(ProjectField.CURRENCY_DIGITS, currDigs);
    }
 
@@ -2758,6 +2766,16 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * Default currency symbol.
     */
    private static final String DEFAULT_CURRENCY_SYMBOL = "$";
+
+   /**
+    * Default currency digits.
+    */
+   private static final Integer DEFAULT_CURRENCY_DIGITS = Integer.valueOf(2);
+
+   /**
+    * Default currency symbol position.
+    */
+   private static CurrencySymbolPosition DEFAULT_CURRENCY_SYMBOL_POSITION = CurrencySymbolPosition.BEFORE;
 
    /**
     * Default cost value.
