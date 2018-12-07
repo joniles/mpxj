@@ -23,8 +23,10 @@
 
 package net.sf.mpxj.junit;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * Utility methods for handling files.
@@ -44,8 +46,8 @@ public final class FileUtility
 
       result = true;
 
-      FileInputStream input1 = new FileInputStream(file1);
-      FileInputStream input2 = new FileInputStream(file2);
+      InputStream input1 = new BufferedInputStream(new FileInputStream(file1));
+      InputStream input2 = new BufferedInputStream(new FileInputStream(file2));
       int c1;
       int c2;
 
