@@ -9,15 +9,15 @@ package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter4 extends XmlAdapter<String, Boolean>
+@SuppressWarnings("all") public class Adapter4 extends XmlAdapter<String, Boolean>
 {
 
-   @Override public Boolean unmarshal(String value)
+   public Boolean unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean(value));
    }
 
-   @Override public String marshal(Boolean value)
+   public String marshal(Boolean value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printBoolean(value));
    }

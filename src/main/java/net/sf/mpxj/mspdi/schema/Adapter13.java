@@ -11,15 +11,15 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import net.sf.mpxj.AccrueType;
 
-public class Adapter13 extends XmlAdapter<String, AccrueType>
+@SuppressWarnings("all") public class Adapter13 extends XmlAdapter<String, AccrueType>
 {
 
-   @Override public AccrueType unmarshal(String value)
+   public AccrueType unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType(value));
    }
 
-   @Override public String marshal(AccrueType value)
+   public String marshal(AccrueType value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printAccrueType(value));
    }

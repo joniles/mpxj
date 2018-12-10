@@ -11,15 +11,15 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import net.sf.mpxj.TaskType;
 
-public class Adapter16 extends XmlAdapter<String, TaskType>
+@SuppressWarnings("all") public class Adapter16 extends XmlAdapter<String, TaskType>
 {
 
-   @Override public TaskType unmarshal(String value)
+   public TaskType unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
    }
 
-   @Override public String marshal(TaskType value)
+   public String marshal(TaskType value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
    }

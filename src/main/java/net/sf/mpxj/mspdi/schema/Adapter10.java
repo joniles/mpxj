@@ -9,15 +9,15 @@ package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter10 extends XmlAdapter<String, Integer>
+@SuppressWarnings("all") public class Adapter10 extends XmlAdapter<String, Integer>
 {
 
-   @Override public Integer unmarshal(String value)
+   public Integer unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseResourceUID(value));
    }
 
-   @Override public String marshal(Integer value)
+   public String marshal(Integer value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printResourceUID(value));
    }

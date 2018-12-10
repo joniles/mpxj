@@ -11,15 +11,15 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 
-public class Adapter6 extends XmlAdapter<String, CurrencySymbolPosition>
+@SuppressWarnings("all") public class Adapter6 extends XmlAdapter<String, CurrencySymbolPosition>
 {
 
-   @Override public CurrencySymbolPosition unmarshal(String value)
+   public CurrencySymbolPosition unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseCurrencySymbolPosition(value));
    }
 
-   @Override public String marshal(CurrencySymbolPosition value)
+   public String marshal(CurrencySymbolPosition value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printCurrencySymbolPosition(value));
    }

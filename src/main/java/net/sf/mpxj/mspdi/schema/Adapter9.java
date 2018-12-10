@@ -11,15 +11,15 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import net.sf.mpxj.WorkContour;
 
-public class Adapter9 extends XmlAdapter<String, WorkContour>
+@SuppressWarnings("all") public class Adapter9 extends XmlAdapter<String, WorkContour>
 {
 
-   @Override public WorkContour unmarshal(String value)
+   public WorkContour unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkContour(value));
    }
 
-   @Override public String marshal(WorkContour value)
+   public String marshal(WorkContour value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkContour(value));
    }

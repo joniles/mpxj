@@ -11,15 +11,15 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import net.sf.mpxj.BookingType;
 
-public class Adapter14 extends XmlAdapter<String, BookingType>
+@SuppressWarnings("all") public class Adapter14 extends XmlAdapter<String, BookingType>
 {
 
-   @Override public BookingType unmarshal(String value)
+   public BookingType unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseBookingType(value));
    }
 
-   @Override public String marshal(BookingType value)
+   public String marshal(BookingType value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printBookingType(value));
    }
