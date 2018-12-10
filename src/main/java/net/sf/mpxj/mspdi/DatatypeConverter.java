@@ -145,7 +145,7 @@ public final class DatatypeConverter
     */
    public static final String printExtendedAttributeDate(Date value)
    {
-      return (value == null ? null : PRINT_DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
    /**
@@ -1668,7 +1668,7 @@ public final class DatatypeConverter
     */
    public static final String printDateTime(Date value)
    {
-      return (value == null ? null : PRINT_DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.get().format(value));
    }
 
    /**
@@ -1763,16 +1763,6 @@ public final class DatatypeConverter
       @Override protected DateFormat initialValue()
       {
          DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
-
-   private static final ThreadLocal<DateFormat> PRINT_DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:'00'");
          df.setLenient(false);
          return df;
       }
